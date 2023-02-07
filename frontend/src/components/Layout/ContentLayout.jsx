@@ -10,30 +10,25 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "99vw",
+    width: "100%",
     minHeight: "80vh",
     backgroundColor: "#242424",
     color: "white",
   },
-  title: {
+  header: {
     color: "white",
     marginTop: theme.spacing(4),
     textAlign: "center",
   },
   content: {
-    padding: theme.spacing(4, 2, 6, 2),
-    [theme.breakpoints.up("sm")]: {
-      padding: theme.spacing(4, 6, 6, 6),
-    },
-    [theme.breakpoints.up("md")]: {
-      padding: theme.spacing(4, 8, 6, 8),
-    },
+    margin: 0,
   },
 }));
 
 const ContentLayout = ({
   children,
   title,
+  header,
   description = "",
   keywords = "",
   image = "",
@@ -51,11 +46,13 @@ const ContentLayout = ({
         url={url}
       />
       <div className={classes.root}>
-        <Container>
-          <Typography variant="h1" className={classes.title}>
-            {title}
-          </Typography>
-        </Container>
+        {header ? (
+          <Container>
+            <Typography variant="h1" className={classes.header}>
+              {header}
+            </Typography>
+          </Container>
+        ) : null}
         <div className={classes.content}>{children}</div>
       </div>
     </>

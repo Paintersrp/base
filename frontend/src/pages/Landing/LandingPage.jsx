@@ -18,7 +18,7 @@ import BetterTestimonials from "../../components/Features/Testimonials/SpeechBub
 import NewsletterForm from "../../components/Forms/Newsletter/NewsletterForm";
 import HeroCarousel from "../../components/Heroes/HeroCarousel/HeroCarousel";
 import axiosInstance from "../../lib/Axios/axiosInstance";
-import "./MainSection.css";
+import ContentLayout from "../../components/Layout/ContentLayout";
 
 const partners = [
   {
@@ -51,45 +51,6 @@ const partners = [
   },
 ];
 
-const items = [
-  {
-    index: 0,
-    image: "images/masonry/img1.jpg",
-    buttonText: "View Project",
-    buttonLink: "/item-1",
-  },
-  {
-    index: 1,
-    image: "images/masonry/img2.jpg",
-    buttonText: "View Project",
-    buttonLink: "/item-2",
-  },
-  {
-    index: 2,
-    image: "images/masonry/img3.jpg",
-    buttonText: "View Project",
-    buttonLink: "/item-3",
-  },
-  {
-    index: 3,
-    image: "images/masonry/img4.jpeg",
-    buttonText: "View Project",
-    buttonLink: "/item-4",
-  },
-  {
-    index: 4,
-    image: "images/masonry/img5.jpeg",
-    buttonText: "View Project",
-    buttonLink: "/item-5",
-  },
-  {
-    index: 5,
-    image: "images/masonry/img6.jpeg",
-    buttonText: "View Project",
-    buttonLink: "/item-6",
-  },
-];
-
 function LandingPage() {
   const [items, setItems] = useState([]);
 
@@ -108,29 +69,23 @@ function LandingPage() {
     fetchData();
   }, []);
   return (
-    <div className="landing-container">
-      <div className="">
+    <ContentLayout
+      title="Landing Page"
+      description="Where the land be yo."
+      keywords="news, posts, articles, touch"
+      image="https://example.com/image.png"
+      url="https://example.com/example-page"
+    >
+      <div style={{ minHeight: 700, width: "100vw" }}>
         <HeroCarousel items={items} setItems={setItems} />
-      </div>
-      <div>
         <IconScroller data={partners} />
-      </div>
-      <div className="">
         <PricingOverview />
-      </div>
-      <div className="">
         <FeatureTiles />
-      </div>
-      <div className="car-container">
         <BetterTestimonials />
-      </div>
-      <div className="">
         <LatestNews />
-      </div>
-      <div className="">
         <NewsletterForm />
       </div>
-    </div>
+    </ContentLayout>
   );
 }
 
