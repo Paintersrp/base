@@ -11,7 +11,7 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ("image", "buttonText", "buttonLink")
+        fields = "__all__"
 
 
 class FeatureSerializer(serializers.ModelSerializer):

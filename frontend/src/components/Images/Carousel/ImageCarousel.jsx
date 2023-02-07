@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-material-ui-carousel";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Card, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   carousel: {

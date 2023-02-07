@@ -60,7 +60,6 @@ function LandingPage() {
         .get("/items/")
         .then((response) => {
           setItems(response.data);
-          console.log(data);
         })
         .catch((err) => {
           console.log(err);

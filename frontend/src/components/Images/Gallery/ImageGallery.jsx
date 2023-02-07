@@ -1,17 +1,16 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ImageList from "@material-ui/core/ImageList";
-import ImageListItem from "@material-ui/core/ImageListItem";
-import ImageListItemBar from "@material-ui/core/ImageListItemBar";
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Button from "@material-ui/core/Button";
-import { Grid } from "@material-ui/core";
+import {
+  Button,
+  DialogTitle,
+  DialogContentText,
+  DialogContent,
+  DialogActions,
+  Dialog,
+  ImageListItemBar,
+  ImageListItem,
+  ImageList,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,10 +58,6 @@ const useStyles = makeStyles((theme) => ({
       width: "95% !important",
       marginBottom: theme.spacing(1),
     },
-  },
-  dialogPaper: {
-    width: "90%",
-    maxWidth: "90%",
   },
   dialogTitle: {
     backgroundColor: "white",

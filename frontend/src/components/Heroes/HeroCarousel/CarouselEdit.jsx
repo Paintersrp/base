@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -18,71 +18,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
+import getCookie from "../../../lib/Utils/getCookies";
 
 const useStyles = makeStyles((theme) => ({
-  pricingCard: {
-    color: "white",
-    backgroundColor: "#212121",
-    maxWidth: 375,
-    minWidth: 375,
-    margin: theme.spacing(4),
-    padding: theme.spacing(3),
-    boxShadow: theme.shadows[7],
-    transition: "box-shadow 0.3s ease-in-out",
-    "&:hover": {
-      transform: "scale(1.005)",
-      boxShadow: theme.shadows[14],
-    },
-
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-  },
-  pricingTitle: {
-    marginBottom: theme.spacing(0),
-    fontWeight: 600,
-    fontSize: "1.75rem",
-    textAlign: "center",
-    fontFamily: "Poppins",
-    color: "gold",
-    opacity: 0.9,
-  },
-  pricingPrice: {
-    fontSize: "1.3rem",
-    textAlign: "center",
-    paddingTop: 5,
-    paddingBottom: 5,
-    margin: 0,
-  },
-  pricingFeatures: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    marginBottom: theme.spacing(2),
-    textAlign: "center",
-    minHeight: 400,
-  },
-  pricingButton: {
-    marginTop: theme.spacing(2),
-    width: "100%",
-    backgroundColor: theme.palette.primary.main,
-    color: "white",
-    "&:hover": {
-      transform: "scale(1.02)",
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.dark,
-    },
-  },
-  checkIcon: {
-    color: "gold;",
-    marginRight: "10px",
-  },
   media: {
     height: 200,
     width: "auto",
@@ -108,7 +46,7 @@ const CarouselEdit = ({ items, updateCarousel }) => {
     console.log(item);
     setOpen(true);
     setSelectedItem(item);
-    setId(index + 1);
+    setId(item.id);
     setLink(item.buttonLink);
     setText(item.buttonText);
   };
@@ -152,13 +90,17 @@ const CarouselEdit = ({ items, updateCarousel }) => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (item) => {
     const response = await axios.delete(
-      `http://localhost:8000/api/items/${id}/`
+      `http://localhost:8000/api/items/${item.id}/`
     );
     if (response.status === 204) {
-      setItems(items.filter((item) => item.id !== id));
-      handleClose();
+      try {
+        const res = await axios.get(`http://localhost:8000/api/items/`);
+        updateCarousel(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -191,7 +133,7 @@ const CarouselEdit = ({ items, updateCarousel }) => {
                   <EditIcon />
                 </IconButton>
                 <IconButton
-                  onClick={() => handleClickOpen(item, index)}
+                  onClick={() => handleDelete(item)}
                   aria-label="delete"
                 >
                   <DeleteIcon />

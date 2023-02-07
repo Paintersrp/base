@@ -1,8 +1,7 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
+import { Typography, Container } from "@material-ui/core";
 import SEOHeader from "../Head/SEOHeader";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +61,7 @@ const ContentLayout = ({
 ContentLayout.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
+  header: PropTypes.string,
   description: PropTypes.string,
   keywords: PropTypes.string,
   image: PropTypes.string,
