@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import {
   FaTwitter,
   FaFacebook,
@@ -15,6 +17,7 @@ import PricingOverview from "../../components/Features/Pricing/StandardPricing/P
 import BetterTestimonials from "../../components/Features/Testimonials/SpeechBubbleTestimonials/SpeechBubbles";
 import NewsletterForm from "../../components/Forms/Newsletter/NewsletterForm";
 import HeroCarousel from "../../components/Heroes/HeroCarousel/HeroCarousel";
+import axiosInstance from "../../lib/Axios/axiosInstance";
 import "./MainSection.css";
 
 const partners = [
@@ -88,10 +91,26 @@ const items = [
 ];
 
 function LandingPage() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axiosInstance
+        .get("/items/")
+        .then((response) => {
+          setItems(response.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    fetchData();
+  }, []);
   return (
     <div className="landing-container">
       <div className="">
-        <HeroCarousel items={items} />
+        <HeroCarousel items={items} setItems={setItems} />
       </div>
       <div>
         <IconScroller data={partners} />

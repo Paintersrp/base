@@ -15,6 +15,7 @@ import {
 import PricingContact from "./PricingContact";
 import { TypingEffect } from "../../../../pages/Test/Test";
 import PricingEdit from "./PricingEdit";
+import { useSelector } from "react-redux";
 
 const CustomButton = withStyles({
   label: {
@@ -100,9 +101,9 @@ export default function PricingCard({ index, plan }) {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
   const [editing, setEditing] = useState(false);
+  const auth = useSelector((state) => state.auth);
 
   const updatePlan = (updatePlan) => {
-    console.log("Test");
     setPlanData(updatePlan);
     setEditing(false);
   };
@@ -110,9 +111,11 @@ export default function PricingCard({ index, plan }) {
   return (
     <>
       <Card className={classes.pricingCard} key={plan.title}>
-        <Button onClick={() => setEditing(!editing)}>
-          {editing ? "Cancel" : "Edit"}
-        </Button>
+        {auth.is_superuser ? (
+          <Button onClick={() => setEditing(!editing)}>
+            {editing ? "Cancel" : "Edit"}
+          </Button>
+        ) : null}
         {!editing ? (
           <CardContent>
             <CardMedia

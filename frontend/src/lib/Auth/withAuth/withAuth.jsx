@@ -13,6 +13,7 @@ const withAuth = (WrappedComponent) => {
         axiosInstance
           .get("auth/verify/")
           .then((res) => {
+            console.log(res);
             dispatch(
               setAuth({
                 is_authenticated: res.data.authenticated,

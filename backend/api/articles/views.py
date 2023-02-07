@@ -7,7 +7,7 @@ from .serializers import ArticleSerializer
 from authorization.authentication import JWTTokenAuthentication
 import jwt
 
-# Create your views here.
+
 class ArticleListCreateView(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
@@ -63,11 +63,8 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
-        else:
-            image = None
-
-        if article.image and article.image.path != image.path:
-            article.image.delete(save=False)
+            article.image.storage.delete(article.image.path)
+            article.image = image
 
         data = {"title": title, "content": content, "tags": tags, "image": image}
 

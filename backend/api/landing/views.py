@@ -1,16 +1,13 @@
 from rest_framework import status, generics, mixins, viewsets
 from rest_framework.response import Response
-from .models import (
-    HeroBlock,
-    PricingPlan,
-    Feature,
-    SupportedSites,
-)
+from .models import HeroBlock, PricingPlan, Feature, SupportedSites, Tile, Item
 from .serializers import (
     HeroBlockSerializer,
     PricingPlanSerializer,
     FeatureSerializer,
     SupportedSitesSerializer,
+    TileSerializer,
+    ItemSerializer,
 )
 from authorization.authentication import JWTTokenAuthentication
 
@@ -32,6 +29,32 @@ class HeroBlockAPIView(
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+    def update(self, request, *args, **kwargs):
+        print(request.data["text"])
+        print(request.POST)
+        item = self.get_object()
+        serializer = ItemSerializer(item, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            if request.FILES.get("image"):
+                image = request.FILES.get("image")
+                item.image.storage.delete(item.image.path)
+                item.image = image
+
+            item.buttonText = request.data["text"]
+            item.buttonLink = request.data["link"]
+            # item = serializer.save()
+            item.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FeatureViewSet(viewsets.ModelViewSet):
@@ -86,6 +109,7 @@ class PricingPlanViewSet(viewsets.ModelViewSet):
 
             plan.features.set(feature_ids)
             plan.supportedsites.set(supportedsite_ids)
+            plan.bestFor = request.data["best_for"]
             plan.save()
 
             serializer = PricingPlanSerializer(plan)
@@ -93,3 +117,8 @@ class PricingPlanViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TileViewSet(viewsets.ModelViewSet):
+    queryset = Tile.objects.all()
+    serializer_class = TileSerializer

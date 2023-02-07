@@ -114,7 +114,7 @@ const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/api/register/", formData)
+      .post("http://127.0.0.1:8000/api/auth/register/", formData)
       .then((res) => {
         console.log(res);
       })

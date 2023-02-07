@@ -14,33 +14,33 @@ const features = [
   {
     title: "Web Development",
     subheader: "Build custom websites and web applications",
-    icon: <FaLaptopCode />,
+    unicode: "FaLaptopCode",
   },
   {
     title: "Cloud Computing",
     subheader: "Host and manage your applications in the cloud",
-    icon: <FaCloud />,
+    unicode: "FaCloud",
   },
   {
     title: "Mobile Development",
     subheader: "Create native mobile apps for iOS and Android",
-    icon: <FaMobileAlt />,
+    unicode: "FaMobileAlt",
   },
-  {
-    title: "Rapid Deployment",
-    subheader: "Get your products to market faster with our agile approach",
-    icon: <FaRocket />,
-  },
-  {
-    title: "Security",
-    subheader: "Ensure the security and privacy of your data",
-    icon: <FaLock />,
-  },
-  {
-    title: "Customization",
-    subheader: "Configure to your personal liking",
-    icon: <FaCog />,
-  },
+  // {
+  //   title: "Rapid Deployment",
+  //   subheader: "Get your products to market faster with our agile approach",
+  //   icon: <FaRocket />,
+  // },
+  // {
+  //   title: "Security",
+  //   subheader: "Ensure the security and privacy of your data",
+  //   icon: <FaLock />,
+  // },
+  // {
+  //   title: "Customization",
+  //   subheader: "Configure to your personal liking",
+  //   icon: <FaCog />,
+  // },
 ];
 
 export default features;

@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useState } from "react";
 import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
+import { useSelector } from "react-redux";
+import CarouselEdit from "./CarouselEdit";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HeroCarousel({ items }) {
+export default function HeroCarousel({ items, setItems }) {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const [heroblock, setHeroblock] = useState({});
@@ -54,6 +56,7 @@ export default function HeroCarousel({ items }) {
     text: "",
     buttonText: "",
   });
+  const auth = useSelector((state) => state.auth);
 
   const updateHeroBlock = (updatedHeroBlock) => {
     setHeroblock(updatedHeroBlock);
@@ -76,6 +79,11 @@ export default function HeroCarousel({ items }) {
     fetchData();
   }, []);
 
+  const updateCarousel = (updateCarousel) => {
+    setEditing(false);
+    setItems(updateCarousel);
+  };
+
   return (
     <Box className={classes.root}>
       <Container style={{ maxWidth: "95%" }} className={classes.gridContainer}>
@@ -96,9 +104,11 @@ export default function HeroCarousel({ items }) {
                   updateHeroBlock={updateHeroBlock}
                 />
               )}
-              <Button onClick={() => setEditing(!editing)}>
-                {editing ? "Cancel" : "Edit"}
-              </Button>
+              {auth.is_superuser ? (
+                <Button onClick={() => setEditing(!editing)}>
+                  {editing ? "Cancel" : "Edit"}
+                </Button>
+              ) : null}
               <Grid item xs={12} md={12} className={classes.contactContainer}>
                 <ContactButtons />
                 <SocialSection />
@@ -108,7 +118,11 @@ export default function HeroCarousel({ items }) {
 
           <Grid item xs={12} md={6}>
             <SlideOnScroll from="right">
-              <CarouselX items={items} />
+              {!editing ? (
+                <CarouselX items={items} />
+              ) : (
+                <CarouselEdit items={items} updateCarousel={updateCarousel} />
+              )}
             </SlideOnScroll>
           </Grid>
         </Grid>

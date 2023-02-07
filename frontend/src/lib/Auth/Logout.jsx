@@ -4,7 +4,7 @@ import axiosInstance from "../Axios/axiosInstance";
 
 const handleLogout = () => {
   axiosInstance
-    .get("/logout/")
+    .get("/auth/logout/")
     .then(() => {
       Cookies.remove("jwt");
       window.location.reload();

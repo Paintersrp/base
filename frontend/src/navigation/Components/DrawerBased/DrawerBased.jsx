@@ -356,20 +356,6 @@ export default function DrawerBased() {
               </ListItemIcon>
               <ListItemText primary="Logout" className={classes.linkText} />
             </ListItem>
-            <ListItem
-              button
-              className={classes.links}
-              component="a"
-              href="http://localhost:8000/admin"
-              onClick={() => {
-                toggleDrawer(false);
-              }}
-            >
-              <ListItemIcon style={{ color: "white" }}>
-                <FaDashcube size={22} />
-              </ListItemIcon>
-              <ListItemText primary="Admin" className={classes.linkText} />
-            </ListItem>
           </>
         ) : (
           <>
@@ -399,6 +385,22 @@ export default function DrawerBased() {
             </ListItem>
           </>
         )}
+        {auth.is_superuser ? (
+          <ListItem
+            button
+            className={classes.links}
+            component="a"
+            href="http://localhost:8000/admin"
+            onClick={() => {
+              toggleDrawer(false);
+            }}
+          >
+            <ListItemIcon style={{ color: "white" }}>
+              <FaDashcube size={22} />
+            </ListItemIcon>
+            <ListItemText primary="Admin" className={classes.linkText} />
+          </ListItem>
+        ) : null}
       </>
     </div>
   );

@@ -1,11 +1,17 @@
 from django.db import models
 
-# Create your models here.
+
 class HeroBlock(models.Model):
     title = models.CharField(max_length=200)
     heading = models.TextField()
     text = models.TextField()
     buttonText = models.CharField(max_length=50)
+
+
+class Item(models.Model):
+    image = models.ImageField(upload_to="carousel")
+    buttonText = models.CharField(max_length=20)
+    buttonLink = models.CharField(max_length=20)
 
 
 class Feature(models.Model):
@@ -35,3 +41,9 @@ class PricingPlan(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Tile(models.Model):
+    title = models.CharField(max_length=100)
+    subheader = models.CharField(max_length=200)
+    icon = models.CharField(max_length=40)
