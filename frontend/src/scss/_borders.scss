@@ -1,0 +1,25 @@
+@each $key, $val in $border-radius {
+  .br-w-#{$key} {
+    border-radius: $val !important;
+  }
+  .br-tl-#{$key} {
+    border-top-left-radius: $val !important;
+  }
+  .br-bl-#{$key} {
+    border-bottom-left-radius: $val !important;
+  }
+  .br-br-#{$key} {
+    border-bottom-right-radius: $val !important;
+  }
+  .br-tr-#{$key} {
+    border-top-right-radius: $val !important;
+  }
+}
+
+@each $bt, $thick in $border-thick {
+  @each $color, $shade in $fourHorsemen {
+    .b-#{$bt}-#{$color} {
+      border: $thick solid $shade !important;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@each $key, $val in $padding{
+    .p-w-#{$key}{
+        padding: $val !important;
+    }
+    .p-l-#{$key}{
+        padding-left: $val !important;
+    }
+    .p-r-#{$key}{
+        padding-right: $val !important;
+    }
+    .p-b-#{$key}{
+        padding-bottom: $val !important;
+    }
+    .p-t-#{$key}{
+        padding-top: $val !important;
+    }
+}
+
+@each $key, $val in $margin{
+    .m-w-#{$key}{
+        margin: $val !important;
+    }
+    .m-l-#{$key}{
+        margin-left: $val !important;
+    }
+    .m-r-#{$key}{
+        margin-right: $val !important;
+    }
+    .m-b-#{$key}{
+        margin-bottom: $val !important;
+    }
+    .m-t-#{$key}{
+        margin-top: $val !important;
+    }
+}

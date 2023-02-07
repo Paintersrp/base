@@ -1,0 +1,11 @@
+@each $key, $val in $fourHorsemen {
+  .text-#{$key} {
+    color: $val !important;
+  }
+  .bg-#{$key} {
+    background-color: $val !important;
+  }
+  .bc-#{$key}{
+    border-color: $val !important;
+  }
+}

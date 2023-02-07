@@ -1,0 +1,61 @@
+@use "sass:math";
+
+$grid-columns: 12;
+$grid-gaps: (
+  "0": 0,
+  "1": 10px,
+  "2": 20px,
+  "3": 30px,
+);
+
+$layouts: (
+  'fs': 'flex-start',
+  'fe': 'flex-end',
+  'c': 'center',
+  'sb': 'space-between',
+  'sa': 'space-around',
+  'se': 'space-evenly'
+);
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@each $key, $val in $grid-gaps {
+  .gap-#{$key} > * {
+    padding: $val;
+  }
+  .gap-#{$key} {
+    margin-left: $val;
+    margin-right: $val;
+  }
+}
+
+@each $key, $val in $layouts{
+  .j-#{$key}{
+    justify-content: $val;
+  }
+}
+
+@each $key, $val in $layouts{
+  .a-#{$key}{
+    align-items: $val;
+  }
+}
+
+.flex{
+  display: flex;
+}
+
+.column{
+  flex-direction: column;
+}

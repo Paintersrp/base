@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+
+.main-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #212121;
+  color: white;
+  padding: 32px 64px 32px 64px;
+}
+
+.main-section__text-container {
+  width: 100%;
+  justify-content: center !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-section__carousel {
+  width: 90%;
+}
+
+.main-section__carousel img {
+  width: 90%;
+  min-height: 400px;
+  max-height: 400px;
+}
+
+.landing-container {
+  min-height: 700px;
+  width: 100vw;
+  background-color: #242424;
+  padding: 0;
+  margin: 0;
+  /* padding: 32px 0px 32px 0px; */
+}
+
+.car-container {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-btn {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+}
+
+.center-gay {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+  width: 50%;
+}
+
+.tester {
+  max-width: 350px;
+  padding: 0;
+  margin: 0;
+}
+
+.big-tester {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.form-containers {
+  max-width: 350px;
+}

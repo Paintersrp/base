@@ -1,0 +1,18 @@
+.landing-container-about {
+  min-height: 100%;
+  width: 100vw;
+  background-color: #242424;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* padding: 32px 0px 32px 0px; */
+}
+
+.card-container-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #242424;
+  padding-bottom: 25px;
+}

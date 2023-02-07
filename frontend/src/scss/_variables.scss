@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,200;0,500;0,700;1,200;1,500;1,700&family=Poppins:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&family=Raleway:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&family=Roboto:ital,wght@0,500;0,700;1,500;1,700&display=swap");
+/* Fonts from Google */
+$poppins: "Poppins", sans-serif;
+$montserrat: "Montserrat", sans-serif;
+$lato: "Lato", sans-serif;
+$raleway: "Raleway", sans-serif;
+$roboto: "Roboto", sans-serif;
+
+/* Color Wheel Spectrum */
+$blue: blue;
+$darkblue: #3241b2;
+$lightblue: #1164b4;
+$red: red;
+$darkred: rgb(199, 0, 0);
+$lightred: rgb(255, 66, 66);
+$orange: orange;
+$darkorange: rgb(201, 130, 0);
+$lightorange: #ffae42;
+$yellow: yellow;
+$darkyellow: rgb(214, 214, 9);
+$lightyellow: rgb(255, 255, 75);
+$green: green;
+$darkgreen: rgb(12, 89, 12);
+$lightgreen: rgb(23, 179, 23);
+$purple: purple;
+$darkpurple: rgb(98, 14, 98);
+$lightpurple: #953553;
+
+$black: black;
+$lightblack: rgb(25, 25, 25);
+$white: white;
+$darkwhite: rgb(218, 218, 218);
+$gray: gray;
+$darkgray: rgb(61, 61, 61);
+$lightgray: rgb(172, 172, 172);
+
+/* Four Horsemen Color Placeholders */
+$primary: $green;
+$secondary: $blue;
+$warning: $red;
+$caution: $yellow;
+
+$colors: (
+  "blue": blue,
+  "darkblue": #3241b2,
+  "lightblue": #1164b4,
+  "red": red,
+  "darkred": rgb(199, 0, 0),
+  "lightred": rgb(255, 66, 66),
+  "orange": orange,
+  "darkorange": rgb(201, 130, 0),
+  "lightorange": #ffae42,
+  "yellow": yellow,
+  "darkyellow": rgb(214, 214, 9),
+  "lightyellow": rgb(255, 255, 75),
+  "green": green,
+  "darkgreen": rgb(12, 89, 12),
+  "lightgreen": rgb(23, 179, 23),
+  "purple": purple,
+  "darkpurple": rgb(98, 14, 98),
+  "lightpurple": #953553,
+
+  "black": black,
+  "lightblack": rgb(25, 25, 25),
+  "white": white,
+  "darkwhite": rgb(218, 218, 218),
+  "gray": gray,
+  "darkgray": rgb(61, 61, 61),
+  "lightgray": rgb(172, 172, 172),
+);
+
+/* Used for website */
+$fourHorsemen: (
+  'primary': $green,
+  'secondary': $blue,
+  'warning': $red,
+  'caution': $yellow,
+  'white': white,
+  'black': black,
+  'gray': gray
+);
+
+/* spacing */
+$padding-light: 0.75rem;
+$padding-medium: 1rem;
+$padding-heavy: 1.25rem;
+
+$padding: (
+  "0": 0px,
+  "a": auto,
+  "1": 0.75rem,
+  "2": 1rem,
+  "3": 1.25rem,
+  "4": 1.5rem,
+);
+
+$margin-auto: auto;
+$margin-light: 0.75rem;
+$margin-medium: 1rem;
+$margin-heaavy: 1.25rem;
+
+$margin: (
+  "0": 0px,
+  "a": auto,
+  "1": 0.75rem,
+  "2": 1rem,
+  "3": 1.25rem,
+  "4": 1.5rem,
+);
+
+/* box-shadow */
+$posBoxShadows:(
+  "0": 0px,
+  "1": 1px,
+  "2": 2px,
+  "3": 3px,
+  "4": 4px,
+
+);
+
+$negBoxShadows:(
+  "0": 0px,
+  "-1": -1px,
+  "-2": -2px,
+  "-3": -3px,
+  "-4": -4px,
+);
+
+/* borders */
+$border-thickness-light: 1px;
+$border-thickness-medium: 2.25px;
+$border-thickness-heavy: 3.5px;
+
+$border-thick: (
+  "0": 0px,
+  "1": 1px,
+  "2": 2.25px,
+  "3": 3.5px,
+  "4": 4.75px
+);
+
+$border-radius-light: 5px;
+$border-raidus-medium: 10px;
+$border-radius-heavy: 15px;
+
+$border-radius: (
+  "0": 0px,
+  "1": 5px,
+  "2": 10px,
+  "3": 15px,
+  "4": 20px,
+);
+
+$border-style-solid: solid;
+
+/* font-size */
+$font-size-light: 1rem;
+$font-size-medium: 1.5rem;
+$font-size-heavy: 2rem;
+
+$font-sizes: (
+  "0": 0px,
+  "1": 1rem,
+  "2": 1.5rem,
+  "3": 2rem,
+  "4": 2.5rem,
+);
+
+/* letter-spacing */
+$letter-spacing-light: 1.15px;
+$letter-spacing-medium: 1.275px;
+$letter-spacing-heavy: 1.4px;
+
+$letter-spacing: (
+  "0": 0px,
+  "1": 1.15px,
+  "2": 1.275px,
+  "3": 1.4px,
+  "4": 1.525px
+);
