@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 const QuillEditor = ({ value, onChange, modules, formats }) => {
   const classes = useStyles();
-  const [content, setContent] = useState("tits");
+  const [content, setContent] = useState([]);
   const quillRef = useRef(null);
 
   useEffect(() => {

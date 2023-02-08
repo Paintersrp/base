@@ -21,7 +21,7 @@ export default function HoursSection() {
 
   return (
     <>
-      <Typography variant="h5" style={{ paddingTop: 40 }}>
+      <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
         Business Hours
       </Typography>
       <Grid

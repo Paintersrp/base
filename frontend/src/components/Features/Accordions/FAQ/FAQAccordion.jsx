@@ -8,41 +8,46 @@ import AccordionQA from "../AccordionQA";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "80%",
-    backgroundColor: "#1C1C1C",
-    color: theme.palette.common.white,
-    padding: theme.spacing(4),
-  },
-  title: {
-    textAlign: "center",
-    color: "#f9f9f9",
-    fontWeight: "700",
-    fontFamily: "Poppins",
-    paddingBottom: 5,
+    backgroundColor: "white",
+    color: "black",
+    padding: theme.spacing(1),
+    width: 900,
   },
   containergrid: {
     display: "flex",
-    width: "100%",
+    width: "100vw",
+    marginBottom: 40,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   tab: {
-    backgroundColor: "#212121",
-    width: "20%",
-    color: "#f9f9f9",
+    backgroundColor: "#666666",
+    color: "black",
     fontWeight: "700",
     fontFamily: "Poppins",
     textTransform: "uppercase",
-    fontSize: "0.85rem",
-    minWidth: "auto",
-    marginRight: theme.spacing(1),
+    fontSize: "0.95rem",
+    marginRight: 5,
     "&:focus": {
-      color: "#f9f9f9",
+      color: "black",
     },
-    "&:hover": {
-      transform: "scale(1.02)",
+    "&: .MuiTab-textColorInherit.Mui-selected": {
+      color: "black",
     },
   },
   tabsIndicator: {
-    backgroundColor: "#f9f9f9",
+    width: "100%",
+    backgroundColor: "white",
+    borderBottom: `3px solid ${theme.palette.primary.dark}`,
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+    marginBottom: theme.spacing(3),
+    borderBottom: "1px solid black",
+    paddingBottom: theme.spacing(1),
+    textAlign: "left",
+    color: "black",
   },
 }));
 
@@ -57,40 +62,35 @@ const FAQAccordion = () => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        justifyContent="center"
-        className={classes.containergrid}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h4" className={classes.title}>
-            Frequently Asked Questions
-          </Typography>
+      <div className={classes.containergrid}>
+        <Grid container spacing={0} className={classes.containergrid}>
+          <Paper elevation={0} className={classes.root}>
+            <Typography variant="h3" className={classes.sectionTitle}>
+              Frequently Asked Questions
+            </Typography>
+            <Tabs
+              value={currentCategory}
+              onChange={handleTabChange}
+              classes={{ indicator: classes.tabsIndicator }}
+            >
+              {Object.keys(faqData).map((category) => (
+                <Tab
+                  label={category}
+                  value={category}
+                  classes={{ root: classes.tab }}
+                />
+              ))}
+            </Tabs>
+            <Grid container spacing={0} style={{ marginTop: 5 }}>
+              {faqData[currentCategory].map((faq) => (
+                <Grid item xs={12}>
+                  <AccordionQA faq={faq} />
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
         </Grid>
-        <Paper elevation={6} className={classes.root}>
-          <Tabs
-            value={currentCategory}
-            onChange={handleTabChange}
-            classes={{ indicator: classes.tabsIndicator }}
-          >
-            {Object.keys(faqData).map((category) => (
-              <Tab
-                label={category}
-                value={category}
-                classes={{ root: classes.tab }}
-              />
-            ))}
-          </Tabs>
-          <Grid container spacing={2} style={{ marginTop: 0 }}>
-            {faqData[currentCategory].map((faq) => (
-              <Grid item xs={12}>
-                <AccordionQA faq={faq} />
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </Grid>
+      </div>
     </>
   );
 };

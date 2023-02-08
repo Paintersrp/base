@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -16,20 +16,46 @@ import {
   FaCogs,
   FaGlobe,
 } from "react-icons/fa";
+import { useState } from "react";
+import Value from "./Value";
+
+const Icon = ({ icon }) => {
+  switch (icon) {
+    case "FaUser":
+      return <FaUser />;
+    case "FaUsers":
+      return <FaUsers />;
+    case "FaShieldAlt":
+      return <FaShieldAlt />;
+    case "FaPencilRuler":
+      return <FaPencilRuler />;
+    case "FaBook":
+      return <FaBook />;
+    case "FaBalanceScale":
+      return <FaBalanceScale />;
+    case "FaCogs":
+      return <FaCogs />;
+    case "FaGlobe":
+      return <FaGlobe />;
+    default:
+      return <></>;
+  }
+};
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: "bold",
-    color: "white",
-    textAlign: "left !important",
-    borderBottom: "1px solid white !important",
-    marginBottom: "10px !important",
-    paddingBottom: "2px !important",
+    marginBottom: theme.spacing(3),
+    borderBottom: "1px solid black",
+    paddingBottom: theme.spacing(1),
   },
   subtitle: {
-    color: "white",
+    color: "black",
     marginLeft: 15,
     minWidth: 200,
+    fontWeight: 500,
+    fontFamily: "Poppins",
+    fontSize: "0.9rem",
   },
   listcolumns: {
     justifyContent: "center !important",
@@ -42,100 +68,62 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    marginBottom: 30,
   },
   avatar: {
-    backgroundColor: "#f2cc23dd",
-    color: "theme.palette.primary.contrastText",
+    backgroundColor: "#ffe01b",
+    color: "white",
   },
 }));
 
-export default function CoreValues() {
+export default function CoreValues({ valuesData }) {
   const classes = useStyles();
+  const [rowOne, setRowOne] = useState(null);
+  const [rowTwo, setRowTwo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const valuesRowOne = [
-    {
-      id: 1,
-      icon: FaUser,
-      primary: "Customer Satisfaction",
-    },
-    {
-      id: 2,
-      icon: FaPencilRuler,
-      primary: "Innovation",
-    },
-    {
-      id: 3,
-      icon: FaUsers,
-      primary: "Collaboration",
-    },
-    {
-      id: 4,
-      icon: FaShieldAlt,
-      primary: "Integrity",
-    },
-  ];
+  useEffect(() => {
+    const half = Math.ceil(valuesData.length / 2);
+    const row1 = [];
+    const row2 = [];
 
-  const valuesRowTwo = [
-    {
-      id: 5,
-      icon: FaBook,
-      primary: "Knowledge",
-    },
-    {
-      id: 6,
-      icon: FaBalanceScale,
-      primary: "Equality (for Master Race)",
-    },
-    {
-      id: 7,
-      icon: FaCogs,
-      primary: "Efficiency",
-    },
-    {
-      id: 8,
-      icon: FaGlobe,
-      primary: "Global Commitment",
-    },
-  ];
+    for (let i = 0; i < valuesData.length; i++) {
+      if (i < half) {
+        row1.push(valuesData[i]);
+      } else {
+        row2.push(valuesData[i]);
+      }
+    }
+
+    setRowOne(row1);
+    setRowTwo(row2);
+    setLoading(false);
+  }, [valuesData]);
 
   return (
     <>
-      <Typography variant="h5" className={classes.title}>
-        Core Values
-      </Typography>
-      <Grid container spacing={2} className={classes.gridcontainer}>
-        <Grid item xs={12} sm={6} className={classes.listcolumns}>
-          <List>
-            {valuesRowOne.map((value) => (
-              <ListItem>
-                <Avatar className={classes.avatar}>
-                  <value.icon />
-                </Avatar>
-                <ListItemText
-                  primary={value.primary}
-                  className={classes.subtitle}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-        <Grid item xs={12} sm={6} className={classes.listcolumns}>
-          <List>
-            {valuesRowTwo.map((value) => (
-              <ListItem>
-                <Avatar className={classes.avatar}>
-                  <value.icon />
-                </Avatar>
-                <ListItemText
-                  primary={value.primary}
-                  className={classes.subtitle}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Grid>
+      {!loading ? (
+        <>
+          <Typography variant="h3" className={classes.title}>
+            Core Values
+          </Typography>
+          <Grid container spacing={2} className={classes.gridcontainer}>
+            <Grid item xs={12} sm={6} className={classes.listcolumns}>
+              <List>
+                {rowOne.map((value) => (
+                  <Value value={value} />
+                ))}
+              </List>
+            </Grid>
+            <Grid item xs={12} sm={6} className={classes.listcolumns}>
+              <List>
+                {rowTwo.map((value) => (
+                  <Value value={value} />
+                ))}
+              </List>
+            </Grid>
+          </Grid>
+        </>
+      ) : null}
     </>
   );
 }

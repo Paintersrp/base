@@ -22,6 +22,7 @@ class ArticleForm(forms.ModelForm):
 
 class ArticleAdmin(admin.ModelAdmin):
     form = ArticleForm
+    actions = ["make_highlighted", "make_unhighlighted"]
 
     def save_formset(self, request, form, formset, change):
         tags = form.cleaned_data["tags"]
@@ -34,12 +35,25 @@ class ArticleAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "thumbnail",
+        "is_highlighted",
     )
-    list_filter = ("created_at", "author", "tags")
+    list_filter = ("created_at", "author", "tags", "is_highlighted")
     search_fields = ("title", "content")
     readonly_fields = ("created_at", "updated_at")
     fieldsets = (
-        (None, {"fields": ("title", "content", "author", "tags", "image")}),
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "content",
+                    "author",
+                    "tags",
+                    "image",
+                    "is_highlighted",
+                )
+            },
+        ),
         (
             "Metadata",
             {"classes": ("collapse",), "fields": ("created_at", "updated_at")},
@@ -47,7 +61,8 @@ class ArticleAdmin(admin.ModelAdmin):
     )
 
     def thumbnail(self, obj):
-        return format_html('<img src="{}" width="50"/>'.format(obj.image.url))
+        if obj.image.url:
+            return format_html('<img src="{}" width="50"/>'.format(obj.image.url))
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -70,6 +85,16 @@ class ArticleAdmin(admin.ModelAdmin):
             del actions["delete_selected"]
 
         return actions
+
+    def make_highlighted(self, request, queryset):
+        queryset.update(is_highlighted=True)
+
+    make_highlighted.short_description = "Mark selected articles as highlighted"
+
+    def make_unhighlighted(self, request, queryset):
+        queryset.update(is_highlighted=False)
+
+    make_unhighlighted.short_description = "Mark selected articles as not highlighted"
 
     def save_model(self, request, obj, form, change):
         if not request.user.is_superuser and not change:

@@ -7,6 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import articles from "./articles.json";
 import ArticleCard from "./ArticleCard";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
+import { Button, Paper } from "@material-ui/core";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import { useSelector } from "react-redux";
+import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,25 +47,52 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     color: "#fafafa",
   },
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 20,
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#212121",
+    boxShadow: theme.shadows[7],
+    borderRadius: 14,
+    maxWidth: 1400,
+  },
 }));
 
 export default function LatestNews() {
   const [articlesData, setArticlesData] = useState([]);
+  const [titleBlock, setTitleBlock] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const classes = useStyles();
+  const [editing, setEditing] = useState(false);
+  const auth = useSelector((state) => state.auth);
+
+  const updateTitleBlock = (updateTitleBlock) => {
+    setTitleBlock(updateTitleBlock);
+    setEditing(false);
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        setArticlesData(articles);
-      } catch (error) {
-        setError(error);
-      }
-      setIsLoading(false);
-    }
-    fetchData();
+    axiosInstance
+      .get("/titleblock/news/")
+      .then((response) => {
+        setTitleBlock(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+
+    axiosInstance
+      .get("/articles/recent/")
+      .then((response) => {
+        setArticlesData(response.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError(err);
+      });
   }, []);
 
   if (isLoading) {
@@ -71,7 +102,7 @@ export default function LatestNews() {
           <Grid item key={article} xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardContent className={classes.cardContent}>
-                <h1>Loading</h1>
+                <h5>Loading</h5>
               </CardContent>
             </Card>
           </Grid>
@@ -90,26 +121,60 @@ export default function LatestNews() {
 
   return (
     <Grid container spacing={0} className={classes.root}>
-      <Grid item xs={12}>
-        <TitleBlock
-          subtitle="In the Knows"
-          title="Latest News"
-          alignment="center"
-          showDivider={false}
-        />
-      </Grid>
-      {articlesData.map((article) => (
-        <Grid
-          item
-          key={article.id}
-          xs={12}
-          sm={6}
-          md={4}
-          className={classes.cardroot}
-        >
-          <ArticleCard article={article} />
+      <Paper className={classes.paper}>
+        <Grid item xs={12}>
+          {auth.is_superuser ? (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                variant="outlined"
+                style={{
+                  color: "white",
+                  borderColor: "grey",
+                  height: 25,
+                  fontSize: "0.75rem",
+                }}
+                onClick={() => setEditing(!editing)}
+              >
+                {editing ? "Cancel" : "Edit"}
+              </Button>
+            </div>
+          ) : null}
+          {!editing ? (
+            <TitleBlock
+              subtitle={titleBlock.subtitle}
+              title={titleBlock.title}
+              alignment={titleBlock.alignment}
+              showDivider={titleBlock.show_divider}
+            />
+          ) : (
+            <TitleBlockEditor
+              titleBlock={titleBlock}
+              onUpdate={updateTitleBlock}
+            />
+          )}
         </Grid>
-      ))}
+        <Grid container spacing={2}>
+          {articlesData.map((article) => (
+            <Grid
+              item
+              key={article.id}
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              className={classes.cardroot}
+            >
+              <ArticleCard article={article} />
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
     </Grid>
   );
 }

@@ -5,8 +5,15 @@ import {
   Typography,
   Avatar,
   Container,
+  Button,
 } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { SlideOnScroll } from "../../../Animations/IntoView/Slide/SlideViewPort";
+import TitleBlock from "../../../Elements/TextBlocks/TitleBlock";
+import TitleBlockEditor from "../../../Elements/TextBlocks/TitleBlockEditor";
+import TestimonialEditView from "./TestimonialEditView";
 import testimonials from "./testimonials.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       borderRightWidth: theme.spacing(2),
       borderTop: "solid",
       borderTopWidth: theme.spacing(2),
-      borderTopColor: "#242424",
+      borderTopColor: "#191919",
       position: "absolute",
       bottom: "-16px",
       left: "50%",
@@ -92,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Poppins",
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#242424",
     color: "white",
     justifyContent: "center",
     display: "flex",
@@ -171,20 +178,62 @@ const TestimonialAvatar = ({ src, name, title }) => {
 
 export default function BetterTestimonials() {
   const classes = useStyles();
+  const [data, setData] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/titleblock/testimonials/")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+
+    axiosInstance
+      .get("/testimonials/")
+      .then((response) => {
+        setTestimonials(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  }, []);
+
+  const updateTitleBlock = (updateTitleBlock) => {
+    setData(updateTitleBlock);
+    setEditing(false);
+  };
+
+  const updateTestimonials = (updateTestimonials) => {
+    setTestimonials(updateTestimonials);
+    setEditing(false);
+  };
+
   return (
     <Box className={classes.speechBubbles}>
       <Container maxWidth="7xl">
+        {auth.is_superuser ? (
+          <Button onClick={() => setEditing(!editing)}>
+            {editing ? "Cancel" : "Edit"}
+          </Button>
+        ) : null}
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Typography
-              variant="h4"
-              className={classes.speechBubblesSubHeading}
-            >
-              Testimonials
-            </Typography>
-            <Typography variant="h4" className={classes.speechBubblesHeading}>
-              Our Clients Speak
-            </Typography>
+            {!editing ? (
+              <TitleBlock
+                key={data.name}
+                subtitle={data.subtitle}
+                title={data.title}
+                alignment={data.alignment}
+                showDivider={data.show_divider}
+              />
+            ) : (
+              <TitleBlockEditor titleBlock={data} onUpdate={updateTitleBlock} />
+            )}
           </Grid>
           {testimonials.map((testimonial, index) => (
             <Grid
@@ -194,21 +243,28 @@ export default function BetterTestimonials() {
               md={6}
               className={classes.speechBubbles}
             >
-              <SlideOnScroll direction="down">
-                <Testimonial>
-                  <TestimonialContent>
-                    <TestimonialHeading>
-                      {testimonial.heading}
-                    </TestimonialHeading>
-                    <TestimonialText>{testimonial.text}</TestimonialText>
-                  </TestimonialContent>
-                  <TestimonialAvatar
-                    src={testimonial.avatar.src}
-                    name={testimonial.avatar.name}
-                    title={testimonial.avatar.title}
-                  />
-                </Testimonial>
-              </SlideOnScroll>
+              {!editing ? (
+                <SlideOnScroll direction="down">
+                  <Testimonial>
+                    <TestimonialContent>
+                      <TestimonialHeading>
+                        {testimonial.heading}
+                      </TestimonialHeading>
+                      <TestimonialText>{testimonial.text}</TestimonialText>
+                    </TestimonialContent>
+                    <TestimonialAvatar
+                      src={testimonial.image}
+                      name={testimonial.name}
+                      title={testimonial.position}
+                    />
+                  </Testimonial>
+                </SlideOnScroll>
+              ) : (
+                <TestimonialEditView
+                  testimonial={testimonial}
+                  onUpdate={updateTestimonials}
+                />
+              )}
             </Grid>
           ))}
         </Grid>

@@ -17,3 +17,4 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, related_name="articles")
     image = models.ImageField(blank=True, null=True, upload_to="article_images")
+    is_highlighted = models.BooleanField(default=False)

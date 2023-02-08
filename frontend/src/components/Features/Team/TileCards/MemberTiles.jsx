@@ -14,19 +14,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#242424",
-    padding: 40,
+    width: "100vw",
+    marginTop: theme.spacing(5),
   },
   card: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    maxWidth: 400,
-    minWidth: 400,
-    padding: theme.spacing(3),
-    margin: theme.spacing(1.5),
+    maxWidth: 375,
+    minWidth: 375,
     boxShadow: theme.shadows[7],
-    backgroundColor: "#202020",
+    padding: 20,
+    margin: 20,
+    backgroundColor: "white",
     "&:hover": {
       transform: "scale(1.02)",
       boxShadow: theme.shadows[14],
@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 92,
     minHeight: 92,
     marginLeft: theme.spacing(3),
-    backgroundColor: deepPurple[500],
     color: theme.palette.common.white,
     "&:hover": {
       transform: "scale(1.05)",
@@ -107,22 +106,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "700",
     fontFamily: "Poppins",
   },
-  divider: {
-    margin: `${theme.spacing(3)}px 0`,
-    color: "white",
-    backgroundColor: "white",
-  },
-  carddivider: {
-    marginBottom: 10,
-    color: "white",
-    backgroundColor: "white",
-  },
   paper: {
-    padding: 40,
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    backgroundColor: "#242424",
+    backgroundColor: "",
     boxShadow: theme.spacing(6),
   },
 }));
@@ -151,9 +139,6 @@ function MemberTiles({ name, position, bio, image }) {
               {position}
             </Typography>
           </CardContent>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider variant="fullWidth" className={classes.carddivider} />
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body2" className={classes.bio}>

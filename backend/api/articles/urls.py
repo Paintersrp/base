@@ -1,6 +1,10 @@
 from django.urls import path
-from . import views
-from .views import ArticleListCreateView, ArticleRetrieveUpdateDestroyView
+from .views import (
+    ArticleListCreateView,
+    ArticleRetrieveUpdateDestroyView,
+    HighlightedArticlesView,
+    RecentArticlesView,
+)
 
 
 urlpatterns = [
@@ -9,5 +13,15 @@ urlpatterns = [
         "articles/<int:pk>/",
         ArticleRetrieveUpdateDestroyView.as_view(),
         name="article-detail-update-delete",
+    ),
+    path(
+        "articles/recent/",
+        RecentArticlesView.as_view(),
+        name="recent-articles",
+    ),
+    path(
+        "articles/highlighted/",
+        HighlightedArticlesView.as_view(),
+        name="highlighted-articles",
     ),
 ]

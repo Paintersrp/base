@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class HeroBlock(models.Model):
@@ -6,6 +8,20 @@ class HeroBlock(models.Model):
     heading = models.TextField()
     text = models.TextField()
     buttonText = models.CharField(max_length=50)
+
+
+class TitleBlock(models.Model):
+    ALIGNMENT_CHOICES = (
+        ("left", "Left"),
+        ("right", "Right"),
+        ("center", "Center"),
+    )
+
+    name = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=100)
+    alignment = models.CharField(max_length=10, choices=ALIGNMENT_CHOICES)
+    show_divider = models.BooleanField(default=False)
 
 
 class Item(models.Model):
@@ -43,7 +59,26 @@ class PricingPlan(models.Model):
         return self.title
 
 
+class Testimonial(models.Model):
+    heading = models.CharField(max_length=100)
+    text = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="testimonial_images")
+    name = models.CharField(max_length=40)
+    position = models.CharField(max_length=40)
+
+
 class Tile(models.Model):
     title = models.CharField(max_length=100)
     subheader = models.CharField(max_length=200)
     icon = models.CharField(max_length=40)
+
+
+class Process(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
+    icon = models.CharField(max_length=40)
+
+
+@receiver(pre_save, sender=TitleBlock)
+def lowercase_name(sender, instance, **kwargs):
+    instance.name = instance.name.lower()

@@ -108,14 +108,14 @@ const theme = createTheme({
       letterSpacing: "0.00714em",
     },
     body1: {
-      fontWeight: 500,
-      fontSize: "1rem",
+      fontWeight: 400,
+      fontSize: "0.9rem",
       lineHeight: 1.5,
       letterSpacing: "0.00938em",
     },
     body2: {
       fontWeight: 500,
-      fontSize: "0.875rem",
+      fontSize: "0.8rem",
       lineHeight: 1.43,
       letterSpacing: "0.01071em",
     },

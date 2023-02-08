@@ -1,6 +1,17 @@
 from rest_framework import status, generics, mixins, viewsets
+from django.db.models import Q
 from rest_framework.response import Response
-from .models import HeroBlock, PricingPlan, Feature, SupportedSites, Tile, Item
+from .models import (
+    HeroBlock,
+    PricingPlan,
+    Feature,
+    SupportedSites,
+    Tile,
+    Item,
+    TitleBlock,
+    Testimonial,
+    Process,
+)
 from .serializers import (
     HeroBlockSerializer,
     PricingPlanSerializer,
@@ -8,6 +19,9 @@ from .serializers import (
     SupportedSitesSerializer,
     TileSerializer,
     ItemSerializer,
+    TitleBlockSerializer,
+    TestimonialSerializer,
+    ProcessSerializer,
 )
 from authorization.authentication import JWTTokenAuthentication
 
@@ -29,6 +43,17 @@ class HeroBlockAPIView(
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+
+class TitleBlockAPIView(generics.ListCreateAPIView):
+    queryset = TitleBlock.objects.all()
+    serializer_class = TitleBlockSerializer
+
+
+class TitleBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TitleBlock.objects.all()
+    serializer_class = TitleBlockSerializer
+    lookup_field = "name"
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -122,3 +147,13 @@ class PricingPlanViewSet(viewsets.ModelViewSet):
 class TileViewSet(viewsets.ModelViewSet):
     queryset = Tile.objects.all()
     serializer_class = TileSerializer
+
+
+class ProcessViewSet(viewsets.ModelViewSet):
+    queryset = Process.objects.all()
+    serializer_class = ProcessSerializer
+
+
+class TestimonialViewSet(viewsets.ModelViewSet):
+    queryset = Testimonial.objects.all()
+    serializer_class = TestimonialSerializer

@@ -46,15 +46,15 @@ const useStyles = makeStyles((theme) => ({
 
   field: {
     "& .MuiOutlinedInput-inputMultiline": {
-      color: "white",
+      color: "black",
     },
     "& .MuiOutlinedInput-input": {
-      color: "white",
+      color: "black",
       textAlign: "left",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "white",
+        borderColor: "black",
       },
       "&:hover fieldset": {
         borderColor: "#e0e0e0",
@@ -64,43 +64,61 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
-      fontWeight: "700",
+      color: "black",
+      fontWeight: "500",
       fontSize: "0.9rem",
     },
     "& input": {
       color: "white",
     },
-    marginBottom: 15,
+    marginBottom: 5,
   },
   label: {
     color: "white",
   },
   select: {
-    background: "#3f3f3f",
-    color: "white",
+    color: "black",
+    borderColor: "black",
+    textAlign: "left",
+    marginBottom: 5,
+    "& .MuiSelect-root": {
+      color: "black",
+      borderColor: "black",
+    },
     "& .MuiSelect-icon": {
-      color: "white",
+      color: "black",
+      borderColor: "black",
     },
     "& .MuiOutlinedInput-input": {
-      color: "white",
+      color: "black",
+      borderColor: "black",
     },
-    "& .MuiSelect-select": {},
+    "& .MuiSelect-select": {
+      color: "black",
+    },
     "& .MuiSelect-select:focus": {
-      background: "#3f3f3f",
+      color: "black",
+      borderColor: "black",
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white !important",
-      },
+    "& .MuiOutlinedInput-notchedOutline": {
+      color: "black",
+      borderColor: "black",
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: "black !important",
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: "black",
+    },
+  },
+  label: {
+    color: "black",
+    "& .MuiFormLabel-root": {
+      color: "black !important",
+      fontWeight: "700",
+      fontSize: "0.9rem",
     },
   },
   button: {
@@ -200,6 +218,7 @@ const ContactForm = (props) => {
             <InputLabel id="subject-label">Subject</InputLabel>
             <Select
               error={formData.errors.subject}
+              className={classes.select}
               labelId="subject-label"
               id="subject"
               name="subject"
@@ -240,6 +259,7 @@ const ContactForm = (props) => {
             name="name"
             label="Name"
             variant="outlined"
+            margin="dense"
             value={formData.name}
             onChange={handleChange}
             error={formData.errors.name}
@@ -254,6 +274,7 @@ const ContactForm = (props) => {
             name="email"
             label="Email"
             variant="outlined"
+            margin="dense"
             value={formData.email}
             onChange={handleChange}
             error={formData.errors.email}
@@ -268,6 +289,7 @@ const ContactForm = (props) => {
             name="phone"
             label="Phone"
             variant="outlined"
+            margin="dense"
             value={formData.phone}
             onChange={handleChange}
             error={formData.errors.phone}
@@ -282,8 +304,9 @@ const ContactForm = (props) => {
             name="message"
             label="Message"
             variant="outlined"
+            margin="dense"
             multiline
-            rows={4}
+            minRows={4}
             value={formData.message}
             onChange={handleChange}
             error={formData.errors.message}

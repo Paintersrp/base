@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { Box } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import TitleBlock from "../../../Elements/TextBlocks/TitleBlock";
-import FloatingFeature from "../../Content/FloatingFeature";
+import FloatingFeature from "./FloatingFeature";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import TitleBlockEditor from "../../../Elements/TextBlocks/TitleBlockEditor";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 325,
     padding: 0,
     margin: 0,
+    marginBottom: 40,
+    backgroundColor: "#242424",
   },
   paper: {
     display: "flex",
@@ -23,13 +28,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     textAlign: "center",
     color: "white",
-    backgroundColor: "#1C1C1C",
+    backgroundColor: "#212121",
+    boxShadow: theme.shadows[7],
+    borderRadius: 14,
     maxWidth: 1400,
   },
   gridContainer: {
     display: "flex",
     justifyContent: "center",
     minWidth: 350,
+    marginTop: 10,
   },
   center: {
     display: "flex",
@@ -37,8 +45,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OurProcess({ data, title, subtitle }) {
+export default function OurProcess() {
   const classes = useStyles();
+  const [block, setBlock] = useState([]);
+  const [processes, setProcesses] = useState([]);
+  const [editTitle, setEditTitle] = useState(false);
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/titleblock/process/")
+      .then((response) => {
+        setBlock(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+
+    axiosInstance
+      .get("/processes/")
+      .then((response) => {
+        setProcesses(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  }, []);
+
+  const updateTitleBlock = (updateTitleBlock) => {
+    setBlock(updateTitleBlock);
+    setEditTitle(false);
+  };
+
+  const updateProcesses = (updateProcesses) => {
+    setProcesses(updateProcesses);
+    setEditing(false);
+  };
 
   return (
     <Box className={classes.root}>
@@ -54,15 +96,45 @@ export default function OurProcess({ data, title, subtitle }) {
             margin: 0,
           }}
         >
-          <Paper elevation={9} className={classes.paper}>
-            <TitleBlock
-              subtitle={subtitle}
-              title={title}
-              alignment="center"
-              showDivider={false}
-            />
+          <Paper elevation={0} className={classes.paper}>
+            {auth.is_superuser ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: 10,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  style={{
+                    width: 50,
+                    color: "white",
+                    borderColor: "grey",
+                    height: 25,
+                    fontSize: "0.75rem",
+                  }}
+                  onClick={() => setEditTitle(!editTitle)}
+                >
+                  {editTitle ? "Cancel" : "Edit"}
+                </Button>
+              </div>
+            ) : null}
+            {!editTitle ? (
+              <TitleBlock
+                subtitle={block.subtitle}
+                title={block.title}
+                alignment={block.alignment}
+                showDivider={block.show_divider}
+              />
+            ) : (
+              <TitleBlockEditor
+                titleBlock={block}
+                onUpdate={updateTitleBlock}
+              />
+            )}
             <Grid container spacing={2} className={classes.gridContainer}>
-              {data.map((step, index) => (
+              {processes.map((step, index) => (
                 <Grid
                   item
                   xs={12}

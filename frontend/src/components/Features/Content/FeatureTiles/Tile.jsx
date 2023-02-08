@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { Slide, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import "./Features.css";
 import { SlideOnScroll } from "../../../Animations/IntoView/Slide/SlideViewPort";
 import {
@@ -14,9 +14,7 @@ import {
   FaLightbulb,
   FaStar,
 } from "react-icons/fa";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { useState } from "react";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import TileEdit from "./TileEdit";
 

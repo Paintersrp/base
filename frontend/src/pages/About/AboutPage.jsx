@@ -6,6 +6,10 @@ import TeamMembers from "../../components/Features/Team/TileCards/MemberTiles";
 import CompanyInfo from "../../components/Features/Business/CompanyInfo/CompanyInfo";
 import CareersOpportunities from "../../components/Features/CareerOpportunities/CareerOpportunities";
 import FAQAccordion from "../../components/Features/Accordions/FAQ/FAQAccordion";
+import BusinessInformation from "../../components/Features/Business/BusinessInformation/BusinessInformation";
+import ContentLayout from "../../components/Layout/ContentLayout";
+import TeamCard from "../../components/Features/Team/_SquareCards/SquareCards";
+import TeamMembers2 from "../../components/Features/Team/MoreMembers";
 
 const members = [
   {
@@ -27,40 +31,23 @@ const members = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
-  divider: {
-    margin: `${theme.spacing(3)}px 0`,
-    color: "white",
-    backgroundColor: "white",
-  },
-}));
-
 function AboutPage() {
-  const classes = useStyles();
-
   return (
-    <div className="landing-container">
-      <div>
-        <div className="">
-          <CompanyInfo />
-        </div>
-        <div className="">
-          <TeamMembers members={members} />
-        </div>
+    <ContentLayout
+      title="About Company"
+      description="Where the info be yo."
+      keywords="news, posts, articles, touch"
+      image="https://example.com/image.png"
+      url="https://example.com/example-page"
+      backgroundColor="white"
+    >
+      <BusinessInformation />
+      <TeamMembers2 />
 
-        <Divider variant="fullWidth" className={classes.divider} />
-        <div className="card-container-about">
-          <CareersOpportunities />
-        </div>
-        <div className="card-container-about">
-          <BetterContact />
-        </div>
-        <Divider variant="fullWidth" className={classes.divider} />
-        <div className="card-container-about">
-          <FAQAccordion />
-        </div>
-      </div>
-    </div>
+      {/* <CareersOpportunities /> */}
+      <BetterContact />
+      <FAQAccordion />
+    </ContentLayout>
   );
 }
 

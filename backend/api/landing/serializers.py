@@ -1,10 +1,26 @@
 from rest_framework import serializers
-from .models import HeroBlock, Feature, PricingPlan, SupportedSites, Tile, Item
+from .models import (
+    HeroBlock,
+    Feature,
+    PricingPlan,
+    SupportedSites,
+    Tile,
+    Item,
+    TitleBlock,
+    Testimonial,
+    Process,
+)
 
 
 class HeroBlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroBlock
+        fields = "__all__"
+
+
+class TitleBlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TitleBlock
         fields = "__all__"
 
 
@@ -38,4 +54,16 @@ class PricingPlanSerializer(serializers.ModelSerializer):
 class TileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tile
-        fields = ("title", "subheader", "icon")
+        fields = "__all__"
+
+
+class ProcessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Process
+        fields = "__all__"
+
+
+class TestimonialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Testimonial
+        fields = "__all__"

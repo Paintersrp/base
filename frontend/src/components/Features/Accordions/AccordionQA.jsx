@@ -17,31 +17,31 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1),
     marginBottom: 4,
-    color: "white",
+    color: "black",
     fontSize: "1rem",
+    backgroundColor: "black",
   },
   heading: {
     fontSize: "1.2rem",
     fontWeight: 700,
     fontFamily: "Poppins",
-    color: "white",
+    color: "black",
   },
   details: {
     padding: theme.spacing(2),
-    backgroundColor: "#242424",
-    color: "white",
+    backgroundColor: "white",
+    color: "black",
     fontFamily: "Poppins",
     textAlign: "left",
   },
   summary: {
-    backgroundColor: "#242424",
+    backgroundColor: "white",
     fontFamily: "Poppins",
-    color: "white",
+    color: "black",
   },
 }));
 
 const AccordionQA = ({ faq }) => {
-  console.log(faq);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState([]);
 
@@ -74,7 +74,7 @@ const AccordionQA = ({ faq }) => {
         TransitionProps={transitionProps}
       >
         <AccordionSummary
-          expandIcon={<MdExpandMore color="white" />}
+          expandIcon={<MdExpandMore color="black" />}
           aria-controls={`${faq.id}-content`}
           id={`${faq.id}-header`}
           className={classes.summary}

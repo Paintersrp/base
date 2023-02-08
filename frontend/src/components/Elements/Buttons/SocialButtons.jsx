@@ -8,7 +8,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 
 const useStyles = makeStyles((theme) => ({
   socialIcons: {
-    color: "white",
+    color: "black",
     paddingLeft: 5,
     "&:hover": {
       transform: "scale(1.05)",

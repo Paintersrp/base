@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "authorization",
     "articles",
     "landing",
+    "about",
 ]
 
 MIDDLEWARE = [

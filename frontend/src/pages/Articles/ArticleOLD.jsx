@@ -1,65 +1,146 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import axiosInstance from "../../lib/Axios/axiosInstance";
+import { Box, CardMedia, Divider, Typography } from "@material-ui/core";
+import DOMPurify from "dompurify";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3, 2),
+    width: "100%",
+    padding: 20,
+    backgroundColor: theme.palette.background.default,
   },
-  tags: {
+  tag: {
     display: "inline-block",
-    marginRight: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
+    color: "#fff",
+    padding: theme.spacing(0.75),
+    borderRadius: theme.shape.borderRadius,
+    fontSize: ".75rem",
+  },
+  media: {
+    minHeight: 100,
+    minWidth: 100,
+    maxHeight: 100,
+    maxWidth: 100,
+    backgroundColor: "#212121",
+    marginRight: theme.spacing(2),
+  },
+  listItem: {
+    borderBottom: "1px solid black",
+    // "&:not(:last-of-type)": {
+    //   borderBottom: "1px solid black",
+    // },
+    "&:hover": {
+      transform: "scale(1.005)",
+      borderBottom: "0.1px solid gold",
+    },
+  },
+  body: {
+    color: "white",
+  },
+  author: {
+    fontSize: "0.7rem",
+    fontFamily: "Poppins",
+    fontWeight: 500,
+    fontStyle: "italic",
+    color: "white",
   },
 }));
 
-const Article = () => {
-  const { id } = useParams();
+const ArticleList = () => {
   const classes = useStyles();
-  const [article, setArticle] = useState({});
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:8000/api/articles/${id}/`
-        );
-        console.log(res.data);
-        setArticle(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
+    axiosInstance
+      .get("/articles/highlighted/")
+      .then((response) => {
+        setArticles(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
   }, []);
 
   return (
-    <Paper className={classes.root}>
-      <Typography variant="h5" component="h3">
-        {article.title}
-      </Typography>
-      <Typography
-        component="p"
-        dangerouslySetInnerHTML={{ __html: article.content }}
-      />
-      <Typography component="p">
-        <strong>Tags: </strong>
-        {article.tags.map((tag) => (
-          <span key={tag} className={classes.tags}>
-            {tag}
-          </span>
-        ))}
-      </Typography>
-      {article.image && (
-        <img
-          src={`http://127.0.0.1:8000/${article.image}`}
-          alt={article.title}
-        />
-      )}
-    </Paper>
+    <List className={classes.root}>
+      {articles.map((article) => (
+        <div className={classes.listItem}>
+          <Link to={`/articles/${article.id}`}>
+            <ListItem key={article.id}>
+              <CardMedia
+                className={classes.media}
+                image={`http://localhost:8000/${article.image}`}
+                title={article.title}
+              />
+              <ListItemText
+                primary={
+                  <>
+                    <Typography
+                      variant="h3"
+                      style={{
+                        fontFamily: "Poppins",
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      {article.title}
+                    </Typography>
+                  </>
+                }
+                secondary={
+                  <>
+                    <Typography
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          article.content.substr(0, 200)
+                        ),
+                      }}
+                      className={classes.body}
+                      variant="body2"
+                    />
+                    <Box mt={2}>
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          alignItems: "center",
+                        }}
+                      >
+                        {article.tags.map((tag) => (
+                          <span key={tag.id} className={classes.tag}>
+                            {tag.name}
+                          </span>
+                        ))}
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "end",
+                          }}
+                        >
+                          <Typography className={classes.author}>
+                            By: {article.author}
+                          </Typography>
+                        </div>
+                      </div>
+                    </Box>
+                  </>
+                }
+              />
+            </ListItem>
+          </Link>
+        </div>
+      ))}
+    </List>
   );
 };
 
-export default Article;
+export default ArticleList;

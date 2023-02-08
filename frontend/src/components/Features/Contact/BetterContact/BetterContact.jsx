@@ -9,19 +9,34 @@ import ContactForm from "../../../Forms/Contact/ContactForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    maxWidth: "85%",
+    maxWidth: "100vw",
+    marginTop: theme.spacing(5),
+    display: "flex",
+    justifyContent: "center",
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: "white",
-    backgroundColor: "#1C1C1C",
+    color: "black",
+    backgroundColor: "white",
+    maxWidth: 900,
   },
   contactContainer: {
     display: "flex",
     flexDirection: "column",
     padding: 20,
+  },
+  container: {
+    justifyContent: "center",
+    display: "flex",
+    alignItems: "center",
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+    marginBottom: theme.spacing(3),
+    borderBottom: "1px solid black",
+    paddingBottom: theme.spacing(1),
+    textAlign: "left",
   },
 }));
 
@@ -36,9 +51,14 @@ export default function BetterContact() {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} elevation={9}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={6}>
+      <Paper className={classes.paper} elevation={0}>
+        <Grid container spacing={0} className={classes.container}>
+          <Grid item xs={12} sm={12} className={classes.section}>
+            <Typography variant="h3" className={classes.sectionTitle}>
+              Contact Us
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} style={{ minHeight: 500 }}>
             <ContactSection />
             <HoursSection />
             <SocialSection title={true} />
@@ -49,11 +69,15 @@ export default function BetterContact() {
             xs={12}
             sm={12}
             md={6}
-            style={{ display: "flex", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              minHeight: 500,
+            }}
           >
             <div style={{ maxWidth: "85%" }}>
               <Typography variant="h5" style={{ paddingBottom: 20 }}>
-                Contact Us
+                Contact Form
               </Typography>
               <ContactForm selectOptions={options} />
             </div>

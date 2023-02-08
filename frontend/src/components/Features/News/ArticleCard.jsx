@@ -6,6 +6,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import { Box, ListItem, ListItemText } from "@material-ui/core";
+import DOMPurify from "dompurify";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -13,16 +15,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     maxWidth: 345,
     minWidth: 345,
+    padding: 10,
     margin: 10,
+    boxShadow: theme.shadows[4],
+    borderRadius: 14,
     backgroundColor: "#212121",
     "&:hover": {
-      transform: "scale(1.01)",
-      boxShadow: theme.shadows[14],
+      transform: "scale(1.05)",
+      boxShadow: theme.shadows[10],
     },
   },
   media: {
-    height: 180,
-    margin: "0px 0px 10px 0px",
+    height: 160,
+    margin: "10px 20px 10px 20px",
     backgroundColor: "#212121",
   },
   cardContent: {
@@ -30,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     backgroundColor: "#212121",
-    padding: 10,
+    padding: 0,
     color: "#fafafa",
   },
   cardActions: {
@@ -51,34 +56,100 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2px",
     color: "#fafafa",
     marginRight: 10,
-    marginBottom: 5,
   },
   btnText: {
     padding: 0,
     margin: 0,
     fontSize: "14px",
   },
+  body: {
+    color: "white",
+  },
+  author: {
+    fontSize: "0.7rem",
+    fontFamily: "Poppins",
+    fontWeight: 500,
+    fontStyle: "italic",
+    color: "white",
+  },
+  tag: {
+    display: "inline-block",
+    backgroundColor: theme.palette.primary.main,
+    color: "#fff",
+    padding: theme.spacing(0.75),
+    borderRadius: theme.shape.borderRadius,
+    fontSize: ".75rem",
+  },
 }));
 
 export default function ArticleCard({ article }) {
   const classes = useStyles();
+  console.log(article);
 
   return (
-    <Card className={classes.card} elevation={6}>
+    <Card className={classes.card} elevation={0}>
       <CardContent className={classes.cardContent}>
         <CardMedia
           className={classes.media}
-          image={article.image}
+          image={`http://localhost:8000/${article.image}`}
           title={article.title}
         />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {article.title}
-          </Typography>
-        </div>
-        <Typography variant="body2" component="p">
-          {article.preview}
-        </Typography>
+        <ListItem key={article.id}>
+          <ListItemText
+            primary={
+              <>
+                <Typography
+                  variant="h3"
+                  style={{
+                    fontFamily: "Poppins",
+                    fontSize: "1.5rem",
+                  }}
+                >
+                  {article.title}
+                </Typography>
+              </>
+            }
+            secondary={
+              <>
+                <Typography
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      article.content.substr(0, 250) + "..."
+                    ),
+                  }}
+                  className={classes.body}
+                  variant="body2"
+                />
+                <Box mt={2}>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    {article.tags.map((tag) => (
+                      <span key={tag.id} className={classes.tag}>
+                        {tag.name}
+                      </span>
+                    ))}
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "end",
+                      }}
+                    >
+                      <Typography className={classes.author}>
+                        By: {article.author}
+                      </Typography>
+                    </div>
+                  </div>
+                </Box>
+              </>
+            }
+          />
+        </ListItem>
       </CardContent>
       <div className={classes.cardActions}>
         <Button

@@ -26,6 +26,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "updated_at",
             "tags",
             "image",
+            "is_highlighted",
         ]
 
     def validate_image(self, image):

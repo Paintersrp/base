@@ -7,7 +7,6 @@ import LaunchIcon from "@material-ui/icons/Launch";
 import Demo from "./Demo";
 import ContactButtons from "../../components/Elements/Buttons/ContactButtons";
 import SocialSection from "../../components/Elements/Buttons/SocialButtons";
-import FloatingFeature from "../../components/Features/Content/FloatingFeature";
 import CoreValues from "../../components/Features/Business/CompanyInfo/CoreValues";
 import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import ContentBlock from "../../components/Elements/TextBlocks/ContentBlock";
@@ -18,6 +17,7 @@ import ComplexFooter from "../../navigation/Components/Footer/_ComplexFooter/Com
 import ImageGallery from "../../components/Images/Gallery/ImageGallery";
 import { useState } from "react";
 import HeroBlock from "../../components/Elements/TextBlocks/HeroBlock/HeroBlock";
+import FloatingFeature from "../../components/Features/Business/OurProcess/FloatingFeature";
 
 // {
 //     component: TeamCard,

@@ -50,6 +50,22 @@ class ArticleListCreateView(generics.ListCreateAPIView):
         return JsonResponse(serializer.errors, status=400)
 
 
+class RecentArticlesView(ArticleListCreateView):
+    def get(self, request, *args, **kwargs):
+        recent_articles = self.queryset.order_by("-created_at")[:3]
+        serializer = self.serializer_class(recent_articles, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+
+class HighlightedArticlesView(ArticleListCreateView):
+    def get(self, request, *args, **kwargs):
+        highlighted_articles = self.queryset.filter(is_highlighted=True)
+        serializer = self.serializer_class(highlighted_articles, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+
 class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer

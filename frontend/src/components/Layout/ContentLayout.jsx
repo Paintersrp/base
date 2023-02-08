@@ -32,6 +32,7 @@ const ContentLayout = ({
   keywords = "",
   image = "",
   url = "",
+  backgroundColor = "#242424",
 }) => {
   const classes = useStyles();
 
@@ -44,7 +45,10 @@ const ContentLayout = ({
         image={image}
         url={url}
       />
-      <div className={classes.root}>
+      <div
+        className={classes.root}
+        style={{ backgroundColor: backgroundColor }}
+      >
         {header ? (
           <Container>
             <Typography variant="h1" className={classes.header}>
