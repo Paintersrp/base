@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     marginBottom: theme.spacing(1.5),
-    fontWeight: 500,
+    fontWeight: 400,
   },
 }));
 
-export default function AboutLayout() {
+export default function Content() {
   const [data, setData] = useState([]);
   const [missionData, setMissionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);

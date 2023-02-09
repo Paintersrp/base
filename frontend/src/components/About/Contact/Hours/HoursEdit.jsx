@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
+import EditField from "../../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -127,12 +128,8 @@ export default function EditHours({ initialData, onUpdate }) {
                   justifyContent: "center",
                 }}
               >
-                <TextField
-                  className={classes.field}
-                  variant="outlined"
+                <EditField
                   label={day.day}
-                  margin="dense"
-                  style={{ width: "100%" }}
                   value={day.value}
                   onChange={(event) =>
                     handleChange(event, day.day.toLowerCase())

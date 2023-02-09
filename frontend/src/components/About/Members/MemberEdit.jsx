@@ -8,6 +8,7 @@ import axios from "axios";
 import { CardMedia, TextField, Typography } from "@material-ui/core";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
+import EditField from "../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -186,61 +187,36 @@ const MemberEdit = ({ member, onUpdate }) => {
                 />
               </Typography>
             </div>
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Name"
-              margin="dense"
               value={name}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setName(event.target.value)}
             />
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Role"
-              margin="dense"
               value={role}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setRole(event.target.value)}
             />
-            <TextField
-              className={classes.multiline}
-              variant="outlined"
+            <EditField
               label="Bio"
-              margin="dense"
               value={bio}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setBio(event.target.value)}
               multiline
-              minRows="5"
             />
-            <TextField
-              className={classes.field}
-              variant="outlined"
-              label="LinkedIn"
-              margin="dense"
+            <EditField
+              label="Linked In"
               value={linkedIn}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setLinkedIn(event.target.value)}
             />
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Github"
-              margin="dense"
               value={github}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setGithub(event.target.value)}
             />
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Twitter"
-              margin="dense"
               value={twitter}
-              style={{ width: "100%" }}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setTwitter(event.target.value)}
             />
           </CardContent>
           <UpdateButton />

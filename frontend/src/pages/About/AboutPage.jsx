@@ -1,6 +1,6 @@
 import React from "react";
 import FAQAccordion from "../../components/About/FAQ/FAQAccordion";
-import AboutLayout from "../../components/About/Layout/AboutLayout";
+import Content from "../../components/About/Content/Content";
 import ContentLayout from "../../components/Elements/Layout/ContentLayout";
 
 function AboutPage() {
@@ -13,7 +13,7 @@ function AboutPage() {
       url="https://example.com/example-page"
       backgroundColor="white"
     >
-      <AboutLayout />
+      <Content />
       {/* Jobs */}
       <FAQAccordion />
     </ContentLayout>

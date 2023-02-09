@@ -9,9 +9,8 @@ const useStyles = makeStyles({
     padding: 0,
     marginLeft: 5,
     "& .ql-editor": {
-      height: "600px",
       width: "100%",
-      margin: "0 0 10px 0", // this will add 10px of spacing between paragraphs
+      margin: "0 0 10px 0",
     },
     "& .ql-toolbar": {
       backgroundColor: "white",
@@ -20,18 +19,32 @@ const useStyles = makeStyles({
   },
 });
 
-const QuillField = ({ value, onChange, modules, formats }) => {
+const QuillField = ({ value, onChange, modules, formats, size }) => {
   const classes = useStyles();
   const [content, setContent] = useState([]);
   const quillRef = useRef(null);
 
   useEffect(() => {
     setContent(value);
+    editorHeight();
   });
 
   const handleChange = (value) => {
     setContent(value);
     onChange(value);
+  };
+
+  const editorHeight = () => {
+    switch (size) {
+      case "small":
+        return "200px";
+      case "medium":
+        return "400px";
+      case "large":
+        return "600px";
+      default:
+        return "600px";
+    }
   };
 
   return (
@@ -42,6 +55,10 @@ const QuillField = ({ value, onChange, modules, formats }) => {
         onChange={handleChange}
         modules={modules}
         formats={formats}
+        style={{
+          height:
+            size === "small" ? "200px" : size === "medium" ? "400px" : "600px",
+        }}
       />
     </div>
   );

@@ -20,6 +20,7 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
+import EditField from "../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -55,6 +56,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    backgroundColor: "white",
+    color: "black",
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+  },
+  editContainer: {
+    fontFamily: "Poppins",
+    alignItems: "center",
     backgroundColor: "white",
     color: "black",
     [theme.breakpoints.down("md")]: {
@@ -171,148 +181,151 @@ const FAQEdit = ({ onUpdate }) => {
 
   return (
     <>
-      {editing ? (
-        <form
-          onSubmit={handleUpdate}
-          style={{ marginTop: 20, height: 800, width: "100%" }}
-        >
-          <TextField
-            className={classes.field}
-            variant="outlined"
-            label="Question"
-            name="question"
-            margin="dense"
-            value={currentFaq.question}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-          <TextField
-            className={classes.multiline}
-            variant="outlined"
-            label="Answer"
-            margin="dense"
-            value={currentFaq.answer}
-            style={{ width: "100%" }}
-            onChange={handleChange}
-            multiline
-            minRows="5"
-          />
-          <CardActions style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="outlined"
-              type="submit"
+      <Dialog
+        className={classes.flexer}
+        classes={{ root: classes.dialog, paper: classes.paper }}
+        open={editing}
+        onClose={handleClose}
+      >
+        <div className={classes.testboi}>
+          <DialogContent dividers={true} className={classes.editContainer}>
+            <Typography variant="h3" style={{ textAlign: "center" }}>
+              FAQ Edit
+            </Typography>
+            <form
+              onSubmit={handleUpdate}
               style={{
-                width: 50,
-                color: "black",
-                borderColor: "grey",
-                height: 25,
-                fontSize: "0.75rem",
+                marginTop: 20,
+                height: 250,
+                width: 400,
               }}
             >
-              Update
-            </Button>
-            <Button
-              variant="outlined"
-              style={{
-                width: 50,
-                color: "black",
-                borderColor: "grey",
-                height: 25,
-                fontSize: "0.75rem",
-              }}
-              onClick={() => setEditing(!editing)}
-            >
-              {editing ? "Cancel" : "Edit"}
-            </Button>
-          </CardActions>
-        </form>
-      ) : (
-        <div style={{ maxWidth: "360" }}>
-          <TableContainer
-            component={Paper}
-            style={{ marginTop: 20, display: "flex", maxWidth: "360" }}
-          >
-            <Table style={{ maxWidth: "360" }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Question</TableCell>
-                  <TableCell>Answer</TableCell>
-                  <TableCell>Category</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {editFaqs.map((faq, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{faq.question}</TableCell>
-                    <TableCell>{faq.answer}</TableCell>
-                    <TableCell>{faq.category_name}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleEdit(faq)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton onClick={() => handleDelete(faq.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Dialog
-            className={classes.flexer}
-            classes={{ root: classes.dialog, paper: classes.paper }}
-            open={open}
-            onClose={handleClose}
-          >
-            <div className={classes.testboi}>
-              <DialogContent
-                dividers={true}
-                className={classes.detailsContainer}
+              <EditField
+                label="Question"
+                value={currentFaq.question}
+                onChange={handleChange}
+              />
+              <EditField
+                label="Answer"
+                value={currentFaq.answer}
+                onChange={handleChange}
+                multiline
+              />
+              <CardActions
+                style={{ display: "flex", justifyContent: "center" }}
               >
-                <Typography variant="h3">
-                  Are you sure you want to delete this FAQ?
-                </Typography>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  style={{
+                    width: 50,
+                    color: "black",
+                    borderColor: "grey",
+                    height: 25,
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  Update
+                </Button>
+                <Button
+                  variant="outlined"
+                  style={{
+                    width: 50,
+                    color: "black",
+                    borderColor: "grey",
+                    height: 25,
+                    fontSize: "0.75rem",
+                  }}
+                  onClick={() => setEditing(!editing)}
+                >
+                  {editing ? "Cancel" : "Edit"}
+                </Button>
+              </CardActions>
+            </form>
+          </DialogContent>
+        </div>
+      </Dialog>
+      <div style={{ maxWidth: "360" }}>
+        <TableContainer
+          component={Paper}
+          style={{ marginTop: 20, display: "flex", maxWidth: "360" }}
+        >
+          <Table style={{ maxWidth: "360" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Question</TableCell>
+                <TableCell>Answer</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {editFaqs.map((faq, index) => (
+                <TableRow key={index}>
+                  <TableCell>{faq.question}</TableCell>
+                  <TableCell>{faq.answer}</TableCell>
+                  <TableCell>{faq.category_name}</TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => handleEdit(faq)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(faq.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Dialog
+          className={classes.flexer}
+          classes={{ root: classes.dialog, paper: classes.paper }}
+          open={open}
+          onClose={handleClose}
+        >
+          <div className={classes.testboi}>
+            <DialogContent dividers={true} className={classes.detailsContainer}>
+              <Typography variant="h3">
+                Are you sure you want to delete this FAQ?
+              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
                 <div
                   style={{
+                    width: "15%",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
                   }}
                 >
-                  <div
-                    style={{
-                      width: "15%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                    }}
+                  <Button
+                    onClick={handleConfirmDelete}
+                    variant="contained"
+                    className={classes.yesButton}
                   >
-                    <Button
-                      onClick={handleConfirmDelete}
-                      variant="contained"
-                      className={classes.yesButton}
-                    >
-                      Yes
-                    </Button>
-                    <Button
-                      onClick={handleClose}
-                      variant="contained"
-                      className={classes.noButton}
-                    >
-                      No
-                    </Button>
-                  </div>
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={handleClose}
+                    variant="contained"
+                    className={classes.noButton}
+                  >
+                    No
+                  </Button>
                 </div>
-              </DialogContent>
-            </div>
-          </Dialog>
-        </div>
-      )}
+              </div>
+            </DialogContent>
+          </div>
+        </Dialog>
+      </div>
     </>
   );
 };

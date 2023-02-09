@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
+import EditField from "../../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -117,30 +118,18 @@ export default function InformationEdit({ initialData, onUpdate }) {
                 flexDirection: "column",
               }}
             >
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Email"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Phone"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
               />
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Address"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}
               />

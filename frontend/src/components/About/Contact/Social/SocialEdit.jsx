@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../../Utils";
+import UpdateButton from "../../../Elements/Buttons/UpdateButton";
+import EditField from "../../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -111,60 +113,30 @@ export default function SocialEdit({ initialData, onUpdate }) {
                 flexDirection: "column",
               }}
             >
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Facebook"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={facebook}
                 onChange={(event) => setFacebook(event.target.value)}
               />
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Twitter"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={twitter}
                 onChange={(event) => setTwitter(event.target.value)}
               />
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="Instagram"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={instagram}
                 onChange={(event) => setInstagram(event.target.value)}
               />
-              <TextField
-                className={classes.field}
-                variant="outlined"
+              <EditField
                 label="LinkedIn"
-                margin="dense"
-                style={{ width: "100%" }}
                 value={linkedIn}
                 onChange={(event) => setLinkedIn(event.target.value)}
               />
             </div>
           </Grid>
         </Grid>
-        <CardActions style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="outlined"
-            type="submit"
-            style={{
-              width: 50,
-              color: "black",
-              borderColor: "grey",
-              height: 25,
-              fontSize: "0.75rem",
-            }}
-          >
-            Update
-          </Button>
-        </CardActions>
+        <UpdateButton />
       </form>
     </>
   );

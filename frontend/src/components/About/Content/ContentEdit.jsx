@@ -9,6 +9,8 @@ import { TextField } from "@material-ui/core";
 import QuillField from "../../Elements/Fields/QuillField";
 import { useEffect } from "react";
 import { getCookie } from "../../../Utils";
+import EditField from "../../Elements/Fields/EditField";
+import UpdateButton from "../../Elements/Buttons/UpdateButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,7 +98,6 @@ const ContentEdit = ({ content, onUpdate, type }) => {
   const [data, setData] = useState(content);
   const [title, setTitle] = useState(data.title);
   const [body, setBody] = useState(data.body);
-  const [icon, setIcon] = useState(data.icon);
 
   useEffect(() => {
     setContentType(type);
@@ -148,30 +149,16 @@ const ContentEdit = ({ content, onUpdate, type }) => {
       <Card className={classes.card}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ display: "flex", flexDirection: "column" }}>
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
-            <QuillField value={body} onChange={handleBody} />
+            <div style={{ marginBottom: 30 }}>
+              <QuillField value={body} onChange={handleBody} size="large" />
+            </div>
           </CardContent>
-          <CardActions style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="outlined"
-              type="submit"
-              style={{
-                width: 50,
-                color: "black",
-                borderColor: "grey",
-                height: 25,
-                fontSize: "0.75rem",
-              }}
-            >
-              Update
-            </Button>
-          </CardActions>
+          <UpdateButton />
         </form>
       </Card>
     </div>

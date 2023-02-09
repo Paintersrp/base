@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
+import EditField from "../../Elements/Fields/EditField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,22 +108,14 @@ const ValueEdit = ({ value, onUpdate }) => {
       <Card className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Icon"
-              margin="dense"
               value={icon}
-              style={{ width: "100%" }}
               onChange={(event) => setIcon(event.target.value)}
             />
-            <TextField
-              className={classes.field}
-              variant="outlined"
+            <EditField
               label="Title"
-              margin="dense"
               value={title}
-              style={{ width: "100%" }}
               onChange={(event) => setTitle(event.target.value)}
             />
           </CardContent>
