@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
 import { SlideOnScroll } from "../../Animations/IntoView/Slide/SlideViewPort";
+import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   iconContainer: {
@@ -80,26 +81,11 @@ export default function FloatingFeature({ step }) {
       <SlideOnScroll direction="down">
         <Grid container spacing={1} className={classes.stepContainer}>
           {auth.is_superuser ? (
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Button
-                variant="outlined"
-                style={{
-                  color: "white",
-                  borderColor: "grey",
-                  height: 25,
-                  fontSize: "0.75rem",
-                }}
-                onClick={() => setEditing(!editing)}
-              >
-                {editing ? "Cancel" : "Edit"}
-              </Button>
-            </div>
+            <EditButton
+              onClick={() => setEditing(!editing)}
+              editState={editing}
+              color="white"
+            />
           ) : null}
           {!editing ? (
             <>

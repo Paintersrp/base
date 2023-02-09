@@ -80,7 +80,7 @@ export default function Information({ contactData }) {
         <InformationEdit initialData={data} onUpdate={updateContactData} />
       )}
       {auth.is_superuser ? (
-        <EditButton onEdit={handleEdit} editState={editing} />
+        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
       ) : null}
     </>
   );

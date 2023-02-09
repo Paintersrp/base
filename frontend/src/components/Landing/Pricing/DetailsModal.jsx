@@ -9,6 +9,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { FaTimes } from "react-icons/fa";
+import CardList from "./CardList";
 
 const useStyles = makeStyles((theme) => ({
   detailsContainer: {
@@ -49,13 +50,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#880e0e",
     },
   },
-  testboi: {
+  container: {
     backgroundColor: "#222222",
     display: "flex",
-  },
-  flexer: {
-    display: "flex",
-    justifyContent: "center",
   },
   dialog: {
     backgroundColor: "transparent",
@@ -82,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PricingDetails({ plan, close }) {
+export default function DetailsModal({ plan, close }) {
   console.log(plan.supportedsites);
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -94,12 +91,11 @@ export default function PricingDetails({ plan, close }) {
 
   return (
     <Dialog
-      className={classes.flexer}
       classes={{ root: classes.dialog, paper: classes.paper }}
       open={open}
       onClose={handleClose}
     >
-      <div className={classes.testboi}>
+      <div className={classes.container}>
         <DialogContent dividers={true} className={classes.detailsContainer}>
           <Icon className={classes.closeIcon} onClick={handleClose}>
             <FaTimes />

@@ -59,36 +59,39 @@ export default function Social({ contactData, title }) {
           >
             <IconButton
               aria-label="facebook"
-              href={`https://www.facebook.com/${data.facebook}`}
+              href={`https://www.facebook.com/${contactData.facebook}`}
             >
               <FacebookIcon fontSize="large" className={classes.socialIcons} />
             </IconButton>
             <IconButton
               aria-label="twitter"
-              href={`https://twitter.com/${data.facebook}`}
+              href={`https://twitter.com/${contactData.facebook}`}
             >
               <TwitterIcon fontSize="large" className={classes.socialIcons} />
             </IconButton>
             <IconButton
               aria-label="instagram"
-              href={`https://www.instagram.com/${data.instagram}`}
+              href={`https://www.instagram.com/${contactData.instagram}`}
             >
               <InstagramIcon fontSize="large" className={classes.socialIcons} />
             </IconButton>
             <IconButton
               aria-label="linkedin"
-              href={`https://www.linkedin.com/company/${data.linkedin}`}
+              href={`https://www.linkedin.com/company/${contactData.linkedin}`}
             >
               <LinkedInIcon fontSize="large" className={classes.socialIcons} />
             </IconButton>
           </div>
         </>
       ) : (
-        <SocialEdit initialData={data} onUpdate={updateSocialData} />
+        <SocialEdit initialData={contactData} onUpdate={updateSocialData} />
       )}
       <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
         {auth.is_superuser ? (
-          <EditButton onEdit={handleEdit} editState={editing} />
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+          />
         ) : null}
       </div>
     </>

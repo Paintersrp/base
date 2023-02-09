@@ -166,7 +166,10 @@ const FAQAccordion = () => {
             )}
           </Paper>
           {auth.is_superuser ? (
-            <EditButton onEdit={handleEdit} editState={editing} />
+            <EditButton
+              onClick={() => setEditing(!editing)}
+              editState={editing}
+            />
           ) : null}
         </Grid>
       </div>

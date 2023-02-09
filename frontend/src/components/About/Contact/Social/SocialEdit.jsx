@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SocialEdit({ initialData, onUpdate }) {
+  console.log(initialData);
   const classes = useStyles();
   const [contactData, setContactData] = useState(initialData);
   const [facebook, setFacebook] = useState(contactData.facebook);

@@ -94,7 +94,7 @@ export default function Value({ value }) {
         </div>
       )}
       {auth.is_superuser ? (
-        <EditButton onEdit={handleEdit} editState={editing} />
+        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
       ) : null}
     </>
   );

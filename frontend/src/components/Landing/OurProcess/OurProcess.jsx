@@ -8,6 +8,7 @@ import FloatingFeature from "./FloatingFeature";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
+import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,27 +99,11 @@ export default function OurProcess() {
         >
           <Paper elevation={0} className={classes.paper}>
             {auth.is_superuser ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: 10,
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  style={{
-                    width: 50,
-                    color: "white",
-                    borderColor: "grey",
-                    height: 25,
-                    fontSize: "0.75rem",
-                  }}
-                  onClick={() => setEditTitle(!editTitle)}
-                >
-                  {editTitle ? "Cancel" : "Edit"}
-                </Button>
-              </div>
+              <EditButton
+                onClick={() => setEditTitle(!editTitle)}
+                editState={editTitle}
+                color="white"
+              />
             ) : null}
             {!editTitle ? (
               <TitleBlock

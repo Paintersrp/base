@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CardMedia, TextField } from "@material-ui/core";
+import UpdateButton from "../../Elements/Buttons/UpdateButton";
+import EditField from "../../Elements/Fields/EditField";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -176,15 +178,7 @@ const ProcessEdit = ({ process, updateProcess }) => {
               onChange={(event) => setDescription(event.target.value)}
             />
           </CardContent>
-          <CardActions style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="contained"
-              type="submit"
-              className={classes.button}
-            >
-              Update
-            </Button>
-          </CardActions>
+          <UpdateButton color="white" />
         </form>
       </Card>
     </div>

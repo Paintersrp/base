@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, CardActions } from "@material-ui/core";
 
-export default function UpdateButton() {
+export default function UpdateButton({ color = "black" }) {
   return (
     <CardActions
       style={{
@@ -17,7 +17,7 @@ export default function UpdateButton() {
         type="submit"
         style={{
           width: 50,
-          color: "black",
+          color: color,
           borderColor: "grey",
           height: 25,
           fontSize: "0.75rem",

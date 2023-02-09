@@ -11,6 +11,7 @@ import { useState } from "react";
 import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
 import { useSelector } from "react-redux";
 import CarouselEdit from "./CarouselEdit";
+import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,31 +47,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HeroCarousel({ items, setItems }) {
+export default function HeroCarousel({ items, setItems, contactData }) {
   const classes = useStyles();
-  const [editing, setEditing] = useState(false);
-  const [heroblock, setHeroblock] = useState({});
-  const [data, setData] = useState({
+  const [editHero, setEditHero] = useState(false);
+  const [editCarousel, setEditCarousel] = useState(false);
+  const [heroData, setHeroData] = useState({
     title: "",
     heading: "",
     text: "",
     buttonText: "",
   });
+  const [contacts, setContacts] = useState();
   const auth = useSelector((state) => state.auth);
 
   const updateHeroBlock = (updatedHeroBlock) => {
-    setHeroblock(updatedHeroBlock);
-    setData(updatedHeroBlock);
-    setEditing(false);
+    setHeroData(updatedHeroBlock);
+    setEditHero(false);
   };
 
   useEffect(() => {
+    setContacts(contactData);
     const fetchData = async () => {
       axiosInstance
         .get("/heroblock/")
         .then((response) => {
-          setData(response.data);
-          console.log(data);
+          setHeroData(response.data);
         })
         .catch((err) => {
           setError(err);
@@ -80,7 +81,7 @@ export default function HeroCarousel({ items, setItems }) {
   }, []);
 
   const updateCarousel = (updateCarousel) => {
-    setEditing(false);
+    setEditCarousel(false);
     setItems(updateCarousel);
   };
 
@@ -90,40 +91,53 @@ export default function HeroCarousel({ items, setItems }) {
         <Grid container className={classes.grid}>
           <Slide in={true} direction="right" timeout={1000}>
             <Grid item xs={12} md={6} className={classes.gridItemLeft}>
-              {!editing ? (
+              {!editHero ? (
                 <HeroBlock
-                  title={data.title}
-                  heading={data.heading}
-                  text={data.text}
-                  btnText={data.buttonText}
+                  title={heroData.title}
+                  heading={heroData.heading}
+                  text={heroData.text}
+                  btnText={heroData.buttonText}
                   btnLink="/about"
                 />
               ) : (
                 <HeroBlockEdit
-                  heroblock={data}
+                  heroblock={heroData}
                   updateHeroBlock={updateHeroBlock}
                 />
               )}
               {auth.is_superuser ? (
-                <Button onClick={() => setEditing(!editing)}>
-                  {editing ? "Cancel" : "Edit"}
-                </Button>
+                <div style={{ marginTop: 20 }}>
+                  <EditButton
+                    onClick={() => setEditHero(!editHero)}
+                    editState={editHero}
+                    color="white"
+                  />
+                </div>
               ) : null}
-              {/* <Grid item xs={12} md={12} className={classes.contactContainer}>
-                <ContactButtons />
-                <SocialSection />
-              </Grid> */}
+              <Grid item xs={12} md={12} className={classes.contactContainer}>
+                {contacts ? <ContactButtons contactData={contacts} /> : null}
+                {contacts ? <Social contactData={contacts} /> : null}
+              </Grid>
             </Grid>
           </Slide>
 
           <Grid item xs={12} md={6}>
             <SlideOnScroll from="right">
-              {!editing ? (
+              {!editCarousel ? (
                 <CarouselX items={items} />
               ) : (
                 <CarouselEdit items={items} updateCarousel={updateCarousel} />
               )}
             </SlideOnScroll>
+            {auth.is_superuser ? (
+              <div style={{ marginTop: 20 }}>
+                <EditButton
+                  onClick={() => setEditCarousel(!editCarousel)}
+                  editState={editCarousel}
+                  color="white"
+                />
+              </div>
+            ) : null}
           </Grid>
         </Grid>
       </Container>

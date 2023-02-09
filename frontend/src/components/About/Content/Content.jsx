@@ -154,7 +154,10 @@ export default function Content() {
               </Grid>
             )}
             {auth.is_superuser ? (
-              <EditButton onEdit={handleEditTitle} editState={editTitle} />
+              <EditButton
+                onClick={() => setEditTitle(!editTitle)}
+                editState={editTitle}
+              />
             ) : null}
           </>
 
@@ -182,7 +185,10 @@ export default function Content() {
               />
             )}
             {auth.is_superuser ? (
-              <EditButton onEdit={handleEditMission} editState={editMission} />
+              <EditButton
+                onClick={() => setEditMission(!editMission)}
+                editState={editMission}
+              />
             ) : null}
           </Grid>
           <Grid item xs={12} sm={12} className={classes.section}>
@@ -209,7 +215,10 @@ export default function Content() {
               />
             )}
             {auth.is_superuser ? (
-              <EditButton onEdit={handleEditHistory} editState={editHistory} />
+              <EditButton
+                onClick={() => setEditHistory(!editHistory)}
+                editState={editHistory}
+              />
             ) : null}
           </Grid>
           <Grid item xs={12} sm={12} className={classes.section}>

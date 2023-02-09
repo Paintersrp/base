@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-export default function EditButton({ onEdit, editState }) {
+export default function EditButton({ onClick, editState, color = "black" }) {
   return (
     <div
       style={{
@@ -15,12 +15,12 @@ export default function EditButton({ onEdit, editState }) {
         variant="outlined"
         style={{
           width: 50,
-          color: "black",
+          color: color,
           borderColor: "grey",
           height: 25,
           fontSize: "0.75rem",
         }}
-        onClick={() => onEdit()}
+        onClick={onClick}
       >
         {editState ? "Cancel" : "Edit"}
       </Button>

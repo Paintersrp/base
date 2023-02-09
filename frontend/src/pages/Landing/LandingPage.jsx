@@ -25,7 +25,7 @@ import axiosInstance from "../../lib/Axios/axiosInstance";
 import ContentLayout from "../../components/Elements/Layout/ContentLayout";
 import IconScroller from "../../components/Animations/IconScroller/IconScroller";
 import OurProcess from "../../components/Landing/OurProcess/OurProcess";
-import Pricing from "../../components/Landing/StandardPricing/Pricing";
+import Pricing from "../../components/Landing/Pricing/Pricing";
 
 const partners = [
   {
@@ -99,6 +99,7 @@ const data = [
 
 function LandingPage() {
   const [items, setItems] = useState([]);
+  const [contactData, setContactData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,6 +110,14 @@ function LandingPage() {
         })
         .catch((err) => {
           console.log(err);
+        });
+      axiosInstance
+        .get("/contact/")
+        .then((response) => {
+          setContactData(response.data);
+        })
+        .catch((err) => {
+          setError(err);
         });
     };
     fetchData();
@@ -122,7 +131,11 @@ function LandingPage() {
       url="https://example.com/example-page"
     >
       <div style={{ minHeight: 700, width: "100vw" }}>
-        <HeroCarousel items={items} setItems={setItems} />
+        <HeroCarousel
+          items={items}
+          setItems={setItems}
+          contactData={contactData}
+        />
         <IconScroller data={partners} />
         <Pricing />
         <OurProcess

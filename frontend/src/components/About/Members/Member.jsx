@@ -168,7 +168,10 @@ const Member = ({ member }) => {
       )}
       {auth.is_superuser ? (
         <div style={{ marginTop: 10 }}>
-          <EditButton onEdit={handleEdit} editState={editing} />
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+          />
         </div>
       ) : null}
     </Grid>

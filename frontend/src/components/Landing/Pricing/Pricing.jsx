@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Slide } from "@material-ui/core";
-import PricingCard from "./PricingCard";
+import CardBase from "./CardBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ export default function Pricing() {
     <Slide in={true} direction="up" timeout={1000}>
       <div className={classes.pricingContainer}>
         {plans.map((plan, index) => (
-          <PricingCard index={index} plan={plan} />
+          <CardBase index={index} plan={plan} />
         ))}
       </div>
     </Slide>

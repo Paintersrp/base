@@ -81,7 +81,7 @@ export default function Hours({ contactData }) {
         <EditHours initialData={data} onUpdate={updateContactData} />
       )}
       {auth.is_superuser ? (
-        <EditButton onEdit={handleEdit} editState={editing} />
+        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
       ) : null}
     </>
   );
