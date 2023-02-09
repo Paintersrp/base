@@ -12,9 +12,9 @@ import AddIcon from "@material-ui/icons/Add";
 import CreateUpdateArticle from "./ArticleCreateUpdate";
 import { CardActions, Chip, Grid } from "@material-ui/core";
 import DOMPurify from "dompurify";
-import ContentLayout from "../../components/Layout/ContentLayout";
 import axiosInstance from "../../lib/Axios/axiosInstance";
 import ArticleListNew from "./ArticleOLD";
+import ContentLayout from "../../components/Elements/Layout/ContentLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {

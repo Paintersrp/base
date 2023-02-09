@@ -7,8 +7,8 @@ import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { Button, Grid, Typography } from "@material-ui/core";
-import getCookie from "../../../lib/Utils/getCookies";
 import axios from "axios";
+import { getCookie } from "../../../utils";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

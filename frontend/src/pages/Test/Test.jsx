@@ -1,48 +1,3 @@
-// Button click effect
-
-// const variants = {
-//     pressed: { scale: 0.95 },
-//     normal: { scale: 1 },
-//   };
-{
-  /* <motion.button
-          variants={variants}
-          whileTap="pressed"
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-          Click me
-</motion.button> */
-}
-
-// Paralax Fade In
-
-{
-  /* <motion.div
-          animate={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: 20 }}
-          transition={{ staggerChildren: 0.2, duration: 1 }}
-        >
-          <Grid container spacing={0}>
-            <Grid item xs={6}>
-              <motion.div key="1">1</motion.div>
-              <motion.div key="2">2</motion.div>
-              <motion.div key="3">3</motion.div>
-            </Grid>
-            <Grid item xs={6}>
-              <motion.div key="1">1</motion.div>
-              <motion.div key="2">2</motion.div>
-              <motion.div key="3">3</motion.div>
-            </Grid>
-          </Grid>
-        </motion.div> */
-}
-
-// blur
-
-// <motion.div whileHover={{ filter: "blur(1px)" }}>
-//           Tits
-//         </motion.div>
-
 import { useState, useEffect } from "react";
 import {
   motion,
@@ -67,68 +22,12 @@ import {
   FaGithub,
   FaStackOverflow,
 } from "react-icons/fa";
-import FormHero from "../../components/Heroes/FormHero/FormHero";
-import CategoryTiles from "../../components/Features/Commerce/Categories/Categories";
-import Reviews from "../../components/Features/Reviews/Reviews";
+import CategoryTiles from "../../components/WIP/Categories/Categories";
+import Reviews from "../../components/WIP/Reviews/Reviews";
+import FeatureCTA from "../../components/WIP/Features/FeatureCTA/FeatureCTA";
+import Partners from "../../components/WIP/Partners/Partners";
 import IconScroller from "../../components/Animations/IconScroller/IconScroller";
-import OurProcess from "../../components/Features/Business/OurProcess/OurProcess";
-import FeatureCTA from "../../components/Features/Content/FeatureCTA/FeatureCTA";
-import FeaturedProducts from "../../components/Features/Commerce/FeaturedProducts/FeaturedProduct";
-import Partners from "../../components/Features/Business/Partners/Partners";
-
-const members = [
-  {
-    id: 1,
-    name: "John Smith",
-    position: "CEO",
-    img: "https://via.placeholder.com/150",
-    bio: "John has been in the industry for over 10 years and has a wealth of experience in leading successful teams.",
-    linkedin: "https://www.linkedin.com/in/john-smith",
-    twitter: "https://twitter.com/johnsmith",
-    facebook: "https://www.facebook.com/john.smith",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    position: "CFO",
-    img: "https://via.placeholder.com/150",
-    bio: "Jane is a finance expert and has helped many companies achieve their financial goals.",
-    linkedin: "https://www.linkedin.com/in/jane-doe",
-    twitter: "https://twitter.com/janedoe",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    position: "CTO",
-    img: "https://via.placeholder.com/150",
-    bio: "Bob has a strong background in software development and is always on the cutting edge of technology.",
-    linkedin: "https://www.linkedin.com/in/bob-johnson",
-  },
-];
-
-const data = [
-  {
-    icon: FaCode,
-    title: "Development",
-    description:
-      "We specialize in creating custom software solutions for businesses of all sizes.",
-    onClick: () => console.log("Development clicked"),
-  },
-  {
-    icon: FaPencilRuler,
-    title: "Design",
-    description:
-      "We design visually stunning interfaces and user experiences that are easy to use.",
-    onClick: () => console.log("Design clicked"),
-  },
-  {
-    icon: FaServer,
-    title: "Infrastructure",
-    description:
-      "We ensure your software is running smoothly and securely on the cloud or on-premises.",
-    onClick: () => console.log("Infrastructure clicked"),
-  },
-];
+import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
 
 export function TypingEffect({ text, duration }) {
   const animation = useAnimation();
@@ -245,37 +144,6 @@ const data2 = [
   },
 ];
 
-const partners = [
-  {
-    id: 1,
-    icon: FaTwitter,
-  },
-  {
-    id: 2,
-    icon: FaFacebook,
-  },
-  {
-    id: 3,
-    icon: FaInstagram,
-  },
-  {
-    id: 4,
-    icon: FaLinkedin,
-  },
-  {
-    id: 5,
-    icon: FaYoutube,
-  },
-  {
-    id: 6,
-    icon: FaGithub,
-  },
-  {
-    id: 7,
-    icon: FaStackOverflow,
-  },
-];
-
 export default function TestPage() {
   return (
     <>
@@ -290,16 +158,6 @@ export default function TestPage() {
             </div>
             <div>
               <Reviews />
-            </div>
-            <div>
-              <IconScroller data={partners} />
-            </div>
-            <div>
-              <OurProcess
-                data={data2}
-                title="Creating and Hosting Websites"
-                subtitle="Our Process"
-              />
             </div>
             <div>
               <FeatureCTA />

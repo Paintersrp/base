@@ -1,8 +1,8 @@
-import ContactForm from "../../components/Forms/Contact/ContactForm";
-import LoginForm from "../../components/Forms/Login/LoginForm";
-import NewsletterForm from "../../components/Forms/Newsletter/NewsletterForm";
-import ProfileForm from "../../components/Forms/Profile/Profile";
-import RegisterForm from "../../components/Forms/Register/RegisterForm";
+import ContactForm from "../../components/Elements/Forms/Contact/ContactForm";
+import LoginForm from "../../components/Elements/Forms/Login/LoginForm";
+import NewsletterForm from "../../components/Elements/Forms/Newsletter/NewsletterForm";
+import ProfileForm from "../../components/Elements/Forms/Profile/Profile";
+import RegisterForm from "../../components/Elements/Forms/Register/RegisterForm";
 import Demo from "./Demo";
 
 const formComponents = [

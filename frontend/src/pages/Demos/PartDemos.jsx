@@ -1,23 +1,17 @@
-import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
-import LockIcon from "@material-ui/icons/Lock";
 import DesignIcon from "@material-ui/icons/Brush";
-import DevelopIcon from "@material-ui/icons/Code";
-import HostingIcon from "@material-ui/icons/Public";
-import LaunchIcon from "@material-ui/icons/Launch";
 import Demo from "./Demo";
-import ContactButtons from "../../components/Elements/Buttons/ContactButtons";
-import SocialSection from "../../components/Elements/Buttons/SocialButtons";
-import CoreValues from "../../components/Features/Business/CompanyInfo/CoreValues";
+import ContactButtons from "../../components/About/Contact/Contact/ContactButtons";
+import Social from "../../components/About/Contact/Social/Social";
+import Values from "../../components/About/Values/Values";
 import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import ContentBlock from "../../components/Elements/TextBlocks/ContentBlock";
 import TitleBlock from "../../components/Elements/TextBlocks/TitleBlock";
-import AccordionQA from "../../components/Features/Accordions/AccordionQA";
-import TestimonialCard from "../../components/Features/Testimonials/TestimonialCard";
+import TestimonialCard from "../../components/WIP/Testimonials/TestimonialCard";
 import ComplexFooter from "../../navigation/Components/Footer/_ComplexFooter/ComplexFooter";
-import ImageGallery from "../../components/Images/Gallery/ImageGallery";
-import { useState } from "react";
+import ImageGallery from "../../components/Elements/Images/Gallery/ImageGallery";
 import HeroBlock from "../../components/Elements/TextBlocks/HeroBlock/HeroBlock";
-import FloatingFeature from "../../components/Features/Business/OurProcess/FloatingFeature";
+import FloatingFeature from "../../components/Landing/OurProcess/FloatingFeature";
+import AccordionQA from "../../components/About/FAQ/AccordionQA";
 
 // {
 //     component: TeamCard,
@@ -184,11 +178,11 @@ const formComponents = [
     title: "ContactButtons",
   },
   {
-    component: SocialSection,
+    component: Social,
     title: "SocialSection",
   },
   {
-    component: CoreValues,
+    component: Values,
     title: "CoreValues",
   },
   {

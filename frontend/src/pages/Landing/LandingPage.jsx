@@ -16,16 +16,16 @@ import DesignIcon from "@material-ui/icons/Brush";
 import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
-import IconScroller from "../../components/Animations/IconScroller/IconScroller";
-import FeatureTiles from "../../components/Features/Content/FeatureTiles/FeatureTiles";
-import LatestNews from "../../components/Features/News/LatestNews";
-import PricingOverview from "../../components/Features/Pricing/StandardPricing/Pricing";
-import BetterTestimonials from "../../components/Features/Testimonials/SpeechBubbleTestimonials/SpeechBubbles";
-import NewsletterForm from "../../components/Forms/Newsletter/NewsletterForm";
-import HeroCarousel from "../../components/Heroes/HeroCarousel/HeroCarousel";
+import FeatureTiles from "../../components/WIP/Features/FeatureTiles/FeatureTiles";
+import LatestNews from "../../components/Landing/News/LatestNews";
+import Testimonials from "../../components/Landing/Testimonials/Testimonials";
+import NewsletterForm from "../../components/Elements/Forms/Newsletter/NewsletterForm";
+import HeroCarousel from "../../components/Landing/HeroCarousel/HeroCarousel";
 import axiosInstance from "../../lib/Axios/axiosInstance";
-import ContentLayout from "../../components/Layout/ContentLayout";
-import OurProcess from "../../components/Features/Business/OurProcess/OurProcess";
+import ContentLayout from "../../components/Elements/Layout/ContentLayout";
+import IconScroller from "../../components/Animations/IconScroller/IconScroller";
+import OurProcess from "../../components/Landing/OurProcess/OurProcess";
+import Pricing from "../../components/Landing/StandardPricing/Pricing";
 
 const partners = [
   {
@@ -124,7 +124,7 @@ function LandingPage() {
       <div style={{ minHeight: 700, width: "100vw" }}>
         <HeroCarousel items={items} setItems={setItems} />
         <IconScroller data={partners} />
-        <PricingOverview />
+        <Pricing />
         <OurProcess
           data={data}
           title="Creating and Hosting Websites"
@@ -132,7 +132,7 @@ function LandingPage() {
         />
 
         <LatestNews />
-        <BetterTestimonials />
+        <Testimonials />
         <NewsletterForm />
       </div>
     </ContentLayout>

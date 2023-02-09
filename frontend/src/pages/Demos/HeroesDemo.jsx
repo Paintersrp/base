@@ -1,10 +1,10 @@
-import BgImgHero from "../../components/Heroes/BgImgHero/BgImgHero";
-import FormHero from "../../components/Heroes/FormHero/FormHero";
-import HeroCarousel from "../../components/Heroes/HeroCarousel/HeroCarousel";
-import HeroCountdown from "../../components/Heroes/HeroCountdown/HeroCountdown";
-import OtherHero from "../../components/Heroes/OtherHero/OtherHero";
-import StandardHero from "../../components/Heroes/StandardHero/StandardHero";
+import BgImgHero from "../../components/WIP/Heros/BgImgHero/BgImgHero";
+import HeroCarousel from "../../components/Landing/HeroCarousel/HeroCarousel";
+import HeroCountdown from "../../components/WIP/Heros/HeroCountdown/HeroCountdown";
+import OtherHero from "../../components/WIP/Heros/OtherHero/OtherHero";
 import Demo from "./Demo";
+import FormHero from "../../components/WIP/Heros/FormHero/FormHero";
+import StandardHero from "../../components/WIP/Heros/StandardHero/StandardHero";
 
 const items = [
   {

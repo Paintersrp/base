@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RegisterForm from "./components/Forms/Register/RegisterForm";
-import LoginForm from "./components/Forms/Login/LoginForm";
 import LandingPage from "./pages/Landing/LandingPage";
 import AboutPage from "./pages/About/AboutPage";
 import TestPage from "./pages/Test/Test";
@@ -16,13 +14,15 @@ import ArticleList from "./pages/Articles/ArticleList";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./theme";
-import ScrollToTop from "./components/Elements/HOC/ScrollToTop";
 import Footer from "./navigation/Components/Footer/SimpleFooter/SimpleFooter";
 import PrivateRoute from "./navigation/Routes/ProtectedRoute";
 import AdminRoute from "./navigation/Routes/AdminRoute";
 import withAuth from "./lib/Auth/withAuth/withAuth";
-import ProfileForm from "./components/Forms/Profile/Profile";
+import ProfileForm from "./components/Elements/Forms/Profile/Profile";
 import UpdateArticleView from "./pages/Articles/UpdateArticleView";
+import ScrollToTop from "./lib/ScrollToTop";
+import LoginForm from "./components/Elements/Forms/Login/LoginForm";
+import RegisterForm from "./components/Elements/Forms/Register/RegisterForm";
 {
   /* 
     Private Route Example:

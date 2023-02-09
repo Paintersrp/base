@@ -17,20 +17,20 @@ import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
 import Demo from "./Demo";
-import EventSchedule from "../../components/Features/Content/EventSchedule-WIP/EventSchedule";
-import MinimalTestimonials from "../../components/Features/Testimonials/_MinimalTestimonials/MinimalTestimonials";
-import PricingTier from "../../components/Features/Pricing/_MinimalPricing/MinimalPricing";
-import CategoryTiles from "../../components/Features/Commerce/Categories/Categories";
-import CompanyInfo from "../../components/Features/Business/CompanyInfo/CompanyInfo";
-import FeatureCTA from "../../components/Features/Content/FeatureCTA/FeatureCTA";
-import FeaturedProducts from "../../components/Features/Commerce/FeaturedProducts/FeaturedProduct";
-import FeatureTiles from "../../components/Features/Content/FeatureTiles/FeatureTiles";
-import OurProcess from "../../components/Features/Business/OurProcess/OurProcess";
-import Partners from "../../components/Features/Business/Partners/Partners";
-import Reviews from "../../components/Features/Reviews/Reviews";
-import LatestNews from "../../components/Features/News/LatestNews";
-import WhatWeDo from "../../components/Features/Business/WhatWeDo/WhatWeDo";
-import BetterFeatures from "../../components/Features/Content/BetterFeatures/BetterFeatures";
+import EventSchedule from "../../components/WIP/EventSchedule-WIP/EventSchedule";
+import MinimalTestimonials from "../../components/WIP/Testimonials/_MinimalTestimonials/MinimalTestimonials";
+import PricingTier from "../../components/WIP/Pricing/_MinimalPricing/MinimalPricing";
+import CategoryTiles from "../../components/WIP/Categories/Categories";
+import CompanyInfo from "../../components/WIP/CompanyInfo/CompanyInfo";
+import FeatureCTA from "../../components/WIP/Features/FeatureCTA/FeatureCTA";
+import FeatureTiles from "../../components/WIP/Features/FeatureTiles/FeatureTiles";
+import OurProcess from "../../components/Landing/OurProcess/OurProcess";
+import Partners from "../../components/WIP/Partners/Partners";
+import Reviews from "../../components/WIP/Reviews/Reviews";
+import LatestNews from "../../components/Landing/News/LatestNews";
+import WhatWeDo from "../../components/WIP/WhatWeDo/WhatWeDo";
+import BetterFeatures from "../../components/WIP/Features/BetterFeatures/BetterFeatures";
+import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
 
 const partners = [
   {
