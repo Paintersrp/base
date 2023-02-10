@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 140,
     margin: theme.spacing(1),
     boxShadow: theme.shadows[3],
-    backgroundColor: "#1C1C1C",
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     "&:hover": {
       transform: "scale(1.02)",

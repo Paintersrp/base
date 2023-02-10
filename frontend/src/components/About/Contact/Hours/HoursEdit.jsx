@@ -1,53 +1,15 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  CardActions,
-} from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
 import EditField from "../../../Elements/Fields/EditField";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   textContainer: {
     display: "flex",
-  },
-  closedText: {
-    fontFamily: "Poppins",
-    color: "red",
-    fontWeight: "600",
-  },
-  field: {
-    margin: 2,
-    "& .MuiOutlinedInput-root": {
-      padding: 0,
-      margin: 5,
-      fontSize: "0.85rem",
-      width: "100%",
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      margin: 5,
-      color: "black",
-      fontWeight: "700",
-      fontSize: "0.9rem",
-    },
-    "& input": {
-      color: "black",
-    },
+    justifyContent: "center",
   },
 }));
 
@@ -73,16 +35,7 @@ export default function EditHours({ initialData, onUpdate }) {
   ];
 
   const handleSubmit = async (e) => {
-    console.log(contactData);
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("monday", contactData.monday);
-    formData.append("tuesday", contactData.tuesday);
-    formData.append("wednesday", contactData.wednesday);
-    formData.append("thursday", contactData.thursday);
-    formData.append("friday", contactData.friday);
-    formData.append("saturday", contactData.saturday);
-    formData.append("sunday", contactData.sunday);
 
     const config = {
       headers: {
@@ -91,7 +44,11 @@ export default function EditHours({ initialData, onUpdate }) {
       },
     };
     try {
-      await axios.patch(`http://localhost:8000/api/contact/`, formData, config);
+      await axios.patch(
+        `http://localhost:8000/api/contact/`,
+        contactData,
+        config
+      );
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +56,6 @@ export default function EditHours({ initialData, onUpdate }) {
       const res = await axios.get(`http://localhost:8000/api/contact/`);
       setContactData(res.data);
       onUpdate(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -111,23 +67,10 @@ export default function EditHours({ initialData, onUpdate }) {
         <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
           Edit Business Hours
         </Typography>
-        <Grid
-          container
-          spacing={0}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <Grid container spacing={0}>
           {days.map((day) => (
             <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <div style={{ width: "85%" }}>
                 <EditField
                   label={day.day}
                   value={day.value}

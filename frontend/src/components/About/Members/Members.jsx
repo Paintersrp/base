@@ -42,7 +42,7 @@ const Members = ({ membersData }) => {
     <div className={classes.root}>
       {members ? (
         <Grid container spacing={0} className={classes.container}>
-          <Grid item xs={12} sm={12} className={classes.section}>
+          <Grid item xs={12} sm={12}>
             <Typography variant="h3" className={classes.sectionTitle}>
               Company Management
             </Typography>

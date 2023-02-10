@@ -14,13 +14,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
-  icon: {
-    marginRight: theme.spacing(1),
-    marginBottom: 4,
-    color: "black",
-    fontSize: "1rem",
-    backgroundColor: "black",
-  },
   heading: {
     fontSize: "1.2rem",
     fontWeight: 700,

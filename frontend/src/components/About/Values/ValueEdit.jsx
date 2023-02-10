@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { TextField } from "@material-ui/core";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import EditField from "../../Elements/Fields/EditField";
@@ -20,47 +15,6 @@ const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "white",
     color: "black",
-  },
-  input: {
-    width: "100%",
-  },
-  button: {
-    boxShadow: theme.shadows[3],
-    backgroundColor: theme.palette.primary.main,
-    color: "black",
-    "&:hover": {
-      transform: "scale(1.01)",
-      boxShadow: theme.shadows[14],
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-  field: {
-    margin: 2,
-    "& .MuiOutlinedInput-root": {
-      padding: 0,
-      margin: 5,
-      fontSize: "0.8rem",
-      width: "100%",
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      margin: 5,
-      color: "black",
-      fontWeight: "600",
-      fontSize: "0.85rem",
-    },
-    "& input": {
-      color: "black",
-    },
   },
 }));
 
@@ -83,21 +37,13 @@ const ValueEdit = ({ value, onUpdate }) => {
       },
     };
     try {
-      await axios.patch(
+      const res = await axios.patch(
         `http://localhost:8000/api/values/${data.id}/`,
         formData,
         config
       );
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/api/values/${data.id}/`
-      );
-      setData(res.data);
       onUpdate(res.data);
-      console.log(res.data);
+      setData(formData);
     } catch (error) {
       console.log(error);
     }

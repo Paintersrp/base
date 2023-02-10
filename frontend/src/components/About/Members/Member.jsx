@@ -1,20 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import TwitterIcon from "@material-ui/icons/Twitter";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
 import MemberEdit from "./MemberEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
+import MemberContent from "./MemberContent";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,25 +33,9 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     padding: "0px 16px 0px 16px",
   },
-  media: {
-    height: 0,
-    paddingTop: "56.25%",
-  },
   avatar: {
     width: theme.spacing(12),
     height: theme.spacing(12),
-  },
-  socialIcons: {
-    marginTop: theme.spacing(2),
-    display: "flex",
-    justifyContent: "center",
-  },
-  iconButton: {
-    padding: theme.spacing(1),
-    color: theme.palette.primary.dark,
-  },
-  chip: {
-    margin: "3px 3px 3px 3px",
   },
   title: {
     color: "black",
@@ -71,18 +49,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontFamily: "Poppins",
   },
-  body: {
-    padding: 0,
-    color: "black",
-    minHeight: 100,
-  },
-  sectionTitle: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(3),
-    borderBottom: "1px solid black",
-    paddingBottom: theme.spacing(1),
-    color: "black",
-  },
 }));
 
 const Member = ({ member }) => {
@@ -94,10 +60,6 @@ const Member = ({ member }) => {
   const updateMember = (updateMember) => {
     setMemberData(updateMember);
     setEditing(false);
-  };
-
-  const handleEdit = () => {
-    setEditing(!editing);
   };
 
   return (
@@ -126,42 +88,7 @@ const Member = ({ member }) => {
               subheader: classes.subheader,
             }}
           />
-          <CardContent className={classes.cardContent}>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              className={classes.body}
-            >
-              {memberData.bio}
-            </Typography>
-            <div className={classes.socialIcons}>
-              <IconButton
-                className={classes.iconButton}
-                href={memberData.linkedIn}
-                target="_blank"
-                aria-label="LinkedIn"
-              >
-                <LinkedInIcon />
-              </IconButton>
-              <IconButton
-                className={classes.iconButton}
-                href={memberData.github}
-                target="_blank"
-                aria-label="GitHub"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                className={classes.iconButton}
-                href={memberData.twitter}
-                target="_blank"
-                aria-label="Twitter"
-              >
-                <TwitterIcon />
-              </IconButton>
-            </div>
-          </CardContent>
+          <MemberContent member={memberData} />
         </Card>
       ) : (
         <MemberEdit member={memberData} onUpdate={updateMember} />

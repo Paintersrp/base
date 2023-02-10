@@ -4,7 +4,7 @@ import { Grid, Paper, Slide } from "@material-ui/core";
 import HeroBlock from "../../../Elements/TextBlocks/HeroBlock/HeroBlock";
 import ContactButtons from "../../../About/Contact/Contact/ContactButtons";
 import Social from "../../../About/Contact/Social/Social";
-import ContactForm from "../../../Elements/Forms/Contact/ContactForm";
+import ContactForm from "../../../Elements/Forms/ContactForm/ContactForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {

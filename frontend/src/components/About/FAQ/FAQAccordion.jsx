@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Paper, Button } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import faqData from "./faqData";
 import { Grid } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import AccordionQA from "./AccordionQA";
@@ -15,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     color: "black",
     padding: theme.spacing(1),
-    maxWidth: 900,
+    width: "100%",
   },
-  containergrid: {
+  containerLayout: {
     display: "flex",
     width: "100vw",
     marginBottom: 40,
@@ -25,25 +24,33 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  containerGrid: {
+    display: "flex",
+    maxWidth: 900,
+    marginBottom: 40,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   tab: {
-    backgroundColor: "#666666",
-    color: "black",
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
     fontWeight: "700",
     fontFamily: "Poppins",
     textTransform: "uppercase",
     fontSize: "0.95rem",
     marginRight: 5,
     "&:focus": {
-      color: "black",
+      color: "white",
     },
     "&: .MuiTab-textColorInherit.Mui-selected": {
-      color: "black",
+      color: "white",
     },
   },
   tabsIndicator: {
     width: "100%",
     backgroundColor: "white",
-    borderBottom: `3px solid ${theme.palette.primary.dark}`,
+    borderBottom: `3px solid ${theme.palette.secondary.dark}`,
   },
   sectionTitle: {
     fontWeight: "bold",
@@ -60,8 +67,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const faqData = {};
 
 const FAQAccordion = () => {
   const classes = useStyles();
@@ -122,14 +127,10 @@ const FAQAccordion = () => {
     setCurrentCategory(newValue);
   };
 
-  const handleEdit = () => {
-    setEditing(!editing);
-  };
-
   return (
     <>
-      <div className={classes.containergrid}>
-        <Grid container spacing={0} className={classes.containergrid}>
+      <div className={classes.containerLayout}>
+        <Grid container spacing={0} className={classes.containerGrid}>
           <Paper elevation={0} className={classes.root}>
             {!editing ? (
               <>
@@ -149,7 +150,11 @@ const FAQAccordion = () => {
                     />
                   ))}
                 </Tabs>
-                <Grid container spacing={0} style={{ marginTop: 5 }}>
+                <Grid
+                  container
+                  spacing={0}
+                  style={{ marginTop: 5, width: "100%" }}
+                >
                   {faqs[currentCategory]
                     ? faqs[currentCategory].map((faq) => (
                         <Grid item xs={12}>

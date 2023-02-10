@@ -1,16 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import EditHours from "./HoursEdit";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import EditButton from "../../../Elements/Buttons/EditButton";
+import { baseClasses } from "../../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
     display: "flex",
     justifyContent: "space-between",
-    padding: 10,
+    padding: 0,
+    margin: 0,
     maxWidth: "85%",
   },
   closedText: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Hours({ contactData }) {
   const classes = useStyles();
+  const { flexCenter } = baseClasses();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
@@ -41,10 +44,6 @@ export default function Hours({ contactData }) {
     setEditing(false);
   };
 
-  const handleEdit = () => {
-    setEditing(!editing);
-  };
-
   return (
     <>
       {!editing ? (
@@ -55,23 +54,19 @@ export default function Hours({ contactData }) {
           >
             Business Hours
           </Typography>
-          <Grid
-            container
-            spacing={3}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <Grid container spacing={1} className={flexCenter}>
             {days.map((day) => (
               <Grid item xs={12} sm={12} className={classes.textContainer}>
-                <Typography>{day.day}:</Typography>
+                <Typography variant="subtitle2">{day.day}:</Typography>
                 {day.value === "Closed" ? (
-                  <Typography className={classes.closedText}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.closedText}
+                  >
                     {day.value}
                   </Typography>
                 ) : (
-                  <Typography>{day.value}</Typography>
+                  <Typography variant="subtitle2">{day.value}</Typography>
                 )}
               </Grid>
             ))}
@@ -81,7 +76,12 @@ export default function Hours({ contactData }) {
         <EditHours initialData={data} onUpdate={updateContactData} />
       )}
       {auth.is_superuser ? (
-        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
+        <div style={{ marginTop: 10 }}>
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+          />
+        </div>
       ) : null}
     </>
   );

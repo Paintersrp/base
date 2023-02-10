@@ -1,59 +1,19 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  CardActions,
-} from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
 import EditField from "../../../Elements/Fields/EditField";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   textContainer: {
     display: "flex",
-    flexDirection: "column",
-  },
-  closedText: {
-    fontFamily: "Poppins",
-    color: "red",
-    fontWeight: "600",
-  },
-  field: {
-    margin: 2,
-    "& .MuiOutlinedInput-root": {
-      padding: 0,
-      margin: 5,
-      fontSize: "0.85rem",
-      width: "100%",
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      margin: 5,
-      color: "black",
-      fontWeight: "700",
-      fontSize: "0.9rem",
-    },
-    "& input": {
-      color: "black",
-    },
+    justifyContent: "center",
   },
 }));
 
 export default function SocialEdit({ initialData, onUpdate }) {
-  console.log(initialData);
   const classes = useStyles();
   const [contactData, setContactData] = useState(initialData);
   const [facebook, setFacebook] = useState(contactData.facebook);
@@ -62,7 +22,6 @@ export default function SocialEdit({ initialData, onUpdate }) {
   const [linkedIn, setLinkedIn] = useState(contactData.linkedin);
 
   const handleSubmit = async (e) => {
-    console.log(contactData);
     e.preventDefault();
     let formData = new FormData();
     formData.append("facebook", facebook);
@@ -85,7 +44,6 @@ export default function SocialEdit({ initialData, onUpdate }) {
       const res = await axios.get(`http://localhost:8000/api/contact/`);
       setContactData(res.data);
       onUpdate(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -97,21 +55,11 @@ export default function SocialEdit({ initialData, onUpdate }) {
         <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
           Edit Social Links
         </Typography>
-        <Grid
-          container
-          spacing={0}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <Grid container spacing={0}>
           <Grid item xs={12} sm={12} className={classes.textContainer}>
             <div
               style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
+                width: "85%",
               }}
             >
               <EditField

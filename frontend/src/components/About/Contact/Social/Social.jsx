@@ -11,11 +11,10 @@ import EditButton from "../../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   socialIcons: {
-    color: "black",
-    paddingLeft: 5,
+    color: theme.palette.primary.main,
     "&:hover": {
       transform: "scale(1.05)",
-      color: "gold",
+      color: theme.palette.secondary.main,
     },
   },
 }));
@@ -29,10 +28,6 @@ export default function Social({ contactData, title }) {
   const updateSocialData = (updateSocialData) => {
     setData(updateSocialData);
     setEditing(false);
-  };
-
-  const handleEdit = () => {
-    setEditing(!editing);
   };
 
   return (
@@ -49,42 +44,34 @@ export default function Social({ contactData, title }) {
               Follow Us
             </Typography>
           )}
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
+          <IconButton
+            aria-label="facebook"
+            href={`https://www.facebook.com/${data.facebook}`}
           >
-            <IconButton
-              aria-label="facebook"
-              href={`https://www.facebook.com/${contactData.facebook}`}
-            >
-              <FacebookIcon fontSize="large" className={classes.socialIcons} />
-            </IconButton>
-            <IconButton
-              aria-label="twitter"
-              href={`https://twitter.com/${contactData.facebook}`}
-            >
-              <TwitterIcon fontSize="large" className={classes.socialIcons} />
-            </IconButton>
-            <IconButton
-              aria-label="instagram"
-              href={`https://www.instagram.com/${contactData.instagram}`}
-            >
-              <InstagramIcon fontSize="large" className={classes.socialIcons} />
-            </IconButton>
-            <IconButton
-              aria-label="linkedin"
-              href={`https://www.linkedin.com/company/${contactData.linkedin}`}
-            >
-              <LinkedInIcon fontSize="large" className={classes.socialIcons} />
-            </IconButton>
-          </div>
+            <FacebookIcon fontSize="large" className={classes.socialIcons} />
+          </IconButton>
+          <IconButton
+            aria-label="twitter"
+            href={`https://twitter.com/${data.facebook}`}
+          >
+            <TwitterIcon fontSize="large" className={classes.socialIcons} />
+          </IconButton>
+          <IconButton
+            aria-label="instagram"
+            href={`https://www.instagram.com/${data.instagram}`}
+          >
+            <InstagramIcon fontSize="large" className={classes.socialIcons} />
+          </IconButton>
+          <IconButton
+            aria-label="linkedin"
+            className={classes.socialIcons}
+            href={`https://www.linkedin.com/company/${data.linkedin}`}
+          >
+            <LinkedInIcon fontSize="large" />
+          </IconButton>
         </>
       ) : (
-        <SocialEdit initialData={contactData} onUpdate={updateSocialData} />
+        <SocialEdit initialData={data} onUpdate={updateSocialData} />
       )}
       <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
         {auth.is_superuser ? (

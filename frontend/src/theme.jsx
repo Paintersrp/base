@@ -2,9 +2,10 @@ import { createTheme } from "@material-ui/core/styles";
 
 const theme = createTheme({
   palette: {
+    black: "black",
     primary: {
       light: "#7986cb",
-      main: "#3f51b5AA",
+      main: "#3f51b5",
       dark: "#303f9f",
       contrastText: "#fff",
     },
@@ -43,7 +44,7 @@ const theme = createTheme({
       paper: "#fff",
     },
     text: {
-      primary: "rgba(0, 0, 0, 0.87)",
+      primary: "rgba(0, 0, 0, 1)",
       secondary: "rgba(0, 0, 0, 0.54)",
       disabled: "rgba(0, 0, 0, 0.38)",
       hint: "rgba(0, 0, 0, 0.38)",
@@ -103,9 +104,7 @@ const theme = createTheme({
     },
     subtitle2: {
       fontWeight: 500,
-      fontSize: "0.875rem",
-      lineHeight: 1.57,
-      letterSpacing: "0.00714em",
+      fontSize: "0.9rem",
     },
     body1: {
       fontWeight: 400,

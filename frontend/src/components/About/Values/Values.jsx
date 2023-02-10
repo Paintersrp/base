@@ -2,45 +2,9 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
-import {
-  FaUser,
-  FaUsers,
-  FaShieldAlt,
-  FaPencilRuler,
-  FaBook,
-  FaBalanceScale,
-  FaCogs,
-  FaGlobe,
-} from "react-icons/fa";
 import { useState } from "react";
 import Value from "./Value";
-
-const Icon = ({ icon }) => {
-  switch (icon) {
-    case "FaUser":
-      return <FaUser />;
-    case "FaUsers":
-      return <FaUsers />;
-    case "FaShieldAlt":
-      return <FaShieldAlt />;
-    case "FaPencilRuler":
-      return <FaPencilRuler />;
-    case "FaBook":
-      return <FaBook />;
-    case "FaBalanceScale":
-      return <FaBalanceScale />;
-    case "FaCogs":
-      return <FaCogs />;
-    case "FaGlobe":
-      return <FaGlobe />;
-    default:
-      return <></>;
-  }
-};
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,29 +13,17 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
   },
-  subtitle: {
-    color: "black",
-    marginLeft: 15,
-    minWidth: 200,
-    fontWeight: 500,
-    fontFamily: "Poppins",
-    fontSize: "0.9rem",
-  },
-  listcolumns: {
+  listColumns: {
     justifyContent: "center !important",
     display: "flex",
     flexDirection: "row",
     width: "100%",
   },
-  gridcontainer: {
+  gridContainer: {
     justifyContent: "center !important",
     display: "flex",
     flexDirection: "row",
     width: "100%",
-  },
-  avatar: {
-    backgroundColor: "#ffe01b",
-    color: "white",
   },
 }));
 
@@ -106,15 +58,15 @@ export default function Values({ valuesData }) {
           <Typography variant="h3" className={classes.title}>
             Core Values
           </Typography>
-          <Grid container spacing={2} className={classes.gridcontainer}>
-            <Grid item xs={12} sm={6} className={classes.listcolumns}>
+          <Grid container spacing={2} className={classes.gridContainer}>
+            <Grid item xs={12} sm={6} className={classes.listColumns}>
               <List>
                 {rowOne.map((value) => (
                   <Value value={value} />
                 ))}
               </List>
             </Grid>
-            <Grid item xs={12} sm={6} className={classes.listcolumns}>
+            <Grid item xs={12} sm={6} className={classes.listColumns}>
               <List>
                 {rowTwo.map((value) => (
                   <Value value={value} />

@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import InformationEdit from "./InformationEdit";
 import EditButton from "../../../Elements/Buttons/EditButton";
-
-const useStyles = makeStyles((theme) => ({
-  textContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: 10,
-    maxWidth: "85%",
-  },
-}));
+import InformationField from "./InformationField";
 
 export default function Information({ contactData }) {
-  const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
@@ -23,10 +13,6 @@ export default function Information({ contactData }) {
   const updateContactData = (updateContactData) => {
     setData(updateContactData);
     setEditing(false);
-  };
-
-  const handleEdit = () => {
-    setEditing(!editing);
   };
 
   return (
@@ -38,49 +24,27 @@ export default function Information({ contactData }) {
           </Typography>
           <Grid
             container
-            spacing={3}
+            spacing={2}
             style={{
               display: "flex",
               justifyContent: "center",
             }}
           >
-            <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <Typography>Email:</Typography>
-              <Typography>{data.email}</Typography>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            spacing={3}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <Typography>Phone:</Typography>
-              <Typography>{data.phone}</Typography>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            spacing={3}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <Typography>Address:</Typography>
-              <Typography>{data.address}</Typography>
-            </Grid>
+            <InformationField text="Email:" data={data.email} />
+            <InformationField text="Phone:" data={data.phone} />
+            <InformationField text="Address:" data={data.address} />
           </Grid>
         </>
       ) : (
         <InformationEdit initialData={data} onUpdate={updateContactData} />
       )}
       {auth.is_superuser ? (
-        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
+        <div style={{ marginTop: 10 }}>
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+          />
+        </div>
       ) : null}
     </>
   );

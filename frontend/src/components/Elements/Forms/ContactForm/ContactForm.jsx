@@ -126,6 +126,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[3],
     backgroundColor: "#1C1C1C",
     color: theme.palette.primary.contrastText,
+    marginTop: 10,
     "&:hover": {
       transform: "scale(1.02)",
       boxShadow: theme.shadows[7],

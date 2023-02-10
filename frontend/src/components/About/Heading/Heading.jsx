@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { CardMedia } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   title: {
     marginTop: 20,
     textAlign: "center",
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     scale: "0.75",
-    paddingTop: "56.25%", // 16:9 aspect ratio
+    paddingTop: "56.25%",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",

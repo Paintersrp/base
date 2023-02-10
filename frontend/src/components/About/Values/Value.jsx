@@ -3,51 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
-import {
-  FaUser,
-  FaUsers,
-  FaShieldAlt,
-  FaPencilRuler,
-  FaBook,
-  FaBalanceScale,
-  FaCogs,
-  FaGlobe,
-} from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
 import ValueEdit from "./ValueEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
-
-const Icon = ({ icon }) => {
-  switch (icon) {
-    case "FaUser":
-      return <FaUser />;
-    case "FaUsers":
-      return <FaUsers />;
-    case "FaShieldAlt":
-      return <FaShieldAlt />;
-    case "FaPencilRuler":
-      return <FaPencilRuler />;
-    case "FaBook":
-      return <FaBook />;
-    case "FaBalanceScale":
-      return <FaBalanceScale />;
-    case "FaCogs":
-      return <FaCogs />;
-    case "FaGlobe":
-      return <FaGlobe />;
-    default:
-      return <></>;
-  }
-};
+import Icon from "../../Elements/Icon/Icon";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(3),
-    borderBottom: "1px solid black",
-    paddingBottom: theme.spacing(1),
-  },
   subtitle: {
     color: "black",
     marginLeft: 15,
@@ -57,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.9rem",
   },
   avatar: {
-    backgroundColor: "#ffe01b",
+    backgroundColor: theme.palette.primary.main,
     color: "white",
   },
 }));
@@ -71,10 +32,6 @@ export default function Value({ value }) {
   const updateValue = (updateValue) => {
     setValueData(updateValue);
     setEditing(false);
-  };
-
-  const handleEdit = () => {
-    setEditing(!editing);
   };
 
   return (

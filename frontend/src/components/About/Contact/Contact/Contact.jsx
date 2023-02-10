@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import Information from "../Information/Information";
 import Hours from "../Hours/Hours";
 import ContactButtons from "./ContactButtons";
 import Social from "../Social/Social";
-import { useState } from "react";
-import ContactForm from "../../../Elements/Forms/Contact/ContactForm";
+import ContactForm from "../../../Elements/Forms/ContactForm/ContactForm";
+import { baseClasses } from "../../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,14 +18,9 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: "black",
+    color: theme.palette.text.primary,
     backgroundColor: "white",
     maxWidth: 900,
-  },
-  contactContainer: {
-    display: "flex",
-    flexDirection: "column",
-    padding: 20,
   },
   container: {
     justifyContent: "center",
@@ -43,17 +38,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Contact({ contactData }) {
   const classes = useStyles();
-  const [data, setData] = useState([]);
+  const { flexCenter } = baseClasses();
   const options = [
     { label: "General Inquiry", value: "General Inquiry" },
     { label: "Support", value: "Support" },
     { label: "Partnership", value: "Partnership" },
     { label: "Other", value: "Other" },
   ];
-
-  useEffect(() => {
-    setData(contactData);
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -70,18 +61,8 @@ export default function Contact({ contactData }) {
             <Social contactData={contactData} title={true} />
             <ContactButtons contactData={contactData} />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={6}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              minHeight: 500,
-            }}
-          >
-            <div style={{ maxWidth: "85%" }}>
+          <Grid item xs={12} sm={12} md={6} className={flexCenter}>
+            <div style={{ width: "90%" }}>
               <Typography variant="h5" style={{ paddingBottom: 20 }}>
                 Contact
               </Typography>

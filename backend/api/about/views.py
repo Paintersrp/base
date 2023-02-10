@@ -181,7 +181,6 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
         linkedIn = form_data.get("linkedIn")
         github = form_data.get("github")
         twitter = form_data.get("twitter")
-        skills = form_data.get("skills")
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
@@ -196,12 +195,7 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
             "linkedIn": linkedIn,
             "github": github,
             "twitter": twitter,
-            "skills": skills,
         }
-
-        if isinstance(data.get("skills"), str):
-            skills = data["skills"].split(",")
-            data["skills"] = [{"name": skill.strip()} for skill in skills]
 
         serializer = TeamMemberSerializer(data=data)
 
@@ -226,12 +220,13 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
         linkedIn = form_data.get("linkedIn")
         github = form_data.get("github")
         twitter = form_data.get("twitter")
-        skills = form_data.get("skills")
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
             member.image.storage.delete(member.image.path)
             member.image = image
+        else:
+            image = member.image
 
         data = {
             "name": name,
@@ -241,12 +236,7 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
             "linkedIn": linkedIn,
             "github": github,
             "twitter": twitter,
-            "skills": skills,
         }
-
-        if isinstance(data.get("skills"), str):
-            skills = data["skills"].split(",")
-            data["skills"] = [{"name": skill.strip()} for skill in skills]
 
         serializer = TeamMemberSerializer(member, data=data)
 

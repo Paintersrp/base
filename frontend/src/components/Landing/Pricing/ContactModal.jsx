@@ -4,7 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Icon from "@material-ui/core/Icon";
 import DialogContent from "@material-ui/core/DialogContent";
 import { FaTimes } from "react-icons/fa";
-import ContactForm from "../../Elements/Forms/Contact/ContactForm";
+import ContactForm from "../../Elements/Forms/ContactForm/ContactForm";
 
 const useStyles = makeStyles((theme) => ({
   detailsContainer: {

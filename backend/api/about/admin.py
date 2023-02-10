@@ -52,11 +52,6 @@ class CustomMissionStatementAdmin(admin.ModelAdmin):
 
 
 class ArticleForm(forms.ModelForm):
-    skills = forms.ModelMultipleChoiceField(
-        queryset=Skill.objects.all(),
-        widget=admin.widgets.FilteredSelectMultiple("Skills", False),
-    )
-
     class Meta:
         model = TeamMember
         fields = "__all__"
@@ -64,11 +59,6 @@ class ArticleForm(forms.ModelForm):
 
 class TeamMemberAdmin(admin.ModelAdmin):
     form = ArticleForm
-
-    def save_formset(self, request, form, formset, change):
-        skills = form.cleaned_data["skills"]
-        form.instance.tags.set(skills)
-        form.save()
 
     list_display = (
         "name",
@@ -78,7 +68,7 @@ class TeamMemberAdmin(admin.ModelAdmin):
         # "thumbnail",
         "twitter",
     )
-    list_filter = ("name", "skills")
+    list_filter = ["name"]
     fieldsets = (
         (
             None,
@@ -90,7 +80,6 @@ class TeamMemberAdmin(admin.ModelAdmin):
                     "github",
                     "image",
                     "twitter",
-                    "skills",
                     "role",
                 )
             },

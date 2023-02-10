@@ -65,7 +65,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FAQSerializer(serializers.ModelSerializer):
-    category_name = serializers.StringRelatedField(source='category.name', read_only=True)
+    category_name = serializers.StringRelatedField(
+        source="category.name", read_only=True
+    )
 
     class Meta:
         model = FAQ
@@ -73,7 +75,6 @@ class FAQSerializer(serializers.ModelSerializer):
 
 
 class TeamMemberSerializer(serializers.ModelSerializer):
-    skills = SkillSerializer(many=True)
     image = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
@@ -87,7 +88,6 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             "linkedIn",
             "github",
             "twitter",
-            "skills",
         )
 
     def validate_image(self, image):
@@ -106,36 +106,6 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Invalid image format")
 
         return image
-
-    def create(self, validated_data):
-        skills_data = validated_data.pop("skills", [])
-        team_member = TeamMember.objects.create(**validated_data)
-
-        for skill_data in skills_data:
-            skill, created = Skill.objects.get_or_create(**skill_data)
-            team_member.tags.add(skill)
-
-        return team_member
-
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.content = validated_data.get("content", instance.content)
-        instance.image = validated_data.get("image", instance.image)
-        skills = validated_data.get("skills")
-
-        if skills:
-            skill_objs = []
-
-            for skill_dict in skills:
-                skill_name = skill_dict.get("name")
-                skill, created = Skill.objects.get_or_create(name=skill_name)
-                skill_objs.append(skill)
-
-            instance.tags.set(skill_objs)
-
-        instance.save()
-
-        return instance
 
 
 class AboutFullSerializer(serializers.Serializer):

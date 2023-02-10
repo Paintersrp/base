@@ -7,7 +7,7 @@ export default function EditButton({ onClick, editState, color = "black" }) {
       style={{
         display: "flex",
         justifyContent: "center",
-        marginBottom: 10,
+        marginTop: 10,
         width: "100%",
       }}
     >
