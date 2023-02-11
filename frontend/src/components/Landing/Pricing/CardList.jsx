@@ -13,8 +13,11 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 400,
   },
   checkIcon: {
-    color: "gold;",
+    color: theme.palette.primary.dark,
     marginRight: "10px",
+  },
+  detail: {
+    color: theme.palette.text.dark,
   },
 }));
 
@@ -25,7 +28,7 @@ export default function CardList({ data, index }) {
   return (
     <List className={classes.pricingFeatures}>
       {planData.features.map((feature) => (
-        <ListItem key={`feature-${index}`}>
+        <ListItem key={`feature-${index}`} className={classes.detail}>
           <CheckIcon className={classes.checkIcon} />
           {feature.detail}
         </ListItem>

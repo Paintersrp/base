@@ -8,27 +8,27 @@ import { getCookie } from "../../../Utils";
 const useStyles = makeStyles((theme) => ({
   field: {
     "& .MuiOutlinedInput-inputMultiline": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
     "& .MuiOutlinedInput-root": {
       fontSize: "0.85rem",
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.85rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
 }));

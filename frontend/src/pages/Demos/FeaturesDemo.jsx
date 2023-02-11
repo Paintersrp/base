@@ -24,10 +24,10 @@ import CategoryTiles from "../../components/WIP/Categories/Categories";
 import CompanyInfo from "../../components/WIP/CompanyInfo/CompanyInfo";
 import FeatureCTA from "../../components/WIP/Features/FeatureCTA/FeatureCTA";
 import FeatureTiles from "../../components/WIP/Features/FeatureTiles/FeatureTiles";
-import OurProcess from "../../components/Landing/OurProcess/OurProcess";
+import Processes from "../../components/Landing/Processes/Processes";
 import Partners from "../../components/WIP/Partners/Partners";
 import Reviews from "../../components/WIP/Reviews/Reviews";
-import LatestNews from "../../components/Landing/News/LatestNews";
+import LatestNews from "../../components/Landing/News/News";
 import WhatWeDo from "../../components/WIP/WhatWeDo/WhatWeDo";
 import BetterFeatures from "../../components/WIP/Features/BetterFeatures/BetterFeatures";
 import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
@@ -471,7 +471,7 @@ const featureComponents = [
     title: "FeatureTiles",
   },
   {
-    component: OurProcess,
+    component: Processes,
     title: "OurProcess",
     props: {
       data: data,

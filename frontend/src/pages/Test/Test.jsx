@@ -1,32 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-  motion,
-  useAnimation,
-  AnimateSharedLayout,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, useAnimation, AnimateSharedLayout } from "framer-motion";
 import "./test.css";
-import { FaCode, FaPencilRuler, FaServer } from "react-icons/fa";
-import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
-import LockIcon from "@material-ui/icons/Lock";
-import DesignIcon from "@material-ui/icons/Brush";
-import DevelopIcon from "@material-ui/icons/Code";
-import HostingIcon from "@material-ui/icons/Public";
-import LaunchIcon from "@material-ui/icons/Launch";
-import {
-  FaTwitter,
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaYoutube,
-  FaGithub,
-  FaStackOverflow,
-} from "react-icons/fa";
 import CategoryTiles from "../../components/WIP/Categories/Categories";
 import Reviews from "../../components/WIP/Reviews/Reviews";
 import FeatureCTA from "../../components/WIP/Features/FeatureCTA/FeatureCTA";
 import Partners from "../../components/WIP/Partners/Partners";
-import IconScroller from "../../components/Animations/IconScroller/IconScroller";
 import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
 
 export function TypingEffect({ text, duration }) {
@@ -101,46 +79,6 @@ const products = [
     rating: 5,
     price: "30.99",
     description: "This is a sample product 3",
-  },
-  // and so on
-];
-
-const data2 = [
-  {
-    title: "Design",
-    description:
-      "Our experienced designers create visually stunning websites that accurately reflect your brand and appeal.",
-    icon: DesignIcon,
-  },
-  {
-    title: "Develop",
-    description:
-      "Our developers use the latest technologies and best practices to turn your design into a fully functional website.",
-    icon: DevelopIcon,
-  },
-  {
-    title: "Secure",
-    description:
-      "We implement industry-standard security measures to protect your website and users' data.",
-    icon: LockIcon,
-  },
-  {
-    title: "Host",
-    description:
-      "We offer a variety of hosting options optimized for speed and reliability, and provide ongoing support.",
-    icon: HostingIcon,
-  },
-  {
-    title: "Launch",
-    description:
-      "We ensure a smooth launch of your website, including SEO optimization and social media promotion.",
-    icon: LaunchIcon,
-  },
-  {
-    title: "Maintain",
-    description:
-      "We provide ongoing maintenance services to keep your website updated and running smoothly.",
-    icon: AllInclusiveIcon,
   },
 ];
 

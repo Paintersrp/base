@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Container, Box, Slide, Button } from "@material-ui/core";
-import { SlideOnScroll } from "../../Animations/IntoView/Slide/SlideViewPort";
+import { Grid, Container, Box, Slide } from "@material-ui/core";
+import { SlideOnScroll } from "../../Elements/Animations/IntoView/Slide/SlideViewPort";
 import HeroBlock from "../../Elements/TextBlocks/HeroBlock/HeroBlock";
-import CarouselX from "../../Elements/Images/Carousel/ImageCarousel";
+import ImageCarousel from "./ImageCarousel";
 import ContactButtons from "../../About/Contact/Contact/ContactButtons";
 import Social from "../../About/Contact/Social/Social";
 import { useEffect } from "react";
@@ -16,9 +16,9 @@ import EditButton from "../../Elements/Buttons/EditButton";
 const useStyles = makeStyles((theme) => ({
   root: {
     fontFamily: "Poppins",
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.light,
     paddingTop: theme.spacing(6),
-    paddingBottom: theme.spacing(12),
+    paddingBottom: theme.spacing(6),
     position: "relative",
   },
   gridContainer: {
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridItemLeft: {
+    color: theme.palette.background.dark,
     padding: "20px 20px 20px 0px",
     fontFamily: "Poppins",
     [theme.breakpoints.up("md")]: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HeroCarousel({ items, setItems, contactData }) {
+export default function Hero({ items, setItems, contactData }) {
   const classes = useStyles();
   const [editHero, setEditHero] = useState(false);
   const [editCarousel, setEditCarousel] = useState(false);
@@ -57,7 +58,6 @@ export default function HeroCarousel({ items, setItems, contactData }) {
     text: "",
     buttonText: "",
   });
-  const [contacts, setContacts] = useState();
   const auth = useSelector((state) => state.auth);
 
   const updateHeroBlock = (updatedHeroBlock) => {
@@ -66,7 +66,6 @@ export default function HeroCarousel({ items, setItems, contactData }) {
   };
 
   useEffect(() => {
-    setContacts(contactData);
     const fetchData = async () => {
       axiosInstance
         .get("/heroblock/")
@@ -87,7 +86,7 @@ export default function HeroCarousel({ items, setItems, contactData }) {
 
   return (
     <Box className={classes.root}>
-      <Container style={{ maxWidth: "95%" }} className={classes.gridContainer}>
+      <Container className={classes.gridContainer}>
         <Grid container className={classes.grid}>
           <Slide in={true} direction="right" timeout={1000}>
             <Grid item xs={12} md={6} className={classes.gridItemLeft}>
@@ -100,31 +99,39 @@ export default function HeroCarousel({ items, setItems, contactData }) {
                   btnLink="/about"
                 />
               ) : (
-                <HeroBlockEdit
-                  heroblock={heroData}
-                  updateHeroBlock={updateHeroBlock}
-                />
+                <div>
+                  <div>
+                    <HeroBlockEdit
+                      heroblock={heroData}
+                      updateHeroBlock={updateHeroBlock}
+                    />
+                  </div>
+                </div>
               )}
               {auth.is_superuser ? (
                 <div style={{ marginTop: 20 }}>
                   <EditButton
                     onClick={() => setEditHero(!editHero)}
                     editState={editHero}
-                    color="white"
                   />
                 </div>
               ) : null}
               <Grid item xs={12} md={12} className={classes.contactContainer}>
-                {contacts ? <ContactButtons contactData={contacts} /> : null}
-                {contacts ? <Social contactData={contacts} /> : null}
+                {contactData ? (
+                  <ContactButtons contactData={contactData} />
+                ) : null}
+                {contactData ? (
+                  <div>
+                    <Social contactData={contactData} />
+                  </div>
+                ) : null}
               </Grid>
             </Grid>
           </Slide>
-
           <Grid item xs={12} md={6}>
             <SlideOnScroll from="right">
               {!editCarousel ? (
-                <CarouselX items={items} />
+                <ImageCarousel items={items} />
               ) : (
                 <CarouselEdit items={items} updateCarousel={updateCarousel} />
               )}
@@ -134,7 +141,6 @@ export default function HeroCarousel({ items, setItems, contactData }) {
                 <EditButton
                   onClick={() => setEditCarousel(!editCarousel)}
                   editState={editCarousel}
-                  color="white"
                 />
               </div>
             ) : null}

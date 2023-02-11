@@ -28,15 +28,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 40,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
+    paddingBottom: theme.spacing(10),
   },
   container: {
     maxWidth: "600px",
-    backgroundColor: "#1C1C1C",
-    color: "white",
+    backgroundColor: theme.palette.background.light,
+    color: theme.palette.text.dark,
     boxShadow: theme.shadows[10],
-    borderRadius: theme.shape.borderRadius.lg,
-    padding: theme.spacing(6),
+    borderRadius: 14,
+    padding: theme.spacing(4),
     direction: "column",
   },
   heading: {
@@ -60,33 +61,39 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     "& .MuiOutlinedInput-root": {
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
+    transition: "0.3s",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: theme.shadows[7],
+      backgroundColor: theme.palette.primary.dark,
+    },
   },
   error: {
     color: theme.palette.error.main,
   },
   text: {
-    marginTop: 5,
-    color: "gold",
+    color: theme.palette.secondary.main,
+    fontWeight: 700,
   },
 }));
 
@@ -156,7 +163,7 @@ export default function NewsletterForm() {
           </Grid>
         </form>
         <Typography
-          variant="body2"
+          variant="subtitle1"
           className={error ? classes.error : classes.text}
           align="center"
           gutterBottom

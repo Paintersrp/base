@@ -10,7 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import { SlideOnScroll } from "../../Animations/IntoView/Slide/SlideViewPort";
+import { SlideOnScroll } from "../../Elements/Animations/IntoView/Slide/SlideViewPort";
+import EditButton from "../../Elements/Buttons/EditButton";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
 import TestimonialEditView from "./TestimonialEditView";
@@ -18,7 +19,7 @@ import TestimonialEditView from "./TestimonialEditView";
 const useStyles = makeStyles((theme) => ({
   testimonialContent: {
     fontFamily: "Poppins",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.primary.main,
     color: "white",
     maxWidth: 500,
     justifyContent: "center",
@@ -39,22 +40,18 @@ const useStyles = makeStyles((theme) => ({
       borderRightWidth: theme.spacing(2),
       borderTop: "solid",
       borderTopWidth: theme.spacing(2),
-      borderTopColor: "#191919",
+      borderTopColor: theme.palette.primary.main,
       position: "absolute",
       bottom: "-16px",
       left: "50%",
       transform: "translateX(-50%)",
-    },
-    "&:hover": {
-      transform: "scale(1.02)",
-      boxShadow: theme.shadows[6],
     },
   },
   testimonialHeading: {
     fontFamily: "Poppins",
     fontSize: "1.0rem",
     marginBottom: 10,
-    color: "gold",
+    color: "white",
     fontWeight: 600,
   },
   testimonialText: {
@@ -65,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   testimonialAvatar: {
     fontFamily: "Poppins",
-    color: "white",
+    color: theme.palette.text.dark,
     justifyContent: "center",
     alignItems: "center",
     marginTop: theme.spacing(2),
@@ -82,13 +79,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Poppins",
     fontWeight: 600,
     fontSize: "0.85rem",
-    "&:hover": {
-      transform: "scale(1.05)",
-    },
   },
   testimonialAvatarTitle: {
     fontFamily: "Poppins",
-    color: "white",
+    color: theme.palette.text.dark,
     fontSize: "0.85rem",
     "&:hover": {
       transform: "scale(1.05)",
@@ -97,33 +91,14 @@ const useStyles = makeStyles((theme) => ({
   speechBubbles: {
     fontFamily: "Poppins",
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-    backgroundColor: "#242424",
+    paddingBottom: theme.spacing(12),
+    backgroundColor: theme.palette.background.light,
     color: "white",
     justifyContent: "center",
     display: "flex",
   },
-  speechBubblesHeading: {
-    fontFamily: "Poppins",
-    fontWeight: 700,
-    margin: theme.spacing(0, 0, 0),
-    textAlign: "center",
-  },
-  speechBubblesSubHeading: {
-    fontFamily: "Poppins",
-    fontWeight: 600,
-    margin: 0,
-    textAlign: "center",
-    color: "gold",
-    fontSize: "0.8rem",
-  },
-  speechBubblesText: {
-    fontFamily: "Poppins",
-    textAlign: "center",
-    backgroundColor: "#1C1C1C",
-    color: "white",
-  },
   avatar: {
+    border: `1px solid ${theme.palette.primary.dark}`,
     "& .MuiAvatar-root": {
       width: 80,
       height: 80,
@@ -162,12 +137,18 @@ const TestimonialAvatar = ({ src, name, title }) => {
   const classes = useStyles();
   return (
     <Grid container className={classes.testimonialAvatar} alignItems="center">
-      <Avatar src={src} alt={name} />
+      <Avatar src={src} alt={name} className={classes.avatar} />
       <Grid item>
-        <Typography variant="body1" className={classes.testimonialAvatarName}>
+        <Typography
+          variant="subtitle1"
+          className={classes.testimonialAvatarName}
+        >
           {name}
         </Typography>
-        <Typography variant="body2" className={classes.testimonialAvatarTitle}>
+        <Typography
+          variant="subtitle2"
+          className={classes.testimonialAvatarTitle}
+        >
           {title}
         </Typography>
       </Grid>
@@ -214,12 +195,7 @@ export default function Testimonials() {
 
   return (
     <Box className={classes.speechBubbles}>
-      <Container maxWidth="7xl">
-        {auth.is_superuser ? (
-          <Button onClick={() => setEditing(!editing)}>
-            {editing ? "Cancel" : "Edit"}
-          </Button>
-        ) : null}
+      <Container style={{ maxWidth: 1200 }}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
             {!editing ? (
@@ -267,6 +243,12 @@ export default function Testimonials() {
             </Grid>
           ))}
         </Grid>
+        {auth.is_superuser ? (
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+          />
+        ) : null}
       </Container>
     </Box>
   );

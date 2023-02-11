@@ -10,21 +10,14 @@ import {
   FaGithub,
   FaStackOverflow,
 } from "react-icons/fa";
-import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
-import LockIcon from "@material-ui/icons/Lock";
-import DesignIcon from "@material-ui/icons/Brush";
-import DevelopIcon from "@material-ui/icons/Code";
-import HostingIcon from "@material-ui/icons/Public";
-import LaunchIcon from "@material-ui/icons/Launch";
-import FeatureTiles from "../../components/WIP/Features/FeatureTiles/FeatureTiles";
-import LatestNews from "../../components/Landing/News/LatestNews";
+import LatestNews from "../../components/Landing/News/News";
 import Testimonials from "../../components/Landing/Testimonials/Testimonials";
-import NewsletterForm from "../../components/Elements/Forms/Newsletter/NewsletterForm";
-import HeroCarousel from "../../components/Landing/HeroCarousel/HeroCarousel";
+import NewsletterForm from "../../components/Landing/Newsletter/NewsletterForm";
+import Hero from "../../components/Landing/Hero/Hero";
 import axiosInstance from "../../lib/Axios/axiosInstance";
 import ContentLayout from "../../components/Elements/Layout/ContentLayout";
-import IconScroller from "../../components/Animations/IconScroller/IconScroller";
-import OurProcess from "../../components/Landing/OurProcess/OurProcess";
+import IconScroller from "../../components/Elements/Animations/IconScroller/IconScroller";
+import Processes from "../../components/Landing/Processes/Processes";
 import Pricing from "../../components/Landing/Pricing/Pricing";
 
 const partners = [
@@ -58,45 +51,6 @@ const partners = [
   },
 ];
 
-const data = [
-  {
-    title: "Design",
-    description:
-      "Our experienced designers create visually stunning websites that accurately reflect your brand and appeal.",
-    icon: "DesignIcon",
-  },
-  {
-    title: "Develop",
-    description:
-      "Our developers use the latest technologies and best practices to turn your design into a fully functional website.",
-    icon: "DevelopIcon",
-  },
-  {
-    title: "Secure",
-    description:
-      "We implement industry-standard security measures to protect your website and users' data.",
-    icon: "LockIcon",
-  },
-  {
-    title: "Host",
-    description:
-      "We offer a variety of hosting options optimized for speed and reliability, and provide ongoing support.",
-    icon: "HostingIcon",
-  },
-  {
-    title: "Launch",
-    description:
-      "We ensure a smooth launch of your website, including SEO optimization and social media promotion.",
-    icon: "LaunchIcon",
-  },
-  {
-    title: "Maintain",
-    description:
-      "We provide ongoing maintenance services to keep your website updated and running smoothly.",
-    icon: "AllInclusiveIcon",
-  },
-];
-
 function LandingPage() {
   const [items, setItems] = useState([]);
   const [contactData, setContactData] = useState([]);
@@ -114,6 +68,7 @@ function LandingPage() {
       axiosInstance
         .get("/contact/")
         .then((response) => {
+          console.log(response.data);
           setContactData(response.data);
         })
         .catch((err) => {
@@ -122,6 +77,7 @@ function LandingPage() {
     };
     fetchData();
   }, []);
+
   return (
     <ContentLayout
       title="Landing Page"
@@ -129,24 +85,16 @@ function LandingPage() {
       keywords="news, posts, articles, touch"
       image="https://example.com/image.png"
       url="https://example.com/example-page"
+      backgroundColor="white"
     >
       <div style={{ minHeight: 700, width: "100vw" }}>
-        <HeroCarousel
-          items={items}
-          setItems={setItems}
-          contactData={contactData}
-        />
-        <IconScroller data={partners} />
+        <Hero items={items} setItems={setItems} contactData={contactData} />
         <Pricing />
-        <OurProcess
-          data={data}
-          title="Creating and Hosting Websites"
-          subtitle="Our Process"
-        />
-
+        <Processes />
         <LatestNews />
         <Testimonials />
         <NewsletterForm />
+        <IconScroller data={partners} />
       </div>
     </ContentLayout>
   );

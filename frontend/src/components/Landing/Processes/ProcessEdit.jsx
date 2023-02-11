@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   card: {
-    backgroundColor: "#212121",
-    color: "white",
+    backgroundColor: theme.palette.background.light,
+    color: theme.palette.text.dark,
     width: "100%",
     boxShadow: theme.shadows[0],
   },
@@ -52,33 +52,33 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
 
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
       margin: 5,
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "600",
       fontSize: "0.85rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
   multiline: {
     marginTop: 5,
     marginBottom: 5,
     "& .MuiOutlinedInput-inputMultiline": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
     "& .MuiOutlinedInput-input": {
-      color: "white",
+      color: theme.palette.text.dark,
       textAlign: "left",
     },
     "& .MuiOutlinedInput-root": {
@@ -87,23 +87,23 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "0.8rem",
       width: "100%",
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       marginLeft: 5,
       fontWeight: "700",
       fontSize: "0.8rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
 }));
@@ -178,7 +178,7 @@ const ProcessEdit = ({ process, updateProcess }) => {
               onChange={(event) => setDescription(event.target.value)}
             />
           </CardContent>
-          <UpdateButton color="white" />
+          <UpdateButton color="black" />
         </form>
       </Card>
     </div>

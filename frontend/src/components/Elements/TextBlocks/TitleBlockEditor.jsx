@@ -21,32 +21,32 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-root": {
       fontSize: "0.85rem",
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
   select: {
-    background: "#3f3f3f",
-    color: "white",
+    background: theme.palette.text.light,
+    color: theme.palette.text.dark,
     "& .MuiSelect-icon": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
     "& .MuiOutlinedInput-input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
     "& .MuiSelect-select": {},
     "& .MuiSelect-select:focus": {},
@@ -56,12 +56,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
 }));

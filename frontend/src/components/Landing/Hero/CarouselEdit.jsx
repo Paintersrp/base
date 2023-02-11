@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
 import { getCookie } from "../../../utils";
+import CarouselEditModal from "./CarouselEditModal";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -27,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
     scale: "0.95",
     padding: 0,
     marginBottom: 20,
-    "&:hover": {
-      transform: "scale(1.02)",
-    },
   },
 }));
 
@@ -43,17 +41,11 @@ const CarouselEdit = ({ items, updateCarousel }) => {
   const [text, setText] = useState("");
 
   const handleClickOpen = (item, index) => {
-    console.log(item);
     setOpen(true);
     setSelectedItem(item);
     setId(item.id);
     setLink(item.buttonLink);
     setText(item.buttonText);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedItem(null);
   };
 
   const handleEdit = async (e) => {
@@ -84,7 +76,6 @@ const CarouselEdit = ({ items, updateCarousel }) => {
     try {
       const res = await axios.get(`http://localhost:8000/api/items/`);
       updateCarousel(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +93,11 @@ const CarouselEdit = ({ items, updateCarousel }) => {
         console.log(error);
       }
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
   };
 
   return (
@@ -144,54 +140,13 @@ const CarouselEdit = ({ items, updateCarousel }) => {
         ))}
       </Grid>
       {selectedItem ? (
-        <Dialog
+        <CarouselEditModal
+          item={selectedItem}
           open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
-          <CardMedia
-            className={classes.media}
-            image={selectedItem.image}
-            title={selectedItem.title}
-            justifyContent="center"
-            alignItems="center"
-          />
-          <DialogContent>
-            <TextField
-              margin="dense"
-              id="buttonText"
-              label="Button Text"
-              type="text"
-              fullWidth
-              defaultValue={selectedItem.buttonText}
-              onChange={(event) => setText(event.target.value)}
-            />
-            <TextField
-              margin="dense"
-              id="buttonLink"
-              label="Button Link"
-              type="text"
-              fullWidth
-              defaultValue={selectedItem.buttonLink}
-              onChange={(event) => setLink(event.target.value)}
-            />
-            <Typography className="">
-              <input
-                type="file"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleEdit} color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
+          updateCarousel={updateCarousel}
+          handleClose={handleClose}
+          id={id}
+        />
       ) : null}
     </Box>
   );

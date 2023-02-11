@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import EditField from "../../Fields/EditField";
+import UpdateButton from "../../Buttons/UpdateButton";
+import { getCookie } from "../../../../utils";
+import axios from "axios";
 
 const HeroBlockEdit = ({ heroblock, updateHeroBlock }) => {
   const [title, setTitle] = useState(heroblock.title);
@@ -8,48 +12,66 @@ const HeroBlockEdit = ({ heroblock, updateHeroBlock }) => {
   const [text, setText] = useState(heroblock.text);
   const [buttonText, setButtonText] = useState(heroblock.buttonText);
 
-  const handleSave = async () => {
-    const updatedHeroBlock = { title, heading, text, buttonText };
+  const handleSubmit = async (e) => {
+    console.log("test");
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("title", title);
+    formData.append("heading", heading);
+    formData.append("text", text);
+    formData.append("buttonText", buttonText);
+
+    const config = {
+      headers: {
+        Authorization: `JWT ${getCookie("jwt")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
     try {
-      axiosInstance.patch("/heroblock/", updatedHeroBlock).then((response) => {
-        console.log(response.data.btn_text);
-        setTitle(response.data.title);
-        setHeading(response.data.heading);
-        setText(response.data.text);
-        setButtonText(response.data.buttonText);
-      });
-      updateHeroBlock(updatedHeroBlock);
+      const res = await axios.patch(
+        `http://localhost:8000/api/heroblock/`,
+        formData,
+        config
+      );
+      console.log(res.data);
+      setTitle(res.data.title);
+      setHeading(res.data.heading);
+      setText(res.data.text);
+      setButtonText(res.data.buttonText);
+      updateHeroBlock(res.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
   return (
-    <div>
-      <TextField
-        label="Title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-      />
-      <TextField
-        label="Heading"
-        value={heading}
-        onChange={(event) => setHeading(event.target.value)}
-      />
-      <TextField
-        label="Text"
-        value={text}
-        onChange={(event) => setText(event.target.value)}
-      />
-      <TextField
-        label="Button Text"
-        value={buttonText}
-        onChange={(event) => setButtonText(event.target.value)}
-      />
-      <div>
-        <Button onClick={handleSave}>Save</Button>
+    <form onSubmit={handleSubmit}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "85%" }}>
+          <EditField
+            label="Title"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <EditField
+            label="Heading"
+            value={heading}
+            onChange={(event) => setHeading(event.target.value)}
+          />
+          <EditField
+            label="Text"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+          />
+          <EditField
+            label="Button Text"
+            value={buttonText}
+            onChange={(event) => setButtonText(event.target.value)}
+          />
+          <UpdateButton />
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
     fontWeight: "600",
   },
+  title: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
 }));
 
 export default function Hours({ contactData }) {
@@ -48,10 +52,7 @@ export default function Hours({ contactData }) {
     <>
       {!editing ? (
         <>
-          <Typography
-            variant="h5"
-            style={{ paddingTop: 40, paddingBottom: 20 }}
-          >
+          <Typography variant="h4" className={classes.title}>
             Business Hours
           </Typography>
           <Grid container spacing={1} className={flexCenter}>
@@ -76,7 +77,7 @@ export default function Hours({ contactData }) {
         <EditHours initialData={data} onUpdate={updateContactData} />
       )}
       {auth.is_superuser ? (
-        <div style={{ marginTop: 10 }}>
+        <div>
           <EditButton
             onClick={() => setEditing(!editing)}
             editState={editing}

@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontFamily: "Roboto",
     letterSpacing: 0.25,
-    color: "white",
+    color: theme.palette.text.dark,
   },
   title: {
     fontFamily: "Poppins",
     textAlign: "center",
-    color: "white",
+    color: theme.palette.text.dark,
     fontWeight: 700,
     fontSize: "2.1rem",
     border: 0,
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     fontFamily: "Poppins",
     textAlign: "center",
-    color: "gold",
+    color: theme.palette.secondary.main,
     marginBottom: theme.spacing(0.5),
   },
   divider: {

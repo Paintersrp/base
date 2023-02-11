@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Box, Button } from "@material-ui/core";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
-import FloatingFeature from "./FloatingFeature";
+import Process from "./Process";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
@@ -12,7 +12,6 @@ import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: "white",
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
@@ -21,18 +20,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
     marginBottom: 40,
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
   },
   paper: {
     display: "flex",
     flexDirection: "column",
     padding: 20,
     textAlign: "center",
-    color: "white",
-    backgroundColor: "#212121",
-    boxShadow: theme.shadows[7],
-    borderRadius: 14,
-    maxWidth: 1400,
+    color: theme.palette.text.dark,
+    backgroundColor: theme.palette.background.light,
+    maxWidth: 1200,
   },
   gridContainer: {
     display: "flex",
@@ -46,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OurProcess() {
+export default function Processes() {
   const classes = useStyles();
   const [block, setBlock] = useState([]);
   const [processes, setProcesses] = useState([]);
@@ -98,13 +95,6 @@ export default function OurProcess() {
           }}
         >
           <Paper elevation={0} className={classes.paper}>
-            {auth.is_superuser ? (
-              <EditButton
-                onClick={() => setEditTitle(!editTitle)}
-                editState={editTitle}
-                color="white"
-              />
-            ) : null}
             {!editTitle ? (
               <TitleBlock
                 subtitle={block.subtitle}
@@ -118,6 +108,12 @@ export default function OurProcess() {
                 onUpdate={updateTitleBlock}
               />
             )}
+            {auth.is_superuser ? (
+              <EditButton
+                onClick={() => setEditTitle(!editTitle)}
+                editState={editTitle}
+              />
+            ) : null}
             <Grid container spacing={2} className={classes.gridContainer}>
               {processes.map((step, index) => (
                 <Grid
@@ -128,7 +124,7 @@ export default function OurProcess() {
                   lg={4}
                   className={classes.center}
                 >
-                  <FloatingFeature step={step} />
+                  <Process step={step} />
                 </Grid>
               ))}
             </Grid>

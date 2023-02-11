@@ -11,6 +11,13 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "center",
   },
+  title: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  fieldContainer: {
+    width: "85%",
+  },
 }));
 
 export default function SocialEdit({ initialData, onUpdate }) {
@@ -52,16 +59,12 @@ export default function SocialEdit({ initialData, onUpdate }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
+        <Typography variant="h4" className={classes.title}>
           Edit Social Links
         </Typography>
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12} className={classes.textContainer}>
-            <div
-              style={{
-                width: "85%",
-              }}
-            >
+            <div className={classes.fieldContainer}>
               <EditField
                 label="Facebook"
                 value={facebook}

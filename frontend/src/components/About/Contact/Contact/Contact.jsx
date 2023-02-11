@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
     textAlign: "left",
   },
+  formTitle: {
+    width: "90%",
+    paddingBottom: 15,
+  },
 }));
 
 export default function Contact({ contactData }) {
@@ -55,15 +59,15 @@ export default function Contact({ contactData }) {
               Contact Us
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} style={{ minHeight: 500 }}>
+          <Grid item xs={12} sm={12} md={6}>
             <Information contactData={contactData} />
             <Hours contactData={contactData} />
             <Social contactData={contactData} title={true} />
             <ContactButtons contactData={contactData} />
           </Grid>
           <Grid item xs={12} sm={12} md={6} className={flexCenter}>
-            <div style={{ width: "90%" }}>
-              <Typography variant="h5" style={{ paddingBottom: 20 }}>
+            <div className={classes.formTitle}>
+              <Typography variant="h4" className={classes.formTitle}>
                 Contact
               </Typography>
               <ContactForm selectOptions={options} />

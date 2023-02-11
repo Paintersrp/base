@@ -3,20 +3,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import { useMediaQuery } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { GiEnergySword } from "react-icons/gi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.main,
+    display: "flex",
+    backgroundColor: theme.palette.primary.dark,
     color: theme.palette.primary.contrastText,
     width: "100%",
+    minHeight: 200,
   },
   container: {
     display: "flex",
@@ -26,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   link: {
+    fontWeight: 700,
     margin: theme.spacing(1),
     color: theme.palette.primary.contrastText,
     "&:hover": {
@@ -45,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
     color: "white",
   },
-  input: {
-    margin: theme.spacing(1, 0),
-    color: "white",
-  },
   button: {
     margin: theme.spacing(1, 0),
     width: "50%",
@@ -65,10 +66,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridItem: {
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
   gridForm: {
+    paddingTop: 20,
     alignItems: "center",
     justifyContent: "center",
     display: "flex",
@@ -77,30 +81,62 @@ const useStyles = makeStyles((theme) => ({
     width: "50%",
     display: "flex",
     flexDirection: "column",
+    paddingBottom: 20,
+  },
+  businessName: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: theme.palette.primary.contrastText,
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
+  input: {
+    margin: theme.spacing(1),
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.text.light,
+      },
+      "& fieldset": {
+        borderColor: theme.palette.text.light,
+      },
+      "&:hover fieldset": {
+        borderColor: theme.palette.text.light,
+      },
+    },
+    "& .MuiFormLabel-root": {
+      color: theme.palette.text.light,
+      fontWeight: "700",
+      fontSize: "0.9rem",
+    },
+    "& input": {
+      color: theme.palette.text.light,
+    },
   },
 }));
 
 const links = [
-  { name: "About", href: "#about" },
+  { name: "About", href: "about" },
   {
     name: "Team",
-    href: "#team",
+    href: "team",
   },
   {
     name: "Careers",
-    href: "#careers",
+    href: "careers",
   },
   {
     name: "Help",
-    href: "#help",
+    href: "help",
   },
   {
     name: "Privacy",
-    href: "#privacy",
+    href: "privacy",
   },
   {
     name: "Terms",
-    href: "#terms",
+    href: "terms",
   },
 ];
 
@@ -113,14 +149,18 @@ export default function ComplexFooter() {
         <Grid container spacing={0} className={classes.grid}>
           <Grid item xs={12} sm={12} md={3} className={classes.gridForm}>
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="newsletter-email" style={{ color: "white" }}>
-                Subscribe to our newsletter
-              </InputLabel>
-              <Input
-                id="newsletter-email"
+              <TextField
                 className={classes.input}
-                type="email"
-                placeholder="Enter your email"
+                autoComplete="email"
+                margin="dense"
+                name="emailaddress"
+                variant="outlined"
+                notchedOutline
+                placeholder="Your Email"
+                required
+                fullWidth
+                id="emailaddress"
+                label="Email Address"
               />
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Button className={classes.button}>Subscribe</Button>
@@ -128,9 +168,14 @@ export default function ComplexFooter() {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
-            <Typography variant="h6" className={classes.typography}>
-              EDGELORDS
-            </Typography>
+            <Link to="/" className={classes.businessName}>
+              <div className={classes.link}>
+                <Typography variant="h2" className={classes.link}>
+                  <GiEnergySword size="24" />
+                  EDGELORDS
+                </Typography>
+              </div>
+            </Link>
             <div
               style={{
                 display: "flex",
@@ -139,13 +184,13 @@ export default function ComplexFooter() {
               }}
             >
               {links.map((link) => (
-                <Link key={link.name} href={link.href} className={classes.link}>
+                <Link key={link.name} to={link.href} className={classes.link}>
                   {link.name}
                 </Link>
               ))}
             </div>
             <Typography variant={"subtitle1"} className={classes.typography}>
-              Copyright © {new Date().getFullYear()} Your Company. All rights
+              Copyright © {new Date().getFullYear()} EDGELORDS. All rights
               reserved.
             </Typography>
           </Grid>

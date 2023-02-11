@@ -5,14 +5,15 @@ import { Paper } from "@material-ui/core";
 const useStyles = makeStyles((theme) => {
   return {
     paper: {
-      padding: 10,
-      backgroundColor: "#212121",
-      color: "white",
-      marginBottom: 20,
+      backgroundColor: theme.palette.background.light,
+      color: theme.palette.primary.main,
+      paddingBottom: theme.spacing(8),
     },
     container: {
+      justifyContent: "center",
       width: "100%",
       overflow: "hidden",
+      alignItems: "center",
     },
     wrapper: {
       width: "400%",
@@ -21,15 +22,19 @@ const useStyles = makeStyles((theme) => {
       whiteSpace: "nowrap",
       animation: `$scrolling 120s linear infinite`,
       animationIterationCount: "infinite",
+      minHeight: 75,
+      justifyContent: "center",
+      alignItems: "center",
     },
     icon: {
       width: "25%",
       display: "inline-block",
       marginRight: theme.spacing(32),
       textAlign: "center",
+      transition: "0.3s",
       "&:hover": {
-        transform: "scale(1.05)",
-        color: "gold",
+        transform: "translateY(-10px)",
+        color: theme.palette.secondary.main,
       },
     },
     "@keyframes scrolling": {
@@ -48,7 +53,7 @@ export default function IconScroller({ data }) {
   const [isScrolling, setIsScrolling] = useState(true);
 
   return (
-    <Paper className={classes.paper} elevation={9}>
+    <Paper className={classes.paper} elevation={0}>
       <div
         className={classes.container}
         onMouseEnter={() => setIsScrolling(false)}

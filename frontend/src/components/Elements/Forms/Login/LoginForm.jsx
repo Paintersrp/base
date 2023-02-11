@@ -179,7 +179,6 @@ const LoginForm = () => {
   return (
     <div className={classes.root}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Paper className={classes.paper} elevation={6}>
           <Icon className={classes.icon}>
             <IoLogoAngular />

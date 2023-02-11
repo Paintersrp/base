@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CardMedia, Grid, Typography } from "@material-ui/core";
-import { TypingEffect } from "../../../pages/Test/Test";
 
 const useStyles = makeStyles((theme) => ({
   pricingTitle: {
@@ -10,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.75rem",
     textAlign: "center",
     fontFamily: "Poppins",
-    color: "gold",
+    color: theme.palette.primary.dark,
     opacity: 0.9,
   },
   pricingPrice: {
@@ -26,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
     scale: "0.95",
     padding: 0,
     marginBottom: 20,
-    "&:hover": {
-      transform: "scale(1.02)",
-    },
   },
 }));
 
@@ -45,9 +41,7 @@ export default function CardHead({ plan }) {
         justifyContent="center"
         alignItems="center"
       />
-      <Typography className={classes.pricingTitle}>
-        <TypingEffect duration="0.2" text={planData.title} />
-      </Typography>
+      <Typography className={classes.pricingTitle}>{planData.title}</Typography>
       <Grid container direction="row" align="center" justifyContent="center">
         <Typography className={classes.pricingPrice}>
           <div style={{ display: "flex" }}>${planData.price}/month</div>

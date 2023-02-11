@@ -4,13 +4,13 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import articles from "./articles.json";
 import ArticleCard from "./ArticleCard";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
-import { Button, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
+import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
     color: "#fafafa",
+    paddingBottom: 40,
     [theme.breakpoints.down("1100")]: {
       flexDirection: "column",
     },
@@ -34,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
     minWidth: 345,
     margin: 10,
-    backgroundColor: "#212121",
     [theme.breakpoints.down("md")]: {},
     [theme.breakpoints.down("sm")]: {},
   },
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
     padding: 10,
     color: "#fafafa",
   },
@@ -53,9 +53,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     textAlign: "center",
     color: "white",
-    backgroundColor: "#212121",
-    boxShadow: theme.shadows[7],
-    borderRadius: 14,
+    backgroundColor: theme.palette.background.light,
     maxWidth: 1400,
   },
 }));
@@ -121,28 +119,14 @@ export default function LatestNews() {
 
   return (
     <Grid container spacing={0} className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={0}>
         <Grid item xs={12}>
           {auth.is_superuser ? (
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                variant="outlined"
-                style={{
-                  color: "white",
-                  borderColor: "grey",
-                  height: 25,
-                  fontSize: "0.75rem",
-                }}
+            <div style={{ marginTop: 20 }}>
+              <EditButton
                 onClick={() => setEditing(!editing)}
-              >
-                {editing ? "Cancel" : "Edit"}
-              </Button>
+                editState={editing}
+              />
             </div>
           ) : null}
           {!editing ? (

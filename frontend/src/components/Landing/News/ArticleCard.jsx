@@ -19,24 +19,25 @@ const useStyles = makeStyles((theme) => ({
     margin: 10,
     boxShadow: theme.shadows[4],
     borderRadius: 14,
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
+    transition: "0.3s",
     "&:hover": {
-      transform: "scale(1.05)",
-      boxShadow: theme.shadows[10],
+      transform: "translateY(-10px)",
+      boxShadow: theme.shadows[7],
     },
   },
   media: {
     height: 160,
     margin: "10px 20px 10px 20px",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
   },
   cardContent: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
     padding: 0,
-    color: "#fafafa",
+    color: theme.palette.text.dark,
   },
   cardActions: {
     display: "flex",
@@ -45,17 +46,21 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
     width: "100%",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
   },
   readMoreButton: {
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-    },
     display: "flex",
     justifyContent: "center",
     fontSize: "2px",
-    color: "#fafafa",
+    color: theme.palette.text.light,
+    backgroundColor: theme.palette.primary.main,
     marginRight: 10,
+    transition: "0.3s",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: theme.shadows[7],
+      backgroundColor: theme.palette.primary.dark,
+    },
   },
   btnText: {
     padding: 0,
@@ -63,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
   },
   body: {
-    color: "white",
+    color: theme.palette.text.dark,
   },
   author: {
     fontSize: "0.7rem",
@@ -84,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ArticleCard({ article }) {
   const classes = useStyles();
-  console.log(article);
 
   return (
     <Card className={classes.card} elevation={0}>
@@ -153,8 +157,7 @@ export default function ArticleCard({ article }) {
       </CardContent>
       <div className={classes.cardActions}>
         <Button
-          variant="text"
-          color="inherit"
+          variant="contained"
           size="small"
           justifyContent="center"
           component={Link}

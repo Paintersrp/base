@@ -1,5 +1,5 @@
 import BgImgHero from "../../components/WIP/Heros/BgImgHero/BgImgHero";
-import HeroCarousel from "../../components/Landing/HeroCarousel/HeroCarousel";
+import Hero from "../../components/Landing/Hero/Hero";
 import HeroCountdown from "../../components/WIP/Heros/HeroCountdown/HeroCountdown";
 import OtherHero from "../../components/WIP/Heros/OtherHero/OtherHero";
 import Demo from "./Demo";
@@ -66,7 +66,7 @@ const heroComponents = [
     title: "FormHero",
   },
   {
-    component: HeroCarousel,
+    component: Hero,
     title: "HeroCarousel",
     props: { items },
   },

@@ -7,66 +7,11 @@ import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import ContentBlock from "../../components/Elements/TextBlocks/ContentBlock";
 import TitleBlock from "../../components/Elements/TextBlocks/TitleBlock";
 import TestimonialCard from "../../components/WIP/Testimonials/TestimonialCard";
-import ComplexFooter from "../../navigation/Components/Footer/_ComplexFooter/ComplexFooter";
+import ComplexFooter from "../../navigation/Components/Footer/ComplexFooter/ComplexFooter";
 import ImageGallery from "../../components/Elements/Images/Gallery/ImageGallery";
 import HeroBlock from "../../components/Elements/TextBlocks/HeroBlock/HeroBlock";
-import FloatingFeature from "../../components/Landing/OurProcess/FloatingFeature";
 import AccordionQA from "../../components/About/FAQ/AccordionQA";
-
-// {
-//     component: TeamCard,
-//     title: "TeamCard",
-//     props: {
-//       image: "images/members/member1.webp",
-//       name: "John Doe",
-//       position: "CEO",
-//       socials: [
-//         {
-//           platform: "LinkedIn",
-//           link: "https://www.linkedin.com/in/johndoe",
-//         },
-//         {
-//           platform: "Twitter",
-//           link: "https://twitter.com/johndoe",
-//         },
-//       ],
-//       skills: [
-//         {
-//           skill: "Node.js",
-//         },
-//         {
-//           skill: "React",
-//         },
-//         {
-//           skill: "JavaScript",
-//         },
-//       ],
-//     },
-//   },
-
-const testimonials = [
-  {
-    name: "John Doe",
-    company: "Acme Inc.",
-    review:
-      "I have been extremely satisfied with the services provided by this company. They exceeded my expectations.",
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Jane Smith",
-    company: "XYZ Corp.",
-    review:
-      "The team at this company was professional and efficient. I would recommend them to anyone.",
-    avatar: "https://i.pravatar.cc/150?img=2",
-  },
-  {
-    name: "Bob Johnson",
-    company: "ABC LLC.",
-    review:
-      "I was impressed with the level of expertise and attention to detail demonstrated by the team.",
-    avatar: "https://i.pravatar.cc/150?img=3",
-  },
-];
+import Process from "../../components/Landing/Processes/Process";
 
 const images2 = [
   {
@@ -186,8 +131,8 @@ const formComponents = [
     title: "CoreValues",
   },
   {
-    component: FloatingFeature,
-    title: "FloatingFeature",
+    component: Process,
+    title: "Process",
     props: {
       step: {
         title: "Design",

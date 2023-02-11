@@ -11,18 +11,18 @@ import CardButtons from "./CardButtons";
 const useStyles = makeStyles((theme) => ({
   pricingCard: {
     color: "white",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.background.light,
     maxWidth: 375,
     minWidth: 375,
     margin: theme.spacing(4),
     padding: theme.spacing(3),
     boxShadow: theme.shadows[7],
-    transition: "box-shadow 0.3s ease-in-out",
+    borderRadius: 14,
+    transition: "0.3s",
     "&:hover": {
-      transform: "scale(1.005)",
-      boxShadow: theme.shadows[14],
+      transform: "translateY(-10px)",
+      boxShadow: theme.shadows[7],
     },
-
     [theme.breakpoints.down("md")]: {
       width: "100%",
     },
@@ -48,7 +48,6 @@ export default function CardBase({ plan }) {
             <EditButton
               onClick={() => setEditing(!editing)}
               editState={editing}
-              color="white"
             />
           </>
         ) : null}

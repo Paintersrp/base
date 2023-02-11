@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/Landing/LandingPage";
 import AboutPage from "./pages/About/AboutPage";
 import TestPage from "./pages/Test/Test";
 import HeroDemo from "./pages/Demos/HeroesDemo";
 import FeatureDemo from "./pages/Demos/FeaturesDemo";
-import DrawerBased from "./navigation/Components/DrawerBased/DrawerBased";
 import FormDemo from "./pages/Demos/FormDemos";
 import PartsDemo from "./pages/Demos/PartDemos";
 import SupportPage from "./pages/Support/SupportPage";
@@ -15,16 +14,21 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./theme";
 import Footer from "./navigation/Components/Footer/SimpleFooter/SimpleFooter";
-import PrivateRoute from "./navigation/Routes/ProtectedRoute";
-import AdminRoute from "./navigation/Routes/AdminRoute";
 import withAuth from "./lib/Auth/withAuth/withAuth";
 import ProfileForm from "./components/Elements/Forms/Profile/Profile";
 import UpdateArticleView from "./pages/Articles/UpdateArticleView";
 import ScrollToTop from "./lib/ScrollToTop";
 import LoginForm from "./components/Elements/Forms/Login/LoginForm";
 import RegisterForm from "./components/Elements/Forms/Register/RegisterForm";
+import Navigation from "./navigation/Components/Navigation/Navigation";
+import linkData from "./navigation/Components/Navigation/linkData";
+import ComplexFooter from "./navigation/Components/Footer/ComplexFooter/ComplexFooter";
+
 {
   /* 
+  import PrivateRoute from "./navigation/Routes/ProtectedRoute";
+  import AdminRoute from "./navigation/Routes/AdminRoute";
+
     Private Route Example:
         <Route exact path="/logout" element={<PrivateRoute />}>
           <Route path="/logout" element={<RegisterForm />} />
@@ -43,7 +47,7 @@ function App() {
       <CssBaseline />
       <Router>
         <ScrollToTop />
-        <DrawerBased />
+        <Navigation links={linkData} appName={"EDGELORDS"} />
         <Routes>
           {/* Auth Routes */}
           <Route path="/login" element={<LoginForm />} />
@@ -69,7 +73,7 @@ function App() {
           <Route path="/articles/:id" element={<IndividualArticleView />} />
           <Route path="/articles/:id/update" element={<UpdateArticleView />} />
         </Routes>
-        <Footer />
+        <ComplexFooter />
       </Router>
     </ThemeProvider>
   );

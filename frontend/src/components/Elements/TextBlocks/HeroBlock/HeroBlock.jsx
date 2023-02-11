@@ -1,15 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Button,
-  Grid,
-  Slide,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
+import { Box, Button, Grid, Typography, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { TypingEffect } from "../../../../pages/Test/Test";
 
 const CustomButton = withStyles({
   label: {
@@ -26,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     marginBottom: theme.spacing(1),
     fontSize: "1.25rem",
-    color: "gold",
+    color: theme.palette.secondary.main,
   },
   heading: {
     fontFamily: "Poppins",
-    color: "white",
+    color: theme.palette.text.dark,
     marginBottom: theme.spacing(0),
-    fontSize: "2.25rem",
+    fontSize: "2rem",
     [theme.breakpoints.down("md")]: {
       fontSize: "1.5rem",
     },
@@ -40,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     fontFamily: "Poppins",
     fontSize: "1rem",
-    color: theme.palette.grey[400],
+    color: theme.palette.grey[600],
     paddingBottom: 40,
     paddingTop: 10,
     [theme.breakpoints.down("md")]: {
@@ -56,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   btnCta: {
     minWidth: 140,
     boxShadow: theme.shadows[3],
-    backgroundColor: "#1C1C1C",
-    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.text.light,
     "&:hover": {
       transform: "scale(1.02)",
       boxShadow: theme.shadows[7],
@@ -95,7 +87,6 @@ const HeroBlock = ({
           <CustomButton
             component={Link}
             to={btnLink}
-            color="primary"
             variant="contained"
             className={classes.btnCta}
           >

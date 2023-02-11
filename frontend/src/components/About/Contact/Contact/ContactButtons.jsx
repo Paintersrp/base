@@ -34,7 +34,6 @@ function ContactButtons({ contactData }) {
         startIcon={<FaPhone />}
         href={`tel:${contactData.phone}`}
         className={classes.button}
-        style={{ marginRight: 5 }}
       >
         Call Us
       </Button>

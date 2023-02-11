@@ -6,10 +6,17 @@ import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
 import EditField from "../../../Elements/Fields/EditField";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   textContainer: {
     display: "flex",
     justifyContent: "center",
+  },
+  title: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  fieldContainer: {
+    width: "85%",
   },
 }));
 
@@ -50,16 +57,12 @@ export default function InformationEdit({ initialData, onUpdate }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
+        <Typography variant="h4" className={classes.title}>
           Edit Contact Information
         </Typography>
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12} className={classes.textContainer}>
-            <div
-              style={{
-                width: "85%",
-              }}
-            >
+            <div className={classes.fieldContainer}>
               <EditField
                 key="email"
                 label="Email"

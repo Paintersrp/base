@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import "./Features.css";
-import { SlideOnScroll } from "../../../Animations/IntoView/Slide/SlideViewPort";
+import { SlideOnScroll } from "../../../Elements/Animations/IntoView/Slide/SlideViewPort";
 import {
   FaLaptopCode,
   FaCloud,

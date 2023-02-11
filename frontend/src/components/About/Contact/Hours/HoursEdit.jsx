@@ -11,6 +11,13 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "center",
   },
+  title: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  fieldContainer: {
+    width: "85%",
+  },
 }));
 
 export default function EditHours({ initialData, onUpdate }) {
@@ -64,13 +71,13 @@ export default function EditHours({ initialData, onUpdate }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Typography variant="h5" style={{ paddingTop: 40, paddingBottom: 20 }}>
+        <Typography variant="h4" className={classes.title}>
           Edit Business Hours
         </Typography>
         <Grid container spacing={0}>
           {days.map((day) => (
             <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <div style={{ width: "85%" }}>
+              <div className={classes.fieldContainer}>
                 <EditField
                   label={day.day}
                   value={day.value}

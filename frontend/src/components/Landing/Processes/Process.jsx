@@ -11,7 +11,7 @@ import LaunchIcon from "@material-ui/icons/Launch";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
-import { SlideOnScroll } from "../../Animations/IntoView/Slide/SlideViewPort";
+import { SlideOnScroll } from "../../Elements/Animations/IntoView/Slide/SlideViewPort";
 import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: "2rem",
-    color: "gold",
+    color: theme.palette.primary.dark,
   },
   heading: {
     fontFamily: "Poppins",
@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Roboto",
     textAlign: "center",
     marginBottom: theme.spacing(1),
-    color: "white",
+    color: theme.palette.text.dark,
+    minHeight: 80,
   },
   stepContainer: {
     display: "flex",
@@ -46,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Icon = ({ icon, className }) => {
-  console.log(icon);
   switch (icon) {
     case "DesignIcon":
       return <DesignIcon className={className} />;
@@ -65,7 +65,7 @@ const Icon = ({ icon, className }) => {
   }
 };
 
-export default function FloatingFeature({ step }) {
+export default function Process({ step }) {
   const classes = useStyles();
   const [featureData, setFeatureData] = useState(step);
   const [editing, setEditing] = useState(false);
@@ -80,13 +80,6 @@ export default function FloatingFeature({ step }) {
     <>
       <SlideOnScroll direction="down">
         <Grid container spacing={1} className={classes.stepContainer}>
-          {auth.is_superuser ? (
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
-              color="white"
-            />
-          ) : null}
           {!editing ? (
             <>
               <Grid className={classes.iconContainer} item xs={12}>
@@ -106,6 +99,12 @@ export default function FloatingFeature({ step }) {
           ) : (
             <ProcessEdit process={featureData} updateProcess={updateProcess} />
           )}
+          {auth.is_superuser ? (
+            <EditButton
+              onClick={() => setEditing(!editing)}
+              editState={editing}
+            />
+          ) : null}
         </Grid>
       </SlideOnScroll>
     </>
