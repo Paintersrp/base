@@ -15,7 +15,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./theme";
 import Footer from "./navigation/Components/Footer/SimpleFooter/SimpleFooter";
 import withAuth from "./lib/Auth/withAuth/withAuth";
-import ProfileForm from "./components/Elements/Forms/Profile/Profile";
 import UpdateArticleView from "./pages/Articles/UpdateArticleView";
 import ScrollToTop from "./lib/ScrollToTop";
 import LoginForm from "./components/Elements/Forms/Login/LoginForm";
@@ -23,6 +22,7 @@ import RegisterForm from "./components/Elements/Forms/Register/RegisterForm";
 import Navigation from "./navigation/Components/Navigation/Navigation";
 import linkData from "./navigation/Components/Navigation/linkData";
 import ComplexFooter from "./navigation/Components/Footer/ComplexFooter/ComplexFooter";
+import Profile from "./components/Elements/Forms/Profile/Profile";
 
 {
   /* 
@@ -52,7 +52,7 @@ function App() {
           {/* Auth Routes */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/profile" element={<ProfileForm />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* Page Routes */}
           <Route path="/" element={<LandingPage />} />

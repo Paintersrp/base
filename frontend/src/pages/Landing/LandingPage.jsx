@@ -26,7 +26,7 @@ import { Box, Button, Container, Grid } from "@material-ui/core";
 import UpdateButton from "../../components/Elements/Buttons/UpdateButton";
 import Loading from "../../components/Elements/Layout/Loading";
 import BaseDialog from "../../components/Elements/Base/DialogBase";
-import ProfileEditor from "../../components/ProfileEditor";
+import Profile from "../../components/Elements/Forms/Profile/Profile";
 
 const partners = [
   {
@@ -96,7 +96,7 @@ function LandingPage() {
       backgroundColor="white"
     >
       <div style={{ minHeight: 700, width: "100vw" }}>
-        <ProfileEditor />
+        <Profile />
         <Hero items={items} setItems={setItems} contactData={contactData} />
         <Pricing />
         <Processes />
