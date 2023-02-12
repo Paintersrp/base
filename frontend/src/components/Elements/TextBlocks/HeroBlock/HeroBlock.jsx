@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, Grid, Typography, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
+import { useSpring, animated } from "react-spring";
 
 const CustomButton = withStyles({
   label: {
@@ -73,8 +75,20 @@ const HeroBlock = ({
 }) => {
   const classes = useStyles();
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  const animationProps = useSpring({
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? `translateY(0)` : `translateY(-20px)`,
+    config: { mass: 1, tension: 100, friction: 20 },
+  });
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
-    <Grid item xs={12} md={12} className={classes.gridItemLeft}>
+    <Grid item xs={12} md={12} className={`${classes.gridItemLeft}`}>
       <Box className={classes.title}>{title}</Box>
       <Typography
         variant="h1"

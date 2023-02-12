@@ -1,8 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
-  FormControl,
-  Input,
   Button,
   makeStyles,
   Typography,
@@ -12,8 +10,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
-
-const focusedColor = "orange";
 
 const CustomButton = withStyles({
   label: {

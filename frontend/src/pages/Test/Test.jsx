@@ -88,6 +88,34 @@ export default function TestPage() {
       <div className="yar-container">
         <div className="testerer">
           <AnimateSharedLayout>
+            <Grid
+              container
+              flex
+              justifyContent="center"
+              style={{ padding: 40 }}
+            >
+              <BaseCard
+                title="Example Card Title"
+                subtitle="Example Card Subtitle"
+                headerAction={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                children={<p>This is the card content.</p>}
+                actions={
+                  <Grid container justifyContent="flex-end">
+                    <UpdateButton />
+                    <UpdateButton />
+                  </Grid>
+                }
+                elevation={2}
+                headerTitleProps={{ variant: "h5" }}
+                headerSubheaderProps={{ color: "textSecondary" }}
+                headerActionProps={{ "aria-label": "settings" }}
+                imageSrc="https://example.com/example-image.jpg"
+              />
+            </Grid>
             <div>
               <FormHero />
             </div>

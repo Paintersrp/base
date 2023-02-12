@@ -1,12 +1,30 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, makeStyles, TextField } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import EditField from "../../Fields/EditField";
 import UpdateButton from "../../Buttons/UpdateButton";
 import { getCookie } from "../../../../utils";
 import axios from "axios";
 
+const useStyles = makeStyles((theme) => ({
+  fadeIn: {
+    opacity: 0,
+    animation: `$fadeIn 0.5s ease-in-out forwards`,
+  },
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-30px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
+}));
+
 const HeroBlockEdit = ({ heroblock, updateHeroBlock }) => {
+  const classes = useStyles();
   const [title, setTitle] = useState(heroblock.title);
   const [heading, setHeading] = useState(heroblock.heading);
   const [text, setText] = useState(heroblock.text);
@@ -45,7 +63,7 @@ const HeroBlockEdit = ({ heroblock, updateHeroBlock }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={classes.fadeIn}>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ width: "85%" }}>
           <EditField
