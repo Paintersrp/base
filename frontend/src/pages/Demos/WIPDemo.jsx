@@ -10,7 +10,7 @@ import Partners from "../../components/WIP/Partners/Partners";
 import Reviews from "../../components/WIP/Reviews/Reviews";
 import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
 import BaseCard from "../../components/Elements/Base/BaseCard";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 
 const products = [
   {
@@ -182,38 +182,46 @@ const eventSets = {
     },
   ],
 };
+const actions = [
+  <Grid
+    container
+    flex
+    spacing={0}
+    justifyContent="space-between"
+    alignItems="center"
+  >
+    <Typography variant="subtitle2">By: Admin</Typography>
+    <Button key="2" size="small" variant="contained" color="primary">
+      More
+    </Button>
+  </Grid>,
+];
 
 const wipComponents = [
   {
     component: BaseCard,
     title: "BaseCard - Top Media",
     props: {
-      title: "Example Card Title",
-      subtitle: "Example Card Subtitle",
-      headerAction: (
-        <Button variant="contained" color="primary" style={{ marginRight: 7 }}>
-          Test 1
-        </Button>
-      ),
+      title: "How I Became Danny Devito",
+      subtitle: "I Paid the Troll Toll",
+      // headerAction: (
+      //   <Button variant="contained" color="primary" style={{ marginRight: 7 }}>
+      //     Test 1
+      //   </Button>
+      // ),
       children: (
         <Typography variant="body2">
-          This is some example card content. You can put any kind of component
-          or element inside the card content, including text, images, or other
-          components.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
+          nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
+          vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
+          accumsan arcu. Nam imperdiet sapien non tempor nam...
         </Typography>
       ),
-      actions: [
-        <Button key="1" variant="contained" color="primary">
-          Test 2
-        </Button>,
-        <Button key="2" variant="contained" color="primary">
-          Test 3
-        </Button>,
-      ],
+      actions: actions,
       elevation: 4,
       headerTitleProps: { variant: "h5" },
       headerSubheaderProps: { variant: "body2" },
-      media: " images/products/product2.jpeg",
+      media: "images/products/danny-devito.jpg",
       mediaPosition: "top",
     },
   },
@@ -221,32 +229,22 @@ const wipComponents = [
     component: BaseCard,
     title: "BaseCard - Left Media",
     props: {
-      title: "Example Card Title",
-      subtitle: "Example Card Subtitle",
-      headerAction: (
-        <Button variant="contained" color="primary" style={{ marginRight: 7 }}>
-          Test 1
-        </Button>
-      ),
+      title: "How I Became Danny Devito",
+      subtitle: "I Paid the Troll Toll",
+      // headerAction: [],
       children: (
         <Typography variant="body2">
-          This is some example card content. You can put any kind of component
-          or element inside the card content, including text, images, or other
-          components.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
+          nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
+          vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
+          accumsan arcu. Nam imperdiet sapien non tempor nam...
         </Typography>
       ),
-      actions: [
-        <Button key="1" variant="contained" color="primary">
-          Test 2
-        </Button>,
-        <Button key="2" variant="contained" color="primary">
-          Test 3
-        </Button>,
-      ],
+      actions: actions,
       elevation: 4,
       headerTitleProps: { variant: "h5" },
       headerSubheaderProps: { variant: "body2" },
-      media: "images/products/product1.webp",
+      media: "images/products/danny-devito.jpg",
       mediaPosition: "left",
     },
   },

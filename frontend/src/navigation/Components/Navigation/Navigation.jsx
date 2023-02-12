@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 60,
   },
   drawerPaper: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     color: "white",
   },
   menuButton: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 20,
   },
   appBar: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     height: 60,
   },
   appLink: {

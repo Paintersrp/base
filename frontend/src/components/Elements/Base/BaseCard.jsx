@@ -10,42 +10,41 @@ import { CardMedia, Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxWidth: 700,
+    maxWidth: 1000,
     backgroundColor: theme.palette.background.light,
     borderRadius: theme.spacing(1),
     transition: "0.3s",
     "&:hover": {
-      transform: "translateY(-10px)",
+      transform: "translateY(-5px)",
       boxShadow: theme.shadows[7],
       border: `0.5px solid ${theme.palette.secondary.main}`,
     },
   },
   cardHeader: {
     backgroundColor: theme.palette.background.light,
-    padding: theme.spacing(2),
+    padding: theme.spacing(2, 2, 1, 2),
     minHeight: 50,
   },
   cardContent: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(2),
+    padding: theme.spacing(0, 2, 0, 2),
     flex: 1,
   },
   cardActions: {
     backgroundColor: theme.palette.background.light,
     display: "flex",
     justifyContent: "flex-end",
-    padding: theme.spacing(2),
+    padding: theme.spacing(0, 2, 2, 2),
     minHeight: 50,
   },
   cardMedia: {
     paddingTop: "56.25%",
     height: "100%",
+    borderTopLeftRadius: theme.spacing(0.5),
+    borderBottomLeftRadius: theme.spacing(0.5),
   },
-  // cardMedia: {
-  //   paddingTop: "56.25%",
-  // },
 }));
 
 const BaseCard = ({
@@ -59,81 +58,53 @@ const BaseCard = ({
   headerSubheaderProps,
   headerActionProps,
   media,
-  mediaPosition = "left",
+  mediaPosition,
 }) => {
   const classes = useStyles();
-  let mediaLeft = false;
-  let mediaTop = false;
+  let mediaLayout = false;
+  let contentLayout = false;
 
   if (mediaPosition === "left") {
-    mediaLeft = true;
+    mediaLayout = { item: true, xs: 12, sm: 4, md: 3 };
+    contentLayout = { item: true, xs: 12, sm: 8, md: 9 };
   } else if (mediaPosition === "top") {
-    mediaTop = true;
+    mediaLayout = { item: true, xs: 12 };
+    contentLayout = { item: true, xs: 12 };
   }
 
   return (
     <Card className={classes.root} elevation={elevation}>
       <Grid container spacing={0}>
-        {mediaLeft && (
-          <>
-            <Grid item xs={4}>
-              {media && (
-                <CardMedia className={classes.cardMedia} image={media} />
-              )}
-            </Grid>
-            <Grid item xs={8}>
-              {title && (
-                <CardHeader
-                  title={title}
-                  subheader={subtitle}
-                  action={headerAction}
-                  className={classes.cardHeader}
-                  titleTypographyProps={headerTitleProps}
-                  subheaderTypographyProps={headerSubheaderProps}
-                  actionProps={headerActionProps}
-                />
-              )}
-              <CardContent className={classes.cardContent}>
-                {children}
-              </CardContent>
-              {actions && (
-                <CardActions className={classes.cardActions}>
-                  {actions}
-                </CardActions>
-              )}
-            </Grid>
-          </>
-        )}
-        {mediaTop && (
-          <>
-            <Grid item xs={12}>
-              {media && (
-                <CardMedia className={classes.cardMedia} image={media} />
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              {title && (
-                <CardHeader
-                  title={title}
-                  subheader={subtitle}
-                  action={headerAction}
-                  className={classes.cardHeader}
-                  titleTypographyProps={headerTitleProps}
-                  subheaderTypographyProps={headerSubheaderProps}
-                  actionProps={headerActionProps}
-                />
-              )}
-              <CardContent className={classes.cardContent}>
-                {children}
-              </CardContent>
-              {actions && (
-                <CardActions className={classes.cardActions}>
-                  {actions}
-                </CardActions>
-              )}
-            </Grid>
-          </>
-        )}
+        <Grid
+          item={mediaLayout.item}
+          xs={mediaLayout.xs}
+          sm={mediaLayout.sm}
+          md={mediaLayout.md}
+        >
+          {media && <CardMedia className={classes.cardMedia} image={media} />}
+        </Grid>
+        <Grid
+          item={contentLayout.item}
+          xs={contentLayout.xs}
+          sm={contentLayout.sm}
+          md={contentLayout.md}
+        >
+          {title && (
+            <CardHeader
+              title={title}
+              subheader={subtitle}
+              action={headerAction}
+              className={classes.cardHeader}
+              titleTypographyProps={headerTitleProps}
+              subheaderTypographyProps={headerSubheaderProps}
+              actionProps={headerActionProps}
+            />
+          )}
+          <CardContent className={classes.cardContent}>{children}</CardContent>
+          {actions && (
+            <CardActions className={classes.cardActions}>{actions}</CardActions>
+          )}
+        </Grid>
       </Grid>
     </Card>
   );
@@ -150,6 +121,7 @@ BaseCard.propTypes = {
   headerSubheaderProps: PropTypes.object,
   headerActionProps: PropTypes.object,
   media: PropTypes.string,
+  mediaPosition: PropTypes.string,
 };
 
 BaseCard.defaultProps = {
@@ -157,6 +129,7 @@ BaseCard.defaultProps = {
   headerTitleProps: {},
   headerSubheaderProps: {},
   headerActionProps: {},
+  mediaPosition: "left",
 };
 
 export default BaseCard;

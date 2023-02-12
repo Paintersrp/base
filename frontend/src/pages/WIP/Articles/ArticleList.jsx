@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import CreateUpdateArticle from "./ArticleCreateUpdate";
-import { CardActions, Chip, Grid } from "@material-ui/core";
+import { Button, Chip, Grid } from "@material-ui/core";
 import DOMPurify from "dompurify";
-import ArticleListNew from "./ArticleOLD";
+import ArticleListFull from "./ArticleListFull";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ContentLayout from "../../../components/Elements/Layout/ContentLayout";
+import BaseCard from "../../../components/Elements/Base/BaseCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "99vw",
     minHeight: "80vh",
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
   },
   list: {
     width: "100%",
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
     color: "white",
   },
   card: {
@@ -82,6 +80,15 @@ const useStyles = makeStyles((theme) => ({
   contentContainer: {
     paddingLeft: 20,
   },
+  chip: {
+    borderRadius: 14,
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.secondary.contrastText,
+    marginRight: 5,
+    marginTop: 5,
+    fontWeight: 600,
+    fontFamily: "Roboto",
+  },
 }));
 
 const ArticleList = () => {
@@ -90,9 +97,44 @@ const ArticleList = () => {
   const classes = useStyles();
   const nav = useNavigate();
 
+  const actions = ({ article }) => {
+    return (
+      <Grid
+        container
+        flex
+        spacing={0}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            flexWrap: "wrap",
+            paddingBottom: 5,
+          }}
+        >
+          {article.tags.map((tag) => (
+            <Chip key={tag.name} label={tag.name} className={classes.chip} />
+          ))}
+        </div>
+
+        <Grid container flex justifyContent="space-between" alignItems="center">
+          <Typography variant="subtitle2">By: Admin</Typography>
+          <Link to={`/articles/${article.id}`}>
+            <Button key="2" size="small" variant="contained" color="primary">
+              More
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+    );
+  };
+
   useEffect(() => {
     axiosInstance
-      .get("/articles/")
+      .get("/articles/highlighted/")
       .then((response) => {
         console.log(response.data);
         setArticles(response.data);
@@ -104,7 +146,6 @@ const ArticleList = () => {
 
   return (
     <>
-      <ArticleListNew />
       <ContentLayout
         title="Articles"
         description="Where the articles be yo."
@@ -113,119 +154,49 @@ const ArticleList = () => {
         url="https://example.com/example-page"
       >
         <List className={classes.list}>
-          <Grid container spacing={3}>
+          <Grid
+            container
+            spacing={0}
+            flex
+            justifyContent="center"
+            style={{ padding: 20 }}
+          >
             {articles.map((article) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={6}
-                lg={6}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Link to={`/articles/${article.id}`}>
-                  <Card className={classes.card}>
-                    <CardContent className={classes.cardContent}>
-                      <Grid container spacing={1}>
-                        <Grid
-                          item
-                          xs={3}
-                          sm={3}
-                          md={3}
-                          lg={2}
-                          alignItems="center"
-                          justifyContent="center"
-                          className={classes.imgContainer}
-                        >
-                          <CardMedia
-                            className={classes.media}
-                            image={`${article.image}`}
-                            title={article.title}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={9}
-                          sm={9}
-                          lg={10}
-                          alignItems="center"
-                          justifyContent="center"
-                          className={classes.contentContainer}
-                        >
-                          <Grid container spacing={1}>
-                            <Grid
-                              item
-                              xs={12}
-                              sm={12}
-                              alignItems="center"
-                              justifyContent="center"
-                              className={classes.contentContainer}
-                            >
-                              <div
-                                style={{
-                                  marginLeft: 11,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  flexWrap: "wrap",
-                                }}
-                              >
-                                <div>
-                                  <Typography className={classes.title}>
-                                    {article.title}
-                                  </Typography>
-                                </div>
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(
-                                      article.content.substr(0, 200)
-                                    ),
-                                  }}
-                                  className={classes.body}
-                                />
-                              </div>
-
-                              <CardActions>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    width: "100%",
-                                    alignItems: "center",
-                                    marginTop: 20,
-                                  }}
-                                >
-                                  {article.tags.map((tag) => (
-                                    <Chip
-                                      key={tag.name}
-                                      label={tag.name}
-                                      style={{ marginRight: 10 }}
-                                    />
-                                  ))}
-                                </div>
-                              </CardActions>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "end",
-                                  width: "100%",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Typography className={classes.author}>
-                                  By: {article.author}
-                                </Typography>
-                              </div>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Link>
+              <Grid item style={{ padding: 10 }}>
+                <BaseCard
+                  title={article.title}
+                  subtitle="Subtitle"
+                  headerAction={[]}
+                  headerTitleProps="h5"
+                  headerSubheaderProps="body2"
+                  media={`http://localhost:8000/${article.image}`}
+                  mediaPosition="left"
+                  actions={actions({ article })}
+                >
+                  <Typography variant="body2">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          article.content.substr(0, 200)
+                        ),
+                      }}
+                    />
+                  </Typography>
+                </BaseCard>
               </Grid>
             ))}
           </Grid>
         </List>
+        <div
+          style={{
+            backgroundColor: "white",
+            justifyContent: "center",
+            display: "flex",
+            paddingBottom: 40,
+          }}
+        >
+          <ArticleListFull />
+        </div>
         <Fab
           className={classes.fab}
           size="medium"
