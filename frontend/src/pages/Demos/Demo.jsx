@@ -1,12 +1,33 @@
 import React from "react";
-import { Divider, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.light,
+    display: "flex",
+    width: "100%",
+    minHeight: 700,
+    flexDirection: "column",
+    justifyContent: "center",
+  },
   divider: {
-    margin: `${theme.spacing(3)}px 0`,
     color: "white",
     backgroundColor: "white",
+  },
+  title: {
+    textAlign: "center",
+    color: theme.palette.text.dark,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 0,
+    padding: 0,
+  },
+  heading: {
+    color: "black",
+    paddingTop: 40,
+    paddingBottom: 40,
   },
 }));
 
@@ -14,16 +35,7 @@ function Demo({ demoTitle, components }) {
   const classes = useStyles();
 
   return (
-    <div
-      style={{
-        backgroundColor: "#242424",
-        display: "flex",
-        width: "100%",
-        minHeight: 700,
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-    >
+    <div className={classes.root}>
       <div
         style={{
           display: "flex",
@@ -31,28 +43,13 @@ function Demo({ demoTitle, components }) {
           justifyContent: "center",
         }}
       >
-        <div
-          style={{
-            textAlign: "center",
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          <Typography variant="h1" style={{ color: "white", paddingTop: 20 }}>
+        <div className={classes.title}>
+          <Typography variant="h1" className={classes.heading}>
             {demoTitle}
           </Typography>
         </div>
         {components.map((hero, index) => (
           <>
-            <Divider
-              key={index}
-              variant="fullWidth"
-              className={classes.divider}
-            />
             <div
               key={index}
               style={{
@@ -65,7 +62,7 @@ function Demo({ demoTitle, components }) {
             >
               <Typography
                 variant="h2"
-                style={{ color: "white", paddingBottom: 20 }}
+                style={{ color: "black", paddingBottom: 20 }}
               >
                 {hero.title}
               </Typography>

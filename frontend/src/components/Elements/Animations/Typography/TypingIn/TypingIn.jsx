@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 
-export const TypingIn = ({ children, delay = 100, ...props }) => {
-  const [display, setDisplay] = useState("");
-  const [index, setIndex] = useState(0);
+export function TypingIn({ text, duration }) {
+  const animation = useAnimation();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (index === children.length) {
-        clearInterval(interval);
-      } else {
-        setDisplay((prevDisplay) => prevDisplay + children[index]);
-        setIndex((prevIndex) => prevIndex + 1);
-      }
-    }, delay);
+    animation.start("typing");
+  }, []);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [children, delay, index]);
-
-  return <span {...props}>{display}</span>;
-};
+  return (
+    <motion.div
+      animate={animation}
+      initial={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+      className="clown-ass"
+    >
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          transition={{ duration: duration, delay: index * duration }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+}

@@ -19,6 +19,7 @@ import ContentLayout from "../../components/Elements/Layout/ContentLayout";
 import IconScroller from "../../components/Elements/Animations/IconScroller/IconScroller";
 import Processes from "../../components/Landing/Processes/Processes";
 import Pricing from "../../components/Landing/Pricing/Pricing";
+import BasePaper from "../../components/Elements/Base/BasePaper";
 
 const partners = [
   {

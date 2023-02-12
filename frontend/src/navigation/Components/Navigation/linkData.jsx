@@ -48,26 +48,9 @@ const linkData = [
     icon: <FaBoxOpen size={22} />,
     children: [
       {
-        name: "Hero Components",
-        link: "/heroes",
+        name: "WIP Components",
+        link: "/WIP",
         icon: <FaHSquare size={22} />,
-      },
-      {
-        name: "Feature Components",
-        link: "/features",
-        icon: (
-          <FaHandLizard style={{ transform: "rotate(180deg)" }} size={22} />
-        ),
-      },
-      {
-        name: "Form Components",
-        link: "/forms",
-        icon: <GiPlatform size={22} />,
-      },
-      {
-        name: "Parts Components",
-        link: "/parts",
-        icon: <FaCogs size={22} />,
       },
     ],
   },

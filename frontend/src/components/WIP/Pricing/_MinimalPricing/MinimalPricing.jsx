@@ -13,45 +13,63 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    width: "100%",
+    width: 1280,
   },
   pricingCard: {
+    borderRadius: theme.spacing(2),
     zIndex: 2,
-    minWidth: 325,
-    maxWidth: 325,
-    height: 325,
+    minWidth: 360,
+    maxWidth: 360,
+    minHeight: 360,
     background: theme.palette.primary.main,
     color: theme.palette.common.white,
     "&.highlight": {
-      border: `2px solid gold`,
+      border: `1px solid ${theme.palette.secondary.main}`,
     },
   },
   pricingTitle: {
     fontWeight: "bold",
+    fontSize: "1.75rem",
     marginBottom: theme.spacing(2),
+    textAlign: "center",
+    fontFamily: "Poppins",
   },
   pricingPrice: {
     fontWeight: "bold",
-    fontSize: "2rem",
+    fontSize: "1.1rem",
+    textAlign: "center",
     marginBottom: theme.spacing(2),
+    fontFamily: "Roboto",
+  },
+  btnContainer: {
+    display: "flex",
+    justifyContent: "center",
   },
   pricingButton: {
-    background: theme.palette.common.white,
-    color: theme.palette.primary.main,
+    background: theme.palette.secondary.dark,
+    color: theme.palette.secondary.contrastText,
     "&:hover": {
-      background: theme.palette.primary.light,
+      background: theme.palette.secondary.main,
     },
   },
   icon: {
+    textAlign: "center",
     fontSize: "3rem",
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0),
   },
   chip: {
-    margin: theme.spacing(1),
+    margin: 5,
+    width: "35%",
+    background: theme.palette.secondary.dark,
+    color: theme.palette.secondary.contrastText,
+    fontFamily: "Poppins",
+    fontWeight: 600,
   },
   chipContainer: {
     display: "flex",
     flexWrap: "wrap",
+    flexDirection: "column",
+    alignItems: "center",
     marginBottom: theme.spacing(2),
   },
   badge: {
@@ -74,10 +92,10 @@ const PricingCard = ({ title, price, features, popular, icon }) => {
     <Card className={`${classes.pricingCard} ${popular ? "highlight" : ""}`}>
       <CardContent>
         <div className={classes.icon}>{icon}</div>
-        <Typography variant="h5" className={classes.pricingTitle}>
+        <Typography variant="h3" className={classes.pricingTitle}>
           {title}
         </Typography>
-        <Typography variant="h3" className={classes.pricingPrice}>
+        <Typography variant="h5" className={classes.pricingPrice}>
           ${price}/month
         </Typography>
         <div className={classes.chipContainer}>
@@ -85,9 +103,11 @@ const PricingCard = ({ title, price, features, popular, icon }) => {
             <Chip key={feature} label={feature} className={classes.chip} />
           ))}
         </div>
-        <Button variant="contained" className={classes.pricingButton}>
-          Sign Up
-        </Button>
+        <div className={classes.btnContainer}>
+          <Button variant="contained" className={classes.pricingButton}>
+            Sign Up
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
@@ -109,7 +129,7 @@ const PricingTier = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} className={classes.gridContainer}>
           <PricingCard
-            title="Pro"
+            title="Professional"
             price={20}
             features={["Feature 1", "Feature 2", "Feature 3"]}
             popular={true}

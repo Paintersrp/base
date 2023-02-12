@@ -50,18 +50,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavigationLinks({ links, toggleDrawer }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState({});
-  const [parentName, setParentName] = useState("");
 
   const handleMenuOpen = (item) => () => {
-    setParentName(item);
     setMenuOpen({ ...menuOpen, [item]: !menuOpen[item] });
-  };
-
-  const handleSubMenu = (item) => () => {
-    setOpen(false);
-    setMenuOpen(parentName);
   };
 
   return (
@@ -92,7 +84,7 @@ export default function NavigationLinks({ links, toggleDrawer }) {
                     className={classes.nested}
                     component={Link}
                     to={subItem.link}
-                    onClick={handleSubMenu(item.name)}
+                    onClick={toggleDrawer(false)}
                   >
                     <ListItemIcon style={{ color: "white" }}>
                       {subItem.icon}

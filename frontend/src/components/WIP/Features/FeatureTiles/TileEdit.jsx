@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CardMedia, TextField } from "@material-ui/core";
-import TagsInput from "../../../../pages/Articles/TagsInput";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;

@@ -116,26 +116,13 @@ const Profile = () => {
             centered
             style={{ padding: 0 }}
           >
-            <Tab label="Settings" />
             <Tab label="Profile" />
+            <Tab label="Settings" />
             <Tab label="Security" />
           </Tabs>
           <Box>
             <Typography component="div" style={{ color: "black" }}>
               {value === 0 && (
-                <div className={classes.form}>
-                  <h2>Settings</h2>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox color="primary" name="notifications" />
-                      }
-                      label="Notifications"
-                    />
-                  </Grid>
-                </div>
-              )}
-              {value === 1 && (
                 <div className={classes.form}>
                   <h2>Profile</h2>
                   <Grid container spacing={1}>
@@ -202,6 +189,19 @@ const Profile = () => {
                         onChange={handleProfileChange}
                       />
                     </Grid>
+                  </Grid>
+                </div>
+              )}
+              {value === 1 && (
+                <div className={classes.form}>
+                  <h2>Settings</h2>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox color="primary" name="notifications" />
+                      }
+                      label="Notifications"
+                    />
                   </Grid>
                 </div>
               )}

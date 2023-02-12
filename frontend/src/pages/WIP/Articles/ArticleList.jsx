@@ -6,15 +6,14 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import CreateUpdateArticle from "./ArticleCreateUpdate";
 import { CardActions, Chip, Grid } from "@material-ui/core";
 import DOMPurify from "dompurify";
-import axiosInstance from "../../lib/Axios/axiosInstance";
 import ArticleListNew from "./ArticleOLD";
-import ContentLayout from "../../components/Elements/Layout/ContentLayout";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import ContentLayout from "../../../components/Elements/Layout/ContentLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,18 +101,6 @@ const ArticleList = () => {
         setError(err);
       });
   }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:8000/api/articles/");
-  //       setArticles(res.data.articles);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
 
   return (
     <>

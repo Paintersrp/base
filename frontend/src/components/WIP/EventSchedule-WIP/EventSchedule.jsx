@@ -9,7 +9,7 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#1C1C1C",
+    backgroundColor: theme.palette.background.light,
     padding: theme.spacing(4),
     borderRadius: 14,
     width: "60%",
@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     borderRadius: 7,
-    color: "white",
-    backgroundColor: "#242424",
+    color: "black",
+    backgroundColor: theme.palette.background.light,
     width: "100%",
     marginBottom: 15,
     boxShadow:
@@ -63,9 +63,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tab: {
-    borderRadius: 7,
     display: "flex",
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.primary.main,
     color: "#f9f9f9",
     fontWeight: "700",
     fontFamily: "Poppins",
@@ -87,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
   },
   tabsIndicator: {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: theme.palette.secondary.main,
   },
   flexContainer: {
     display: "flex",

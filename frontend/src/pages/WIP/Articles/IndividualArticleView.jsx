@@ -10,7 +10,7 @@ import DOMPurify from "dompurify";
 import { Link, useParams } from "react-router-dom";
 import { CardMedia, Grid, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../lib/Axios/axiosInstance";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   root: {

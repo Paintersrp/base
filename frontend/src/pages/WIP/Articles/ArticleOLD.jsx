@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import axios from "axios";
-import axiosInstance from "../../lib/Axios/axiosInstance";
-import { Box, CardMedia, Divider, Typography } from "@material-ui/core";
+import { Box, CardMedia, Typography } from "@material-ui/core";
 import DOMPurify from "dompurify";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   root: {
