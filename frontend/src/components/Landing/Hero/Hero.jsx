@@ -12,7 +12,6 @@ import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
 import { useSelector } from "react-redux";
 import CarouselEdit from "./CarouselEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
-import FadeAndGrow from "../../TestFile";
 
 const useStyles = makeStyles((theme) => ({
   root: {

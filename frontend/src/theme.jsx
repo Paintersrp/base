@@ -1,12 +1,13 @@
 import { createTheme } from "@material-ui/core/styles";
+import { indigo } from "@material-ui/core/colors";
 
 const theme = createTheme({
   palette: {
     black: "black",
     primary: {
-      light: "#7986cb",
-      main: "#3f51b5",
-      dark: "#303f9f",
+      light: indigo[300],
+      main: indigo[500],
+      dark: indigo[700],
       contrastText: "#fff",
     },
     secondary: {

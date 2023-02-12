@@ -41,7 +41,7 @@ export default function NavigationAuthed({ toggleDrawer, handleLogout }) {
         <ListItemIcon style={{ color: "white" }}>
           <FaUserAlt size={22} />
         </ListItemIcon>
-        <ListItemText primary="Profile" className={classes.linkText} />
+        <ListItemText primary="Profile WIP" className={classes.linkText} />
       </ListItem>
       <ListItem
         button

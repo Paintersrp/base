@@ -40,14 +40,6 @@ export default function NavigationUser({ username, toggleDrawer }) {
         </ListItemIcon>
         <ListItemText primary={username} className={classes.linkText} />
       </ListItem>
-      {/* <Link to="/profile" className={classes.links}>
-        <ListItem>
-          <ListItemIcon style={{ color: "white" }}>
-            <AccountCircle className={classes.profileIcon} />
-          </ListItemIcon>
-          <ListItemText primary={username} />
-        </ListItem>
-      </Link> */}
       <Divider style={{ backgroundColor: "grey" }} />
     </div>
   );

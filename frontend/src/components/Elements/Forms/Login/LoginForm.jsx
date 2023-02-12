@@ -24,7 +24,7 @@ import { setAuth, setUser } from "../../../../lib/Actions/auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
     width: "100vw",
     minHeight: "772px",
     display: "flex",
@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.light,
     borderRadius: 14,
   },
   icon: {
     margin: theme.spacing(1),
-    color: "white",
+    color: "black",
     fontSize: "2rem",
     width: 40,
     height: 40,
@@ -72,35 +72,35 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     textAlign: "center",
-    color: "white",
+    color: "black",
     fontSize: "1.75rem",
     paddingBottom: 10,
-    borderBottom: "1px solid white",
+    borderBottom: "1px solid black",
     width: "100%",
   },
   field: {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "white",
+        borderColor: "black",
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: "black",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: "black",
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
-      fontWeight: "700",
+      color: "black",
+      fontWeight: "500",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: "black",
     },
   },
   label: {
-    color: "white",
+    color: "black",
   },
 }));
 
@@ -183,7 +183,7 @@ const LoginForm = () => {
           <Icon className={classes.icon}>
             <IoLogoAngular />
           </Icon>
-          <Typography className={classes.heading}>Sign in</Typography>
+          <Typography variant="h3">Sign in</Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -222,7 +222,7 @@ const LoginForm = () => {
                   checked={formData.rememberMe}
                   onChange={handleCheckbox}
                   name="rememberMe"
-                  style={{ color: "white" }}
+                  style={{ color: "black" }}
                 />
               }
               label="Remember me"

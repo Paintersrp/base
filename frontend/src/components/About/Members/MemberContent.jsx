@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: theme.spacing(1),
     color: theme.palette.primary.dark,
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
   },
   body: {
     padding: 0,

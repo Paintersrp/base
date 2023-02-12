@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiFormLabel-root": {
       color: "black",
-      fontWeight: "700",
+      fontWeight: "600",
       fontSize: "0.9rem",
     },
     "& input": {
