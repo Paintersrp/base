@@ -8,8 +8,8 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CardMedia } from "@material-ui/core";
-import QuillEditor from "./TextEditor";
-import TagsInput from "./TagsInput";
+import QuillEditor from "../Create/TextEditor";
+import TagsInput from "../Create/TagsInput";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;

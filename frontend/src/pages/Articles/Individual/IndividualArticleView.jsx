@@ -5,7 +5,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
-import axios from "axios";
 import DOMPurify from "dompurify";
 import { Link, useParams } from "react-router-dom";
 import { CardMedia, Grid, Button } from "@material-ui/core";

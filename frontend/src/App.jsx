@@ -3,11 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/Landing/LandingPage";
 import AboutPage from "./pages/About/AboutPage";
 import SupportPage from "./pages/WIP/Support/SupportPage";
-
-import IndividualArticleView from "./pages/WIP/Articles/IndividualArticleView";
-import UpdateArticleView from "./pages/WIP/Articles/UpdateArticleView";
-import ArticleList from "./pages/WIP/Articles/ArticleList";
-
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./theme";
@@ -20,6 +15,9 @@ import linkData from "./navigation/Components/Navigation/linkData";
 import ComplexFooter from "./navigation/Components/Footer/ComplexFooter/ComplexFooter";
 import Profile from "./components/Elements/Forms/Profile/Profile";
 import FeatureDemo from "./pages/Demos/WIPDemo";
+import Articles from "./pages/Articles/Articles/Articles";
+import IndividualArticleView from "./pages/Articles/Individual/IndividualArticleView";
+import UpdateArticleView from "./pages/Articles/Edit/UpdateArticleView";
 
 {
   /* 
@@ -62,7 +60,7 @@ function App() {
           <Route path="/WIP" element={<FeatureDemo />} />
 
           {/* Feature Routes */}
-          <Route path="/articles" element={<ArticleList />} />
+          <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:id" element={<IndividualArticleView />} />
           <Route path="/articles/:id/update" element={<UpdateArticleView />} />
         </Routes>

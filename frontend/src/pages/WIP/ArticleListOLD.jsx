@@ -8,12 +8,12 @@ import Typography from "@material-ui/core/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import CreateUpdateArticle from "./ArticleCreateUpdate";
+import CreateUpdateArticle from "../Articles/Create/ArticleCreateUpdate";
 import { CardActions, Chip, Grid } from "@material-ui/core";
 import DOMPurify from "dompurify";
-import ArticleListNew from "./ArticleListFull";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
-import ContentLayout from "../../../components/Elements/Layout/ContentLayout";
+import ArticleListNew from "../Articles/Articles/ArticleListFull";
+import axiosInstance from "../../lib/Axios/axiosInstance";
+import ContentLayout from "../../components/Elements/Layout/ContentLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ArticleList = () => {
+const ArticleListOLD = () => {
   const [articles, setArticles] = useState([]);
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -239,4 +239,4 @@ const ArticleList = () => {
   );
 };
 
-export default ArticleList;
+export default ArticleListOLD;
