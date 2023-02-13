@@ -144,6 +144,7 @@ const ArticleListFull = () => {
       .get("/articles/")
       .then((response) => {
         setArticles(response.data);
+        setFilteredArticles(response.data);
       })
       .catch((err) => {
         setError(err);
@@ -151,21 +152,38 @@ const ArticleListFull = () => {
   }, []);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 1;
+  const pageSize = 3;
 
   const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
+    const newPage = data.selected;
+    if (newPage * pageSize >= filteredArticles.length) {
+      setCurrentPage(Math.floor(filteredArticles.length / pageSize));
+    } else {
+      setCurrentPage(newPage);
+    }
   };
 
-  const filteredArticlesToDisplay = filteredArticles.slice(
-    currentPage * pageSize,
-    (currentPage + 1) * pageSize
+  const [filteredArticlesToDisplay, setFilteredArticlesToDisplay] = useState(
+    []
   );
+  useEffect(() => {
+    setFilteredArticlesToDisplay(
+      filteredArticles.slice(
+        currentPage * pageSize,
+        (currentPage + 1) * pageSize
+      )
+    );
+  }, [filteredArticles, currentPage]);
 
-  const pageCount = Math.ceil(filteredArticles.length / pageSize);
+  let pageCount;
+  pageCount = Math.ceil(filteredArticles.length / pageSize);
 
   const onUpdate = (onUpdate) => {
+    console.log(onUpdate);
     setFilteredArticles(onUpdate);
+    if (currentPage >= Math.ceil(onUpdate.length / pageSize)) {
+      setCurrentPage(0);
+    }
   };
 
   return (
@@ -180,7 +198,7 @@ const ArticleListFull = () => {
         <Grid item xs={9}>
           <List className={classes.list}>
             {filteredArticlesToDisplay.map((article) => (
-              <ArticleListItem article={article} />
+              <ArticleListItem article={article} onUpdate={onUpdate} />
             ))}
           </List>
           <ReactPaginate

@@ -15,32 +15,38 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   chip: {
-    margin: theme.spacing(0.5),
+    borderRadius: 14,
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.secondary.contrastText,
+    marginRight: 5,
+    marginTop: 5,
+    fontWeight: 600,
+    fontFamily: "Roboto",
   },
   field: {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.background.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.background.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.background.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
 }));
 
-const TagsInput = ({ tags, setTags }) => {
+const TagsInput = ({ tags, setTags, label = "Add Tag" }) => {
   const [inputValue, setInputValue] = useState("");
   const classes = useStyles();
 
@@ -61,7 +67,7 @@ const TagsInput = ({ tags, setTags }) => {
         <TextField
           variant="outlined"
           className={classes.field}
-          label="Add Item"
+          label={label}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={(e) => {
@@ -72,7 +78,7 @@ const TagsInput = ({ tags, setTags }) => {
           InputProps={{
             endAdornment: (
               <IconButton onClick={handleAddTag}>
-                <AddIcon style={{ color: "white" }} />
+                <AddIcon style={{ color: "black" }} />
               </IconButton>
             ),
           }}

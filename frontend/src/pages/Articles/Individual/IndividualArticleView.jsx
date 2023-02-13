@@ -7,66 +7,95 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import DOMPurify from "dompurify";
 import { Link, useParams } from "react-router-dom";
-import { CardMedia, Grid, Button } from "@material-ui/core";
+import { CardMedia, Grid, Button, Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import "./test.css";
+import EditButton from "../../../components/Elements/Buttons/EditButton";
+import UpdateArticleView from "../Edit/UpdateArticleView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexWrap: "wrap",
     width: "99vw",
     minHeight: "77.5vh",
     justifyContent: "center",
-    padding: "20px 0 20px 0",
+    padding: theme.spacing(3, 2),
   },
   card: {
-    maxWidth: "75%",
-    backgroundColor: "#1C1C1C",
-    color: "white",
+    maxWidth: 1200,
+    backgroundColor: theme.palette.background.light,
+    color: theme.palette.text.dark,
   },
   title: {
-    padding: 20,
     fontFamily: "Poppins",
     fontWeight: 700,
     fontSize: 40,
     display: "flex",
     justifyContent: "center",
+    margin: "0px 0",
   },
   body: {
-    padding: "0 40px 0 40px",
     fontFamily: "Poppins",
-    fontWeight: 400,
-    fontSize: "0.9rem",
-    letterSpacing: 0.5,
+    fontWeight: "400 !important",
+    fontSize: "0.95rem",
+    letterSpacing: 0.25,
     lineHeight: 1.5,
   },
   pos: {
     marginBottom: 12,
   },
   image: {
-    minHeight: 200,
+    minHeight: 400,
     width: "100%",
     paddingBottom: "56.25%", // 16:9
+    borderRadius: 8,
   },
   chips: {
-    padding: "0px 50px 20px 50px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    margin: "40px 0",
+    "& > *": {
+      margin: theme.spacing(0.5),
+    },
+  },
+  chip: {
+    borderRadius: 14,
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.secondary.contrastText,
+    marginRight: 5,
+    marginTop: 5,
+    fontWeight: 600,
+    fontFamily: "Roboto",
+  },
+  editButton: {
+    display: "flex",
+    justifyContent: "center",
+    width: "10%",
+    textAlign: "center",
+    margin: "0px 20px",
   },
 }));
 
 const IndividualArticleView = () => {
   const { id } = useParams();
   const [article, setArticle] = useState({});
+  const [editing, setEditing] = useState(false);
   const classes = useStyles();
   const { auth } = useSelector((state) => state);
+  let htmlContent;
   console.log(auth.username);
 
   useEffect(() => {
     axiosInstance
       .get(`/articles/${id}/`)
       .then((response) => {
-        console.log(response.data);
         setArticle(response.data);
+        htmlContent = article.content;
+        htmlContent = htmlContent.replace(/<img/g, '<img class="quill-image"');
+        console.log(htmlContent);
       })
       .catch((err) => {
         console.log(err);
@@ -75,62 +104,81 @@ const IndividualArticleView = () => {
 
   return (
     <div className={classes.root}>
-      <Card className={classes.card}>
-        <CardContent style={{ justifyContent: "center", alignItems: "center" }}>
-          {article.image && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "50%",
-                }}
-              >
-                <CardMedia
-                  className={classes.image}
-                  image={`${article.image}`}
-                />
-              </div>
-            </div>
-          )}
-          <Typography className={classes.title}>{article.title}</Typography>
-          <Typography className={classes.body}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(article.content),
-              }}
+      <Paper className={classes.card} elevation={0}>
+        {auth.is_superuser ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "100%",
+            }}
+          >
+            <EditButton
+              onClick={() => setEditing(!editing)}
+              editState={editing}
+              position="flex-end"
             />
-          </Typography>
-        </CardContent>
-        <CardActions className={classes.chips}>
-          {article.tags &&
-            article.tags.map((tag) => <Chip key={tag.name} label={tag.name} />)}
-          {(auth.is_superuser || auth.username === article.author) && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                width: "100%",
-              }}
+          </div>
+        ) : null}
+        {!editing ? (
+          <>
+            <CardContent
+              style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <Button
-                component={Link}
-                to={`/articles/${article.id}/update`}
-                variant="contained"
-              >
-                Edit
-              </Button>
-            </div>
-          )}
-        </CardActions>
-      </Card>
+              {article.image && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "50%",
+                    }}
+                  >
+                    <CardMedia
+                      className={classes.image}
+                      image={`${article.image}`}
+                    />
+                  </div>
+                </div>
+              )}
+              {/* <Typography variant="h1" className={classes.title}> */}
+              {/* {article.title}
+          </Typography> */}
+              {article.content ? (
+                <Typography variant="body2" className={classes.body}>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(article.content),
+                    }}
+                    className={classes.body}
+                  />
+                </Typography>
+              ) : null}
+            </CardContent>
+            <CardActions className={classes.chips}>
+              {article.tags &&
+                article.tags.map((tag) => (
+                  <Chip
+                    key={tag.name}
+                    label={tag.name}
+                    className={classes.chip}
+                  />
+                ))}
+            </CardActions>
+          </>
+        ) : (
+          <div>
+            <UpdateArticleView article={article} />
+          </div>
+        )}
+      </Paper>
     </div>
   );
 };

@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Box, CardMedia, Chip, Grid, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Chip,
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import DOMPurify from "dompurify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import EditButton from "../../../components/Elements/Buttons/EditButton";
+import { useSelector } from "react-redux";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import axios from "axios";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -22,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
   textColor: {
     color: theme.palette.text.dark,
+  },
+  body: {
+    color: theme.palette.text.dark,
+    padding: theme.spacing(3, 0),
   },
   author: {
     fontSize: "0.7rem",
@@ -59,10 +79,119 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: "100%",
   },
+  dialog: {
+    backgroundColor: "transparent",
+  },
+  paper: {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    overflow: "hidden",
+    boxShadow: "0px 0px 10px #00000066",
+  },
+  detailsContainer: {
+    fontFamily: "Poppins",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "white",
+    color: "black",
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+  },
+  editContainer: {
+    fontFamily: "Poppins",
+    alignItems: "center",
+    backgroundColor: "white",
+    color: "black",
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+  },
+  testboi: {
+    backgroundColor: "#white",
+    display: "flex",
+    padding: 0,
+    margin: 0,
+    "& .MuiDialogContent-dividers": {
+      borderTop: "0px solid white !important",
+    },
+    "& .MuiDialogContent-root": {
+      border: "0px solid black",
+    },
+  },
+  yesButton: {
+    fontFamily: "Poppins",
+    width: "100%",
+    marginTop: theme.spacing(2),
+    backgroundColor: theme.palette.success.main,
+    color: "white",
+    "&:hover": {
+      backgroundColor: theme.palette.success.dark,
+    },
+  },
+  noButton: {
+    fontFamily: "Poppins",
+    width: "100%",
+    marginTop: theme.spacing(2),
+    backgroundColor: theme.palette.error.main,
+    color: "white",
+    "&:hover": {
+      backgroundColor: theme.palette.error.dark,
+    },
+  },
 }));
 
-const ArticleListItem = ({ article }) => {
+const ArticleListItem = ({ article, onUpdate }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const { auth } = useSelector((state) => state);
+  const html = DOMPurify.sanitize(article.content);
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+  headings.forEach((heading) => {
+    heading.outerHTML = "";
+  });
+
+  const modifiedHtml = doc.body.innerHTML;
+  const text = parser.parseFromString(modifiedHtml, "text/html").body
+    .textContent;
+  const truncatedText = text.substr(0, 250) + "...";
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = (id) => {
+    handleOpen();
+    setSelectedId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    confirmedDelete(selectedId);
+    handleClose();
+  };
+
+  const confirmedDelete = async (id) => {
+    await axios.delete(`http://localhost:8000/api/articles/${id}/`);
+    axiosInstance
+      .get("/articles/")
+      .then((response) => {
+        onUpdate(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  };
 
   return (
     <div className={classes.listItem}>
@@ -88,15 +217,9 @@ const ArticleListItem = ({ article }) => {
                 }
                 secondary={
                   <>
-                    <Typography
-                      dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(
-                          article.content.substr(0, 250) + "..."
-                        ),
-                      }}
-                      className={classes.textColor}
-                      variant="body2"
-                    />
+                    <Typography variant="body2" className={classes.body}>
+                      {truncatedText}
+                    </Typography>
                     <div className={classes.boxContainer}>
                       <div className={classes.chipContainer}>
                         {article.tags.map((tag) => (
@@ -120,6 +243,72 @@ const ArticleListItem = ({ article }) => {
           </Grid>
         </Grid>
       </Link>
+      {auth.is_superuser ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            height: 40,
+          }}
+        >
+          <IconButton
+            onClick={() => navigate(`/articles/${article.id}/update`)}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(article.id)}>
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      ) : null}
+      <Dialog
+        className={classes.flexer}
+        classes={{ root: classes.dialog, paper: classes.paper }}
+        open={open}
+        onClose={handleClose}
+      >
+        <div className={classes.testboi}>
+          <DialogContent dividers={true} className={classes.detailsContainer}>
+            <Typography variant="h3">
+              Are you sure you want to delete this Article?
+            </Typography>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  width: "15%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  onClick={handleConfirmDelete}
+                  variant="contained"
+                  className={classes.yesButton}
+                >
+                  Yes
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  variant="contained"
+                  className={classes.noButton}
+                >
+                  No
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </div>
+      </Dialog>
     </div>
   );
 };

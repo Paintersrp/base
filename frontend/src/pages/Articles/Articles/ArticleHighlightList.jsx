@@ -21,6 +21,41 @@ const useStyles = makeStyles((theme) => ({
 const ArticleHighlightList = ({ articles }) => {
   const classes = useStyles();
 
+  const renderArticles = (article) => {
+    const html = DOMPurify.sanitize(article.content);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    headings.forEach((heading) => {
+      heading.outerHTML = "";
+    });
+
+    const modifiedHtml = doc.body.innerHTML;
+    const text = parser.parseFromString(modifiedHtml, "text/html").body
+      .textContent;
+    const truncatedText = text.substr(0, 250) + "...";
+
+    return (
+      <Grid item style={{ padding: 10 }}>
+        <BaseCard
+          title={article.title}
+          subtitle="Subtitle"
+          headerAction={[]}
+          headerTitleProps="h5"
+          headerSubheaderProps="body2"
+          media={`http://localhost:8000/${article.image}`}
+          mediaPosition="left"
+          actions={<ArticleHighlightActions article={article} />}
+        >
+          <Typography variant="body2" style={{ marginBottom: 5 }}>
+            {truncatedText}
+          </Typography>
+        </BaseCard>
+      </Grid>
+    );
+  };
+
   return (
     <List className={classes.list}>
       <Grid
@@ -30,30 +65,7 @@ const ArticleHighlightList = ({ articles }) => {
         justifyContent="center"
         className={classes.listContainer}
       >
-        {articles.map((article) => (
-          <Grid item style={{ padding: 10 }}>
-            <BaseCard
-              title={article.title}
-              subtitle="Subtitle"
-              headerAction={[]}
-              headerTitleProps="h5"
-              headerSubheaderProps="body2"
-              media={`http://localhost:8000/${article.image}`}
-              mediaPosition="left"
-              actions={<ArticleHighlightActions article={article} />}
-            >
-              <Typography variant="body2">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      article.content.substr(0, 250) + "..."
-                    ),
-                  }}
-                />
-              </Typography>
-            </BaseCard>
-          </Grid>
-        ))}
+        {articles.map((article) => renderArticles(article))}
       </Grid>
     </List>
   );

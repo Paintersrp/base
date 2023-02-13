@@ -1,13 +1,21 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-export default function EditButton({ onClick, editState, color = "black" }) {
+export default function EditButton({
+  onClick,
+  editState,
+  color = "black",
+  position = "center",
+  mt = 15,
+  mb = 0,
+}) {
   return (
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
-        marginTop: 15,
+        justifyContent: position,
+        marginTop: mt,
+        marginBottom: mb,
         width: "100%",
       }}
     >

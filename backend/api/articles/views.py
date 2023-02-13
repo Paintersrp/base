@@ -43,6 +43,7 @@ class ArticleListCreateView(generics.ListCreateAPIView):
         serializer = ArticleSerializer(data=data)
 
         if serializer.is_valid():
+            data["content"] = data["content"].replace("<img", "<img class='media'")
             serializer.create(validated_data=data, username=user)
 
             return JsonResponse(serializer.data, status=201)
@@ -81,8 +82,9 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             image = request.FILES.get("image")
             article.image.storage.delete(article.image.path)
             article.image = image
-
-        data = {"title": title, "content": content, "tags": tags, "image": image}
+            data = {"title": title, "content": content, "tags": tags, "image": image}
+        else:
+            data = {"title": title, "content": content, "tags": tags}
 
         if isinstance(data.get("tags"), str):
             tags = data["tags"].split(",")
@@ -91,6 +93,7 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         serializer = ArticleSerializer(article, data=data)
 
         if serializer.is_valid():
+            data["content"] = data["content"].replace("<img", "<img class='media'")
             serializer.update(article, validated_data=data)
 
             return JsonResponse(serializer.data, status=200)

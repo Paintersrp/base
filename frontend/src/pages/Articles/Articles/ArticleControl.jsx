@@ -88,9 +88,13 @@ const ArticleControl = ({ articles, onUpdate }) => {
     return true;
   });
 
+  const handleClick = (e) => {
+    onUpdate(filteredArticles);
+  };
+
   useEffect(() => {
     onUpdate(filteredArticles);
-  }, [filteredArticles, onUpdate]);
+  }, [searchQuery, selectedFilters]);
 
   return (
     <Grid item xs={3} style={{ padding: 5 }}>
@@ -127,7 +131,13 @@ const ArticleControl = ({ articles, onUpdate }) => {
           ].map((tagName) => (
             <FormControlLabel
               key={tagName}
-              control={<Checkbox value={tagName} onChange={handleFilter} />}
+              control={
+                <Checkbox
+                  value={tagName}
+                  onChange={handleFilter}
+                  onClick={handleClick}
+                />
+              }
               label={tagName}
               labelPlacement="end"
               InputProps={{

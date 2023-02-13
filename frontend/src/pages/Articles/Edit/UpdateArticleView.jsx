@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
+import Paper from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { CardMedia } from "@material-ui/core";
+import { CardMedia, InputAdornment, TextField } from "@material-ui/core";
 import QuillEditor from "../Create/TextEditor";
 import TagsInput from "../Create/TagsInput";
+import EditField from "../../../components/Elements/Fields/EditField";
+import UpdateButton from "../../../components/Elements/Buttons/UpdateButton";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -21,15 +23,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    width: "99vw",
+    width: "100%",
     minHeight: "77.5vh",
     justifyContent: "center",
     padding: "20px 0 20px 0",
   },
   card: {
-    maxWidth: "90%",
-    backgroundColor: "#1C1C1C",
-    color: "white",
+    maxWidth: 1200,
+    backgroundColor: theme.palette.background.dark,
+    color: theme.palette.text.dark,
   },
   title: {
     padding: 20,
@@ -51,9 +53,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 12,
   },
   image: {
-    minHeight: 200,
+    minHeight: 400,
     width: "100%",
     paddingBottom: "56.25%",
+    borderRadius: 8,
   },
   chips: {
     padding: 15,
@@ -64,11 +67,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[3],
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    "&:hover": {
-      transform: "scale(1.01)",
-      boxShadow: theme.shadows[14],
-      backgroundColor: theme.palette.action.hover,
-    },
+  },
+  input: {
+    display: "none",
   },
 }));
 
@@ -88,10 +89,10 @@ const UpdateArticleView = () => {
           `http://localhost:8000/api/articles/${id}/`
         );
         setArticle(res.data);
-        setContent(res.data.content);
-        setTitle(res.data.title);
-        setTags(res.data.tags.map((tag) => tag.name.trim()));
-        setImage(res.data.image);
+        setContent(article.content);
+        setTitle(article.title);
+        setTags(article.tags.map((tag) => tag.name.trim()));
+        setImage(article.image);
       } catch (error) {
         console.log(error);
       }
@@ -105,12 +106,14 @@ const UpdateArticleView = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(e);
+    console.log(image.name);
     let formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
     formData.append("tags", tags.join(","));
     if (image) {
-      formData.append("image", image, image.name);
+      formData.append("image", image);
     }
     const config = {
       headers: {
@@ -127,21 +130,15 @@ const UpdateArticleView = () => {
     } catch (error) {
       console.log(error);
     }
-    try {
-      const res = await axios.get(`http://localhost:8000/api/articles/${id}/`);
-      setArticle(res.data);
-      setContent(res.data.content);
-      setTitle(res.data.title);
-      setTags(res.data.tags.map((tag) => tag.name.trim()));
-      setImage(res.data.image);
-    } catch (error) {
-      console.log(error);
-    }
+  };
+
+  const handleClick = () => {
+    document.getElementById("file-input").click();
   };
 
   return (
     <div className={classes.root}>
-      <Card className={classes.card}>
+      <Paper className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent>
             {article.image && (
@@ -167,31 +164,57 @@ const UpdateArticleView = () => {
                 </div>
               </div>
             )}
-            <Typography className={classes.title}>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-            </Typography>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ width: "50%", marginRight: 15, marginTop: 15 }}>
+                <EditField
+                  key="title"
+                  label="Title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                />
+              </div>
+            </div>
             <QuillEditor value={content} onChange={handleContentChange} />
-            <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+            <div>
+              <input
+                accept="image/*"
+                className={classes.input}
+                id="file-input"
+                type="file"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+              <TextField
+                id="file-textfield"
+                label="Upload Article Thumbnail"
+                variant="outlined"
+                disabled
+                value={image ? image.name : ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClick}
+                        className={classes.button}
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
           </CardContent>
           <CardActions className={classes.chips}>
             <TagsInput tags={tags} setTags={setTags} />
           </CardActions>
-          <CardActions style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="contained"
-              type="submit"
-              className={classes.button}
-            >
-              Update
-            </Button>
+          <CardActions style={{ display: "flex", justifyContent: "flex-end" }}>
+            <UpdateButton />
           </CardActions>
         </form>
-      </Card>
+      </Paper>
     </div>
   );
 };
