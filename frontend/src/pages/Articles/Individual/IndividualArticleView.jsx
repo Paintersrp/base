@@ -13,6 +13,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import "./test.css";
 import EditButton from "../../../components/Elements/Buttons/EditButton";
 import UpdateArticleView from "../Edit/UpdateArticleView";
+import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 const IndividualArticleView = () => {
   const { id } = useParams();
+  const { fadeIn } = baseClasses();
   const [article, setArticle] = useState({});
   const [editing, setEditing] = useState(false);
   const classes = useStyles();
@@ -103,7 +105,7 @@ const IndividualArticleView = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root}`}>
       <Paper className={classes.card} elevation={0}>
         {auth.is_superuser ? (
           <div
@@ -123,6 +125,7 @@ const IndividualArticleView = () => {
         {!editing ? (
           <>
             <CardContent
+              className={fadeIn}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
               {article.image && (

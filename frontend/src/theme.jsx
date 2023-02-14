@@ -49,7 +49,7 @@ const theme = createTheme({
       dark: "black",
       light: "#fff",
       primary: "rgba(0, 0, 0, 1)",
-      secondary: "rgba(0, 0, 0, 0.54)",
+      secondary: "rgba(0, 0, 0, 0.6)",
       disabled: "rgba(0, 0, 0, 0.38)",
       hint: "rgba(0, 0, 0, 0.38)",
     },
@@ -63,7 +63,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['"Poppins"', "sans-serif"].join(","),
+    fontFamily: ["Roboto", "sans-serif"].join(","),
     h1: {
       fontWeight: 700,
       fontSize: "2.5rem",
@@ -101,26 +101,20 @@ const theme = createTheme({
       letterSpacing: "0.0075em",
     },
     subtitle1: {
-      fontWeight: 400,
-      fontSize: "1rem",
-      lineHeight: 1.75,
-      letterSpacing: "0.00938em",
+      fontWeight: 500,
+      fontSize: "0.9rem",
     },
     subtitle2: {
       fontWeight: 500,
-      fontSize: "0.9rem",
+      fontSize: "0.8rem",
     },
     body1: {
       fontWeight: 400,
       fontSize: "0.95rem",
-      lineHeight: 1.5,
-      letterSpacing: "0.0125em",
     },
     body2: {
       fontWeight: 400,
-      fontSize: "0.85rem",
-      lineHeight: 1.43,
-      letterSpacing: "0.01071em",
+      fontSize: "0.8rem",
     },
     button: {
       fontWeight: 600,

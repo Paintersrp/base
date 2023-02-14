@@ -73,6 +73,18 @@ class FAQSerializer(serializers.ModelSerializer):
         model = FAQ
         fields = ("id", "question", "answer", "category_name")
 
+    def update(self, instance, validated_data):
+        instance.question = validated_data.get("question", instance.question)
+        instance.answer = validated_data.get("answer", instance.answer)
+        category = validated_data.get("category")
+
+        category, created = Category.objects.get_or_create(name=category)
+        instance.category = category
+
+        instance.save()
+
+        return instance
+
 
 class TeamMemberSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)

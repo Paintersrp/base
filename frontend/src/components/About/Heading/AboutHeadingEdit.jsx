@@ -25,6 +25,20 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     paddingBottom: "56.25%",
   },
+  fadeIn: {
+    opacity: 0,
+    animation: `$fadeIn 0.5s ease-in-out forwards`,
+  },
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-30px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
 }));
 
 const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
@@ -66,7 +80,10 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={classes.root}>
+    <form
+      onSubmit={handleSubmit}
+      className={`${classes.root} ${classes.fadeIn}`}
+    >
       <div className={classes.root}>
         <div className={classes.container}>
           <Typography

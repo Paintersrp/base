@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import MemberEdit from "./MemberEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
 import MemberContent from "./MemberContent";
+import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Member = ({ member }) => {
   const classes = useStyles();
+  const { fadeIn } = baseClasses();
   const [editing, setEditing] = useState(false);
   const [memberData, setMemberData] = useState(member);
   const auth = useSelector((state) => state.auth);
@@ -69,10 +71,10 @@ const Member = ({ member }) => {
       sm={6}
       md={6}
       key={memberData.name}
-      className={classes.container}
+      className={`${classes.container}`}
     >
       {!editing ? (
-        <Card className={classes.card}>
+        <Card className={`${classes.card} ${fadeIn}`}>
           <CardHeader
             avatar={
               <Avatar

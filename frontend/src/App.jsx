@@ -62,7 +62,14 @@ function App() {
           {/* Feature Routes */}
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:id" element={<IndividualArticleView />} />
-          <Route path="/articles/:id/update" element={<UpdateArticleView />} />
+          <Route
+            path="/articles/:id/update"
+            element={
+              <div style={{ width: "100vw" }}>
+                <UpdateArticleView />
+              </div>
+            }
+          />
         </Routes>
         <ComplexFooter />
       </Router>

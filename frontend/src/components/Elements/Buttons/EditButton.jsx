@@ -6,8 +6,11 @@ export default function EditButton({
   editState,
   color = "black",
   position = "center",
-  mt = 15,
+  mt = 5,
   mb = 0,
+  mr = 0,
+  ml = 0,
+  width = "inherit",
 }) {
   return (
     <div
@@ -16,7 +19,9 @@ export default function EditButton({
         justifyContent: position,
         marginTop: mt,
         marginBottom: mb,
-        width: "100%",
+        marginRight: mr,
+        marginLeft: ml,
+        width: width,
       }}
     >
       <Button

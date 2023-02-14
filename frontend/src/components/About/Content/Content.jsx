@@ -116,6 +116,7 @@ export default function Content() {
               <EditButton
                 onClick={() => setEditTitle(!editTitle)}
                 editState={editTitle}
+                position="center"
               />
             ) : null}
           </>

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Hours({ contactData }) {
   const classes = useStyles();
-  const { flexCenter } = baseClasses();
+  const { flexCenter, fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
@@ -52,10 +52,10 @@ export default function Hours({ contactData }) {
     <>
       {!editing ? (
         <>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h4" className={`${classes.title} ${fadeIn}`}>
             Business Hours
           </Typography>
-          <Grid container spacing={1} className={flexCenter}>
+          <Grid container spacing={1} className={`${flexCenter} ${fadeIn}`}>
             {days.map((day) => (
               <Grid item xs={12} sm={12} className={classes.textContainer}>
                 <Typography variant="subtitle2">{day.day}:</Typography>
@@ -81,6 +81,8 @@ export default function Hours({ contactData }) {
           <EditButton
             onClick={() => setEditing(!editing)}
             editState={editing}
+            mt={15}
+            mb={0}
           />
         </div>
       ) : null}

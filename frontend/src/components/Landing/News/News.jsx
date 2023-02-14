@@ -4,34 +4,27 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import ArticleCard from "./ArticleCard";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
 import { Paper } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
+import ArticleHighlightList from "../../../pages/Articles/Articles/ArticleHighlightList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
     backgroundColor: theme.palette.background.light,
-    color: "#fafafa",
     paddingBottom: 40,
     [theme.breakpoints.down("1100")]: {
       flexDirection: "column",
     },
   },
-  cardroot: {
-    display: "flex",
-    justifyContent: "center",
-  },
+  cardroot: {},
   card: {
-    justifyContent: "center",
-    alignItems: "center",
     maxWidth: 345,
     minWidth: 345,
     margin: 10,
@@ -51,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: 20,
-    textAlign: "center",
     color: "white",
     backgroundColor: theme.palette.background.light,
     maxWidth: 1400,
@@ -144,19 +136,7 @@ export default function LatestNews() {
           )}
         </Grid>
         <Grid container spacing={2}>
-          {articlesData.map((article) => (
-            <Grid
-              item
-              key={article.id}
-              xs={12}
-              sm={6}
-              md={6}
-              lg={4}
-              className={classes.cardroot}
-            >
-              <ArticleCard article={article} />
-            </Grid>
-          ))}
+          <ArticleHighlightList articles={articlesData} />
         </Grid>
       </Paper>
     </Grid>

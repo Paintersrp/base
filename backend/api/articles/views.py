@@ -6,6 +6,16 @@ from .models import User, Article
 from .serializers import ArticleSerializer
 from authorization.authentication import JWTTokenAuthentication
 import jwt
+from django.contrib import admin
+from django.shortcuts import render
+
+
+def custom_view(request):
+    app_list = admin.site._registry
+    context = {
+        "app_list": app_list,
+    }
+    return render(request, "admin/dashboard.html", context)
 
 
 class ArticleListCreateView(generics.ListCreateAPIView):
@@ -59,12 +69,18 @@ class RecentArticlesView(ArticleListCreateView):
         return JsonResponse(serializer.data, safe=False)
 
 
-class HighlightedArticlesView(ArticleListCreateView):
-    def get(self, request, *args, **kwargs):
-        highlighted_articles = self.queryset.filter(is_highlighted=True)
-        serializer = self.serializer_class(highlighted_articles, many=True)
+class HighlightedArticlesView(generics.ListCreateAPIView):
+    queryset = Article.objects.filter(is_highlighted=True)
+    serializer_class = ArticleSerializer
 
-        return JsonResponse(serializer.data, safe=False)
+
+# class HighlightedArticlesView(ArticleListCreateView):
+#     def get(self, request, *args, **kwargs):
+#         highlighted_articles = self.queryset.filter(is_highlighted=True)
+#         serializer = self.serializer_class(highlighted_articles, many=True)
+#         print(serializer.data)
+
+#         return JsonResponse(serializer.data, safe=False)
 
 
 class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

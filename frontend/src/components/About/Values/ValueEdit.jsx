@@ -6,6 +6,7 @@ import axios from "axios";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import EditField from "../../Elements/Fields/EditField";
+import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ValueEdit = ({ value, onUpdate }) => {
+  const { fadeIn } = baseClasses();
   const classes = useStyles();
   const [data, setData] = useState(value);
   const [title, setTitle] = useState(data.title);
@@ -50,7 +52,7 @@ const ValueEdit = ({ value, onUpdate }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${fadeIn}`}>
       <Card className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>

@@ -1,0 +1,72 @@
+{% extends "admin/base_site.html" %}
+<!-- Load Django's static tag library -->
+{% load static %}
+
+<!-- Link to Bootstrap CSS file from a CDN -->
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+/>
+
+<!-- Link to custom CSS file -->
+<style>
+  .container-fluid {
+    padding: 30px;
+  }
+
+  .card {
+    margin-bottom: 30px;
+  }
+
+  .card-header {
+    background-color: #f7f7f7;
+    padding: 15px;
+  }
+
+  .card-header h5 {
+    margin: 0;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .list-group-item {
+    background-color: transparent;
+    border: 0;
+    padding: 10px 15px;
+  }
+
+  .list-group-item a {
+    color: #333;
+    display: block;
+    text-decoration: none;
+  }
+</style>
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    {% for app_name, models in app_list %} {% for model in models %}
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>{{ app_name }}</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="{{ model.admin_url }}">{{ app_name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+<!-- Link to Bootstrap JavaScript file from a CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

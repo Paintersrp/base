@@ -113,6 +113,7 @@ export default function Hero({ items, setItems, contactData }) {
                   <EditButton
                     onClick={() => setEditHero(!editHero)}
                     editState={editHero}
+                    position="center"
                   />
                 </div>
               ) : null}

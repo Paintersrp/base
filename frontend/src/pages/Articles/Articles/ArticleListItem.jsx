@@ -21,6 +21,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import ArticleAuthActions from "./ArticleAuthActions";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -242,73 +244,21 @@ const ArticleListItem = ({ article, onUpdate }) => {
             </ListItem>
           </Grid>
         </Grid>
+        {auth.is_superuser ? (
+          <ArticleAuthActions
+            article={article}
+            handleDelete={handleDelete}
+            navigate={navigate}
+          />
+        ) : null}
       </Link>
-      {auth.is_superuser ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            height: 40,
-          }}
-        >
-          <IconButton
-            onClick={() => navigate(`/articles/${article.id}/update`)}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(article.id)}>
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      ) : null}
-      <Dialog
-        className={classes.flexer}
-        classes={{ root: classes.dialog, paper: classes.paper }}
+
+      <DeleteConfirmationModal
         open={open}
-        onClose={handleClose}
-      >
-        <div className={classes.testboi}>
-          <DialogContent dividers={true} className={classes.detailsContainer}>
-            <Typography variant="h3">
-              Are you sure you want to delete this Article?
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  width: "15%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  onClick={handleConfirmDelete}
-                  variant="contained"
-                  className={classes.yesButton}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={handleClose}
-                  variant="contained"
-                  className={classes.noButton}
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </div>
-      </Dialog>
+        handleClose={handleClose}
+        handleConfirmDelete={handleConfirmDelete}
+        message="Are you sure you want to delete this Article?"
+      />
     </div>
   );
 };

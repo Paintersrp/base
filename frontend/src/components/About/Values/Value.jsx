@@ -21,6 +21,20 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: "white",
   },
+  fadeIn: {
+    opacity: 0,
+    animation: `$fadeIn 0.5s ease-in-out forwards`,
+  },
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-30px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
 }));
 
 export default function Value({ value }) {
@@ -35,9 +49,9 @@ export default function Value({ value }) {
   };
 
   return (
-    <>
+    <React.Fragment>
       {!editing ? (
-        <ListItem>
+        <ListItem className={classes.fadeIn}>
           <Avatar className={classes.avatar}>
             <Icon icon={valueData.icon} />
           </Avatar>
@@ -53,6 +67,6 @@ export default function Value({ value }) {
       {auth.is_superuser ? (
         <EditButton onClick={() => setEditing(!editing)} editState={editing} />
       ) : null}
-    </>
+    </React.Fragment>
   );
 }

@@ -31,6 +31,7 @@ const Articles = () => {
     axiosInstance
       .get("/articles/highlighted/")
       .then((response) => {
+        console.log("Highlighted");
         console.log(response.data);
         setArticles(response.data);
       })
@@ -47,6 +48,7 @@ const Articles = () => {
         keywords="news, posts, articles"
         image="https://example.com/image.png"
         url="https://example.com/example-page"
+        backgroundColor="white"
       >
         <ArticleHighlightList articles={articles} />
         <ArticleListFull />

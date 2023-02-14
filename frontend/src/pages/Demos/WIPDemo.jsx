@@ -11,6 +11,18 @@ import Reviews from "../../components/WIP/Reviews/Reviews";
 import FeaturedProducts from "../../components/WIP/FeaturedProducts/FeaturedProduct";
 import BaseCard from "../../components/Elements/Base/BaseCard";
 import { Button, Grid, Typography } from "@material-ui/core";
+import ServicesTimeline from "../../components/WIP/Timeline/Timeline";
+import StorytellingLayout from "../../components/WIP/StoryTeller/StoryTeller";
+import InteractiveBasic from "../../components/WIP/Interactive/InteractiveBasic";
+import Magazine from "../../components/WIP/Magazine/Magazine";
+import CaseStudiesBasic from "../../components/WIP/CaseStudies/CaseStudiesBasic";
+import ServiceProcess from "../../components/WIP/Stepper/Stepper";
+import Benefits from "../../components/WIP/Benefits/Benefits";
+import CTASection from "../../components/WIP/CTASection/CTASection";
+import ReviewSection from "../../components/WIP/Reviews2/Reviews2";
+import ServiceStats from "../../components/WIP/ServiceStatistics/ServiceStatistics";
+import ServiceComparisonChart from "../../components/WIP/CompareChart/CompareChart";
+import Infographic from "../../components/WIP/Infographic/Infographic";
 
 const products = [
   {
@@ -197,18 +209,91 @@ const actions = [
   </Grid>,
 ];
 
+const salesData = [
+  { label: "Jan", value: 2486 },
+  { label: "Feb", value: 3199 },
+  { label: "Mar", value: 3011 },
+  { label: "Apr", value: 4111 },
+  { label: "May", value: 3567 },
+  { label: "Jun", value: 5367 },
+];
+
+const customersData = [
+  { label: "John", value: 5 },
+  { label: "Sarah", value: 7 },
+  { label: "Tom", value: 4 },
+  { label: "Mary", value: 9 },
+  { label: "Bob", value: 2 },
+  { label: "Lisa", value: 11 },
+];
+
 const wipComponents = [
+  {
+    component: ServiceComparisonChart,
+  },
+  {
+    component: CTASection,
+  },
+  {
+    component: ServicesTimeline,
+  },
+  {
+    component: Benefits,
+  },
+  {
+    component: ServiceStats,
+    props: {
+      numCustomers: 1000,
+      avgSatisfaction: 4.5,
+      numProjectsCompleted: 500,
+      revenue: 10000,
+      teamSize: 10,
+    },
+  },
+
+  {
+    component: Infographic,
+    props: {
+      salesTitle: "Sales",
+      salesDescription:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
+      salesData: salesData,
+      customersTitle: "Customers",
+      customersDescription:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
+      customersData: customersData,
+      mapTitle: "Location",
+      mapDescription:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
+      ctaText: "Learn More",
+      ctaHref: "https://www.example.com",
+      progressTitle: "Progress",
+      progressDescription:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
+      progressSubtitle1: "Goal 1",
+      progressValue1: 60,
+      progressSubtitle2: "Goal 2",
+      progressValue2: 80,
+      progressComplete: false,
+      progressCompleteMessage: "Congratulations! You've reached your goals!",
+    },
+  },
+
+  {
+    component: Magazine,
+  },
+  {
+    component: ServiceProcess,
+  },
+  {
+    component: ReviewSection,
+  },
   {
     component: BaseCard,
     title: "BaseCard - Top Media",
     props: {
       title: "How I Became Danny Devito",
       subtitle: "I Paid the Troll Toll",
-      // headerAction: (
-      //   <Button variant="contained" color="primary" style={{ marginRight: 7 }}>
-      //     Test 1
-      //   </Button>
-      // ),
       children: (
         <Typography variant="body2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
@@ -231,7 +316,6 @@ const wipComponents = [
     props: {
       title: "How I Became Danny Devito",
       subtitle: "I Paid the Troll Toll",
-      // headerAction: [],
       children: (
         <Typography variant="body2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
@@ -247,6 +331,15 @@ const wipComponents = [
       media: "images/products/danny-devito.jpg",
       mediaPosition: "left",
     },
+  },
+  {
+    component: InteractiveBasic,
+  },
+  {
+    component: StorytellingLayout,
+  },
+  {
+    component: CaseStudiesBasic,
   },
   {
     component: EventSchedule,

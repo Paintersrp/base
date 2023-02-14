@@ -5,6 +5,7 @@ import axios from "axios";
 import { getCookie } from "../../../../Utils";
 import UpdateButton from "../../../Elements/Buttons/UpdateButton";
 import EditField from "../../../Elements/Fields/EditField";
+import { baseClasses } from "../../../../classes";
 
 const useStyles = makeStyles(() => ({
   textContainer: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles(() => ({
 
 export default function SocialEdit({ initialData, onUpdate }) {
   const classes = useStyles();
+  const { fadeIn } = baseClasses();
   const [contactData, setContactData] = useState(initialData);
   const [facebook, setFacebook] = useState(contactData.facebook);
   const [twitter, setTwitter] = useState(contactData.twitter);
@@ -58,7 +60,7 @@ export default function SocialEdit({ initialData, onUpdate }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={fadeIn}>
         <Typography variant="h4" className={classes.title}>
           Edit Social Links
         </Typography>

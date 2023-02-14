@@ -4,48 +4,8 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import { makeStyles } from "@material-ui/core/styles";
 import { CardMedia, Grid } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 1000,
-    backgroundColor: theme.palette.background.light,
-    borderRadius: theme.spacing(1),
-    transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-5px)",
-      boxShadow: theme.shadows[7],
-      border: `0.5px solid ${theme.palette.secondary.main}`,
-    },
-  },
-  cardHeader: {
-    backgroundColor: theme.palette.background.light,
-    padding: theme.spacing(2, 2, 1, 2),
-    minHeight: 50,
-  },
-  cardContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: theme.spacing(0, 2, 0, 2),
-    flex: 1,
-  },
-  cardActions: {
-    backgroundColor: theme.palette.background.light,
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 2, 2, 2),
-    minHeight: 50,
-  },
-  cardMedia: {
-    paddingTop: "56.25%",
-    height: "100%",
-    borderTopLeftRadius: theme.spacing(0.5),
-    borderBottomLeftRadius: theme.spacing(0.5),
-  },
-}));
+import { defaultCardStyle } from "./BaseCardStyles";
 
 const BaseCard = ({
   title,
@@ -59,8 +19,8 @@ const BaseCard = ({
   headerActionProps,
   media,
   mediaPosition,
+  classes = defaultCardStyle(),
 }) => {
-  const classes = useStyles();
   let mediaLayout = false;
   let contentLayout = false;
 
@@ -70,6 +30,9 @@ const BaseCard = ({
   } else if (mediaPosition === "top") {
     mediaLayout = { item: true, xs: 12 };
     contentLayout = { item: true, xs: 12 };
+  } else if (mediaPosition === "list") {
+    mediaLayout = { item: true, xs: "hidden", sm: 4, md: 3 };
+    contentLayout = { item: true, xs: 12, sm: 8, md: 9 };
   }
 
   return (
@@ -125,7 +88,7 @@ BaseCard.propTypes = {
 };
 
 BaseCard.defaultProps = {
-  elevation: 1,
+  elevation: 0,
   headerTitleProps: {},
   headerSubheaderProps: {},
   headerActionProps: {},

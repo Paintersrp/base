@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button, makeStyles, TextField } from "@material-ui/core";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import { makeStyles } from "@material-ui/core";
 import EditField from "../../Fields/EditField";
 import UpdateButton from "../../Buttons/UpdateButton";
 import { getCookie } from "../../../../utils";

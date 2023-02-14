@@ -8,6 +8,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import { useSelector } from "react-redux";
 import SocialEdit from "./SocialEdit";
 import EditButton from "../../../Elements/Buttons/EditButton";
+import { baseClasses } from "../../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   socialIcons: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Social({ contactData, title }) {
   const classes = useStyles();
+  const { fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
   const [contacts, setContacts] = useState(contactData);
   const [editing, setEditing] = useState(false);
@@ -40,42 +42,53 @@ export default function Social({ contactData, title }) {
   return (
     <>
       {!editing ? (
-        <div style={{ justifyContent: "center", display: "flex" }}>
+        <div
+          className={fadeIn}
+          style={{
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {title && (
-            <Typography variant="h5" className={classes.title}>
-              Follow Us
-            </Typography>
+            <div>
+              <Typography variant="h4" className={classes.title}>
+                Follow Us
+              </Typography>
+            </div>
           )}
-          <IconButton
-            aria-label="facebook"
-            href={`https://www.facebook.com/${contacts.facebook}`}
-          >
-            <FacebookIcon fontSize="large" className={classes.socialIcons} />
-          </IconButton>
-          <IconButton
-            aria-label="twitter"
-            href={`https://twitter.com/${contacts.facebook}`}
-          >
-            <TwitterIcon fontSize="large" className={classes.socialIcons} />
-          </IconButton>
-          <IconButton
-            aria-label="instagram"
-            href={`https://www.instagram.com/${contacts.instagram}`}
-          >
-            <InstagramIcon fontSize="large" className={classes.socialIcons} />
-          </IconButton>
-          <IconButton
-            aria-label="linkedin"
-            className={classes.socialIcons}
-            href={`https://www.linkedin.com/company/${contacts.linkedin}`}
-          >
-            <LinkedInIcon fontSize="large" />
-          </IconButton>
+          <div>
+            <IconButton
+              aria-label="facebook"
+              href={`https://www.facebook.com/${contacts.facebook}`}
+            >
+              <FacebookIcon fontSize="large" className={classes.socialIcons} />
+            </IconButton>
+            <IconButton
+              aria-label="twitter"
+              href={`https://twitter.com/${contacts.facebook}`}
+            >
+              <TwitterIcon fontSize="large" className={classes.socialIcons} />
+            </IconButton>
+            <IconButton
+              aria-label="instagram"
+              href={`https://www.instagram.com/${contacts.instagram}`}
+            >
+              <InstagramIcon fontSize="large" className={classes.socialIcons} />
+            </IconButton>
+            <IconButton
+              aria-label="linkedin"
+              className={classes.socialIcons}
+              href={`https://www.linkedin.com/company/${contacts.linkedin}`}
+            >
+              <LinkedInIcon fontSize="large" />
+            </IconButton>
+          </div>
         </div>
       ) : (
         <SocialEdit initialData={contacts} onUpdate={updateSocialData} />
       )}
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
         {auth.is_superuser ? (
           <EditButton
             onClick={() => setEditing(!editing)}

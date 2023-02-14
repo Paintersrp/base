@@ -7,6 +7,7 @@ import { CardMedia, Typography } from "@material-ui/core";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import EditField from "../../Elements/Fields/EditField";
+import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles(() => ({
 
 const MemberEdit = ({ member, onUpdate }) => {
   const classes = useStyles();
+  const { fadeIn } = baseClasses();
   const [data, setData] = useState(member);
   const [name, setName] = useState(data.name);
   const [role, setRole] = useState(data.role);
@@ -108,7 +110,7 @@ const MemberEdit = ({ member, onUpdate }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${fadeIn}`}>
       <Card className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>

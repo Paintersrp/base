@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ArticleHighlightActions = ({ article }) => {
+const ArticleHighlightActions = ({ article, subtitleVariant }) => {
   const classes = useStyles();
 
   return (
@@ -41,7 +41,7 @@ const ArticleHighlightActions = ({ article }) => {
       </div>
 
       <Grid container flex justifyContent="space-between" alignItems="center">
-        <Typography variant="subtitle2">By: Admin</Typography>
+        <Typography variant={subtitleVariant}>By: {article.author}</Typography>
         <Link to={`/articles/${article.id}`}>
           <Button key="2" size="small" variant="contained" color="primary">
             More

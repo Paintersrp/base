@@ -29,6 +29,20 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     marginBottom: 20,
   },
+  fadeIn: {
+    opacity: 0,
+    animation: `$fadeIn 0.5s ease-in-out forwards`,
+  },
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-30px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
 }));
 
 const CarouselEdit = ({ items, updateCarousel }) => {
@@ -101,7 +115,7 @@ const CarouselEdit = ({ items, updateCarousel }) => {
   };
 
   return (
-    <Box m={2}>
+    <Box m={2} className={classes.fadeIn}>
       <Grid container spacing={2}>
         {items.map((item, index) => (
           <Grid item key={item.id} xs={12} sm={6} md={4}>

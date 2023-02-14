@@ -97,7 +97,7 @@ const ArticleControl = ({ articles, onUpdate }) => {
   }, [searchQuery, selectedFilters]);
 
   return (
-    <Grid item xs={3} style={{ padding: 5 }}>
+    <>
       <TextField
         margin="dense"
         variant="outlined"
@@ -153,7 +153,7 @@ const ArticleControl = ({ articles, onUpdate }) => {
           ))}
         </FormGroup>
       </FormControl>
-    </Grid>
+    </>
   );
 };
 

@@ -3,11 +3,12 @@ import { Button } from "@material-ui/core";
 
 export default function DeleteButton({
   onClick,
-  editState,
   color = "black",
   position = "center",
   mt = 15,
   mb = 0,
+  mr = 0,
+  ml = 0,
 }) {
   return (
     <div
@@ -16,7 +17,8 @@ export default function DeleteButton({
         justifyContent: position,
         marginTop: mt,
         marginBottom: mb,
-        width: "100%",
+        marginRight: mr,
+        marginLeft: ml,
       }}
     >
       <Button
@@ -30,7 +32,7 @@ export default function DeleteButton({
         }}
         onClick={onClick}
       >
-        {editState ? "Cancel" : "Edit"}
+        Delete
       </Button>
     </div>
   );

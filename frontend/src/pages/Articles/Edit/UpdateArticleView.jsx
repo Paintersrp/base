@@ -12,6 +12,7 @@ import TagsInput from "../Create/TagsInput";
 import EditField from "../../../components/Elements/Fields/EditField";
 import UpdateButton from "../../../components/Elements/Buttons/UpdateButton";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { baseClasses } from "../../../classes";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
 const UpdateArticleView = () => {
   const { id } = useParams();
   const classes = useStyles();
+  const { fadeIn } = baseClasses();
   const [article, setArticle] = useState({});
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -89,10 +91,10 @@ const UpdateArticleView = () => {
           `http://localhost:8000/api/articles/${id}/`
         );
         setArticle(res.data);
-        setContent(article.content);
-        setTitle(article.title);
-        setTags(article.tags.map((tag) => tag.name.trim()));
-        setImage(article.image);
+        setContent(res.data.content);
+        setTitle(res.data.title);
+        setTags(res.data.tags.map((tag) => tag.name.trim()));
+        setImage(res.data.image);
       } catch (error) {
         console.log(error);
       }
@@ -106,8 +108,6 @@ const UpdateArticleView = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
-    console.log(image.name);
     let formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
@@ -137,7 +137,7 @@ const UpdateArticleView = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${fadeIn}`}>
       <Paper className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent>

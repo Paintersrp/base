@@ -6,6 +6,8 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ArticleControl from "./ArticleControl";
 import ArticleListItem from "./ArticleListItem";
 import ReactPaginate from "react-paginate";
+import ArticleHighlightList from "./ArticleHighlightList";
+import { listCardStyle } from "../../../components/Elements/Base/BaseCardStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,13 +19,15 @@ const useStyles = makeStyles((theme) => ({
   gridContainer: {
     maxWidth: 1000,
     backgroundColor: "white",
+    paddingTop: theme.spacing(3),
   },
   list: {
     width: "100%",
     backgroundColor: theme.palette.background.light,
     color: theme.palette.text.dark,
     maxWidth: 800,
-    padding: 5,
+    padding: 0,
+    margin: 0,
   },
   pagination: {
     display: "flex",
@@ -143,6 +147,8 @@ const ArticleListFull = () => {
     axiosInstance
       .get("/articles/")
       .then((response) => {
+        console.log("Full");
+        console.log(response.data);
         setArticles(response.data);
         setFilteredArticles(response.data);
       })
@@ -194,12 +200,18 @@ const ArticleListFull = () => {
         justifyContent="center"
         className={classes.gridContainer}
       >
-        <ArticleControl articles={articles} onUpdate={onUpdate} />
-        <Grid item xs={9}>
+        <Grid item xs={3} style={{ paddingRight: 5 }}>
+          <ArticleControl articles={articles} onUpdate={onUpdate} />
+        </Grid>
+        <Grid item xs={9} style={{}}>
           <List className={classes.list}>
-            {filteredArticlesToDisplay.map((article) => (
+            <ArticleHighlightList
+              classSet="list"
+              articles={filteredArticlesToDisplay}
+            />
+            {/* {filteredArticlesToDisplay.map((article) => (
               <ArticleListItem article={article} onUpdate={onUpdate} />
-            ))}
+            ))} */}
           </List>
           <ReactPaginate
             previousLabel={

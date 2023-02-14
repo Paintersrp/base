@@ -159,9 +159,37 @@ class ContactInformationAPIView(
         return self.update(request, *args, **kwargs)
 
 
-class FAQViewSet(viewsets.ModelViewSet):
+class FAQListCreateView(generics.ListCreateAPIView):
     queryset = FAQ.objects.all()
     serializer_class = FAQSerializer
+
+
+class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer
+
+    def update(self, request, *args, **kwargs):
+        faq = self.get_object()
+        form_data = request.POST
+        category = form_data.get("category")
+        question = form_data.get("question")
+        answer = form_data.get("answer")
+
+        data = {
+            "category": category,
+            "question": question,
+            "answer": answer,
+        }
+
+        serializer = FAQSerializer(faq, data=data)
+
+        if serializer.is_valid():
+            print("test")
+            serializer.update(faq, validated_data=data)
+
+            return JsonResponse(serializer.data, status=200)
+
+        return JsonResponse(serializer.errors, status=400)
 
 
 class ValueViewSet(viewsets.ModelViewSet):

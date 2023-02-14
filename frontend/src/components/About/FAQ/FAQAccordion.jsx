@@ -8,6 +8,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import FAQEdit from "./FAQEdit";
 import { useSelector } from "react-redux";
 import EditButton from "../../Elements/Buttons/EditButton";
+import DeleteButton from "../../Elements/Buttons/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,8 @@ const FAQAccordion = () => {
   const auth = useSelector((state) => state.auth);
   const [editing, setEditing] = useState(false);
 
-  const updatedFaqData = () => {
+  const onUpdate = () => {
+    console.log("test");
     axiosInstance
       .get("/faqs/")
       .then((response) => {
@@ -91,12 +93,11 @@ const FAQAccordion = () => {
         setFaqs(updatedFaqData);
         setCategories(Object.keys(updatedFaqData));
         setCurrentCategory(Object.keys(updatedFaqData)[0]);
+        setEditing(false);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    setEditing(false);
   };
 
   useEffect(() => {
@@ -132,50 +133,38 @@ const FAQAccordion = () => {
       <div className={classes.containerLayout}>
         <Grid container spacing={0} className={classes.containerGrid}>
           <Paper elevation={0} className={classes.root}>
-            {!editing ? (
-              <>
-                <Typography variant="h3" className={classes.sectionTitle}>
-                  Frequently Asked Questions
-                </Typography>
-                <Tabs
-                  value={currentCategory}
-                  onChange={handleTabChange}
-                  classes={{ indicator: classes.tabsIndicator }}
-                >
-                  {categories.map((category) => (
-                    <Tab
-                      label={category}
-                      value={category}
-                      classes={{ root: classes.tab }}
-                    />
-                  ))}
-                </Tabs>
-                <Grid
-                  container
-                  spacing={0}
-                  style={{ marginTop: 5, width: "100%" }}
-                >
-                  {faqs[currentCategory]
-                    ? faqs[currentCategory].map((faq) => (
-                        <Grid item xs={12}>
-                          <AccordionQA faq={faq} />
-                        </Grid>
-                      ))
-                    : null}
-                </Grid>
-              </>
-            ) : (
-              <div className={classes.editContainer}>
-                <FAQEdit onUpdate={updatedFaqData} />
-              </div>
-            )}
+            <>
+              <Typography variant="h3" className={classes.sectionTitle}>
+                Frequently Asked Questions
+              </Typography>
+              <Tabs
+                value={currentCategory}
+                onChange={handleTabChange}
+                classes={{ indicator: classes.tabsIndicator }}
+              >
+                {categories.map((category) => (
+                  <Tab
+                    label={category}
+                    value={category}
+                    classes={{ root: classes.tab }}
+                  />
+                ))}
+              </Tabs>
+              <Grid
+                container
+                spacing={0}
+                style={{ marginTop: 5, width: "100%" }}
+              >
+                {faqs[currentCategory]
+                  ? faqs[currentCategory].map((faq) => (
+                      <Grid item xs={12}>
+                        <AccordionQA onUpdate={onUpdate} faq={faq} />
+                      </Grid>
+                    ))
+                  : null}
+              </Grid>
+            </>
           </Paper>
-          {auth.is_superuser ? (
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
-            />
-          ) : null}
         </Grid>
       </div>
     </>

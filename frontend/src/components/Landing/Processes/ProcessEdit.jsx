@@ -106,6 +106,21 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.dark,
     },
   },
+  fadeIn: {
+    opacity: 0,
+    animation: `$fadeIn 0.5s ease-in-out forwards`,
+  },
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-30px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
+  
 }));
 
 const ProcessEdit = ({ process, updateProcess }) => {
@@ -150,7 +165,7 @@ const ProcessEdit = ({ process, updateProcess }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${classes.fadeIn}`}>
       <Card className={classes.card}>
         <form onSubmit={handleSubmit}>
           <CardContent>
