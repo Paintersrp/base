@@ -6,9 +6,9 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import ContactButtons from "../../About/Contact/Contact/ContactButtons";
-import Social from "../../About/Contact/Social/Social";
-import StandardButton from "../../Elements/Buttons/StandardButton";
+import ContactButtons from "../../Contact/Contact/ContactButtons";
+import Social from "../../Contact/Social/Social";
+import StyledButton from "../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -175,7 +175,7 @@ function Hero({ contactData, form = true }) {
           <Typography variant="body1" className={classes.description}>
             {heroData.text}
           </Typography>
-          <StandardButton buttonText={heroData.buttonText} />
+          <StyledButton buttonText={heroData.buttonText} />
           <Grid item xs={12} md={12} className={classes.contactContainer}>
             {contactData ? <ContactButtons contactData={contactData} /> : null}
             {contactData ? (
@@ -241,7 +241,7 @@ function Hero({ contactData, form = true }) {
                   xs={12}
                   style={{ display: "flex", justifyContent: "center" }}
                 >
-                  <StandardButton buttonText="Get in touch" />
+                  <StyledButton buttonText="Get in touch" />
                 </Grid>
               </Grid>
             </form>

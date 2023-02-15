@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Axios/axiosInstance";
 
 const handleLogout = () => {

@@ -10,10 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import { SlideOnScroll } from "../../Elements/Animations/IntoView/Slide/SlideViewPort";
+import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 import EditButton from "../../Elements/Buttons/EditButton";
-import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
-import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
+import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
+import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import TestimonialEditView from "./TestimonialEditView";
 
 const useStyles = makeStyles((theme) => ({
@@ -219,7 +219,7 @@ export default function Testimonials() {
               className={classes.speechBubbles}
             >
               {!editing ? (
-                <SlideOnScroll direction="down">
+                <SlideIntoViewPort direction="below">
                   <Testimonial>
                     <TestimonialContent>
                       <TestimonialHeading>
@@ -233,7 +233,7 @@ export default function Testimonials() {
                       title={testimonial.position}
                     />
                   </Testimonial>
-                </SlideOnScroll>
+                </SlideIntoViewPort>
               ) : (
                 <TestimonialEditView
                   testimonial={testimonial}

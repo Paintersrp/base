@@ -3,11 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Box, Button } from "@material-ui/core";
-import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
+import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
 import Process from "./Process";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
+import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({

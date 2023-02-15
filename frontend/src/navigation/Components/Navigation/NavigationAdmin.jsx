@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   links: {
     "&:hover": {
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.primary.light,
     },
   },
   linkText: {

@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { CardMedia, TextField } from "@material-ui/core";
-import TagsInput from "../../Articles/Create/TagsInput";
+import TagsInput from "../../Articles/_Pages/Create/TagsInput";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;

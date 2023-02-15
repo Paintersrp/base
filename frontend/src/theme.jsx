@@ -9,6 +9,7 @@ const theme = createTheme({
       main: indigo[500],
       dark: indigo[700],
       contrastText: "#fff",
+      gold: "#ffd700",
     },
     secondary: {
       light: "#ff4081",
@@ -55,7 +56,7 @@ const theme = createTheme({
     },
     action: {
       active: "rgba(0, 0, 0, 0.54)",
-      hover: "rgba(63, 81, 181, 0.54)",
+      hover: "rgba(121, 134, 203 , 0.75)",
       hoverOpacity: 0.08,
       selected: "rgba(0, 0, 0, 0.14)",
       disabled: "rgba(0, 0, 0, 0.26)",
@@ -114,7 +115,7 @@ const theme = createTheme({
     },
     body2: {
       fontWeight: 400,
-      fontSize: "0.8rem",
+      fontSize: "0.85rem",
     },
     button: {
       fontWeight: 600,
@@ -139,9 +140,10 @@ const theme = createTheme({
     values: {
       xs: 0,
       sm: 500,
-      md: 700,
-      lg: 1280,
-      xl: 1920,
+      md: 650,
+      lg: 900,
+      xl: 1280,
+      xxl: 1920,
     },
   },
 });

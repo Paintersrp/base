@@ -5,11 +5,8 @@ import {
   FaInfoCircle,
   FaHome,
   FaHSquare,
-  FaHandLizard,
-  FaCogs,
   FaRegNewspaper,
 } from "react-icons/fa";
-import { GiPlatform } from "react-icons/gi";
 import { MdContactSupport } from "react-icons/Md";
 
 const linkData = [
@@ -24,20 +21,20 @@ const linkData = [
     link: "/about",
   },
   {
-    name: "Articles",
-    icon: <FaRegNewspaper size={22} />,
-    link: "/articles",
-  },
-  {
     name: "Services",
     icon: <FaBell size={22} />,
     link: "/services",
   },
-  // {
-  //   name: "Contact",
-  //   icon: <FaAddressCard size={22} />,
-  //   link: "/about",
-  // },
+  {
+    name: "Contact",
+    icon: <FaAddressCard size={22} />,
+    link: "/contact",
+  },
+  {
+    name: "Articles",
+    icon: <FaRegNewspaper size={22} />,
+    link: "/articles",
+  },
   {
     name: "Support",
     icon: <MdContactSupport size={22} />,

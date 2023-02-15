@@ -11,7 +11,7 @@ import LaunchIcon from "@material-ui/icons/Launch";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
-import { SlideOnScroll } from "../../Elements/Animations/IntoView/Slide/SlideViewPort";
+import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 import EditButton from "../../Elements/Buttons/EditButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,7 @@ export default function Process({ step }) {
 
   return (
     <>
-      <SlideOnScroll direction="down" className={classes.fadeIn}>
+      <SlideIntoViewPort direction="down" className={classes.fadeIn}>
         <Grid container spacing={1} className={classes.stepContainer}>
           {!editing ? (
             <>
@@ -120,7 +120,7 @@ export default function Process({ step }) {
             />
           ) : null}
         </Grid>
-      </SlideOnScroll>
+      </SlideIntoViewPort>
     </>
   );
 }

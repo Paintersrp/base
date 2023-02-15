@@ -4,11 +4,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TitleBlock from "../../Elements/TextBlocks/TitleBlock";
+import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
 import { Paper } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
-import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
+import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
 import ArticleHighlightList from "../../Articles/Articles/ArticleHighlightList";
 

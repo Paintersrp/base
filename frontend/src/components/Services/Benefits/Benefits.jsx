@@ -1,21 +1,21 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { useState, useEffect, useRef } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Container,
   Grid,
   Typography,
-  Button,
   Card,
   CardContent,
-  Box,
+  useMediaQuery,
 } from "@material-ui/core";
 import benefitsData from "./benefitsData";
-import { green } from "@material-ui/core/colors";
+import StyledButton from "../../Elements/Buttons/StyledButton";
+import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.light,
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(8, 0),
   },
   benefit: {
     marginBottom: theme.spacing(2),
@@ -27,25 +27,23 @@ const useStyles = makeStyles((theme) => ({
   },
   benefitTitle: {
     fontWeight: 600,
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.black,
     marginBottom: theme.spacing(2),
   },
   benefitDescription: {
     color: "#6B6B6B",
     marginBottom: theme.spacing(2),
-  },
-  benefitImage: {
-    height: "100px",
-    [theme.breakpoints.up("md")]: {
-      height: "200px",
-    },
+    minHeight: 100,
   },
   benefitButton: {
     marginTop: theme.spacing(2),
   },
   gridItem: {
     display: "flex",
-    padding: 20,
+    padding: theme.spacing(3),
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(1),
+    },
   },
   benefitContainer: {
     display: "flex",
@@ -62,48 +60,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Benefit = ({ title, description, icon, buttonText, buttonLink }) => {
+const Benefit = ({
+  title,
+  description,
+  icon,
+  buttonText,
+  buttonLink,
+  minHeight,
+  id,
+}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
 
   return (
-    <Card className={classes.benefit}>
-      <CardContent>
-        <Box display="flex" alignItems="center" mb={2}>
-          <div className={classes.icon}>{icon}</div>
-          <Typography variant="h5" className={classes.benefitTitle}>
-            {title}
-          </Typography>
-        </Box>
-        <Typography variant="body1" className={classes.benefitDescription}>
-          {description}
-        </Typography>
-
-        {buttonText && (
-          <Button
-            variant="contained"
-            color="primary"
-            href={buttonLink}
-            className={classes.benefitButton}
+    <SlideIntoViewPort
+      addition={900}
+      animationDuration={1}
+      onScreenPercentage={0.9}
+    >
+      <Card className={classes.benefit}>
+        <CardContent>
+          <Container disableGutters display="flex">
+            <Grid item xs={12}>
+              <div className={classes.icon}>{icon}</div>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5" className={classes.benefitTitle}>
+                {title}
+              </Typography>
+            </Grid>
+          </Container>
+          <Typography
+            variant="body2"
+            className={classes.benefitDescription}
+            style={{ minHeight: minHeight }}
           >
-            {buttonText}
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+            {description}
+          </Typography>
+
+          {buttonText && (
+            <Container
+              disableGutters
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <StyledButton size="small" buttonText={buttonText} />
+            </Container>
+          )}
+        </CardContent>
+      </Card>
+    </SlideIntoViewPort>
   );
 };
 
 const Benefits = () => {
   const classes = useStyles();
-  const maxDescriptionHeight = Math.max(
-    ...benefitsData.map((b) => b.description.length)
-  );
+  const [maxDescriptionHeight, setMaxDescriptionHeight] = useState(0);
+  const maxHeightRef = useRef(null);
 
-  // <Grid item xs={12} md={4} className={classes.gridItem}>
+  useEffect(() => {
+    const maxHeight = maxHeightRef.current.offsetHeight;
+    setMaxDescriptionHeight(maxHeight);
+  }, []);
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="lg">
+      <Container maxWidth="false">
         <Typography
           variant="h2"
           align="center"
@@ -112,23 +134,52 @@ const Benefits = () => {
         >
           Why Choose Us?
         </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          We believe that our commitment to quality and customer satisfaction
-          sets us apart from our competitors. Here are a few of the benefits of
-          working with us:
-        </Typography>
+        <Container maxWidth="md">
+          <Typography
+            variant="h5"
+            align="center"
+            color="textSecondary"
+            paragraph
+          >
+            We believe that our commitment to quality and customer satisfaction
+            sets us apart from our competitors. Here are a few of the benefits
+            of working with us
+          </Typography>
+        </Container>
         <div className={classes.benefitContainer}>
-          {benefitsData.map((benefit) => (
-            <Grid item xs={12} md={4} className={classes.gridItem}>
-              <Benefit
+          <Grid container>
+            {benefitsData.map((benefit, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={6}
+                lg={4}
+                xl={4}
+                className={classes.gridItem}
                 key={benefit.title}
-                title={benefit.title}
-                description={benefit.description}
-                icon={benefit.icon}
-                maxHeight={maxDescriptionHeight}
-              />
-            </Grid>
-          ))}
+              >
+                <Benefit
+                  id={benefit.id}
+                  title={benefit.title}
+                  description={benefit.description}
+                  icon={benefit.icon}
+                  maxHeight={maxDescriptionHeight}
+                  buttonText={benefit.buttonText ? benefit.buttonText : null}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+        <div style={{ visibility: "hidden" }} ref={maxHeightRef}>
+          {benefitsData
+            .reduce((max, { description }) => {
+              return description.length > max.length ? description : max;
+            }, "")
+            .split(" ")
+            .map((word) => (
+              <span>{word} </span>
+            ))}
         </div>
       </Container>
     </div>

@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
     "&:hover": {
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.primary.light,
     },
   },
   links: {
     "&:hover": {
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.primary.light,
     },
   },
   linkText: {

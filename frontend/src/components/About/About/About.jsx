@@ -6,12 +6,10 @@ import Values from "../Values/Values";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import Members from "../Members/Members";
-import Contact from "../Contact/Contact/Contact";
 import EditButton from "../../Elements/Buttons/EditButton";
 import AboutHeadingEdit from "../Heading/AboutHeadingEdit";
 import Heading from "../Heading/Heading";
-import ContentSection from "./ContentSection";
+import ContentSection from "../Content/ContentSection";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,8 +140,6 @@ export default function About() {
               <Values valuesData={valuesData} />
             ) : null}
           </Grid>
-          {membersData ? <Members membersData={membersData} /> : null}
-          {contactData ? <Contact contactData={contactData} /> : null}
         </Grid>
       </Paper>
     </div>

@@ -11,6 +11,15 @@ import {
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(0, 3, 0, 3),
+    margin: theme.spacing(3),
+    maxWidth: 1200,
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(0),
+      margin: theme.spacing(3),
+    },
+  },
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
@@ -79,7 +88,7 @@ const Reviews = () => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box className={classes.root}>
       <Typography variant="h4" gutterBottom>
         What Our Customers Are Saying
       </Typography>

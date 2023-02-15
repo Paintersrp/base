@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import servicesData from "../../Services/Services/servicesData";
-import ServiceCard from "../../Services/Services/ServiceCard";
+import servicesData from "../../Services/Timeline/servicesData";
+import ServiceCard from "../../Services/Timeline/ServiceCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Magazine = () => {
+const Magazine = ({ showStudies }) => {
   const classes = useStyles();
 
   return (
@@ -33,7 +33,7 @@ const Magazine = () => {
       <Grid container spacing={4}>
         {servicesData.map((service) => (
           <Grid key={service.title} item xs={12} sm={12} md={6} lg={4}>
-            <ServiceCard {...service} />
+            <ServiceCard showStudies={showStudies} {...service} />
           </Grid>
         ))}
       </Grid>
