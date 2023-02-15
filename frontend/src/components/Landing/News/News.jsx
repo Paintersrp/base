@@ -10,7 +10,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
-import ArticleHighlightList from "../../../pages/Articles/Articles/ArticleHighlightList";
+import ArticleHighlightList from "../../Articles/Articles/ArticleHighlightList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +75,7 @@ export default function LatestNews() {
       });
 
     axiosInstance
-      .get("/articles/recent/")
+      .get("/articles/highlighted/")
       .then((response) => {
         setArticlesData(response.data);
         setIsLoading(false);

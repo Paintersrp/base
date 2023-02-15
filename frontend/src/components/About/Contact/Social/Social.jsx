@@ -12,11 +12,20 @@ import { baseClasses } from "../../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   socialIcons: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.light,
+    transition: "0.3s",
     "&:hover": {
-      transform: "scale(1.05)",
-      color: theme.palette.secondary.main,
+      transform: "translateY(-2px)",
+      boxShadow: theme.shadows[7],
+      backgroundColor: theme.palette.action.hover,
     },
+    // "&:hover": {
+    //   transform: "scale(1.05)",
+    //   color: "gold",
+    // },
+  },
+  socialIcon: {
+    color: theme.palette.text.light,
   },
   title: {
     paddingTop: 30,
@@ -59,29 +68,32 @@ export default function Social({ contactData, title }) {
           )}
           <div>
             <IconButton
+              className={classes.socialIcons}
               aria-label="facebook"
               href={`https://www.facebook.com/${contacts.facebook}`}
             >
-              <FacebookIcon fontSize="large" className={classes.socialIcons} />
+              <FacebookIcon fontSize="large" className={classes.socialIcon} />
             </IconButton>
             <IconButton
+              className={classes.socialIcons}
               aria-label="twitter"
               href={`https://twitter.com/${contacts.facebook}`}
             >
-              <TwitterIcon fontSize="large" className={classes.socialIcons} />
+              <TwitterIcon fontSize="large" className={classes.socialIcon} />
             </IconButton>
             <IconButton
               aria-label="instagram"
+              className={classes.socialIcons}
               href={`https://www.instagram.com/${contacts.instagram}`}
             >
-              <InstagramIcon fontSize="large" className={classes.socialIcons} />
+              <InstagramIcon fontSize="large" className={classes.socialIcon} />
             </IconButton>
             <IconButton
-              aria-label="linkedin"
               className={classes.socialIcons}
+              aria-label="linkedin"
               href={`https://www.linkedin.com/company/${contacts.linkedin}`}
             >
-              <LinkedInIcon fontSize="large" />
+              <LinkedInIcon fontSize="large" className={classes.socialIcon} />
             </IconButton>
           </div>
         </div>
@@ -93,6 +105,7 @@ export default function Social({ contactData, title }) {
           <EditButton
             onClick={() => setEditing(!editing)}
             editState={editing}
+            color="white"
           />
         ) : null}
       </div>

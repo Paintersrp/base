@@ -76,6 +76,7 @@ function TitleBlock({
       {subtitle && (
         <Typography
           variant="subtitle1"
+          color="secondary"
           className={[classes.subtitle, classes[`align${alignment}`]].join(" ")}
         >
           {subtitle}
@@ -85,6 +86,7 @@ function TitleBlock({
       {title && (
         <Typography
           variant="h2"
+          component="h1"
           className={[classes.title, classes[`align${alignment}`]].join(" ")}
         >
           {title}
@@ -94,6 +96,7 @@ function TitleBlock({
       {description && (
         <Typography
           variant="body1"
+          color="textPrimary"
           className={[classes.description, classes[`align${alignment}`]].join(
             " "
           )}

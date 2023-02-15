@@ -12,8 +12,8 @@ const theme = createTheme({
     },
     secondary: {
       light: "#ff4081",
-      main: "#f50057",
-      dark: "#c51162",
+      main: "#ea0727",
+      dark: "#ea0727",
       contrastText: "#fff",
     },
     error: {
@@ -55,7 +55,7 @@ const theme = createTheme({
     },
     action: {
       active: "rgba(0, 0, 0, 0.54)",
-      hover: "#3f51b5",
+      hover: "rgba(63, 81, 181, 0.54)",
       hoverOpacity: 0.08,
       selected: "rgba(0, 0, 0, 0.14)",
       disabled: "rgba(0, 0, 0, 0.26)",
@@ -102,11 +102,11 @@ const theme = createTheme({
     },
     subtitle1: {
       fontWeight: 500,
-      fontSize: "0.9rem",
+      fontSize: "0.95rem",
     },
     subtitle2: {
       fontWeight: 500,
-      fontSize: "0.8rem",
+      fontSize: "0.9rem",
     },
     body1: {
       fontWeight: 400,

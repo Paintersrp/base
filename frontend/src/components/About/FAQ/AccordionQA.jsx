@@ -8,7 +8,7 @@ import {
   DialogContent,
   Button,
   Dialog,
-  Box,
+  Tooltip,
 } from "@material-ui/core";
 import { MdExpandMore } from "react-icons/Md";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,6 +17,9 @@ import { useSelector } from "react-redux";
 import QAEdit from "./QAEdit";
 import DeleteButton from "../../Elements/Buttons/DeleteButton";
 import axios from "axios";
+import { IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
   question: {
@@ -94,6 +97,19 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.error.main,
     },
+  },
+  tooltip: {
+    fontFamily: "Roboto",
+    fontSize: ".9rem",
+    fontWeight: 600,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "4px",
+    color: theme.palette.primary.contrastText,
+    minWidth: 65,
+    textAlign: "center",
+  },
+  arrow: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -176,22 +192,54 @@ const AccordionQA = ({ faq, onUpdate }) => {
                 </Typography>
               </div>
               {auth.is_superuser ? (
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <EditButton
-                    onClick={() => setEditing(!editing)}
-                    editState={editing}
-                    mt={10}
-                    mb={10}
-                    mr={5}
-                  />
-                  <DeleteButton
-                    onClick={() => handleDelete(faq.id)}
-                    editState={editing}
-                    mt={10}
-                    mb={10}
-                    ml={5}
-                  />
-                </div>
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Tooltip
+                      title="Edit"
+                      classes={{
+                        tooltip: classes.tooltip,
+                        arrow: classes.arrow,
+                      }}
+                      arrow
+                      placement="top"
+                    >
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        style={{ marginRight: 5, marginBottom: 5 }}
+                        onClick={() => setEditing(!editing)}
+                        classes={{ label: classes.label }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      title="Delete"
+                      classes={{
+                        tooltip: classes.tooltip,
+                        arrow: classes.arrow,
+                      }}
+                      arrow
+                      placement="top"
+                    >
+                      <IconButton
+                        style={{ marginRight: 5, marginBottom: 5 }}
+                        size="small"
+                        color="primary"
+                        label="edit"
+                        aria-label="Edit"
+                        onClick={() => handleDelete(faq.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </>
               ) : null}
             </div>
           </AccordionSummary>

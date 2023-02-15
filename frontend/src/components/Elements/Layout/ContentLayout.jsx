@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   content: {
-    margin: 0,
+    minHeight: 700,
+    width: "99.16vw",
   },
 }));
 

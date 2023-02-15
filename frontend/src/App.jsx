@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/Landing/LandingPage";
-import AboutPage from "./pages/About/AboutPage";
-import SupportPage from "./pages/WIP/Support/SupportPage";
+import LandingPage from "./components/Landing/Page/LandingPage";
+import AboutPage from "./components/About/Page/AboutPage";
+import SupportPage from "./components/Support/SupportPage";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./theme";
@@ -14,10 +14,11 @@ import Navigation from "./navigation/Components/Navigation/Navigation";
 import linkData from "./navigation/Components/Navigation/linkData";
 import ComplexFooter from "./navigation/Components/Footer/ComplexFooter/ComplexFooter";
 import Profile from "./components/Elements/Forms/Profile/Profile";
-import FeatureDemo from "./pages/Demos/WIPDemo";
-import Articles from "./pages/Articles/Articles/Articles";
-import IndividualArticleView from "./pages/Articles/Individual/IndividualArticleView";
-import UpdateArticleView from "./pages/Articles/Edit/UpdateArticleView";
+import WIPDemo from "./components/Demos/WIPDemo";
+import Articles from "./components/Articles/Articles/Articles";
+import IndividualArticleView from "./components/Articles/Individual/IndividualArticleView";
+import UpdateArticleView from "./components/Articles/Edit/UpdateArticleView";
+import ServicesPage from "./components/Services/Page/ServicesPage";
 
 {
   /* 
@@ -53,11 +54,11 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/support" element={<SupportPage />} />
-          <Route path="/services" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<AboutPage />} />
 
           {/* Demo Routes */}
-          <Route path="/WIP" element={<FeatureDemo />} />
+          <Route path="/WIP" element={<WIPDemo />} />
 
           {/* Feature Routes */}
           <Route path="/articles" element={<Articles />} />

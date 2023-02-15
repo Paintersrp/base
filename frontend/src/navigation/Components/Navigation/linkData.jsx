@@ -24,22 +24,22 @@ const linkData = [
     link: "/about",
   },
   {
-    name: "Articles WIP",
+    name: "Articles",
     icon: <FaRegNewspaper size={22} />,
     link: "/articles",
   },
-  // {
-  //   name: "Services",
-  //   icon: <FaBell size={22} />,
-  //   link: "/about",
-  // },
+  {
+    name: "Services",
+    icon: <FaBell size={22} />,
+    link: "/services",
+  },
   // {
   //   name: "Contact",
   //   icon: <FaAddressCard size={22} />,
   //   link: "/about",
   // },
   {
-    name: "Support WIP",
+    name: "Support",
     icon: <MdContactSupport size={22} />,
     link: "/support",
   },

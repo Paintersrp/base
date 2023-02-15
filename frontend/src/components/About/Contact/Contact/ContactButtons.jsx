@@ -10,10 +10,12 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[3],
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
+    borderRadius: 50,
+    transition: "0.3s",
     "&:hover": {
-      transform: "scale(1.02)",
+      transform: "translateY(-2px)",
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: theme.palette.primary.dark,
     },
   },
   buttonContainer: {
@@ -30,6 +32,7 @@ function ContactButtons({ contactData }) {
     <div className={classes.buttonContainer}>
       <Button
         variant="contained"
+        size="small"
         color="primary"
         startIcon={<FaPhone />}
         href={`tel:${contactData.phone}`}
@@ -43,6 +46,7 @@ function ContactButtons({ contactData }) {
         startIcon={<FaVoicemail />}
         href={`mailto:${contactData.email}`}
         className={classes.button}
+        size="small"
       >
         Email Us
       </Button>
