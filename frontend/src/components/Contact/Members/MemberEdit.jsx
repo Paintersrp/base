@@ -95,17 +95,7 @@ const MemberEdit = ({ member, onUpdate }) => {
   const { fadeIn } = baseClasses();
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
-  const [formData, setFormData] = useState({
-    id: member.id,
-    name: member.name,
-    role: member.role,
-    bio: member.bio,
-    linkedIn: member.linkedIn,
-    github: member.github,
-    twitter: member.twitter,
-    image: member.image,
-    errors: {},
-  });
+  const [formData, setFormData] = useState(member);
 
   const handleChange = (event) => {
     if (event.target.name === "image") {
@@ -126,6 +116,10 @@ const MemberEdit = ({ member, onUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.image) {
+      formData.image = member.image;
+    }
+
     const config = {
       headers: {
         Authorization: `JWT ${getCookie("jwt")}`,
@@ -133,7 +127,7 @@ const MemberEdit = ({ member, onUpdate }) => {
       },
     };
     try {
-      await axios.patch(
+      const res = await axios.patch(
         `http://localhost:8000/api/members/${formData.id}/`,
         formData,
         config
@@ -145,6 +139,7 @@ const MemberEdit = ({ member, onUpdate }) => {
       const res = await axios.get(
         `http://localhost:8000/api/members/${formData.id}/`
       );
+      console.log(res.data);
       onUpdate(res.data);
     } catch (error) {
       console.log(error);
@@ -186,18 +181,10 @@ const MemberEdit = ({ member, onUpdate }) => {
                   variant="outlined"
                   disabled
                   InputProps={{
-                    endAdornment: !newImage ? (
+                    endAdornment: (
                       <InputAdornment position="end">
                         <StyledButton
-                          buttonText="Upload"
-                          onClick={handleClick}
-                          startIcon={<CloudUploadIcon />}
-                        />
-                      </InputAdornment>
-                    ) : (
-                      <InputAdornment position="end">
-                        <StyledButton
-                          buttonText="Change"
+                          buttonText="Choose"
                           onClick={handleClick}
                           startIcon={<CloudUploadIcon />}
                         />
