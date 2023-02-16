@@ -20,9 +20,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StyledButton({
   buttonText,
+  onClick,
   color = "primary",
   size = "small",
-  onClick,
+  type,
+  startIcon = null,
 }) {
   const classes = useStyles();
 
@@ -33,6 +35,8 @@ export default function StyledButton({
       size={size}
       className={classes.button}
       onClick={onClick}
+      type={type}
+      startIcon={startIcon}
     >
       {buttonText}
     </Button>

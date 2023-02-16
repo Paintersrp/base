@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     color: theme.palette.primary.dark,
     "&:hover": {
-      color: theme.palette.secondary.main,
+      color: theme.palette.primary.gold,
     },
   },
   body: {

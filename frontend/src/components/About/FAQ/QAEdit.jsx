@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import { CardMedia, Typography } from "@material-ui/core";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import { getCookie } from "../../../Utils";
 import { baseClasses } from "../../../classes";
 
@@ -82,17 +82,17 @@ const QAEdit = ({ QA, onUpdate, onEdit }) => {
                 </div>
               </div>
             )}
-            <EditField
+            <FormField
               label="Category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
-            <EditField
+            <FormField
               label="Question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             />
-            <EditField
+            <FormField
               label="Answer"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}

@@ -1,18 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid,
-  Typography,
   Button,
   TextField,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Paper,
-  Divider,
 } from "@material-ui/core";
 import * as Yup from "yup";
+import FormField from "../../Fields/FormField";
+import StyledButton from "../../Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -45,37 +44,40 @@ const useStyles = makeStyles((theme) => ({
   },
 
   field: {
-    "& .MuiOutlinedInput-inputMultiline": {
-      color: "black",
-    },
-    "& .MuiOutlinedInput-input": {
-      color: "black",
-      textAlign: "left",
-    },
+    margin: 2,
+    width: "100%",
     "& .MuiOutlinedInput-root": {
+      fontFamily: "Roboto",
+      padding: 0,
+      margin: 5,
+      fontSize: "0.9rem",
+      fontWeight: "400",
+      width: "100%",
+      letterSpacing: 0.25,
+
       "& fieldset": {
         borderColor: "black",
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: "black",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: "black",
       },
     },
     "& .MuiFormLabel-root": {
+      fontFamily: "Roboto",
+      margin: 4,
       color: "black",
-      fontWeight: "500",
-      fontSize: "0.9rem",
+      fontWeight: "450",
+      fontSize: "1rem",
+      letterSpacing: 0.5,
     },
     "& input": {
-      color: "white",
+      color: "black",
     },
-    marginBottom: 5,
   },
-  label: {
-    color: "white",
-  },
+
   select: {
     color: "black",
     borderColor: "black",
@@ -89,9 +91,14 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
       borderColor: "black",
     },
+    "& .MuiOutlinedInput-root": {
+      margin: 5,
+    },
     "& .MuiOutlinedInput-input": {
       color: "black",
       borderColor: "black",
+      paddingTop: 10.5,
+      paddingBottom: 10.5,
     },
     "& .MuiSelect-select": {
       color: "black",
@@ -105,9 +112,12 @@ const useStyles = makeStyles((theme) => ({
       borderColor: "black",
     },
     "& .MuiFormLabel-root": {
-      color: "black !important",
-      fontWeight: "700",
-      fontSize: "0.9rem",
+      fontFamily: "Roboto",
+      margin: 4,
+      color: "black",
+      fontWeight: "450",
+      fontSize: "1rem",
+      letterSpacing: 0.5,
     },
     "& input": {
       color: "black",
@@ -160,6 +170,13 @@ const ContactForm = (props) => {
     message: "",
     errors: {},
   });
+
+  const fields = [
+    { name: "name", label: "Name", multiline: false },
+    { name: "email", label: "Email", multiline: false },
+    { name: "phone", label: "Phone", multiline: false },
+    { name: "message", label: "Message", multiline: true },
+  ];
 
   const handleChange = (event) => {
     setFormData({
@@ -215,18 +232,17 @@ const ContactForm = (props) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={0}>
         <Grid item xs={12}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel id="subject-label">Subject</InputLabel>
-            <Select
-              error={formData.errors.subject}
-              className={classes.select}
-              labelId="subject-label"
-              id="subject"
-              name="subject"
-              label="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              MenuProps={{
+          <FormField
+            id="subject"
+            name="subject"
+            label="Subject"
+            value={formData.subject}
+            onChange={handleChange}
+            error={formData.errors.subject}
+            helperText={formData.errors.subject}
+            select={true}
+            SelectProps={{
+              MenuProps: {
                 anchorOrigin: {
                   vertical: "bottom",
                   horizontal: "left",
@@ -236,92 +252,40 @@ const ContactForm = (props) => {
                   horizontal: "left",
                 },
                 getContentAnchorEl: null,
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
+              },
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {selectOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
-              {selectOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-            {formData.errors.subject && (
-              <div className={classes.errorText}>{formData.errors.subject}</div>
-            )}
-          </FormControl>
+            ))}
+          </FormField>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            className={classes.field}
-            id="name"
-            name="name"
-            label="Name"
-            variant="outlined"
-            margin="dense"
-            value={formData.name}
-            onChange={handleChange}
-            error={formData.errors.name}
-            helperText={formData.errors.name}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            className={classes.field}
-            id="email"
-            name="email"
-            label="Email"
-            variant="outlined"
-            margin="dense"
-            value={formData.email}
-            onChange={handleChange}
-            error={formData.errors.email}
-            helperText={formData.errors.email}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            className={classes.field}
-            id="phone"
-            name="phone"
-            label="Phone"
-            variant="outlined"
-            margin="dense"
-            value={formData.phone}
-            onChange={handleChange}
-            error={formData.errors.phone}
-            helperText={formData.errors.phone}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            className={classes.field}
-            id="message"
-            name="message"
-            label="Message"
-            variant="outlined"
-            margin="dense"
-            multiline
-            minRows={4}
-            value={formData.message}
-            onChange={handleChange}
-            error={formData.errors.message}
-            helperText={formData.errors.message}
-          />
-        </Grid>
+        {fields.map((field) => (
+          <Grid item xs={12} key={field.id}>
+            <FormField
+              id={field.name}
+              name={field.name}
+              label={field.label}
+              value={formData[field.name]}
+              multiline={field.multiline}
+              minRows={field.minRows}
+              onChange={handleChange}
+              error={formData.errors[field.name]}
+              helperText={formData.errors[field.name]}
+            />
+          </Grid>
+        ))}
         <Grid
           item
           xs={12}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <Button type="submit" variant="contained" className={classes.button}>
-            Submit
-          </Button>
+          <StyledButton type="submit" buttonText="Submit" />
         </Grid>
       </Grid>
     </form>

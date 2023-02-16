@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CardContent, CardMedia, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 
 const useStyles = makeStyles(() => ({
@@ -93,7 +93,7 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
           >
             About Block Change
           </Typography>
-          <EditField
+          <FormField
             key="title"
             label="Title"
             value={title}

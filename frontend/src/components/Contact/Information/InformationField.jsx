@@ -16,8 +16,8 @@ export default function InformationField({ text, data }) {
 
   return (
     <Grid item xs={12} sm={12} className={classes.textContainer}>
-      <Typography variant="subtitle2">{text}</Typography>
-      <Typography variant="subtitle2">{data}</Typography>
+      <Typography variant="subtitle1">{text}</Typography>
+      <Typography variant="subtitle1">{data}</Typography>
     </Grid>
   );
 }

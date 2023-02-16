@@ -5,15 +5,16 @@ import InformationEdit from "./InformationEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
 import InformationField from "./InformationField";
 import { baseClasses } from "../../../classes";
+import ContactButtons from "../Contact/ContactButtons";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   textContainer: {
     display: "flex",
     justifyContent: "center",
   },
   title: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -33,7 +34,7 @@ export default function Information({ contactData }) {
     <>
       {!editing ? (
         <>
-          <Typography variant="h4" className={`${classes.title} ${fadeIn}`}>
+          <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
             Contact Information
           </Typography>
           <Grid
@@ -44,6 +45,7 @@ export default function Information({ contactData }) {
             <InformationField text="Email:" data={data.email} />
             <InformationField text="Phone:" data={data.phone} />
             <InformationField text="Address:" data={data.address} />
+            <ContactButtons contactData={contactData} />
           </Grid>
         </>
       ) : (

@@ -52,19 +52,10 @@ const partners = [
 ];
 
 function LandingPage() {
-  const [items, setItems] = useState([]);
   const [contactData, setContactData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      axiosInstance
-        .get("/items/")
-        .then((response) => {
-          setItems(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       axiosInstance
         .get("/contact/")
         .then((response) => {

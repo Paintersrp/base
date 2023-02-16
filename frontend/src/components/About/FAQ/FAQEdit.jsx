@@ -18,7 +18,7 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -198,12 +198,12 @@ const FAQEdit = ({ onUpdate }) => {
                 width: 400,
               }}
             >
-              <EditField
+              <FormField
                 label="Question"
                 value={currentFaq.question}
                 onChange={handleChange}
               />
-              <EditField
+              <FormField
                 label="Answer"
                 value={currentFaq.answer}
                 onChange={handleChange}

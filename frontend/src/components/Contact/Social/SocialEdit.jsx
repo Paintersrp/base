@@ -4,7 +4,7 @@ import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles(() => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     paddingBottom: 20,
   },
   fieldContainer: {
-    width: "85%",
+    width: "50%",
   },
 }));
 
@@ -67,22 +67,22 @@ export default function SocialEdit({ initialData, onUpdate }) {
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12} className={classes.textContainer}>
             <div className={classes.fieldContainer}>
-              <EditField
+              <FormField
                 label="Facebook"
                 value={facebook}
                 onChange={(event) => setFacebook(event.target.value)}
               />
-              <EditField
+              <FormField
                 label="Twitter"
                 value={twitter}
                 onChange={(event) => setTwitter(event.target.value)}
               />
-              <EditField
+              <FormField
                 label="Instagram"
                 value={instagram}
                 onChange={(event) => setInstagram(event.target.value)}
               />
-              <EditField
+              <FormField
                 label="LinkedIn"
                 value={linkedIn}
                 onChange={(event) => setLinkedIn(event.target.value)}

@@ -6,7 +6,7 @@ import axios from "axios";
 import QuillField from "../../Elements/Fields/QuillField";
 import { useEffect } from "react";
 import { getCookie } from "../../../Utils";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -95,7 +95,7 @@ const ContentEdit = ({ content, onUpdate, type }) => {
       <Card className={classes.card}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ display: "flex", flexDirection: "column" }}>
-            <EditField
+            <FormField
               label="Title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}

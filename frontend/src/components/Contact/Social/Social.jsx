@@ -11,6 +11,11 @@ import EditButton from "../../Elements/Buttons/EditButton";
 import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
   socialIcons: {
     transition: "0.3s",
     "&:hover": {
@@ -25,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   title: {
+    fontWeight: 600,
     paddingTop: 30,
   },
 }));
@@ -53,11 +59,30 @@ export default function Social({ contactData, title, color = "light" }) {
     setEditing(false);
   };
 
+  const socialPlatforms = [
+    {
+      name: "facebook",
+      icon: <FacebookIcon fontSize="large" className={classes.socialIcon} />,
+    },
+    {
+      name: "twitter",
+      icon: <TwitterIcon fontSize="large" className={classes.socialIcon} />,
+    },
+    {
+      name: "instagram",
+      icon: <InstagramIcon fontSize="large" className={classes.socialIcon} />,
+    },
+    {
+      name: "linkedin",
+      icon: <LinkedInIcon fontSize="large" className={classes.socialIcon} />,
+    },
+  ];
+
   return (
     <>
       {!editing ? (
         <div
-          className={fadeIn}
+          className={`${fadeIn} ${classes.root}`}
           style={{
             justifyContent: "center",
             display: "flex",
@@ -72,38 +97,25 @@ export default function Social({ contactData, title, color = "light" }) {
             </div>
           )}
           <div>
-            <IconButton
-              className={classes.socialIcons}
-              style={{ color: finalColor }}
-              aria-label="facebook"
-              href={`https://www.facebook.com/${contacts.facebook}`}
-            >
-              <FacebookIcon fontSize="large" className={classes.socialIcon} />
-            </IconButton>
-            <IconButton
-              style={{ color: finalColor }}
-              className={classes.socialIcons}
-              aria-label="twitter"
-              href={`https://twitter.com/${contacts.facebook}`}
-            >
-              <TwitterIcon fontSize="large" className={classes.socialIcon} />
-            </IconButton>
-            <IconButton
-              style={{ color: finalColor }}
-              aria-label="instagram"
-              className={classes.socialIcons}
-              href={`https://www.instagram.com/${contacts.instagram}`}
-            >
-              <InstagramIcon fontSize="large" className={classes.socialIcon} />
-            </IconButton>
-            <IconButton
-              style={{ color: finalColor }}
-              className={classes.socialIcons}
-              aria-label="linkedin"
-              href={`https://www.linkedin.com/company/${contacts.linkedin}`}
-            >
-              <LinkedInIcon fontSize="large" className={classes.socialIcon} />
-            </IconButton>
+            {socialPlatforms.map((platform) => {
+              if (contacts[platform.name]) {
+                return (
+                  <IconButton
+                    key={platform.name}
+                    className={classes.socialIcons}
+                    style={{ color: finalColor }}
+                    aria-label={platform.name}
+                    href={`https://www.${platform.name}.com/${
+                      contacts[platform.name]
+                    }`}
+                  >
+                    {platform.icon}
+                  </IconButton>
+                );
+              } else {
+                return null;
+              }
+            })}
           </div>
         </div>
       ) : (

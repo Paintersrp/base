@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
   },
   title: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -52,22 +52,22 @@ export default function Hours({ contactData }) {
     <>
       {!editing ? (
         <>
-          <Typography variant="h4" className={`${classes.title} ${fadeIn}`}>
+          <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
             Business Hours
           </Typography>
           <Grid container spacing={1} className={`${flexCenter} ${fadeIn}`}>
             {days.map((day) => (
               <Grid item xs={12} sm={12} className={classes.textContainer}>
-                <Typography variant="subtitle2">{day.day}:</Typography>
+                <Typography variant="subtitle1">{day.day}:</Typography>
                 {day.value === "Closed" ? (
                   <Typography
-                    variant="subtitle2"
+                    variant="subtitle1"
                     className={classes.closedText}
                   >
                     {day.value}
                   </Typography>
                 ) : (
-                  <Typography variant="subtitle2">{day.value}</Typography>
+                  <Typography variant="subtitle1">{day.value}</Typography>
                 )}
               </Grid>
             ))}

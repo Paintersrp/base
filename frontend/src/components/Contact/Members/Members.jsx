@@ -8,7 +8,7 @@ import Member from "./Member";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: "100vw",
+    width: "100%",
     justifyContent: "center",
     marginTop: theme.spacing(5),
     backgroundColor: "white",
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   sectionTitle: {
-    fontWeight: "bold",
     marginBottom: theme.spacing(3),
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
@@ -43,7 +42,7 @@ const Members = ({ membersData }) => {
       {members ? (
         <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} sm={12}>
-            <Typography variant="h3" className={classes.sectionTitle}>
+            <Typography variant="h2" className={classes.sectionTitle}>
               Company Management
             </Typography>
           </Grid>

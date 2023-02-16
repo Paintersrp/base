@@ -9,7 +9,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CardMedia, TextField } from "@material-ui/core";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -120,7 +120,6 @@ const useStyles = makeStyles((theme) => ({
       transform: "translateY(0)",
     },
   },
-  
 }));
 
 const ProcessEdit = ({ process, updateProcess }) => {

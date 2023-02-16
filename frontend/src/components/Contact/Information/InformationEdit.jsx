@@ -3,21 +3,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
 import { getCookie } from "../../../Utils";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   textContainer: {
     display: "flex",
     justifyContent: "center",
   },
   title: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   fieldContainer: {
-    width: "85%",
+    width: "90%",
   },
 }));
 
@@ -59,24 +59,24 @@ export default function InformationEdit({ initialData, onUpdate }) {
   return (
     <>
       <form onSubmit={handleSubmit} className={fadeIn}>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h3" className={classes.title}>
           Edit Contact Information
         </Typography>
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12} className={classes.textContainer}>
             <div className={classes.fieldContainer}>
-              <EditField
+              <FormField
                 key="email"
                 label="Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              <EditField
+              <FormField
                 label="Phone"
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
               />
-              <EditField
+              <FormField
                 label="Address"
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}

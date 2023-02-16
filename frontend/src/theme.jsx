@@ -78,7 +78,7 @@ const theme = createTheme({
       letterSpacing: "-0.00833em",
     },
     h3: {
-      fontWeight: 500,
+      fontWeight: 600,
       fontSize: "1.5rem",
       lineHeight: 1.167,
       letterSpacing: "0em",

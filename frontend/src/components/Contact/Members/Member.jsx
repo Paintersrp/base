@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: theme.shadows[7],
     },
   },
-  cardContent: {
-    padding: "0px 16px 0px 16px",
-  },
   avatar: {
     width: theme.spacing(12),
     height: theme.spacing(12),
@@ -66,7 +63,7 @@ const Member = ({ member }) => {
 
   return (
     <Grid
-      item
+      container
       xs={12}
       sm={6}
       md={6}

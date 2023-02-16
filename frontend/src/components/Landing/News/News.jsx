@@ -10,7 +10,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
-import ArticleHighlightList from "../../Articles/Articles/ArticleHighlightList";
+import ArticleCards from "../../Articles/Display/Cards/ArticleCards";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -136,7 +136,7 @@ export default function LatestNews() {
           )}
         </Grid>
         <Grid container spacing={2}>
-          <ArticleHighlightList articles={articlesData} />
+          <ArticleCards articles={articlesData} />
         </Grid>
       </Paper>
     </Grid>

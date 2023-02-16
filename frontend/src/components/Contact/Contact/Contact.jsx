@@ -10,7 +10,7 @@ import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: "100vw",
+    maxWidth: "100%",
     marginTop: theme.spacing(5),
     display: "flex",
     justifyContent: "center",
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.primary,
-    backgroundColor: "white",
     maxWidth: 900,
   },
   container: {
@@ -28,21 +27,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   sectionTitle: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
     textAlign: "left",
   },
   formTitle: {
-    width: "90%",
-    paddingBottom: 15,
+    fontWeight: 600,
+    paddingBottom: theme.spacing(2),
   },
 }));
 
 export default function Contact({ contactData, color = "light" }) {
   const classes = useStyles();
   const { flexCenter } = baseClasses();
+
   const options = [
     { label: "General Inquiry", value: "General Inquiry" },
     { label: "Support", value: "Support" },
@@ -55,24 +54,23 @@ export default function Contact({ contactData, color = "light" }) {
       <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} sm={12} className={classes.section}>
-            <Typography variant="h3" className={classes.sectionTitle}>
+            <Typography variant="h2" className={classes.sectionTitle}>
               Contact Us
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <Information contactData={contactData} />
             <Hours contactData={contactData} />
-            <Social color={color} contactData={contactData} title={true} />
-            <ContactButtons contactData={contactData} />
           </Grid>
           <Grid item xs={12} sm={12} md={6} className={flexCenter}>
-            <div className={classes.formTitle}>
-              <Typography variant="h4" className={classes.formTitle}>
+            <div style={{ width: "90%" }}>
+              <Typography variant="h3" className={classes.formTitle}>
                 Contact
               </Typography>
               <ContactForm selectOptions={options} />
             </div>
           </Grid>
+          <Social color={color} contactData={contactData} title={true} />
         </Grid>
       </Paper>
     </div>

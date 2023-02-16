@@ -15,9 +15,9 @@ import linkData from "./navigation/Components/Navigation/linkData";
 import Footer from "./navigation/Components/Footer/Footer";
 import Profile from "./components/Elements/Forms/Profile/Profile";
 import WIPDemo from "./components/WIP/_Page/WIPDemo";
-import Articles from "./components/Articles/Articles/Articles";
-import IndividualArticleView from "./components/Articles/_Pages/Individual/IndividualArticleView";
-import UpdateArticleView from "./components/Articles/_Pages/Update/UpdateArticleView";
+import ArticlesPage from "./components/Articles/_Page/ArticlesPage";
+import IndividualArticleView from "./components/Articles/Read/IndividualArticleView";
+import UpdateArticleView from "./components/Articles/Update/UpdateArticleView";
 import ServicesPage from "./components/Services/_Page/ServicesPage";
 import ContactPage from "./components/Contact/_Page/ContactPage";
 
@@ -62,7 +62,7 @@ function App() {
           <Route path="/WIP" element={<WIPDemo />} />
 
           {/* Feature Routes */}
-          <Route path="/articles" element={<Articles />} />
+          <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:id" element={<IndividualArticleView />} />
           <Route
             path="/articles/:id/update"

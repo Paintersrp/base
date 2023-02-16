@@ -3,20 +3,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import { getCookie } from "../../../Utils";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   textContainer: {
     display: "flex",
     justifyContent: "center",
   },
   title: {
-    paddingTop: 20,
+    paddingTop: theme.spacing(2),
     paddingBottom: 20,
   },
   fieldContainer: {
-    width: "85%",
+    width: "90%",
   },
 }));
 
@@ -71,14 +71,14 @@ export default function EditHours({ initialData, onUpdate }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h3" className={classes.title}>
           Edit Business Hours
         </Typography>
         <Grid container spacing={0}>
           {days.map((day) => (
             <Grid item xs={12} sm={12} className={classes.textContainer}>
               <div className={classes.fieldContainer}>
-                <EditField
+                <FormField
                   label={day.day}
                   value={day.value}
                   onChange={(event) =>

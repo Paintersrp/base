@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import EditField from "../../Elements/Fields/EditField";
+import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,12 +56,12 @@ const ValueEdit = ({ value, onUpdate }) => {
       <Card className={classes.card} elevation={0}>
         <form onSubmit={handleSubmit}>
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <EditField
+            <FormField
               label="Icon"
               value={icon}
               onChange={(event) => setIcon(event.target.value)}
             />
-            <EditField
+            <FormField
               label="Title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
