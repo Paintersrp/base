@@ -8,6 +8,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ContactButtons from "../../Contact/Contact/ContactButtons";
 import Social from "../../Contact/Social/Social";
 import StyledButton from "../../Elements/Buttons/StyledButton";
+import BaseForm from "../../Elements/Base/BaseForm";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -185,66 +186,58 @@ function Hero({ contactData, form = true }) {
         </div>
       </Grid>
       {form ? (
-        <Grid item xs={12} style={{ padding: 0, margin: 0 }}>
-          <div className={classes.form}>
-            <Typography variant="h4" className={classes.formTitle}>
-              Ready to take the first step?
-            </Typography>
-            <Typography variant="body2" className={classes.formSubtitle}>
-              Fill out the form below and one of our experts will get in touch
-              with you to schedule a consultation.
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={0}>
-                <Grid item xs={12}>
-                  <TextField
-                    margin="dense"
-                    label="Full Name"
-                    variant="outlined"
-                    fullWidth
-                    className={classes.formField}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    margin="dense"
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    className={classes.formField}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    margin="dense"
-                    label="Phone"
-                    variant="outlined"
-                    fullWidth
-                    className={classes.formField}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    margin="dense"
-                    label="Message"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    className={classes.formField}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <StyledButton buttonText="Get in touch" />
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-        </Grid>
+        <BaseForm
+          title="Ready to take the first step?"
+          body="Fill out the form below and one of our experts will get in touch
+        with you to schedule a consultation."
+          handleSubmit={handleSubmit}
+        >
+          <Grid item xs={12}>
+            <TextField
+              margin="dense"
+              label="Full Name"
+              variant="outlined"
+              fullWidth
+              className={classes.formField}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              margin="dense"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              className={classes.formField}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              margin="dense"
+              label="Phone"
+              variant="outlined"
+              fullWidth
+              className={classes.formField}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              margin="dense"
+              label="Message"
+              variant="outlined"
+              multiline
+              rows={4}
+              fullWidth
+              className={classes.formField}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <StyledButton buttonText="Get in touch" />
+          </Grid>
+        </BaseForm>
       ) : null}
     </Grid>
   );

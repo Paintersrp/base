@@ -32,6 +32,7 @@
     "ra-data-simple-rest": "^4.7.2",
     "react": "^18.2.0",
     "react-admin": "^4.7.3",
+    "react-carousel": "^4.3.0",
     "react-color": "^2.19.3",
     "react-countdown-now": "^2.1.2",
     "react-custom-scrollbars": "^4.2.1",
@@ -46,6 +47,7 @@
     "react-leaflet": "^4.2.0",
     "react-masonry-component": "^6.3.0",
     "react-material-ui-carousel": "^2.3.11",
+    "react-multi-carousel": "^2.8.2",
     "react-paginate": "^8.1.4",
     "react-quill": "^2.0.0",
     "react-redux": "^8.0.5",
@@ -58,6 +60,7 @@
     "react-transition-group": "^4.4.5",
     "recharts": "^2.4.1",
     "redux": "^4.2.1",
+    "slick-carousel": "^1.8.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

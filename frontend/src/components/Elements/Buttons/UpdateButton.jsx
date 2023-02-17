@@ -1,18 +1,27 @@
 import React from "react";
 import { Button, CardActions } from "@material-ui/core";
+import StyledButton from "./StyledButton";
 
-export default function UpdateButton({ color = "black" }) {
+export default function UpdateButton({ color = "black", mt = 0, mb = 0 }) {
   return (
     <CardActions
       style={{
         display: "flex",
         justifyContent: "center",
-        paddingBottom: 10,
+        paddingBottom: 0,
         paddingTop: 0,
-        marginTop: 0,
+        marginTop: mt,
+        marginBottom: mb,
+        width: "100%",
       }}
     >
-      <Button
+      <StyledButton
+        type="submit"
+        buttonText={"Update"}
+        minWidth="0"
+        size="small"
+      />
+      {/* <Button
         variant="outlined"
         type="submit"
         style={{
@@ -24,7 +33,7 @@ export default function UpdateButton({ color = "black" }) {
         }}
       >
         Update
-      </Button>
+      </Button> */}
     </CardActions>
   );
 }

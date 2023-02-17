@@ -67,14 +67,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectedService = ({ service, highlighted = false }) => {
+const SelectedService = ({ service, highlighted = false, isSelected }) => {
   const classes = useStyles();
 
   return (
     <Card
-      className={
-        highlighted ? `${classes.root} ${classes.highlighted}` : classes.root
-      }
+      className={`${classes.root} ${isSelected ? classes.highlighted : ""}`}
     >
       <Grid container flex style={{ flexDirection: "column", width: "100%" }}>
         <Grid xs={12} style={{ width: "100%" }}>

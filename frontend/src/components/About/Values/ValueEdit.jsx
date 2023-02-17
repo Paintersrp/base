@@ -1,36 +1,20 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import FormField from "../../Elements/Fields/FormField";
-import { baseClasses } from "../../../classes";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundColor: "white",
-    color: "black",
-  },
-}));
+import BaseEditForm from "../../Elements/Base/BaseEditForm";
 
 const ValueEdit = ({ value, onUpdate }) => {
-  const { fadeIn } = baseClasses();
-  const classes = useStyles();
-  const [data, setData] = useState(value);
-  const [title, setTitle] = useState(data.title);
-  const [icon, setIcon] = useState(data.icon);
+  const [formData, setFormData] = useState(value);
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("title", title);
-    formData.append("icon", icon);
 
     const config = {
       headers: {
@@ -40,7 +24,7 @@ const ValueEdit = ({ value, onUpdate }) => {
     };
     try {
       const res = await axios.patch(
-        `http://localhost:8000/api/values/${data.id}/`,
+        `http://localhost:8000/api/values/${formData.id}/`,
         formData,
         config
       );
@@ -52,25 +36,14 @@ const ValueEdit = ({ value, onUpdate }) => {
   };
 
   return (
-    <div className={`${classes.root} ${fadeIn}`}>
-      <Card className={classes.card} elevation={0}>
-        <form onSubmit={handleSubmit}>
-          <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <FormField
-              label="Icon"
-              value={icon}
-              onChange={(event) => setIcon(event.target.value)}
-            />
-            <FormField
-              label="Title"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-          </CardContent>
-          <UpdateButton />
-        </form>
-      </Card>
-    </div>
+    <BaseEditForm
+      title="Edit"
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
+      formData={formData}
+      width="80%"
+      excludeKeys={["id"]}
+    />
   );
 };
 

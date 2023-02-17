@@ -3,13 +3,32 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
+  formField: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "black",
+      },
+      "&:hover fieldset": {
+        borderColor: "black",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "black",
+      },
+    },
+    "& .MuiFormLabel-root": {
+      color: "black",
+      fontWeight: "500",
+      fontSize: "0.9rem",
+    },
+    "& input": {
+      color: "black",
+    },
+  },
   field: {
-    margin: 2,
     width: "100%",
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
-      margin: 5,
       fontSize: "0.9rem",
       fontWeight: "400",
       width: "100%",
@@ -27,18 +46,15 @@ const useStyles = makeStyles({
     },
     "& .MuiFormLabel-root": {
       fontFamily: "Roboto",
-      margin: 4,
       color: "black",
-      fontWeight: "450",
-      fontSize: "1rem",
-      letterSpacing: 0.5,
+      fontWeight: "500",
+      fontSize: "0.95rem",
     },
     "& input": {
       color: "black",
     },
   },
   multiline: {
-    marginLeft: 2,
     marginTop: 5,
     marginBottom: 5,
     width: "100%",
@@ -52,7 +68,6 @@ const useStyles = makeStyles({
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 10,
-      marginLeft: 5,
       fontSize: "0.9rem",
       fontWeight: 50,
       width: "100%",
@@ -69,9 +84,8 @@ const useStyles = makeStyles({
     "& .MuiFormLabel-root": {
       fontFamily: "Roboto",
       color: "black",
-      marginLeft: 3,
-      fontWeight: "450",
-      fontSize: "1rem",
+      fontWeight: "500",
+      fontSize: "0.95rem",
     },
     "& input": {
       color: "black",

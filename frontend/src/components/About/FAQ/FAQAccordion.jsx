@@ -78,16 +78,15 @@ const FAQAccordion = () => {
   const [editing, setEditing] = useState(false);
 
   const onUpdate = () => {
-    console.log("test");
     axiosInstance
       .get("/faqs/")
       .then((response) => {
         let updatedFaqData = {};
         response.data.forEach((faq) => {
-          if (!updatedFaqData[faq.category_name]) {
-            updatedFaqData[faq.category_name] = [faq];
+          if (!updatedFaqData[faq.category]) {
+            updatedFaqData[faq.category] = [faq];
           } else {
-            updatedFaqData[faq.category_name].push(faq);
+            updatedFaqData[faq.category].push(faq);
           }
         });
         setFaqs(updatedFaqData);
@@ -107,10 +106,10 @@ const FAQAccordion = () => {
         .then((response) => {
           let updatedFaqData = {};
           response.data.forEach((faq) => {
-            if (!updatedFaqData[faq.category_name]) {
-              updatedFaqData[faq.category_name] = [faq];
+            if (!updatedFaqData[faq.category]) {
+              updatedFaqData[faq.category] = [faq];
             } else {
-              updatedFaqData[faq.category_name].push(faq);
+              updatedFaqData[faq.category].push(faq);
             }
           });
           setFaqs(updatedFaqData);

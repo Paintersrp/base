@@ -3,14 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
-import { Grid, InputAdornment, TextField } from "@material-ui/core";
+import { Grid, InputAdornment, TextField, Typography } from "@material-ui/core";
 import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
-import ImageEdit from "./ImageEdit";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import StyledButton from "../../Elements/Buttons/StyledButton";
+import ImageInput from "./ImageInput";
+import ImageEdit from "./ImageEdit";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -60,14 +61,16 @@ const useStyles = makeStyles(() => ({
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
-      margin: 5,
+      margin: 0,
       fontSize: "0.9rem",
       fontWeight: "400",
       width: "100%",
       letterSpacing: 0.25,
+      alignItems: "center",
 
       "& fieldset": {
         borderColor: "black",
+        alignItems: "center",
       },
       "&:hover fieldset": {
         borderColor: "black",
@@ -77,11 +80,11 @@ const useStyles = makeStyles(() => ({
       },
     },
     "& .MuiFormLabel-root": {
+      alignItems: "center",
       fontFamily: "Roboto",
-      margin: 4,
       color: "black",
-      fontWeight: "450",
-      fontSize: "1rem",
+      fontWeight: "500",
+      fontSize: "0.8rem",
       letterSpacing: 0.5,
     },
     "& input": {
@@ -163,39 +166,14 @@ const MemberEdit = ({ member, onUpdate }) => {
                 <ImageEdit header="New Image" image={`${newImage}`} />
               ) : null}
             </Grid>
-            <div className="">
-              <div>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  id="file-input"
-                  name="image"
-                  type="file"
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  className={classes.field}
-                  id="file-textfield"
-                  label={!newImage ? "Upload Image" : newImageName}
-                  variant="outlined"
-                  disabled
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <StyledButton
-                          buttonText="Choose"
-                          onClick={handleClick}
-                          startIcon={<CloudUploadIcon />}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </div>
-            </div>
+            <ImageInput
+              handleChange={handleChange}
+              handleClick={handleClick}
+              newImage={newImage}
+              newImageName={newImageName}
+            />
             {Object.keys(formData).map((key) => {
-              if (key !== "image" && key !== "errors") {
+              if (key !== "image" && key !== "errors" && key !== "id") {
                 return (
                   <FormField
                     key={key}

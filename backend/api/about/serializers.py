@@ -65,13 +65,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FAQSerializer(serializers.ModelSerializer):
-    category_name = serializers.StringRelatedField(
-        source="category.name", read_only=True
-    )
+    category = serializers.StringRelatedField(source="category.name", read_only=True)
 
     class Meta:
         model = FAQ
-        fields = ("id", "question", "answer", "category_name")
+        fields = ("id", "category", "question", "answer")
 
     def update(self, instance, validated_data):
         instance.question = validated_data.get("question", instance.question)
