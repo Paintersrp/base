@@ -1,137 +1,103 @@
-import React from "react";
-import {
-  Typography,
-  Grid,
-  useTheme,
-  useMediaQuery,
-  makeStyles,
-} from "@material-ui/core";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Button, Paper, Typography } from "@material-ui/core";
+import { servicesData } from "./servicesData";
 import SelectedService from "./SelectedService";
-import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
-  carousel: {
-    margin: "0 auto",
-    maxWidth: 1200,
-    [theme.breakpoints.down("sm")]: {
-      margin: "0 16px",
-    },
+  root: {
+    marginTop: theme.spacing(3),
+    margin: theme.spacing(3),
   },
-  opaque: {
-    opacity: 0.7,
+  item: {
+    margin: theme.spacing(3),
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
-const ServicesResult = ({ recommended, others }) => {
+function ServiceItem({ service, active }) {
   const classes = useStyles();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [hovered, setHovered] = useState(false);
 
-  const settings = {
-    autoPlay: false,
-    animation: "slide",
-    interval: 5000,
-    indicators: false,
-    navButtonsAlwaysInvisible: isSmallScreen,
-    navButtonsAlwaysVisible: !isSmallScreen,
-    navButtonsProps: {
-      style: {
-        backgroundColor: theme.palette.primary.main,
-        borderRadius: 0,
-        height: 40,
-        width: 40,
-      },
-    },
-    navButtonsWrapperProps: {
-      style: {
-        bottom: isSmallScreen ? "8px" : "auto",
-        top: "50%",
-        transform: "translateY(-50%)",
-      },
-    },
-    swipe: isSmallScreen,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    centerMode: false,
-    // responsive: [
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 1,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 960,
-    //     settings: {
-    //       slidesToShow: 2,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 1280,
-    //     settings: {
-    //       slidesToShow: 3,
-    //     },
-    //   },
-    // ],
+  return (
+    <Paper
+      style={{
+        height: 400,
+        width: active ? 300 : 300,
+        opacity: active ? 1 : hovered ? 0.7 : 0.3,
+        transition: "all 0.3s ease",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {active && <Typography>Selected</Typography>}
+      <Typography variant="h5">{service.title}</Typography>
+      <Typography variant="body1">{service.description}</Typography>
+      <Typography variant="h6">Price: {service.price}</Typography>
+      <ul>
+        {service.features.map((feature, index) => (
+          <li key={index}>{feature}</li>
+        ))}
+      </ul>
+      <img
+        src={service.image}
+        alt={service.title}
+        style={{ maxWidth: "100%" }}
+      />
+    </Paper>
+  );
+}
+
+const ServicesResult = () => {
+  const classes = useStyles();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handlePrev = () => {
+    setActiveIndex(
+      activeIndex === 0 ? servicesData.length - 1 : activeIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setActiveIndex(
+      activeIndex === servicesData.length - 1 ? 0 : activeIndex + 1
+    );
+  };
+
+  const handleClick = (index) => {
+    setActiveIndex(index);
   };
 
   return (
-    <Grid container flex justifyContent="center" style={{ maxWidth: 1200 }}>
-      <Grid item xs={12}>
-        <Typography align="center" variant="h2" gutterBottom>
-          Recommended Services
-        </Typography>
-      </Grid>
-      <Grid container flex justifyContent="center">
-        <Carousel className={classes.carousel} {...settings}>
-          {[recommended, ...others].map((service, index) => (
-            <SelectedService
-              key={index}
-              service={service}
-              className={index > 2 ? classes.opaque : null}
-            />
-          ))}
-        </Carousel>
-      </Grid>
+    <Grid container className={classes.root} justify="center">
+      {servicesData.map((service, index) => (
+        <Grid
+          item
+          className={classes.item}
+          style={{
+            transform:
+              index === activeIndex - 1
+                ? "translateX(0%) scale(0.9)"
+                : index === activeIndex
+                ? "translateX(0%) scale(0.95)"
+                : index === activeIndex + 1
+                ? "translateX(0%) scale(0.9)"
+                : "translateX(0%) scale(0.9)",
+            transition: "all 0.3s ease",
+          }}
+          onClick={() => handleClick(index)}
+        >
+          <SelectedService
+            key={service.id}
+            service={service}
+            active={index === activeIndex}
+          />
+        </Grid>
+      ))}
     </Grid>
   );
 };
 
 export default ServicesResult;
-
-//   return (
-//     <Grid container flex justifyContent="center" style={{ maxWidth: 1200 }}>
-//       <Grid item xs={12}>
-//         <Typography align="center" variant="h2" gutterBottom>
-//           Recommended Services
-//         </Typography>
-//       </Grid>
-//       <Grid container flex justifyContent="center">
-//         <Grid
-//           item
-//           xs={12}
-//           md={4}
-//           lg={4}
-//           style={{
-//             order: isSmallScreen ? 0 : 1,
-//           }}
-//         >
-//           <SelectedService key={1} service={recommended} highlighted />
-//         </Grid>
-//         {others.map((service, index) => (
-//           <Grid
-//             item
-//             xs={12}
-//             md={4}
-//             lg={4}
-//             style={{ order: index === 0 ? 0 : 2 }}
-//           >
-//             <SelectedService key={1} service={service} />
-//           </Grid>
-//         ))}
-//       </Grid>
-//     </Grid>
-//   );
-// };
-
-// export default ServicesResult;

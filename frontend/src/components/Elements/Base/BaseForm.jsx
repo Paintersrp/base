@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[1],
     maxWidth: 360,
     margin: "0 auto",
+    color: theme.palette.text.dark,
   },
   formTitle: {
     fontWeight: "bold",

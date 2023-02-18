@@ -45,6 +45,7 @@ function App() {
       <Router>
         <ScrollToTop />
         <Navigation links={linkData} appName={"EDGELORDS"} />
+
         <Routes>
           {/* Auth Routes */}
           <Route path="/login" element={<LoginForm />} />

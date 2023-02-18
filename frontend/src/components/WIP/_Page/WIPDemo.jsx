@@ -12,7 +12,7 @@ import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../../Services/Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../CountDown/CountdownBlock";
-import Carousel from "../../Services/Quiz/Carousel";
+import ServicesResult from "../../Services/Quiz/ServicesResult";
 
 const testimonials = [
   {
@@ -192,7 +192,7 @@ const customersData = [
 
 const wipComponents = [
   {
-    component: Carousel,
+    component: ServicesResult,
   },
   {
     component: Infographic,

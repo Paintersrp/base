@@ -3,20 +3,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Divider } from "@material-ui/core";
 
 TitleBlock.defaultProps = {
-  alignment: "Left",
-  showDivider: true,
+  alignment: "left",
+  showDivider: false,
 };
 
 const getAlignClass = (alignment) => {
   switch (alignment) {
-    case "Left":
-      return "alignLeft";
-    case "Right":
-      return "alignRight";
-    case "Center":
-      return "alignCenter";
+    case "left":
+      return "Left";
+    case "right":
+      return "Right";
+    case "center":
+      return "Center";
     default:
-      return "alignLeft";
+      return "Left";
   }
 };
 
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(0.5),
   },
   divider: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.primary.main,
   },
   alignLeft: {
     textAlign: "left",
@@ -77,7 +77,9 @@ function TitleBlock({
         <Typography
           variant="subtitle1"
           color="secondary"
-          className={[classes.subtitle, classes[`align${alignment}`]].join(" ")}
+          className={[classes.subtitle, classes[`align${alignClass}`]].join(
+            " "
+          )}
         >
           {subtitle}
         </Typography>
@@ -87,7 +89,7 @@ function TitleBlock({
         <Typography
           variant="h2"
           component="h1"
-          className={[classes.title, classes[`align${alignment}`]].join(" ")}
+          className={[classes.title, classes[`align${alignClass}`]].join(" ")}
         >
           {title}
         </Typography>

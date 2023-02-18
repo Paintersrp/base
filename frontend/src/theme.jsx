@@ -1,70 +1,96 @@
-import { createTheme } from "@material-ui/core/styles";
-import { indigo } from "@material-ui/core/colors";
+import { createMuiTheme } from "@material-ui/core/styles";
 
-const theme = createTheme({
+// Define custom colors
+const commonColors = {
+  white: "#ffffff",
+  black: "#000000",
+  gray: "#bdbdbd",
+  red: "#f44336",
+  amber: "#ffc107",
+  blue: "#3f51b5",
+  green: "#4caf50",
+  yellow: "#ffeb3b",
+  orange: "#ff9800",
+  purple: "#9c27b0",
+};
+
+const palettes = {
+  primary: {
+    main: "#2e3b55",
+    light: "#6b7c9b",
+    dark: "#00152e",
+    contrastText: "#fff",
+  },
+  secondary: {
+    main: "#ff8c00",
+    light: "#ffd04d",
+    dark: "#c75e00",
+    contrastText: "#fff",
+  },
+  success: {
+    light: "#81c784",
+    main: commonColors.green,
+    dark: "#388e3c",
+  },
+  warning: {
+    light: "#ffd54f",
+    main: commonColors.yellow,
+    dark: "#f57f17",
+  },
+  error: {
+    light: "#e57373",
+    main: commonColors.red,
+    dark: "#d32f2f",
+  },
+  info: {
+    light: "#64b5f6",
+    main: commonColors.blue,
+    dark: "#1976d2",
+  },
+  text: {
+    dark: "black",
+    light: "#fff",
+    primary: "rgba(0, 0, 0, 1)",
+    secondary: "rgba(0, 0, 0, 0.6)",
+    disabled: "rgba(0, 0, 0, 0.38)",
+    hint: "rgba(0, 0, 0, 0.38)",
+  },
+  action: {
+    active: "rgba(0, 0, 0, 0.54)",
+    hover: "rgba(121, 134, 203 , 0.75)",
+    hoverOpacity: 0.08,
+    selected: "rgba(0, 0, 0, 0.14)",
+    disabled: "rgba(0, 0, 0, 0.26)",
+    disabledBackground: "rgba(0, 0, 0, 0.12)",
+  },
+};
+
+const fontSizes = {
+  h1: "2.25rem",
+  h2: "2rem",
+  h3: "1.75rem",
+  h4: "1.5rem",
+  h5: "1.25rem",
+  h6: "1rem",
+  body1: "1rem",
+  body2: "0.875rem",
+  caption: "0.75rem",
+};
+
+const theme = createMuiTheme({
   palette: {
-    black: "black",
-    primary: {
-      light: indigo[300],
-      main: indigo[500],
-      dark: indigo[700],
-      contrastText: "#fff",
-      gold: "#ffd700",
-    },
-    secondary: {
-      light: "#ff4081",
-      main: "#ea0727",
-      dark: "#ea0727",
-      contrastText: "#fff",
-    },
-    error: {
-      light: "#e57373",
-      main: "#f44336",
-      dark: "#d32f2f",
-      contrastText: "#fff",
-    },
-    warning: {
-      light: "#ffb74d",
-      main: "#ff9800",
-      dark: "#f57c00",
-      contrastText: "rgba(0, 0, 0, 0.87)",
-    },
-    info: {
-      light: "#64b5f6",
-      main: "#2196f3",
-      dark: "#1976d2",
-      contrastText: "#fff",
-    },
-    success: {
-      light: "#81c784",
-      main: "#4caf50",
-      dark: "#388e3c",
-      contrastText: "rgba(0, 0, 0, 0.87)",
-    },
-    background: {
-      default: "#242424",
-      paper: "#fff",
-      light: "#fff",
-    },
-    text: {
-      dark: "black",
-      light: "#fff",
-      primary: "rgba(0, 0, 0, 1)",
-      secondary: "rgba(0, 0, 0, 0.6)",
-      disabled: "rgba(0, 0, 0, 0.38)",
-      hint: "rgba(0, 0, 0, 0.38)",
-    },
-    action: {
-      active: "rgba(0, 0, 0, 0.54)",
-      hover: "rgba(121, 134, 203 , 0.75)",
-      hoverOpacity: 0.08,
-      selected: "rgba(0, 0, 0, 0.14)",
-      disabled: "rgba(0, 0, 0, 0.26)",
-      disabledBackground: "rgba(0, 0, 0, 0.12)",
-    },
+    common: commonColors,
+    primary: palettes.primary,
+    secondary: palettes.secondary,
+    success: palettes.success,
+    warning: palettes.warning,
+    error: palettes.error,
+    info: palettes.info,
+    text: palettes.text,
+    action: palettes.action,
   },
   typography: {
-    fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontFamily: ["Roboto", "Poppins"].join(","),
     h1: {
       fontWeight: 700,
       fontSize: "2.5rem",
@@ -134,6 +160,60 @@ const theme = createTheme({
       lineHeight: 2.66,
       letterSpacing: "0.08333em",
       textTransform: "uppercase",
+    },
+  },
+  overrides: {
+    MuiButton: {
+      contained: {
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+        },
+      },
+      containedPrimary: {
+        backgroundColor: palettes.primary.main,
+        color: commonColors.white,
+        "&:hover": {
+          backgroundColor: palettes.primary.dark,
+        },
+      },
+      containedSecondary: {
+        backgroundColor: palettes.secondary.main,
+        color: commonColors.white,
+        "&:hover": {
+          backgroundColor: palettes.secondary.dark,
+        },
+      },
+      outlinedPrimary: {
+        border: `1px solid ${palettes.primary.main}`,
+        color: palettes.primary.main,
+        "&:hover": {
+          border: `1px solid ${palettes.primary.dark}`,
+          backgroundColor: palettes.primary.main,
+          color: commonColors.white,
+        },
+      },
+      outlinedSecondary: {
+        border: `1px solid ${palettes.secondary.main}`,
+        color: palettes.secondary.main,
+        "&:hover": {
+          border: `1px solid ${palettes.secondary.dark}`,
+          backgroundColor: palettes.secondary.main,
+          color: commonColors.white,
+        },
+      },
+      textPrimary: {
+        color: palettes.primary.main,
+        "&:hover": {
+          backgroundColor: "#e0e0e0",
+        },
+      },
+      textSecondary: {
+        color: palettes.secondary.main,
+        "&:hover": {
+          backgroundColor: "#e0e0e0",
+        },
+      },
     },
   },
   breakpoints: {

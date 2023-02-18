@@ -16,13 +16,14 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-import ServicesResult from "./ServicesResult";
+import ServicesResultCarousel from "./ServicesResultCarousel";
 import NavigationButtons from "./NavigationButtons";
 import { servicesData } from "./servicesData";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { quizStyles } from "./styles";
 import ComparisonTable from "../ComparisonTable/ComparisonTable";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
+import ServicesResult from "./ServicesResult";
 
 const Quiz = () => {
   const classes = quizStyles();
@@ -331,10 +332,14 @@ const Quiz = () => {
               className={`${classes.fadeIn}`}
             >
               <Grid container flex justifyContent="center">
-                <ServicesResult
-                  recommended={recommendedServices}
-                  others={unrecommendedServices}
-                />
+                {isSmallScreen ? (
+                  <ServicesResultCarousel
+                    recommended={recommendedServices}
+                    others={unrecommendedServices}
+                  />
+                ) : (
+                  <ServicesResult />
+                )}
               </Grid>
               <Grid container flex justifyContent="center">
                 <StyledButton size="small" buttonText="Book a Service" />

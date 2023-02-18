@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       transform: "translateY(-2px)",
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: theme.palette.primary.light,
     },
   },
   socialIcon: {

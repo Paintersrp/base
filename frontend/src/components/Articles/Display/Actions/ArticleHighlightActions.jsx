@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Button, Chip, Grid } from "@material-ui/core";
+import StyledButton from "../../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -20,6 +21,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
     paddingBottom: 5,
+  },
+  button: {
+    boxShadow: theme.shadows[3],
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText,
+    borderRadius: 48,
+    transition: "0.3s",
+    "&:hover": {
+      boxShadow: theme.shadows[3],
+      backgroundColor: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -42,7 +54,12 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
       <Grid container flex justifyContent="space-between" alignItems="center">
         <Typography variant={subtitleVariant}>By: {article.author}</Typography>
         <Link to={`/articles/${article.id}`}>
-          <Button key="2" size="small" variant="contained" color="primary">
+          <Button
+            key="2"
+            size="small"
+            variant="contained"
+            className={classes.button}
+          >
             More
           </Button>
         </Link>

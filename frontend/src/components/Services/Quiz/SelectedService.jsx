@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -67,12 +67,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectedService = ({ service, highlighted = false, isSelected }) => {
+const SelectedService = ({ service, highlighted = false, active }) => {
   const classes = useStyles();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <Card
-      className={`${classes.root} ${isSelected ? classes.highlighted : ""}`}
+      className={`${classes.root} `}
+      style={{
+        height: 400,
+        width: active ? 300 : 300,
+        opacity: active ? 1 : hovered ? 0.7 : 0.5,
+        transition: "all 0.3s ease",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Grid container flex style={{ flexDirection: "column", width: "100%" }}>
         <Grid xs={12} style={{ width: "100%" }}>

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       transform: "translateY(-2px)",
       boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.light,
     },
     "& .MuiButton-startIcon": {
       margin: "0px !important",

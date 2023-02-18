@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -10,14 +10,14 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-import { useMediaQuery } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { GiEnergySword } from "react-icons/gi";
+import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     width: "100%",
     minHeight: 200,
@@ -119,12 +119,16 @@ const useStyles = makeStyles((theme) => ({
 const links = [
   { name: "About", href: "about" },
   {
-    name: "Team",
-    href: "team",
+    name: "Contact",
+    href: "contact",
   },
   {
-    name: "Careers",
-    href: "careers",
+    name: "Services",
+    href: "services",
+  },
+  {
+    name: "News",
+    href: "articles",
   },
   {
     name: "Help",
@@ -142,6 +146,8 @@ const links = [
 
 export default function Footer() {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <footer className={classes.root}>
@@ -179,8 +185,9 @@ export default function Footer() {
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: !isSmallScreen ? "row" : "column",
                 justifyContent: "center",
+                textAlign: "center",
               }}
             >
               {links.map((link) => (
