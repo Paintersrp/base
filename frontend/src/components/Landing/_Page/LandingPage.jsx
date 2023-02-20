@@ -82,7 +82,7 @@ function LandingPage() {
       <Pricing />
       <Processes />
       <LatestNews />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <NewsletterForm />
       <IconScroller data={partners} />
     </ContentLayout>

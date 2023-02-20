@@ -90,9 +90,13 @@ const Member = ({ member }) => {
           <MemberContent member={memberData} />
         </Card>
       ) : (
-        <MemberEdit member={memberData} onUpdate={updateMember} />
+        <MemberEdit
+          member={memberData}
+          onUpdate={updateMember}
+          handleCancel={() => setEditing(!editing)}
+        />
       )}
-      {auth.is_superuser ? (
+      {!editing && auth.is_superuser ? (
         <div style={{ marginTop: 10 }}>
           <EditButton
             onClick={() => setEditing(!editing)}

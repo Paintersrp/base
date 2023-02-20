@@ -74,9 +74,13 @@ export default function Hours({ contactData }) {
           </Grid>
         </>
       ) : (
-        <EditHours initialData={data} onUpdate={updateContactData} />
+        <EditHours
+          initialData={data}
+          onUpdate={updateContactData}
+          handleCancel={() => setEditing(!editing)}
+        />
       )}
-      {auth.is_superuser ? (
+      {!editing && auth.is_superuser ? (
         <div>
           <EditButton
             onClick={() => setEditing(!editing)}

@@ -13,6 +13,7 @@ import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 import EditButton from "../../Elements/Buttons/EditButton";
+import Icon from "../../Elements/Icon/Icon";
 
 const useStyles = makeStyles((theme) => ({
   iconContainer: {
@@ -60,25 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Icon = ({ icon, className }) => {
-  switch (icon) {
-    case "DesignIcon":
-      return <DesignIcon className={className} />;
-    case "DevelopIcon":
-      return <DevelopIcon className={className} />;
-    case "LockIcon":
-      return <LockIcon className={className} />;
-    case "HostingIcon":
-      return <HostingIcon className={className} />;
-    case "LaunchIcon":
-      return <LaunchIcon className={className} />;
-    case "AllInclusiveIcon":
-      return <AllInclusiveIcon className={className} />;
-    default:
-      return <></>;
-  }
-};
-
 export default function Process({ step }) {
   const classes = useStyles();
   const [featureData, setFeatureData] = useState(step);
@@ -111,9 +93,13 @@ export default function Process({ step }) {
               </Grid>
             </>
           ) : (
-            <ProcessEdit process={featureData} updateProcess={updateProcess} />
+            <ProcessEdit
+              process={featureData}
+              updateProcess={updateProcess}
+              handleCancel={() => setEditing(!editing)}
+            />
           )}
-          {auth.is_superuser ? (
+          {!editing && auth.is_superuser ? (
             <EditButton
               onClick={() => setEditing(!editing)}
               editState={editing}

@@ -9,7 +9,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { FaTimes } from "react-icons/fa";
-import CardList from "./CardList";
 
 const useStyles = makeStyles((theme) => ({
   detailsContainer: {
@@ -79,9 +78,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DetailsModal({ plan, close }) {
+export default function DetailsModal({ plan, close, classes }) {
   console.log(plan.supportedsites);
-  const classes = useStyles();
+  // const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
@@ -96,37 +95,51 @@ export default function DetailsModal({ plan, close }) {
       onClose={handleClose}
     >
       <div className={classes.container}>
-        <DialogContent dividers={true} className={classes.detailsContainer}>
+        <DialogContent className={classes.detailsContainer}>
           <Icon className={classes.closeIcon} onClick={handleClose}>
             <FaTimes />
           </Icon>
-          <Typography gutterBottom={true} className={classes.detailsTitle}>
+          <Typography
+            gutterBottom
+            variant="h3"
+            className={classes.detailsTitle}
+          >
             {plan.title} Plan
           </Typography>
-          <Typography>
-            <strong>Best For:</strong> {plan.bestFor}
+          <Typography variant="h6" className={classes.itemText}>
+            <strong>Best For:</strong>{" "}
+            <Typography variant="body2" style={{ marginLeft: 16 }}>
+              {plan.bestFor}
+            </Typography>
           </Typography>
-          <Typography>
-            <strong>Guarantee:</strong> {plan.guarantee}
+          <Typography variant="h6" className={classes.itemText}>
+            <strong>Guarantee:</strong>{" "}
+            <Typography variant="body2" style={{ marginLeft: 16 }}>
+              {plan.guarantee}
+            </Typography>
           </Typography>
-          <Typography>
+          <Typography variant="h6" className={classes.itemText}>
             <strong>Types of Sites Supported:</strong>
+            <List dense className={classes.detailsList}>
+              {plan.supportedsites.map((site, index) => (
+                <ListItem key={site.id}>
+                  <CheckIcon className={classes.checkIcon} />
+                  <Typography variant="body2" style={{ marginLeft: 16 }}>
+                    {site.site}
+                  </Typography>
+                </ListItem>
+              ))}
+            </List>
           </Typography>
-          <List className={classes.detailsList}>
-            {plan.supportedsites.map((site, index) => (
-              <ListItem key={site.id}>
-                <CheckIcon className={classes.checkIcon} />
-                {site.site}
-              </ListItem>
-            ))}
-          </List>
-          <Button
-            className={classes.detailsButton}
-            variant="contained"
-            onClick={handleClose}
-          >
-            Close
-          </Button>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              className={classes.detailsButton}
+              variant="contained"
+              onClick={handleClose}
+            >
+              Close
+            </Button>
+          </div>
         </DialogContent>
       </div>
     </Dialog>

@@ -106,10 +106,14 @@ export default function About() {
               <Heading data={data} />
             ) : (
               <Grid item xs={12} sm={12}>
-                <AboutHeadingEdit aboutBlock={data} onUpdate={updateBlock} />
+                <AboutHeadingEdit
+                  aboutBlock={data}
+                  onUpdate={updateBlock}
+                  handleCancel={() => setEditTitle(!editTitle)}
+                />
               </Grid>
             )}
-            {auth.is_superuser ? (
+            {!editTitle && auth.is_superuser ? (
               <EditButton
                 onClick={() => setEditTitle(!editTitle)}
                 editState={editTitle}

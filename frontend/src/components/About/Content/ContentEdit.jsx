@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { getCookie } from "../../../Utils";
 import FormField from "../../Elements/Fields/FormField";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
+import StyledButton from "../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentEdit = ({ content, onUpdate, type }) => {
+const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
   const classes = useStyles();
   const [contentType, setContentType] = useState([]);
   const [data, setData] = useState(content);
@@ -100,11 +101,24 @@ const ContentEdit = ({ content, onUpdate, type }) => {
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
-            <div style={{ marginBottom: 30 }}>
+            <div style={{ marginBottom: 16, marginRight: 8, marginTop: 8 }}>
               <QuillField value={body} onChange={handleBody} size="large" />
             </div>
           </CardContent>
-          <UpdateButton />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <StyledButton
+              type="submit"
+              buttonText="Update"
+              minWidth="0"
+              size="small"
+            />
+            <StyledButton
+              buttonText="Cancel"
+              onClick={handleCancel}
+              minWidth="0"
+              size="small"
+            />
+          </div>
         </form>
       </Card>
     </div>

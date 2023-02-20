@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
     maxWidth: "100%",
+    width: "100%",
     paddingBottom: 60,
   },
   drawerPaper: {

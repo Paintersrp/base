@@ -219,7 +219,7 @@ export default function Testimonials() {
               className={classes.speechBubbles}
             >
               {!editing ? (
-                <SlideIntoViewPort direction="below">
+                <SlideIntoViewPort from="below">
                   <Testimonial>
                     <TestimonialContent>
                       <TestimonialHeading>

@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    position: "relative",
     height: "100%",
-    width: "100%",
     background: `url(https://source.unsplash.com/801x601/?service) no-repeat center center fixed`,
     backgroundSize: "cover",
     maxWidth: "100%",

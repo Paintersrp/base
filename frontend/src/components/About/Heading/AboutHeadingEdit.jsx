@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CardContent, CardMedia, Typography } from "@material-ui/core";
+import { CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import FormField from "../../Elements/Fields/FormField";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
+import ImageEdit from "../../Elements/Fields/ImageEdit";
+import ImageInput from "../../Elements/Fields/ImageInput";
+import StyledButton from "../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,11 +44,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
+const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
   const classes = useStyles();
   const [headData, setHeadData] = useState(aboutBlock);
   const [title, setTitle] = useState(headData.title);
   const [image, setImage] = useState(headData.image);
+  const [newImage, setNewImage] = useState(null);
+  const [newImageName, setNewImageName] = useState(null);
+
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
+    setNewImage(URL.createObjectURL(event.target.files[0]));
+    setNewImageName(event.target.files[0].name);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,6 +90,10 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
     }
   };
 
+  const handleClick = () => {
+    document.getElementById("file-input").click();
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -101,23 +116,53 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate }) => {
           />
           <CardContent>
             {aboutBlock.image && (
-              <div className={classes.root}>
-                <div className={classes.root}>
-                  <CardMedia
-                    className={classes.image}
-                    image={`${aboutBlock.image}/`}
-                  />
-                </div>
-              </div>
+              <>
+                <Grid
+                  container
+                  flex
+                  justifyContent="center"
+                  style={{ marginTop: 16, padding: 8 }}
+                >
+                  {!newImage && aboutBlock.image && (
+                    <ImageEdit
+                      header="Current Image"
+                      image={`${aboutBlock.image}/`}
+                      xs={12}
+                    />
+                  )}
+                  {newImage ? (
+                    <>
+                      <ImageEdit
+                        header="Current Image"
+                        image={`${aboutBlock.image}/`}
+                      />
+                      <ImageEdit header="New Image" image={`${newImage}`} />
+                    </>
+                  ) : null}
+                </Grid>
+                <ImageInput
+                  handleChange={handleImageChange}
+                  handleClick={handleClick}
+                  newImage={newImage}
+                  newImageName={newImageName}
+                />
+              </>
             )}
-            <Typography style={{ color: "black" }}>
-              <input
-                type="file"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-            </Typography>
           </CardContent>
-          <UpdateButton />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <StyledButton
+              type="submit"
+              buttonText="Update"
+              minWidth="0"
+              size="small"
+            />
+            <StyledButton
+              buttonText="Cancel"
+              onClick={handleCancel}
+              minWidth="0"
+              size="small"
+            />
+          </div>
         </div>
       </div>
     </form>

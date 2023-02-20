@@ -21,19 +21,6 @@ export default function UpdateButton({ color = "black", mt = 0, mb = 0 }) {
         minWidth="0"
         size="small"
       />
-      {/* <Button
-        variant="outlined"
-        type="submit"
-        style={{
-          width: 50,
-          color: color,
-          borderColor: "grey",
-          height: 25,
-          fontSize: "0.75rem",
-        }}
-      >
-        Update
-      </Button> */}
     </CardActions>
   );
 }

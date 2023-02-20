@@ -20,6 +20,7 @@ const palettes = {
     light: "#6b7c9b",
     dark: "#00152e",
     contrastText: "#fff",
+    gold: "#ff8c00",
   },
   secondary: {
     main: "#ff8c00",
@@ -75,6 +76,13 @@ const fontSizes = {
   body1: "1rem",
   body2: "0.875rem",
   caption: "0.75rem",
+  one: ".75rem",
+  two: "1rem",
+  three: "1.25rem",
+  four: "1.5rem",
+  five: "1.75rem",
+  six: "2rem",
+  seven: "2.25rem",
 };
 
 const theme = createMuiTheme({
@@ -89,6 +97,7 @@ const theme = createMuiTheme({
     text: palettes.text,
     action: palettes.action,
   },
+  fontSize: fontSizes,
   typography: {
     fontFamily: ["Roboto", "Poppins"].join(","),
     h1: {

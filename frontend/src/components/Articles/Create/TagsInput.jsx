@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     padding: 0,
     margin: 0,
+    marginBottom: theme.spacing(2),
   },
   chip: {
     borderRadius: 14,
@@ -24,24 +25,34 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Roboto",
   },
   field: {
+    marginBottom: theme.spacing(1.5),
+    width: "100%",
     "& .MuiOutlinedInput-root": {
+      fontFamily: "Roboto",
+      padding: 0,
+      fontSize: "0.9rem",
+      fontWeight: "400",
+      width: "100%",
+      letterSpacing: 0.25,
+
       "& fieldset": {
-        borderColor: theme.palette.background.dark,
+        borderColor: "black",
       },
       "&:hover fieldset": {
-        borderColor: theme.palette.background.dark,
+        borderColor: "black",
       },
       "&.Mui-focused fieldset": {
-        borderColor: theme.palette.background.dark,
+        borderColor: "black",
       },
     },
     "& .MuiFormLabel-root": {
-      color: theme.palette.text.dark,
-      fontWeight: "700",
-      fontSize: "0.9rem",
+      fontFamily: "Roboto",
+      color: "black",
+      fontWeight: "500",
+      fontSize: "0.95rem",
     },
     "& input": {
-      color: theme.palette.text.dark,
+      color: "black",
     },
   },
 }));
@@ -77,13 +88,13 @@ const TagsInput = ({ tags, setTags, label = "Add Tag" }) => {
           }}
           InputProps={{
             endAdornment: (
-              <IconButton onClick={handleAddTag}>
+              <IconButton onClick={handleAddTag} style={{ marginRight: 8 }}>
                 <AddIcon style={{ color: "black" }} />
               </IconButton>
             ),
           }}
         />
-        <div style={{ paddingTop: 10 }}>
+        <div>
           {tags.map((tag) => (
             <Chip
               key={tag}

@@ -5,7 +5,7 @@ import { Button, Grid } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import ArticleControl from "../Actions/ArticleControl";
 import ReactPaginate from "react-paginate";
-import ArticleCards from "../Cards/ArticleCards";
+import ArticlesDisplayBase from "../DisplayBase/ArticlesDisplayBase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -170,7 +170,7 @@ const ArticlesList = () => {
         </Grid>
         <Grid item xs={9}>
           <List className={classes.list}>
-            <ArticleCards classSet="list" articles={displayArticles} />
+            <ArticlesDisplayBase classSet="list" articles={displayArticles} />
           </List>
           <ReactPaginate
             previousLabel={

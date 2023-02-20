@@ -3,6 +3,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import DetailsModal from "./DetailsModal";
 import ContactModal from "./ContactModal";
+import StyledButton from "../../Elements/Buttons/StyledButton";
 
 const CustomButton = withStyles({
   label: {
@@ -27,34 +28,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardButtons({ plan, index }) {
-  const classes = useStyles();
+export default function CardButtons({ plan, index, classes }) {
+  // const classes = useStyles();
   const [planData, setPlanData] = useState(plan);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [selectedContact, setSelectedContact] = useState(null);
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={6}>
-        <CustomButton
-          className={classes.pricingButton}
+    <Grid container spacing={0} justifyContent="center">
+      <Grid item xs={12} justifyContent="center" style={{ display: "flex" }}>
+        <StyledButton
           onClick={() => setSelectedPlan(index)}
-        >
-          View Details
-        </CustomButton>
+          buttonText="View Details"
+        />
         {selectedPlan !== null && (
-          <DetailsModal plan={planData} close={() => setSelectedPlan(null)} />
-        )}
-      </Grid>
-      <Grid item xs={6}>
-        <CustomButton
-          className={classes.pricingButton}
-          onClick={() => setSelectedContact(1)}
-        >
-          Contact
-        </CustomButton>
-        {selectedContact !== null && (
-          <ContactModal close={() => setSelectedContact(null)} />
+          <DetailsModal
+            classes={classes}
+            plan={planData}
+            close={() => setSelectedPlan(null)}
+          />
         )}
       </Grid>
     </Grid>

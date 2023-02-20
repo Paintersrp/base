@@ -6,6 +6,7 @@ import { getCookie } from "../../../Utils";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
 const useStyles = makeStyles(() => ({
   textContainer: {
@@ -21,22 +22,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function SocialEdit({ initialData, onUpdate }) {
+export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
   const classes = useStyles();
   const { fadeIn } = baseClasses();
-  const [contactData, setContactData] = useState(initialData);
-  const [facebook, setFacebook] = useState(contactData.facebook);
-  const [twitter, setTwitter] = useState(contactData.twitter);
-  const [instagram, setInstagram] = useState(contactData.instagram);
-  const [linkedIn, setLinkedIn] = useState(contactData.linkedin);
+
+  const [formData, setFormData] = useState(initialData);
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("facebook", facebook);
-    formData.append("twitter", twitter);
-    formData.append("instagram", instagram);
-    formData.append("linkedin", linkedIn);
 
     const config = {
       headers: {
@@ -51,7 +51,7 @@ export default function SocialEdit({ initialData, onUpdate }) {
     }
     try {
       const res = await axios.get(`http://localhost:8000/api/contact/`);
-      setContactData(res.data);
+      setFormData(res.data);
       onUpdate(res.data);
     } catch (error) {
       console.log(error);
@@ -59,39 +59,27 @@ export default function SocialEdit({ initialData, onUpdate }) {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className={fadeIn}>
-        <Typography variant="h4" className={classes.title}>
-          Edit Social Links
-        </Typography>
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={12} className={classes.textContainer}>
-            <div className={classes.fieldContainer}>
-              <FormField
-                label="Facebook"
-                value={facebook}
-                onChange={(event) => setFacebook(event.target.value)}
-              />
-              <FormField
-                label="Twitter"
-                value={twitter}
-                onChange={(event) => setTwitter(event.target.value)}
-              />
-              <FormField
-                label="Instagram"
-                value={instagram}
-                onChange={(event) => setInstagram(event.target.value)}
-              />
-              <FormField
-                label="LinkedIn"
-                value={linkedIn}
-                onChange={(event) => setLinkedIn(event.target.value)}
-              />
-            </div>
-          </Grid>
-        </Grid>
-        <UpdateButton />
-      </form>
-    </>
+    <BaseEditForm
+      title="Edit Socials"
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
+      formData={formData}
+      width="35%"
+      excludeKeys={[
+        "id",
+        "email",
+        "phone",
+        "address",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+      ]}
+      multilineKeys={[""]}
+      handleCancel={handleCancel}
+    />
   );
 }

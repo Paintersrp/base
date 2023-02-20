@@ -9,6 +9,7 @@ import Switch from "@material-ui/core/Switch";
 import { Button, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../../utils";
+import BaseEditForm from "../../Base/EditForm/BaseEditForm";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TitleBlockEditor = ({ titleBlock, onUpdate }) => {
+const TitleBlockEditor = ({ titleBlock, onUpdate, handleCancel }) => {
   const classes = useStyles();
   const [state, setState] = useState({ ...titleBlock });
 
@@ -100,12 +101,12 @@ const TitleBlockEditor = ({ titleBlock, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("name", state.name);
-    formData.append("title", state.title);
-    formData.append("subtitle", state.subtitle);
-    formData.append("alignment", state.alignment);
-    formData.append("show_divider", state.show_divider);
+    // let formData = new FormData();
+    // formData.append("name", state.name);
+    // formData.append("title", state.title);
+    // formData.append("subtitle", state.subtitle);
+    // formData.append("alignment", state.alignment);
+    // formData.append("show_divider", state.show_divider);
 
     const config = {
       headers: {
@@ -116,7 +117,7 @@ const TitleBlockEditor = ({ titleBlock, onUpdate }) => {
     try {
       await axios.patch(
         `http://localhost:8000/api/titleblock/${titleBlock.name}/`,
-        formData,
+        state,
         config
       );
     } catch (error) {
@@ -134,104 +135,18 @@ const TitleBlockEditor = ({ titleBlock, onUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={classes.fadeIn}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            width: "75%",
-          }}
-        >
-          <Typography
-            variant="h5"
-            color="white"
-            style={{ textAlign: "center" }}
-          >
-            Title Block Change
-          </Typography>
-          <TextField
-            variant="outlined"
-            label="Title"
-            name="title"
-            value={state.title}
-            onChange={handleChange}
-            margin="dense"
-            className={classes.field}
-          />
-          <TextField
-            variant="outlined"
-            label="Subtitle"
-            name="subtitle"
-            value={state.subtitle}
-            onChange={handleChange}
-            margin="dense"
-            className={classes.field}
-          />
-          <FormControl className={classes.formControl}>
-            <Grid container spacing={0}>
-              <Grid item xs={12} sm={6}>
-                <FormControlLabel
-                  style={{ fontSize: "0.8rem" }}
-                  control={
-                    <Select
-                      variant="outlined"
-                      value={state.alignment}
-                      onChange={handleChange}
-                      displayEmpty
-                      name="alignment"
-                      margin="dense"
-                      style={{ minWidth: 100, padding: 0, marginRight: 10 }}
-                      className={classes.select}
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: "bottom",
-                          horizontal: "left",
-                        },
-                        transformOrigin: {
-                          vertical: "top",
-                          horizontal: "left",
-                        },
-                        getContentAnchorEl: null,
-                      }}
-                    >
-                      <MenuItem value="left">Left</MenuItem>
-                      <MenuItem value="right">Right</MenuItem>
-                      <MenuItem value="center">Center</MenuItem>
-                    </Select>
-                  }
-                  label="Alignment"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={state.show_divider}
-                      onChange={handleSwitchChange}
-                      name="show_divider"
-                      value={state.show_divider}
-                    />
-                  }
-                  label="Show Divider"
-                />
-              </Grid>
-            </Grid>
-          </FormControl>
-          <Button variant="contained" type="submit" className={classes.button}>
-            Update
-          </Button>
-        </div>
-      </div>
-    </form>
+    <BaseEditForm
+      title="Edit Title Block"
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
+      formData={state}
+      width="75%"
+      excludeKeys={["name", "id", "alignment", "show_divider"]}
+      multilineKeys={["answer"]}
+      titleBlockMixin
+      handleSwitchChange={handleSwitchChange}
+      handleCancel={handleCancel}
+    />
   );
 };
 

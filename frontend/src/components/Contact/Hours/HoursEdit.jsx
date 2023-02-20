@@ -5,6 +5,7 @@ import axios from "axios";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import FormField from "../../Elements/Fields/FormField";
 import { getCookie } from "../../../Utils";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditHours({ initialData, onUpdate }) {
+export default function EditHours({ initialData, onUpdate, handleCancel }) {
   const classes = useStyles();
   const [contactData, setContactData] = useState(initialData);
 
@@ -70,27 +71,25 @@ export default function EditHours({ initialData, onUpdate }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <Typography variant="h3" className={classes.title}>
-          Edit Business Hours
-        </Typography>
-        <Grid container spacing={0}>
-          {days.map((day) => (
-            <Grid item xs={12} sm={12} className={classes.textContainer}>
-              <div className={classes.fieldContainer}>
-                <FormField
-                  label={day.day}
-                  value={day.value}
-                  onChange={(event) =>
-                    handleChange(event, day.day.toLowerCase())
-                  }
-                />
-              </div>
-            </Grid>
-          ))}
-        </Grid>
-        <UpdateButton />
-      </form>
+      <BaseEditForm
+        title="Edit Business Hours"
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        formData={contactData}
+        width="90%"
+        excludeKeys={[
+          "id",
+          "facebook",
+          "linkedin",
+          "instagram",
+          "twitter",
+          "email",
+          "address",
+          "phone",
+        ]}
+        multilineKeys={[""]}
+        handleCancel={handleCancel}
+      />
     </>
   );
 }

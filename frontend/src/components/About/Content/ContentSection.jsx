@@ -71,9 +71,10 @@ const ContentSection = ({
           content={{ title, body }}
           onUpdate={onUpdate}
           type={type}
+          handleCancel={() => setEdit(!editState)}
         />
       )}
-      {auth.is_superuser ? (
+      {!editState && auth.is_superuser ? (
         <EditButton onClick={() => setEdit(!editState)} editState={editState} />
       ) : null}
     </Grid>

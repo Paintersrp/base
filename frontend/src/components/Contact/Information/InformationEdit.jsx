@@ -6,6 +6,7 @@ import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
 import { getCookie } from "../../../Utils";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -21,20 +22,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function InformationEdit({ initialData, onUpdate }) {
+export default function InformationEdit({
+  initialData,
+  onUpdate,
+  handleCancel,
+}) {
   const classes = useStyles();
   const { fadeIn } = baseClasses();
-  const [contactData, setContactData] = useState(initialData);
-  const [email, setEmail] = useState(contactData.email);
-  const [phone, setPhone] = useState(contactData.phone);
-  const [address, setAddress] = useState(contactData.address);
+  // const [contactData, setContactData] = useState(initialData);
+  // const [email, setEmail] = useState(contactData.email);
+  // const [phone, setPhone] = useState(contactData.phone);
+  // const [address, setAddress] = useState(contactData.address);
+
+  const [formData, setFormData] = useState(initialData);
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("address", address);
+    // let formData = new FormData();
+    // formData.append("email", email);
+    // formData.append("phone", phone);
+    // formData.append("address", address);
 
     const config = {
       headers: {
@@ -49,7 +63,7 @@ export default function InformationEdit({ initialData, onUpdate }) {
     }
     try {
       const res = await axios.get(`http://localhost:8000/api/contact/`);
-      setContactData(res.data);
+      setFormData(res.data);
       onUpdate(res.data);
     } catch (error) {
       console.log(error);
@@ -58,34 +72,29 @@ export default function InformationEdit({ initialData, onUpdate }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={fadeIn}>
-        <Typography variant="h3" className={classes.title}>
-          Edit Contact Information
-        </Typography>
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={12} className={classes.textContainer}>
-            <div className={classes.fieldContainer}>
-              <FormField
-                key="email"
-                label="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
-              <FormField
-                label="Phone"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-              />
-              <FormField
-                label="Address"
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
-              />
-            </div>
-          </Grid>
-        </Grid>
-        <UpdateButton />
-      </form>
+      <BaseEditForm
+        title="Edit Contact Information"
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        formData={formData}
+        width="90%"
+        excludeKeys={[
+          "id",
+          "facebook",
+          "linkedin",
+          "instagram",
+          "twitter",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday",
+        ]}
+        multilineKeys={[""]}
+        handleCancel={handleCancel}
+      />
     </>
   );
 }

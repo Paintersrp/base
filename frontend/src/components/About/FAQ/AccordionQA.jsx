@@ -249,8 +249,13 @@ const AccordionQA = ({ faq, onUpdate }) => {
         </Accordion>
       ) : (
         <>
-          <QAEdit onUpdate={onUpdate} QA={faq} onEdit={setEditing} />
-          {auth.is_superuser ? (
+          <QAEdit
+            onUpdate={onUpdate}
+            QA={faq}
+            onEdit={setEditing}
+            handleCancel={() => setEditing(!editing)}
+          />
+          {!editing && auth.is_superuser ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <EditButton
                 onClick={() => setEditing(!editing)}
@@ -258,13 +263,6 @@ const AccordionQA = ({ faq, onUpdate }) => {
                 mt={0}
                 mb={15}
                 mr={5}
-              />
-              <DeleteButton
-                onClick={() => handleDelete(faq.id)}
-                editState={editing}
-                mt={0}
-                mb={15}
-                ml={5}
               />
             </div>
           ) : null}

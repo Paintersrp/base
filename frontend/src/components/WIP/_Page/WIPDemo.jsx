@@ -4,7 +4,7 @@ import MinimalTestimonials from "../Testimonials/MinimalTestimonials/MinimalTest
 import PricingTier from "../Pricing/_MinimalPricing/MinimalPricing";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import BaseCard from "../../Elements/Base/BaseCard";
+import BaseCard from "../../Elements/Base/Card/BaseCard";
 import { Button, Grid, Typography } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import Magazine from "../Magazine/Magazine";

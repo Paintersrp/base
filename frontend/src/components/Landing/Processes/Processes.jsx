@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,9 +107,10 @@ export default function Processes() {
               <TitleBlockEditor
                 titleBlock={block}
                 onUpdate={updateTitleBlock}
+                handleCancel={() => setEditTitle(!editTitle)}
               />
             )}
-            {auth.is_superuser ? (
+            {!editTitle && auth.is_superuser ? (
               <EditButton
                 onClick={() => setEditTitle(!editTitle)}
                 editState={editTitle}

@@ -119,10 +119,14 @@ export default function Social({ contactData, title, color = "light" }) {
           </div>
         </div>
       ) : (
-        <SocialEdit initialData={contacts} onUpdate={updateSocialData} />
+        <SocialEdit
+          initialData={contacts}
+          onUpdate={updateSocialData}
+          handleCancel={() => setEditing(!editing)}
+        />
       )}
       <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-        {auth.is_superuser ? (
+        {!editing && auth.is_superuser ? (
           <EditButton
             onClick={() => setEditing(!editing)}
             editState={editing}

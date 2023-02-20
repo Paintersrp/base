@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import BaseEditForm from "../../Elements/Base/BaseEditForm";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
-const ValueEdit = ({ value, onUpdate }) => {
+const ValueEdit = ({ value, onUpdate, handleCancel }) => {
   const [formData, setFormData] = useState(value);
 
   const handleChange = (event) => {
@@ -41,8 +41,10 @@ const ValueEdit = ({ value, onUpdate }) => {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       formData={formData}
-      width="80%"
-      excludeKeys={["id"]}
+      width="100%"
+      excludeKeys={["id", "icon"]}
+      handleCancel={handleCancel}
+      iconMixin
     />
   );
 };

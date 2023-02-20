@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { CardMedia, TextField } from "@material-ui/core";
 import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import FormField from "../../Elements/Fields/FormField";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -122,19 +123,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProcessEdit = ({ process, updateProcess }) => {
+const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
+  console.log(process);
   const classes = useStyles();
-  const [data, setData] = useState(process);
-  const [title, setTitle] = useState(data.title);
-  const [description, setDescription] = useState(data.description);
-  const [icon, setIcon] = useState(data.icon);
+  const [formData, setFormData] = useState(process);
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("icon", icon);
 
     const config = {
       headers: {
@@ -144,7 +146,7 @@ const ProcessEdit = ({ process, updateProcess }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/processes/${data.id}/`,
+        `http://localhost:8000/api/processes/${process.id}/`,
         formData,
         config
       );
@@ -153,9 +155,9 @@ const ProcessEdit = ({ process, updateProcess }) => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/processes/${data.id}/`
+        `http://localhost:8000/api/processes/${process.id}/`
       );
-      setData(res.data);
+      setFormData(res.data);
       updateProcess(res.data);
       console.log(res.data);
     } catch (error) {
@@ -164,37 +166,18 @@ const ProcessEdit = ({ process, updateProcess }) => {
   };
 
   return (
-    <div className={`${classes.root} ${classes.fadeIn}`}>
-      <Card className={classes.card}>
-        <form onSubmit={handleSubmit}>
-          <CardContent>
-            <TextField
-              className={classes.field}
-              variant="outlined"
-              label="Icon"
-              value={icon}
-              onChange={(event) => setIcon(event.target.value)}
-            />
-            <TextField
-              className={classes.field}
-              variant="outlined"
-              label="Title"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-            <TextField
-              className={classes.multiline}
-              variant="outlined"
-              label="Subheader"
-              value={description}
-              multiline
-              minRows="4"
-              onChange={(event) => setDescription(event.target.value)}
-            />
-          </CardContent>
-          <UpdateButton color="black" />
-        </form>
-      </Card>
+    <div className={`${classes.root}`}>
+      <BaseEditForm
+        title="Edit Process Item"
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        formData={formData}
+        width="75%"
+        excludeKeys={["id", "icon"]}
+        multilineKeys={["description"]}
+        handleCancel={handleCancel}
+        iconMixin
+      />
     </div>
   );
 };

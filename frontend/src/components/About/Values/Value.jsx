@@ -61,10 +61,15 @@ export default function Value({ value }) {
         </ListItem>
       ) : (
         <div style={{ width: "100%" }}>
-          <ValueEdit value={valueData} onUpdate={updateValue} />
+          <ValueEdit
+            value={valueData}
+            onUpdate={updateValue}
+            handleCancel={() => setEditing(!editing)}
+            editState={editing}
+          />
         </div>
       )}
-      {auth.is_superuser ? (
+      {!editing && auth.is_superuser ? (
         <EditButton onClick={() => setEditing(!editing)} editState={editing} />
       ) : null}
     </React.Fragment>

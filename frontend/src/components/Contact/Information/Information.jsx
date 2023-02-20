@@ -45,13 +45,17 @@ export default function Information({ contactData }) {
             <InformationField text="Email:" data={data.email} />
             <InformationField text="Phone:" data={data.phone} />
             <InformationField text="Address:" data={data.address} />
-            <ContactButtons contactData={contactData} />
+            <ContactButtons contactData={data} />
           </Grid>
         </>
       ) : (
-        <InformationEdit initialData={data} onUpdate={updateContactData} />
+        <InformationEdit
+          initialData={data}
+          onUpdate={updateContactData}
+          handleCancel={() => setEditing(!editing)}
+        />
       )}
-      {auth.is_superuser ? (
+      {!editing && auth.is_superuser ? (
         <div>
           <EditButton
             onClick={() => setEditing(!editing)}

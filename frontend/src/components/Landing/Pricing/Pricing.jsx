@@ -3,12 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Slide } from "@material-ui/core";
 import CardBase from "./CardBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import { CondensedTopMedia } from "./CardStyles";
+import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.palette.background.light,
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
   },
   pricingContainer: {
     display: "flex",
@@ -16,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: theme.palette.background.light,
-    maxWidth: 1200,
+    maxWidth: 1400,
   },
   cardContainer: {
     display: "flex",
@@ -27,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pricing() {
   const classes = useStyles();
-
+  const cardLayout = CondensedTopMedia();
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
@@ -44,22 +48,21 @@ export default function Pricing() {
 
   return (
     <div className={classes.root}>
-      <Slide in={true} direction="up" timeout={1000}>
-        <Grid container className={classes.pricingContainer}>
-          {plans.map((plan, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={6}
-              lg={4}
-              className={classes.cardContainer}
-            >
-              <CardBase index={index} plan={plan} />
-            </Grid>
-          ))}
-        </Grid>
-      </Slide>
+      <Grid container className={classes.pricingContainer}>
+        {plans.map((plan, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            lg={6}
+            xl={4}
+            className={classes.cardContainer}
+          >
+            <CardBase index={index} plan={plan} classes={cardLayout} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }

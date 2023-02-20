@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardHead({ plan }) {
-  const classes = useStyles();
+export default function CardHead({ plan, classes }) {
+  // const classes = useStyles();
   const [planData, setPlanData] = useState(plan);
 
   return (

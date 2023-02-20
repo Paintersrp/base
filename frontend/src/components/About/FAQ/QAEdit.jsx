@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import BaseEditForm from "../../Elements/Base/BaseEditForm";
+import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
-const QAEdit = ({ QA, onUpdate, onEdit }) => {
+const QAEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
   const [formData, setFormData] = useState(QA);
 
   const handleChange = (event) => {
@@ -44,6 +44,7 @@ const QAEdit = ({ QA, onUpdate, onEdit }) => {
       width="75%"
       excludeKeys={["errors", "id", "image"]}
       multilineKeys={["answer"]}
+      handleCancel={handleCancel}
     />
   );
 };

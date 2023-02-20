@@ -7,30 +7,9 @@ import EditButton from "../../Elements/Buttons/EditButton";
 import CardHead from "./CardHead";
 import CardList from "./CardList";
 import CardButtons from "./CardButtons";
+import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 
-const useStyles = makeStyles((theme) => ({
-  pricingCard: {
-    color: "white",
-    backgroundColor: theme.palette.background.light,
-    maxWidth: 375,
-    minWidth: 375,
-    margin: theme.spacing(4),
-    padding: theme.spacing(3),
-    boxShadow: theme.shadows[7],
-    borderRadius: 14,
-    transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-10px)",
-      boxShadow: theme.shadows[7],
-    },
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-  },
-}));
-
-export default function CardBase({ plan }) {
-  const classes = useStyles();
+export default function CardBase({ plan, classes }) {
   const [planData, setPlanData] = useState(plan);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -41,26 +20,41 @@ export default function CardBase({ plan }) {
   };
 
   return (
-    <>
-      <Card className={classes.pricingCard} key={plan.title}>
-        {auth.is_superuser ? (
+    <SlideIntoViewPort animationDuration={2} onScreenPercentage={0.1}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        {!editing ? (
+          <Card className={classes.pricingCard} key={plan.title}>
+            <CardHead plan={planData} classes={classes} />
+            <CardContent>
+              <CardList data={planData} classes={classes} />
+              <CardButtons plan={planData} classes={classes} />
+            </CardContent>
+          </Card>
+        ) : (
+          <PricingEdit
+            updatePlan={updatePlan}
+            plan={planData}
+            handleCancel={() => setEditing(!editing)}
+          />
+        )}
+
+        {!editing && auth.is_superuser ? (
           <>
             <EditButton
               onClick={() => setEditing(!editing)}
               editState={editing}
+              mt={0}
+              mb={0}
             />
           </>
         ) : null}
-        {!editing ? (
-          <CardContent>
-            <CardHead plan={planData} />
-            <CardList data={planData} />
-            <CardButtons plan={planData} />
-          </CardContent>
-        ) : (
-          <PricingEdit updatePlan={updatePlan} plan={planData} />
-        )}
-      </Card>
-    </>
+      </div>
+    </SlideIntoViewPort>
   );
 }

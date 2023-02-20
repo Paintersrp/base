@@ -5,7 +5,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CreateUpdateArticle from "../Create/ArticleCreateUpdate";
 import ArticlesList from "../Display/List/ArticlesList";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
-import ArticleCards from "../Display/Cards/ArticleCards";
+import ArticlesDisplayBase from "../Display/DisplayBase/ArticlesDisplayBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ const ArticlesPage = () => {
         url="https://example.com/example-page"
         backgroundColor="white"
       >
-        <ArticleCards articles={articles} />
+        <ArticlesDisplayBase articles={articles} />
         <ArticlesList />
         <Fab
           className={classes.fab}
