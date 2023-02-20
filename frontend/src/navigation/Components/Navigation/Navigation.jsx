@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: theme.palette.primary.main,
     height: 60,
-    borderBottom: `2px solid ${theme.palette.secondary.main}`, // Add a border at the bottom
-    boxShadow: "none", // Remove the default box shadow
+    borderBottom: `2px solid ${theme.palette.secondary.main}`, 
+    boxShadow: "none", 
   },
   appLink: {
     textAlign: "end",
