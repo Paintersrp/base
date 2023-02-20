@@ -4,8 +4,8 @@ import Benefits from "../Benefits/Benefits";
 import Timeline from "../Timeline/Timeline";
 import Reviews from "../Reviews/Reviews";
 import { Grid, makeStyles } from "@material-ui/core";
-import Statistics from "../Statistics/Statistics";
-import Quiz from "../Quiz/Quiz";
+import Statistics from "../../WIP/Statistics/Statistics";
+import Quiz from "../Quiz/Quiz/Quiz";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {
@@ -34,13 +34,6 @@ function ServicesPage() {
           <Reviews />
 
           <Timeline />
-          <Statistics
-            numCustomers={1000}
-            avgSatisfaction={4.5}
-            numProjectsCompleted={500}
-            revenue={10000}
-            teamSize={10}
-          />
         </div>
       </Grid>
     </ContentLayout>

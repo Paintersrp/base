@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     HeroBlockAPIView,
-    PricingPlanViewSet,
+    PricingPlanListCreateView,
+    PricingPlanRetrieveUpdateDestroy,
     FeatureViewSet,
     SupportedSiteViewSet,
     TileViewSet,
@@ -15,7 +16,6 @@ from .views import (
 
 
 router = DefaultRouter()
-router.register(r"pricing_plans", PricingPlanViewSet)
 router.register(r"features", FeatureViewSet)
 router.register(r"supported_sites", SupportedSiteViewSet)
 router.register(r"tiles", TileViewSet)
@@ -30,5 +30,15 @@ urlpatterns = [
     path("titleblock/", TitleBlockAPIView.as_view(), name="title-block"),
     path(
         "titleblock/<str:name>/", TitleBlockDetailAPIView.as_view(), name="title-block"
+    ),
+    path(
+        "pricing_plans/",
+        PricingPlanListCreateView.as_view(),
+        name="article-list-create",
+    ),
+    path(
+        "pricing_plans/<int:pk>/",
+        PricingPlanRetrieveUpdateDestroy.as_view(),
+        name="article-detail-update-delete",
     ),
 ]

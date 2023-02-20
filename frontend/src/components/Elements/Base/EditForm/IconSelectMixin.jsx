@@ -25,6 +25,7 @@ import DesignIcon from "@material-ui/icons/Brush";
 import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
+import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -78,6 +79,18 @@ const iconList = [
   {
     name: "AllInclusiveIcon",
     component: <AllInclusiveIcon />,
+  },
+  {
+    name: "IoLogoAngular",
+    component: <IoLogoAngular />,
+  },
+  {
+    name: "IoInfiniteSharp",
+    component: <IoInfiniteSharp />,
+  },
+  {
+    name: "IoMedalSharp",
+    component: <IoMedalSharp />,
   },
 ];
 

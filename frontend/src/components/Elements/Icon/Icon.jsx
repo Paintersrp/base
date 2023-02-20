@@ -14,6 +14,7 @@ import DesignIcon from "@material-ui/icons/Brush";
 import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
+import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
 
 const Icon = ({ icon, className }) => {
   switch (icon) {
@@ -45,6 +46,12 @@ const Icon = ({ icon, className }) => {
       return <LaunchIcon className={className} />;
     case "AllInclusiveIcon":
       return <AllInclusiveIcon className={className} />;
+    case "IoLogoAngular":
+      return <IoLogoAngular className={className} />;
+    case "IoInfiniteSharp":
+      return <IoInfiniteSharp className={className} />;
+    case "IoMedalSharp":
+      return <IoMedalSharp className={className} />;
     default:
       return <></>;
   }

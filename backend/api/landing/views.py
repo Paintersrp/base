@@ -92,7 +92,12 @@ class SupportedSiteViewSet(viewsets.ModelViewSet):
     serializer_class = SupportedSitesSerializer
 
 
-class PricingPlanViewSet(viewsets.ModelViewSet):
+class PricingPlanListCreateView(generics.ListCreateAPIView):
+    queryset = PricingPlan.objects.all()
+    serializer_class = PricingPlanSerializer
+
+
+class PricingPlanRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = PricingPlan.objects.all()
     serializer_class = PricingPlanSerializer
 

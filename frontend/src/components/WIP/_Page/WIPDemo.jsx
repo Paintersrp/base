@@ -12,7 +12,7 @@ import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../../Services/Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../CountDown/CountdownBlock";
-import ServicesResult from "../../Services/Quiz/ServicesResult";
+import Statistics from "../Statistics/Statistics";
 
 const testimonials = [
   {
@@ -192,7 +192,14 @@ const customersData = [
 
 const wipComponents = [
   {
-    component: ServicesResult,
+    component: Statistics,
+    props: {
+      numCustomers: 1000,
+      avgSatisfaction: 4.5,
+      numProjectsCompleted: 500,
+      revenue: 10000,
+      teamSize: 10,
+    },
   },
   {
     component: Infographic,
@@ -270,51 +277,51 @@ const wipComponents = [
   {
     component: HeroCountdown,
   },
-  {
-    component: BaseCard,
-    title: "BaseCard - Top Media",
-    props: {
-      title: "How I Became Danny Devito",
-      subtitle: "I Paid the Troll Toll",
-      children: (
-        <Typography variant="body2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
-          nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
-          vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
-          accumsan arcu. Nam imperdiet sapien non tempor nam...
-        </Typography>
-      ),
-      actions: actions,
-      elevation: 4,
-      headerTitleProps: { variant: "h5" },
-      headerSubheaderProps: { variant: "body2" },
-      media: "images/products/danny-devito.jpg",
-      mediaPosition: "top",
-    },
-  },
+  // {
+  //   component: BaseCard,
+  //   title: "BaseCard - Top Media",
+  //   props: {
+  //     title: "How I Became Danny Devito",
+  //     subtitle: "I Paid the Troll Toll",
+  //     children: (
+  //       <Typography variant="body2">
+  //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
+  //         nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
+  //         vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
+  //         accumsan arcu. Nam imperdiet sapien non tempor nam...
+  //       </Typography>
+  //     ),
+  //     actions: actions,
+  //     elevation: 4,
+  //     headerTitleProps: { variant: "h5" },
+  //     headerSubheaderProps: { variant: "body2" },
+  //     media: "images/products/danny-devito.jpg",
+  //     mediaPosition: "top",
+  //   },
+  // },
 
-  {
-    component: BaseCard,
-    title: "BaseCard - Left Media",
-    props: {
-      title: "How I Became Danny Devito",
-      subtitle: "I Paid the Troll Toll",
-      children: (
-        <Typography variant="body2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
-          nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
-          vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
-          accumsan arcu. Nam imperdiet sapien non tempor nam...
-        </Typography>
-      ),
-      actions: actions,
-      elevation: 4,
-      headerTitleProps: { variant: "h5" },
-      headerSubheaderProps: { variant: "body2" },
-      media: "images/products/danny-devito.jpg",
-      mediaPosition: "left",
-    },
-  },
+  // {
+  //   component: BaseCard,
+  //   title: "BaseCard - Left Media",
+  //   props: {
+  //     title: "How I Became Danny Devito",
+  //     subtitle: "I Paid the Troll Toll",
+  //     children: (
+  //       <Typography variant="body2">
+  //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
+  //         nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
+  //         vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
+  //         accumsan arcu. Nam imperdiet sapien non tempor nam...
+  //       </Typography>
+  //     ),
+  //     actions: actions,
+  //     elevation: 4,
+  //     headerTitleProps: { variant: "h5" },
+  //     headerSubheaderProps: { variant: "body2" },
+  //     media: "images/products/danny-devito.jpg",
+  //     mediaPosition: "left",
+  //   },
+  // },
 ];
 
 export default function WIPDemo() {

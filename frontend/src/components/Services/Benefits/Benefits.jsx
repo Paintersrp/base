@@ -1,42 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import {
-  Container,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  useMediaQuery,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container, Grid, Typography } from "@material-ui/core";
 import benefitsData from "./benefitsData";
-import StyledButton from "../../Elements/Buttons/StyledButton";
-import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import Benefit from "./Benefit";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.light,
     padding: theme.spacing(8, 0),
-  },
-  benefit: {
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(0),
-    borderRadius: theme.shape.borderRadius,
-    [theme.breakpoints.up("md")]: {
-      padding: theme.spacing(0),
-    },
-  },
-  benefitTitle: {
-    fontWeight: 600,
-    color: theme.palette.primary.black,
-    marginBottom: theme.spacing(2),
-  },
-  benefitDescription: {
-    color: "#6B6B6B",
-    marginBottom: theme.spacing(2),
-    minHeight: 100,
-  },
-  benefitButton: {
-    marginTop: theme.spacing(2),
   },
   gridItem: {
     display: "flex",
@@ -51,76 +23,28 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     minHeight: "100%",
   },
-  icon: {
-    display: "flex",
-    justifyContent: "center",
-    paddingBottom: 20,
-    color: theme.palette.primary.dark,
-    fontSize: "2rem",
-  },
 }));
-
-const Benefit = ({
-  title,
-  description,
-  icon,
-  buttonText,
-  buttonLink,
-  minHeight,
-  id,
-}) => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const classes = useStyles();
-
-  return (
-    <SlideIntoViewPort
-      addition={900}
-      animationDuration={1}
-      onScreenPercentage={0.9}
-    >
-      <Card className={classes.benefit}>
-        <CardContent>
-          <Container disableGutters display="flex">
-            <Grid item xs={12}>
-              <div className={classes.icon}>{icon}</div>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h5" className={classes.benefitTitle}>
-                {title}
-              </Typography>
-            </Grid>
-          </Container>
-          <Typography
-            variant="body2"
-            className={classes.benefitDescription}
-            style={{ minHeight: minHeight }}
-          >
-            {description}
-          </Typography>
-
-          {buttonText && (
-            <Container
-              disableGutters
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <StyledButton size="small" buttonText={buttonText} />
-            </Container>
-          )}
-        </CardContent>
-      </Card>
-    </SlideIntoViewPort>
-  );
-};
 
 const Benefits = () => {
   const classes = useStyles();
+  const [benefits, setBenefits] = useState([]);
   const [maxDescriptionHeight, setMaxDescriptionHeight] = useState(0);
   const maxHeightRef = useRef(null);
 
   useEffect(() => {
     const maxHeight = maxHeightRef.current.offsetHeight;
     setMaxDescriptionHeight(maxHeight);
+  }, []);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/benefits/")
+      .then((response) => {
+        setBenefits(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -148,7 +72,7 @@ const Benefits = () => {
         </Container>
         <div className={classes.benefitContainer}>
           <Grid container>
-            {benefitsData.map((benefit, index) => (
+            {benefits.map((benefit, index) => (
               <Grid
                 item
                 xs={12}
@@ -159,14 +83,7 @@ const Benefits = () => {
                 className={classes.gridItem}
                 key={benefit.title}
               >
-                <Benefit
-                  id={benefit.id}
-                  title={benefit.title}
-                  description={benefit.description}
-                  icon={benefit.icon}
-                  maxHeight={maxDescriptionHeight}
-                  buttonText={benefit.buttonText ? benefit.buttonText : null}
-                />
+                <Benefit benefit={benefit} maxHeight={maxDescriptionHeight} />
               </Grid>
             ))}
           </Grid>

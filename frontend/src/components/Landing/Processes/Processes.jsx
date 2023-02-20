@@ -76,11 +76,6 @@ export default function Processes() {
     setEditTitle(false);
   };
 
-  const updateProcesses = (updateProcesses) => {
-    setProcesses(updateProcesses);
-    setEditing(false);
-  };
-
   return (
     <Box className={classes.root}>
       <Grid container spacing={0}>

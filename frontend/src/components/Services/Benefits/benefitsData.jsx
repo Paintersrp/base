@@ -21,7 +21,7 @@ const benefitsData = [
     id: 3,
     title: "Quality Assurance",
     description:
-      "We are committed to delivering high-quality services and products that meet or exceed our clients’ expectations. We employ rigorous quality assurance processes to ensure that our work meets the highest standards.",
+      "We are committed to delivering high-quality services and products that meet or exceed our clients’ expectations. We employ rigorous assurance processes to ensure that our work meets the highest standards.",
     icon: <IoMedalSharp />,
     buttonText: "Testimonials",
   },

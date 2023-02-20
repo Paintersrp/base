@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "articles",
     "landing",
     "about",
+    "services",
 ]
 
 MIDDLEWARE = [
