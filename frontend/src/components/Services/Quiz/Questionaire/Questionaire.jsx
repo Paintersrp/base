@@ -38,11 +38,13 @@ const Questionaire = ({
   const [preferredFeatures, setPreferredFeatures] = useState([]);
   const [serviceScores, setServiceScores] = useState({});
 
+  console.log(services);
+
   const serviceFeatures = [];
   services.forEach((service) => {
     service.features.forEach((feature) => {
-      if (!serviceFeatures.includes(feature)) {
-        serviceFeatures.push(feature);
+      if (!serviceFeatures.includes(feature.detail)) {
+        serviceFeatures.push(feature.detail);
       }
     });
   });

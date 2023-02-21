@@ -18,24 +18,42 @@ from rest_framework.decorators import permission_classes
 class ThemeSettingsView(generics.RetrieveUpdateAPIView):
     serializer_class = ThemeSettingsSerializer
 
+    # def get_object(self):
+    #     user = self.request.user
+    #     try:
+    #         # Retrieve the ThemeSettings object for the current user
+    #         theme_settings = ThemeSettings.objects.get(user=user)
+    #     except ThemeSettings.DoesNotExist:
+    #         # Create a new ThemeSettings object for the current user
+    #         theme_settings = ThemeSettings.objects.create(user=user)
+    #     return theme_settings
+
     def get_object(self):
-        authorization_header = self.request.headers.get("Authorization")
+        print("Test", self.request.headers.get("Authorization"))
 
-        if not authorization_header:
-            raise exceptions.AuthenticationFailed("Missing authorization header")
-        token = authorization_header.split(" ")[1]
+        if self.request.headers.get("Authorization"):
+            authorization_header = self.request.headers.get("Authorization")
+            token = authorization_header.split(" ")[1]
 
-        try:
-            decoded_token = jwt.decode(
-                jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"]
+            try:
+                decoded_token = jwt.decode(
+                    jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"]
+                )
+                username = decoded_token["user"]
+                user = User.objects.get(username=username)
+                theme_settings = user.theme_settings
+                return theme_settings
+
+            except (jwt.exceptions.DecodeError, User.DoesNotExist):
+                return JsonResponse({"authenticated": False}, status=401)
+        else:
+            theme_settings = ThemeSettings(
+                primary_color="#2e3b55",
+                secondary_color="#ff8c00",
+                background_color="#FFFFFF",
             )
-            username = decoded_token["user"]
-            user = User.objects.get(username=username)
-            theme_settings = user.theme_settings
-            return theme_settings
 
-        except (jwt.exceptions.DecodeError, User.DoesNotExist):
-            return JsonResponse({"authenticated": False}, status=401)
+        return theme_settings
 
     def post(self, request):
         theme_settings = self.get_object()

@@ -13,7 +13,7 @@ import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AdvancedSnackbar from "../../Snackbars/Snackbar";
-import { setAuth, setUser } from "../../../../lib/Actions/auth";
+import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = () => {
+const LoginForm = ({ handleUpdate, setIsLoading }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -155,12 +155,21 @@ const LoginForm = () => {
               username: response.data.username,
             })
           );
+          dispatch(
+            setTheme({
+              primary: response.data.primary_color,
+              secondary: response.data.secondary_color,
+              background: response.data.background_color,
+            })
+          );
           Cookies.set("jwt", response.data.jwt, { expires: 7 });
           if (formData.rememberMe) {
             Cookies.set("username", formData.username, { expires: 90 });
           }
           console.log(response.data);
         })
+        .then(setIsLoading(true))
+        .then(handleUpdate)
         .then(navigate("/"))
         .catch((err) => {
           console.log(err);

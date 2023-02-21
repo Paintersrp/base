@@ -22,7 +22,7 @@ const CondensedTopMedia = makeStyles((theme) => ({
   pricingTitle: {
     marginBottom: theme.spacing(0),
     fontWeight: 600,
-    fontSize: theme.fontSize.four,
+    // fontSize: theme.fontSize.four,
     textAlign: "center",
     fontFamily: "Poppins",
     color: theme.palette.primary.dark,
@@ -30,7 +30,7 @@ const CondensedTopMedia = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   pricingPrice: {
-    fontSize: theme.fontSize.three,
+    // fontSize: theme.fontSize.three,
     textAlign: "center",
     padding: theme.spacing(1, 0, 0, 0),
     margin: 0,
@@ -155,7 +155,7 @@ const CardHeadStyles1 = makeStyles((theme) => ({
   pricingTitle: {
     marginBottom: theme.spacing(0),
     fontWeight: 600,
-    fontSize: theme.fontSize.four,
+    // fontSize: theme.fontSize.four,
     textAlign: "center",
     fontFamily: "Poppins",
     color: theme.palette.primary.dark,
@@ -163,7 +163,7 @@ const CardHeadStyles1 = makeStyles((theme) => ({
     marginTop: theme.spacing(7),
   },
   pricingPrice: {
-    fontSize: theme.fontSize.three,
+    // fontSize: theme.fontSize.three,
     textAlign: "center",
     padding: theme.spacing(1, 0, 1, 0),
     margin: 0,
@@ -183,10 +183,10 @@ const CardHeadStyles2 = makeStyles((theme) => ({
   pricingTitle: {
     marginBottom: theme.spacing(0),
     fontWeight: 600,
-    fontSize: theme.fontSize.two,
+    // fontSize: theme.fontSize.two,
     textAlign: "center",
     fontFamily: "Poppins",
-    color: theme.palette.primary.contrastText,
+    // color: theme.palette.primary.contrastText,
     marginTop: theme.spacing(-30),
   },
   titleContainer: {
@@ -194,7 +194,7 @@ const CardHeadStyles2 = makeStyles((theme) => ({
     scale: "2",
   },
   pricingPrice: {
-    fontSize: theme.fontSize.three,
+    // fontSize: theme.fontSize.three,
     textAlign: "center",
     padding: theme.spacing(1, 0, 1, 0),
     margin: 0,

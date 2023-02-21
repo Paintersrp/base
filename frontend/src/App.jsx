@@ -20,12 +20,12 @@ import IndividualArticleView from "./components/Articles/Read/IndividualArticleV
 import UpdateArticleView from "./components/Articles/Update/UpdateArticleView";
 import ServicesPage from "./components/Services/_Page/ServicesPage";
 import ContactPage from "./components/Contact/_Page/ContactPage";
-import CustomThemeProvider from "./utils/CustomThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./lib/Axios/axiosInstance";
 import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
 import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
+import Loading from "./components/Elements/Layout/Loading";
 
 {
   /* 
@@ -53,6 +53,11 @@ function App() {
   });
   const dispatch = useDispatch();
   const [theme, setThemeUpdate] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    handleUpdate();
+  }, []);
 
   const handleUpdate = () => {
     axiosInstance
@@ -105,6 +110,7 @@ function App() {
             },
           })
         );
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
@@ -112,48 +118,61 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme ? theme : baseTheme}>
-      <CssBaseline />
-      <Router>
-        <ScrollToTop />
-        <Navigation
-          links={linkData}
-          appName={"EDGELORDS"}
-          handleUpdate={handleUpdate}
-        />
+    <>
+      {isLoading && <Loading />}
+      {!isLoading && (
+        <ThemeProvider theme={theme ? theme : baseTheme}>
+          <CssBaseline />
+          <Router>
+            <ScrollToTop />
+            <Navigation
+              links={linkData}
+              appName={"EDGELORDS"}
+              handleUpdate={handleUpdate}
+            />
 
-        <Routes>
-          {/* Auth Routes */}
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/profile" element={<Profile />} />
+            <Routes>
+              {/* Auth Routes */}
+              <Route
+                path="/login"
+                element={
+                  <LoginForm
+                    handleUpdate={handleUpdate}
+                    setIsLoading={setIsLoading}
+                  />
+                }
+              />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/profile" element={<Profile />} />
 
-          {/* Page Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
+              {/* Page Routes */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/contact" element={<ContactPage />} />
 
-          {/* Demo Routes */}
-          <Route path="/WIP" element={<WIPDemo />} />
-          <Route path="/generator" element={<GeneratorPage />} />
+              {/* Demo Routes */}
+              <Route path="/WIP" element={<WIPDemo />} />
+              <Route path="/generator" element={<GeneratorPage />} />
 
-          {/* Feature Routes */}
-          <Route path="/articles" element={<ArticlesPage />} />
-          <Route path="/articles/:id" element={<IndividualArticleView />} />
-          <Route
-            path="/articles/:id/update"
-            element={
-              <div style={{ width: "100vw" }}>
-                <UpdateArticleView />
-              </div>
-            }
-          />
-        </Routes>
-        <Footer />
-      </Router>
-    </ThemeProvider>
+              {/* Feature Routes */}
+              <Route path="/articles" element={<ArticlesPage />} />
+              <Route path="/articles/:id" element={<IndividualArticleView />} />
+              <Route
+                path="/articles/:id/update"
+                element={
+                  <div style={{ width: "100vw" }}>
+                    <UpdateArticleView />
+                  </div>
+                }
+              />
+            </Routes>
+            <Footer />
+          </Router>
+        </ThemeProvider>
+      )}
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 const calculateQuizResult = (services, hourlyBudget, preferredFeatures) => {
   const newScores = {};
+  console.log("test", services);
   services.forEach((service) => {
     let score = 0;
     if (service.price <= hourlyBudget) {

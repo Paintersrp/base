@@ -1,15 +1,11 @@
 from rest_framework import generics
 from .serializers import *
-from .models import Jobs
+from .models import JobPosting
 
-class JobsListView(generics.ListCreateAPIView):
-  queryset = Jobs.objects.all()
-  serializer_class = JobsSerializer
+class JobPostingListView(generics.ListCreateAPIView):
+  queryset = JobPosting.objects.all()
+  serializer_class = JobPostingSerializer
 
-class JobsDetailView(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Jobs.objects.all()
-  serializer_class = JobsSerializer
-
-
-
-
+class JobPostingDetailView(generics.RetrieveUpdateDestroyAPIView):
+  queryset = JobPosting.objects.all()
+  serializer_class = JobPostingSerializer

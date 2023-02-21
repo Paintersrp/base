@@ -1,6 +1,29 @@
 from django.db import models
 
-# Create your models here.
-class Jobs(models.Model):
-    Position = models.CharField(max_length=50)
+
+class Requirement(models.Model):
+    detail = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.detail[:50]}..."
+
+
+class Responsibilities(models.Model):
+    detail = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.detail[:50]}..."
+
+
+class JobPosting(models.Model):
+    position = models.CharField(max_length=40)
+    location = models.CharField(max_length=80)
+    type = models.CharField(max_length=20)
+    who_we_are = models.TextField(max_length=500)
+    requirements = models.ManyToManyField(Requirement, related_name="requirement")
+    responsibilities = models.ManyToManyField(
+        Responsibilities, related_name="responsibilities"
+    )
+    why_apply = models.TextField(max_length=500)
+    looking_for = models.TextField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
