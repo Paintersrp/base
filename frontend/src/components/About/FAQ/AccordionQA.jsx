@@ -8,18 +8,15 @@ import {
   DialogContent,
   Button,
   Dialog,
-  Tooltip,
 } from "@material-ui/core";
 import { MdExpandMore } from "react-icons/Md";
 import { makeStyles } from "@material-ui/core/styles";
-import EditButton from "../../Elements/Buttons/EditButton";
 import { useSelector } from "react-redux";
 import QAEdit from "./QAEdit";
-import DeleteButton from "../../Elements/Buttons/DeleteButton";
 import axios from "axios";
-import { IconButton } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+
+import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   question: {
@@ -64,6 +61,11 @@ const useStyles = makeStyles((theme) => ({
       width: "50%",
     },
   },
+  questionContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
   testboi: {
     backgroundColor: "#white",
     display: "flex",
@@ -98,24 +100,10 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.error.main,
     },
   },
-  tooltip: {
-    fontFamily: "Roboto",
-    fontSize: ".9rem",
-    fontWeight: 600,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "4px",
-    color: theme.palette.primary.contrastText,
-    minWidth: 65,
-    textAlign: "center",
-  },
-  arrow: {
-    color: theme.palette.primary.main,
-  },
 }));
 
-const AccordionQA = ({ faq, onUpdate }) => {
+const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
   const auth = useSelector((state) => state.auth);
-  const [editing, setEditing] = useState(false);
   const classes = useStyles();
   const [expanded, setExpanded] = useState([]);
   const [open, setOpen] = useState(false);
@@ -154,6 +142,11 @@ const AccordionQA = ({ faq, onUpdate }) => {
     setSelectedId(id);
   };
 
+  const handleUpdate = (handleUpdate) => {
+    onUpdate(handleUpdate);
+    setEditing(false);
+  };
+
   const handleConfirmDelete = () => {
     confirmedDelete(selectedId);
     handleClose();
@@ -179,13 +172,7 @@ const AccordionQA = ({ faq, onUpdate }) => {
             id={`${faq.id}-header`}
             className={classes.summary}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
+            <div className={classes.questionContainer}>
               <div className={classes.question}>
                 <Typography className={classes.heading}>
                   {faq.question}
@@ -193,52 +180,10 @@ const AccordionQA = ({ faq, onUpdate }) => {
               </div>
               {auth.is_superuser ? (
                 <>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Tooltip
-                      title="Edit"
-                      classes={{
-                        tooltip: classes.tooltip,
-                        arrow: classes.arrow,
-                      }}
-                      arrow
-                      placement="top"
-                    >
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        style={{ marginRight: 5, marginBottom: 5 }}
-                        onClick={() => setEditing(!editing)}
-                        classes={{ label: classes.label }}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip
-                      title="Delete"
-                      classes={{
-                        tooltip: classes.tooltip,
-                        arrow: classes.arrow,
-                      }}
-                      arrow
-                      placement="top"
-                    >
-                      <IconButton
-                        style={{ marginRight: 5, marginBottom: 5 }}
-                        size="small"
-                        color="primary"
-                        label="edit"
-                        aria-label="Edit"
-                        onClick={() => handleDelete(faq.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                  <EditDeleteButtonMenu
+                    editClick={() => setEditing(!editing)}
+                    deleteClick={() => handleDelete(faq.id)}
+                  />
                 </>
               ) : null}
             </div>
@@ -250,70 +195,19 @@ const AccordionQA = ({ faq, onUpdate }) => {
       ) : (
         <>
           <QAEdit
-            onUpdate={onUpdate}
+            onUpdate={handleUpdate}
             QA={faq}
             onEdit={setEditing}
-            handleCancel={() => setEditing(!editing)}
+            handleCancel={handleCancel}
           />
-          {!editing && auth.is_superuser ? (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <EditButton
-                onClick={() => setEditing(!editing)}
-                editState={editing}
-                mt={0}
-                mb={15}
-                mr={5}
-              />
-            </div>
-          ) : null}
         </>
       )}
-      <Dialog
-        className={classes.flexer}
-        classes={{ root: classes.dialog, paper: classes.paper }}
+      <DeleteConfirmationModal
         open={open}
-        onClose={handleClose}
-      >
-        <div className={classes.testboi}>
-          <DialogContent dividers={true} className={classes.detailsContainer}>
-            <Typography variant="h3">
-              Are you sure you want to delete this FAQ?
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  onClick={handleConfirmDelete}
-                  variant="contained"
-                  className={classes.yesButton}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={handleClose}
-                  variant="contained"
-                  className={classes.noButton}
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </div>
-      </Dialog>
+        handleClose={handleClose}
+        handleConfirmDelete={handleConfirmDelete}
+        message="Are you sure you want to delete this FAQ?"
+      />
     </Grid>
   );
 };

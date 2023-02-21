@@ -135,21 +135,17 @@ const BenefitEdit = ({ benefit, updateBenefit, handleCancel }) => {
       },
     };
     try {
-      await axios.patch(
-        `http://localhost:8000/api/benefits/${benefit.id}/`,
-        formData,
-        config
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/api/benefits/${benefit.id}/`
-      );
-      setFormData(res.data);
-      updateBenefit(res.data);
-      console.log(res.data);
+      await axios
+        .patch(
+          `http://localhost:8000/api/benefits/${benefit.id}/`,
+          formData,
+          config
+        )
+        .then((res) => {
+          console.log("benefit", res.data);
+          setFormData(res.data);
+          updateBenefit(res.data);
+        });
     } catch (error) {
       console.log(error);
     }

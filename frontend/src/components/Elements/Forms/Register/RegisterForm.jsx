@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import axios from "axios";
 import { IoLogoAngular } from "react-icons/io";
-import { CssBaseline, Icon, Paper, Typography } from "@material-ui/core";
+import { Icon, Paper, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -126,7 +126,6 @@ const RegisterForm = () => {
   return (
     <div className={classes.root}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Paper className={classes.paper} elevation={6}>
           <Icon className={classes.icon}>
             <IoLogoAngular />

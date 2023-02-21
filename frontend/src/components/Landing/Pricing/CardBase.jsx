@@ -20,41 +20,39 @@ export default function CardBase({ plan, classes }) {
   };
 
   return (
-    <SlideIntoViewPort animationDuration={2} onScreenPercentage={0.1}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        {!editing ? (
-          <Card className={classes.pricingCard} key={plan.title}>
-            <CardHead plan={planData} classes={classes} />
-            <CardContent>
-              <CardList data={planData} classes={classes} />
-              <CardButtons plan={planData} classes={classes} />
-            </CardContent>
-          </Card>
-        ) : (
-          <PricingEdit
-            updatePlan={updatePlan}
-            plan={planData}
-            handleCancel={() => setEditing(!editing)}
-          />
-        )}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      {!editing ? (
+        <Card className={classes.pricingCard} key={plan.title}>
+          <CardHead plan={planData} classes={classes} />
+          <CardContent>
+            <CardList data={planData} classes={classes} />
+            <CardButtons plan={planData} classes={classes} />
+          </CardContent>
+        </Card>
+      ) : (
+        <PricingEdit
+          updatePlan={updatePlan}
+          plan={planData}
+          handleCancel={() => setEditing(!editing)}
+        />
+      )}
 
-        {!editing && auth.is_superuser ? (
-          <>
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
-              mt={0}
-              mb={0}
-            />
-          </>
-        ) : null}
-      </div>
-    </SlideIntoViewPort>
+      {!editing && auth.is_superuser ? (
+        <>
+          <EditButton
+            onClick={() => setEditing(!editing)}
+            editState={editing}
+            mt={0}
+            mb={0}
+          />
+        </>
+      ) : null}
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import EditField from "../../Fields/EditField";
-import UpdateButton from "../../Buttons/UpdateButton";
 import { getCookie } from "../../../../utils";
 import axios from "axios";
+import StyledButton from "../../Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   fadeIn: {
@@ -85,7 +85,12 @@ const HeroBlockEdit = ({ heroblock, updateHeroBlock }) => {
             value={buttonText}
             onChange={(event) => setButtonText(event.target.value)}
           />
-          <UpdateButton />
+          <StyledButton
+              type="submit"
+              buttonText="Update"
+              minWidth="0"
+              size="small"
+            />
         </div>
       </div>
     </form>

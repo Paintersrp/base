@@ -7,6 +7,7 @@ import {
   Backdrop,
   Fade,
   Grid,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,36 +40,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Loading = ({ message }) => {
+const Loading = ({ message, loading }) => {
   const classes = useStyles();
-  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 500000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+    let timer;
+    if (loading) {
+      timer = setTimeout(() => {
+        setShowLoading(true);
+      }, 1000);
+    } else {
+      timer = setTimeout(() => {
+        setShowLoading(false);
+      }, 1000);
+      clearTimeout(timer);
+    }
+  }, [loading]);
 
   return (
     <Box className={classes.root}>
-      <Backdrop className={classes.backdrop} open={loading}>
-        <Fade in={loading}>
-          <Grid container flex justifyContent="center">
+      <Backdrop className={classes.backdrop} open={showLoading}>
+        <Grid container>
+          <Fade in={showLoading}>
             <Grid container flex justifyContent="center">
-              <CircularProgress className={classes.progress} size={100} />
+              <Grid container flex justifyContent="center">
+                <CircularProgress className={classes.progress} size={100} />
+              </Grid>
+              <Grid container flex justifyContent="center">
+                {message ? (
+                  <Typography variant="h4" className={classes.message}>
+                    {message}
+                  </Typography>
+                ) : null}
+              </Grid>
             </Grid>
-            <Grid container flex justifyContent="center">
-              {message ? (
-                <Typography variant="h4" className={classes.message}>
-                  {message}
-                </Typography>
-              ) : null}
-            </Grid>
-          </Grid>
-        </Fade>
+          </Fade>
+        </Grid>
       </Backdrop>
     </Box>
   );

@@ -4,14 +4,14 @@ import { Button, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   defaultButton: {
     margin: theme.spacing(1),
-    boxShadow: theme.shadows[3],
+    boxShadow: theme.shadows[1],
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     borderRadius: 48,
     transition: "0.3s",
     "&:hover": {
       transform: "translateY(-2px)",
-      boxShadow: theme.shadows[7],
+      boxShadow: theme.shadows[3],
       backgroundColor: theme.palette.primary.light,
     },
     "& .MuiButton-startIcon": {

@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import status, generics, exceptions
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -8,11 +8,43 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework.response import Response
 from django.db import IntegrityError
-from .models import User
-from .serializers import UserSerializer
+from .models import User, ThemeSettings
+from .serializers import UserSerializer, ThemeSettingsSerializer
 import json
 import jwt
 from rest_framework.decorators import permission_classes
+
+
+class ThemeSettingsView(generics.RetrieveUpdateAPIView):
+    serializer_class = ThemeSettingsSerializer
+
+    def get_object(self):
+        authorization_header = self.request.headers.get("Authorization")
+
+        if not authorization_header:
+            raise exceptions.AuthenticationFailed("Missing authorization header")
+        token = authorization_header.split(" ")[1]
+
+        try:
+            decoded_token = jwt.decode(
+                jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"]
+            )
+            username = decoded_token["user"]
+            user = User.objects.get(username=username)
+            theme_settings = user.theme_settings
+            return theme_settings
+
+        except (jwt.exceptions.DecodeError, User.DoesNotExist):
+            return JsonResponse({"authenticated": False}, status=401)
+
+    def post(self, request):
+        theme_settings = self.get_object()
+        theme_settings.primary_color = request.data["primaryColor"]
+        theme_settings.secondary_color = request.data["secondaryColor"]
+        theme_settings.background_color = request.data["backgroundColor"]
+        theme_settings.save()
+
+        return Response(self.serializer_class(theme_settings).data)
 
 
 @csrf_exempt
@@ -31,6 +63,7 @@ def verify_jwt(request):
         )
         username = decoded_token["user"]
         user = User.objects.get(username=username)
+        theme = ThemeSettings.objects.get(user=user)
 
     except (jwt.exceptions.DecodeError, User.DoesNotExist):
         return JsonResponse({"authenticated": False}, status=401)
@@ -40,6 +73,9 @@ def verify_jwt(request):
             "authenticated": True,
             "is_superuser": user.is_superuser,
             "username": username,
+            "primary": theme.primary_color,
+            "secondary": theme.secondary_color,
+            "background": theme.background_color,
         },
         status=200,
     )

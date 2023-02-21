@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    User,
-)
+from .models import User, ThemeSettings
 from django.contrib.admin import AdminSite
 
 admin_site = AdminSite(name="admin")
@@ -22,4 +20,9 @@ class CustomUserAdmin(UserAdmin):
     delete_selected.short_description = _("Delete selected users")
 
 
+class CustomThemeSettingsAdmin(admin.ModelAdmin):
+    list_display = ("user", "primary_color", "secondary_color", "background_color")
+
+
+admin.site.register(ThemeSettings, CustomThemeSettingsAdmin)
 admin.site.register(User, CustomUserAdmin)

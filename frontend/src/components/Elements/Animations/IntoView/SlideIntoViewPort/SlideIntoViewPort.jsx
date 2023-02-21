@@ -41,10 +41,10 @@ export const SlideIntoViewPort = ({
     start = { y: "100%", opacity: 0 };
     end = { y: 0, opacity: 1, transition: { duration: animationDuration } };
   } else if (from === "left") {
-    start = { x: "-100%", opacity: 0 };
+    start = { x: "-75%", opacity: 0 };
     end = { x: 0, opacity: 1, transition: { duration: animationDuration } };
   } else if (from === "right") {
-    start = { x: "100%", opacity: 0 };
+    start = { x: "75%", opacity: 0 };
     end = { x: 0, opacity: 1, transition: { duration: animationDuration } };
   } else {
     start = { y: "100%", opacity: 0 };

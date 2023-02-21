@@ -10,9 +10,9 @@ import { CardMedia, InputAdornment, TextField } from "@material-ui/core";
 import QuillEditor from "../Create/TextEditor";
 import TagsInput from "../Create/TagsInput";
 import FormField from "../../Elements/Fields/FormField";
-import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { baseClasses } from "../../../classes";
+import StyledButton from "../../Elements/Buttons/StyledButton";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -211,7 +211,12 @@ const UpdateArticleView = () => {
             <TagsInput tags={tags} setTags={setTags} />
           </CardActions>
           <CardActions style={{ display: "flex", justifyContent: "flex-end" }}>
-            <UpdateButton />
+            <StyledButton
+              type="submit"
+              buttonText="Update"
+              minWidth="0"
+              size="small"
+            />
           </CardActions>
         </form>
       </Paper>

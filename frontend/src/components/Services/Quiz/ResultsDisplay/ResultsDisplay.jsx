@@ -2,7 +2,6 @@ import React from "react";
 import { Grid, Box, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import ServicesResultCarousel from "./ServicesResultCarousel";
-import { servicesData } from "../servicesData";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import { quizStyles } from "../styles";
 import ServicesResult from "./ServicesResult";

@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import UpdateButton from "../../Elements/Buttons/UpdateButton";
-import FormField from "../../Elements/Fields/FormField";
 import { baseClasses } from "../../../classes";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
@@ -64,7 +61,7 @@ export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       formData={formData}
-      width="35%"
+      width="50%"
       excludeKeys={[
         "id",
         "email",

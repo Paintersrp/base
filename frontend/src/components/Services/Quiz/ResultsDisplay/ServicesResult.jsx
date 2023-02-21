@@ -38,13 +38,9 @@ const ServicesResult = ({ recommendedId, others }) => {
           className={classes.item}
           style={{
             transform:
-              index === activeIndex - 1
-                ? "translateX(0%) scale(0.9)"
-                : index === activeIndex
-                ? "translateX(0%) scale(0.95)"
-                : index === activeIndex + 1
-                ? "translateX(0%) scale(0.9)"
-                : "translateX(0%) scale(0.9)",
+              index === activeIndex
+                ? "translateX(0%) scale(1)"
+                : "translateX(0%) scale(0.95)",
             transition: "all 0.3s ease",
           }}
           onClick={() => handleClick(index)}

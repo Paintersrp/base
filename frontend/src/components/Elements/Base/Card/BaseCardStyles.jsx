@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 const defaultCardStyle = makeStyles((theme) => ({
   root: {
-    margin: 10,
+    margin: theme.spacing(2, 0, 0, 0),
     width: "100%",
     maxWidth: 1000,
     backgroundColor: theme.palette.background.light,
@@ -14,6 +14,13 @@ const defaultCardStyle = makeStyles((theme) => ({
       border: `0.5px solid ${theme.palette.secondary.main}`,
     },
   },
+  rootNoHover: {
+    margin: theme.spacing(2, 0, 2, 0),
+    width: "100%",
+    maxWidth: 1000,
+    backgroundColor: theme.palette.background.light,
+    borderRadius: theme.spacing(1),
+  },
   cardHeader: {
     backgroundColor: theme.palette.background.light,
     padding: theme.spacing(2, 2, 2, 2),
@@ -23,14 +30,14 @@ const defaultCardStyle = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(0, 2, 1, 2),
+    padding: theme.spacing(0, 2, 0, 2),
     flex: 1,
   },
   cardActions: {
     backgroundColor: theme.palette.background.light,
     display: "flex",
     justifyContent: "flex-end",
-    padding: theme.spacing(0, 2, 2, 2),
+    padding: theme.spacing(0, 2, 1, 2),
     minHeight: 50,
   },
   cardMedia: {
@@ -38,6 +45,14 @@ const defaultCardStyle = makeStyles((theme) => ({
     height: "100%",
     borderTopLeftRadius: theme.spacing(0.5),
     borderBottomLeftRadius: theme.spacing(0.5),
+  },
+  icon: {
+    display: "flex",
+    justifyContent: "center",
+    paddingBottom: theme.spacing(0),
+    paddingTop: theme.spacing(2),
+    color: theme.palette.primary.dark,
+    fontSize: "2rem",
   },
 }));
 

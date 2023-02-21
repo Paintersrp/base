@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "./components/Landing/_Page/LandingPage";
 import AboutPage from "./components/About/_Page/AboutPage";
-import SupportPage from "./components/Support/SupportPage";
-import { ThemeProvider } from "@material-ui/core/styles";
+import SupportPage from "./components/WIP/Support/SupportPage";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "./theme";
+import baseTheme from "./theme";
 import withAuth from "./lib/Auth/withAuth/withAuth";
 import ScrollToTop from "./utils/ScrollToTop";
 import LoginForm from "./components/Elements/Forms/Login/LoginForm";
@@ -20,6 +20,12 @@ import IndividualArticleView from "./components/Articles/Read/IndividualArticleV
 import UpdateArticleView from "./components/Articles/Update/UpdateArticleView";
 import ServicesPage from "./components/Services/_Page/ServicesPage";
 import ContactPage from "./components/Contact/_Page/ContactPage";
+import CustomThemeProvider from "./utils/CustomThemeProvider";
+import { useDispatch, useSelector } from "react-redux";
+import axiosInstance from "./lib/Axios/axiosInstance";
+import { setTheme } from "./lib/Actions/auth";
+import chroma from "chroma-js";
+import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
 
 {
   /* 
@@ -39,12 +45,82 @@ import ContactPage from "./components/Contact/_Page/ContactPage";
 }
 
 function App() {
+  const auth = useSelector((state) => state.auth);
+  const [themeSettings, setThemeSettings] = useState({
+    primary_color: auth.primary,
+    secondary_color: auth.secondary,
+    background_color: auth.background,
+  });
+  const dispatch = useDispatch();
+  const [theme, setThemeUpdate] = useState(null);
+
+  const handleUpdate = () => {
+    axiosInstance
+      .get("/auth/settings/")
+      .then((response) => {
+        setThemeSettings(response.data);
+        dispatch(
+          setTheme({
+            primary: response.data.primary_color,
+            secondary: response.data.secondary_color,
+            background: response.data.background_color,
+          })
+        );
+        const primaryColor =
+          response.data.primary_color || baseTheme.palette.primary.main;
+        const primaryColorLight = chroma(primaryColor).brighten(1).hex();
+        const primaryColorDark = chroma(primaryColor).darken(1).hex();
+
+        const secondaryColor =
+          response.data.secondary_color || baseTheme.palette.primary.main;
+        const secondaryColorLight = chroma(secondaryColor).brighten(1).hex();
+        const secondaryColorDark = chroma(secondaryColor).darken(1).hex();
+
+        setThemeUpdate(
+          createTheme({
+            ...baseTheme,
+            palette: {
+              primary: {
+                main: primaryColor || baseTheme.palette.primary.main,
+                light: primaryColorLight || baseTheme.palette.primary.light,
+                dark: primaryColorDark || baseTheme.palette.primary.dark,
+              },
+              secondary: {
+                main: secondaryColor || baseTheme.palette.secondary.main,
+                light: secondaryColorLight || baseTheme.palette.secondary.light,
+                dark: secondaryColorDark || baseTheme.palette.secondary.dark,
+              },
+              background: {
+                default:
+                  response.data.background_color ||
+                  baseTheme.palette.background.default,
+                light:
+                  response.data.background_color ||
+                  baseTheme.palette.background.light,
+              },
+              text: {
+                dark: "black",
+                light: "white",
+              },
+            },
+          })
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme ? theme : baseTheme}>
       <CssBaseline />
       <Router>
         <ScrollToTop />
-        <Navigation links={linkData} appName={"EDGELORDS"} />
+        <Navigation
+          links={linkData}
+          appName={"EDGELORDS"}
+          handleUpdate={handleUpdate}
+        />
 
         <Routes>
           {/* Auth Routes */}
@@ -61,6 +137,7 @@ function App() {
 
           {/* Demo Routes */}
           <Route path="/WIP" element={<WIPDemo />} />
+          <Route path="/generator" element={<GeneratorPage />} />
 
           {/* Feature Routes */}
           <Route path="/articles" element={<ArticlesPage />} />

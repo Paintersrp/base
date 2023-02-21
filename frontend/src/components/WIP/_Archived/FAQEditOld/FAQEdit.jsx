@@ -18,7 +18,7 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import FormField from "../../Elements/Fields/FormField";
+import FormField from "../../../Elements/Fields/FormField";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {

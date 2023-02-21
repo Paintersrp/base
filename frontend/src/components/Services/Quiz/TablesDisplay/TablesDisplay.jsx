@@ -11,39 +11,43 @@ const TablesDisplay = ({}) => {
   return (
     <>
       <SlideIntoViewPort
-        animationDuration={1.75}
-        onScreenPercentage={0}
-        from={!isSmallScreen ? "left" : "below"}
+        animationDuration={isSmallScreen ? 1 : 1.5}
+        onScreenPercentage={0.1}
+        from={"left"}
       >
-        <Grid
-          container
-          flex
-          justifyContent="center"
-          style={{
-            maxWidth: isSmallScreen ? 500 : null,
-            width: isSmallScreen ? "100%" : 1400,
-            marginTop: theme.spacing(4),
-          }}
-        >
-          <ComparisonTable type="service" />
+        <Grid container flex justifyContent="center">
+          <Grid
+            container
+            flex
+            justifyContent="center"
+            style={{
+              maxWidth: isSmallScreen ? 375 : null,
+              width: isSmallScreen ? "100%" : 1400,
+              marginTop: theme.spacing(4),
+            }}
+          >
+            <ComparisonTable type="service" />
+          </Grid>
         </Grid>
       </SlideIntoViewPort>
       <SlideIntoViewPort
-        animationDuration={1.75}
-        onScreenPercentage={0}
-        from={!isSmallScreen ? "right" : "below"}
+        animationDuration={isSmallScreen ? 1 : 1.5}
+        onScreenPercentage={0.05}
+        from={"right"}
       >
-        <Grid
-          container
-          flex
-          justifyContent="center"
-          style={{
-            maxWidth: isSmallScreen ? 500 : null,
-            width: isSmallScreen ? "100%" : 1400,
-            marginTop: theme.spacing(4),
-          }}
-        >
-          <ComparisonTable type="competition" heading="How We Stack Up" />
+        <Grid container flex justifyContent="center">
+          <Grid
+            container
+            flex
+            justifyContent="center"
+            style={{
+              maxWidth: isSmallScreen ? 375 : null,
+              width: isSmallScreen ? "100%" : 1400,
+              marginTop: theme.spacing(4),
+            }}
+          >
+            <ComparisonTable type="competition" heading="How We Stack Up" />
+          </Grid>
         </Grid>
       </SlideIntoViewPort>
     </>

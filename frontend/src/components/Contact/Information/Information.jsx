@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import InformationEdit from "./InformationEdit";
-import EditButton from "../../Elements/Buttons/EditButton";
 import InformationField from "./InformationField";
 import { baseClasses } from "../../../classes";
 import ContactButtons from "../Contact/ContactButtons";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -47,6 +47,16 @@ export default function Information({ contactData }) {
             <InformationField text="Address:" data={data.address} />
             <ContactButtons contactData={data} />
           </Grid>
+          {!editing && auth.is_superuser ? (
+            <div style={{ marginTop: 16 }}>
+              <EditDeleteButtonMenu
+                hideDelete
+                position="center"
+                placement="bottom"
+                editClick={() => setEditing(!editing)}
+              />
+            </div>
+          ) : null}
         </>
       ) : (
         <InformationEdit
@@ -55,16 +65,6 @@ export default function Information({ contactData }) {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-      {!editing && auth.is_superuser ? (
-        <div>
-          <EditButton
-            onClick={() => setEditing(!editing)}
-            editState={editing}
-            mt={25}
-            mb={10}
-          />
-        </div>
-      ) : null}
     </>
   );
 }

@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import Information from "../Information/Information";
 import Hours from "../Hours/Hours";
-import ContactButtons from "./ContactButtons";
 import Social from "../Social/Social";
 import ContactForm from "../../Elements/Forms/ContactForm/ContactForm";
 import { baseClasses } from "../../../classes";

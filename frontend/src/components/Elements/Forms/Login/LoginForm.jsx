@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -6,13 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Checkbox,
-  CssBaseline,
-  FormControlLabel,
-  Icon,
-  Paper,
-} from "@material-ui/core";
+import { Checkbox, FormControlLabel, Icon, Paper } from "@material-ui/core";
 import { IoLogoAngular } from "react-icons/io";
 import Cookies from "js-cookie";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
@@ -266,17 +260,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-// const handleSubmit = (event) => {
-//   event.preventDefault();
-//   if (validateForm()) {
-//     axios
-//       .post("http://127.0.0.1:8000/api/login/", formData)
-//       .then((res) => {
-//         Cookies.set("jwt", res.data.jwt, { expires: 7 });
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   }
-// };

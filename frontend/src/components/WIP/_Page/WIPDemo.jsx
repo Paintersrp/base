@@ -9,10 +9,11 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import Magazine from "../Magazine/Magazine";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
-import Reviews from "../../Services/Reviews/Reviews";
+import Reviews from "../Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
+import Messages from "../Messages/Messages";
 
 const testimonials = [
   {
@@ -191,6 +192,9 @@ const customersData = [
 ];
 
 const wipComponents = [
+  {
+    component: Messages,
+  },
   {
     component: Statistics,
     props: {

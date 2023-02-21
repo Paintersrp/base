@@ -30,6 +30,8 @@ import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
 const useStyles = makeStyles((theme) => ({
   select: {
     width: "100%",
+    maxHeight: "64px",
+    overflow: "auto",
     background: theme.palette.text.light,
     color: theme.palette.text.dark,
     "& .MuiSelect-icon": {
@@ -52,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
     },
     "& input": {
       color: theme.palette.text.dark,
+    },
+    "& .MuiMenu-paper": {
+      maxHeight: 40,
+      overflowY: "auto",
     },
   },
 }));
@@ -123,6 +129,14 @@ function IconSelectMixin({ handleChange, formData }) {
                     horizontal: "left",
                   },
                   getContentAnchorEl: null,
+                  classes: {
+                    paper: classes.menuPaper,
+                  },
+                  PaperProps: {
+                    style: {
+                      maxHeight: 300,
+                    },
+                  },
                 }}
               >
                 <MenuItem value="">

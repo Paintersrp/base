@@ -4,10 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormField from "../../Fields/FormField";
-import StyledButton from "../../Buttons/StyledButton";
 import TitleBlockMixin from "./TitleBlockMixin";
 import IconSelectMixin from "./IconSelectMixin";
 import ImageEditMixin from "./ImageEditMxin";
+import UpdateCancelButtonMenu from "../../Buttons/UpdateCancelButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -105,7 +105,12 @@ function BaseEditForm({
           {iconMixin ? (
             <IconSelectMixin handleChange={handleChange} formData={formData} />
           ) : null}
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <UpdateCancelButtonMenu
+            handleCancel={handleCancel}
+            position="center"
+            placement="bottom"
+          />
+          {/* <div style={{ display: "flex", justifyContent: "center" }}>
             <StyledButton
               type="submit"
               buttonText="Update"
@@ -118,7 +123,7 @@ function BaseEditForm({
               minWidth="0"
               size="small"
             />
-          </div>
+          </div> */}
         </form>
       </div>
     </Grid>

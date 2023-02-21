@@ -54,9 +54,7 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(0),
     },
   },
-  highlighted: {
-    border: "2px solid gold",
-  },
+
   description: {
     paddingTop: theme.spacing(1),
   },
@@ -88,8 +86,8 @@ const SelectedService = ({ service, active, recommendedId }) => {
     <Card
       className={`${classes.root} `}
       style={{
-        height: 400,
-        width: active ? 300 : 300,
+        minHeight: 400,
+        width: active ? 350 : 350,
         opacity: active ? 1 : hovered ? 0.7 : 0.5,
         transition: "all 0.3s ease",
       }}
@@ -124,13 +122,10 @@ const SelectedService = ({ service, active, recommendedId }) => {
             </Grid>
             <div className={classes.details}>
               <CardContent className={classes.content}>
-                <Typography variant="h3">{service.title}</Typography>
+                <Typography variant="h2">{service.title}</Typography>
                 <Typography variant="subtitle2" className={classes.description}>
                   Monthly Price: ${service.price}
                 </Typography>
-                {/* <Typography variant="body2" className={classes.description}>
-                  {service.description}
-                </Typography> */}
               </CardContent>
               <List dense className={classes.list}>
                 <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
@@ -141,7 +136,7 @@ const SelectedService = ({ service, active, recommendedId }) => {
                     <ListItemIcon>
                       <FaCheck className={classes.featureIcon} />
                     </ListItemIcon>
-                    <ListItemText primary={feature.detail} />
+                    <ListItemText secondary={feature.detail} />
                   </ListItem>
                 ))}
               </List>

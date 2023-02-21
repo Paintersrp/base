@@ -84,8 +84,6 @@ const Profile = () => {
   };
 
   const handleUpdate = () => {
-    // send api call to update account settings and profile information
-    console.log("Updating account settings and profile information...");
     console.log("Settings:", settings);
     console.log("Profile:", profile);
   };

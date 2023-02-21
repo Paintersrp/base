@@ -7,8 +7,8 @@ import QuillField from "../../Elements/Fields/QuillField";
 import { useEffect } from "react";
 import { getCookie } from "../../../Utils";
 import FormField from "../../Elements/Fields/FormField";
-import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import StyledButton from "../../Elements/Buttons/StyledButton";
+import UpdateCancelButtonMenu from "../../Elements/Buttons/UpdateCancelButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +22,19 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     width: "100%",
     boxShadow: theme.shadows[0],
+  },
+  cardContent: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  quillMargins: {
+    marginBottom: 16,
+    marginRight: 8,
+    marginTop: 8,
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
   },
   fadeIn: {
     opacity: 0,
@@ -51,9 +64,7 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
   }, []);
 
   const handleSubmit = async (e) => {
-    console.log(body);
     e.preventDefault();
-
     let formData = new FormData();
     formData.append("title", title);
 
@@ -70,18 +81,12 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
       },
     };
     try {
-      await axios.patch(
-        `http://localhost:8000/api/${contentType}/`,
-        formData,
-        config
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(`http://localhost:8000/api/${contentType}/`);
-      setData(res.data);
-      onUpdate(res.data);
+      await axios
+        .patch(`http://localhost:8000/api/${contentType}/`, formData, config)
+        .then((res) => {
+          setData(res.data);
+          onUpdate(res.data);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -95,17 +100,22 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
     <div className={`${classes.root} ${classes.fadeIn}`}>
       <Card className={classes.card}>
         <form onSubmit={handleSubmit}>
-          <CardContent style={{ display: "flex", flexDirection: "column" }}>
+          <CardContent className={classes.cardContent}>
             <FormField
               label="Title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
-            <div style={{ marginBottom: 16, marginRight: 8, marginTop: 8 }}>
+            <div className={classes.quillMargins}>
               <QuillField value={body} onChange={handleBody} size="large" />
             </div>
           </CardContent>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <UpdateCancelButtonMenu
+            handleCancel={handleCancel}
+            placement="bottom"
+            position="center"
+          />
+          {/* <div className={classes.buttonContainer}>
             <StyledButton
               type="submit"
               buttonText="Update"
@@ -118,7 +128,7 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
               minWidth="0"
               size="small"
             />
-          </div>
+          </div> */}
         </form>
       </Card>
     </div>

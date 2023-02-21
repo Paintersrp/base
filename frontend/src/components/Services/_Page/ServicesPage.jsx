@@ -2,7 +2,6 @@ import React from "react";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
 import Benefits from "../Benefits/Benefits";
 import Timeline from "../Timeline/Timeline";
-import Reviews from "../Reviews/Reviews";
 import { Grid, makeStyles } from "@material-ui/core";
 import Statistics from "../../WIP/Statistics/Statistics";
 import Quiz from "../Quiz/Quiz/Quiz";
@@ -31,7 +30,6 @@ function ServicesPage() {
             <Quiz />
           </div>
           <Benefits />
-          <Reviews />
 
           <Timeline />
         </div>

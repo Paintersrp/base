@@ -41,11 +41,20 @@ function TitleBlockMixin({ handleChange, formData, handleSwitchChange = {} }) {
   const classes = useStyles();
 
   return (
-    <FormControl>
-      <Grid container spacing={0} style={{ paddingTop: 16 }}>
-        <Grid item xs={12} sm={6} style={{ paddingRight: 8 }}>
+    <FormControl style={{ width: "100%" }}>
+      <Grid
+        container
+        spacing={0}
+        style={{ paddingTop: 16, display: "flex", justifyContent: "center" }}
+      >
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          style={{ paddingRight: 8, justifyContent: "right", display: "flex" }}
+        >
           <FormControlLabel
-            style={{ fontSize: "0.8rem" }}
+            style={{ fontSize: "0.8rem", color: "black" }}
             control={
               <Select
                 className={classes.select}
@@ -76,8 +85,14 @@ function TitleBlockMixin({ handleChange, formData, handleSwitchChange = {} }) {
             label="Alignment"
           />
         </Grid>
-        <Grid item xs={12} sm={6} style={{ paddingLeft: 8 }}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          style={{ paddingLeft: 8, justifyContent: "left", display: "flex" }}
+        >
           <FormControlLabel
+            style={{ color: "black" }}
             control={
               <Switch
                 checked={formData.show_divider}

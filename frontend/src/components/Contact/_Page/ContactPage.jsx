@@ -4,6 +4,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Members from "../Members/Members";
 import Contact from "../Contact/Contact";
+import Loading from "../../Elements/Layout/Loading";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {
@@ -16,9 +17,12 @@ function ContactPage() {
   const classes = useStyles();
   const [membersData, setMembersData] = useState(null);
   const [contactData, setContactData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       axiosInstance
         .get("/about/")
         .then((response) => {
@@ -28,28 +32,42 @@ function ContactPage() {
         .catch((err) => {
           console.log(err);
         });
+      setLoading(false);
     };
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [loading]);
+
   return (
-    <ContentLayout
-      title="About Company"
-      description="Where the info be yo."
-      keywords="news, posts, articles, touch"
-      image="https://example.com/image.png"
-      url="https://example.com/example-page"
-      backgroundColor="white"
-    >
-      <Grid container justifyContent="center" style={{ display: "flex" }}>
-        <div style={{ maxWidth: 1400, width: "100%" }}>
-          {membersData ? <Members membersData={membersData} /> : null}
-          {contactData ? (
-            <Contact color="dark" contactData={contactData} />
+    <>
+      {!showLoading ? (
+        <ContentLayout
+          title="About Company"
+          description="Where the info be yo."
+          keywords="news, posts, articles, touch"
+          image="https://example.com/image.png"
+          url="https://example.com/example-page"
+          backgroundColor="white"
+        >
+          {membersData && contactData ? (
+            <Grid container justifyContent="center" style={{ display: "flex" }}>
+              <div style={{ maxWidth: 1400, width: "100%" }}>
+                <Members membersData={membersData} />
+                <Contact color="dark" contactData={contactData} />
+              </div>
+            </Grid>
           ) : null}
-        </div>
-      </Grid>
-    </ContentLayout>
+        </ContentLayout>
+      ) : (
+        <Loading message="Loading" loading={showLoading} />
+      )}
+    </>
   );
 }
 

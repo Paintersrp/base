@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import EditButton from "../../Elements/Buttons/EditButton";
 import { baseClasses } from "../../../classes";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -72,6 +73,14 @@ export default function Hours({ contactData }) {
               </Grid>
             ))}
           </Grid>
+          {!editing && auth.is_superuser ? (
+            <EditDeleteButtonMenu
+              hideDelete
+              position="center"
+              placement="bottom"
+              editClick={() => setEditing(!editing)}
+            />
+          ) : null}
         </>
       ) : (
         <EditHours
@@ -80,16 +89,6 @@ export default function Hours({ contactData }) {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-      {!editing && auth.is_superuser ? (
-        <div>
-          <EditButton
-            onClick={() => setEditing(!editing)}
-            editState={editing}
-            mt={15}
-            mb={0}
-          />
-        </div>
-      ) : null}
     </>
   );
 }

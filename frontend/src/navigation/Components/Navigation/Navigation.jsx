@@ -14,6 +14,7 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@material-ui/core";
+import ThemeSettings from "../../../components/WIP/ThemeSettings/ThemeSettings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: theme.palette.primary.main,
     height: 60,
-    borderBottom: `2px solid ${theme.palette.secondary.main}`, 
-    boxShadow: "none", 
+    borderBottom: `2px solid ${theme.palette.secondary.main}`,
+    boxShadow: "none",
   },
   appLink: {
     textAlign: "end",
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navigation({ links, appName }) {
+export default function Navigation({ links, appName, handleUpdate }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -187,7 +188,10 @@ export default function Navigation({ links, appName }) {
                         Contact
                       </Link>
                       <Link to="/articles" className={classes.navLink}>
-                        NEws
+                        News
+                      </Link>
+                      <Link to="/generator" className={classes.navLink}>
+                        Generator
                       </Link>
                     </div>
                   </Grid>
@@ -206,6 +210,7 @@ export default function Navigation({ links, appName }) {
                     <Link className={classes.appLink} to="/">
                       {appName}
                     </Link>
+                    <ThemeSettings handleUpdate={handleUpdate} />
                   </div>
                 </Grid>
               </Grid>

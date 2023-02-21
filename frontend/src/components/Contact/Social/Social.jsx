@@ -7,14 +7,15 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import { useSelector } from "react-redux";
 import SocialEdit from "./SocialEdit";
-import EditButton from "../../Elements/Buttons/EditButton";
 import { baseClasses } from "../../../classes";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: "center",
     display: "flex",
     flexDirection: "column",
+    marginBottom: theme.spacing(3),
   },
   socialIcons: {
     transition: "0.3s",
@@ -117,6 +118,15 @@ export default function Social({ contactData, title, color = "light" }) {
               }
             })}
           </div>
+          {!editing && auth.is_superuser ? (
+            <EditDeleteButtonMenu
+              hideDelete
+              editClick={() => setEditing(!editing)}
+              position="center"
+              placement="bottom"
+              finalColor={finalColor}
+            />
+          ) : null}
         </div>
       ) : (
         <SocialEdit
@@ -125,15 +135,6 @@ export default function Social({ contactData, title, color = "light" }) {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-      <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-        {!editing && auth.is_superuser ? (
-          <EditButton
-            onClick={() => setEditing(!editing)}
-            editState={editing}
-            color={color === "dark" ? "black" : "white"}
-          />
-        ) : null}
-      </div>
     </>
   );
 }

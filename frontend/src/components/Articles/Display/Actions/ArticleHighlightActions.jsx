@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     borderRadius: 14,
     backgroundColor: theme.palette.primary.light,
-    color: theme.palette.secondary.contrastText,
+    color: theme.palette.text.light,
     marginRight: 5,
     marginTop: 5,
     fontWeight: 600,

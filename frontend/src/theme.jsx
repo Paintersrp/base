@@ -1,7 +1,15 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
+import { blueGrey, indigo, pink, deepPurple } from "@material-ui/core/colors";
+
+//primary #6b7c9b
+//secondary #644f45
+
+//cyan / brownish
+//#01838F
+//#8f0d01
 
 // Define custom colors
-const commonColors = {
+export const commonColors = {
   white: "#ffffff",
   black: "#000000",
   gray: "#bdbdbd",
@@ -64,6 +72,11 @@ const palettes = {
     disabled: "rgba(0, 0, 0, 0.26)",
     disabledBackground: "rgba(0, 0, 0, 0.12)",
   },
+  background: {
+    default: "#fff",
+    paper: "#fff",
+    light: "#fff",
+  },
 };
 
 const fontSizes = {
@@ -85,7 +98,7 @@ const fontSizes = {
   seven: "2.25rem",
 };
 
-const theme = createMuiTheme({
+const baseTheme = createTheme({
   palette: {
     common: commonColors,
     primary: palettes.primary,
@@ -94,6 +107,7 @@ const theme = createMuiTheme({
     warning: palettes.warning,
     error: palettes.error,
     info: palettes.info,
+    background: palettes.background,
     text: palettes.text,
     action: palettes.action,
   },
@@ -125,7 +139,7 @@ const theme = createMuiTheme({
       letterSpacing: "0.00735em",
     },
     h5: {
-      fontWeight: 500,
+      fontWeight: 600,
       fontSize: "1rem",
       lineHeight: 1.334,
       letterSpacing: "0em",
@@ -150,7 +164,7 @@ const theme = createMuiTheme({
     },
     body2: {
       fontWeight: 400,
-      fontSize: "0.85rem",
+      fontSize: "0.875rem",
     },
     button: {
       fontWeight: 600,
@@ -237,4 +251,4 @@ const theme = createMuiTheme({
   },
 });
 
-export default theme;
+export default baseTheme;

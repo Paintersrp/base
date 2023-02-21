@@ -3,7 +3,7 @@ import FAQAccordion from "../FAQ/FAQAccordion";
 import About from "../About/About";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
 
-function AboutPage() {
+function AboutPage({ handleUpdate }) {
   return (
     <ContentLayout
       title="About Company"
@@ -14,7 +14,6 @@ function AboutPage() {
       backgroundColor="white"
     >
       <About />
-      {/* Jobs */}
       <FAQAccordion />
     </ContentLayout>
   );

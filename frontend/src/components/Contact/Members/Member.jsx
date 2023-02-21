@@ -7,9 +7,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import MemberEdit from "./MemberEdit";
-import EditButton from "../../Elements/Buttons/EditButton";
 import MemberContent from "./MemberContent";
 import { baseClasses } from "../../../classes";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,6 +88,16 @@ const Member = ({ member }) => {
             }}
           />
           <MemberContent member={memberData} />
+          {!editing && auth.is_superuser ? (
+            <div style={{ marginTop: 4, marginBottom: 4, marginRight: 8 }}>
+              <EditDeleteButtonMenu
+                hideDelete
+                editClick={() => setEditing(!editing)}
+                position="flex-end"
+                placement="bottom"
+              />
+            </div>
+          ) : null}
         </Card>
       ) : (
         <MemberEdit
@@ -96,14 +106,6 @@ const Member = ({ member }) => {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-      {!editing && auth.is_superuser ? (
-        <div style={{ marginTop: 10 }}>
-          <EditButton
-            onClick={() => setEditing(!editing)}
-            editState={editing}
-          />
-        </div>
-      ) : null}
     </Grid>
   );
 };

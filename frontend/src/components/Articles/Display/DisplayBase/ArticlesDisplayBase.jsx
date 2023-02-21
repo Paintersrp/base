@@ -8,7 +8,7 @@ import BaseCard from "../../../Elements/Base/Card/BaseCard";
 import ArticleHighlightActions from "../Actions/ArticleHighlightActions";
 import ArticleAuthActions from "../Actions/ArticleAuthActions";
 import { useSelector } from "react-redux";
-import DeleteConfirmationModal from "../Actions/DeleteConfirmationModal";
+import DeleteConfirmationModal from "../../../Elements/Modals/DeleteConfirmationModal";
 import axios from "axios";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
   defaultCardStyle,
   listCardStyle,
 } from "../../../Elements/Base/Card/BaseCardStyles";
-import { SlideIntoViewPort } from "../../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
+import BaseCarousel from "../../../Elements/Base/BaseCarousel";
 
 const ArticlesDisplayBase = ({
   articles,
@@ -26,6 +26,7 @@ const ArticlesDisplayBase = ({
   subtitle = { variant: "subtitle1" },
   body = "body1",
   actionSubtitle = "subtitle1",
+  carousel = false,
 }) => {
   const { auth } = useSelector((state) => state);
   const [selectedId, setSelectedId] = useState([]);
@@ -181,7 +182,14 @@ const ArticlesDisplayBase = ({
         justifyContent="center"
         style={{ flexWrap: "wrap" }}
       >
-        {articles.map((article) => renderArticles(article))}
+        {carousel ? (
+          <BaseCarousel>
+            {articles.map((article) => renderArticles(article))}
+          </BaseCarousel>
+        ) : (
+          <>{articles.map((article) => renderArticles(article))} </>
+        )}
+        ;
       </Grid>
 
       <DeleteConfirmationModal

@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Grid, Typography } from "@material-ui/core";
-import benefitsData from "./benefitsData";
+import { Container, Grid } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Benefit from "./Benefit";
+import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
+import EditButton from "../../Elements/Buttons/EditButton";
+import { useSelector } from "react-redux";
+import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,13 +31,9 @@ const useStyles = makeStyles((theme) => ({
 const Benefits = () => {
   const classes = useStyles();
   const [benefits, setBenefits] = useState([]);
-  const [maxDescriptionHeight, setMaxDescriptionHeight] = useState(0);
-  const maxHeightRef = useRef(null);
-
-  useEffect(() => {
-    const maxHeight = maxHeightRef.current.offsetHeight;
-    setMaxDescriptionHeight(maxHeight);
-  }, []);
+  const [titleBlock, setTitleBlock] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     axiosInstance
@@ -45,31 +44,49 @@ const Benefits = () => {
       .catch((err) => {
         console.log(err);
       });
+    axiosInstance
+      .get("/titleblock/benefits/")
+      .then((response) => {
+        setTitleBlock(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const updateTitleBlock = (updateTitleBlock) => {
+    setTitleBlock(updateTitleBlock);
+    setEditing(false);
+  };
 
   return (
     <div className={classes.root}>
       <Container maxWidth="false">
-        <Typography
-          variant="h2"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          Why Choose Us?
-        </Typography>
-        <Container maxWidth="md">
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph
-          >
-            We believe that our commitment to quality and customer satisfaction
-            sets us apart from our competitors. Here are a few of the benefits
-            of working with us
-          </Typography>
-        </Container>
+        {!editing && auth.is_superuser ? (
+          <div style={{ marginTop: 20 }}>
+            <EditButton
+              onClick={() => setEditing(!editing)}
+              editState={editing}
+            />
+          </div>
+        ) : null}
+        {!editing ? (
+          <TitleBlock
+            subtitle={titleBlock.subtitle}
+            title={titleBlock.title}
+            description={titleBlock.description}
+            alignment={titleBlock.alignment}
+            showDivider={titleBlock.showDivider}
+          />
+        ) : (
+          <TitleBlockEditor
+            titleBlock={titleBlock}
+            onUpdate={updateTitleBlock}
+            handleCancel={() => setEditing(!editing)}
+            description
+          />
+        )}
         <div className={classes.benefitContainer}>
           <Grid container>
             {benefits.map((benefit, index) => (
@@ -83,20 +100,10 @@ const Benefits = () => {
                 className={classes.gridItem}
                 key={benefit.title}
               >
-                <Benefit benefit={benefit} maxHeight={maxDescriptionHeight} />
+                <Benefit benefit={benefit} />
               </Grid>
             ))}
           </Grid>
-        </div>
-        <div style={{ visibility: "hidden" }} ref={maxHeightRef}>
-          {benefitsData
-            .reduce((max, { description }) => {
-              return description.length > max.length ? description : max;
-            }, "")
-            .split(" ")
-            .map((word) => (
-              <span>{word} </span>
-            ))}
         </div>
       </Container>
     </div>

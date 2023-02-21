@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
-import { Paper } from "@material-ui/core";
+import { Paper, useMediaQuery } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
 import ArticlesDisplayBase from "../../Articles/Display/DisplayBase/ArticlesDisplayBase";
+import BaseCarousel from "../../Elements/Base/BaseCarousel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +59,8 @@ export default function LatestNews() {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const updateTitleBlock = (updateTitleBlock) => {
     setTitleBlock(updateTitleBlock);
@@ -132,11 +135,16 @@ export default function LatestNews() {
             <TitleBlockEditor
               titleBlock={titleBlock}
               onUpdate={updateTitleBlock}
+              handleCancel={() => setEditing(!editing)}
             />
           )}
         </Grid>
         <Grid container spacing={0}>
-          <ArticlesDisplayBase articles={articlesData} classSet="cards" />
+          <ArticlesDisplayBase
+            articles={articlesData}
+            classSet="cards"
+            carousel={isSmallScreen ? true : false}
+          />
         </Grid>
       </Paper>
     </Grid>

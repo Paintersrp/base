@@ -9,3 +9,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class ThemeSettings(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="theme_settings"
+    )
+    primary_color = models.CharField(max_length=7)
+    secondary_color = models.CharField(max_length=7)
+    background_color = models.CharField(max_length=7)

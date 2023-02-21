@@ -20,6 +20,7 @@ class TitleBlock(models.Model):
     name = models.CharField(max_length=100, unique=True)
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
+    description = models.CharField(max_length=250, null=True)
     alignment = models.CharField(max_length=10, choices=ALIGNMENT_CHOICES)
     show_divider = models.BooleanField(default=False)
 

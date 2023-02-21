@@ -5,10 +5,6 @@ import { Grid } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import AccordionQA from "./AccordionQA";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import FAQEdit from "./FAQEdit";
-import { useSelector } from "react-redux";
-import EditButton from "../../Elements/Buttons/EditButton";
-import DeleteButton from "../../Elements/Buttons/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,12 +57,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     color: "black",
   },
-  editContainer: {
-    maxWidth: 370,
-    [theme.breakpoints.up("sm")]: {
-      maxWidth: "none",
-    },
-  },
 }));
 
 const FAQAccordion = () => {
@@ -74,8 +64,7 @@ const FAQAccordion = () => {
   const [currentCategory, setCurrentCategory] = useState([]);
   const [faqs, setFaqs] = useState([]);
   const [categories, setCategories] = useState([]);
-  const auth = useSelector((state) => state.auth);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(Array(faqs.length).fill(false));
 
   const onUpdate = () => {
     axiosInstance
@@ -92,7 +81,7 @@ const FAQAccordion = () => {
         setFaqs(updatedFaqData);
         setCategories(Object.keys(updatedFaqData));
         setCurrentCategory(Object.keys(updatedFaqData)[0]);
-        setEditing(false);
+        setEditing({});
       })
       .catch((err) => {
         console.log(err);
@@ -125,6 +114,13 @@ const FAQAccordion = () => {
 
   const handleTabChange = (event, newValue) => {
     setCurrentCategory(newValue);
+    setEditing(Array(faqs.length).fill(false));
+  };
+
+  const handleCancel = (index) => {
+    const newEditing = [...editing];
+    newEditing[index] = false;
+    setEditing(newEditing);
   };
 
   return (
@@ -155,9 +151,19 @@ const FAQAccordion = () => {
                 style={{ marginTop: 5, width: "100%" }}
               >
                 {faqs[currentCategory]
-                  ? faqs[currentCategory].map((faq) => (
+                  ? faqs[currentCategory].map((faq, index) => (
                       <Grid item xs={12}>
-                        <AccordionQA onUpdate={onUpdate} faq={faq} />
+                        <AccordionQA
+                          onUpdate={onUpdate}
+                          faq={faq}
+                          editing={editing[index]}
+                          setEditing={() => {
+                            const newEditing = Array(faqs.length).fill(false);
+                            newEditing[index] = true;
+                            setEditing(newEditing);
+                          }}
+                          handleCancel={() => handleCancel(index)}
+                        />
                       </Grid>
                     ))
                   : null}

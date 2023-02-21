@@ -14,6 +14,7 @@ import ProcessEdit from "./ProcessEdit";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 import EditButton from "../../Elements/Buttons/EditButton";
 import Icon from "../../Elements/Icon/Icon";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   iconContainer: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: "2rem",
-    color: theme.palette.primary.dark,
+    color: theme.palette.secondary.main,
   },
   heading: {
     fontFamily: "Poppins",
@@ -36,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontFamily: "Roboto",
     textAlign: "center",
-    marginBottom: theme.spacing(1),
     color: theme.palette.text.dark,
     minHeight: 80,
   },
@@ -91,6 +91,15 @@ export default function Process({ step }) {
                   {featureData.description}
                 </Typography>
               </Grid>
+              {!editing && auth.is_superuser ? (
+                <div style={{ width: "95%" }}>
+                  <EditDeleteButtonMenu
+                    editClick={() => setEditing(!editing)}
+                    hideDelete
+                    position="end"
+                  />
+                </div>
+              ) : null}
             </>
           ) : (
             <ProcessEdit
@@ -99,12 +108,6 @@ export default function Process({ step }) {
               handleCancel={() => setEditing(!editing)}
             />
           )}
-          {!editing && auth.is_superuser ? (
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
-            />
-          ) : null}
         </Grid>
       </SlideIntoViewPort>
     </>

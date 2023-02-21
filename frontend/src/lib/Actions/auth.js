@@ -1,5 +1,6 @@
 export const SET_AUTH = "SET_AUTH";
 export const SET_USER = "SET_USER";
+export const SET_THEME = "SET_THEME";
 
 export const setAuth = (isAuth) => {
   return {
@@ -13,5 +14,13 @@ export const setUser = (isUser) => {
   return {
     type: SET_USER,
     payload: isUser,
+  };
+};
+
+export const setTheme = (isTheme) => {
+  console.log(isTheme);
+  return {
+    type: SET_THEME,
+    payload: isTheme,
   };
 };

@@ -35,23 +35,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function About() {
+  const auth = useSelector((state) => state.auth);
+  const classes = useStyles();
+
   const [data, setData] = useState([]);
   const [missionData, setMissionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   const [valuesData, setValuesData] = useState(null);
-  const [membersData, setMembersData] = useState(null);
-  const [contactData, setContactData] = useState(null);
 
   const [editTitle, setEditTitle] = useState(false);
   const [editMission, setEditMission] = useState(false);
   const [editHistory, setEditHistory] = useState(false);
-  const [editValues, setEditValues] = useState(false);
-
   const [missionBody, setMissionBody] = useState(false);
   const [historyBody, setHistoryBody] = useState(false);
-
-  const auth = useSelector((state) => state.auth);
-  const classes = useStyles();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +58,6 @@ export default function About() {
           setMissionData(response.data.mission_statement);
           setHistoryData(response.data.company_history);
           setValuesData(response.data.core_values);
-          setMembersData(response.data.team_members);
-          setContactData(response.data.contact_information);
           setMissionBody(
             response.data.mission_statement.body.replace(/<br\s*[\/]?>/gi, "")
           );
@@ -102,6 +96,21 @@ export default function About() {
           style={{ display: "flex", justifyContent: "left" }}
         >
           <>
+            {!editTitle && auth.is_superuser ? (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <EditButton
+                  onClick={() => setEditTitle(!editTitle)}
+                  editState={editTitle}
+                  position="end"
+                />
+              </div>
+            ) : null}
             {!editTitle ? (
               <Heading data={data} />
             ) : (
@@ -113,13 +122,6 @@ export default function About() {
                 />
               </Grid>
             )}
-            {!editTitle && auth.is_superuser ? (
-              <EditButton
-                onClick={() => setEditTitle(!editTitle)}
-                editState={editTitle}
-                position="center"
-              />
-            ) : null}
           </>
           <ContentSection
             title={missionData.title}
@@ -140,9 +142,7 @@ export default function About() {
             auth={auth}
           />
           <Grid item xs={12} sm={12} className={classes.section}>
-            {valuesData && !editValues ? (
-              <Values valuesData={valuesData} />
-            ) : null}
+            {valuesData ? <Values valuesData={valuesData} /> : null}
           </Grid>
         </Grid>
       </Paper>

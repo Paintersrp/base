@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
+import { CardContent, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import FormField from "../../Elements/Fields/FormField";
-import UpdateButton from "../../Elements/Buttons/UpdateButton";
 import ImageEdit from "../../Elements/Fields/ImageEdit";
 import ImageInput from "../../Elements/Fields/ImageInput";
-import StyledButton from "../../Elements/Buttons/StyledButton";
+import UpdateCancelButtonMenu from "../../Elements/Buttons/UpdateCancelButtonMenu";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,13 +19,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    width: "75%",
-  },
-  image: {
-    minHeight: 100,
-    minWidth: 200,
-    width: "100%",
-    paddingBottom: "56.25%",
+    width: "90%",
   },
   fadeIn: {
     opacity: 0,
@@ -46,9 +39,8 @@ const useStyles = makeStyles(() => ({
 
 const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
   const classes = useStyles();
-  const [headData, setHeadData] = useState(aboutBlock);
-  const [title, setTitle] = useState(headData.title);
-  const [image, setImage] = useState(headData.image);
+  const [title, setTitle] = useState(aboutBlock.title);
+  const [image, setImage] = useState(aboutBlock.image);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
 
@@ -74,17 +66,11 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
       },
     };
     try {
-      await axios.patch(
-        `http://localhost:8000/api/aboutblock/`,
-        formData,
-        config
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(`http://localhost:8000/api/aboutblock/`);
-      onUpdate(res.data);
+      await axios
+        .patch(`http://localhost:8000/api/aboutblock/`, formData, config)
+        .then((res) => {
+          onUpdate(res.data);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -101,6 +87,10 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
     >
       <div className={classes.root}>
         <div className={classes.container}>
+          <UpdateCancelButtonMenu
+            handleCancel={handleCancel}
+            placement="bottom"
+          />
           <Typography
             variant="h5"
             color="black"
@@ -149,20 +139,6 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
               </>
             )}
           </CardContent>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <StyledButton
-              type="submit"
-              buttonText="Update"
-              minWidth="0"
-              size="small"
-            />
-            <StyledButton
-              buttonText="Cancel"
-              onClick={handleCancel}
-              minWidth="0"
-              size="small"
-            />
-          </div>
         </div>
       </div>
     </form>

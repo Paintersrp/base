@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import ValueEdit from "./ValueEdit";
 import EditButton from "../../Elements/Buttons/EditButton";
 import Icon from "../../Elements/Icon/Icon";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   subtitle: {
@@ -56,22 +58,29 @@ export default function Value({ value }) {
             <Icon icon={valueData.icon} />
           </Avatar>
           <Typography className={classes.subtitle}>
-            {valueData.title}
+            <Grid container justifyContent="space-between">
+              {valueData.title}
+              {!editing && auth.is_superuser ? (
+                <>
+                  <EditDeleteButtonMenu
+                    hideDelete
+                    editClick={() => setEditing(!editing)}
+                    position="center"
+                    placement="bottom"
+                  />
+                </>
+              ) : null}
+            </Grid>
           </Typography>
         </ListItem>
       ) : (
-        <div style={{ width: "100%" }}>
-          <ValueEdit
-            value={valueData}
-            onUpdate={updateValue}
-            handleCancel={() => setEditing(!editing)}
-            editState={editing}
-          />
-        </div>
+        <ValueEdit
+          value={valueData}
+          onUpdate={updateValue}
+          handleCancel={() => setEditing(!editing)}
+          editState={editing}
+        />
       )}
-      {!editing && auth.is_superuser ? (
-        <EditButton onClick={() => setEditing(!editing)} editState={editing} />
-      ) : null}
     </React.Fragment>
   );
 }

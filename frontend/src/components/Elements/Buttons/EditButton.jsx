@@ -1,5 +1,21 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    fontFamily: "Roboto",
+    fontSize: ".9rem",
+    fontWeight: 600,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "4px",
+    color: theme.palette.primary.contrastText,
+    minWidth: 65,
+    textAlign: "center",
+  },
+  arrow: {
+    color: theme.palette.primary.main,
+  },
+}));
 
 export default function EditButton({
   onClick,
@@ -12,6 +28,8 @@ export default function EditButton({
   ml = 0,
   width = "inherit",
 }) {
+  const classes = useStyles();
+
   return (
     <div
       style={{

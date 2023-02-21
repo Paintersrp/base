@@ -177,7 +177,7 @@ function Hero({ contactData, form = true }) {
             {contactData ? <ContactButtons contactData={contactData} /> : null}
             {contactData ? (
               <Grid container flex justifyContent="center">
-                <Social contactData={contactData} />
+                <Social contactData={contactData} color="light" />
               </Grid>
             ) : null}
           </Grid>

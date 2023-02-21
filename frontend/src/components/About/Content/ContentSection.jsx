@@ -3,6 +3,7 @@ import { Grid, makeStyles, Typography } from "@material-ui/core";
 import EditButton from "../../Elements/Buttons/EditButton";
 import ContentEdit from "./ContentEdit";
 import DOMPurify from "dompurify";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -54,7 +55,15 @@ const ContentSection = ({
             variant="h3"
             className={`${classes.sectionTitle} ${classes.fadeIn}`}
           >
-            {title}
+            <Grid container justifyContent="space-between">
+              {title}
+              {!editState && auth.is_superuser ? (
+                <EditDeleteButtonMenu
+                  hideDelete
+                  editClick={() => setEdit(!editState)}
+                />
+              ) : null}
+            </Grid>
           </Typography>
           {body ? (
             <Typography
@@ -74,9 +83,6 @@ const ContentSection = ({
           handleCancel={() => setEdit(!editState)}
         />
       )}
-      {!editState && auth.is_superuser ? (
-        <EditButton onClick={() => setEdit(!editState)} editState={editState} />
-      ) : null}
     </Grid>
   );
 };

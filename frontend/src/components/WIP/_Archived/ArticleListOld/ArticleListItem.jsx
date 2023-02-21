@@ -15,12 +15,12 @@ import {
 } from "@material-ui/core";
 import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
-import EditButton from "../../Elements/Buttons/EditButton";
+import EditButton from "../../../Elements/Buttons/EditButton";
 import { useSelector } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import ArticleAuthActions from "../../Articles/List/Actions/ArticleAuthActions";
 import DeleteConfirmationModal from "../../Articles/List/Actions/DeleteConfirmationModal";
 
