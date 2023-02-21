@@ -14,6 +14,7 @@ import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
 import Messages from "../Messages/Messages";
+import JobPosting from "../Jobs/Individual/JobsIndividual";
 
 const testimonials = [
   {
@@ -192,6 +193,9 @@ const customersData = [
 ];
 
 const wipComponents = [
+  {
+    component: JobPosting,
+  },
   {
     component: Messages,
   },

@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardList({ data, index, classes }) {
-  // const classes = useStyles();
   const [planData, setPlanData] = useState(data);
 
   return (

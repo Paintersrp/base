@@ -26,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
     color: theme.palette.text.dark,
   },
+  formExtraPadding: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing(6),
+    borderRadius: 10,
+    boxShadow: theme.shadows[1],
+    margin: "0 auto",
+    color: theme.palette.text.dark,
+  },
   formTitle: {
     fontWeight: "bold",
     marginBottom: theme.spacing(1.5),
@@ -73,13 +83,20 @@ function BaseForm({
   children,
   maxWidth = 360,
   limitPadding = false,
+  extraPadding,
 }) {
   const classes = useStyles();
 
   return (
     <Grid item xs={12} style={{ padding: 0, margin: 0 }}>
       <div
-        className={!limitPadding ? classes.form : classes.formLimitPadding}
+        className={
+          limitPadding
+            ? classes.formLimitPadding
+            : extraPadding
+            ? classes.formExtraPadding
+            : classes.form
+        }
         style={{ maxWidth: maxWidth }}
       >
         {title ? (
