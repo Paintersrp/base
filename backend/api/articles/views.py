@@ -2,7 +2,7 @@ from rest_framework import generics
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.response import Response
-from .models import User, Article
+from .models import User, Articles
 from .serializers import ArticleSerializer
 from authorization.authentication import JWTTokenAuthentication
 import jwt
@@ -19,7 +19,7 @@ def custom_view(request):
 
 
 class ArticleListCreateView(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
+    queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
     # authentication_classes = [JWTTokenAuthentication]
     # permission_classes = [IsAuthenticated]
@@ -70,7 +70,7 @@ class RecentArticlesView(ArticleListCreateView):
 
 
 class HighlightedArticlesView(generics.ListCreateAPIView):
-    queryset = Article.objects.filter(is_highlighted=True)
+    queryset = Articles.objects.filter(is_highlighted=True)
     serializer_class = ArticleSerializer
 
 
@@ -84,7 +84,7 @@ class HighlightedArticlesView(generics.ListCreateAPIView):
 
 
 class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Article.objects.all()
+    queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
 
     def update(self, request, *args, **kwargs):

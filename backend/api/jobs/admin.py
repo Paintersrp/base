@@ -23,12 +23,11 @@ class ResponsibilitiesAdmin(admin.ModelAdmin):
 class JobPostingAdmin(admin.ModelAdmin):
     list_display = [
         "position",
+        "created_at",
         "location",
         "type",
-        "who_we_are",
-        "why_apply",
-        "looking_for",
-        "created_at",
+        "tagline",
+        "filled",
     ]
 
     fieldsets = (
@@ -39,11 +38,13 @@ class JobPostingAdmin(admin.ModelAdmin):
                     "position",
                     "location",
                     "type",
+                    "tagline",
                     "who_we_are",
                     "why_apply",
                     "looking_for",
                     "requirements",
                     "responsibilities",
+                    "filled",
                 )
             },
         ),

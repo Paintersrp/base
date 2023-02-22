@@ -3,27 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
-  formField: {
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      color: "black",
-      fontWeight: "500",
-      fontSize: "0.9rem",
-    },
-    "& input": {
-      color: "black",
-    },
-  },
   field: {
     width: "100%",
     "& .MuiOutlinedInput-root": {

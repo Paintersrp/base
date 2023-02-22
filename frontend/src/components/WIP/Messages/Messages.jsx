@@ -29,7 +29,7 @@ import SendIcon from "@mui/icons-material/Send";
 import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
 
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import BaseForm from "../../Elements/Base/BaseForm";
+import BaseContent from "../../Elements/Base/BaseContent.jsx";
 import MessageDialog from "./MessageDialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -137,7 +137,7 @@ const Messages = () => {
   };
 
   return (
-    <BaseForm maxWidth={800} title="Messages">
+    <BaseContent maxWidth={800} header="Messages">
       <Grid container justifyContent="space-between" style={{ width: "100%" }}>
         <Grid item>
           {filter !== "unread" ? (
@@ -348,7 +348,7 @@ const Messages = () => {
           handleToggleProperty={handleToggleProperty}
         />
       )}
-    </BaseForm>
+    </BaseContent>
   );
 };
 

@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     backgroundColor: "white",
     color: "black",
-    [theme.breakpoints.down("md")]: {
-      width: "50%",
-    },
   },
   container: {
     backgroundColor: "#white",

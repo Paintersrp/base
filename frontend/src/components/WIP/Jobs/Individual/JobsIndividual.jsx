@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -11,9 +11,11 @@ import {
   ListItemText,
   TextField,
   Input,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import { CheckCircleOutline } from "@material-ui/icons";
-import BaseForm from "../../../Elements/Base/BaseForm";
+import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 
@@ -62,41 +64,59 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobPosting = () => {
+const JobPosting = ({ job }) => {
   const classes = useStyles();
-  const [data, setData] = useState();
+  const formRef = useRef(null);
+  const [data, setData] = useState(job);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      axiosInstance
-        .get("/jobposting/1/")
-        .then((response) => {
-          console.log(response.data);
-          setData(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    };
-    fetchData();
-  }, []);
+  const handleApplyNowClick = () => {
+    formRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
 
   return (
     <>
       {data && (
         <div className={classes.root}>
           <Grid container spacing={3}>
-            <BaseForm title="" maxWidth={1200} extraPadding>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <Typography variant="h2" className={classes.title}>
-                  {data.position}
-                </Typography>
+            <BaseContent header="" maxWidth={1200} pad={6} mt={3} mb={3} br={1}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  style={{
+                    display: "flex",
+                    justifyContent: isSmallScreen ? "center" : "flex-end",
+                    order: isSmallScreen ? 0 : 1,
+                  }}
+                >
+                  <StyledButton
+                    size="small"
+                    buttonText="Apply Now"
+                    onClick={handleApplyNowClick}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={8}
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    order: isSmallScreen ? 1 : 0,
+                  }}
+                >
+                  <Typography variant="h2" className={classes.title}>
+                    {data.position}
+                  </Typography>
+                </Grid>
               </Grid>
+
               <Grid item xs={12} sm={12}>
                 <Typography variant="subtitle2" className={classes.location}>
                   {data.location}
@@ -154,8 +174,14 @@ const JobPosting = () => {
                   {data.why_apply}
                 </Typography>
               </Grid>
-              <Grid item xs={12} className={classes.form}>
-                <BaseForm title="Apply Now" maxWidth={1200}>
+              <Grid
+                item
+                xs={12}
+                className={classes.form}
+                id="apply-now-form"
+                ref={formRef}
+              >
+                <BaseContent title="Apply Now" maxWidth={1200}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -209,9 +235,9 @@ const JobPosting = () => {
                       />
                     </Grid>
                   </Grid>
-                </BaseForm>
+                </BaseContent>
               </Grid>
-            </BaseForm>
+            </BaseContent>
           </Grid>
         </div>
       )}

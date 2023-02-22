@@ -18,16 +18,6 @@ from rest_framework.decorators import permission_classes
 class ThemeSettingsView(generics.RetrieveUpdateAPIView):
     serializer_class = ThemeSettingsSerializer
 
-    # def get_object(self):
-    #     user = self.request.user
-    #     try:
-    #         # Retrieve the ThemeSettings object for the current user
-    #         theme_settings = ThemeSettings.objects.get(user=user)
-    #     except ThemeSettings.DoesNotExist:
-    #         # Create a new ThemeSettings object for the current user
-    #         theme_settings = ThemeSettings.objects.create(user=user)
-    #     return theme_settings
-
     def get_object(self):
         print("Test", self.request.headers.get("Authorization"))
 
@@ -99,15 +89,11 @@ def verify_jwt(request):
     )
 
 
+
+
 @csrf_exempt
 def login_view(request):
     """Func String"""
-
-    if request.method == "GET":
-        all_users = User.objects.all()
-        serializer = UserSerializer(all_users, many=True)
-
-        return JsonResponse({"users": serializer.data})
 
     if request.method == "POST":
         data = json.loads(request.body)

@@ -62,7 +62,7 @@ export default function Processes() {
       });
 
     axiosInstance
-      .get("/processes/")
+      .get("/process/")
       .then((response) => {
         setProcesses(response.data);
       })

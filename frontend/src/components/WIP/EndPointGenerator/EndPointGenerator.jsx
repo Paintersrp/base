@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import {
   Button,
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
   makeStyles,
   MenuItem,
-  Paper,
   Select,
   TextField,
   Typography,
 } from "@material-ui/core";
-import BaseForm from "../../Elements/Base/BaseForm";
+import BaseForm from "../../Elements/Base/BaseForm.jsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   field: {
     width: "100%",
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1.5),
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
@@ -69,10 +67,20 @@ const useStyles = makeStyles((theme) => ({
   select: {
     width: "100%",
     background: theme.palette.text.light,
+    marginBottom: theme.spacing(1),
     "& .MuiFormLabel-root": {
       color: theme.palette.text.light,
       fontWeight: "700",
       fontSize: "0.9rem",
+    },
+    "& fieldset": {
+      borderColor: "black",
+    },
+    "&:hover fieldset": {
+      borderColor: "black",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "black",
     },
 
     "& .MuiMenu-paper": {
@@ -124,7 +132,7 @@ const EndPointGenerator = () => {
 
     fields.forEach((field) => {
       const { name, type, vars } = field;
-      const fieldArgs = vars ? `, ${vars}` : "";
+      const fieldArgs = vars ? `${vars}` : "";
       modelCode += `  ${name} = models.${type}(${fieldArgs})\n`;
     });
 
@@ -252,20 +260,22 @@ const EndPointGenerator = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h1" align="center" style={{ color: "black" }}>
-        API Endpoint Generator
-      </Typography>
-      <BaseForm handleSubmit={handleSubmit} maxWidth={800} limitPadding>
+      <BaseForm
+        title="API Endpoint Generator"
+        handleSubmit={handleSubmit}
+        maxWidth={800}
+        limitPadding
+      >
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <BaseForm
-              title="Model Fields"
-              maxWidth={1200}
-              elevation={0}
-              limitPadding
-            >
-              {fields.map((field, index) => (
-                <Grid key={index} container spacing={1} alignItems="center">
+            {fields.map((field, index) => (
+              <BaseForm
+                title={`Field #${index + 1}`}
+                maxWidth={1200}
+                elevation={0}
+                limitPadding
+              >
+                <Grid key={index} container spacing={0} alignItems="center">
                   <Grid item xs={12} md={9}>
                     <TextField
                       margin="dense"
@@ -314,27 +324,31 @@ const EndPointGenerator = () => {
                         }}
                       >
                         <MenuItem value="">Select a type</MenuItem>
-                        <MenuItem value="AutoField">AutoField</MenuItem>
-                        <MenuItem value="BigAutoField">BigAutoField</MenuItem>
-                        <MenuItem value="BigIntegerField">
-                          BigIntegerField
-                        </MenuItem>
                         <MenuItem value="BooleanField">BooleanField</MenuItem>
                         <MenuItem value="CharField">CharField</MenuItem>
                         <MenuItem value="DateTimeField">DateTimeField</MenuItem>
                         <MenuItem value="EmailField">EmailField</MenuItem>
                         <MenuItem value="FileField">FileField</MenuItem>
                         <MenuItem value="FloatField">FloatField</MenuItem>
-                        <MenuItem value="ForeignKey">ForeignKey</MenuItem>
                         <MenuItem value="ImageField">ImageField</MenuItem>
                         <MenuItem value="IntegerField">IntegerField</MenuItem>
                         <MenuItem value="ManyToManyField">
                           ManyToManyField
                         </MenuItem>
                         <MenuItem value="TextField">TextField</MenuItem>
-
                         <MenuItem value="URLField">URLField</MenuItem>
                       </Select>
+                      <TextField
+                        margin="dense"
+                        variant="outlined"
+                        id={`field-vars-${index}`}
+                        label="Field Variables"
+                        name="vars"
+                        value={field.vars}
+                        onChange={(event) => handleChange(index, event)}
+                        fullWidth
+                        className={classes.field}
+                      />
                     </FormControl>
                   </Grid>
 
@@ -352,25 +366,25 @@ const EndPointGenerator = () => {
                     </Button>
                   </Grid>
                 </Grid>
-              ))}
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: 24,
-                }}
+              </BaseForm>
+            ))}
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 24,
+              }}
+            >
+              <Button
+                onClick={handleAddField}
+                variant="contained"
+                color="primary"
               >
-                <Button
-                  onClick={handleAddField}
-                  variant="contained"
-                  color="primary"
-                >
-                  Add Field
-                </Button>
-              </Grid>
-            </BaseForm>
+                Add Field
+              </Button>
+            </Grid>
           </Grid>
           <Grid container justifyContent="center" style={{ marginTop: 16 }}>
             <Grid

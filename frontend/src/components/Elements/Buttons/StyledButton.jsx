@@ -55,7 +55,7 @@ export default function StyledButton({
       onClick={onClick}
       type={type}
       startIcon={startIcon}
-      style={{ minWidth: minWidth }}
+      style={{ minWidth: minWidth, backgroundColor: color }}
     >
       {buttonText}
     </Button>

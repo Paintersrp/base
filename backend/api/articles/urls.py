@@ -8,7 +8,7 @@ from .views import (
 
 
 urlpatterns = [
-    path("articles/", ArticleListCreateView.as_view(), name="article-list-create"),
+    path("articles/", ArticleListCreateView.as_view(), name="articles-list"),
     path(
         "articles/<int:pk>/",
         ArticleRetrieveUpdateDestroyView.as_view(),

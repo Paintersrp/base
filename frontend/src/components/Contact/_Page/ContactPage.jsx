@@ -5,6 +5,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Members from "../Members/Members";
 import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading";
+import JobListing from "../../WIP/Jobs/Listing/Listing";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {
@@ -57,6 +58,7 @@ function ContactPage() {
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>
             <Members membersData={membersData} />
+            <JobListing />
             <Contact color="dark" contactData={contactData} />
           </div>
         </Grid>

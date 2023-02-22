@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from .models import Article, Tag, User
+from .models import Articles, Tag, User
 from django.contrib.admin import AdminSite
 
 admin_site = AdminSite(name="admin")
@@ -16,7 +16,7 @@ class ArticleForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Article
+        model = Articles
         fields = "__all__"
 
 
@@ -103,5 +103,5 @@ class ArticleAdmin(admin.ModelAdmin):
         obj.save()
 
 
-admin.site.register(Article, ArticleAdmin)
+admin.site.register(Articles, ArticleAdmin)
 admin.site.register(Tag)

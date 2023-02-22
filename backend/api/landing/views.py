@@ -26,7 +26,7 @@ from .serializers import (
 from authorization.authentication import JWTTokenAuthentication
 
 
-class HeroBlockAPIView(
+class HeroBlockMainAPIView(
     mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView
 ):
     queryset = HeroBlock.objects.all()
@@ -44,7 +44,9 @@ class HeroBlockAPIView(
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-
+class HeroBlockAPIView(generics.ListCreateAPIView):
+    queryset = HeroBlock.objects.all()
+    serializer_class = HeroBlockSerializer
 class TitleBlockAPIView(generics.ListCreateAPIView):
     queryset = TitleBlock.objects.all()
     serializer_class = TitleBlockSerializer
@@ -56,7 +58,7 @@ class TitleBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "name"
 
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
@@ -82,7 +84,7 @@ class ItemViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FeatureViewSet(viewsets.ModelViewSet):
+class FeatureViewSet(generics.ListCreateAPIView):
     queryset = Feature.objects.all()
     serializer_class = FeatureSerializer
 
@@ -149,16 +151,16 @@ class PricingPlanRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TileViewSet(viewsets.ModelViewSet):
+class TileViewSet(generics.ListCreateAPIView):
     queryset = Tile.objects.all()
     serializer_class = TileSerializer
 
 
-class ProcessViewSet(viewsets.ModelViewSet):
+class ProcessViewSet(generics.ListCreateAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
 
 
-class TestimonialViewSet(viewsets.ModelViewSet):
+class TestimonialViewSet(generics.ListCreateAPIView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer

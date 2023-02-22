@@ -136,7 +136,7 @@ function Hero({ contactData, form = true }) {
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance
-        .get("/heroblock/")
+        .get("/heroblock/main/")
         .then((response) => {
           setHeroData(response.data);
         })

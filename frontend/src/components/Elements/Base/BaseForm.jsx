@@ -2,8 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import StyledButton from "../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -31,6 +29,26 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
     backgroundColor: "#FFFFFF",
     padding: theme.spacing(6),
+    borderRadius: 10,
+    boxShadow: theme.shadows[1],
+    margin: "0 auto",
+    color: theme.palette.text.dark,
+  },
+  formNoSpacing: {
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing(2),
+    borderRadius: 0,
+    boxShadow: theme.shadows[0],
+    margin: "0 auto",
+    color: theme.palette.text.dark,
+  },
+  formNoElevation: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing(3),
     borderRadius: 10,
     boxShadow: theme.shadows[1],
     margin: "0 auto",
@@ -83,7 +101,9 @@ function BaseForm({
   children,
   maxWidth = 360,
   limitPadding = false,
-  extraPadding,
+  extraPadding = false,
+  noSpacing = false,
+  style = "",
 }) {
   const classes = useStyles();
 
@@ -95,6 +115,8 @@ function BaseForm({
             ? classes.formLimitPadding
             : extraPadding
             ? classes.formExtraPadding
+            : noSpacing
+            ? classes.formNoSpacing
             : classes.form
         }
         style={{ maxWidth: maxWidth }}

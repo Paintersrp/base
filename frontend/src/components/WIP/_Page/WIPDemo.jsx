@@ -15,6 +15,10 @@ import HeroCountdown from "../CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
 import Messages from "../Messages/Messages";
 import JobPosting from "../Jobs/Individual/JobsIndividual";
+import JobListing from "../Jobs/Listing/Listing";
+import BaseAdminPanel from "../BaseAdminPanel/BaseAdminPanel";
+import BaseCreateView from "../BaseAdminPanel/CreateFormGenerator";
+import ModelDisplay from "../BaseAdminPanel/ModelDisplay";
 
 const testimonials = [
   {
@@ -194,7 +198,13 @@ const customersData = [
 
 const wipComponents = [
   {
-    component: JobPosting,
+    component: ModelDisplay,
+  },
+  {
+    component: BaseCreateView,
+    props: {
+      endpointUrl: "/user/",
+    },
   },
   {
     component: Messages,
@@ -263,10 +273,10 @@ const wipComponents = [
       eventSets,
     },
   },
-  {
-    component: PricingTier,
-    title: "PricingTier",
-  },
+  // {
+  //   component: PricingTier,
+  //   title: "PricingTier",
+  // },
   {
     component: MinimalTestimonials,
     title: "MinimalTestimonials",

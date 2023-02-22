@@ -6,6 +6,17 @@ from . import views
 
 urlpatterns = (
     [
+        path(
+            "api/get_metadata/<str:model_name>/",
+            views.ModelMetadataAPIView.as_view(),
+            name="get_metadata",
+        ),
+        path(
+            "api/get_models/",
+            views.ModelEndpointAPIView.as_view(),
+            name="get_models",
+        ),
+        path("api/user/", views.UserListView.as_view(), name="user-list"),
         path("admin/", admin.site.urls),
         path("api/auth/", include("authorization.urls")),
         path("api/", include("articles.urls")),

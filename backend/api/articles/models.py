@@ -9,7 +9,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Article(models.Model):
+class Articles(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)

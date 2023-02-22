@@ -1,10 +1,12 @@
 from rest_framework import serializers
-from .models import Article, Tag
+from .models import Articles, Tag
 from authorization.models import User
 from PIL import Image
 
 
 class TagSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
+
     class Meta:
         model = Tag
         fields = ["name"]
@@ -14,9 +16,10 @@ class ArticleSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source="author.username")
     tags = TagSerializer(many=True)
     image = serializers.ImageField(required=False, allow_null=True)
+    FIELD_KEYS = ["title"]
 
     class Meta:
-        model = Article
+        model = Articles
         fields = [
             "id",
             "title",
@@ -50,7 +53,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         author = User.objects.get(username=username)
         validated_data["author"] = author
         tags_data = validated_data.pop("tags", [])
-        article = Article.objects.create(**validated_data)
+        article = Articles.objects.create(**validated_data)
 
         for tag_data in tags_data:
             tag, created = Tag.objects.get_or_create(**tag_data)
@@ -75,7 +78,11 @@ class ArticleSerializer(serializers.ModelSerializer):
 
             instance.tags.set(tag_objs)
 
-        Article.objects.filter(id=17).update()
+        Articles.objects.filter(id=17).update()
         instance.save()
 
         return instance
+
+
+Articles.serializer_class = ArticleSerializer
+Tag.serializer_class = TagSerializer
