@@ -86,7 +86,7 @@ const BaseAdminPanel = ({
   };
 
   return (
-    <BaseContent maxWidth={1000}>
+    <BaseContent maxWidth={1000} pt={4} pb={4}>
       <Grid container justifyContent="flex-end">
         <StyledButton buttonText="Create" minWidth={0} />
       </Grid>

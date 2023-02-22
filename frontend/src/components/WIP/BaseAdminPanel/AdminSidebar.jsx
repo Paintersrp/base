@@ -7,11 +7,14 @@ import {
   ListItemText,
   ListItemIcon,
   Collapse,
+  IconButton,
+  AppBar,
+  Toolbar,
   Grid,
   Typography,
-  IconButton,
+  useMediaQuery,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -22,45 +25,15 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
+  root: {
+    backgroundColor: theme.palette.primary.main,
+    maxWidth: "100%",
+    width: "100%",
+    paddingBottom: 60,
   },
   drawerPaper: {
-    backgroundColor: theme.palette.primary.main,
     width: drawerWidth,
-    transition: theme.transitions.create(["width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperMinimized: {
     backgroundColor: theme.palette.primary.main,
-    transition: theme.transitions.create(["width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-  },
-  minimizeButton: {
-    backgroundColor: theme.palette.primary.main,
-    position: "absolute",
-    top: "0",
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    height: "63px",
-  },
-  nonMinimizeButton: {
-    backgroundColor: theme.palette.primary.main,
-    position: "absolute",
-    top: "0",
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    height: "63px",
-    borderBottom: "1px solid white",
   },
   toolbar: theme.mixins.toolbar,
   nested: {
@@ -69,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: theme.shadows[7],
       backgroundColor: theme.palette.primary.light,
     },
+  },
+  appBar: {
+    backgroundColor: theme.palette.primary.main,
+    borderBottom: `2px solid ${theme.palette.secondary.main}`,
+    boxShadow: "none",
   },
   links: {
     "&:hover": {
@@ -94,7 +72,8 @@ function AdminSidebar({ appName }) {
   const [models, setModels] = useState({});
   const [openLinks, setOpenLinks] = useState({});
   const [open, setOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     axiosInstance
@@ -123,6 +102,14 @@ function AdminSidebar({ appName }) {
     setOpen(open);
   };
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   const renderModelLinks = (models) => {
     return Object.entries(models).map(([appName, appModels]) => (
       <div key={appName}>
@@ -134,10 +121,7 @@ function AdminSidebar({ appName }) {
           <ListItemIcon style={{ color: "white" }}>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText
-            className={classes.linkText}
-            primary={appName.charAt(0).toUpperCase() + appName.slice(1)}
-          />
+          <ListItemText className={classes.linkText} primary={appName} />
           {openLinks[appName] ? (
             <ExpandLessIcon style={{ color: "white" }} />
           ) : (
@@ -154,20 +138,11 @@ function AdminSidebar({ appName }) {
                   state={{ url: model.url, keys: model.keys }}
                   key={model.model_name}
                 >
-                  <ListItem
-                    button
-                    className={classes.nested}
-                    onClick={toggleDrawer(false)}
-                  >
+                  <ListItem button className={classes.nested}>
                     <ListItemIcon>
                       <ChevronRightIcon style={{ color: "white" }} />
                     </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        model.model_name.charAt(0).toUpperCase() +
-                        model.model_name.slice(1)
-                      }
-                    />
+                    <ListItemText primary={model.model_name} />
                   </ListItem>
                 </Link>
               ))}
@@ -178,56 +153,74 @@ function AdminSidebar({ appName }) {
   };
 
   return (
-    <React.Fragment>
+    <div className={classes.root}>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Grid container>
+              <Grid item xs={1}>
+                <IconButton
+                  onClick={toggleDrawer(true)}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  className={
+                    !open ? classes.menuButtonClosed : classes.menuButtonOpen
+                  }
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
+              <Grid
+                item
+                xs={11}
+                alignItems="center"
+                justifyContent="flex-end"
+                style={{ display: "flex" }}
+              >
+                <div className={classes.appName}>
+                  <Link className={classes.appLink} to="/">
+                    {appName} ADMIN
+                  </Link>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        </Toolbar>
+      </AppBar>
       <Drawer
         className={classes.drawer}
         onClose={toggleDrawer(false)}
         open={open}
         classes={{
-          paper: isMinimized
-            ? classes.drawerPaperMinimized
-            : classes.drawerPaper,
+          paper: classes.drawerPaper,
         }}
-        variant="permanent"
       >
-        {isMinimized ? (
-          <div className={classes.nonMinimizeButton}>
-            <IconButton onClick={() => setIsMinimized(false)}>
-              <MenuIcon style={{ color: "white" }} />
-            </IconButton>
-          </div>
-        ) : (
-          <>
-            <div
-              className={classes.toolbar}
-              style={{ borderBottom: "1px solid white" }}
+        <div
+          className={classes.toolbar}
+          style={{ borderBottom: `1px solid ${theme.palette.secondary.main}` }}
+        >
+          <Grid
+            container
+            style={{ height: "100%", width: "100%", alignItems: "center" }}
+          >
+            <Typography
+              variant="h3"
+              align="center"
+              style={{ width: "100%", color: "white" }}
             >
-              <Grid
-                container
-                style={{
-                  height: "100%",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  variant="h3"
-                  align="center"
-                  style={{ width: "100%", color: "white" }}
-                >
-                  {appName}
-                </Typography>
-              </Grid>
-            </div>
-            <List style={{ padding: 0 }}>{renderModelLinks(models)}</List>
-            <div className={classes.minimizeButton}>
-              <IconButton onClick={() => setIsMinimized(true)}>
-                <MenuIcon style={{ color: "white" }} />
-              </IconButton>
-            </div>
-          </>
-        )}
+              EDGELORDS
+            </Typography>
+          </Grid>
+        </div>
+        <List>{renderModelLinks(models)}</List>
       </Drawer>
-    </React.Fragment>
+    </div>
   );
 }
 

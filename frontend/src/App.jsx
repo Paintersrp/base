@@ -192,7 +192,7 @@ function MyRoutes({ handleUpdate, setIsLoading }) {
         {/* Admin Routes */}
         <Route path="/admin/:id" element={<AdminPage />} />
       </Routes>
-      {!isAdminPath && <Footer />}
+      {!isAdminPath ? <Footer /> : <Footer />}
     </>
   );
 }

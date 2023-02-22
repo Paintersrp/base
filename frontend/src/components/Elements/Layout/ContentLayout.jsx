@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
     minHeight: "80vh",
-    backgroundColor: "#242424",
     color: "white",
   },
   header: {
@@ -33,7 +32,7 @@ const ContentLayout = ({
   keywords = "",
   image = "",
   url = "",
-  backgroundColor = "#242424",
+  backgroundColor = "#FFFFFF",
 }) => {
   const classes = useStyles();
 

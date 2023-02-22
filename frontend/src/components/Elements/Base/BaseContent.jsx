@@ -29,6 +29,7 @@ function BaseContent({
   pl = 0,
   pr = 0,
   pt = 0,
+  pb = 0,
   br = 1,
 }) {
   const classes = useStyles();
@@ -46,6 +47,7 @@ function BaseContent({
         paddingRight: theme.spacing(pr),
         paddingLeft: theme.spacing(pl),
         paddingTop: theme.spacing(pt),
+        paddingBottom: theme.spacing(pb),
       }}
     >
       <div
