@@ -15,10 +15,11 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import HomeIcon from "@material-ui/icons/Home";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CircleIcon from "@mui/icons-material/Circle";
 import MenuIcon from "@material-ui/icons/Menu";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 
@@ -30,6 +31,23 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     width: "100%",
     paddingBottom: 60,
+  },
+  titleText: {
+    width: "100%",
+    color: "white",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  homeLink: {
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    "&:hover": {
+      boxShadow: theme.shadows[7],
+      backgroundColor: theme.palette.primary.light,
+    },
   },
   drawerPaper: {
     width: drawerWidth,
@@ -119,9 +137,12 @@ function AdminSidebar({ appName }) {
           className={classes.links}
         >
           <ListItemIcon style={{ color: "white" }}>
-            <InboxIcon />
+            <CircleIcon />
           </ListItemIcon>
-          <ListItemText className={classes.linkText} primary={appName} />
+          <ListItemText
+            className={classes.linkText}
+            primary={appName.charAt(0).toUpperCase() + appName.slice(1)}
+          />
           {openLinks[appName] ? (
             <ExpandLessIcon style={{ color: "white" }} />
           ) : (
@@ -142,7 +163,12 @@ function AdminSidebar({ appName }) {
                     <ListItemIcon>
                       <ChevronRightIcon style={{ color: "white" }} />
                     </ListItemIcon>
-                    <ListItemText primary={model.model_name} />
+                    <ListItemText
+                      primary={
+                        model.model_name.charAt(0).toUpperCase() +
+                        model.model_name.slice(1)
+                      }
+                    />
                   </ListItem>
                 </Link>
               ))}
@@ -203,22 +229,30 @@ function AdminSidebar({ appName }) {
       >
         <div
           className={classes.toolbar}
-          style={{ borderBottom: `1px solid ${theme.palette.secondary.main}` }}
+          style={{
+            borderBottom: `1px solid ${theme.palette.secondary.main}`,
+          }}
         >
-          <Grid
-            container
-            style={{ height: "100%", width: "100%", alignItems: "center" }}
-          >
-            <Typography
-              variant="h3"
-              align="center"
-              style={{ width: "100%", color: "white" }}
-            >
-              EDGELORDS
-            </Typography>
-          </Grid>
+          <Link to={`/`} style={{ width: "100%" }}>
+            <Grid container className={classes.homeLink}>
+              <Typography
+                variant="h3"
+                align="center"
+                className={classes.titleText}
+              >
+                EDGELORDS
+              </Typography>
+            </Grid>
+          </Link>
         </div>
-        <List>{renderModelLinks(models)}</List>
+        <List
+          style={{
+            borderBottom: `1px solid ${theme.palette.secondary.main}`,
+            padding: 0,
+          }}
+        >
+          {renderModelLinks(models)}
+        </List>
       </Drawer>
     </div>
   );
