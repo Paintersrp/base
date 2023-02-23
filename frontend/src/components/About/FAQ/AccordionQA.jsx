@@ -153,7 +153,7 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
   };
 
   const confirmedDelete = async (id) => {
-    await axios.delete(`http://localhost:8000/api/faqs/${id}/`);
+    await axios.delete(`http://localhost:8000/api/faq/${id}/`);
     onUpdate();
   };
 

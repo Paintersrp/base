@@ -68,7 +68,7 @@ const FAQAccordion = () => {
 
   const onUpdate = () => {
     axiosInstance
-      .get("/faqs/")
+      .get("/faq/")
       .then((response) => {
         let updatedFaqData = {};
         response.data.forEach((faq) => {
@@ -91,7 +91,7 @@ const FAQAccordion = () => {
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance
-        .get("/faqs/")
+        .get("/faq/")
         .then((response) => {
           let updatedFaqData = {};
           response.data.forEach((faq) => {

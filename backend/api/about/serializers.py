@@ -65,11 +65,25 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FAQSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(source="category.name", read_only=True)
+    category = serializers.StringRelatedField(source="category.name")
+    FIELD_KEYS = ["category", "question", "answer"]
 
     class Meta:
         model = FAQ
-        fields = ("id", "category", "question", "answer")
+        fields = "__all__"
+
+    def create(self, validated_data):
+        category_data = validated_data.pop("category", None)
+
+        if category_data:
+            if isinstance(category_data, str):
+                category_data = {"name": category_data}
+            category, created = Category.objects.get_or_create(**category_data)
+        else:
+            category = None
+        faq = FAQ.objects.create(category=category, **validated_data)
+
+        return faq
 
     def update(self, instance, validated_data):
         instance.question = validated_data.get("question", instance.question)
@@ -125,3 +139,6 @@ class AboutFullSerializer(serializers.Serializer):
     core_values = ValueSerializer(many=True)
     team_members = TeamMemberSerializer(many=True)
     contact_information = ContactInformationSerializer()
+
+
+FAQ.serializer_class = FAQSerializer

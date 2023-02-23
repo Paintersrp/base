@@ -32,8 +32,9 @@ import chroma from "chroma-js";
 import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
 import Loading from "./components/Elements/Layout/Loading";
 import JobIndividualView from "./components/WIP/Jobs/_Pages/JobIndividualView";
-import AdminPage from "./components/WIP/BaseAdminPanel/AdminPage";
+import AdminModelPage from "./components/WIP/BaseAdminPanel/AdminModelPage";
 import AdminSidebar from "./components/WIP/BaseAdminPanel/AdminSidebar";
+import AdminDashboardPage from "./components/WIP/BaseAdminPanel/AdminDashboardPage";
 
 {
   /* 
@@ -190,7 +191,8 @@ function MyRoutes({ handleUpdate, setIsLoading }) {
           }
         />
         {/* Admin Routes */}
-        <Route path="/admin/:id" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route path="/admin/:id" element={<AdminModelPage />} />
       </Routes>
       {!isAdminPath ? <Footer /> : <Footer />}
     </>

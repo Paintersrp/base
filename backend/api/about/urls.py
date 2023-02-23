@@ -18,8 +18,8 @@ router.register(r"values", ValueViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("faqs/", FAQListCreateView.as_view(), name="faqs-list"),
-    path("faqs/<int:pk>/", FAQRetrieveUpdateDestroyView.as_view(), name="faqs-detail"),
+    path("faq/", FAQListCreateView.as_view(), name="faq-list"),
+    path("faq/<int:pk>/", FAQRetrieveUpdateDestroyView.as_view(), name="faqs-detail"),
     path("aboutblock/", AboutBlockAPIView.as_view(), name="about-block"),
     path("contact/", ContactInformationAPIView.as_view(), name="about-block"),
     path("mission/", MissionStatementAPIView.as_view(), name="mission-statement"),

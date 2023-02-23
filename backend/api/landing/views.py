@@ -44,9 +44,12 @@ class HeroBlockMainAPIView(
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+
 class HeroBlockAPIView(generics.ListCreateAPIView):
     queryset = HeroBlock.objects.all()
     serializer_class = HeroBlockSerializer
+
+
 class TitleBlockAPIView(generics.ListCreateAPIView):
     queryset = TitleBlock.objects.all()
     serializer_class = TitleBlockSerializer
@@ -58,12 +61,11 @@ class TitleBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "name"
 
 
-class ItemViewSet(generics.ListCreateAPIView):
+class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
     def update(self, request, *args, **kwargs):
-        print(request.data["text"])
         print(request.POST)
         item = self.get_object()
         serializer = ItemSerializer(item, data=request.data, partial=True)

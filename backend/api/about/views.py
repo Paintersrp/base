@@ -163,6 +163,37 @@ class FAQListCreateView(generics.ListCreateAPIView):
     queryset = FAQ.objects.all()
     serializer_class = FAQSerializer
 
+    # def create(self, request, *args, **kwargs):
+    #     data = request.POST
+    #     serializer = self.get_serializer(data=data)
+    #     serializer.is_valid(raise_exception=True)
+
+    #     faq = serializer.create(validated_data=data)
+
+    #     return JsonResponse(serializer.data, status=200)
+
+    def create(self, request, *args, **kwargs):
+        form_data = request.POST
+        category = form_data.get("category")
+        question = form_data.get("question")
+        answer = form_data.get("answer")
+
+        data = {
+            "category": category,
+            "question": question,
+            "answer": answer,
+        }
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.is_valid():
+            faq = serializer.create(validated_data=data)
+
+            return JsonResponse(serializer.data, status=200)
+
+        return JsonResponse(serializer.errors, status=400)
+
 
 class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = FAQ.objects.all()

@@ -24,7 +24,12 @@ urlpatterns = [
     path("", include(router.urls)),
     path("feature/", FeatureViewSet.as_view(), name="feature-list"),
     path("tile/", TileViewSet.as_view(), name="tile-list"),
-    path("item/", ItemViewSet.as_view(), name="item-list"),
+    path("item/", ItemViewSet.as_view({"get": "list"}), name="item-list"),
+    path(
+        "item/<int:pk>/",
+        ItemViewSet.as_view({"patch": "update", "put": "update"}),
+        name="item2-list",
+    ),
     path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-list"),
     path("process/", ProcessViewSet.as_view(), name="process-list"),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),

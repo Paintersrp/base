@@ -24,7 +24,7 @@ const QAEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/faqs/${formData.id}/`,
+        `http://localhost:8000/api/faq/${formData.id}/`,
         formData,
         config
       );

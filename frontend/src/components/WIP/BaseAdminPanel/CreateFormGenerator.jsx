@@ -13,9 +13,10 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseForm from "../../Elements/Base/BaseForm";
 import FormField from "../../Elements/Fields/FormField";
 import ManytoManyField from "./ManytoManyField";
+import axios from "axios";
 
-const BaseCreateView = ({ endpointUrl }) => {
-  const [formData, setFormData] = useState({});
+const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
+  const [formData, setFormData] = useState(data);
   const [fieldMetadata, setFieldMetadata] = useState({});
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const BaseCreateView = ({ endpointUrl }) => {
       axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
         setFieldMetadata(response.data);
         console.log("meta", response.data);
+        console.log("fd: ", formData);
       });
     };
     fetchData();
@@ -30,9 +32,10 @@ const BaseCreateView = ({ endpointUrl }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    console.log("test: ", formData["show_divider"]);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "switch" ? checked : value,
     }));
   };
 
@@ -45,28 +48,40 @@ const BaseCreateView = ({ endpointUrl }) => {
   };
 
   const handleSubmit = async (e) => {
-    const fetchData = async () => {
-      axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
-        setFieldMetadata(response.data);
-        console.log("meta", response.data);
-      });
-    };
-
-    fetchData();
     e.preventDefault();
+    console.log(formData);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-
-    try {
-      const response = await axiosInstance.post(endpointUrl, formData, config);
-      setFormData({});
-      setFieldMetadata({});
-      fetchData();
-    } catch (err) {
-      console.log(err);
+    if (Object.keys(data).length === 0) {
+      try {
+        const response = await axiosInstance.post(
+          endpointUrl,
+          formData,
+          config
+        );
+        setFormData({});
+        setFieldMetadata({});
+        fetchData();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const response = await axios.patch(
+          `http://localhost:8000/api${endpointUrl}${data.id}/`,
+          formData,
+          config
+        );
+        console.log(response.data);
+        // setFormData({});
+        // setFieldMetadata({});
+        // fetchData();
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -92,7 +107,11 @@ const BaseCreateView = ({ endpointUrl }) => {
                 }}
                 key={fieldName}
                 control={
-                  <Switch name={fieldName} onChange={handleInputChange} />
+                  <Switch
+                    name={fieldName}
+                    onChange={handleInputChange}
+                    checked={data ? formData[fieldName] : ""}
+                  />
                 }
                 label={fieldName
                   .replace(/_/g, " ")
@@ -103,6 +122,7 @@ const BaseCreateView = ({ endpointUrl }) => {
         );
       case "CharField":
       case "EmailField":
+      case "StringRelatedField":
         return (
           <>
             <Grid
@@ -130,6 +150,7 @@ const BaseCreateView = ({ endpointUrl }) => {
                     .replace(/_/g, " ")
                     .replace(/\b\w/g, (l) => l.toUpperCase())}
                   onChange={handleInputChange}
+                  value={formData[fieldName]}
                 />
               </Grid>
             </Grid>
@@ -168,6 +189,7 @@ const BaseCreateView = ({ endpointUrl }) => {
                   .replace(/_/g, " ")
                   .replace(/\b\w/g, (l) => l.toUpperCase())}
                 onChange={handleInputChange}
+                value={formData[fieldName]}
                 multiline
               />
             </Grid>
@@ -282,7 +304,7 @@ const BaseCreateView = ({ endpointUrl }) => {
   );
 };
 
-BaseCreateView.propTypes = {
+CreateFormGenerator.propTypes = {
   endpointUrl: PropTypes.string.isRequired,
   fields: PropTypes.arrayOf(
     PropTypes.shape({
@@ -293,4 +315,4 @@ BaseCreateView.propTypes = {
   ).isRequired,
 };
 
-export default BaseCreateView;
+export default CreateFormGenerator;

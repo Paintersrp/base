@@ -11,14 +11,19 @@ import {
   IconButton,
   Button,
   Grid,
+  Breadcrumbs,
+  Typography,
+  Dialog,
 } from "@material-ui/core";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
 import BaseContent from "../../Elements/Base/BaseContent";
 import StyledButton from "../../Elements/Buttons/StyledButton";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
+import { NavigateNext } from "@material-ui/icons";
+import CreateFormGenerator from "./CreateFormGenerator";
 
 const BaseAdminPanel = ({
   endpoint = "/jobposting/",
@@ -26,14 +31,34 @@ const BaseAdminPanel = ({
 }) => {
   const { id } = useParams();
   const location = useLocation();
-  console.log("state: ", location.state);
   const { url, keys } = location.state || {};
-  console.log("url: ", url);
-  console.log("keys: ", keys);
-
   const [data, setData] = useState([]);
+  const [editData, setEditData] = useState(null);
   const [selectedId, setSelectedId] = useState([]);
   const [open, setOpen] = useState(false);
+  const [createFormOpen, setCreateFormOpen] = useState(false);
+  const [editFormOpen, setEditFormOpen] = useState(false);
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditFormOpen(true);
+  };
+
+  const handleEditFormOpen = () => {
+    setEditFormOpen(true);
+  };
+
+  const handleEditFormClose = () => {
+    setEditFormOpen(false);
+  };
+
+  const handleCreateFormOpen = () => {
+    setCreateFormOpen(true);
+  };
+
+  const handleCreateFormClose = () => {
+    setCreateFormOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,8 +112,21 @@ const BaseAdminPanel = ({
 
   return (
     <BaseContent maxWidth={1000} pt={4} pb={4}>
+      <Breadcrumbs
+        separator={<NavigateNext fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        <Link style={{ color: "black" }} to="/admin">
+          Admin
+        </Link>
+        <Typography color="textPrimary">{url}</Typography>
+      </Breadcrumbs>
       <Grid container justifyContent="flex-end">
-        <StyledButton buttonText="Create" minWidth={0} />
+        <StyledButton
+          buttonText="Create"
+          onClick={handleCreateFormOpen}
+          minWidth={0}
+        />
       </Grid>
       <TableContainer>
         {data.length > 0 && (
@@ -130,6 +168,22 @@ const BaseAdminPanel = ({
           </Table>
         )}
       </TableContainer>
+      <Dialog
+        maxWidth="xl"
+        open={createFormOpen}
+        onClose={handleCreateFormClose}
+      >
+        <CreateFormGenerator endpointUrl={url} />
+      </Dialog>
+      <Dialog maxWidth="xl" open={editFormOpen} onClose={handleEditFormClose}>
+        {editData && (
+          <CreateFormGenerator
+            endpointUrl={url}
+            data={editData}
+            // onClose={handleCreateFormClose}
+          />
+        )}
+      </Dialog>
     </BaseContent>
   );
 };

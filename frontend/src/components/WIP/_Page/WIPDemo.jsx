@@ -17,7 +17,7 @@ import Messages from "../Messages/Messages";
 import JobPosting from "../Jobs/Individual/JobsIndividual";
 import JobListing from "../Jobs/Listing/Listing";
 import BaseAdminPanel from "../BaseAdminPanel/BaseAdminPanel";
-import BaseCreateView from "../BaseAdminPanel/CreateFormGenerator";
+import CreateFormGenerator from "../BaseAdminPanel/CreateFormGenerator";
 import ModelDisplay from "../BaseAdminPanel/ModelDisplay";
 
 const testimonials = [
@@ -201,7 +201,7 @@ const wipComponents = [
     component: ModelDisplay,
   },
   {
-    component: BaseCreateView,
+    component: CreateFormGenerator,
     props: {
       endpointUrl: "/user/",
     },
