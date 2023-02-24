@@ -50,7 +50,17 @@ class HeroBlockAPIView(generics.ListCreateAPIView):
     serializer_class = HeroBlockSerializer
 
 
+class HeroBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HeroBlock.objects.all()
+    serializer_class = HeroBlockSerializer
+
+
 class TitleBlockAPIView(generics.ListCreateAPIView):
+    queryset = TitleBlock.objects.all()
+    serializer_class = TitleBlockSerializer
+
+
+class TitleBlockUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TitleBlock.objects.all()
     serializer_class = TitleBlockSerializer
 

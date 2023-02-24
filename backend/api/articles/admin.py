@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from .models import Articles, Tag, User
+from .models import Articles, Tags, User
 from django.contrib.admin import AdminSite
 
 admin_site = AdminSite(name="admin")
@@ -11,7 +11,7 @@ admin_site.site_header = "EDGELORDS"
 
 class ArticleForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
+        queryset=Tags.objects.all(),
         widget=admin.widgets.FilteredSelectMultiple("Tags", False),
     )
 
@@ -104,4 +104,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Articles, ArticleAdmin)
-admin.site.register(Tag)
+admin.site.register(Tags)

@@ -1,12 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import BenefitsViewSet
 
 
-router = DefaultRouter()
-router.register(r"benefits", BenefitsViewSet)
-
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("benefits/", BenefitsViewSet.as_view(), name="benefits-list"),
 ]

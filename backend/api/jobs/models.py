@@ -29,3 +29,8 @@ class JobPosting(models.Model):
     looking_for = models.TextField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     filled = models.BooleanField(default=False)
+
+    def delete(self, *args, **kwargs):
+        self.requirements.all().delete()
+        self.responsibilities.all().delete()
+        super().delete(*args, **kwargs)

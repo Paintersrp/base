@@ -67,110 +67,64 @@ class AboutFullView(generics.GenericAPIView):
 
 
 # Create your views here.
-class AboutBlockAPIView(
-    mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView
-):
+class AboutBlockAPIView(generics.ListCreateAPIView):
     queryset = AboutBlock.objects.all()
     serializer_class = AboutBlockSerializer
 
-    def get_object(self):
-        return AboutBlock.objects.first()
+    # def get(self, request, *args, **kwargs):
+    #     return self.retrieve(request, *args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    # def patch(self, request, *args, **kwargs):
 
-    def patch(self, request, *args, **kwargs):
+    #     return self.partial_update(request, *args, **kwargs)
 
-        return self.partial_update(request, *args, **kwargs)
+    # def put(self, request, *args, **kwargs):
+    #     return self.update(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    # def perform_update(self, request, *args, **kwargs):
+    #     previous_instance = self.get_object()
+    #     previous_image = previous_instance.image
 
-    def perform_update(self, request, *args, **kwargs):
-        previous_instance = self.get_object()
-        previous_image = previous_instance.image
+    #     response = super().perform_update(request, *args, **kwargs)
 
-        response = super().perform_update(request, *args, **kwargs)
+    #     new_instance = self.get_object()
+    #     new_image = new_instance.image
+    #     if previous_image and previous_image != new_image:
+    #         previous_image.delete(save=False)
 
-        new_instance = self.get_object()
-        new_image = new_instance.image
-        if previous_image and previous_image != new_image:
-            previous_image.delete(save=False)
-
-        return response
+    #     return response
 
 
-class MissionStatementAPIView(
-    mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView
-):
+class MissionStatementAPIView(generics.ListCreateAPIView):
     queryset = MissionStatement.objects.all()
     serializer_class = MissionStatementSerializer
 
-    def get_object(self):
-        return MissionStatement.objects.first()
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        print(request.data)
-
-        return self.partial_update(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-
-class CompanyHistoryAPIView(
-    mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView
-):
+class CompanyHistoryAPIView(generics.ListCreateAPIView):
     queryset = CompanyHistory.objects.all()
     serializer_class = CompanyHistorySerializer
 
-    def get_object(self):
-        return CompanyHistory.objects.first()
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-
-class ContactInformationAPIView(
-    mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView
-):
+class ContactInformationAPIView(generics.ListCreateAPIView):
     queryset = ContactInformation.objects.all()
     serializer_class = ContactInformationSerializer
 
-    def get_object(self):
-        return ContactInformation.objects.first()
+    # def get_object(self):
+    #     return ContactInformation.objects.first()
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     return self.retrieve(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+    # def patch(self, request, *args, **kwargs):
+    #     return self.partial_update(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    # def put(self, request, *args, **kwargs):
+    #     return self.update(request, *args, **kwargs)
 
 
 class FAQListCreateView(generics.ListCreateAPIView):
     queryset = FAQ.objects.all()
     serializer_class = FAQSerializer
-
-    # def create(self, request, *args, **kwargs):
-    #     data = request.POST
-    #     serializer = self.get_serializer(data=data)
-    #     serializer.is_valid(raise_exception=True)
-
-    #     faq = serializer.create(validated_data=data)
-
-    #     return JsonResponse(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
         form_data = request.POST
@@ -223,7 +177,7 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return JsonResponse(serializer.errors, status=400)
 
 
-class ValueViewSet(viewsets.ModelViewSet):
+class ValueViewSet(generics.ListCreateAPIView):
     queryset = Value.objects.all()
     serializer_class = ValueSerializer
 

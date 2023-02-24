@@ -8,23 +8,77 @@ import {
   Grid,
   Typography,
   Switch,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Select,
+  makeStyles,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseForm from "../../Elements/Base/BaseForm";
 import FormField from "../../Elements/Fields/FormField";
 import ManytoManyField from "./ManytoManyField";
 import axios from "axios";
+import ImageEditMixin from "../../Elements/Base/EditForm/ImageEditMxin";
+import IconSelectMixin from "../../Elements/Base/EditForm/IconSelectMixin";
 
-const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
+const useStyles = makeStyles((theme) => ({
+  select: {
+    width: "100%",
+    maxHeight: "64px",
+    overflow: "auto",
+    background: theme.palette.text.light,
+    color: theme.palette.text.dark,
+    "& .MuiSelect-icon": {
+      color: theme.palette.text.dark,
+    },
+    "& .MuiOutlinedInput-input": {
+      color: theme.palette.text.dark,
+    },
+    "& .MuiSelect-select": {},
+    "& .MuiSelect-select:focus": {},
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "white !important",
+      },
+    },
+    "& .MuiFormLabel-root": {
+      color: theme.palette.text.dark,
+      fontWeight: "700",
+      fontSize: "0.9rem",
+    },
+    "& input": {
+      color: theme.palette.text.dark,
+    },
+    "& .MuiMenu-paper": {
+      maxHeight: 40,
+      overflowY: "auto",
+    },
+  },
+}));
+
+const CreateFormGenerator = ({
+  endpointUrl,
+  data = {},
+  onClose,
+  handleUpdate,
+}) => {
   const [formData, setFormData] = useState(data);
   const [fieldMetadata, setFieldMetadata] = useState({});
+  const [newImage, setNewImage] = useState(null);
+  const [newImageName, setNewImageName] = useState(null);
+  const classes = useStyles();
+
+  const handleImageChange = (event) => {
+    formData.image = event.target.files[0];
+    setNewImage(URL.createObjectURL(event.target.files[0]));
+    setNewImageName(event.target.files[0].name);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
         setFieldMetadata(response.data);
-        console.log("meta", response.data);
-        console.log("fd: ", formData);
       });
     };
     fetchData();
@@ -32,10 +86,10 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log("test: ", formData["show_divider"]);
+    console.log(type);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === "switch" ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -44,12 +98,11 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
       ...prevFormData,
       [fieldName]: fieldValue,
     }));
-    console.log("??", formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("DATA SENT: ", formData);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -62,9 +115,8 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
           formData,
           config
         );
-        setFormData({});
-        setFieldMetadata({});
-        fetchData();
+        onClose();
+        handleUpdate();
       } catch (err) {
         console.log(err);
       }
@@ -75,17 +127,20 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
           formData,
           config
         );
-        console.log(response.data);
-        // setFormData({});
-        // setFieldMetadata({});
-        // fetchData();
+        onClose();
+        handleUpdate();
       } catch (err) {
         console.log(err);
       }
     }
   };
 
-  const getInputElementByType = (fieldName, fieldType, handleInputChange) => {
+  const getInputElementByType = (
+    fieldName,
+    fieldType,
+    handleInputChange,
+    choices
+  ) => {
     switch (fieldType) {
       case "BooleanField":
         return (
@@ -106,6 +161,7 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
                   minWidth: 150,
                 }}
                 key={fieldName}
+                value={formData[fieldName]}
                 control={
                   <Switch
                     name={fieldName}
@@ -136,22 +192,31 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
               }}
             >
               <Grid container>
-                <Typography
-                  variant="h4"
-                  style={{ marginLeft: 4, marginTop: 8 }}
-                >
-                  {fieldName
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}
-                </Typography>
-                <FormField
-                  id={fieldName}
-                  label={fieldName
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}
-                  onChange={handleInputChange}
-                  value={formData[fieldName]}
-                />
+                {fieldName === "icon" ? (
+                  <IconSelectMixin
+                    formData={formData}
+                    handleChange={handleInputChange}
+                  />
+                ) : (
+                  <>
+                    <Typography
+                      variant="h4"
+                      style={{ marginLeft: 4, marginTop: 8 }}
+                    >
+                      {fieldName
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </Typography>
+                    <FormField
+                      id={fieldName}
+                      label={fieldName
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                      onChange={handleInputChange}
+                      value={formData[fieldName]}
+                    />
+                  </>
+                )}
               </Grid>
             </Grid>
           </>
@@ -258,6 +323,81 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
             />
           </Grid>
         );
+      case "ImageField":
+        return (
+          <Grid
+            item
+            xs={12}
+            style={{
+              order: 999,
+              paddingRight: 8,
+              paddingLeft: 8,
+            }}
+          >
+            <ImageEditMixin
+              formData={formData}
+              handleChange={handleImageChange}
+              newImage={newImage}
+              newImageName={newImageName}
+            />
+          </Grid>
+        );
+      case "ChoiceField":
+        return (
+          <Grid
+            item
+            xs={12}
+            style={{
+              order: 999,
+              paddingRight: 8,
+              paddingLeft: 8,
+            }}
+          >
+            <FormControlLabel
+              style={{ fontSize: "0.8rem", width: "100%", margin: 0 }}
+              control={
+                <Select
+                  className={classes.select}
+                  variant="outlined"
+                  value={formData[fieldName]}
+                  onChange={handleInputChange}
+                  displayEmpty
+                  name={fieldName}
+                  margin="dense"
+                  style={{ minWidth: "100%", padding: 0 }}
+                  MenuProps={{
+                    anchorOrigin: {
+                      vertical: "bottom",
+                      horizontal: "left",
+                    },
+                    transformOrigin: {
+                      vertical: "top",
+                      horizontal: "left",
+                    },
+                    getContentAnchorEl: null,
+                    classes: {
+                      paper: classes.menuPaper,
+                    },
+                    PaperProps: {
+                      style: {
+                        maxHeight: 300,
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>Select an icon</em>
+                  </MenuItem>
+                  {Object.entries(choices).map(([key, value]) => (
+                    <MenuItem key={key} value={value}>
+                      <ListItemText primary={value} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              }
+            />
+          </Grid>
+        );
       default:
         return null;
     }
@@ -281,11 +421,12 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
           ) {
             return null;
           }
-          const { type } = fieldMetadata[fieldName];
+          const { type, choices } = fieldMetadata[fieldName];
           const inputElement = getInputElementByType(
             fieldName,
             type,
-            handleInputChange
+            handleInputChange,
+            choices
           );
 
           if (inputElement) {
@@ -297,7 +438,7 @@ const CreateFormGenerator = ({ endpointUrl, data = {} }) => {
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: 16 }}>
         <Button variant="contained" color="primary" type="submit">
-          Create
+          {Object.keys(data).length === 0 ? "Create" : "Update"}
         </Button>
       </Grid>
     </BaseForm>

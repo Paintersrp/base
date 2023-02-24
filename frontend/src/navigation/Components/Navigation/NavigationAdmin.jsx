@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { FaDashcube } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -32,8 +33,8 @@ export default function NavigationAdmin({ toggleDrawer }) {
     <ListItem
       button
       className={classes.links}
-      component="a"
-      href="http://localhost:8000/admin"
+      component={Link}
+      to="/admin"
       onClick={() => {
         toggleDrawer(false);
       }}

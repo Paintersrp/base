@@ -12,9 +12,9 @@ class HeroBlock(models.Model):
 
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
-        ("left", "Left"),
-        ("right", "Right"),
-        ("center", "Center"),
+        ("Left", "Left"),
+        ("Right", "Right"),
+        ("Center", "Center"),
     )
 
     name = models.CharField(max_length=100, unique=True)
@@ -58,6 +58,11 @@ class PricingPlan(models.Model):
 
     def __str__(self):
         return self.title
+
+    def delete(self, *args, **kwargs):
+        self.features.all().delete()
+        self.supportedsites.all().delete()
+        super().delete(*args, **kwargs)
 
 
 class Testimonial(models.Model):

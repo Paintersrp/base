@@ -8,12 +8,12 @@ class AboutBlock(models.Model):
 
 class MissionStatement(models.Model):
     title = models.CharField(max_length=200)
-    body = models.CharField(max_length=10000, null=True)
+    body = models.TextField(max_length=10000, null=True)
 
 
 class CompanyHistory(models.Model):
     title = models.CharField(max_length=200)
-    body = models.CharField(max_length=10000, null=True)
+    body = models.TextField(max_length=10000, null=True)
 
 
 class Value(models.Model):

@@ -4,11 +4,19 @@ from .views import (
     ArticleRetrieveUpdateDestroyView,
     HighlightedArticlesView,
     RecentArticlesView,
+    TagsView,
+    TagsRetrieveUpdateDestroyView,
 )
 
 
 urlpatterns = [
     path("articles/", ArticleListCreateView.as_view(), name="articles-list"),
+    path("tags/", TagsView.as_view(), name="tags-list"),
+    path(
+        "tags/<int:pk>/",
+        TagsRetrieveUpdateDestroyView.as_view(),
+        name="tags-detail-update-delete",
+    ),
     path(
         "articles/<int:pk>/",
         ArticleRetrieveUpdateDestroyView.as_view(),

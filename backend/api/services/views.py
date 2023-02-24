@@ -1,9 +1,8 @@
-from .models import Benefit
+from .models import Benefits
+from .serializers import BenefitsSerializer
+from rest_framework import generics
 
-from .serializers import BenefitSerializer
-from rest_framework import viewsets
 
-
-class BenefitsViewSet(viewsets.ModelViewSet):
-    queryset = Benefit.objects.all()
-    serializer_class = BenefitSerializer
+class BenefitsViewSet(generics.ListCreateAPIView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitsSerializer

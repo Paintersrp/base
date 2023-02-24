@@ -13,6 +13,8 @@ from .views import (
     TestimonialViewSet,
     ProcessViewSet,
     HeroBlockMainAPIView,
+    HeroBlockDetailAPIView,
+    TitleBlockUpdateAPIView,
 )
 
 
@@ -34,9 +36,21 @@ urlpatterns = [
     path("process/", ProcessViewSet.as_view(), name="process-list"),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),
     path("heroblock/", HeroBlockAPIView.as_view(), name="heroblock-list"),
+    path(
+        "heroblock/<int:pk>/",
+        HeroBlockDetailAPIView.as_view(),
+        name="heroblock-detail",
+    ),
     path("titleblock/", TitleBlockAPIView.as_view(), name="titleblock-list"),
     path(
-        "titleblock/<str:name>/", TitleBlockDetailAPIView.as_view(), name="title-block"
+        "titleblock/<int:pk>/",
+        TitleBlockUpdateAPIView.as_view(),
+        name="titleblock-update",
+    ),
+    path(
+        "titleblock/<str:name>/",
+        TitleBlockDetailAPIView.as_view(),
+        name="titleblock-search",
     ),
     path(
         "pricing_plans/",

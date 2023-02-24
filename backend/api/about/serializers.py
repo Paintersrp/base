@@ -14,6 +14,8 @@ from .models import (
 
 
 class AboutBlockSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["title", "image"]
+
     class Meta:
         model = AboutBlock
         fields = "__all__"
@@ -29,24 +31,47 @@ class AboutBlockSerializer(serializers.ModelSerializer):
 
 
 class MissionStatementSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["title", "body"]
+
     class Meta:
         model = MissionStatement
         fields = "__all__"
 
 
 class CompanyHistorySerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["title", "body"]
+
     class Meta:
         model = CompanyHistory
         fields = "__all__"
 
 
 class ValueSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["title", "icon"]
+
     class Meta:
         model = Value
         fields = "__all__"
 
 
 class ContactInformationSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = [
+        "email",
+        "phone",
+        "address",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+        "facebook",
+        "linkedin",
+        "instagram",
+        "twitter",
+    ]
+
     class Meta:
         model = ContactInformation
         fields = "__all__"
@@ -100,6 +125,14 @@ class FAQSerializer(serializers.ModelSerializer):
 
 class TeamMemberSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)
+    FIELD_KEYS = [
+        "name",
+        "role",
+        "bio",
+        "linkedIn",
+        "github",
+        "twitter",
+    ]
 
     class Meta:
         model = TeamMember
@@ -141,4 +174,10 @@ class AboutFullSerializer(serializers.Serializer):
     contact_information = ContactInformationSerializer()
 
 
+AboutBlock.serializer_class = AboutBlockSerializer
+CompanyHistory.serializer_class = CompanyHistorySerializer
+MissionStatement.serializer_class = MissionStatementSerializer
+ContactInformation.serializer_class = ContactInformationSerializer
+TeamMember.serializer_class = TeamMemberSerializer
 FAQ.serializer_class = FAQSerializer
+Value.serializer_class = ValueSerializer

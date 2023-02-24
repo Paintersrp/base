@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import Benefit
+from .models import Benefits
 
 
-class BenefitSerializer(serializers.ModelSerializer):
+class BenefitsSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["title", "description", "icon", "buttonText"]
+
     class Meta:
-        model = Benefit
+        model = Benefits
         fields = "__all__"
+
+
+Benefits.serializer_class = BenefitsSerializer

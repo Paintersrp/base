@@ -1,5 +1,4 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import (
     AboutBlockAPIView,
     MissionStatementAPIView,
@@ -13,19 +12,26 @@ from .views import (
     FAQListCreateView,
 )
 
-router = DefaultRouter()
-router.register(r"values", ValueViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("value/", ValueViewSet.as_view(), name="value-list"),
     path("faq/", FAQListCreateView.as_view(), name="faq-list"),
     path("faq/<int:pk>/", FAQRetrieveUpdateDestroyView.as_view(), name="faqs-detail"),
-    path("aboutblock/", AboutBlockAPIView.as_view(), name="about-block"),
-    path("contact/", ContactInformationAPIView.as_view(), name="about-block"),
-    path("mission/", MissionStatementAPIView.as_view(), name="mission-statement"),
-    path("history/", CompanyHistoryAPIView.as_view(), name="company-history"),
+    path("aboutblock/", AboutBlockAPIView.as_view(), name="aboutblock-list"),
+    path(
+        "contactinformation/",
+        ContactInformationAPIView.as_view(),
+        name="contactinformation-list",
+    ),
+    path(
+        "missionstatement/",
+        MissionStatementAPIView.as_view(),
+        name="missionstatement-list",
+    ),
+    path(
+        "companyhistory/", CompanyHistoryAPIView.as_view(), name="companyhistory-list"
+    ),
     path("about/", AboutFullView.as_view(), name="about-full"),
-    path("members/", TeamMemberListCreateView.as_view(), name="member-list"),
+    path("teammember/", TeamMemberListCreateView.as_view(), name="teammember-list"),
     path(
         "members/<int:pk>/",
         TeamMemberRetrieveUpdateDestroyView.as_view(),

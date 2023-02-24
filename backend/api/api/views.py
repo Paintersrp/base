@@ -46,6 +46,9 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
 
         metadata["modelName"] = model.__name__
 
+        if "alignment" in metadata:
+            metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
+
         return Response(metadata)
 
 
@@ -68,6 +71,9 @@ class ModelEndpointAPIView(APIView):
                 field_name: {"type": field.__class__.__name__}
                 for field_name, field in fields.items()
             }
+
+            if "alignment" in metadata:
+                metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
 
             try:
                 url = reverse(f"{model_name}-list")

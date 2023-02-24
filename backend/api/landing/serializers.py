@@ -13,7 +13,7 @@ from .models import (
 
 
 class HeroBlockSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["heading"]
+    FIELD_KEYS = ["title", "heading"]
 
     class Meta:
         model = HeroBlock

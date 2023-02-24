@@ -1,7 +1,6 @@
 import Demo from "../../Elements/Demo/Demo";
 import EventSchedule from "../EventSchedule/EventSchedule";
 import MinimalTestimonials from "../Testimonials/MinimalTestimonials/MinimalTestimonials";
-import PricingTier from "../Pricing/_MinimalPricing/MinimalPricing";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
 import BaseCard from "../../Elements/Base/Card/BaseCard";
@@ -14,11 +13,8 @@ import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
 import Messages from "../Messages/Messages";
-import JobPosting from "../Jobs/Individual/JobsIndividual";
-import JobListing from "../Jobs/Listing/Listing";
-import BaseAdminPanel from "../BaseAdminPanel/BaseAdminPanel";
-import CreateFormGenerator from "../BaseAdminPanel/CreateFormGenerator";
-import ModelDisplay from "../BaseAdminPanel/ModelDisplay";
+import CreateFormGenerator from "../Admin/CreateFormGenerator";
+import ModelDisplay from "../Admin/ModelDisplay";
 
 const testimonials = [
   {

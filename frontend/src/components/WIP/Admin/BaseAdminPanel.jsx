@@ -24,6 +24,9 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
 import { NavigateNext } from "@material-ui/icons";
 import CreateFormGenerator from "./CreateFormGenerator";
+import UpdateArticleView from "../../Articles/Update/UpdateArticleView";
+import CreateUpdateArticle from "../../Articles/Create/ArticleCreateUpdate";
+
 
 const BaseAdminPanel = ({
   endpoint = "/jobposting/",
@@ -31,7 +34,7 @@ const BaseAdminPanel = ({
 }) => {
   const { id } = useParams();
   const location = useLocation();
-  const { url, keys } = location.state || {};
+  const { url, keys, appName } = location.state || {};
   const [data, setData] = useState([]);
   const [editData, setEditData] = useState(null);
   const [selectedId, setSelectedId] = useState([]);
@@ -60,22 +63,27 @@ const BaseAdminPanel = ({
     setCreateFormOpen(false);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (url && keys) {
-        axiosInstance
-          .get(url)
-          .then((response) => {
-            setData(response.data);
-            console.log("admin-panel", response.data);
-          })
-          .catch((err) => {
-            setError(err);
-          });
-      }
-    };
+  const fetchData = async () => {
+    if (url && keys) {
+      axiosInstance
+        .get(url)
+        .then((response) => {
+          setData(response.data);
+          console.log("admin-panel", response.data);
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    }
+  };
+
+  const handleUpdate = () => {
     fetchData();
-  }, [url, keys]);
+  };
+
+  useEffect(() => {
+    handleUpdate();
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
@@ -119,6 +127,9 @@ const BaseAdminPanel = ({
         <Link style={{ color: "black" }} to="/admin">
           Admin
         </Link>
+        <Link style={{ color: "black" }} to="/admin">
+          Dashboard
+        </Link>
         <Typography color="textPrimary">{url}</Typography>
       </Breadcrumbs>
       <Grid container justifyContent="flex-end">
@@ -144,7 +155,15 @@ const BaseAdminPanel = ({
               {data.map((item) => (
                 <TableRow key={item.id}>
                   {keys.map((key) => (
-                    <TableCell key={key}>{item[key]}</TableCell>
+                    <TableCell key={key}>
+                      {key === "created_at"
+                        ? new Date(item[key]).toLocaleString()
+                        : typeof item[key] === "boolean"
+                        ? item[key]
+                          ? "true"
+                          : "false"
+                        : item[key]}
+                    </TableCell>
                   ))}
                   <TableCell style={{ width: "10%" }}>
                     <IconButton onClick={() => handleEdit(item)}>
@@ -168,21 +187,36 @@ const BaseAdminPanel = ({
           </Table>
         )}
       </TableContainer>
-      <Dialog
-        maxWidth="xl"
-        open={createFormOpen}
-        onClose={handleCreateFormClose}
-      >
-        <CreateFormGenerator endpointUrl={url} />
-      </Dialog>
-      <Dialog maxWidth="xl" open={editFormOpen} onClose={handleEditFormClose}>
-        {editData && (
+      {id === "articles" ? (
+        <CreateUpdateArticle
+          open={createFormOpen}
+          setOpen={handleCreateFormClose}
+        />
+      ) : (
+        <Dialog
+          maxWidth="xl"
+          open={createFormOpen}
+          onClose={handleCreateFormClose}
+        >
           <CreateFormGenerator
             endpointUrl={url}
-            data={editData}
-            // onClose={handleCreateFormClose}
+            onClose={handleCreateFormClose}
+            handleUpdate={handleUpdate}
           />
-        )}
+        </Dialog>
+      )}
+      <Dialog maxWidth="xl" open={editFormOpen} onClose={handleEditFormClose}>
+        {editData &&
+          (id === "articles" ? (
+            <UpdateArticleView manualId={editData.id} />
+          ) : (
+            <CreateFormGenerator
+              endpointUrl={url}
+              data={editData}
+              onClose={handleEditFormClose}
+              handleUpdate={handleUpdate}
+            />
+          ))}
       </Dialog>
     </BaseContent>
   );

@@ -21,6 +21,7 @@ import BaseContent from "../../Elements/Base/BaseContent";
 import { NavigateNext } from "@material-ui/icons";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Loading from "../../Elements/Layout/Loading";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -66,13 +67,17 @@ function ModelDisplay() {
       .catch((error) => console.log(error));
   }, []);
 
-  const renderModelList = (modelList) => {
+  const renderModelList = (modelList, appName) => {
     return modelList
       .filter((model) => model.url !== null)
       .map((model) => (
         <Link
           to={`/admin/${model.model_name}`}
-          state={{ url: model.url, keys: model.keys }}
+          state={{
+            url: model.url,
+            keys: model.keys,
+            appName: appName,
+          }}
           key={model.model_name}
         >
           <ListItem button style={{ color: "black" }}>
@@ -95,6 +100,9 @@ function ModelDisplay() {
     const sections = [];
 
     for (const [app, appModels] of Object.entries(models)) {
+      if (app === "authorization") {
+        continue;
+      }
       const isOpen = Boolean(openAppSections[app]);
       const toggleOpen = () =>
         setOpenAppSections((prev) => ({ ...prev, [app]: !isOpen }));
@@ -117,7 +125,7 @@ function ModelDisplay() {
             />
             <Collapse in={isOpen}>
               <CardContent>
-                <List>{renderModelList(appModels)}</List>
+                <List>{renderModelList(appModels, app)}</List>
               </CardContent>
             </Collapse>
           </Card>
@@ -145,7 +153,9 @@ function ModelDisplay() {
           <Grid container>{renderAppList()}</Grid>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div>
+          <Loading loading={true} />
+        </div>
       )}
     </BaseContent>
   );

@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "landing",
     "about",
     "services",
-    "tickets",
+    "support",
     "jobs",
 ]
 

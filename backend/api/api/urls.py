@@ -23,7 +23,7 @@ urlpatterns = (
         path("api/", include("landing.urls")),
         path("api/", include("about.urls")),
         path("api/", include("services.urls")),
-        path("api/", include("tickets.urls")),
+        path("api/", include("support.urls")),
         path("api/", include("jobs.urls")),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

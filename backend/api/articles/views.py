@@ -2,20 +2,12 @@ from rest_framework import generics
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.response import Response
-from .models import User, Articles
-from .serializers import ArticleSerializer
+from .models import User, Articles, Tags
+from .serializers import ArticleSerializer, TagsSerializer
 from authorization.authentication import JWTTokenAuthentication
 import jwt
 from django.contrib import admin
 from django.shortcuts import render
-
-
-def custom_view(request):
-    app_list = admin.site._registry
-    context = {
-        "app_list": app_list,
-    }
-    return render(request, "admin/dashboard.html", context)
 
 
 class ArticleListCreateView(generics.ListCreateAPIView):
@@ -115,3 +107,13 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             return JsonResponse(serializer.data, status=200)
 
         return JsonResponse(serializer.errors, status=400)
+
+
+class TagsView(generics.ListCreateAPIView):
+    queryset = Tags.objects.all()
+    serializer_class = TagsSerializer
+
+
+class TagsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tags.objects.all()
+    serializer_class = TagsSerializer

@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UpdateArticleView = () => {
+const UpdateArticleView = ({ manualId }) => {
   const { id } = useParams();
   const classes = useStyles();
   const { fadeIn } = baseClasses();
@@ -86,10 +86,16 @@ const UpdateArticleView = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let res;
       try {
-        const res = await axios.get(
-          `http://localhost:8000/api/articles/${id}/`
-        );
+        if (manualId) {
+          res = await axios.get(
+            `http://localhost:8000/api/articles/${manualId}/`
+          );
+          console.log(res);
+        } else {
+          res = await axios.get(`http://localhost:8000/api/articles/${id}/`);
+        }
         setArticle(res.data);
         setContent(res.data.content);
         setTitle(res.data.title);
