@@ -9,6 +9,10 @@ class HeroBlock(models.Model):
     text = models.TextField()
     buttonText = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name = "Hero Section"
+        verbose_name_plural = verbose_name + "s"
+
 
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
@@ -24,11 +28,19 @@ class TitleBlock(models.Model):
     alignment = models.CharField(max_length=10, choices=ALIGNMENT_CHOICES)
     show_divider = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "Heading Blocks"
+        verbose_name_plural = "Heading Blocks"
+
 
 class Item(models.Model):
     image = models.ImageField(upload_to="carousel")
     buttonText = models.CharField(max_length=20)
     buttonLink = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name = "Item"
+        verbose_name_plural = verbose_name + "s"
 
 
 class Feature(models.Model):
@@ -37,6 +49,10 @@ class Feature(models.Model):
     def __str__(self):
         return self.detail
 
+    class Meta:
+        verbose_name = "Feature"
+        verbose_name_plural = verbose_name + "s"
+
 
 class SupportedSites(models.Model):
     site = models.CharField(max_length=100)
@@ -44,13 +60,17 @@ class SupportedSites(models.Model):
     def __str__(self):
         return self.site
 
+    class Meta:
+        verbose_name = "SupportedSites"
+        verbose_name_plural = "SupportedSites"
+
 
 class PricingPlan(models.Model):
     title = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to="pricing_images")
     features = models.ManyToManyField(Feature, related_name="features")
-    supportedsites = models.ManyToManyField(
+    supported_sites = models.ManyToManyField(
         SupportedSites, related_name="supportedsites"
     )
     bestFor = models.CharField(max_length=100, default="Tits")
@@ -61,8 +81,12 @@ class PricingPlan(models.Model):
 
     def delete(self, *args, **kwargs):
         self.features.all().delete()
-        self.supportedsites.all().delete()
+        self.supported_sites.all().delete()
         super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Pricing Tiers"
+        verbose_name_plural = "Pricing Tiers"
 
 
 class Testimonial(models.Model):
@@ -72,17 +96,18 @@ class Testimonial(models.Model):
     name = models.CharField(max_length=40)
     position = models.CharField(max_length=40)
 
-
-class Tile(models.Model):
-    title = models.CharField(max_length=100)
-    subheader = models.CharField(max_length=200)
-    icon = models.CharField(max_length=40)
-
+    class Meta:
+        verbose_name = "Testimonials"
+        verbose_name_plural = "Testimonials"
 
 class Process(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
     icon = models.CharField(max_length=40)
+
+    class Meta:
+        verbose_name = "Processes"
+        verbose_name_plural = "Processes"
 
 
 @receiver(pre_save, sender=TitleBlock)

@@ -13,7 +13,7 @@ const Quiz = () => {
 
   useEffect(() => {
     axiosInstance
-      .get("/pricing_plans/")
+      .get("/pricingplan/")
       .then((response) => {
         console.log("Response");
         console.log(response.data);

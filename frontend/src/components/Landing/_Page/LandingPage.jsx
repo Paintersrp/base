@@ -19,6 +19,7 @@ import IconScroller from "../../Elements/Animations/IconScroller/IconScroller";
 import Processes from "../Processes/Processes";
 import Pricing from "../Pricing/Pricing";
 import Hero from "../Hero/Hero";
+import Loading from "../../Elements/Layout/Loading";
 
 const partners = [
   {
@@ -57,7 +58,7 @@ function LandingPage() {
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance
-        .get("/contact/")
+        .get("/contactinformation/")
         .then((response) => {
           console.log(response.data);
           setContactData(response.data);
@@ -78,13 +79,19 @@ function LandingPage() {
       url="https://example.com/example-page"
       backgroundColor="white"
     >
-      <Hero contactData={contactData} form={true} />
-      <Pricing />
-      <Processes />
-      <LatestNews />
-      {/* <Testimonials /> */}
-      <NewsletterForm />
-      <IconScroller data={partners} />
+      {Object.keys(contactData).length > 0 ? (
+        <>
+          <Hero contactData={contactData} form={true} />
+          <Pricing />
+          <Processes />
+          <LatestNews />
+          {/* <Testimonials /> */}
+          <NewsletterForm />
+          <IconScroller data={partners} />
+        </>
+      ) : (
+        <Loading loading={true} />
+      )}
     </ContentLayout>
   );
 }

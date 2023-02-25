@@ -4,7 +4,6 @@ from .models import (
     Feature,
     PricingPlan,
     SupportedSites,
-    Tile,
     Item,
     TitleBlock,
     Testimonial,
@@ -45,6 +44,8 @@ class FeatureSerializer(serializers.ModelSerializer):
 
 
 class SupportedSitesSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["site"]
+
     class Meta:
         model = SupportedSites
         fields = "__all__"
@@ -52,19 +53,11 @@ class SupportedSitesSerializer(serializers.ModelSerializer):
 
 class PricingPlanSerializer(serializers.ModelSerializer):
     features = FeatureSerializer(many=True, read_only=True)
-    supportedsites = SupportedSitesSerializer(many=True, read_only=True)
-    FIELD_KEYS = ["title"]
+    supported_sites = SupportedSitesSerializer(many=True, read_only=True)
+    FIELD_KEYS = ["title", "price"]
 
     class Meta:
         model = PricingPlan
-        fields = "__all__"
-
-
-class TileSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title"]
-
-    class Meta:
-        model = Tile
         fields = "__all__"
 
 

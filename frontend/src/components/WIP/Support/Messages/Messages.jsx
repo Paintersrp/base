@@ -28,8 +28,8 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
 
-import axiosInstance from "../../../lib/Axios/axiosInstance";
-import BaseContent from "../../Elements/Base/BaseContent.jsx";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import MessageDialog from "./MessageDialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +60,7 @@ const Messages = () => {
 
   useEffect(() => {
     setLoading(true);
-    axiosInstance.get("/message/").then((response) => {
+    axiosInstance.get("/messages/").then((response) => {
       setMessages(response.data);
       setLoading(false);
     });

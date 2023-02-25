@@ -8,6 +8,10 @@ class Tags(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Tags"
+        verbose_name_plural = "Tags"
+
 
 class Articles(models.Model):
     title = models.CharField(max_length=255)
@@ -18,3 +22,7 @@ class Articles(models.Model):
     tags = models.ManyToManyField(Tags, related_name="articles")
     image = models.ImageField(blank=True, null=True, upload_to="article_images")
     is_highlighted = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Articles"
+        verbose_name_plural = "Articles"

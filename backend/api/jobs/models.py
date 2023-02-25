@@ -34,3 +34,7 @@ class JobPosting(models.Model):
         self.requirements.all().delete()
         self.responsibilities.all().delete()
         super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Openings"
+        verbose_name_plural = "Openings"

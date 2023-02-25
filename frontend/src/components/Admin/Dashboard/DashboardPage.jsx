@@ -1,8 +1,8 @@
 import React from "react";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
-import BaseAdminPanel from "./BaseAdminPanel";
+import Dashboard from "./Dashboard";
 
-function AdminModelPage() {
+function DashboardPage() {
   return (
     <ContentLayout
       title="Landing Page"
@@ -12,9 +12,9 @@ function AdminModelPage() {
       url="https://example.com/example-page"
       backgroundColor="white"
     >
-      <BaseAdminPanel />
+      <Dashboard />
     </ContentLayout>
   );
 }
 
-export default AdminModelPage;
+export default DashboardPage;

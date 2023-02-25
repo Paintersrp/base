@@ -31,10 +31,10 @@ import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
 import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
 import Loading from "./components/Elements/Layout/Loading";
-import JobIndividualView from "./components/WIP/Jobs/_Pages/JobIndividualView";
-import AdminModelPage from "./components/WIP/Admin/AdminModelPage";
-import AdminSidebar from "./components/WIP/Admin/AdminSidebar";
-import AdminDashboardPage from "./components/WIP/Admin/AdminDashboardPage";
+import JobIndividualView from "./components/Contact/Jobs/_Pages/JobIndividualView";
+import PanelPage from "./components/Admin/Panels/PanelPage";
+import AdminSidebar from "./components/Admin/Navigation/AdminSidebar";
+import DashboardPage from "./components/Admin/Dashboard/DashboardPage";
 
 {
   /* 
@@ -191,8 +191,8 @@ function MyRoutes({ handleUpdate, setIsLoading }) {
           }
         />
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminDashboardPage />} />
-        <Route path="/admin/:id" element={<AdminModelPage />} />
+        <Route path="/admin" element={<DashboardPage />} />
+        <Route path="/admin/:id" element={<PanelPage />} />
       </Routes>
       {!isAdminPath ? <Footer /> : <Footer />}
     </>

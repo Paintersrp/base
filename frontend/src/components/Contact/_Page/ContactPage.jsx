@@ -5,7 +5,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Members from "../Members/Members";
 import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading";
-import JobListing from "../../WIP/Jobs/Listing/Listing";
+import JobListing from "../Jobs/Listing/Listing";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {

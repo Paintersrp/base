@@ -1,12 +1,10 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import (
     HeroBlockAPIView,
     PricingPlanListCreateView,
     PricingPlanRetrieveUpdateDestroy,
     FeatureViewSet,
     SupportedSiteViewSet,
-    TileViewSet,
     ItemViewSet,
     TitleBlockAPIView,
     TitleBlockDetailAPIView,
@@ -18,14 +16,9 @@ from .views import (
 )
 
 
-router = DefaultRouter()
-router.register(r"supported_sites", SupportedSiteViewSet)
-
-
 urlpatterns = [
-    path("", include(router.urls)),
     path("feature/", FeatureViewSet.as_view(), name="feature-list"),
-    path("tile/", TileViewSet.as_view(), name="tile-list"),
+    path("supportedsites/", SupportedSiteViewSet.as_view(), name="sites-list"),
     path("item/", ItemViewSet.as_view({"get": "list"}), name="item-list"),
     path(
         "item/<int:pk>/",
@@ -34,6 +27,7 @@ urlpatterns = [
     ),
     path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-list"),
     path("process/", ProcessViewSet.as_view(), name="process-list"),
+    path("process/<int:pk>/", ProcessViewSet.as_view(), name="process-list"),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),
     path("heroblock/", HeroBlockAPIView.as_view(), name="heroblock-list"),
     path(
@@ -53,12 +47,12 @@ urlpatterns = [
         name="titleblock-search",
     ),
     path(
-        "pricing_plans/",
+        "pricingplan/",
         PricingPlanListCreateView.as_view(),
-        name="article-list-create",
+        name="pricingplan-list",
     ),
     path(
-        "pricing_plans/<int:pk>/",
+        "pricingplan/<int:pk>/",
         PricingPlanRetrieveUpdateDestroy.as_view(),
         name="article-detail-update-delete",
     ),

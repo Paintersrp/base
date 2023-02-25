@@ -1,37 +1,22 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  Button,
   Grid,
   Breadcrumbs,
   Typography,
   Dialog,
 } from "@material-ui/core";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
 import BaseContent from "../../Elements/Base/BaseContent";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { Link, useLocation, useParams } from "react-router-dom";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
 import { NavigateNext } from "@material-ui/icons";
-import CreateFormGenerator from "./CreateFormGenerator";
+import ControlForm from "../Components/ControlForm/ControlForm";
 import UpdateArticleView from "../../Articles/Update/UpdateArticleView";
 import CreateUpdateArticle from "../../Articles/Create/ArticleCreateUpdate";
+import PanelTable from "./PanelTable";
 
-
-const BaseAdminPanel = ({
-  endpoint = "/jobposting/",
-  confirmMessage = "Are you sure you want to delete this?",
-}) => {
+const Panel = () => {
   const { id } = useParams();
   const location = useLocation();
   const { url, keys, appName } = location.state || {};
@@ -141,50 +126,15 @@ const BaseAdminPanel = ({
       </Grid>
       <TableContainer>
         {data.length > 0 && (
-          <Table>
-            <TableHead>
-              <TableRow>
-                {keys.map((key) => (
-                  <TableCell key={key}>{key}</TableCell>
-                ))}
-                <TableCell>Edit</TableCell>
-                <TableCell>Delete</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((item) => (
-                <TableRow key={item.id}>
-                  {keys.map((key) => (
-                    <TableCell key={key}>
-                      {key === "created_at"
-                        ? new Date(item[key]).toLocaleString()
-                        : typeof item[key] === "boolean"
-                        ? item[key]
-                          ? "true"
-                          : "false"
-                        : item[key]}
-                    </TableCell>
-                  ))}
-                  <TableCell style={{ width: "10%" }}>
-                    <IconButton onClick={() => handleEdit(item)}>
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell style={{ width: "10%" }}>
-                    <IconButton onClick={() => handleDelete(item.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <DeleteConfirmationModal
-              open={open}
-              handleClose={handleClose}
-              handleConfirmDelete={handleConfirmDelete}
-              message={confirmMessage}
-            />
-          </Table>
+          <PanelTable
+            open={open}
+            keys={keys}
+            data={data}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            handleConfirmDelete={handleConfirmDelete}
+            handleClose={handleClose}
+          />
         )}
       </TableContainer>
       {id === "articles" ? (
@@ -198,7 +148,7 @@ const BaseAdminPanel = ({
           open={createFormOpen}
           onClose={handleCreateFormClose}
         >
-          <CreateFormGenerator
+          <ControlForm
             endpointUrl={url}
             onClose={handleCreateFormClose}
             handleUpdate={handleUpdate}
@@ -210,7 +160,7 @@ const BaseAdminPanel = ({
           (id === "articles" ? (
             <UpdateArticleView manualId={editData.id} />
           ) : (
-            <CreateFormGenerator
+            <ControlForm
               endpointUrl={url}
               data={editData}
               onClose={handleEditFormClose}
@@ -222,9 +172,4 @@ const BaseAdminPanel = ({
   );
 };
 
-BaseAdminPanel.propTypes = {
-  endpoint: PropTypes.string.isRequired,
-  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-export default BaseAdminPanel;
+export default Panel;

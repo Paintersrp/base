@@ -129,14 +129,29 @@ function AdminSidebar({ appName }) {
   };
 
   const renderModelLinks = (models) => {
-    return Object.entries(models).map(([appName, appModels]) => (
+    return Object.entries(models).map(([appName, appModels], index) => (
       <div key={appName}>
         <ListItem
           button
           onClick={() => handleClick(appName)}
           className={classes.links}
         >
-          <ListItemIcon style={{ color: "white" }}>
+          <ListItemIcon
+            style={{
+              color: (() => {
+                switch (index % 3) {
+                  case 0:
+                    return theme.palette.secondary.light;
+                  case 1:
+                    return theme.palette.primary.light;
+                  case 2:
+                    return theme.palette.secondary.main;
+                  default:
+                    return "white";
+                }
+              })(),
+            }}
+          >
             <CircleIcon />
           </ListItemIcon>
           <ListItemText
@@ -165,8 +180,9 @@ function AdminSidebar({ appName }) {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        model.model_name.charAt(0).toUpperCase() +
-                        model.model_name.slice(1)
+                        model.verbose_name
+                        // model.model_name.charAt(0).toUpperCase() +
+                        // model.model_name.slice(1)
                       }
                     />
                   </ListItem>

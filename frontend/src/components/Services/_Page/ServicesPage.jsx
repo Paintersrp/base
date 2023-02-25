@@ -1,9 +1,8 @@
 import React from "react";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
 import Benefits from "../Benefits/Benefits";
-import Timeline from "../Timeline/Timeline";
+import Timeline from "../../WIP/Timeline/Timeline";
 import { Grid, makeStyles } from "@material-ui/core";
-import Statistics from "../../WIP/Statistics/Statistics";
 import Quiz from "../Quiz/Quiz/Quiz";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +29,6 @@ function ServicesPage() {
             <Quiz />
           </div>
           <Benefits />
-
-          <Timeline />
         </div>
       </Grid>
     </ContentLayout>

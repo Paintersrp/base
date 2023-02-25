@@ -82,7 +82,7 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
     };
     try {
       await axios
-        .patch(`http://localhost:8000/api/${contentType}/`, formData, config)
+        .patch(`http://localhost:8000/api/${contentType}/1/`, formData, config)
         .then((res) => {
           setData(res.data);
           onUpdate(res.data);

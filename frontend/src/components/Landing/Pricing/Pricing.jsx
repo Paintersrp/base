@@ -39,7 +39,7 @@ export default function Pricing() {
 
   useEffect(() => {
     axiosInstance
-      .get("/pricing_plans/")
+      .get("/pricingplan/")
       .then((response) => {
         setPlans(response.data);
         console.log(plans);

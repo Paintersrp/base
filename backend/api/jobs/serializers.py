@@ -22,27 +22,14 @@ class RequirementSerializer(serializers.ModelSerializer):
 
 
 class JobPostingSerializer(serializers.ModelSerializer):
-    requirements = RequirementSerializer(many=True)
-    responsibilities = ResponsibilitiesSerializer(many=True)
+    requirements = RequirementSerializer(many=True, read_only=False)
+    responsibilities = ResponsibilitiesSerializer(many=True, read_only=False)
 
     FIELD_KEYS = ["tagline"]
 
     class Meta:
         model = JobPosting
         fields = "__all__"
-
-    # def to_representation(self, instance):
-    #     representation = super().to_representation(instance)
-    #     keys = self.validated_data.get("keys", [])
-    #     if keys:
-    #         keys = [
-    #             key for key in keys if key in self.fields and key in self.FIELD_KEYS
-    #         ]
-    #         representation = {
-    #             key: value for key, value in representation.items() if key in keys
-    #         }
-
-    #     return representation
 
     def create(self, validated_data):
         responsibilities = validated_data.pop("responsibilities", [])
@@ -59,6 +46,27 @@ class JobPostingSerializer(serializers.ModelSerializer):
             posting.requirements.add(item)
 
         return posting
+
+    def update(self, instance, validated_data):
+        print(validated_datacd)
+        requirements_data = validated_data.pop("requirements", [])
+        responsibilities_data = validated_data.pop("responsibilities", [])
+
+        instance = super().update(instance, validated_data)
+
+        # Update requirements
+        for requirement_data in requirements_data:
+            requirement, created = Requirement.objects.get_or_create(**requirement_data)
+            instance.requirements.add(requirement)
+
+        # Update responsibilities
+        for responsibility_data in responsibilities_data:
+            responsibility, created = Responsibilities.objects.get_or_create(
+                **responsibility_data
+            )
+            instance.responsibilities.add(responsibility)
+
+        return instance
 
 
 Requirement.serializer_class = RequirementSerializer

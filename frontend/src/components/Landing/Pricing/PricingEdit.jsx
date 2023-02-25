@@ -159,8 +159,9 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
   const [features, setFeatures] = useState(
     data.features.map((tag) => tag.detail.trim())
   );
+  console.log("sites: ", data.supported_sites);
   const [sites, setSites] = useState(
-    data.supportedsites.map((tag) => tag.site.trim())
+    data.supported_sites.map((tag) => tag.site.trim())
   );
 
   const handleImageChange = (event) => {
@@ -177,7 +178,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
     formData.append("best_for", bestFor);
     formData.append("guarantee", guarantee);
     formData.append("features", features.join(","));
-    formData.append("supportedsites", sites.join(","));
+    formData.append("supported_sites", sites.join(","));
 
     if (image.name) {
       formData.append("image", image, image.name);
@@ -191,7 +192,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/pricing_plans/${data.id}/`,
+        `http://localhost:8000/api/pricingplan/${data.id}/`,
         formData,
         config
       );
@@ -200,7 +201,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/pricing_plans/${data.id}/`
+        `http://localhost:8000/api/pricingplan/${data.id}/`
       );
       setData(res.data);
       updatePlan(res.data);

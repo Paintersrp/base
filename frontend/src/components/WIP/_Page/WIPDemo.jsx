@@ -1,6 +1,6 @@
 import Demo from "../../Elements/Demo/Demo";
-import EventSchedule from "../EventSchedule/EventSchedule";
-import MinimalTestimonials from "../Testimonials/MinimalTestimonials/MinimalTestimonials";
+import EventSchedule from "../_Archived/EventSchedule/EventSchedule";
+import MinimalTestimonials from "../_Archived/MinimalTestimonials/MinimalTestimonials";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
 import BaseCard from "../../Elements/Base/Card/BaseCard";
@@ -10,11 +10,9 @@ import Magazine from "../Magazine/Magazine";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
-import HeroCountdown from "../CountDown/CountdownBlock";
+import HeroCountdown from "../_NotStarted/CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
-import Messages from "../Messages/Messages";
-import CreateFormGenerator from "../Admin/CreateFormGenerator";
-import ModelDisplay from "../Admin/ModelDisplay";
+import Messages from "../Support/Messages/Messages";
 
 const testimonials = [
   {
@@ -40,125 +38,6 @@ const testimonials = [
   },
 ];
 
-const eventSets = {
-  Monday: [
-    {
-      date: "January 1, 2022",
-      time: "9:00 AM",
-      description:
-        "I have been extremely satisfied with the services provided by this company. They exceeded my expectations.",
-      presenter: "John Doe",
-      company: "Acme Inc.",
-      location: "Conference Room A",
-      link: "https://www.example.com/event1",
-    },
-    {
-      date: "January 1, 2022",
-      time: "10:00 AM",
-      description: "Event 2",
-      presenter: "Jane Smith",
-      company: "ABC Corp.",
-      location: "Conference Room B",
-      link: "https://www.example.com/event2",
-    },
-    {
-      date: "January 1, 2022",
-      time: "9:00 AM",
-      description: "Event 3",
-      presenter: "John Doe",
-      company: "Acme Inc.",
-      location: "Conference Room A",
-      link: "https://www.example.com/event1",
-    },
-    {
-      date: "January 1, 2022",
-      time: "10:00 AM",
-      description: "Event 4",
-      presenter: "Jane Smith",
-      company: "ABC Corp.",
-      location: "Conference Room B",
-      link: "https://www.example.com/event2",
-    },
-    {
-      date: "January 1, 2022",
-      time: "9:00 AM",
-      description: "Event 5",
-      presenter: "John Doe",
-      company: "Acme Inc.",
-      location: "Conference Room A",
-      link: "https://www.example.com/event1",
-    },
-    {
-      date: "January 1, 2022",
-      time: "10:00 AM",
-      description: "Event 6",
-      presenter: "Jane Smith",
-      company: "ABC Corp.",
-      location: "Conference Room B",
-      link: "https://www.example.com/event2",
-    },
-  ],
-  Tuesday: [
-    {
-      date: "January 2, 2022",
-      time: "9:00 AM",
-      description: "Event 3",
-      presenter: "Bob Johnson",
-      company: "XYZ Inc.",
-      location: "Conference Room C",
-      link: "https://www.example.com/event3",
-    },
-    {
-      date: "January 2, 2022",
-      time: "10:00 AM",
-      description: "Event 4",
-      presenter: "Mary Brown",
-      company: "MyCompany LLC.",
-      location: "Conference Room D",
-      link: "https://www.example.com/event4",
-    },
-  ],
-  Wednesday: [
-    {
-      date: "January 2, 2022",
-      time: "9:00 AM",
-      description: "Event 3",
-      presenter: "Bob Johnson",
-      company: "XYZ Inc.",
-      location: "Conference Room C",
-      link: "https://www.example.com/event3",
-    },
-    {
-      date: "January 2, 2022",
-      time: "10:00 AM",
-      description: "Event 4",
-      presenter: "Mary Brown",
-      company: "MyCompany LLC.",
-      location: "Conference Room D",
-      link: "https://www.example.com/event4",
-    },
-  ],
-  Thursday: [
-    {
-      date: "January 2, 2022",
-      time: "9:00 AM",
-      description: "Event 3",
-      presenter: "Bob Johnson",
-      company: "XYZ Inc.",
-      location: "Conference Room C",
-      link: "https://www.example.com/event3",
-    },
-    {
-      date: "January 2, 2022",
-      time: "10:00 AM",
-      description: "Event 4",
-      presenter: "Mary Brown",
-      company: "MyCompany LLC.",
-      location: "Conference Room D",
-      link: "https://www.example.com/event4",
-    },
-  ],
-};
 const actions = [
   <Grid
     container
@@ -193,15 +72,6 @@ const customersData = [
 ];
 
 const wipComponents = [
-  {
-    component: ModelDisplay,
-  },
-  {
-    component: CreateFormGenerator,
-    props: {
-      endpointUrl: "/user/",
-    },
-  },
   {
     component: Messages,
   },
@@ -242,13 +112,8 @@ const wipComponents = [
       progressCompleteMessage: "Congratulations! You've reached your goals!",
     },
   },
-
   {
     component: Magazine,
-  },
-  {
-    component: Magazine,
-    title: "Magazine with Case Studies",
     props: {
       showStudies: true,
     },
@@ -263,24 +128,6 @@ const wipComponents = [
     component: CaseStudiesBasic,
   },
   {
-    component: EventSchedule,
-    title: "EventSchedule",
-    props: {
-      eventSets,
-    },
-  },
-  // {
-  //   component: PricingTier,
-  //   title: "PricingTier",
-  // },
-  {
-    component: MinimalTestimonials,
-    title: "MinimalTestimonials",
-    props: {
-      testimonials,
-    },
-  },
-  {
     component: FeatureCTA,
     title: "FeatureCTA",
   },
@@ -288,54 +135,6 @@ const wipComponents = [
     component: Partners,
     title: "Partners",
   },
-  {
-    component: HeroCountdown,
-  },
-  // {
-  //   component: BaseCard,
-  //   title: "BaseCard - Top Media",
-  //   props: {
-  //     title: "How I Became Danny Devito",
-  //     subtitle: "I Paid the Troll Toll",
-  //     children: (
-  //       <Typography variant="body2">
-  //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
-  //         nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
-  //         vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
-  //         accumsan arcu. Nam imperdiet sapien non tempor nam...
-  //       </Typography>
-  //     ),
-  //     actions: actions,
-  //     elevation: 4,
-  //     headerTitleProps: { variant: "h5" },
-  //     headerSubheaderProps: { variant: "body2" },
-  //     media: "images/products/danny-devito.jpg",
-  //     mediaPosition: "top",
-  //   },
-  // },
-
-  // {
-  //   component: BaseCard,
-  //   title: "BaseCard - Left Media",
-  //   props: {
-  //     title: "How I Became Danny Devito",
-  //     subtitle: "I Paid the Troll Toll",
-  //     children: (
-  //       <Typography variant="body2">
-  //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius
-  //         nibh sit amet nunc auctor, quis ultricies lectus pretium. Aenean
-  //         vehicula dui accumsan, bibendum nisi vitae, mollis mi. Fusce id
-  //         accumsan arcu. Nam imperdiet sapien non tempor nam...
-  //       </Typography>
-  //     ),
-  //     actions: actions,
-  //     elevation: 4,
-  //     headerTitleProps: { variant: "h5" },
-  //     headerSubheaderProps: { variant: "body2" },
-  //     media: "images/products/danny-devito.jpg",
-  //     mediaPosition: "left",
-  //   },
-  // },
 ];
 
 export default function WIPDemo() {

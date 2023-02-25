@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django import forms
-from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from .models import (
@@ -8,7 +6,6 @@ from .models import (
     Feature,
     PricingPlan,
     SupportedSites,
-    Tile,
     Item,
     TitleBlock,
     Testimonial,
@@ -38,7 +35,7 @@ class CustomPricingPlanAdmin(admin.ModelAdmin):
                     "features",
                     "bestFor",
                     "guarantee",
-                    "supportedsites",
+                    "supported_sites",
                 )
             },
         ),
@@ -57,10 +54,6 @@ class CustomItemAdmin(admin.ModelAdmin):
         return "-"
 
     thumbnail_tag.short_description = "Thumbnail"
-
-
-class CustomTileAdmin(admin.ModelAdmin):
-    list_display = ("title", "subheader", "icon")
 
 
 class CustomProcessAdmin(admin.ModelAdmin):
@@ -90,7 +83,6 @@ admin.site.register(Feature)
 admin.site.register(Testimonial, CustomTestimonialAdmin)
 admin.site.register(TitleBlock, CustomTitleBlockAdmin)
 admin.site.register(Item, CustomItemAdmin)
-admin.site.register(Tile, CustomTileAdmin)
 admin.site.register(Process, CustomProcessAdmin)
 admin.site.register(SupportedSites)
 admin.site.register(PricingPlan, CustomPricingPlanAdmin)

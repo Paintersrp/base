@@ -7,6 +7,126 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 
+const eventSets = {
+  Monday: [
+    {
+      date: "January 1, 2022",
+      time: "9:00 AM",
+      description:
+        "I have been extremely satisfied with the services provided by this company. They exceeded my expectations.",
+      presenter: "John Doe",
+      company: "Acme Inc.",
+      location: "Conference Room A",
+      link: "https://www.example.com/event1",
+    },
+    {
+      date: "January 1, 2022",
+      time: "10:00 AM",
+      description: "Event 2",
+      presenter: "Jane Smith",
+      company: "ABC Corp.",
+      location: "Conference Room B",
+      link: "https://www.example.com/event2",
+    },
+    {
+      date: "January 1, 2022",
+      time: "9:00 AM",
+      description: "Event 3",
+      presenter: "John Doe",
+      company: "Acme Inc.",
+      location: "Conference Room A",
+      link: "https://www.example.com/event1",
+    },
+    {
+      date: "January 1, 2022",
+      time: "10:00 AM",
+      description: "Event 4",
+      presenter: "Jane Smith",
+      company: "ABC Corp.",
+      location: "Conference Room B",
+      link: "https://www.example.com/event2",
+    },
+    {
+      date: "January 1, 2022",
+      time: "9:00 AM",
+      description: "Event 5",
+      presenter: "John Doe",
+      company: "Acme Inc.",
+      location: "Conference Room A",
+      link: "https://www.example.com/event1",
+    },
+    {
+      date: "January 1, 2022",
+      time: "10:00 AM",
+      description: "Event 6",
+      presenter: "Jane Smith",
+      company: "ABC Corp.",
+      location: "Conference Room B",
+      link: "https://www.example.com/event2",
+    },
+  ],
+  Tuesday: [
+    {
+      date: "January 2, 2022",
+      time: "9:00 AM",
+      description: "Event 3",
+      presenter: "Bob Johnson",
+      company: "XYZ Inc.",
+      location: "Conference Room C",
+      link: "https://www.example.com/event3",
+    },
+    {
+      date: "January 2, 2022",
+      time: "10:00 AM",
+      description: "Event 4",
+      presenter: "Mary Brown",
+      company: "MyCompany LLC.",
+      location: "Conference Room D",
+      link: "https://www.example.com/event4",
+    },
+  ],
+  Wednesday: [
+    {
+      date: "January 2, 2022",
+      time: "9:00 AM",
+      description: "Event 3",
+      presenter: "Bob Johnson",
+      company: "XYZ Inc.",
+      location: "Conference Room C",
+      link: "https://www.example.com/event3",
+    },
+    {
+      date: "January 2, 2022",
+      time: "10:00 AM",
+      description: "Event 4",
+      presenter: "Mary Brown",
+      company: "MyCompany LLC.",
+      location: "Conference Room D",
+      link: "https://www.example.com/event4",
+    },
+  ],
+  Thursday: [
+    {
+      date: "January 2, 2022",
+      time: "9:00 AM",
+      description: "Event 3",
+      presenter: "Bob Johnson",
+      company: "XYZ Inc.",
+      location: "Conference Room C",
+      link: "https://www.example.com/event3",
+    },
+    {
+      date: "January 2, 2022",
+      time: "10:00 AM",
+      description: "Event 4",
+      presenter: "Mary Brown",
+      company: "MyCompany LLC.",
+      location: "Conference Room D",
+      link: "https://www.example.com/event4",
+    },
+  ],
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.light,

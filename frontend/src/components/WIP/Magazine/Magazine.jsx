@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import servicesData from "../../Services/Timeline/servicesData";
-import ServiceCard from "../../Services/Timeline/ServiceCard";
+import servicesData from "../Timeline/servicesData";
+import ServiceCard from "../Timeline/ServiceCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {

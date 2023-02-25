@@ -67,7 +67,9 @@ class AboutFullView(generics.GenericAPIView):
 
 
 # Create your views here.
-class AboutBlockAPIView(generics.ListCreateAPIView):
+class AboutBlockAPIView(
+    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
+):
     queryset = AboutBlock.objects.all()
     serializer_class = AboutBlockSerializer
 
@@ -95,12 +97,16 @@ class AboutBlockAPIView(generics.ListCreateAPIView):
     #     return response
 
 
-class MissionStatementAPIView(generics.ListCreateAPIView):
+class MissionStatementAPIView(
+    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
+):
     queryset = MissionStatement.objects.all()
     serializer_class = MissionStatementSerializer
 
 
-class CompanyHistoryAPIView(generics.ListCreateAPIView):
+class CompanyHistoryAPIView(
+    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
+):
     queryset = CompanyHistory.objects.all()
     serializer_class = CompanyHistorySerializer
 

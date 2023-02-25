@@ -11,7 +11,7 @@ import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEdi
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.light,
-    padding: theme.spacing(8, 0),
+    padding: theme.spacing(8, 0, 20, 0),
   },
   gridItem: {
     display: "flex",

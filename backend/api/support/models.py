@@ -10,3 +10,7 @@ class Messages(models.Model):
     is_read = models.BooleanField(default=False)
     is_replied = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Messages"
+        verbose_name_plural = "Messages"

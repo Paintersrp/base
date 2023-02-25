@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Values from "../Values/Values";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import EditButton from "../../Elements/Buttons/EditButton";
 import AboutHeadingEdit from "../Heading/AboutHeadingEdit";
 import Heading from "../Heading/Heading";
 import ContentSection from "../Content/ContentSection";
+import useInput from "../../../hooks/useInput";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,11 +35,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function About() {
+  const {
+    value: missionData,
+    handleChange: handleChangeMission,
+    setValue: setMissionData,
+  } = useInput([]);
   const auth = useSelector((state) => state.auth);
   const classes = useStyles();
 
   const [data, setData] = useState([]);
-  const [missionData, setMissionData] = useState([]);
+
+  // const [missionData, setMissionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   const [valuesData, setValuesData] = useState(null);
 
@@ -88,64 +94,68 @@ export default function About() {
   };
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper} elevation={0}>
-        <Grid
-          container
-          spacing={2}
-          style={{ display: "flex", justifyContent: "left" }}
-        >
-          <>
-            {!editTitle && auth.is_superuser ? (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <EditButton
-                  onClick={() => setEditTitle(!editTitle)}
-                  editState={editTitle}
-                  position="end"
-                />
-              </div>
-            ) : null}
-            {!editTitle ? (
-              <Heading data={data} />
-            ) : (
-              <Grid item xs={12} sm={12}>
-                <AboutHeadingEdit
-                  aboutBlock={data}
-                  onUpdate={updateBlock}
-                  handleCancel={() => setEditTitle(!editTitle)}
-                />
+    <>
+      {missionData && (
+        <div className={classes.root}>
+          <Paper className={classes.paper} elevation={0}>
+            <Grid
+              container
+              spacing={2}
+              style={{ display: "flex", justifyContent: "left" }}
+            >
+              <>
+                {!editTitle && auth.is_superuser ? (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <EditButton
+                      onClick={() => setEditTitle(!editTitle)}
+                      editState={editTitle}
+                      position="end"
+                    />
+                  </div>
+                ) : null}
+                {!editTitle ? (
+                  <Heading data={data} />
+                ) : (
+                  <Grid item xs={12} sm={12}>
+                    <AboutHeadingEdit
+                      aboutBlock={data}
+                      onUpdate={updateBlock}
+                      handleCancel={() => setEditTitle(!editTitle)}
+                    />
+                  </Grid>
+                )}
+              </>
+              <ContentSection
+                title={missionData.title}
+                body={missionBody}
+                editState={editMission}
+                setEdit={setEditMission}
+                onUpdate={updateMission}
+                type={"missionstatement"}
+                auth={auth}
+              />
+              <ContentSection
+                title={historyData.title}
+                body={historyBody}
+                editState={editHistory}
+                setEdit={setEditHistory}
+                onUpdate={updateHistory}
+                type={"companyhistory"}
+                auth={auth}
+              />
+              <Grid item xs={12} sm={12} className={classes.section}>
+                {valuesData ? <Values valuesData={valuesData} /> : null}
               </Grid>
-            )}
-          </>
-          <ContentSection
-            title={missionData.title}
-            body={missionBody}
-            editState={editMission}
-            setEdit={setEditMission}
-            onUpdate={updateMission}
-            type={"mission"}
-            auth={auth}
-          />
-          <ContentSection
-            title={historyData.title}
-            body={historyBody}
-            editState={editHistory}
-            setEdit={setEditHistory}
-            onUpdate={updateHistory}
-            type={"history"}
-            auth={auth}
-          />
-          <Grid item xs={12} sm={12} className={classes.section}>
-            {valuesData ? <Values valuesData={valuesData} /> : null}
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+            </Grid>
+          </Paper>
+        </div>
+      )}
+    </>
   );
 }

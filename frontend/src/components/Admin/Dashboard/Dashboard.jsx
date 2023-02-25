@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ModelDisplay() {
+function Dashboard() {
   const classes = useStyles();
   const [models, setModels] = useState({});
   const [openAppSections, setOpenAppSections] = useState({});
@@ -85,12 +85,7 @@ function ModelDisplay() {
               <NavigateNext />
             </ListItemIcon>
 
-            <ListItemText
-              primary={
-                model.model_name.charAt(0).toUpperCase() +
-                model.model_name.slice(1)
-              }
-            />
+            <ListItemText primary={model.verbose_name} />
           </ListItem>
         </Link>
       ));
@@ -161,4 +156,4 @@ function ModelDisplay() {
   );
 }
 
-export default ModelDisplay;
+export default Dashboard;

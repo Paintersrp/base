@@ -57,14 +57,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManytoManyField = ({ fieldName, handleChange }) => {
-  const [fields, setFields] = useState([]);
+const ManytoManyField = ({ data, fieldName, handleChange }) => {
+  console.log("data: ", data);
+  const [fields, setFields] = useState(data);
   const [inputValue, setInputValue] = useState("");
   const classes = useStyles();
 
   const handleAddField = () => {
     if (inputValue) {
-      const updatedFields = [...fields, inputValue];
+      const newField = { fieldName: inputValue };
+      const updatedFields = [...fields, newField];
       setFields(updatedFields);
       handleChange(fieldName, updatedFields);
       setInputValue("");
@@ -102,10 +104,10 @@ const ManytoManyField = ({ fieldName, handleChange }) => {
           }}
         />
         <div>
-          {fields.map((item) => (
+          {data.map((item) => (
             <Chip
-              key={item}
-              label={item}
+              key={item.detail}
+              label={item.detail}
               onDelete={handleDeleteTag(item)}
               className={classes.chip}
             />
