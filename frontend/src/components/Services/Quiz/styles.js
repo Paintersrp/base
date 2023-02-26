@@ -2,11 +2,15 @@ import { makeStyles } from "@material-ui/core";
 
 export const quizStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(8),
     padding: theme.spacing(2),
     width: "100%",
     display: "flex",
     justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(4),
+    },
   },
   fieldset: {
     minHeight: 325,
@@ -65,7 +69,16 @@ export const quizStyles = makeStyles((theme) => ({
   },
   stepper: {
     [theme.breakpoints.down("xs")]: {
-      padding: "0px !important",
+      "& .MuiStepLabel-label": {
+        textAlign: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: theme.spacing(1),
+      },
+
+      "& .MuiStepLabel-iconContainer": {
+        marginBottom: theme.spacing(1),
+      },
     },
   },
   fadeIn: {

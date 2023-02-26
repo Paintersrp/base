@@ -36,5 +36,5 @@ class JobPosting(models.Model):
         super().delete(*args, **kwargs)
 
     class Meta:
-        verbose_name = "Openings"
-        verbose_name_plural = "Openings"
+        verbose_name = "Job Openings"
+        verbose_name_plural = "Job Openings"

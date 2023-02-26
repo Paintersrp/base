@@ -92,7 +92,7 @@ const UpdateArticleView = ({ manualId }) => {
           res = await axios.get(
             `http://localhost:8000/api/articles/${manualId}/`
           );
-          console.log(res);
+          console.log("test: ", res);
         } else {
           res = await axios.get(`http://localhost:8000/api/articles/${id}/`);
         }

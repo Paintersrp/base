@@ -28,7 +28,6 @@ function ServicesPage() {
           <div className={classes.quizContainer}>
             <Quiz />
           </div>
-          <Benefits />
         </div>
       </Grid>
     </ContentLayout>

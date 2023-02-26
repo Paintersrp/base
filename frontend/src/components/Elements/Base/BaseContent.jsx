@@ -31,6 +31,7 @@ function BaseContent({
   pt = 0,
   pb = 0,
   br = 1,
+  background = "#F5F5F5",
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -48,6 +49,7 @@ function BaseContent({
         paddingLeft: theme.spacing(pl),
         paddingTop: theme.spacing(pt),
         paddingBottom: theme.spacing(pb),
+        background: background,
       }}
     >
       <div
@@ -58,6 +60,7 @@ function BaseContent({
           marginTop: theme.spacing(mt),
           boxShadow: theme.shadows[boxShadow],
           borderRadius: theme.spacing(br),
+          background: background,
           margin: "0 auto",
           width: "100%",
         }}

@@ -9,7 +9,7 @@ import {
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
 import StyledButton from "../../Elements/Buttons/StyledButton";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
 import ControlForm from "../Components/ControlForm/ControlForm";
 import UpdateArticleView from "../../Articles/Update/UpdateArticleView";
@@ -17,9 +17,10 @@ import CreateUpdateArticle from "../../Articles/Create/ArticleCreateUpdate";
 import PanelTable from "./PanelTable";
 
 const Panel = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const { url, keys, appName } = location.state || {};
+  const { url, keys, appName, model } = location.state || {};
   const [data, setData] = useState([]);
   const [editData, setEditData] = useState(null);
   const [selectedId, setSelectedId] = useState([]);
@@ -27,9 +28,32 @@ const Panel = () => {
   const [createFormOpen, setCreateFormOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
 
-  const handleEdit = (data) => {
+  const handleArticleEdit = (data) => {
+    navigate(`/admin/${model.model_name}/control`, {
+      state: {
+        url: url,
+        keys: keys,
+        appName: appName,
+        model: model,
+        id: data.id,
+      },
+    });
     setEditData(data);
-    setEditFormOpen(true);
+  };
+
+  const handleEdit = (data) => {
+    navigate(`/admin/${model.model_name}/control`, {
+      state: {
+        url: url,
+        keys: keys,
+        appName: appName,
+        model: model,
+        id: data.id,
+        data: data,
+      },
+    });
+    setEditData(data);
+    // setEditFormOpen(true);
   };
 
   const handleEditFormOpen = () => {
@@ -104,37 +128,65 @@ const Panel = () => {
   };
 
   return (
-    <BaseContent maxWidth={1000} pt={4} pb={4}>
+    <BaseContent maxWidth={1200} pt={4} pb={4}>
       <Breadcrumbs
         separator={<NavigateNext fontSize="small" />}
         aria-label="breadcrumb"
       >
-        <Link style={{ color: "black" }} to="/admin">
+        {/* <Link style={{ color: "black" }} to="/admin">
           Admin
-        </Link>
+        </Link> */}
         <Link style={{ color: "black" }} to="/admin">
-          Dashboard
+          Admin Dashboard
         </Link>
-        <Typography color="textPrimary">{url}</Typography>
+        <Typography color="textPrimary">{model.verbose_name}</Typography>
       </Breadcrumbs>
       <Grid container justifyContent="flex-end">
-        <StyledButton
-          buttonText="Create"
-          onClick={handleCreateFormOpen}
-          minWidth={0}
-        />
+        <Link
+          to={`/admin/${model.model_name}/control`}
+          state={{
+            url: url,
+            keys: keys,
+            appName: appName,
+            model: model,
+            id: selectedId ? selectedId : null,
+          }}
+          key={appName}
+        >
+          <StyledButton
+            buttonText="Create"
+            // onClick={handleCreateFormOpen}
+            minWidth={0}
+          />
+        </Link>
       </Grid>
       <TableContainer>
         {data.length > 0 && (
-          <PanelTable
-            open={open}
-            keys={keys}
-            data={data}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-            handleConfirmDelete={handleConfirmDelete}
-            handleClose={handleClose}
-          />
+          <>
+            {id === "articles" ? (
+              <PanelTable
+                modelName={model.verbose_name}
+                open={open}
+                keys={keys}
+                data={data}
+                handleEdit={handleArticleEdit}
+                handleDelete={handleDelete}
+                handleConfirmDelete={handleConfirmDelete}
+                handleClose={handleClose}
+              />
+            ) : (
+              <PanelTable
+                modelName={model.verbose_name}
+                open={open}
+                keys={keys}
+                data={data}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                handleConfirmDelete={handleConfirmDelete}
+                handleClose={handleClose}
+              />
+            )}
+          </>
         )}
       </TableContainer>
       {id === "articles" ? (

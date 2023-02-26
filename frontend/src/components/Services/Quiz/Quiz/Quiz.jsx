@@ -27,7 +27,7 @@ const Quiz = () => {
   return (
     <div className={`${classes.root}`}>
       <Grid container flex justifyContent="center">
-        {!recommendedServices ? (
+        {!recommendedServices && (
           <>
             <Questionaire
               services={services}
@@ -35,18 +35,18 @@ const Quiz = () => {
               setUnrecommendedServices={setUnrecommendedServices}
             />
           </>
-        ) : null}
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {recommendedServices ? (
+        )}
+        {recommendedServices && (
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
             <ResultsDisplay
               services={services}
               setServices={setServices}
@@ -55,8 +55,8 @@ const Quiz = () => {
               recommendedServices={recommendedServices}
               unrecommendedServices={unrecommendedServices}
             />
-          ) : null}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
     </div>
   );

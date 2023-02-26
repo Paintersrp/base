@@ -121,7 +121,7 @@ export default function DetailsModal({ plan, close, classes }) {
           <Typography variant="h6" className={classes.itemText}>
             <strong>Types of Sites Supported:</strong>
             <List dense className={classes.detailsList}>
-              {plan.supportedsites.map((site, index) => (
+              {plan.supported_sites.map((site, index) => (
                 <ListItem key={site.id}>
                   <CheckIcon className={classes.checkIcon} />
                   <Typography variant="body2" style={{ marginLeft: 16 }}>

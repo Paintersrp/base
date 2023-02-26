@@ -14,6 +14,7 @@ import {
   ListItemIcon,
   IconButton,
   Collapse,
+  useTheme,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
@@ -50,6 +51,7 @@ function Dashboard() {
   const classes = useStyles();
   const [models, setModels] = useState({});
   const [openAppSections, setOpenAppSections] = useState({});
+  const theme = useTheme();
 
   useEffect(() => {
     axiosInstance
@@ -77,6 +79,7 @@ function Dashboard() {
             url: model.url,
             keys: model.keys,
             appName: appName,
+            model: model,
           }}
           key={model.model_name}
         >
@@ -94,9 +97,9 @@ function Dashboard() {
   const renderAppList = () => {
     const sections = [];
 
-    for (const [app, appModels] of Object.entries(models)) {
+    Object.entries(models).map(([app, appModels], index) => {
       if (app === "authorization") {
-        continue;
+        return null;
       }
       const isOpen = Boolean(openAppSections[app]);
       const toggleOpen = () =>
@@ -117,17 +120,40 @@ function Dashboard() {
                   {app.charAt(0).toUpperCase() + app.slice(1)}
                 </Typography>
               }
+              // style={{
+              //   transition: "border 0.3s ease-in-out",
+              //   border:
+              //     "2px solid " +
+              //     (index % 2 === 0
+              //       ? theme.palette.primary.main
+              //       : theme.palette.secondary.main),
+              //   borderBottom: isOpen
+              //     ? "0px"
+              //     : "2px solid " +
+              //       (index % 2 === 0
+              //         ? theme.palette.primary.main
+              //         : theme.palette.secondary.main),
+              // }}
             />
             <Collapse in={isOpen}>
-              <CardContent>
+              <CardContent
+              // style={{
+              //   transition: "border 0.3s ease-in-out",
+              //   border:
+              //     "2px solid " +
+              //     (index % 2 === 0
+              //       ? theme.palette.primary.main
+              //       : theme.palette.secondary.main),
+              //   borderTop: "0px",
+              // }}
+              >
                 <List>{renderModelList(appModels, app)}</List>
               </CardContent>
             </Collapse>
           </Card>
         </Grid>
       );
-      sections.push(<Divider key={`${app}-divider`} />);
-    }
+    });
 
     return sections;
   };
@@ -140,10 +166,10 @@ function Dashboard() {
             separator={<NavigateNext fontSize="small" />}
             aria-label="breadcrumb"
           >
-            <Link style={{ color: "black" }} to="/admin">
+            {/* <Link style={{ color: "black" }} to="/admin">
               Admin
-            </Link>
-            <Typography color="textPrimary">Dashboard</Typography>
+            </Link> */}
+            <Typography color="textPrimary">Admin Dashboard</Typography>
           </Breadcrumbs>
           <Grid container>{renderAppList()}</Grid>
         </div>

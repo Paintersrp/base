@@ -97,18 +97,13 @@ const Questionaire = ({
   };
 
   const handleSkip = () => {
-    console.log(services);
     const recommendedService = services.find(
       (service) => service.title === "Professional"
     );
-    console.log("Detail");
-    console.log(recommendedService);
     const unrecommendedServices = services.filter(
       (service) => service.title !== "Professional"
     );
-    console.log(unrecommendedServices);
     setRecommendedServices(recommendedService);
-    console.log("Pass");
     setUnrecommendedServices(unrecommendedServices);
     setCurrentStep(questions.length);
     setNextDisabled(true);
@@ -170,9 +165,9 @@ const Questionaire = ({
       <Grid item xs={12}>
         <br />
         <Stepper
+          orientation={isSmallScreen ? "vertical" : "horizontal"}
           activeStep={currentStep}
           className={classes.stepper}
-          classes={{ root: classes.stepper }}
           style={{ padding: "0px !important" }}
         >
           {questions.map((set, index) => (

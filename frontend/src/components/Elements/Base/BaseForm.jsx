@@ -103,7 +103,7 @@ function BaseForm({
   limitPadding = false,
   extraPadding = false,
   noSpacing = false,
-  style = "",
+  background = "#FFFFFF",
 }) {
   const classes = useStyles();
 
@@ -119,7 +119,7 @@ function BaseForm({
             ? classes.formNoSpacing
             : classes.form
         }
-        style={{ maxWidth: maxWidth }}
+        style={{ maxWidth: maxWidth, background: background }}
       >
         {title ? (
           <Typography variant="h4" className={classes.formTitle}>

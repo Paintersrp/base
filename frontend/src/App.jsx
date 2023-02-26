@@ -35,6 +35,7 @@ import JobIndividualView from "./components/Contact/Jobs/_Pages/JobIndividualVie
 import PanelPage from "./components/Admin/Panels/PanelPage";
 import AdminSidebar from "./components/Admin/Navigation/AdminSidebar";
 import DashboardPage from "./components/Admin/Dashboard/DashboardPage";
+import ObjectPage from "./components/Admin/Objects/ObjectPage";
 
 {
   /* 
@@ -193,6 +194,8 @@ function MyRoutes({ handleUpdate, setIsLoading }) {
         {/* Admin Routes */}
         <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/:id" element={<PanelPage />} />
+        <Route path="/admin/:id/control" element={<ObjectPage />} />
+        {/* <Route path="/admin/editarticle/:id" element={<EditPage />} /> */}
       </Routes>
       {!isAdminPath ? <Footer /> : <Footer />}
     </>

@@ -97,7 +97,11 @@ function JobListing() {
   return (
     <>
       {jobPostings && (
-        <Grid container spacing={0} style={{ marginTop: 40, padding: 16 }}>
+        <Grid
+          container
+          spacing={0}
+          style={{ marginTop: 40, padding: 16, background: "#FFFFFF" }}
+        >
           <BaseContent
             maxWidth={900}
             header="Jobs"
@@ -107,10 +111,18 @@ function JobListing() {
             mt={1}
             mb={1}
             br={1}
+            background="#FFFFFF"
           >
             {jobPostings.map((jobPosting, index) => (
               <>
-                <BaseContent maxWidth={900} boxShadow={0} pad={2} mt={0} mb={0}>
+                <BaseContent
+                  maxWidth={900}
+                  boxShadow={0}
+                  pad={2}
+                  mt={0}
+                  mb={0}
+                  background="#FFFFFF"
+                >
                   <Grid key={index} item xs={12}>
                     <Paper
                       className={

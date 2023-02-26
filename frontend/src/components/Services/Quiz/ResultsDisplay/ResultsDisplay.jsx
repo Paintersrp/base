@@ -6,6 +6,7 @@ import StyledButton from "../../../Elements/Buttons/StyledButton";
 import { quizStyles } from "../styles";
 import ServicesResult from "./ServicesResult";
 import TablesDisplay from "../TablesDisplay/TablesDisplay";
+import Benefits from "../../Benefits/Benefits";
 
 const ResultsDisplay = ({
   services,
@@ -56,6 +57,7 @@ const ResultsDisplay = ({
         />
       </Grid>
       <TablesDisplay />
+      <Benefits />
     </Box>
   );
 };

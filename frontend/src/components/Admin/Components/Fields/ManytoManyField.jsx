@@ -104,14 +104,15 @@ const ManytoManyField = ({ data, fieldName, handleChange }) => {
           }}
         />
         <div>
-          {data.map((item) => (
-            <Chip
-              key={item.detail}
-              label={item.detail}
-              onDelete={handleDeleteTag(item)}
-              className={classes.chip}
-            />
-          ))}
+          {data &&
+            data.map((item) => (
+              <Chip
+                key={item.detail}
+                label={item.detail}
+                onDelete={handleDeleteTag(item)}
+                className={classes.chip}
+              />
+            ))}
         </div>
       </Grid>
     </div>

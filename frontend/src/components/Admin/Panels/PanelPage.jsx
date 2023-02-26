@@ -10,7 +10,7 @@ function PanelPage() {
       keywords="news, posts, articles, touch"
       image="https://example.com/image.png"
       url="https://example.com/example-page"
-      backgroundColor="white"
+      backgroundColor="#F5F5F5"
     >
       <Panel />
     </ContentLayout>

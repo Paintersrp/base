@@ -9,8 +9,10 @@ import {
 } from "@material-ui/core";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
+import { Link } from "react-router-dom";
 
 const PanelTable = ({
+  modelName,
   open,
   keys,
   data,
@@ -19,6 +21,7 @@ const PanelTable = ({
   handleClose,
   handleConfirmDelete,
 }) => {
+  console.log(modelName);
   return (
     <Table>
       <TableHead>

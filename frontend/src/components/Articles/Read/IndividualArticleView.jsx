@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IndividualArticleView = () => {
+const IndividualArticleView = ({}) => {
   const { id } = useParams();
   const { fadeIn } = baseClasses();
   const [article, setArticle] = useState({});

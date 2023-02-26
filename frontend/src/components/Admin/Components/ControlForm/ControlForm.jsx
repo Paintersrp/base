@@ -30,8 +30,9 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
   }, []);
 
   const handleInputChange = (e) => {
+    console.log("111", e.target);
     const { name, value, type, checked } = e.target;
-    console.log(type);
+    console.log("handleInputChange: ", name, value, type, checked);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: type === "checkbox" ? checked : value,
@@ -84,6 +85,7 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
       handleSubmit={handleSubmit}
       maxWidth={800}
       title={modelMetadata.verboseName}
+      background="#F5F5F5"
     >
       <Grid container>
         {fieldMetadata &&

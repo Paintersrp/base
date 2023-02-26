@@ -13,6 +13,7 @@ import FormField from "../../../Elements/Fields/FormField";
 import ManytoManyField from "../Fields/ManytoManyField";
 import ImageEditMixin from "../../../Elements/Base/EditForm/ImageEditMxin";
 import IconSelectMixin from "../../../Elements/Base/EditForm/IconSelectMixin";
+import ChoiceType from "./Types/ChoiceType";
 
 const getByType = (
   fieldName,
@@ -202,7 +203,7 @@ const getByType = (
               .replace(/\b\w/g, (l) => l.toUpperCase())}
           </Typography>
           <ManytoManyField
-            data={formData[fieldName]}
+            data={formData ? formData[fieldName] : []}
             fieldName={fieldName}
             handleChange={handleManyToManyChange}
           />
@@ -229,59 +230,67 @@ const getByType = (
       );
     case "ChoiceField":
       return (
-        <Grid
-          item
-          xs={12}
-          style={{
-            order: 999,
-            paddingRight: 8,
-            paddingLeft: 8,
-          }}
-        >
-          <FormControlLabel
-            style={{ fontSize: "0.8rem", width: "100%", margin: 0 }}
-            control={
-              <Select
-                className={classes.select}
-                variant="outlined"
-                value={formData[fieldName]}
-                onChange={handleInputChange}
-                displayEmpty
-                name={fieldName}
-                margin="dense"
-                style={{ minWidth: "100%", padding: 0 }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "left",
-                  },
-                  transformOrigin: {
-                    vertical: "top",
-                    horizontal: "left",
-                  },
-                  getContentAnchorEl: null,
-                  classes: {
-                    paper: classes.menuPaper,
-                  },
-                  PaperProps: {
-                    style: {
-                      maxHeight: 300,
-                    },
-                  },
-                }}
-              >
-                <MenuItem value="">
-                  <em>Select an icon</em>
-                </MenuItem>
-                {Object.entries(choices).map(([key, value]) => (
-                  <MenuItem key={key} value={value}>
-                    <ListItemText primary={value} />
-                  </MenuItem>
-                ))}
-              </Select>
-            }
+        <>
+          <ChoiceType
+            formData={formData}
+            fieldName={fieldName}
+            handleInputChange={handleInputChange}
+            choices={choices}
           />
-        </Grid>
+          {/* <Grid
+            item
+            xs={12}
+            style={{
+              order: 999,
+              paddingRight: 8,
+              paddingLeft: 8,
+            }}
+          >
+            <FormControlLabel
+              style={{ fontSize: "0.8rem", width: "100%", margin: 0 }}
+              control={
+                <Select
+                  // className={classes.select}
+                  variant="outlined"
+                  value={formData[fieldName]}
+                  onChange={handleInputChange}
+                  displayEmpty
+                  name={fieldName}
+                  margin="dense"
+                  style={{ minWidth: "100%", padding: 0 }}
+                  MenuProps={{
+                    anchorOrigin: {
+                      vertical: "bottom",
+                      horizontal: "left",
+                    },
+                    transformOrigin: {
+                      vertical: "top",
+                      horizontal: "left",
+                    },
+                    getContentAnchorEl: null,
+                    classes: {
+                      // paper: classes.menuPaper,
+                    },
+                    PaperProps: {
+                      style: {
+                        maxHeight: 300,
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>Select an icon</em>
+                  </MenuItem>
+                  {Object.entries(choices).map(([key, value]) => (
+                    <MenuItem key={key} value={value.display}>
+                      <ListItemText primary={value.display} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              }
+            />
+          </Grid> */}
+        </>
       );
     default:
       return null;
