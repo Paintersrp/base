@@ -7,7 +7,13 @@ class BenefitsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Benefits
-        fields = "__all__"
+        fields = [
+            "id",
+            "icon",
+            "title",
+            "buttonText",
+            "description",
+        ]
 
 
 Benefits.serializer_class = BenefitsSerializer

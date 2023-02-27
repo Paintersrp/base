@@ -1,148 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
-import {
-  Grid,
-  Button,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
 import * as Yup from "yup";
 import FormField from "../../Fields/FormField";
 import StyledButton from "../../Buttons/StyledButton";
+import Flexbox from "../../Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    minWidth: 120,
-    margin: theme.spacing(0.5),
-    background: "#3f3f3f",
-    color: "white",
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white",
-      },
-      "&:hover fieldset": {
-        borderColor: "#e0e0e0",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
-      },
-    },
-    "& input": {
-      color: "white",
-    },
-    "& .MuiFormLabel-root": {
-      color: "white",
-      fontWeight: "700",
-      fontSize: "0.9rem",
-    },
-    "& textarea": {
-      color: "white",
-    },
-  },
-
-  field: {
-    margin: 2,
-    width: "100%",
-    "& .MuiOutlinedInput-root": {
-      fontFamily: "Roboto",
-      padding: 0,
-      margin: 5,
-      fontSize: "0.9rem",
-      fontWeight: "400",
-      width: "100%",
-      letterSpacing: 0.25,
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      fontFamily: "Roboto",
-      margin: 4,
-      color: "black",
-      fontWeight: "450",
-      fontSize: "1rem",
-      letterSpacing: 0.5,
-    },
-    "& input": {
-      color: "black",
-    },
-  },
-
-  select: {
-    color: "black",
-    borderColor: "black",
-    textAlign: "left",
-    marginBottom: 5,
-    "& .MuiSelect-root": {
-      color: "black",
-      borderColor: "black",
-    },
-    "& .MuiSelect-icon": {
-      color: "black",
-      borderColor: "black",
-    },
-    "& .MuiOutlinedInput-root": {
-      margin: 5,
-    },
-    "& .MuiOutlinedInput-input": {
-      color: "black",
-      borderColor: "black",
-      paddingTop: 10.5,
-      paddingBottom: 10.5,
-    },
-    "& .MuiSelect-select": {
-      color: "black",
-    },
-    "& .MuiSelect-select:focus": {
-      color: "black",
-      borderColor: "black",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      color: "black",
-      borderColor: "black",
-    },
-    "& .MuiFormLabel-root": {
-      fontFamily: "Roboto",
-      margin: 4,
-      color: "black",
-      fontWeight: "450",
-      fontSize: "1rem",
-      letterSpacing: 0.5,
-    },
-    "& input": {
-      color: "black",
-    },
-  },
-  label: {
-    color: "black",
-    "& .MuiFormLabel-root": {
-      color: "black !important",
-      fontWeight: "700",
-      fontSize: "0.9rem",
-    },
-  },
-  button: {
-    minWidth: 140,
-    boxShadow: theme.shadows[3],
-    backgroundColor: "#1C1C1C",
-    color: theme.palette.primary.contrastText,
-    marginTop: 10,
-    "&:hover": {
-      transform: "scale(1.02)",
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
   errorText: {
     color: "#f44336",
     margin: 0,
@@ -156,12 +20,15 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "1.66",
     letterSpacing: "0.03333em",
   },
+  flexBox: {
+    padding: 0,
+  },
 }));
 
 const ContactForm = (props) => {
+  const classes = useStyles();
   const { selectOptions } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const classes = useStyles();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -230,8 +97,8 @@ const ContactForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={0}>
-        <Grid item xs={12}>
+      <Flexbox className={classes.flexBox}>
+        <div xs={12} className={classes.flexBox}>
           <FormField
             id="subject"
             name="subject"
@@ -264,9 +131,9 @@ const ContactForm = (props) => {
               </MenuItem>
             ))}
           </FormField>
-        </Grid>
+        </div>
         {fields.map((field) => (
-          <Grid item xs={12} key={field.id}>
+          <div xs={12} key={field.id} className={classes.flexBox}>
             <FormField
               id={field.name}
               name={field.name}
@@ -278,16 +145,12 @@ const ContactForm = (props) => {
               error={formData.errors[field.name]}
               helperText={formData.errors[field.name]}
             />
-          </Grid>
+          </div>
         ))}
-        <Grid
-          item
-          xs={12}
-          style={{ display: "flex", justifyContent: "center" }}
-        >
+        <div xs={12} style={{ display: "flex", justifyContent: "center" }}>
           <StyledButton type="submit" buttonText="Submit" />
-        </Grid>
-      </Grid>
+        </div>
+      </Flexbox>
     </form>
   );
 };

@@ -56,20 +56,10 @@ class ValueSerializer(serializers.ModelSerializer):
 
 class ContactInformationSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
-        "email",
+        "id",
         "phone",
         "address",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-        "facebook",
-        "linkedin",
-        "instagram",
-        "twitter",
+        "email",
     ]
 
     class Meta:
@@ -128,10 +118,6 @@ class TeamMemberSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
         "name",
         "role",
-        "bio",
-        "linkedIn",
-        "github",
-        "twitter",
     ]
 
     class Meta:

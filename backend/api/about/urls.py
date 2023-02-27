@@ -14,6 +14,7 @@ from .views import (
 
 urlpatterns = [
     path("value/", ValueViewSet.as_view(), name="value-list"),
+    path("value/<int:pk>/", ValueViewSet.as_view(), name="value-detail"),
     path("faq/", FAQListCreateView.as_view(), name="faq-list"),
     path("faq/<int:pk>/", FAQRetrieveUpdateDestroyView.as_view(), name="faqs-detail"),
     path("aboutblock/", AboutBlockAPIView.as_view(), name="aboutblock-list"),

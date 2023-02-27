@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   carousel: {
     margin: "0 auto",
     maxWidth: 1200,
+    width: "80%",
     [theme.breakpoints.down("sm")]: {
       margin: "0 16px",
     },

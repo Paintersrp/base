@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  TextField,
-  FormControlLabel,
-  Grid,
-  Typography,
-  Switch,
-  MenuItem,
-  ListItemText,
-  Select,
-} from "@material-ui/core";
-import FormField from "../../../Elements/Fields/FormField";
-import ManytoManyField from "../Fields/ManytoManyField";
-import ImageEditMixin from "../../../Elements/Base/EditForm/ImageEditMxin";
-import IconSelectMixin from "../../../Elements/Base/EditForm/IconSelectMixin";
 import ChoiceType from "./Types/ChoiceType";
+import ImageType from "./Types/ImageType";
+import ManyToManyType from "./Types/ManyToManyType";
+import DateType from "./Types/DateType";
+import FieldType from "./Types/FloatType";
+import TextType from "./Types/TextType";
+import CharType from "./Types/CharType";
+import BooleanType from "./Types/BooleanType";
 
 const getByType = (
   fieldName,
@@ -24,126 +17,38 @@ const getByType = (
   handleManyToManyChange,
   handleImageChange,
   newImage,
-  newImageName
+  newImageName,
+  xs_column_count,
+  md_column_count
 ) => {
   switch (fieldType) {
     case "BooleanField":
       return (
-        <>
-          <Grid
-            item
-            xs={12}
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              order: 2000,
-              paddingRight: 8,
-              paddingLeft: 8,
-            }}
-          >
-            <FormControlLabel
-              style={{
-                minWidth: 150,
-              }}
-              key={fieldName}
-              value={formData[fieldName]}
-              control={
-                <Switch
-                  name={fieldName}
-                  onChange={handleInputChange}
-                  checked={formData ? formData[fieldName] : ""}
-                />
-              }
-              label={fieldName
-                .replace(/_/g, " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
-            />
-          </Grid>
-        </>
+        <BooleanType
+          formData={formData}
+          fieldName={fieldName}
+          handleInputChange={handleInputChange}
+        />
       );
     case "CharField":
     case "EmailField":
     case "StringRelatedField":
       return (
-        <>
-          <Grid
-            item
-            xs={6}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingRight: 8,
-              paddingLeft: 8,
-            }}
-          >
-            <Grid container>
-              {fieldName === "icon" ? (
-                <IconSelectMixin
-                  formData={formData}
-                  handleChange={handleInputChange}
-                />
-              ) : (
-                <>
-                  <Typography
-                    variant="h4"
-                    style={{ marginLeft: 4, marginTop: 8 }}
-                  >
-                    {fieldName
-                      .replace(/_/g, " ")
-                      .replace(/\b\w/g, (l) => l.toUpperCase())}
-                  </Typography>
-                  <FormField
-                    id={fieldName}
-                    label={fieldName
-                      .replace(/_/g, " ")
-                      .replace(/\b\w/g, (l) => l.toUpperCase())}
-                    onChange={handleInputChange}
-                    value={formData[fieldName]}
-                  />
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </>
+        <CharType
+          formData={formData}
+          fieldName={fieldName}
+          handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
+        />
       );
     case "TextField":
       return (
-        <>
-          <Grid
-            item
-            xs={12}
-            style={{
-              paddingRight: 8,
-              paddingLeft: 8,
-            }}
-          >
-            <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-              {fieldName
-                .replace(/_/g, " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingRight: 8,
-              paddingLeft: 8,
-            }}
-          >
-            <FormField
-              id={fieldName}
-              label={fieldName
-                .replace(/_/g, " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
-              onChange={handleInputChange}
-              value={formData[fieldName]}
-              multiline
-            />
-          </Grid>
-        </>
+        <TextType
+          formData={formData}
+          fieldName={fieldName}
+          handleInputChange={handleInputChange}
+        />
       );
     case "IntegerField":
     case "PositiveIntegerField":
@@ -153,144 +58,40 @@ const getByType = (
     case "DecimalField":
     case "FloatField":
       return (
-        <>
-          <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-            {fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </Typography>
-          <TextField
-            key={fieldName}
-            name={fieldName}
-            label={fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-            onChange={handleInputChange}
-          />
-        </>
+        <FieldType
+          fieldName={fieldName}
+          handleInputChange={handleInputChange}
+        />
       );
     case "DateTimeField":
       return (
-        <>
-          <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-            {fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </Typography>
-          <FormField
-            id={fieldName}
-            label={fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-            onChange={handleInputChange}
-          />
-        </>
+        <DateType fieldName={fieldName} handleInputChange={handleInputChange} />
       );
     case "ListSerializer":
       return (
-        <Grid
-          item
-          xs={12}
-          style={{
-            order: 999,
-            paddingRight: 8,
-            paddingLeft: 8,
-          }}
-        >
-          <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-            {fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </Typography>
-          <ManytoManyField
-            data={formData ? formData[fieldName] : []}
-            fieldName={fieldName}
-            handleChange={handleManyToManyChange}
-          />
-        </Grid>
+        <ManyToManyType
+          formData={formData}
+          fieldName={fieldName}
+          handleManyToManyChange={handleManyToManyChange}
+        />
       );
     case "ImageField":
       return (
-        <Grid
-          item
-          xs={12}
-          style={{
-            order: 999,
-            paddingRight: 8,
-            paddingLeft: 8,
-          }}
-        >
-          <ImageEditMixin
-            formData={formData}
-            handleChange={handleImageChange}
-            newImage={newImage}
-            newImageName={newImageName}
-          />
-        </Grid>
+        <ImageType
+          formData={formData}
+          handleImageChange={handleImageChange}
+          newImage={newImage}
+          newImageName={newImageName}
+        />
       );
     case "ChoiceField":
       return (
-        <>
-          <ChoiceType
-            formData={formData}
-            fieldName={fieldName}
-            handleInputChange={handleInputChange}
-            choices={choices}
-          />
-          {/* <Grid
-            item
-            xs={12}
-            style={{
-              order: 999,
-              paddingRight: 8,
-              paddingLeft: 8,
-            }}
-          >
-            <FormControlLabel
-              style={{ fontSize: "0.8rem", width: "100%", margin: 0 }}
-              control={
-                <Select
-                  // className={classes.select}
-                  variant="outlined"
-                  value={formData[fieldName]}
-                  onChange={handleInputChange}
-                  displayEmpty
-                  name={fieldName}
-                  margin="dense"
-                  style={{ minWidth: "100%", padding: 0 }}
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: "bottom",
-                      horizontal: "left",
-                    },
-                    transformOrigin: {
-                      vertical: "top",
-                      horizontal: "left",
-                    },
-                    getContentAnchorEl: null,
-                    classes: {
-                      // paper: classes.menuPaper,
-                    },
-                    PaperProps: {
-                      style: {
-                        maxHeight: 300,
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>Select an icon</em>
-                  </MenuItem>
-                  {Object.entries(choices).map(([key, value]) => (
-                    <MenuItem key={key} value={value.display}>
-                      <ListItemText primary={value.display} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              }
-            />
-          </Grid> */}
-        </>
+        <ChoiceType
+          formData={formData}
+          fieldName={fieldName}
+          handleInputChange={handleInputChange}
+          choices={choices}
+        />
       );
     default:
       return null;

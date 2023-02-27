@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import InformationEdit from "./InformationEdit";
 import InformationField from "./InformationField";
 import { baseClasses } from "../../../classes";
 import ContactButtons from "../Contact/ContactButtons";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
@@ -37,16 +38,20 @@ export default function Information({ contactData }) {
           <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
             Contact Information
           </Typography>
-          <Grid
-            container
-            spacing={2}
-            className={`${classes.textContainer} ${fadeIn}`}
-          >
-            <InformationField text="Email:" data={data.email} />
-            <InformationField text="Phone:" data={data.phone} />
-            <InformationField text="Address:" data={data.address} />
-            <ContactButtons contactData={data} />
-          </Grid>
+          <Flexbox justify="space-between" align="center" className={fadeIn}>
+            <div xs={12} sm={12} style={{ marginTop: 10 }}>
+              <InformationField text="Email:" data={data.email} />
+            </div>
+            <div xs={12} sm={12} style={{ marginTop: 10 }}>
+              <InformationField text="Phone:" data={data.phone} />
+            </div>
+            <div xs={12} sm={12} style={{ marginTop: 10 }}>
+              <InformationField text="Address:" data={data.address} />
+            </div>
+            <div xs={12} sm={12} style={{ marginTop: 10 }}>
+              <ContactButtons contactData={data} />
+            </div>
+          </Flexbox>
           {!editing && auth.is_superuser ? (
             <div style={{ marginTop: 16 }}>
               <EditDeleteButtonMenu

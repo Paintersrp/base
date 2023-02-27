@@ -4,13 +4,18 @@ import { Button, Grid } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import BaseForm from "../../../Elements/Base/BaseForm";
 import getByType from "./getByType";
+import { useLocation, useNavigate } from "react-router-dom";
+import StyledButton from "../../../Elements/Buttons/StyledButton";
 
-const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
+const ControlForm = ({ endpointUrl, data = {}, handleUpdate }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(data);
   const [modelMetadata, setModelMetadata] = useState({});
   const [fieldMetadata, setFieldMetadata] = useState({});
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
+  const location = useLocation();
+  const { url, keys, appName, model, metadata } = location.state || {};
 
   const handleImageChange = (event) => {
     formData.image = event.target.files[0];
@@ -21,18 +26,16 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
-        console.log("meta: ", response.data);
         setFieldMetadata(response.data.fields);
         setModelMetadata(response.data);
+        console.log(response.data);
       });
     };
     fetchData();
   }, []);
 
   const handleInputChange = (e) => {
-    console.log("111", e.target);
     const { name, value, type, checked } = e.target;
-    console.log("handleInputChange: ", name, value, type, checked);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: type === "checkbox" ? checked : value,
@@ -44,6 +47,18 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
       ...prevFormData,
       [fieldName]: fieldValue,
     }));
+  };
+
+  const routeBackToModel = () => {
+    navigate(`/admin/${model.model_name}/`, {
+      state: {
+        url: url,
+        keys: keys,
+        appName: appName,
+        model: model,
+        metadata: metadata,
+      },
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -60,7 +75,7 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
           formData,
           config
         );
-        onClose();
+        routeBackToModel();
         handleUpdate();
       } catch (err) {
         console.log(err);
@@ -72,7 +87,7 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
           formData,
           config
         );
-        onClose();
+        routeBackToModel();
         handleUpdate();
       } catch (err) {
         console.log(err);
@@ -87,7 +102,7 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
       title={modelMetadata.verboseName}
       background="#F5F5F5"
     >
-      <Grid container>
+      <Grid container justifyContent="center">
         {fieldMetadata &&
           Object.keys(fieldMetadata).map((fieldName) => {
             if (
@@ -100,7 +115,9 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
             ) {
               return null;
             }
-            const { type, choices } = fieldMetadata[fieldName];
+            const { type, choices, xs_column_count, md_column_count } =
+              fieldMetadata[fieldName];
+
             const inputElement = getByType(
               fieldName,
               type,
@@ -110,7 +127,9 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
               handleManyToManyChange,
               handleImageChange,
               newImage,
-              newImageName
+              newImageName,
+              xs_column_count,
+              md_column_count
             );
 
             if (inputElement) {
@@ -121,9 +140,20 @@ const ControlForm = ({ endpointUrl, data = {}, onClose, handleUpdate }) => {
           })}
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: 16 }}>
-        <Button variant="contained" color="primary" type="submit">
+        <StyledButton
+          buttonText={Object.keys(data).length === 0 ? "Create" : "Update"}
+          minWidth={80}
+          color="primary"
+          type="submit"
+        >
           {Object.keys(data).length === 0 ? "Create" : "Update"}
-        </Button>
+        </StyledButton>
+        <StyledButton
+          buttonText={"Cancel"}
+          color="primary"
+          onClick={routeBackToModel}
+          minWidth={80}
+        />
       </Grid>
     </BaseForm>
   );

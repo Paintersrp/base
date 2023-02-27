@@ -31,6 +31,7 @@ import UnarchiveOutlinedIcon from "@material-ui/icons/UnarchiveOutlined";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import MessageDialog from "./MessageDialog";
+import useTablePagination from "../../../../hooks/useTablePagination";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,8 +52,8 @@ const Messages = () => {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
+    useTablePagination();
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [orderBy, setOrderBy] = useState("created_at");
   const [order, setOrder] = useState("desc");
@@ -70,15 +71,6 @@ const Messages = () => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleToggleProperty = async (messageId, property) => {

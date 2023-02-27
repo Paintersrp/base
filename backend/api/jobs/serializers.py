@@ -25,7 +25,7 @@ class JobPostingSerializer(serializers.ModelSerializer):
     requirements = RequirementSerializer(many=True, read_only=False)
     responsibilities = ResponsibilitiesSerializer(many=True, read_only=False)
 
-    FIELD_KEYS = ["tagline"]
+    FIELD_KEYS = ["created_at", "position", "location", "type", "filled"]
 
     class Meta:
         model = JobPosting
@@ -48,7 +48,7 @@ class JobPostingSerializer(serializers.ModelSerializer):
         return posting
 
     def update(self, instance, validated_data):
-        print(validated_datacd)
+        print(validated_data)
         requirements_data = validated_data.pop("requirements", [])
         responsibilities_data = validated_data.pop("responsibilities", [])
 

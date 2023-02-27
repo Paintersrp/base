@@ -13,6 +13,7 @@ import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../_NotStarted/CountDown/CountdownBlock";
 import Statistics from "../Statistics/Statistics";
 import Messages from "../Support/Messages/Messages";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const testimonials = [
   {
@@ -140,6 +141,34 @@ const wipComponents = [
 export default function WIPDemo() {
   return (
     <div style={{ maxWidth: "100vw" }}>
+      <Flexbox justify="center" align="center">
+        <h2 xs={12} style={{ textAlign: "center" }}>
+          Custom Flexbox Demo
+        </h2>
+        <Button xs={12} sm={6} md={4} lg={1} xl={12}>
+          Item 1
+        </Button>
+        <div xs={12} sm={6} md={3} style={{ border: "1px solid black" }}>
+          Item 2
+        </div>
+        <div xs={12} sm={6} md={4} lg={3}>
+          Item 3
+        </div>
+        <div xs={12} sm={12} md={3}>
+          Item 4
+        </div>
+        <div xs={12} sm={6} md={8} lg={12} xl={3}>
+          Item 5
+        </div>
+      </Flexbox>
+      <Flexbox justify="center" align="center">
+        <h2 xs={5} style={{ textAlign: "center" }}>
+          Custom Flexbox Demo
+        </h2>
+        <h2 xs={5} style={{ textAlign: "center" }}>
+          Custom Flexbox Demo
+        </h2>
+      </Flexbox>
       <Demo demoTitle="WIP Components" components={wipComponents} />
     </div>
   );

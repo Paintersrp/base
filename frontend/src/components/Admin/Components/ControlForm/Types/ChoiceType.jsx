@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxHeight: "64px",
     overflow: "auto",
-    background: theme.palette.text.light,
+    background: "#F5F5F5",
     color: theme.palette.text.dark,
     "& .MuiSelect-icon": {
       color: theme.palette.text.dark,
@@ -61,11 +61,17 @@ const ChoiceType = ({ formData, fieldName, handleInputChange, choices }) => {
     >
       <FormControl style={{ width: "100%" }}>
         <FormControlLabel
-          style={{ fontSize: "0.8rem", width: "100%", margin: 0 }}
+          style={{
+            fontSize: "0.8rem",
+            width: "100%",
+            margin: 0,
+            color: "black",
+          }}
           control={
             <Select
               className={classes.select}
               variant="outlined"
+              // label="select"
               value={
                 formData[fieldName]
                   ? formData[fieldName]

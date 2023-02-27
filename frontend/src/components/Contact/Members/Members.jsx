@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useState } from "react";
 import Member from "./Member";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,16 +40,20 @@ const Members = ({ membersData }) => {
   return (
     <div className={classes.root}>
       {members ? (
-        <Grid container spacing={0} className={classes.container}>
-          <Grid item xs={12} sm={12}>
-            <Typography variant="h2" className={classes.sectionTitle}>
+        <Flexbox className={classes.container}>
+          <div xs={12} sm={12}>
+            <Typography
+              variant="h2"
+              className={classes.sectionTitle}
+              style={{ width: "100%" }}
+            >
               Company Management
             </Typography>
-          </Grid>
+          </div>
           {members.map((member) => (
             <Member member={member} />
           ))}
-        </Grid>
+        </Flexbox>
       ) : null}
     </div>
   );

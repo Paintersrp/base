@@ -1,4 +1,5 @@
 from django.db import models
+from api.custom_fields import CustomCharField
 
 
 class Requirement(models.Model):
@@ -16,19 +17,29 @@ class Responsibilities(models.Model):
 
 
 class JobPosting(models.Model):
-    position = models.CharField(max_length=40)
-    location = models.CharField(max_length=80)
-    type = models.CharField(max_length=20)
-    tagline = models.TextField(max_length=100, null=True)
-    who_we_are = models.TextField(max_length=500)
-    requirements = models.ManyToManyField(Requirement, related_name="requirement")
-    responsibilities = models.ManyToManyField(
-        Responsibilities, related_name="responsibilities"
+    position = CustomCharField(
+        max_length=40, md_column_count=4, verbose_name="Position"
     )
-    why_apply = models.TextField(max_length=500)
-    looking_for = models.TextField(max_length=500, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    filled = models.BooleanField(default=False)
+    location = CustomCharField(
+        max_length=80, md_column_count=4, verbose_name="Location"
+    )
+    type = CustomCharField(max_length=20, md_column_count=4, verbose_name="Type")
+    tagline = models.TextField(max_length=100, null=True, verbose_name="Tagline")
+    who_we_are = models.TextField(max_length=500, verbose_name="Who We Are")
+    requirements = models.ManyToManyField(
+        Requirement, related_name="requirement", verbose_name="Requirement"
+    )
+    responsibilities = models.ManyToManyField(
+        Responsibilities,
+        related_name="responsibilities",
+        verbose_name="Responsibilities",
+    )
+    why_apply = models.TextField(max_length=500, verbose_name="Why Apply")
+    looking_for = models.TextField(
+        max_length=500, null=True, verbose_name="Looking For"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    filled = models.BooleanField(default=False, verbose_name="Filled")
 
     def delete(self, *args, **kwargs):
         self.requirements.all().delete()

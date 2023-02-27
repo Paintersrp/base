@@ -1,9 +1,10 @@
 from django.db import models
+from api.custom_fields import CustomCharField, CustomEmailField
 
 
 class AboutBlock(models.Model):
-    title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="about")
+    title = CustomCharField(max_length=200, md_column_count=10, verbose_name="Title")
+    image = models.ImageField(upload_to="about", verbose_name="Image")
 
     class Meta:
         verbose_name = "Heading"
@@ -11,8 +12,8 @@ class AboutBlock(models.Model):
 
 
 class MissionStatement(models.Model):
-    title = models.CharField(max_length=200)
-    body = models.TextField(max_length=10000, null=True)
+    title = CustomCharField(max_length=200, md_column_count=10, verbose_name="Title")
+    body = models.TextField(max_length=10000, null=True, verbose_name="Body")
 
     class Meta:
         verbose_name = "Mission Statement"
@@ -20,8 +21,8 @@ class MissionStatement(models.Model):
 
 
 class CompanyHistory(models.Model):
-    title = models.CharField(max_length=200)
-    body = models.TextField(max_length=10000, null=True)
+    title = CustomCharField(max_length=200, md_column_count=10, verbose_name="Title")
+    body = models.TextField(max_length=10000, null=True, verbose_name="Body")
 
     class Meta:
         verbose_name = "History"
@@ -29,8 +30,8 @@ class CompanyHistory(models.Model):
 
 
 class Value(models.Model):
-    title = models.CharField(max_length=100)
-    icon = models.CharField(max_length=40)
+    title = CustomCharField(max_length=100, md_column_count=8, verbose_name="Title")
+    icon = CustomCharField(max_length=40, md_column_count=8, verbose_name="Icon")
 
     class Meta:
         verbose_name = "Values"
@@ -38,24 +39,57 @@ class Value(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=100)
+    name = CustomCharField(max_length=100)
 
 
 class ContactInformation(models.Model):
-    email = models.EmailField()
-    phone = models.CharField(max_length=20)
-    address = models.TextField()
-    monday = models.CharField(max_length=40, null=True)
-    tuesday = models.CharField(max_length=40, null=True)
-    wednesday = models.CharField(max_length=40, null=True)
-    thursday = models.CharField(max_length=40, null=True)
-    friday = models.CharField(max_length=40, null=True)
-    saturday = models.CharField(max_length=40, null=True)
-    sunday = models.CharField(max_length=40, null=True)
-    facebook = models.CharField(max_length=100, null=True)
-    linkedin = models.CharField(max_length=100, null=True)
-    instagram = models.CharField(max_length=100, null=True)
-    twitter = models.CharField(max_length=100, null=True)
+    email = CustomEmailField(md_column_count=6, verbose_name="Email")
+    phone = CustomCharField(max_length=20, md_column_count=6, verbose_name="Phone")
+    address = models.TextField(verbose_name="Address")
+
+    monday = CustomCharField(
+        max_length=40, null=True, md_column_count=3, verbose_name="Monday"
+    )
+
+    tuesday = CustomCharField(
+        max_length=40, null=True, md_column_count=3, verbose_name="Tuesday"
+    )
+
+    wednesday = CustomCharField(
+        max_length=40, null=True, md_column_count=3, verbose_name="Wednesday"
+    )
+
+    thursday = CustomCharField(
+        max_length=40, null=True, md_column_count=3, verbose_name="Thursday"
+    )
+
+    friday = CustomCharField(
+        max_length=40, null=True, md_column_count=4, verbose_name="Friday"
+    )
+
+    saturday = CustomCharField(
+        max_length=40, null=True, md_column_count=4, verbose_name="Saturday"
+    )
+
+    sunday = CustomCharField(
+        max_length=40, null=True, md_column_count=4, verbose_name="Sunday"
+    )
+
+    facebook = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="Facebook"
+    )
+
+    linkedin = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="LinkedIn"
+    )
+
+    instagram = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="Instagram"
+    )
+
+    twitter = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="Twitter"
+    )
 
     class Meta:
         verbose_name = "Contact Information"
@@ -63,13 +97,17 @@ class ContactInformation(models.Model):
 
 
 class TeamMember(models.Model):
-    name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="about_members")
-    bio = models.TextField()
-    linkedIn = models.CharField(max_length=100)
-    github = models.CharField(max_length=100)
-    twitter = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="about_members", verbose_name="Image")
+    name = CustomCharField(max_length=100, md_column_count=5, verbose_name="Name")
+    role = CustomCharField(max_length=100, md_column_count=5, verbose_name="Role")
+
+    linkedIn = CustomCharField(
+        max_length=100, md_column_count=4, verbose_name="LinkedIn"
+    )
+
+    github = CustomCharField(max_length=100, md_column_count=4, verbose_name="GitHub")
+    twitter = CustomCharField(max_length=100, md_column_count=4, verbose_name="Twitter")
+    bio = models.TextField(verbose_name="Bio")
 
     def __str__(self):
         return self.name
@@ -80,13 +118,13 @@ class TeamMember(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = CustomCharField(max_length=100, verbose_name="Category")
 
 
 class FAQ(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    question = models.TextField()
-    answer = models.TextField()
+    question = models.TextField(verbose_name="Question")
+    answer = models.TextField(verbose_name="Answer")
 
     class Meta:
         verbose_name = "FAQ"

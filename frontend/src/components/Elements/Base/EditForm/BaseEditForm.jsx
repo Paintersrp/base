@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormField from "../../Fields/FormField";
 import TitleBlockMixin from "./TitleBlockMixin";
 import IconSelectMixin from "./IconSelectMixin";
 import ImageEditMixin from "./ImageEditMxin";
 import UpdateCancelButtonMenu from "../../Buttons/UpdateCancelButtonMenu";
+import Flexbox from "../../Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -61,7 +61,7 @@ function BaseEditForm({
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} className={classes.fadeIn}>
+    <Flexbox direction="column" className={classes.fadeIn}>
       <div className={classes.form} style={{ width: width }}>
         {title ? (
           <Typography variant="h4" className={classes.formTitle}>
@@ -77,22 +77,21 @@ function BaseEditForm({
               newImageName={newImageName}
             />
           ) : null}
-          <Grid container spacing={0}>
-            {Object.keys(formData).map((key) => {
-              if (!excludeKeys.includes(key)) {
-                return (
-                  <FormField
-                    key={key}
-                    id={key}
-                    label={key.charAt(0).toUpperCase() + key.slice(1)}
-                    value={formData[key]}
-                    onChange={handleChange}
-                    multiline={multilineKeys.includes(key)}
-                  />
-                );
-              }
-            })}
-          </Grid>
+          {Object.keys(formData).map((key) => {
+            if (!excludeKeys.includes(key)) {
+              return (
+                <FormField
+                  key={key}
+                  id={key}
+                  label={key.charAt(0).toUpperCase() + key.slice(1)}
+                  value={formData[key]}
+                  onChange={handleChange}
+                  multiline={multilineKeys.includes(key)}
+                />
+              );
+            }
+          })}
+
           {titleBlockMixin ? (
             <>
               <TitleBlockMixin
@@ -110,23 +109,9 @@ function BaseEditForm({
             position="center"
             placement="bottom"
           />
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
-            <StyledButton
-              type="submit"
-              buttonText="Update"
-              minWidth="0"
-              size="small"
-            />
-            <StyledButton
-              buttonText="Cancel"
-              onClick={handleCancel}
-              minWidth="0"
-              size="small"
-            />
-          </div> */}
         </form>
       </div>
-    </Grid>
+    </Flexbox>
   );
 }
 

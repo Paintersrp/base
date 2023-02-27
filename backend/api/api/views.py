@@ -36,6 +36,7 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
         )
         serializer = serializer_class()
         fields = serializer.get_fields()
+        print(fields)
 
         metadata = {
             "modelName": model.__name__,
@@ -87,42 +88,15 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
                 "choices": field_choices,
             }
 
-            # Add field metadata to the metadata dictionary
             metadata["fields"][field_name] = field_metadata
 
+        for field in model._meta.fields:
+            xs_column_count = getattr(field, "xs_column_count", 12)
+            md_column_count = getattr(field, "md_column_count", 12)
+            metadata["fields"][field.name]["xs_column_count"] = xs_column_count
+            metadata["fields"][field.name]["md_column_count"] = md_column_count
+
         return Response(metadata)
-
-
-# class ModelMetadataAPIView(generics.RetrieveAPIView):
-#     def get(self, request, model_name, format=None):
-#         models = apps.get_models(include_auto_created=True)
-
-#         model = next(
-#             (m for m in models if m.__name__.lower() == model_name.lower()), None
-#         )
-
-#         if model is None:
-#             return Response(status=status.HTTP_404_NOT_FOUND)
-
-#         serializer_class = getattr(
-#             model, "serializer_class", serializers.ModelSerializer
-#         )
-#         serializer = serializer_class()
-#         fields = serializer.get_fields()
-
-#         metadata = {}
-#         for field_name, field in fields.items():
-#             field_type = field.__class__.__name__
-#             if field_type == "CharField" and "base_template" in field.style:
-#                 field_type = "TextField"
-#             metadata[field_name] = {"type": field_type}
-
-#         metadata["modelName"] = model.__name__
-
-#         if "alignment" in metadata:
-#             metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
-
-#         return Response(metadata)
 
 
 class ModelEndpointAPIView(APIView):
@@ -140,10 +114,16 @@ class ModelEndpointAPIView(APIView):
 
             serializer = serializer_class()
             fields = serializer.get_fields()
-            metadata = {
-                field_name: {"type": field.__class__.__name__}
-                for field_name, field in fields.items()
-            }
+            metadata = {}
+
+            for field_name, field in fields.items():
+                if not field_name == "id":
+                    metadata[field_name] = {"type": field.__class__.__name__}
+
+                    if model._meta.get_field(field_name).verbose_name:
+                        metadata[field_name]["verbose_name"] = model._meta.get_field(
+                            field_name
+                        ).verbose_name
 
             if "alignment" in metadata:
                 metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)

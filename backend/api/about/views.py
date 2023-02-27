@@ -183,7 +183,7 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return JsonResponse(serializer.errors, status=400)
 
 
-class ValueViewSet(generics.ListCreateAPIView):
+class ValueViewSet(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     queryset = Value.objects.all()
     serializer_class = ValueSerializer
 

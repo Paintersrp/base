@@ -83,6 +83,7 @@ const FormField = ({
   select = false,
   SelectProps,
   children,
+  type = null,
 }) => {
   const classes = useStyles();
 
@@ -102,6 +103,7 @@ const FormField = ({
       helperText={helperText}
       select={select}
       SelectProps={SelectProps}
+      type={type}
     >
       {children}
     </TextField>

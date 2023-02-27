@@ -12,7 +12,8 @@ import ArticleCreate from "./Edit/ArticleCreate";
 
 function ObjectPage() {
   const location = useLocation();
-  const { url, keys, appName, model, id, data } = location.state || {};
+  const { url, keys, appName, model, metadata, id, data } =
+    location.state || {};
   console.log("id: ", id);
   console.log("modelName: ", model);
 
@@ -56,9 +57,6 @@ function ObjectPage() {
           separator={<NavigateNext fontSize="small" />}
           aria-label="breadcrumb"
         >
-          {/* <Link style={{ color: "black" }} to="/admin">
-            Admin
-          </Link> */}
           <Link style={{ color: "black" }} to="/admin">
             Admin Dashboard
           </Link>
@@ -69,6 +67,7 @@ function ObjectPage() {
               keys: keys,
               appName: appName,
               model: model,
+              metadata: metadata,
               id: id,
             }}
             key={appName}
@@ -85,16 +84,11 @@ function ObjectPage() {
         ) : model.verbose_name === "Articles" ? (
           <ArticleCreate />
         ) : !data ? (
-          <ControlForm
-            endpointUrl={url}
-            onClose={handleCreateFormClose}
-            handleUpdate={handleUpdate}
-          />
+          <ControlForm endpointUrl={url} handleUpdate={handleUpdate} />
         ) : (
           <ControlForm
             endpointUrl={url}
             data={data}
-            onClose={handleCreateFormClose}
             handleUpdate={handleUpdate}
           />
         )}

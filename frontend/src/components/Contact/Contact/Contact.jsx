@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Information from "../Information/Information";
 import Hours from "../Hours/Hours";
 import Social from "../Social/Social";
 import ContactForm from "../../Elements/Forms/ContactForm/ContactForm";
-import { baseClasses } from "../../../classes";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,16 +20,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     maxWidth: 900,
   },
-  container: {
-    justifyContent: "center",
-    display: "flex",
-    alignItems: "center",
-  },
   sectionTitle: {
     marginBottom: theme.spacing(1),
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
     textAlign: "left",
+    width: "100%",
   },
   formTitle: {
     fontWeight: 600,
@@ -39,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Contact({ contactData, color = "light" }) {
   const classes = useStyles();
-  const { flexCenter } = baseClasses();
 
   const options = [
     { label: "General Inquiry", value: "General Inquiry" },
@@ -51,26 +46,26 @@ export default function Contact({ contactData, color = "light" }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
-        <Grid container spacing={0} className={classes.container}>
-          <Grid item xs={12} sm={12} className={classes.section}>
+        <Flexbox justify="center" align="center" direction="column">
+          <div xs={12} sm={12}>
             <Typography variant="h2" className={classes.sectionTitle}>
               Contact Us
             </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          </div>
+          <div xs={12} sm={12} md={6}>
             <Information contactData={contactData} />
             <Hours contactData={contactData} />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} className={flexCenter}>
+          </div>
+          <div xs={12} sm={12} md={6}>
             <div style={{ width: "90%" }}>
               <Typography variant="h3" className={classes.formTitle}>
                 Contact
               </Typography>
               <ContactForm selectOptions={options} />
             </div>
-          </Grid>
+          </div>
           <Social color={color} contactData={contactData} title={true} />
-        </Grid>
+        </Flexbox>
       </Paper>
     </div>
   );

@@ -79,6 +79,7 @@ const ImageInput = ({ handleChange, handleClick, newImage, newImageName }) => {
                   onClick={handleClick}
                   minWidth={60}
                   noHover
+                  borderRadius={0}
                 />
               </InputAdornment>
             ),

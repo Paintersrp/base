@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[1],
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    borderRadius: 48,
     transition: "0.3s",
     "&:hover": {
       transform: "translateY(-2px)",
@@ -23,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(0),
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    borderRadius: 0,
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
     },
@@ -42,6 +40,8 @@ export default function StyledButton({
   noHover = false,
   startIcon = null,
   minWidth = 140,
+  disabled = false,
+  borderRadius = 48,
 }) {
   const classes = useStyles();
 
@@ -55,7 +55,12 @@ export default function StyledButton({
       onClick={onClick}
       type={type}
       startIcon={startIcon}
-      style={{ minWidth: minWidth, backgroundColor: color }}
+      style={{
+        minWidth: minWidth,
+        backgroundColor: color,
+        borderRadius: borderRadius,
+      }}
+      disabled={disabled}
     >
       {buttonText}
     </Button>

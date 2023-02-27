@@ -1,19 +1,17 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import EditHours from "./HoursEdit";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import EditButton from "../../Elements/Buttons/EditButton";
 import { baseClasses } from "../../../classes";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   textContainer: {
     display: "flex",
     justifyContent: "space-between",
-    padding: 0,
-    margin: 0,
     maxWidth: "85%",
   },
   closedText: {
@@ -56,9 +54,9 @@ export default function Hours({ contactData }) {
           <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
             Business Hours
           </Typography>
-          <Grid container spacing={1} className={`${flexCenter} ${fadeIn}`}>
+          <Flexbox justify="center" className={fadeIn}>
             {days.map((day) => (
-              <Grid item xs={12} sm={12} className={classes.textContainer}>
+              <div xs={12} sm={12} className={classes.textContainer}>
                 <Typography variant="subtitle1">{day.day}:</Typography>
                 {day.value === "Closed" ? (
                   <Typography
@@ -70,9 +68,9 @@ export default function Hours({ contactData }) {
                 ) : (
                   <Typography variant="subtitle1">{day.value}</Typography>
                 )}
-              </Grid>
+              </div>
             ))}
-          </Grid>
+          </Flexbox>
           {!editing && auth.is_superuser ? (
             <EditDeleteButtonMenu
               hideDelete

@@ -1,11 +1,19 @@
 from django.db import models
+from api.custom_fields import CustomCharField
 
 
 class Benefits(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=250)
-    icon = models.CharField(max_length=40)
-    buttonText = models.CharField(max_length=40)
+    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+    description = models.TextField(
+        max_length=250,
+        verbose_name="Description",
+    )
+    icon = CustomCharField(max_length=40, md_column_count=12, verbose_name="Icon")
+    buttonText = CustomCharField(
+        max_length=40,
+        md_column_count=6,
+        verbose_name="Button Text",
+    )
 
     class Meta:
         verbose_name = "Benefits"

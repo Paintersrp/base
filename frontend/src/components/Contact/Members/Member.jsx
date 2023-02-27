@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -10,6 +9,7 @@ import MemberEdit from "./MemberEdit";
 import MemberContent from "./MemberContent";
 import { baseClasses } from "../../../classes";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    marginTop: 20,
+    margin: theme.spacing(2, 2, 2, 2),
   },
   card: {
     maxWidth: 350,
@@ -62,51 +62,48 @@ const Member = ({ member }) => {
   };
 
   return (
-    <Grid
-      container
-      xs={12}
-      sm={6}
-      md={6}
-      key={memberData.name}
-      className={`${classes.container}`}
-    >
-      {!editing ? (
-        <Card className={`${classes.card} ${fadeIn}`}>
-          <CardHeader
-            avatar={
-              <Avatar
-                variant="rounded"
-                src={memberData.image}
-                className={classes.avatar}
+    <>
+      <Flexbox key={memberData.name} className={classes.container}>
+        <div xs={12} md={12} key={memberData.name}>
+          {!editing ? (
+            <Card className={`${classes.card} ${fadeIn}`}>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    variant="rounded"
+                    src={memberData.image}
+                    className={classes.avatar}
+                  />
+                }
+                title={memberData.name}
+                subheader={memberData.role}
+                classes={{
+                  title: classes.title,
+                  subheader: classes.subheader,
+                }}
               />
-            }
-            title={memberData.name}
-            subheader={memberData.role}
-            classes={{
-              title: classes.title,
-              subheader: classes.subheader,
-            }}
-          />
-          <MemberContent member={memberData} />
-          {!editing && auth.is_superuser ? (
-            <div style={{ marginTop: 4, marginBottom: 4, marginRight: 8 }}>
-              <EditDeleteButtonMenu
-                hideDelete
-                editClick={() => setEditing(!editing)}
-                position="flex-end"
-                placement="bottom"
-              />
-            </div>
-          ) : null}
-        </Card>
-      ) : (
-        <MemberEdit
-          member={memberData}
-          onUpdate={updateMember}
-          handleCancel={() => setEditing(!editing)}
-        />
-      )}
-    </Grid>
+              <MemberContent member={memberData} />
+              {!editing && auth.is_superuser ? (
+                <div style={{ marginTop: 4, marginBottom: 4, marginRight: 8 }}>
+                  <EditDeleteButtonMenu
+                    hideDelete
+                    editClick={() => setEditing(!editing)}
+                    position="flex-end"
+                    placement="bottom"
+                  />
+                </div>
+              ) : null}
+            </Card>
+          ) : (
+            <MemberEdit
+              member={memberData}
+              onUpdate={updateMember}
+              handleCancel={() => setEditing(!editing)}
+            />
+          )}
+        </div>
+      </Flexbox>
+    </>
   );
 };
 

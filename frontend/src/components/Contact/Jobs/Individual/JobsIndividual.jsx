@@ -218,9 +218,14 @@ const JobPosting = ({ job }) => {
                         rows={4}
                       />
                     </Grid>
-                    {/* <Grid item xs={12}>
-                <Input variant="outlined" label="Resume" required fullWidth />
-              </Grid> */}
+                    <Grid item xs={12}>
+                      <Input
+                        variant="outlined"
+                        label="Resume"
+                        required
+                        fullWidth
+                      />
+                    </Grid>
                     <Grid
                       item
                       xs={12}
