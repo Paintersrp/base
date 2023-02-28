@@ -31,7 +31,7 @@ class AboutBlockSerializer(serializers.ModelSerializer):
 
 
 class MissionStatementSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "body"]
+    FIELD_KEYS = ["title"]
 
     class Meta:
         model = MissionStatement
@@ -39,7 +39,7 @@ class MissionStatementSerializer(serializers.ModelSerializer):
 
 
 class CompanyHistorySerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "body"]
+    FIELD_KEYS = ["title"]
 
     class Meta:
         model = CompanyHistory
@@ -56,7 +56,6 @@ class ValueSerializer(serializers.ModelSerializer):
 
 class ContactInformationSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
-        "id",
         "phone",
         "address",
         "email",
@@ -74,6 +73,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
+
     class Meta:
         model = Category
         fields = "__all__"
@@ -81,7 +82,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class FAQSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(source="category.name")
-    FIELD_KEYS = ["category", "question", "answer"]
+    FIELD_KEYS = ["question", "answer", "category"]
 
     class Meta:
         model = FAQ
@@ -167,3 +168,4 @@ ContactInformation.serializer_class = ContactInformationSerializer
 TeamMember.serializer_class = TeamMemberSerializer
 FAQ.serializer_class = FAQSerializer
 Value.serializer_class = ValueSerializer
+Category.serializer_class = CategorySerializer

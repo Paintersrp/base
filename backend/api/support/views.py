@@ -3,11 +3,8 @@ from .serializers import *
 from .models import Messages
 
 
-class MessagesListView(generics.ListCreateAPIView):
-    queryset = Messages.objects.all()
-    serializer_class = MessagesSerializer
-
-
-class MessagesDetailView(generics.RetrieveUpdateDestroyAPIView):
+class MessagesListView(
+    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
+):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer

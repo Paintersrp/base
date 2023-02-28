@@ -24,7 +24,7 @@ const ValueEdit = ({ value, onUpdate, handleCancel }) => {
     };
     try {
       const res = await axios.patch(
-        `http://localhost:8000/api/values/${formData.id}/`,
+        `http://localhost:8000/api/value/${formData.id}/`,
         formData,
         config
       );

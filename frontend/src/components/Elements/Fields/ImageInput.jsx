@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, InputAdornment, TextField } from "@material-ui/core";
 import StyledButton from "../Buttons/StyledButton";
+import Flexbox from "../Layout/Flexbox/Flexbox";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -50,12 +51,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ImageInput = ({ handleChange, handleClick, newImage, newImageName }) => {
+const ImageInput = ({
+  xs,
+  md,
+  handleChange,
+  handleClick,
+  newImage,
+  newImageName,
+}) => {
   const classes = useStyles();
 
   return (
-    <Grid container justifyContent="center">
-      <div style={{ width: "65%" }}>
+    <Flexbox justify="center">
+      <div xs={xs} md={md}>
         <input
           accept="image/*"
           className={classes.input}
@@ -78,6 +86,7 @@ const ImageInput = ({ handleChange, handleClick, newImage, newImageName }) => {
                   buttonText="Upload"
                   onClick={handleClick}
                   minWidth={60}
+                  minHeight={38}
                   noHover
                   borderRadius={0}
                 />
@@ -86,7 +95,7 @@ const ImageInput = ({ handleChange, handleClick, newImage, newImageName }) => {
           }}
         />
       </div>
-    </Grid>
+    </Flexbox>
   );
 };
 

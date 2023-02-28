@@ -1,5 +1,5 @@
 from django.db import models
-from api.custom_fields import CustomCharField, CustomEmailField
+from api.customs import CustomCharField, CustomEmailField, CustomTextField
 
 
 class AboutBlock(models.Model):
@@ -120,11 +120,20 @@ class TeamMember(models.Model):
 class Category(models.Model):
     name = CustomCharField(max_length=100, verbose_name="Category")
 
+    class Meta:
+        verbose_name = "FAQ Categories"
+        verbose_name_plural = verbose_name + "Categories"
+
 
 class FAQ(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    question = models.TextField(verbose_name="Question")
-    answer = models.TextField(verbose_name="Answer")
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, verbose_name="Category"
+    )
+
+    question = CustomTextField(
+        max_length=500, md_column_count=6, verbose_name="Question"
+    )
+    answer = CustomTextField(max_length=500, md_column_count=6, verbose_name="Answer")
 
     class Meta:
         verbose_name = "FAQ"

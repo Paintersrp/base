@@ -19,8 +19,6 @@ class ThemeSettingsView(generics.RetrieveUpdateAPIView):
     serializer_class = ThemeSettingsSerializer
 
     def get_object(self):
-        print("Test", self.request.headers.get("Authorization"))
-
         if self.request.headers.get("Authorization"):
             authorization_header = self.request.headers.get("Authorization")
             token = authorization_header.split(" ")[1]

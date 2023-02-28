@@ -1,28 +1,21 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
 
-const TextType = ({ formData, fieldName, handleInputChange }) => {
+const TextType = ({
+  formData,
+  fieldName,
+  verboseName,
+  handleInputChange,
+  xsColumnCount,
+  mdColumnCount,
+}) => {
   return (
     <>
       <Grid
         item
-        xs={12}
-        style={{
-          paddingRight: 8,
-          paddingLeft: 8,
-          order: 100,
-        }}
-      >
-        {/* <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-          {fieldName
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase())}
-        </Typography> */}
-      </Grid>
-      <Grid
-        item
-        xs={12}
+        xs={xsColumnCount}
+        md={mdColumnCount}
         style={{
           display: "flex",
           justifyContent: "center",
@@ -33,9 +26,7 @@ const TextType = ({ formData, fieldName, handleInputChange }) => {
       >
         <FormField
           id={fieldName}
-          label={fieldName
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase())}
+          label={verboseName}
           onChange={handleInputChange}
           value={formData[fieldName]}
           multiline

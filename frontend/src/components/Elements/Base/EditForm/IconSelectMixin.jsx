@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import {
   FormControl,
-  FormControlLabel,
-  FormLabel,
   InputLabel,
   ListItemIcon,
   ListItemText,
@@ -33,7 +31,7 @@ import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
 const useStyles = makeStyles((theme) => ({
   select: {
     width: "100%",
-    maxHeight: "64px",
+    maxHeight: "50px",
     background: "#F5F5F5",
     color: theme.palette.text.dark,
     "& .MuiSelect-icon": {
@@ -102,7 +100,7 @@ function IconSelectMixin({ handleChange, formData, background = "white" }) {
   const classes = useStyles();
 
   return (
-    <FormControl style={{ width: "100%" }} variant="outlined">
+    <FormControl style={{ width: "100%", paddingBottom: 8 }} variant="outlined">
       <InputLabel shrink htmlFor="icon-select-label">
         Icon
       </InputLabel>
@@ -164,63 +162,3 @@ function IconSelectMixin({ handleChange, formData, background = "white" }) {
 }
 
 export default IconSelectMixin;
-
-{
-  /* <FormControl style={{ width: "100%" }}>
-        <FormControlLabel
-          style={{
-            fontSize: "0.8rem",
-            width: "100%",
-            margin: 0,
-            color: "black",
-          }}
-          control={
-            <Select
-              className={classes.select}
-              variant="outlined"
-              // label="select"
-              value={
-                formData[fieldName]
-                  ? formData[fieldName]
-                      .replace(/_/g, " ")
-                      .replace(/\b\w/g, (l) => l.toUpperCase())
-                  : ""
-              }
-              onChange={handleInputChange}
-              displayEmpty
-              name={fieldName}
-              margin="dense"
-              style={{ minWidth: "100%", padding: 0 }}
-              MenuProps={{
-                anchorOrigin: {
-                  vertical: "bottom",
-                  horizontal: "left",
-                },
-                transformOrigin: {
-                  vertical: "top",
-                  horizontal: "left",
-                },
-                getContentAnchorEl: null,
-                classes: {
-                  paper: classes.menuPaper,
-                },
-                PaperProps: {
-                  style: {
-                    maxHeight: 300,
-                  },
-                },
-              }}
-            >
-              <MenuItem value="">
-                <em>Select Text Alignment</em>
-              </MenuItem>
-              {Object.entries(choices).map(([key, value]) => (
-                <MenuItem key={key} value={value.display}>
-                  <span style={{ color: "black" }}>{value.display}</span>
-                </MenuItem>
-              ))}
-            </Select>
-          }
-        />
-      </FormControl> */
-}

@@ -1,15 +1,29 @@
 from django.db import models
+from api.customs import (
+    CustomCharField,
+    CustomTextField,
+    CustomEmailField,
+    CustomBooleanField,
+)
 
 
 class Messages(models.Model):
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-    subject = models.CharField(max_length=200)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
-    is_replied = models.BooleanField(default=False)
-    is_archived = models.BooleanField(default=False)
+    name = CustomCharField(max_length=50, md_column_count=4, verbose_name="Name")
+    email = CustomEmailField(md_column_count=4, verbose_name="Email")
+    subject = CustomCharField(max_length=100, md_column_count=4, verbose_name="Subject")
+    message = CustomTextField(
+        max_length=2000, md_column_count=12, verbose_name="Message"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    is_read = CustomBooleanField(
+        default=False, md_column_count=4, justify="center", verbose_name="Is Read"
+    )
+    is_replied = CustomBooleanField(
+        default=False, md_column_count=4, justify="center", verbose_name="Is Replied"
+    )
+    is_archived = CustomBooleanField(
+        default=False, md_column_count=4, justify="center", verbose_name="Is Archived"
+    )
 
     class Meta:
         verbose_name = "Messages"

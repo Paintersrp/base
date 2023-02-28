@@ -11,14 +11,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    margin: theme.spacing(2, 0, 2, 0),
+    margin: theme.spacing(0, 0, 6, 0),
+    minHeight: 100,
+    [theme.breakpoints.down("xs")]: {
+      margin: theme.spacing(0, 0, 7, 0),
+    },
   },
   button: {
     padding: theme.spacing(0.5, 1, 0.5, 1),
     background: theme.palette.primary.main,
-  },
-  select: {
-    margin: theme.spacing(0, 7, 0, 0),
   },
   option: {
     fontSize: "0.85rem",
@@ -62,7 +63,6 @@ export const Pagination = ({
   return (
     <div className={classes.root}>
       <div className={classes.select}>
-        <span className={classes.span}>Rows per page:</span>
         <Dropdown
           value={rowsPerPage}
           onChange={handleRowsPerPageChange}
@@ -82,14 +82,6 @@ export const Pagination = ({
         >
           <NavigateBeforeIcon />
         </IconButton>
-        <button
-          key={page + 1}
-          onClick={() => handlePageChange(page + 1)}
-          style={{ fontWeight: "bold" }}
-          className={classes.button}
-        >
-          {page + 1}
-        </button>
 
         <IconButton
           disabled={page === totalPages - 1}

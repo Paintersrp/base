@@ -1,122 +1,120 @@
 import React, { useState } from "react";
-import Chip from "@material-ui/core/Chip";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  useTheme,
+  TextField,
+  Button,
+  Chip,
+  Grid,
+  useMediaQuery,
+  IconButton,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    width: "100%",
-    flexWrap: "wrap",
-    padding: 0,
-    margin: 0,
-    marginBottom: theme.spacing(2),
-  },
   chip: {
-    borderRadius: 14,
-    backgroundColor: theme.palette.secondary.dark,
-    color: theme.palette.text.light,
-    marginRight: 5,
-    marginTop: 5,
-    fontWeight: 600,
-    fontFamily: "Roboto",
+    margin: theme.spacing(0.5),
+    border: "2px solid black",
+    color: theme.palette.text.dark,
+    background: "#F5F5F5",
   },
-  field: {
-    marginBottom: theme.spacing(1.5),
-    width: "100%",
-    "& .MuiOutlinedInput-root": {
-      fontFamily: "Roboto",
-      padding: 0,
-      fontSize: "0.9rem",
-      fontWeight: "400",
-      width: "100%",
-      letterSpacing: 0.25,
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      fontFamily: "Roboto",
-      color: "black",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-    },
-    "& input": {
-      color: "black",
-    },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
   },
 }));
 
-const ManytoManyField = ({ data, fieldName, handleChange }) => {
-  console.log("data: ", data);
-  const [fields, setFields] = useState(data);
-  const [inputValue, setInputValue] = useState("");
+const ManyToManyField = ({
+  data = {},
+  fieldName,
+  verboseName,
+  handleManyToManyChange,
+}) => {
   const classes = useStyles();
+  const [items, setItems] = useState(data);
+  const [newFeature, setNewFeature] = useState("");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const handleAddField = () => {
-    if (inputValue) {
-      const newField = { fieldName: inputValue };
-      const updatedFields = [...fields, newField];
-      setFields(updatedFields);
-      handleChange(fieldName, updatedFields);
-      setInputValue("");
+  const handleDeleteFeature = (feature) => () => {
+    setItems((prevFeatures) =>
+      prevFeatures.filter(
+        (prevFeature) => prevFeature.detail !== feature.detail
+      )
+    );
+  };
+
+  const handleAddFeature = () => {
+    if (newFeature) {
+      setItems((prevFeatures) => {
+        if (Array.isArray(prevFeatures)) {
+          return [...prevFeatures, { detail: newFeature }];
+        } else {
+          return [{ detail: newFeature }];
+        }
+      });
+      handleManyToManyChange(fieldName, newFeature);
+      setNewFeature("");
     }
   };
 
-  const handleDeleteTag = (itemToDelete) => () => {
-    const updatedFields = fields.filter((item) => item !== itemToDelete);
-    handleChange(updatedFields);
-    setFields(updatedFields);
+  const handleFeatureInputChange = (event) => {
+    setNewFeature(event.target.value);
   };
 
   return (
-    <div className={classes.root}>
-      <Grid style={{ marginTop: 8 }}>
+    <div style={{ width: "100%" }}>
+      <div>
         <TextField
           variant="outlined"
-          className={classes.field}
-          label={fieldName
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase())}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleAdd();
+          label={`Add ${verboseName}`}
+          value={newFeature}
+          onChange={handleFeatureInputChange}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              handleAddFeature();
             }
           }}
+          margin="dense"
+          fullWidth
           InputProps={{
             endAdornment: (
-              <IconButton onClick={handleAddField} style={{ marginRight: 8 }}>
+              <IconButton size="small" onClick={handleAddFeature}>
                 <AddIcon style={{ color: "black" }} />
               </IconButton>
             ),
           }}
         />
-        <div>
-          {data &&
-            data.map((item) => (
-              <Chip
-                key={item.detail}
-                label={item.detail}
-                onDelete={handleDeleteTag(item)}
-                className={classes.chip}
-              />
-            ))}
-        </div>
+      </div>
+      <Grid container>
+        {items.length > 0 &&
+          items.map((feature, index) => (
+            <Chip
+              key={index}
+              label={feature.detail}
+              onDelete={handleDeleteFeature(feature)}
+              className={classes.chip}
+              style={{
+                borderColor:
+                  index % 4 === 0
+                    ? theme.palette.primary.dark
+                    : index % 4 === 1
+                    ? theme.palette.secondary.dark
+                    : index % 4 === 2
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary.main,
+              }}
+            />
+          ))}
       </Grid>
     </div>
   );
 };
 
-export default ManytoManyField;
+export default ManyToManyField;

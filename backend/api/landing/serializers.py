@@ -1,4 +1,5 @@
 from rest_framework import serializers
+import re
 from .models import (
     HeroBlock,
     Feature,
@@ -20,7 +21,7 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 
 
 class TitleBlockSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title"]
+    FIELD_KEYS = ["title", "subtitle"]
 
     class Meta:
         model = TitleBlock
@@ -44,7 +45,7 @@ class FeatureSerializer(serializers.ModelSerializer):
 
 
 class SupportedSitesSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["site"]
+    FIELD_KEYS = ["detail"]
 
     class Meta:
         model = SupportedSites
@@ -52,17 +53,39 @@ class SupportedSitesSerializer(serializers.ModelSerializer):
 
 
 class PricingPlanSerializer(serializers.ModelSerializer):
-    features = FeatureSerializer(many=True, read_only=True)
-    supported_sites = SupportedSitesSerializer(many=True, read_only=True)
+    features = FeatureSerializer(many=True)
+    supported_sites = SupportedSitesSerializer(many=True)
     FIELD_KEYS = ["title", "price"]
 
     class Meta:
         model = PricingPlan
         fields = "__all__"
 
+    def format_data(self, data):
+        formatted_data = {"features": [], "supported_sites": []}
+
+        for key, value in data.items():
+            parts = re.findall(r"\[(.*?)\]", key)
+            name = key.split("[")[0]
+
+            if name == "features":
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "detail":
+                    feature_detail = value
+                    formatted_data[name].append(feature_detail)
+
+            elif name == "supported_sites":
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "detail":
+                    supported_site_detail = value
+                    formatted_data[name].append(supported_site_detail)
+
+            else:
+                formatted_data[name] = value
+
+        return formatted_data
+
 
 class ProcessSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title"]
+    FIELD_KEYS = ["title", "description", "icon"]
 
     class Meta:
         model = Process
@@ -70,7 +93,7 @@ class ProcessSerializer(serializers.ModelSerializer):
 
 
 class TestimonialSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["heading"]
+    FIELD_KEYS = ["name", "position", "text"]
 
     class Meta:
         model = Testimonial

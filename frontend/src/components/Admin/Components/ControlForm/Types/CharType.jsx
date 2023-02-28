@@ -1,11 +1,12 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
 import IconSelectMixin from "../../../../Elements/Base/EditForm/IconSelectMixin";
 
 const CharType = ({
   formData,
   fieldName,
+  verboseName,
   handleInputChange,
   xsColumnCount,
   mdColumnCount,
@@ -35,9 +36,7 @@ const CharType = ({
         <>
           <FormField
             id={fieldName}
-            label={fieldName
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
+            label={verboseName}
             onChange={handleInputChange}
             value={formData[fieldName]}
           />

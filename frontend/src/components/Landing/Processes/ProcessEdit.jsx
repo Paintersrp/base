@@ -137,7 +137,7 @@ const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/processes/${process.id}/`,
+        `http://localhost:8000/api/process/${process.id}/`,
         formData,
         config
       );
@@ -146,7 +146,7 @@ const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/processes/${process.id}/`
+        `http://localhost:8000/api/process/${process.id}/`
       );
       setFormData(res.data);
       updateProcess(res.data);

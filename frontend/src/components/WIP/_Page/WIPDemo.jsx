@@ -145,6 +145,7 @@ export default function WIPDemo() {
         <h2 xs={12} style={{ textAlign: "center" }}>
           Custom Flexbox Demo
         </h2>
+
         <Button xs={12} sm={6} md={4} lg={1} xl={12}>
           Item 1
         </Button>

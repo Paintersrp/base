@@ -1,25 +1,32 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
-import ManytoManyField from "../Fields/ManytoManyField";
+import { Grid } from "@material-ui/core";
+import ManyToManyField from "../Fields/ManyToManyField";
 
-const ManyToManyType = ({ formData, fieldName, handleManyToManyChange }) => {
+const ManyToManyType = ({
+  formData,
+  fieldName,
+  verboseName,
+  handleManyToManyChange,
+  xsColumnCount = 12,
+  mdColumnCount = 10,
+}) => {
   return (
     <Grid
       item
-      xs={12}
+      xs={xsColumnCount}
+      md={mdColumnCount}
       style={{
         order: 999,
         paddingRight: 8,
         paddingLeft: 8,
+        width: "100%",
       }}
     >
-      {/* <Typography variant="h4" style={{ marginLeft: 4, marginTop: 8 }}>
-        {fieldName.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
-      </Typography> */}
-      <ManytoManyField
-        data={formData ? formData[fieldName] : []}
+      <ManyToManyField
+        data={formData[fieldName]}
         fieldName={fieldName}
-        handleChange={handleManyToManyChange}
+        verboseName={verboseName}
+        handleManyToManyChange={handleManyToManyChange}
       />
     </Grid>
   );

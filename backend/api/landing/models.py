@@ -1,13 +1,22 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from api.customs import (
+    CustomCharField,
+    CustomTextField,
+    CustomDecimalField,
+)
 
 
 class HeroBlock(models.Model):
-    title = models.CharField(max_length=200)
-    heading = models.TextField()
-    text = models.TextField()
-    buttonText = models.CharField(max_length=50)
+    title = CustomCharField(max_length=200, md_column_count=6, verbose_name="Title")
+    heading = CustomTextField(max_length=500, md_column_count=6, verbose_name="Tagline")
+    text = CustomTextField(
+        max_length=500, md_column_count=6, verbose_name="Description Text"
+    )
+    buttonText = CustomCharField(
+        max_length=50, md_column_count=6, verbose_name="Button Text"
+    )
 
     class Meta:
         verbose_name = "Hero Section"
@@ -21,22 +30,37 @@ class TitleBlock(models.Model):
         ("Center", "Center"),
     )
 
-    name = models.CharField(max_length=100, unique=True)
-    title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=100)
-    description = models.CharField(max_length=250, null=True)
-    alignment = models.CharField(max_length=10, choices=ALIGNMENT_CHOICES)
-    show_divider = models.BooleanField(default=False)
+    name = CustomCharField(
+        max_length=100, unique=True, md_column_count=8, verbose_name="Section Name"
+    )
+    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+    subtitle = CustomCharField(
+        max_length=100, md_column_count=6, verbose_name="Subtitle"
+    )
+    description = CustomTextField(
+        max_length=250, null=True, md_column_count=12, verbose_name="Description"
+    )
+    alignment = CustomCharField(
+        max_length=10,
+        choices=ALIGNMENT_CHOICES,
+        md_column_count=12,
+        verbose_name="Alignment",
+    )
+    show_divider = models.BooleanField(default=False, verbose_name="Show Divider?")
 
     class Meta:
-        verbose_name = "Heading Blocks"
-        verbose_name_plural = "Heading Blocks"
+        verbose_name = "Section Headings"
+        verbose_name_plural = "Section Headings"
 
 
 class Item(models.Model):
-    image = models.ImageField(upload_to="carousel")
-    buttonText = models.CharField(max_length=20)
-    buttonLink = models.CharField(max_length=20)
+    image = models.ImageField(upload_to="carousel", verbose_name="Image")
+    buttonText = CustomCharField(
+        max_length=20, md_column_count=6, verbose_name="Button Text"
+    )
+    buttonLink = CustomCharField(
+        max_length=20, md_column_count=6, verbose_name="Button Link"
+    )
 
     class Meta:
         verbose_name = "Item"
@@ -44,7 +68,9 @@ class Item(models.Model):
 
 
 class Feature(models.Model):
-    detail = models.CharField(max_length=100)
+    detail = CustomCharField(
+        max_length=100, md_column_count=6, verbose_name="Feature Detail"
+    )
 
     def __str__(self):
         return self.detail
@@ -55,10 +81,10 @@ class Feature(models.Model):
 
 
 class SupportedSites(models.Model):
-    site = models.CharField(max_length=100)
+    detail = CustomCharField(max_length=100)
 
     def __str__(self):
-        return self.site
+        return self.detail
 
     class Meta:
         verbose_name = "SupportedSites"
@@ -66,15 +92,23 @@ class SupportedSites(models.Model):
 
 
 class PricingPlan(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to="pricing_images")
-    features = models.ManyToManyField(Feature, related_name="features")
-    supported_sites = models.ManyToManyField(
-        SupportedSites, related_name="supportedsites"
+    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+    price = CustomDecimalField(
+        max_digits=10, decimal_places=2, md_column_count=6, verbose_name="Price"
     )
-    bestFor = models.CharField(max_length=100, default="Tits")
-    guarantee = models.CharField(max_length=100, default="Tits")
+    image = models.ImageField(upload_to="pricing_images", verbose_name="Image")
+    features = models.ManyToManyField(
+        Feature, related_name="features", verbose_name="Features"
+    )
+    supported_sites = models.ManyToManyField(
+        SupportedSites, related_name="supportedsites", verbose_name="Supported Sites"
+    )
+    bestFor = CustomTextField(
+        max_length=100, md_column_count=6, verbose_name="Best For"
+    )
+    guarantee = CustomTextField(
+        max_length=100, md_column_count=6, verbose_name="Guarantee"
+    )
 
     def __str__(self):
         return self.title
@@ -90,20 +124,25 @@ class PricingPlan(models.Model):
 
 
 class Testimonial(models.Model):
-    heading = models.CharField(max_length=100)
-    text = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="testimonial_images")
-    name = models.CharField(max_length=40)
-    position = models.CharField(max_length=40)
+    heading = CustomCharField(max_length=100, md_column_count=4, verbose_name="Heading")
+    image = models.ImageField(upload_to="testimonial_images", verbose_name="Image")
+    name = CustomCharField(max_length=40, md_column_count=4, verbose_name="Name")
+    position = CustomCharField(
+        max_length=40, md_column_count=4, verbose_name="Position"
+    )
+    text = CustomTextField(max_length=200, md_column_count=10, verbose_name="Quote")
 
     class Meta:
         verbose_name = "Testimonials"
         verbose_name_plural = "Testimonials"
 
+
 class Process(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=200)
-    icon = models.CharField(max_length=40)
+    title = CustomCharField(max_length=100, md_column_count=8, verbose_name="Title")
+    description = CustomTextField(
+        max_length=200, md_column_count=12, verbose_name="Description"
+    )
+    icon = CustomCharField(max_length=40, md_column_count=12, verbose_name="Icon")
 
     class Meta:
         verbose_name = "Processes"

@@ -83,7 +83,7 @@ const ActionSelection = ({
 
   return (
     <>
-      <Grid item xs={3}>
+      <Grid item xs={6} md={3}>
         <FormControl style={{ width: "100%", height: "100%" }}>
           <Select
             className={classes.select}

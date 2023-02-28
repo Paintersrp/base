@@ -1,21 +1,24 @@
-import { Breadcrumbs, Typography } from "@material-ui/core";
+import { Breadcrumbs, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import ContentLayout from "../../Elements/Layout/ContentLayout";
 import ControlForm from "../Components/ControlForm/ControlForm";
 import { NavigateNext } from "@material-ui/icons";
 import BaseContent from "../../Elements/Base/BaseContent";
-import CreateUpdateArticle from "../../Articles/Create/ArticleCreateUpdate";
-import IndividualArticleView from "../../Articles/Read/IndividualArticleView";
 import UpdateArticleView from "../../Articles/Update/UpdateArticleView";
 import ArticleCreate from "./Edit/ArticleCreate";
 
+const useStyles = makeStyles((theme) => ({
+  activeLink: {
+    color: "#007bff",
+  },
+}));
+
 function ObjectPage() {
+  const classes = useStyles();
   const location = useLocation();
   const { url, keys, appName, model, metadata, id, data } =
     location.state || {};
-  console.log("id: ", id);
-  console.log("modelName: ", model);
 
   const handleCreateFormOpen = () => {
     setCreateFormOpen(true);
@@ -31,7 +34,6 @@ function ObjectPage() {
         .get(url)
         .then((response) => {
           setData(response.data);
-          console.log("admin-panel", response.data);
         })
         .catch((err) => {
           setError(err);
@@ -57,7 +59,7 @@ function ObjectPage() {
           separator={<NavigateNext fontSize="small" />}
           aria-label="breadcrumb"
         >
-          <Link style={{ color: "black" }} to="/admin">
+          <Link className={classes.activeLink} to="/admin">
             Admin Dashboard
           </Link>
           <Link
@@ -71,7 +73,7 @@ function ObjectPage() {
               id: id,
             }}
             key={appName}
-            style={{ color: "black" }}
+            className={classes.activeLink}
           >
             {model.verbose_name}
           </Link>

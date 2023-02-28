@@ -10,11 +10,11 @@ TitleBlock.defaultProps = {
 
 const getAlignClass = (alignment) => {
   switch (alignment) {
-    case "left":
+    case "Left":
       return "Left";
-    case "right":
+    case "Right":
       return "Right";
-    case "center":
+    case "Center":
       return "Center";
     default:
       return "Left";

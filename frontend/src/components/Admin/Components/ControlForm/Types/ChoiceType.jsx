@@ -45,14 +45,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChoiceType = ({ formData, fieldName, handleInputChange, choices }) => {
+const ChoiceType = ({
+  formData,
+  fieldName,
+  verboseName,
+  handleInputChange,
+  choices,
+  xsColumnCount,
+  mdColumnCount,
+}) => {
   const classes = useStyles();
-  console.log("tester: ", formData[fieldName]);
-  console.log("choices: ", choices);
   return (
     <Grid
       item
-      xs={12}
+      xs={xsColumnCount}
+      md={mdColumnCount}
       style={{
         order: 999,
         paddingRight: 8,
@@ -71,7 +78,6 @@ const ChoiceType = ({ formData, fieldName, handleInputChange, choices }) => {
             <Select
               className={classes.select}
               variant="outlined"
-              // label="select"
               value={
                 formData[fieldName]
                   ? formData[fieldName]

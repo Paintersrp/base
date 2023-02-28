@@ -28,7 +28,6 @@ const PanelTable = ({
   handleConfirmDelete,
   handleMultipleDeleteAction,
 }) => {
-  console.log("METADATA: ", metadata);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("");
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =

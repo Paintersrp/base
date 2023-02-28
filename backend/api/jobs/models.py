@@ -1,5 +1,5 @@
 from django.db import models
-from api.custom_fields import CustomCharField
+from api.customs import CustomCharField
 
 
 class Requirement(models.Model):

@@ -1,8 +1,8 @@
 from django.db import models
-from api.custom_fields import CustomCharField
+from api.customs import CustomCharField, BaseModel
 
 
-class Benefits(models.Model):
+class Benefits(BaseModel):
     title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
     description = models.TextField(
         max_length=250,

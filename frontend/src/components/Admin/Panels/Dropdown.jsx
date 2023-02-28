@@ -1,86 +1,109 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    border: "1px solid black",
-    display: "inline-block",
-    position: "absolute",
-    cursor: "pointer",
-    userSelect: "none",
-    padding: theme.spacing(0, 0, 0, 0),
-    width: 50,
-    backgroundColor: "#fff",
-    color: "#333",
-    fontSize: "0.85rem",
-    fontWeight: 500,
-    textAlign: "center",
-    transition: "background-color 0.2s ease-in-out",
+  selectWrapper: {
+    position: "relative",
+    width: "100%",
+    display: "flex",
   },
-  dropdown: {
-    border: "1px solid black",
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    backgroundColor: "#fff",
-    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
-    zIndex: 1,
+  selectLabel: {
+    paddingRight: "16px",
+    fontSize: "14px",
+    color: "#555",
   },
-  option: {
-    display: "block",
+  selectedOption: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  select: {
+    appearance: "none",
     padding: theme.spacing(0, 1, 0, 1),
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "14px",
+    fontWeight: 500,
+    fontFamily: "Roboto",
+    color: "#333",
+    backgroundColor: "#F5F5F5",
+    backgroundImage: "none",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 16px center",
     cursor: "pointer",
-    transition: "background-color 0.2s ease-in-out",
+    transition: "all 0.2s ease-in-out",
     "&:hover": {
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: "#DDDDDD",
+    },
+    "&:focus": {
+      outline: "none",
+      boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
     },
   },
-  display: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: 50,
+  menuWrapper: {
+    position: "absolute",
+    top: 23,
+    right: 0,
+    zIndex: 1,
+    minWidth: 58,
+    backgroundColor: "#F5F5F5",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    maxHeight: "8rem",
   },
-  icon: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-  value: {
-    marginLeft: theme.spacing(1),
+  menuItem: {
+    width: "100%",
+    fontSize: "14px",
+    fontWeight: 500,
+    fontFamily: "Roboto",
+    backgroundColor: "#F5F5F5",
+    color: "#333",
+    borderBottom: "1px solid #dddddd",
+    textAlign: "center",
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      backgroundColor: "#DDDDDD",
+    },
   },
 }));
 
-const Dropdown = ({ value, options, onChange }) => {
+const Dropdown = ({ value, options, onChange, label }) => {
   const classes = useStyles();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setIsOpen(!isOpen);
+  const handleSelectChange = (event) => {
+    onChange(event.target.value);
   };
 
-  const handleOptionClick = (option) => {
-    setIsOpen(false);
+  const handleMenuClick = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleMenuItemClick = (option) => {
     onChange(option);
+    setMenuOpen(false);
   };
 
   return (
-    <div className={`${classes.root}`} onClick={handleClick}>
-      <div className={classes.display}>
-        <div className={classes.value}>{value}</div>
-        <div className={classes.icon}>
-          <ArrowDropDownIcon />
+    <div className={classes.selectWrapper}>
+      <span style={{ display: "flex", alignItems: "center" }}>
+        Rows to Display:
+      </span>
+      <label className={classes.selectLabel}>{label}</label>
+      <div className={classes.select} onClick={handleMenuClick}>
+        <div className={classes.selectedOption}>
+          {value} <ArrowDropDownIcon />
         </div>
       </div>
-      {isOpen && (
-        <div className={classes.dropdown}>
+      {menuOpen && (
+        <div className={classes.menuWrapper}>
           {options.map((option) => (
             <div
               key={option}
-              className={classes.option}
-              onClick={() => handleOptionClick(option)}
+              className={classes.menuItem}
+              onClick={() => handleMenuItemClick(option)}
             >
               {option}
             </div>

@@ -7,6 +7,7 @@ import FormField from "../../Elements/Fields/FormField";
 import ImageEdit from "../../Elements/Fields/ImageEdit";
 import ImageInput from "../../Elements/Fields/ImageInput";
 import UpdateCancelButtonMenu from "../../Elements/Buttons/UpdateCancelButtonMenu";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -66,8 +67,8 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
       },
     };
     try {
-      await axios
-        .patch(`http://localhost:8000/api/aboutblock/`, formData, config)
+      await axiosInstance
+        .patch(`/aboutblock/1/`, formData, config)
         .then((res) => {
           onUpdate(res.data);
         });

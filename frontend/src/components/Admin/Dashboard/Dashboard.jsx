@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, Typography, Grid, Breadcrumbs } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  Grid,
+  Breadcrumbs,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
 import Loading from "../../Elements/Layout/Loading";
 import renderSections from "./renderSections";
 import { NavigateNext } from "@material-ui/icons";
+import RecentActions from "./RecentActions";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -33,19 +41,27 @@ function Dashboard() {
   const classes = useStyles();
   const [models, setModels] = useState({});
   const [openAppSections, setOpenAppSections] = useState({});
+  const [recentActions, setRecentActions] = useState([]);
 
   useEffect(() => {
     axiosInstance
       .get("/get_models/")
       .then((response) => {
         setModels(response.data);
-        console.log("models: ", response.data);
 
         const initialOpenAppSections = {};
         Object.keys(response.data).forEach((app) => {
           initialOpenAppSections[app] = true;
         });
         setOpenAppSections(initialOpenAppSections);
+      })
+      .catch((error) => console.log(error));
+
+    axiosInstance
+      .get("/recent_admin_actions/")
+      .then((response) => {
+        setRecentActions(response.data);
+        console.log("recent actions: ", response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -60,6 +76,7 @@ function Dashboard() {
           >
             <Typography color="textPrimary">Admin Dashboard</Typography>
           </Breadcrumbs>
+
           <Grid container>
             {renderSections({
               models,
@@ -67,6 +84,9 @@ function Dashboard() {
               setOpenAppSections,
               classes,
             })}
+            <Grid item xs={12}>
+              <RecentActions models={models} />
+            </Grid>
           </Grid>
         </div>
       ) : (

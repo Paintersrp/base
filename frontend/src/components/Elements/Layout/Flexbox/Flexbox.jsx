@@ -18,6 +18,10 @@ const Flexbox = ({
       className={`flexbox ${childJustifyClass} ${className ? className : ""}`}
     >
       {React.Children.map(children, (child) => {
+        if (!React.isValidElement(child)) {
+          return child;
+        }
+
         const { xs, sm, md, lg, xl, ...rest } = child.props;
         const xsSpanClass = getSpanClass(xs, "xs");
         const smSpanClass = sm && getSpanClass(sm, "sm");

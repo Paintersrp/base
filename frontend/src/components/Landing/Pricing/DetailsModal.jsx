@@ -125,7 +125,7 @@ export default function DetailsModal({ plan, close, classes }) {
                 <ListItem key={site.id}>
                   <CheckIcon className={classes.checkIcon} />
                   <Typography variant="body2" style={{ marginLeft: 16 }}>
-                    {site.site}
+                    {site.detail}
                   </Typography>
                 </ListItem>
               ))}

@@ -1,10 +1,10 @@
 from django.db import models
 from authorization.models import User
-from api.custom_fields import CustomCharField
+from api.customs import CustomCharField
 
 # Create your models here.
 class Tags(models.Model):
-    name = CustomCharField(max_length=255, md_column_count=10, verbose_name="Name")
+    name = CustomCharField(max_length=255, md_column_count=10, verbose_name="Item Name")
 
     def __str__(self):
         return self.name

@@ -79,6 +79,7 @@ function BaseEditForm({
           ) : null}
           {Object.keys(formData).map((key) => {
             if (!excludeKeys.includes(key)) {
+              console.log(key);
               return (
                 <FormField
                   key={key}

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
 
 export default function renderModels({ modelItem, appName, classes }) {
-  console.log("modelItem: ", modelItem);
   return modelItem
     .filter((model) => model.url !== null)
     .map((model) => (

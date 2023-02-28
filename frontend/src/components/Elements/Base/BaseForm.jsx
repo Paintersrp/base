@@ -1,7 +1,8 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -100,12 +101,16 @@ function BaseForm({
   handleSubmit,
   children,
   maxWidth = 360,
+  minHeight = 0,
   limitPadding = false,
   extraPadding = false,
   noSpacing = false,
   background = "#FFFFFF",
+  boxShadow = 0,
 }) {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <Grid item xs={12} style={{ padding: 0, margin: 0 }}>
@@ -119,10 +124,15 @@ function BaseForm({
             ? classes.formNoSpacing
             : classes.form
         }
-        style={{ maxWidth: maxWidth, background: background }}
+        style={{
+          maxWidth: maxWidth,
+          minHeight: minHeight,
+          background: background,
+          boxShadow: theme.shadows[boxShadow],
+        }}
       >
         {title ? (
-          <Typography variant="h4" className={classes.formTitle}>
+          <Typography variant="h3" className={classes.formTitle}>
             {title}
           </Typography>
         ) : null}

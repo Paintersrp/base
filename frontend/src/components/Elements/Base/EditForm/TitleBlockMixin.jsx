@@ -77,9 +77,9 @@ function TitleBlockMixin({ handleChange, formData, handleSwitchChange = {} }) {
                   getContentAnchorEl: null,
                 }}
               >
-                <MenuItem value="left">Left</MenuItem>
-                <MenuItem value="center">Center</MenuItem>
-                <MenuItem value="right">Right</MenuItem>
+                <MenuItem value="Left">Left</MenuItem>
+                <MenuItem value="Center">Center</MenuItem>
+                <MenuItem value="Right">Right</MenuItem>
               </Select>
             }
             label="Alignment"

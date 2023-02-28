@@ -13,11 +13,49 @@ from django.urls import reverse, NoReverseMatch
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.apps import apps
+from django.contrib.admin.models import LogEntry
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class RecentAdminActionsView(APIView):
+    def get(self, request, *args, **kwargs):
+        recent_actions = LogEntry.objects.all().order_by("-action_time")[:10]
+        data = []
+        for action in recent_actions:
+            content_type = action.content_type
+            model_name = content_type.model
+            app_label = content_type.app_label
+            try:
+                obj = action.get_edited_object()
+                obj_url = reverse(
+                    f"admin:{app_label}_{model_name}_change", args=[obj.pk]
+                )
+            except:
+                obj_url = None
+
+            data.append(
+                {
+                    "user": str(action.user),
+                    "action_time": action.action_time,
+                    "content_type": str(content_type),
+                    "model_name": model_name,
+                    "app_label": app_label,
+                    "object_id": str(action.object_id),
+                    "object_repr": action.object_repr,
+                    "change_message": action.change_message,
+                    "obj_url": obj_url,
+                }
+            )
+        return Response(data)
+
+    dispatch = method_decorator(cache_page(60 * 5))(APIView.dispatch)
 
 
 class ModelMetadataAPIView(generics.RetrieveAPIView):
@@ -36,7 +74,6 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
         )
         serializer = serializer_class()
         fields = serializer.get_fields()
-        print(fields)
 
         metadata = {
             "modelName": model.__name__,
@@ -58,10 +95,12 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
                 field_type = "TextField"
 
             related_model = (
-                getattr(field, "queryset", None).model
+                getattr(field, "queryset", None)
                 if isinstance(field, serializers.RelatedField)
                 else None
             )
+
+            print("test: ", related_model)
 
             choices = getattr(field, "choices", None)
             if choices:
@@ -93,8 +132,11 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
         for field in model._meta.fields:
             xs_column_count = getattr(field, "xs_column_count", 12)
             md_column_count = getattr(field, "md_column_count", 12)
+            justify = getattr(field, "justify", "left")
             metadata["fields"][field.name]["xs_column_count"] = xs_column_count
             metadata["fields"][field.name]["md_column_count"] = md_column_count
+            metadata["fields"][field.name]["justify"] = justify
+            print(metadata["fields"][field.name]["justify"])
 
         return Response(metadata)
 

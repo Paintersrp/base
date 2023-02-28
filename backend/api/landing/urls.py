@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
     HeroBlockAPIView,
-    PricingPlanListCreateView,
-    PricingPlanRetrieveUpdateDestroy,
+    PricingPlanView,
+    PricingPlanDetailView,
     FeatureViewSet,
     SupportedSiteViewSet,
     ItemViewSet,
@@ -10,6 +10,7 @@ from .views import (
     TitleBlockDetailAPIView,
     TestimonialViewSet,
     ProcessViewSet,
+    ProcessDetailViewSet,
     HeroBlockMainAPIView,
     HeroBlockDetailAPIView,
     TitleBlockUpdateAPIView,
@@ -27,7 +28,7 @@ urlpatterns = [
     ),
     path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-list"),
     path("process/", ProcessViewSet.as_view(), name="process-list"),
-    path("process/<int:pk>/", ProcessViewSet.as_view(), name="process-list"),
+    path("process/<int:pk>/", ProcessDetailViewSet.as_view(), name="process-detail"),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),
     path("heroblock/", HeroBlockAPIView.as_view(), name="heroblock-list"),
     path(
@@ -48,12 +49,12 @@ urlpatterns = [
     ),
     path(
         "pricingplan/",
-        PricingPlanListCreateView.as_view(),
+        PricingPlanView.as_view(),
         name="pricingplan-list",
     ),
     path(
         "pricingplan/<int:pk>/",
-        PricingPlanRetrieveUpdateDestroy.as_view(),
-        name="article-detail-update-delete",
+        PricingPlanDetailView.as_view(),
+        name="pricingplan-detail",
     ),
 ]

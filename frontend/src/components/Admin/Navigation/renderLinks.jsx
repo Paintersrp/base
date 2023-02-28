@@ -72,7 +72,8 @@ export default function renderLinks({
                     url: model.url,
                     keys: model.keys,
                     appName: appName,
-                    model: model.model_name,
+                    model: model,
+                    metadata: model.metadata,
                   }}
                   key={model.model_name}
                 >

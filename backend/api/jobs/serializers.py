@@ -48,7 +48,6 @@ class JobPostingSerializer(serializers.ModelSerializer):
         return posting
 
     def update(self, instance, validated_data):
-        print(validated_data)
         requirements_data = validated_data.pop("requirements", [])
         responsibilities_data = validated_data.pop("responsibilities", [])
 

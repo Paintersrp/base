@@ -7,9 +7,11 @@ import FieldType from "./Types/FloatType";
 import TextType from "./Types/TextType";
 import CharType from "./Types/CharType";
 import BooleanType from "./Types/BooleanType";
+import ForeignKeyType from "./Types/ForeignKeyType";
 
 const getByType = (
   fieldName,
+  verboseName,
   fieldType,
   handleInputChange,
   choices,
@@ -19,7 +21,8 @@ const getByType = (
   newImage,
   newImageName,
   xs_column_count,
-  md_column_count
+  md_column_count,
+  justify
 ) => {
   switch (fieldType) {
     case "BooleanField":
@@ -27,16 +30,31 @@ const getByType = (
         <BooleanType
           formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
           handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
+          justifyContent={justify}
         />
       );
     case "CharField":
     case "EmailField":
-    case "StringRelatedField":
       return (
         <CharType
           formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
+          handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
+        />
+      );
+    case "StringRelatedField":
+      return (
+        <ForeignKeyType
+          formData={formData}
+          fieldName={fieldName}
+          verboseName={verboseName}
           handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
@@ -47,7 +65,10 @@ const getByType = (
         <TextType
           formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
           handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
         />
       );
     case "IntegerField":
@@ -59,8 +80,12 @@ const getByType = (
     case "FloatField":
       return (
         <FieldType
+          formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
           handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
         />
       );
     case "DateTimeField":
@@ -72,7 +97,10 @@ const getByType = (
         <ManyToManyType
           formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
           handleManyToManyChange={handleManyToManyChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
         />
       );
     case "ImageField":
@@ -89,8 +117,11 @@ const getByType = (
         <ChoiceType
           formData={formData}
           fieldName={fieldName}
+          verboseName={verboseName}
           handleInputChange={handleInputChange}
           choices={choices}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
         />
       );
     default:

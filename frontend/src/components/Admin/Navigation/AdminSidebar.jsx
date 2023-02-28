@@ -66,6 +66,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     borderBottom: `2px solid ${theme.palette.secondary.main}`,
     boxShadow: "none",
+    fontSize: "1.1rem",
+    fontFamily: "Roboto",
   },
   links: {
     "&:hover": {
@@ -84,6 +86,18 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  appName: {
+    fontWeight: 800,
+    fontSize: "1.05rem",
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
+  menuButtonOpen: {
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
 }));
 
 function AdminSidebar({ appName }) {
@@ -99,7 +113,6 @@ function AdminSidebar({ appName }) {
       .get("/get_models/")
       .then((response) => {
         setModels(response.data);
-        console.log("models: ", response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -145,7 +158,7 @@ function AdminSidebar({ appName }) {
                     !open ? classes.menuButtonClosed : classes.menuButtonOpen
                   }
                 >
-                  <MenuIcon />
+                  <MenuIcon className={classes.menuButtonOpen} />
                 </IconButton>
               </Grid>
               <Grid
@@ -155,9 +168,9 @@ function AdminSidebar({ appName }) {
                 justifyContent="flex-end"
                 style={{ display: "flex" }}
               >
-                <div className={classes.appName}>
+                <div>
                   <Link className={classes.appLink} to="/">
-                    {appName} ADMIN
+                    <div className={classes.appName}>BACK TO {appName}</div>
                   </Link>
                 </div>
               </Grid>

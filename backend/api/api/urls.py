@@ -18,6 +18,11 @@ urlpatterns = (
         ),
         path("api/user/", views.UserListView.as_view(), name="user-list"),
         path("admin/", admin.site.urls),
+        path(
+            "api/recent_admin_actions/",
+            views.RecentAdminActionsView.as_view(),
+            name="recent_admin_actions",
+        ),
         path("api/auth/", include("authorization.urls")),
         path("api/", include("articles.urls")),
         path("api/", include("landing.urls")),

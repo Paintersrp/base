@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     AboutBlockAPIView,
+    AboutBlockDetailAPIView,
     MissionStatementAPIView,
     CompanyHistoryAPIView,
     AboutFullView,
@@ -10,15 +11,22 @@ from .views import (
     ContactInformationAPIView,
     FAQRetrieveUpdateDestroyView,
     FAQListCreateView,
+    CategoryAPIView,
 )
 
 urlpatterns = [
     path("value/", ValueViewSet.as_view(), name="value-list"),
     path("value/<int:pk>/", ValueViewSet.as_view(), name="value-detail"),
+    path("category/", CategoryAPIView.as_view(), name="category-list"),
+    path("category/<int:pk>/", CategoryAPIView.as_view(), name="category-detail"),
     path("faq/", FAQListCreateView.as_view(), name="faq-list"),
     path("faq/<int:pk>/", FAQRetrieveUpdateDestroyView.as_view(), name="faqs-detail"),
     path("aboutblock/", AboutBlockAPIView.as_view(), name="aboutblock-list"),
-    path("aboutblock/<int:pk>/", AboutBlockAPIView.as_view(), name="aboutblock-detail"),
+    path(
+        "aboutblock/<int:pk>/",
+        AboutBlockDetailAPIView.as_view(),
+        name="aboutblock-detail",
+    ),
     path(
         "contactinformation/",
         ContactInformationAPIView.as_view(),

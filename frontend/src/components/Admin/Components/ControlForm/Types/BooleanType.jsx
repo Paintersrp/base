@@ -1,14 +1,23 @@
 import React from "react";
 import { FormControlLabel, Grid, Switch } from "@material-ui/core";
 
-const BooleanType = ({ formData, fieldName, handleInputChange }) => {
+const BooleanType = ({
+  formData,
+  fieldName,
+  verboseName,
+  handleInputChange,
+  xsColumnCount,
+  mdColumnCount,
+  justifyContent,
+}) => {
   return (
     <Grid
       item
-      xs={12}
+      xs={xsColumnCount}
+      md={mdColumnCount}
       style={{
         display: "flex",
-        justifyContent: "left",
+        justifyContent: justifyContent,
         order: 2000,
         paddingRight: 8,
         paddingLeft: 8,
@@ -27,9 +36,7 @@ const BooleanType = ({ formData, fieldName, handleInputChange }) => {
             checked={formData ? formData[fieldName] : ""}
           />
         }
-        label={fieldName
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase())}
+        label={verboseName}
       />
     </Grid>
   );

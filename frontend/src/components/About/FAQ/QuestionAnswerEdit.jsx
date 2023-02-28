@@ -3,7 +3,7 @@ import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 
-const QAEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
+const QuestionAnswerEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
   const [formData, setFormData] = useState(QA);
 
   const handleChange = (event) => {
@@ -42,11 +42,11 @@ const QAEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
       handleChange={handleChange}
       formData={formData}
       width="75%"
-      excludeKeys={["errors", "id", "image"]}
+      excludeKeys={["errors", "id"]}
       multilineKeys={["answer"]}
       handleCancel={handleCancel}
     />
   );
 };
 
-export default QAEdit;
+export default QuestionAnswerEdit;

@@ -8,6 +8,7 @@ from .models import (
     TeamMember,
     ContactInformation,
     FAQ,
+    Category,
 )
 from django.http import JsonResponse
 from .serializers import (
@@ -19,6 +20,7 @@ from .serializers import (
     TeamMemberSerializer,
     ContactInformationSerializer,
     FAQSerializer,
+    CategorySerializer,
 )
 from authorization.authentication import JWTTokenAuthentication
 
@@ -67,34 +69,14 @@ class AboutFullView(generics.GenericAPIView):
 
 
 # Create your views here.
-class AboutBlockAPIView(
-    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
-):
+class AboutBlockAPIView(generics.ListCreateAPIView):
     queryset = AboutBlock.objects.all()
     serializer_class = AboutBlockSerializer
 
-    # def get(self, request, *args, **kwargs):
-    #     return self.retrieve(request, *args, **kwargs)
 
-    # def patch(self, request, *args, **kwargs):
-
-    #     return self.partial_update(request, *args, **kwargs)
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.update(request, *args, **kwargs)
-
-    # def perform_update(self, request, *args, **kwargs):
-    #     previous_instance = self.get_object()
-    #     previous_image = previous_instance.image
-
-    #     response = super().perform_update(request, *args, **kwargs)
-
-    #     new_instance = self.get_object()
-    #     new_image = new_instance.image
-    #     if previous_image and previous_image != new_image:
-    #         previous_image.delete(save=False)
-
-    #     return response
+class AboutBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AboutBlock.objects.all()
+    serializer_class = AboutBlockSerializer
 
 
 class MissionStatementAPIView(
@@ -114,18 +96,6 @@ class CompanyHistoryAPIView(
 class ContactInformationAPIView(generics.ListCreateAPIView):
     queryset = ContactInformation.objects.all()
     serializer_class = ContactInformationSerializer
-
-    # def get_object(self):
-    #     return ContactInformation.objects.first()
-
-    # def get(self, request, *args, **kwargs):
-    #     return self.retrieve(request, *args, **kwargs)
-
-    # def patch(self, request, *args, **kwargs):
-    #     return self.partial_update(request, *args, **kwargs)
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.update(request, *args, **kwargs)
 
 
 class FAQListCreateView(generics.ListCreateAPIView):
@@ -175,12 +145,18 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         serializer = FAQSerializer(faq, data=data)
 
         if serializer.is_valid():
-            print("test")
             serializer.update(faq, validated_data=data)
 
             return JsonResponse(serializer.data, status=200)
 
         return JsonResponse(serializer.errors, status=400)
+
+
+class CategoryAPIView(
+    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
+):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 class ValueViewSet(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):

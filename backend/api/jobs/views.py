@@ -33,8 +33,6 @@ class JobPostingListView(generics.ListCreateAPIView):
             "responsibilities": responsibilities,
         }
 
-        print("test: ", data)
-
         if isinstance(data.get("requirements"), str):
             requirements = data["requirements"].split(",")
             data["requirements"] = [{"detail": item.strip()} for item in requirements]

@@ -12,7 +12,7 @@ import {
 import { MdExpandMore } from "react-icons/Md";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import QAEdit from "./QAEdit";
+import QuestionAnswerEdit from "./QuestionAnswerEdit";
 import axios from "axios";
 
 import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
@@ -194,7 +194,7 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
         </Accordion>
       ) : (
         <>
-          <QAEdit
+          <QuestionAnswerEdit
             onUpdate={handleUpdate}
             QA={faq}
             onEdit={setEditing}
