@@ -4,6 +4,7 @@ import ManyToManyField from "../Fields/ManyToManyField";
 
 const ManyToManyType = ({
   formData,
+  setFormData,
   fieldName,
   verboseName,
   handleManyToManyChange,
@@ -24,6 +25,7 @@ const ManyToManyType = ({
     >
       <ManyToManyField
         data={formData[fieldName]}
+        setFormData={setFormData}
         fieldName={fieldName}
         verboseName={verboseName}
         handleManyToManyChange={handleManyToManyChange}

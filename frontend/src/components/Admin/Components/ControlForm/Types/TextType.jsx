@@ -1,15 +1,19 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
+import QuillField from "../../../../Elements/Fields/QuillField";
 
 const TextType = ({
   formData,
   fieldName,
   verboseName,
   handleInputChange,
+  handleQuillChange,
   xsColumnCount,
   mdColumnCount,
+  markDownMixin,
 }) => {
+  console.log(markDownMixin);
   return (
     <>
       <Grid
@@ -24,13 +28,22 @@ const TextType = ({
           order: 100,
         }}
       >
-        <FormField
-          id={fieldName}
-          label={verboseName}
-          onChange={handleInputChange}
-          value={formData[fieldName]}
-          multiline
-        />
+        {markDownMixin === "false" ? (
+          <FormField
+            id={fieldName}
+            label={verboseName}
+            onChange={handleInputChange}
+            value={formData[fieldName]}
+            multiline
+          />
+        ) : (
+          <QuillField
+            fieldName={fieldName}
+            size="medium"
+            value={formData[fieldName]}
+            onChange={handleQuillChange}
+          />
+        )}
       </Grid>
     </>
   );

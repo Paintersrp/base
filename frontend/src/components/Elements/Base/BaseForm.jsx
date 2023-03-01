@@ -6,13 +6,12 @@ import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   form: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+    margin: theme.spacing(3),
     backgroundColor: "#FFFFFF",
     padding: theme.spacing(3),
     borderRadius: 10,
     boxShadow: theme.shadows[1],
-    margin: "0 auto",
+    // margin: "0 auto",
     color: theme.palette.text.dark,
   },
   formLimitPadding: {
@@ -107,13 +106,23 @@ function BaseForm({
   noSpacing = false,
   background = "#FFFFFF",
   boxShadow = 0,
+  justify = "center",
 }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
-    <Grid item xs={12} style={{ padding: 0, margin: 0 }}>
+    <Grid
+      item
+      xs={12}
+      style={{
+        padding: 0,
+        margin: 0,
+        justifyContent: justify,
+        display: "flex",
+      }}
+    >
       <div
         className={
           limitPadding

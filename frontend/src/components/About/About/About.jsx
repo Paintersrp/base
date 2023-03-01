@@ -10,6 +10,7 @@ import AboutHeadingEdit from "../Heading/AboutHeadingEdit";
 import Heading from "../Heading/Heading";
 import ContentSection from "../Content/ContentSection";
 import useInput from "../../../hooks/useInput";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +45,6 @@ export default function About() {
   const classes = useStyles();
 
   const [data, setData] = useState([]);
-
-  // const [missionData, setMissionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   const [valuesData, setValuesData] = useState(null);
 
@@ -112,10 +111,11 @@ export default function About() {
                       justifyContent: "flex-end",
                     }}
                   >
-                    <EditButton
-                      onClick={() => setEditTitle(!editTitle)}
-                      editState={editTitle}
+                    <EditDeleteButtonMenu
+                      hideDelete
+                      editClick={() => setEditTitle(!editTitle)}
                       position="end"
+                      placement="bottom"
                     />
                   </div>
                 ) : null}

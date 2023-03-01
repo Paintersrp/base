@@ -48,10 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentActions() {
+function RecentActions({ actionsOpen, setActionsOpen }) {
   const classes = useStyles();
   const [recentActions, setRecentActions] = useState([]);
-  const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
     axiosInstance
@@ -63,37 +62,22 @@ function RecentActions() {
   }, []);
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setActionsOpen(!actionsOpen);
   };
 
   return (
     <>
-      {/* <Grid item xs={12} sm={6} md={6} lg={4} key={appName}>
-        <Card className={classes.card}>
-          <Collapse in={isOpen}>
-            <CardContent style={{ background: "#F5F5F5" }}>
-              <List container>
-                {renderModels({
-                  modelItem,
-                  appName,
-                  classes,
-                })}
-              </List>
-            </CardContent>
-          </Collapse>
-        </Card>
-      </Grid> */}
       <Card className={classes.card}>
         <CardHeader
           className={classes.cardHeader}
           action={
             <IconButton onClick={handleExpandClick}>
-              {expanded ? <ExpandLess /> : <ExpandMore />}
+              {actionsOpen ? <ExpandLess /> : <ExpandMore />}
             </IconButton>
           }
           title={<Typography variant="h3">Recent Admin Actions</Typography>}
         />
-        <Collapse in={expanded}>
+        <Collapse in={actionsOpen}>
           <CardContent>
             {recentActions.length > 0 ? (
               <TableContainer className={classes.tableContainer}>

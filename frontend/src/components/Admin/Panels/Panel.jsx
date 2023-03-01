@@ -17,19 +17,24 @@ import Loading from "../../Elements/Layout/Loading";
 const useStyles = makeStyles((theme) => ({
   activeLink: {
     color: "#007bff",
+    height: "100%",
   },
 }));
 
-const Panel = () => {
+const Panel = ({ apiData }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const { url, keys, appName, model, metadata } = location.state || {};
   const [data, setData] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
+  const [model, setModel] = useState(null);
+  const [appName, setAppName] = useState(null);
+  const [keys, setKeys] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [metadata, setMetadata] = useState(null);
 
   const handleArticleEdit = (data) => {
     navigate(`/admin/${model.model_name}/control`, {
@@ -78,6 +83,20 @@ const Panel = () => {
 
   useEffect(() => {
     setReady(false);
+    if (!apiData) {
+      setUrl(location.state.url);
+      setAppName(location.state.appName);
+      setKeys(location.state.keys);
+      setMetadata(location.state.metadata);
+      setModel(location.state.model);
+    } else {
+      console.log(apiData.url);
+      setUrl(apiData.url);
+      setAppName(apiData.app_name);
+      setKeys(apiData.keys);
+      setMetadata(apiData.metadata);
+      setModel(apiData);
+    }
     handleUpdate();
   }, [url]);
 
@@ -122,19 +141,34 @@ const Panel = () => {
 
   return (
     <>
-      {ready ? (
+      {ready && model ? (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
+          <Typography
+            variant="h3"
+            style={{
+              textAlign: "center",
+              color: "black",
+              borderRight: "1px solid #666666",
+              marginRight: 16,
+              paddingRight: 16,
+              fontWeight: 600,
+              fontFamily: "Poppins",
+            }}
+          >
+            {model.verbose_name}
+          </Typography>
           <Breadcrumbs
             separator={<NavigateNext fontSize="small" />}
             aria-label="breadcrumb"
+            style={{ display: "flex" }}
           >
             <Link className={classes.activeLink} to="/admin">
-              Admin Dashboard
+              Home
             </Link>
             <Typography color="textPrimary">{model.verbose_name}</Typography>
           </Breadcrumbs>
           <Grid container justifyContent="center">
-            <Typography
+            {/* <Typography
               variant="h3"
               style={{
                 marginTop: 16,
@@ -145,7 +179,7 @@ const Panel = () => {
             >
               {appName.charAt(0).toUpperCase() + appName.slice(1)} Page -{" "}
               {model.verbose_name}
-            </Typography>
+            </Typography> */}
             <Grid
               item
               style={{

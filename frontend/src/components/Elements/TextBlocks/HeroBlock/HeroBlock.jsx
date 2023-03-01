@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, Grid, Typography, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
-import { useSpring, animated } from "react-spring";
+import StyledButton from "../../Buttons/StyledButton";
 
 const CustomButton = withStyles({
   label: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontFamily: "Poppins",
-    color: theme.palette.text.dark,
+    color: theme.palette.text.light,
     marginBottom: theme.spacing(0),
     fontSize: "2rem",
     [theme.breakpoints.down("md")]: {
@@ -63,6 +62,33 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     justifyContent: "center",
   },
+  headline: {
+    color: theme.palette.text.light,
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
+    fontWeight: "bold",
+    textAlign: "center",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(0.5),
+      marginBottom: theme.spacing(0.5),
+    },
+  },
+  subheadline: {
+    fontSize: "0.95rem",
+    color: theme.palette.text.light,
+    marginBottom: theme.spacing(3),
+    textAlign: "center",
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: theme.spacing(1.5),
+    },
+  },
+  description: {
+    maxWidth: 500,
+    // color: theme.palette.text.light,
+    color: theme.palette.grey[500],
+    marginBottom: theme.spacing(2),
+    textAlign: "center",
+  },
 }));
 
 const HeroBlock = ({
@@ -77,12 +103,6 @@ const HeroBlock = ({
 
   const [isVisible, setIsVisible] = useState(false);
 
-  const animationProps = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? `translateY(0)` : `translateY(-20px)`,
-    config: { mass: 1, tension: 100, friction: 20 },
-  });
-
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -92,22 +112,11 @@ const HeroBlock = ({
       <Box className={classes.title}>{title}</Box>
       <Typography
         variant="h1"
-        className={classes.heading}
+        className={classes.subheadline}
         dangerouslySetInnerHTML={{ __html: heading }}
       />
-      <Box className={classes.text}>{text}</Box>
-      {showButton && (
-        <div className={classes.btnContainer}>
-          <CustomButton
-            component={Link}
-            to={btnLink}
-            variant="contained"
-            className={classes.btnCta}
-          >
-            {btnText}
-          </CustomButton>
-        </div>
-      )}
+      <Box className={classes.description}>{text}</Box>
+      {showButton && <StyledButton buttonText={btnText} />}
     </Grid>
   );
 };

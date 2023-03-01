@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 const useStyles = makeStyles({
   root: {
-    marginBottom: 10,
+    marginBottom: 0,
     padding: 0,
     marginLeft: 5,
     "& .ql-editor": {
@@ -13,52 +13,106 @@ const useStyles = makeStyles({
       margin: "0 0 10px 0",
     },
     "& .ql-toolbar": {
-      backgroundColor: "white",
+      background: "#F5F5F5",
     },
-    "& .ql-container": {},
+    "& .ql-container": {
+      position: "static",
+    },
+  },
+  sizeSmall: {
+    marginBottom: 0,
+    padding: 0,
+    marginLeft: 5,
+    "& .ql-editor": {
+      width: "100%",
+      margin: "0 0 10px 0",
+    },
+    "& .ql-toolbar": {
+      background: "#F5F5F5",
+    },
+    "& .ql-container": {
+      position: "static",
+      height: 200,
+    },
+  },
+  sizeMedium: {
+    marginBottom: 0,
+    padding: 0,
+    marginLeft: 5,
+    "& .ql-editor": {
+      width: "100%",
+      margin: "0 0 10px 0",
+      background: "#F5F5F5",
+    },
+    "& .ql-toolbar": {
+      background: "#F5F5F5",
+    },
+    "& .ql-container": {
+      position: "static",
+      height: 400,
+    },
+  },
+  sizeLarge: {
+    marginBottom: 0,
+    padding: 0,
+    marginLeft: 5,
+    "& .ql-editor": {
+      width: "100%",
+      margin: "0 0 10px 0",
+    },
+    "& .ql-toolbar": {
+      background: "#F5F5F5",
+    },
+    "& .ql-container": {
+      position: "static",
+      height: 600,
+    },
   },
 });
 
-const QuillField = ({ value, onChange, modules, formats, size }) => {
+const QuillField = ({
+  fieldName,
+  value,
+  onChange,
+  modules,
+  formats,
+  size = "small",
+}) => {
   const classes = useStyles();
   const [content, setContent] = useState([]);
   const quillRef = useRef(null);
 
   useEffect(() => {
     setContent(value);
-    editorHeight();
   });
 
-  const handleChange = (value) => {
+  const handleChange = (e) => {
     setContent(value);
     onChange(value);
   };
 
-  const editorHeight = () => {
-    switch (size) {
-      case "small":
-        return "200px";
-      case "medium":
-        return "400px";
-      case "large":
-        return "600px";
-      default:
-        return "600px";
-    }
+  const handleAdminChange = (fieldValue) => {
+    setContent(fieldValue);
+    onChange(fieldName, fieldValue);
   };
 
   return (
     <div className={classes.root}>
       <ReactQuill
         ref={quillRef}
-        value={content}
-        onChange={handleChange}
+        value={value}
+        onChange={fieldName ? handleAdminChange : handleChange}
         modules={modules}
         formats={formats}
-        style={{
-          height:
-            size === "small" ? "200px" : size === "medium" ? "400px" : "600px",
-        }}
+        className={
+          size === "small"
+            ? classes.sizeSmall
+            : size === "medium"
+            ? classes.sizeMedium
+            : size === "large"
+            ? classes.sizeLarge
+            : classes.root
+        }
       />
     </div>
   );

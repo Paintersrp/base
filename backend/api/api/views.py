@@ -16,6 +16,7 @@ from django.apps import apps
 from django.contrib.admin.models import LogEntry
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.http import Http404
 
 
 class UserListView(generics.ListCreateAPIView):
@@ -133,10 +134,11 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
             xs_column_count = getattr(field, "xs_column_count", 12)
             md_column_count = getattr(field, "md_column_count", 12)
             justify = getattr(field, "justify", "left")
+            markdown = getattr(field, "markdown", "false")
             metadata["fields"][field.name]["xs_column_count"] = xs_column_count
             metadata["fields"][field.name]["md_column_count"] = md_column_count
             metadata["fields"][field.name]["justify"] = justify
-            print(metadata["fields"][field.name]["justify"])
+            metadata["fields"][field.name]["markdown"] = markdown
 
         return Response(metadata)
 
@@ -191,3 +193,56 @@ class ModelEndpointAPIView(APIView):
             )
 
         return Response(endpoints)
+
+
+class SingleModelAPIView(APIView):
+    def get(self, request, model_name=None, format=None):
+        models = apps.get_models(include_auto_created=True)
+        model = None
+
+        for m in models:
+            if m.__name__.lower() == model_name:
+                model = m
+                break
+
+        if model is None:
+            raise Http404("Model not found")
+
+        serializer_class = getattr(model, "serializer_class", None)
+
+        if serializer_class is None:
+            raise Http404("Serializer class not found")
+
+        serializer = serializer_class()
+        fields = serializer.get_fields()
+        metadata = {}
+
+        for field_name, field in fields.items():
+            if not field_name == "id":
+                metadata[field_name] = {"type": field.__class__.__name__}
+
+                if model._meta.get_field(field_name).verbose_name:
+                    metadata[field_name]["verbose_name"] = model._meta.get_field(
+                        field_name
+                    ).verbose_name
+
+        try:
+            url = reverse(f"{model_name}-list")
+            url = url.replace("/api/", "/")
+        except NoReverseMatch:
+            url = None
+
+        if "alignment" in metadata:
+            metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
+
+        endpoint = {
+            "app_name": model._meta.app_label,
+            "model_name": model_name,
+            "verbose_name": model._meta.verbose_name,
+            "verbose_name_plural": model._meta.verbose_name_plural,
+            "url": url,
+            "metadata": metadata,
+            "keys": serializer.FIELD_KEYS,
+        }
+
+        return Response(endpoint)

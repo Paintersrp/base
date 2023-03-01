@@ -23,6 +23,7 @@ class CustomTextField(models.TextField):
         self.xs_column_count = kwargs.pop("xs_column_count", 12)
         self.md_column_count = kwargs.pop("md_column_count", 12)
         self.justify = kwargs.pop("justify", "left")
+        self.markdown = kwargs.pop("markdown", "false")
         super().__init__(*args, **kwargs)
 
 

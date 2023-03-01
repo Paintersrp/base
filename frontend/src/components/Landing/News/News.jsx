@@ -12,6 +12,7 @@ import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEdi
 import EditButton from "../../Elements/Buttons/EditButton";
 import ArticlesDisplayBase from "../../Articles/Display/DisplayBase/ArticlesDisplayBase";
 import BaseCarousel from "../../Elements/Base/BaseCarousel";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,14 +117,6 @@ export default function LatestNews() {
     <Grid container spacing={0} className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
         <Grid item xs={12}>
-          {auth.is_superuser ? (
-            <div style={{ marginTop: 20 }}>
-              <EditButton
-                onClick={() => setEditing(!editing)}
-                editState={editing}
-              />
-            </div>
-          ) : null}
           {!editing ? (
             <TitleBlock
               subtitle={titleBlock.subtitle}
@@ -138,6 +131,15 @@ export default function LatestNews() {
               handleCancel={() => setEditing(!editing)}
             />
           )}
+          {!editing && auth.is_superuser ? (
+            <>
+              <EditDeleteButtonMenu
+                editClick={() => setEditing(!editing)}
+                hideDelete
+                position="center"
+              />
+            </>
+          ) : null}
         </Grid>
         <Grid container spacing={0}>
           <ArticlesDisplayBase

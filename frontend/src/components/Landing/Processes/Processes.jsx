@@ -10,6 +10,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditButton from "../../Elements/Buttons/EditButton";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,10 +107,13 @@ export default function Processes() {
               />
             )}
             {!editTitle && auth.is_superuser ? (
-              <EditButton
-                onClick={() => setEditTitle(!editTitle)}
-                editState={editTitle}
-              />
+              <>
+                <EditDeleteButtonMenu
+                  editClick={() => setEditTitle(!editTitle)}
+                  hideDelete
+                  position="center"
+                />
+              </>
             ) : null}
             <Grid container spacing={2} className={classes.gridContainer}>
               {processes.map((step, index) => (

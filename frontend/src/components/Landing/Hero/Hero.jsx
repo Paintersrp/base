@@ -9,6 +9,9 @@ import ContactButtons from "../../Contact/Contact/ContactButtons";
 import Social from "../../Contact/Social/Social";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import BaseForm from "../../Elements/Base/BaseForm";
+import HeroBlock from "../../Elements/TextBlocks/HeroBlock/HeroBlock";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -34,32 +37,6 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: 0,
     },
   },
-  headline: {
-    color: theme.palette.text.light,
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1.5),
-    fontWeight: "bold",
-    textAlign: "center",
-    [theme.breakpoints.down("xs")]: {
-      marginTop: theme.spacing(0.5),
-      marginBottom: theme.spacing(0.5),
-    },
-  },
-  subheadline: {
-    fontSize: "0.95rem",
-    color: theme.palette.text.light,
-    marginBottom: theme.spacing(3),
-    textAlign: "center",
-    [theme.breakpoints.down("xs")]: {
-      marginBottom: theme.spacing(1.5),
-    },
-  },
-  description: {
-    maxWidth: 500,
-    color: theme.palette.text.light,
-    marginBottom: theme.spacing(2),
-    textAlign: "center",
-  },
   button: {
     minWidth: 140,
     margin: theme.spacing(1),
@@ -73,28 +50,6 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: theme.shadows[7],
       backgroundColor: theme.palette.primary.dark,
     },
-  },
-  form: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    backgroundColor: "#FFFFFF",
-    padding: theme.spacing(3),
-    borderRadius: 10,
-    boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
-    maxWidth: 360,
-    margin: "0 auto",
-  },
-  formTitle: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(1.5),
-    textAlign: "center",
-    color: theme.palette.text.dark,
-  },
-  formSubtitle: {
-    marginBottom: theme.spacing(1.5),
-    textAlign: "center",
-    fontSize: "0.85rem",
-    color: theme.palette.text.dark,
   },
   formField: {
     "& .MuiOutlinedInput-root": {
@@ -117,22 +72,11 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
   },
-  formButton: {
-    marginTop: theme.spacing(1),
-    fontWeight: "bold",
-    borderRadius: 50,
-  },
 }));
 
 function Hero({ contactData, form = true }) {
-  console.log("test: ", contactData[0]);
   const classes = useStyles();
-  const [heroData, setHeroData] = useState({
-    title: "",
-    heading: "",
-    text: "",
-    buttonText: "",
-  });
+  const [heroData, setHeroData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,12 +92,12 @@ function Hero({ contactData, form = true }) {
     fetchData();
   }, []);
 
-  const [editHero, setEditHero] = useState(false);
-  const [editCarousel, setEditCarousel] = useState(false);
+  const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+
   const updateHeroBlock = (updatedHeroBlock) => {
     setHeroData(updatedHeroBlock);
-    setEditHero(false);
+    setEditing(false);
   };
 
   const handleSubmit = (event) => {
@@ -164,16 +108,31 @@ function Hero({ contactData, form = true }) {
     <Grid container flex className={classes.container}>
       <Grid item xs={12}>
         <div className={classes.overlay}>
-          <Typography variant="h1" className={classes.headline}>
-            {heroData.title}
-          </Typography>
-          <Typography variant="subtitle1" className={classes.subheadline}>
-            {heroData.heading}
-          </Typography>
-          <Typography variant="body1" className={classes.description}>
-            {heroData.text}
-          </Typography>
-          <StyledButton buttonText={heroData.buttonText} />
+          {!editing ? (
+            <HeroBlock
+              title={heroData.title}
+              heading={heroData.heading}
+              text={heroData.text}
+              btnText={heroData.buttonText}
+            />
+          ) : (
+            <HeroBlockEdit
+              heroBlock={heroData}
+              onUpdate={updateHeroBlock}
+              handleCancel={() => setEditing(!editing)}
+            />
+          )}
+          {!editing && auth.is_superuser ? (
+            <>
+              <EditDeleteButtonMenu
+                editClick={() => setEditing(!editing)}
+                hideDelete
+                placement="bottom"
+                position="center"
+                finalColor="white"
+              />
+            </>
+          ) : null}
           <Grid item xs={12} md={12} className={classes.contactContainer}>
             <ContactButtons contactData={contactData[0]} />
             <Grid container flex justifyContent="center">
@@ -182,59 +141,65 @@ function Hero({ contactData, form = true }) {
           </Grid>
         </div>
       </Grid>
+
       {form ? (
-        <BaseForm
-          title="Ready to take the first step?"
-          body="Fill out the form below and one of our experts will get in touch
-        with you to schedule a consultation."
-          handleSubmit={handleSubmit}
+        <div
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Full Name"
-              variant="outlined"
-              fullWidth
-              className={classes.formField}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              className={classes.formField}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Phone"
-              variant="outlined"
-              fullWidth
-              className={classes.formField}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              margin="dense"
-              label="Message"
-              variant="outlined"
-              multiline
-              rows={4}
-              fullWidth
-              className={classes.formField}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{ display: "flex", justifyContent: "center" }}
+          <BaseForm
+            title="Ready to take the first step?"
+            body="Fill out the form below and one of our experts will get in touch
+        with you to schedule a consultation."
+            handleSubmit={handleSubmit}
+            boxShadow={2}
           >
-            <StyledButton buttonText="Get in touch" />
-          </Grid>
-        </BaseForm>
+            <Grid item xs={12}>
+              <TextField
+                margin="dense"
+                label="Full Name"
+                variant="outlined"
+                fullWidth
+                className={classes.formField}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="dense"
+                label="Email"
+                variant="outlined"
+                fullWidth
+                className={classes.formField}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="dense"
+                label="Phone"
+                variant="outlined"
+                fullWidth
+                className={classes.formField}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="dense"
+                label="Message"
+                variant="outlined"
+                multiline
+                rows={4}
+                fullWidth
+                className={classes.formField}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <StyledButton buttonText="Get in touch" />
+            </Grid>
+          </BaseForm>
+        </div>
       ) : null}
     </Grid>
   );

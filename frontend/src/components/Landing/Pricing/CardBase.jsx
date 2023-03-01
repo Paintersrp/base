@@ -6,6 +6,7 @@ import EditButton from "../../Elements/Buttons/EditButton";
 import CardHead from "./CardHead";
 import CardList from "./CardList";
 import CardButtons from "./CardButtons";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 export default function CardBase({ plan, classes }) {
   const [planData, setPlanData] = useState(plan);
@@ -33,6 +34,15 @@ export default function CardBase({ plan, classes }) {
             <CardList data={planData} classes={classes} />
             <CardButtons plan={planData} classes={classes} />
           </CardContent>
+          {!editing && auth.is_superuser ? (
+            <>
+              <EditDeleteButtonMenu
+                editClick={() => setEditing(!editing)}
+                hideDelete
+                position="end"
+              />
+            </>
+          ) : null}
         </Card>
       ) : (
         <PricingEdit
@@ -41,17 +51,6 @@ export default function CardBase({ plan, classes }) {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-
-      {!editing && auth.is_superuser ? (
-        <>
-          <EditButton
-            onClick={() => setEditing(!editing)}
-            editState={editing}
-            mt={0}
-            mb={0}
-          />
-        </>
-      ) : null}
     </div>
   );
 }

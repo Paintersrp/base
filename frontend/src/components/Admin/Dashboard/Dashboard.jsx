@@ -4,8 +4,8 @@ import {
   Typography,
   Grid,
   Breadcrumbs,
-  Card,
-  CardContent,
+  IconButton,
+  Divider,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -13,6 +13,8 @@ import Loading from "../../Elements/Layout/Loading";
 import renderSections from "./renderSections";
 import { NavigateNext } from "@material-ui/icons";
 import RecentActions from "./RecentActions";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -42,6 +44,28 @@ function Dashboard() {
   const [models, setModels] = useState({});
   const [openAppSections, setOpenAppSections] = useState({});
   const [recentActions, setRecentActions] = useState([]);
+  const [collapsed, setCollapsed] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(false);
+
+  const handleCollapseAll = () => {
+    const closedAppSections = {};
+    Object.keys(models).forEach((app) => {
+      closedAppSections[app] = false;
+    });
+    setOpenAppSections(closedAppSections);
+    setActionsOpen(false);
+    setCollapsed(true);
+  };
+
+  const handleOpenAll = () => {
+    const initialOpenAppSections = {};
+    Object.keys(models).forEach((app) => {
+      initialOpenAppSections[app] = true;
+    });
+    setOpenAppSections(initialOpenAppSections);
+    setActionsOpen(true);
+    setCollapsed(false);
+  };
 
   useEffect(() => {
     axiosInstance
@@ -69,26 +93,63 @@ function Dashboard() {
   return (
     <BaseContent maxWidth={1200} pt={4} pb={4}>
       {Object.keys(models).length > 0 ? (
-        <div style={{ width: "100%", color: "black" }}>
+        <>
+          <Typography
+            variant="h3"
+            style={{
+              textAlign: "center",
+              color: "black",
+              borderRight: "1px solid #666666",
+              marginRight: 16,
+              paddingRight: 16,
+              fontWeight: 600,
+              fontFamily: "Poppins",
+            }}
+          >
+            Dashboard
+          </Typography>
           <Breadcrumbs
             separator={<NavigateNext fontSize="small" />}
             aria-label="breadcrumb"
+            style={{ display: "flex" }}
           >
-            <Typography color="textPrimary">Admin Dashboard</Typography>
+            <Typography color="textPrimary">Home</Typography>
+            <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
+          <div style={{ width: "100%", color: "black" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <Typography color="textPrimary">
+                {collapsed ? "Open All" : "Collapse All"}
+              </Typography>
+              <IconButton
+                onClick={collapsed ? handleOpenAll : handleCollapseAll}
+              >
+                {collapsed ? <ExpandMore /> : <ExpandLess />}
+              </IconButton>
+            </div>
 
-          <Grid container>
-            {renderSections({
-              models,
-              openAppSections,
-              setOpenAppSections,
-              classes,
-            })}
-            <Grid item xs={12}>
-              <RecentActions models={models} />
+            <Grid container>
+              {renderSections({
+                models,
+                openAppSections,
+                setOpenAppSections,
+                classes,
+              })}
+              <Grid item xs={12}>
+                <RecentActions
+                  actionsOpen={actionsOpen}
+                  setActionsOpen={setActionsOpen}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
+        </>
       ) : (
         <div>
           <Loading loading={true} />

@@ -9,15 +9,20 @@ import EditButton from "../../Elements/Buttons/EditButton";
 import Icon from "../../Elements/Icon/Icon";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 import { Grid } from "@material-ui/core";
+import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   subtitle: {
     color: "black",
     marginLeft: 15,
-    minWidth: 200,
+    minWidth: 250,
     fontWeight: 500,
     fontFamily: "Poppins",
     fontSize: "0.9rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   avatar: {
     backgroundColor: theme.palette.primary.main,
@@ -43,11 +48,36 @@ export default function Value({ value }) {
   const classes = useStyles();
   const [valueData, setValueData] = useState(value);
   const [editing, setEditing] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState([]);
   const auth = useSelector((state) => state.auth);
 
   const updateValue = (updateValue) => {
     setValueData(updateValue);
     setEditing(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = (id) => {
+    handleOpen();
+    setSelectedId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    confirmedDelete(selectedId);
+    handleClose();
+  };
+
+  const confirmedDelete = async (id) => {
+    await axios.delete(`http://localhost:8000/api/value/${id}/`);
+    onUpdate();
   };
 
   return (
@@ -58,13 +88,14 @@ export default function Value({ value }) {
             <Icon icon={valueData.icon} />
           </Avatar>
           <Typography className={classes.subtitle}>
-            <Grid container justifyContent="space-between">
+            <Grid container justifyContent="space-between" alignItems="center">
               {valueData.title}
               {!editing && auth.is_superuser ? (
                 <>
                   <EditDeleteButtonMenu
                     hideDelete
                     editClick={() => setEditing(!editing)}
+                    deleteClick={() => handleDelete(value.id)}
                     position="center"
                     placement="bottom"
                   />
@@ -81,6 +112,12 @@ export default function Value({ value }) {
           editState={editing}
         />
       )}
+      <DeleteConfirmationModal
+        open={open}
+        handleClose={handleClose}
+        handleConfirmDelete={handleConfirmDelete}
+        message="Are you sure you want to delete this?"
+      />
     </React.Fragment>
   );
 }

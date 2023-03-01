@@ -149,23 +149,9 @@ const useStyles = makeStyles((theme) => ({
 
 const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
   const classes = useStyles();
-  console.log("plan.id:", plan.id);
   const [formData, setFormData] = useState(plan);
-  const [id, setId] = useState(plan.id);
-  const [title, setTitle] = useState(formData.title);
-  const [price, setPrice] = useState(formData.price);
-  const [bestFor, setBestFor] = useState(formData.bestFor);
-  const [guarantee, setGuarantee] = useState(formData.guarantee);
-  const [image, setImage] = useState(formData.image);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
-  const [features, setFeatures] = useState(
-    formData.features.map((tag) => tag.detail.trim())
-  );
-  console.log("sites: ", formData.supported_sites);
-  const [sites, setSites] = useState(
-    formData.supported_sites.map((tag) => tag.detail.trim())
-  );
 
   const handleImageChange = (event) => {
     formData.image = event.target.files[0];
@@ -200,17 +186,6 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // let formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("price", price);
-    // formData.append("best_for", bestFor);
-    // formData.append("guarantee", guarantee);
-    // formData.append("features", features);
-    // formData.append("supported_sites", sites.join(","));
-
-    // if (image.name) {
-    //   formData.append("image", image, image.name);
-    // }
 
     const config = {
       headers: {
@@ -280,21 +255,21 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   className={classes.field}
                   variant="outlined"
                   label="Title"
-                  value={title}
+                  value={formData.title}
                   onChange={handleInputChange}
                 />
                 <TextField
                   className={classes.field}
                   variant="outlined"
                   label="Price"
-                  value={price}
+                  value={formData.price}
                   onChange={handleInputChange}
                 />
                 <TextField
                   className={classes.multiline}
                   variant="outlined"
                   label="Best For"
-                  value={bestFor}
+                  value={formData.bestFor}
                   onChange={handleInputChange}
                   multiline
                   minRows={4}
@@ -304,7 +279,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   className={classes.field}
                   variant="outlined"
                   label="Guarantee"
-                  value={guarantee}
+                  value={formData.guarantee}
                   onChange={handleInputChange}
                 />
                 <ManyToManyField
@@ -312,12 +287,14 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   handleManyToManyChange={handleManyToManyChange}
                   fieldName="features"
                   verboseName="Features"
+                  setFormData={setFormData}
                 />
                 <ManyToManyField
                   data={formData.supported_sites}
                   handleManyToManyChange={handleManyToManyChange}
                   fieldName="supported_sites"
                   verboseName="Supported Sites"
+                  setFormData={setFormData}
                 />
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <StyledButton

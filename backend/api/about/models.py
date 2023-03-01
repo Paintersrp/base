@@ -13,7 +13,9 @@ class AboutBlock(models.Model):
 
 class MissionStatement(models.Model):
     title = CustomCharField(max_length=200, md_column_count=10, verbose_name="Title")
-    body = models.TextField(max_length=10000, null=True, verbose_name="Body")
+    body = CustomTextField(
+        max_length=10000, null=True, verbose_name="Body", markdown=True
+    )
 
     class Meta:
         verbose_name = "Mission Statement"
@@ -22,7 +24,9 @@ class MissionStatement(models.Model):
 
 class CompanyHistory(models.Model):
     title = CustomCharField(max_length=200, md_column_count=10, verbose_name="Title")
-    body = models.TextField(max_length=10000, null=True, verbose_name="Body")
+    body = CustomTextField(
+        max_length=10000, null=True, verbose_name="Body", markdown=True
+    )
 
     class Meta:
         verbose_name = "History"

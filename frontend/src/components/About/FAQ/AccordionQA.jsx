@@ -137,14 +137,14 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
     setOpen(false);
   };
 
-  const handleDelete = (id) => {
-    handleOpen();
-    setSelectedId(id);
-  };
-
   const handleUpdate = (handleUpdate) => {
     onUpdate(handleUpdate);
     setEditing(false);
+  };
+
+  const handleDelete = (id) => {
+    handleOpen();
+    setSelectedId(id);
   };
 
   const handleConfirmDelete = () => {

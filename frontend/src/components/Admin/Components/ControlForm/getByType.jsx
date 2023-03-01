@@ -16,14 +16,18 @@ const getByType = (
   handleInputChange,
   choices,
   formData,
+  setFormData,
   handleManyToManyChange,
   handleImageChange,
+  handleQuillChange,
   newImage,
   newImageName,
   xs_column_count,
   md_column_count,
-  justify
+  justify,
+  markDownMixin
 ) => {
+  console.log(markDownMixin);
   switch (fieldType) {
     case "BooleanField":
       return (
@@ -61,14 +65,17 @@ const getByType = (
         />
       );
     case "TextField":
+      console.log("WTF: ", markDownMixin);
       return (
         <TextType
           formData={formData}
           fieldName={fieldName}
           verboseName={verboseName}
           handleInputChange={handleInputChange}
+          handleQuillChange={handleQuillChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          markDownMixin={markDownMixin}
         />
       );
     case "IntegerField":
@@ -96,6 +103,7 @@ const getByType = (
       return (
         <ManyToManyType
           formData={formData}
+          setFormData={setFormData}
           fieldName={fieldName}
           verboseName={verboseName}
           handleManyToManyChange={handleManyToManyChange}

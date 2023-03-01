@@ -7,6 +7,7 @@ import { NavigateNext } from "@material-ui/icons";
 import BaseContent from "../../Elements/Base/BaseContent";
 import UpdateArticleView from "../../Articles/Update/UpdateArticleView";
 import ArticleCreate from "./Edit/ArticleCreate";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -55,12 +56,27 @@ function ObjectPage() {
       backgroundColor="#F5F5F5"
     >
       <BaseContent maxWidth={1200} pt={4} pb={4}>
+        <Typography
+          variant="h3"
+          style={{
+            textAlign: "center",
+            color: "black",
+            borderRight: "1px solid #666666",
+            marginRight: 16,
+            paddingRight: 16,
+            fontWeight: 600,
+            fontFamily: "Poppins",
+          }}
+        >
+          {model.verbose_name}
+        </Typography>
         <Breadcrumbs
           separator={<NavigateNext fontSize="small" />}
           aria-label="breadcrumb"
+          style={{ display: "flex" }}
         >
           <Link className={classes.activeLink} to="/admin">
-            Admin Dashboard
+            Home
           </Link>
           <Link
             to={`/admin${url}`}

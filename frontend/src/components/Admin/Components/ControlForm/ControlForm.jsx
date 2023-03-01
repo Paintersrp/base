@@ -15,11 +15,57 @@ const ControlForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const [formData, setFormData] = useState(data);
   const [modelMetadata, setModelMetadata] = useState({});
   const [fieldMetadata, setFieldMetadata] = useState({});
+  // const [url, setUrl] = useState([]);
+  // const [keys, setKeys] = useState([]);
+  // const [appName, setAppName] = useState([]);
+  // const [model, setModel] = useState([]);
+  // const [metadata, setMetadata] = useState([]);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
   const [ready, setReady] = useState(false);
   const location = useLocation();
-  const { url, keys, appName, model, metadata } = location.state || {};
+  let url, keys, appName, model, metadata;
+  console.log("testerearasdsa", location.state);
+
+  if (!location.state) {
+    axiosInstance
+      .get(`/get_models${endpointUrl}`)
+      .then((response) => {
+        console.log(response.data);
+        ({ url, keys, appName, model, metadata } = data);
+      })
+      .catch((error) => console.log(error));
+  } else {
+    ({ url, keys, appName, model, metadata } = location.state);
+  }
+
+  console.log(url);
+  console.log(keys);
+  console.log(appName);
+  console.log(model);
+  console.log(metadata);
+
+  useEffect(() => {
+    axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
+      setFieldMetadata(response.data.fields);
+      setModelMetadata(response.data);
+      console.log("alphabear: ", response.data);
+      setReady(true);
+    });
+
+    // if (!location.state) {
+    //   axiosInstance
+    //     .get(`/get_models${endpointUrl}`)
+    //     .then((response) => {
+    //       print(response.data[modelMetadata.modelName]);
+    //       setModel(response.data[modelMetadata.modelName]);
+
+    //     })
+    //     .catch((error) => console.log(error));
+    // } else {
+    //   let { url, keys, appName, model, metadata } = location.state;
+    // }
+  }, []);
 
   const handleImageChange = (event) => {
     formData.image = event.target.files[0];
@@ -27,22 +73,19 @@ const ControlForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     setNewImageName(event.target.files[0].name);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
-        setFieldMetadata(response.data.fields);
-        setModelMetadata(response.data);
-        setReady(true);
-      });
-    };
-    fetchData();
-  }, []);
-
   const handleInputChange = (e) => {
+    console.log(e.target.value);
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleQuillChange = (fieldName, fieldValue) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [fieldName]: fieldValue,
     }));
   };
 
@@ -146,7 +189,10 @@ const ControlForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   xs_column_count,
                   md_column_count,
                   justify,
+                  markdown,
                 } = fieldMetadata[fieldName];
+
+                console.log("markdown: ", markdown);
 
                 const { verbose_name } = metadata[fieldName];
 
@@ -157,13 +203,16 @@ const ControlForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   handleInputChange,
                   choices,
                   formData,
+                  setFormData,
                   handleManyToManyChange,
                   handleImageChange,
+                  handleQuillChange,
                   newImage,
                   newImageName,
                   xs_column_count,
                   md_column_count,
-                  justify
+                  justify,
+                  markdown
                 );
 
                 if (inputElement) {

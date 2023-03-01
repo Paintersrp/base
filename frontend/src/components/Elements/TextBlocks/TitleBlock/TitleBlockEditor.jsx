@@ -7,7 +7,7 @@ const TitleBlockEditor = ({
   titleBlock,
   onUpdate,
   handleCancel,
-  description = false,
+  description = true,
 }) => {
   const [state, setState] = useState({ ...titleBlock });
 
@@ -66,7 +66,7 @@ const TitleBlockEditor = ({
           ? ["name", "id", "alignment", "show_divider"]
           : ["name", "id", "alignment", "show_divider", "description"]
       }
-      multilineKeys={["answer"]}
+      multilineKeys={description ? ["description"] : [""]}
       titleBlockMixin
       handleSwitchChange={handleSwitchChange}
       handleCancel={handleCancel}

@@ -49,30 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const jobPostings = [
-  {
-    title: "Software Engineer",
-    description:
-      "We are seeking a highly motivated software engineer to join our team.",
-    location: "New York, NY",
-    jobType: "Full-time",
-  },
-  {
-    title: "Product Manager",
-    description:
-      "We are seeking an experienced product manager to lead the development of our new product line.",
-    location: "San Francisco, CA",
-    jobType: "Contract",
-  },
-  {
-    title: "Data Scientist",
-    description:
-      "We are seeking a talented data scientist to help us unlock insights from our vast data sets.",
-    location: "Seattle, WA",
-    jobType: "Full-time",
-  },
-];
-
 function JobListing() {
   const [jobPostings, setJobPostings] = useState();
   const classes = useStyles();

@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  useTheme,
-  TextField,
-  Button,
-  Chip,
-  Grid,
-  useMediaQuery,
-  IconButton,
-} from "@material-ui/core";
+import { useTheme, TextField, Chip, Grid, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,19 +26,24 @@ const ManyToManyField = ({
   fieldName,
   verboseName,
   handleManyToManyChange,
+  setFormData,
 }) => {
   const classes = useStyles();
   const [items, setItems] = useState(data);
   const [newFeature, setNewFeature] = useState("");
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const handleDeleteFeature = (feature) => () => {
-    setItems((prevFeatures) =>
-      prevFeatures.filter(
+  const handleDeleteManyToMany = (fieldName, feature) => () => {
+    setFormData((prevFormData) => {
+      const newFeatures = prevFormData[fieldName].filter(
         (prevFeature) => prevFeature.detail !== feature.detail
-      )
-    );
+      );
+      setItems(newFeatures);
+      return {
+        ...prevFormData,
+        [fieldName]: newFeatures,
+      };
+    });
   };
 
   const handleAddFeature = () => {
@@ -98,7 +95,7 @@ const ManyToManyField = ({
             <Chip
               key={index}
               label={feature.detail}
-              onDelete={handleDeleteFeature(feature)}
+              onDelete={handleDeleteManyToMany(fieldName, feature)}
               className={classes.chip}
               style={{
                 borderColor:
