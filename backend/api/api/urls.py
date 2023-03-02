@@ -7,6 +7,11 @@ from . import views
 urlpatterns = (
     [
         path(
+            "admin/<int:content_type_id>/<int:object_id>/",
+            views.custom_admin_url_return,
+            name="custom_admin_url_return",
+        ),
+        path(
             "api/get_metadata/<str:model_name>/",
             views.ModelMetadataAPIView.as_view(),
             name="get_metadata",

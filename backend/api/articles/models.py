@@ -1,6 +1,7 @@
 from django.db import models
 from authorization.models import User
 from api.customs import CustomCharField
+from auditlog.registry import auditlog
 
 # Create your models here.
 class Tags(models.Model):
@@ -27,3 +28,7 @@ class Articles(models.Model):
     class Meta:
         verbose_name = "Articles"
         verbose_name_plural = "Articles"
+
+
+auditlog.register(Tags)
+auditlog.register(Articles)

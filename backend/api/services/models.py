@@ -1,6 +1,7 @@
 from django.db import models
 from api.customs import CustomCharField, BaseModel
-
+from auditlog.registry import auditlog
+from api.signals import log_changes
 
 class Benefits(BaseModel):
     title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
@@ -18,3 +19,6 @@ class Benefits(BaseModel):
     class Meta:
         verbose_name = "Benefits"
         verbose_name_plural = "Benefits"
+
+
+# auditlog.register(Benefits)

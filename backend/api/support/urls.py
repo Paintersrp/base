@@ -3,5 +3,5 @@ from .views import *
 
 urlpatterns = [
     path("messages/", MessagesListView.as_view(), name="messages-list"),
-    path("messages/<int:pk>/", MessagesListView.as_view(), name="messages-detail"),
+    path("messages/<int:pk>/", MessagesDetailView.as_view(), name="messages-detail"),
 ]

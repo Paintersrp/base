@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
@@ -12,6 +11,7 @@ import BaseForm from "../../Elements/Base/BaseForm";
 import HeroBlock from "../../Elements/TextBlocks/HeroBlock/HeroBlock";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
+import HeroForm from "./HeroForm";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -108,6 +108,17 @@ function Hero({ contactData, form = true }) {
     <Grid container flex className={classes.container}>
       <Grid item xs={12}>
         <div className={classes.overlay}>
+          {!editing && auth.is_superuser ? (
+            <>
+              <EditDeleteButtonMenu
+                editClick={() => setEditing(!editing)}
+                hideDelete
+                placement="top"
+                position="center"
+                finalColor="white"
+              />
+            </>
+          ) : null}
           {!editing ? (
             <HeroBlock
               title={heroData.title}
@@ -122,17 +133,7 @@ function Hero({ contactData, form = true }) {
               handleCancel={() => setEditing(!editing)}
             />
           )}
-          {!editing && auth.is_superuser ? (
-            <>
-              <EditDeleteButtonMenu
-                editClick={() => setEditing(!editing)}
-                hideDelete
-                placement="bottom"
-                position="center"
-                finalColor="white"
-              />
-            </>
-          ) : null}
+
           <Grid item xs={12} md={12} className={classes.contactContainer}>
             <ContactButtons contactData={contactData[0]} />
             <Grid container flex justifyContent="center">
@@ -143,64 +144,65 @@ function Hero({ contactData, form = true }) {
       </Grid>
 
       {form ? (
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
-          <BaseForm
-            title="Ready to take the first step?"
-            body="Fill out the form below and one of our experts will get in touch
-        with you to schedule a consultation."
-            handleSubmit={handleSubmit}
-            boxShadow={2}
-          >
-            <Grid item xs={12}>
-              <TextField
-                margin="dense"
-                label="Full Name"
-                variant="outlined"
-                fullWidth
-                className={classes.formField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                margin="dense"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                className={classes.formField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                margin="dense"
-                label="Phone"
-                variant="outlined"
-                fullWidth
-                className={classes.formField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                margin="dense"
-                label="Message"
-                variant="outlined"
-                multiline
-                rows={4}
-                fullWidth
-                className={classes.formField}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <StyledButton buttonText="Get in touch" />
-            </Grid>
-          </BaseForm>
-        </div>
-      ) : null}
+        <HeroForm />
+      ) : // <div
+      //   style={{ display: "flex", justifyContent: "center", width: "100%" }}
+      // >
+      //   <BaseForm
+      //     title="Ready to take the first step?"
+      //     body="Fill out the form below and one of our experts will get in touch
+      // with you to schedule a consultation."
+      //     handleSubmit={handleSubmit}
+      //     boxShadow={2}
+      //   >
+      //     <Grid item xs={12}>
+      //       <TextField
+      //         margin="dense"
+      //         label="Full Name"
+      //         variant="outlined"
+      //         fullWidth
+      //         className={classes.formField}
+      //       />
+      //     </Grid>
+      //     <Grid item xs={12}>
+      //       <TextField
+      //         margin="dense"
+      //         label="Email"
+      //         variant="outlined"
+      //         fullWidth
+      //         className={classes.formField}
+      //       />
+      //     </Grid>
+      //     <Grid item xs={12}>
+      //       <TextField
+      //         margin="dense"
+      //         label="Phone"
+      //         variant="outlined"
+      //         fullWidth
+      //         className={classes.formField}
+      //       />
+      //     </Grid>
+      //     <Grid item xs={12}>
+      //       <TextField
+      //         margin="dense"
+      //         label="Message"
+      //         variant="outlined"
+      //         multiline
+      //         rows={4}
+      //         fullWidth
+      //         className={classes.formField}
+      //       />
+      //     </Grid>
+      //     <Grid
+      //       item
+      //       xs={12}
+      //       style={{ display: "flex", justifyContent: "center" }}
+      //     >
+      //       <StyledButton buttonText="Get in touch" />
+      //     </Grid>
+      //   </BaseForm>
+      // </div>
+      null}
     </Grid>
   );
 }

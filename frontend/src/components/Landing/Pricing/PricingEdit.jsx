@@ -4,12 +4,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import { Grid, TextField } from "@material-ui/core";
-import TagsInput from "../../Articles/Create/TagsInput";
 import ImageEdit from "../../Elements/Fields/ImageEdit";
 import ImageInput from "../../Elements/Fields/ImageInput";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { getCookie } from "../../../utils";
-import ManyToManyField from "../../Admin/Components/ControlForm/Fields/ManyToManyField";
+import ManyToManyField from "../../Elements/Fields/ManyToManyField";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -3,23 +3,13 @@ import { Link } from "react-router-dom";
 import {
   Drawer,
   List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Collapse,
   IconButton,
   AppBar,
   Toolbar,
   Grid,
   Typography,
-  useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import HomeIcon from "@material-ui/icons/Home";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import CircleIcon from "@mui/icons-material/Circle";
 import MenuIcon from "@material-ui/icons/Menu";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import renderLinks from "./renderLinks";
@@ -106,7 +96,6 @@ function AdminSidebar({ appName }) {
   const [openLinks, setOpenLinks] = useState({});
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     axiosInstance

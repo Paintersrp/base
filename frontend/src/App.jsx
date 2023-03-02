@@ -32,10 +32,10 @@ import chroma from "chroma-js";
 import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
 import Loading from "./components/Elements/Layout/Loading";
 import JobIndividualView from "./components/Contact/Jobs/_Pages/JobIndividualView";
-import PanelPage from "./components/Admin/Panels/PanelPage";
+import PanelPage from "./components/Admin/Panel/PanelPage";
 import AdminSidebar from "./components/Admin/Navigation/AdminSidebar";
 import DashboardPage from "./components/Admin/Dashboard/DashboardPage";
-import ObjectPage from "./components/Admin/Objects/ObjectPage";
+import ObjectPage from "./components/Admin/Objects/_Page/ObjectPage";
 
 {
   /* 

@@ -6,6 +6,7 @@ from api.customs import (
     CustomTextField,
     CustomDecimalField,
 )
+from auditlog.registry import auditlog
 
 
 class HeroBlock(models.Model):
@@ -152,3 +153,13 @@ class Process(models.Model):
 @receiver(pre_save, sender=TitleBlock)
 def lowercase_name(sender, instance, **kwargs):
     instance.name = instance.name.lower()
+
+
+auditlog.register(Process)
+auditlog.register(HeroBlock)
+auditlog.register(Testimonial)
+auditlog.register(PricingPlan)
+auditlog.register(TitleBlock)
+auditlog.register(Item)
+auditlog.register(Feature)
+auditlog.register(SupportedSites)

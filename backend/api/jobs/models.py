@@ -1,4 +1,5 @@
 from django.db import models
+from auditlog.registry import auditlog
 from api.customs import CustomCharField
 
 
@@ -49,3 +50,8 @@ class JobPosting(models.Model):
     class Meta:
         verbose_name = "Job Openings"
         verbose_name_plural = "Job Openings"
+
+
+auditlog.register(JobPosting)
+auditlog.register(Responsibilities)
+auditlog.register(Requirement)

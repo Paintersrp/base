@@ -12,12 +12,11 @@ import {
   TableBody,
   Collapse,
   IconButton,
-  Grid,
   CardHeader,
 } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -48,19 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentActions({ actionsOpen, setActionsOpen }) {
+function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
+  console.log("rl:", recentActions);
   const classes = useStyles();
-  const [recentActions, setRecentActions] = useState([]);
-
-  useEffect(() => {
-    axiosInstance
-      .get("/recent_admin_actions/")
-      .then((response) => {
-        setRecentActions(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
   const handleExpandClick = () => {
     setActionsOpen(!actionsOpen);
   };
@@ -84,7 +73,7 @@ function RecentActions({ actionsOpen, setActionsOpen }) {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell className={classes.headerCell}>User</TableCell>
+                      {/* <TableCell className={classes.headerCell}>User</TableCell> */}
                       <TableCell className={classes.headerCell}>
                         Action Time
                       </TableCell>
@@ -94,18 +83,31 @@ function RecentActions({ actionsOpen, setActionsOpen }) {
                       <TableCell className={classes.headerCell}>
                         Change Message
                       </TableCell>
+                      <TableCell className={classes.headerCell}>URL</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {recentActions.map((action, index) => (
                       <TableRow key={index}>
-                        <TableCell>{action.user}</TableCell>
+                        {/* <TableCell>{action.user}</TableCell> */}
                         <TableCell>
                           {new Date(action.action_time).toLocaleString()}
                         </TableCell>
 
                         <TableCell>{action.content_type}</TableCell>
                         <TableCell>{action.change_message}</TableCell>
+                        <TableCell>
+                          {action.obj_url === "Not Applicable" ? (
+                            <>{action.obj_url}</>
+                          ) : (
+                            <Link
+                              className={classes.link}
+                              to={`${action.obj_url}`}
+                            >
+                              {action.obj_url}
+                            </Link>
+                          )}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

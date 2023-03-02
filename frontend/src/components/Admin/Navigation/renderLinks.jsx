@@ -6,7 +6,6 @@ import {
   ListItemText,
   ListItemIcon,
   Collapse,
-  useTheme,
 } from "@material-ui/core";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";

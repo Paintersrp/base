@@ -5,11 +5,13 @@ from api.customs import (
     CustomEmailField,
     CustomBooleanField,
 )
+from auditlog.registry import auditlog
 
 
 class Messages(models.Model):
-    name = CustomCharField(max_length=50, md_column_count=4, verbose_name="Name")
-    email = CustomEmailField(md_column_count=4, verbose_name="Email")
+    name = CustomCharField(max_length=50, md_column_count=6, verbose_name="Name")
+    email = CustomEmailField(md_column_count=6, verbose_name="Email")
+    phone = CustomCharField(max_length=20, md_column_count=6, verbose_name="Phone")
     subject = CustomCharField(max_length=100, md_column_count=4, verbose_name="Subject")
     message = CustomTextField(
         max_length=2000, md_column_count=12, verbose_name="Message"
@@ -28,3 +30,6 @@ class Messages(models.Model):
     class Meta:
         verbose_name = "Messages"
         verbose_name_plural = "Messages"
+
+
+auditlog.register(Messages)

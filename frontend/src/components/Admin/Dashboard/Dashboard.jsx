@@ -5,7 +5,6 @@ import {
   Grid,
   Breadcrumbs,
   IconButton,
-  Divider,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -15,6 +14,7 @@ import { NavigateNext } from "@material-ui/icons";
 import RecentActions from "./RecentActions";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "underline",
     },
+  },
+  activeLink: {
+    color: "#007bff",
   },
 }));
 
@@ -78,6 +81,7 @@ function Dashboard() {
           initialOpenAppSections[app] = true;
         });
         setOpenAppSections(initialOpenAppSections);
+        setActionsOpen(true);
       })
       .catch((error) => console.log(error));
 
@@ -113,7 +117,9 @@ function Dashboard() {
             aria-label="breadcrumb"
             style={{ display: "flex" }}
           >
-            <Typography color="textPrimary">Home</Typography>
+            <Link className={classes.activeLink} to="/admin">
+              Home
+            </Link>
             <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
           <div style={{ width: "100%", color: "black" }}>
@@ -145,6 +151,7 @@ function Dashboard() {
                 <RecentActions
                   actionsOpen={actionsOpen}
                   setActionsOpen={setActionsOpen}
+                  recentActions={recentActions}
                 />
               </Grid>
             </Grid>

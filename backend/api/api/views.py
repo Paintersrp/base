@@ -12,11 +12,13 @@ from authorization.serializers import UserSerializer
 from django.urls import reverse, NoReverseMatch
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.apps import apps
-from django.contrib.admin.models import LogEntry
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.http import Http404
+from django.shortcuts import render, get_object_or_404
+from django.contrib.contenttypes.models import ContentType
+from auditlog.models import LogEntry
+import json
 
 
 class UserListView(generics.ListCreateAPIView):
@@ -24,33 +26,75 @@ class UserListView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
+def custom_admin_url_return(request, content_type_id, object_id):
+    content_type = get_object_or_404(ContentType, pk=content_type_id)
+    model = content_type.model_class()
+    obj = get_object_or_404(model, pk=object_id)
+    return render(request, "my_template.html", {"object": obj})
+
+
 @method_decorator(csrf_exempt, name="dispatch")
 class RecentAdminActionsView(APIView):
     def get(self, request, *args, **kwargs):
-        recent_actions = LogEntry.objects.all().order_by("-action_time")[:10]
+        recent_actions = LogEntry.objects.order_by("-timestamp")[:10]
+
         data = []
         for action in recent_actions:
-            content_type = action.content_type
-            model_name = content_type.model
-            app_label = content_type.app_label
-            try:
-                obj = action.get_edited_object()
-                obj_url = reverse(
-                    f"admin:{app_label}_{model_name}_change", args=[obj.pk]
-                )
-            except:
-                obj_url = None
+            object_repr = action.object_repr
+            change_message = action.changes
+            if action.action == LogEntry.Action.CREATE:
+                object_repr = f"Added {object_repr}"
+                change_message_str = object_repr
+                try:
+                    model_class = apps.get_model(
+                        app_label=app_label, model_name=model_name
+                    )
+                    print(action.object_pk)
+                    obj = action.content_type.get_object_for_this_type(
+                        pk=action.object_pk
+                    )
+                    print(obj)
+                    obj_url = f"/admin/{app_label}/{model_name}/{obj.pk}/"
+                except:
+                    obj_url = "1"
+
+            elif action.action == LogEntry.Action.UPDATE:
+                object_repr = f"Changed {object_repr}"
+
+                if change_message:
+                    change_message = json.loads(change_message)
+                    for field, values in change_message.items():
+                        old_value = str(values[0])
+                        new_value = str(values[1])
+                        change_message_str = f"{field}: {old_value} -> {new_value}\n"
+
+                try:
+                    obj = action.content_type.get_object_for_this_type(
+                        pk=action.object_pk
+                    )
+                    obj_url = f"/admin/{app_label}/{model_name}/{obj.pk}/"
+                except:
+                    obj_url = "Failed"
+
+            elif action.action == LogEntry.Action.DELETE:
+                object_repr = f"Deleted {object_repr}"
+                change_message_str = object_repr
+                obj_url = "Not Applicable"
+
+            app_label = action.content_type.app_label
+            model_name = action.content_type.model
 
             data.append(
                 {
-                    "user": str(action.user),
-                    "action_time": action.action_time,
-                    "content_type": str(content_type),
-                    "model_name": model_name,
+                    "user": str(action.actor),
+                    "action_time": action.timestamp,
+                    "action_flag": action.get_action_display(),
+                    "content_type": str(action.content_type),
                     "app_label": app_label,
-                    "object_id": str(action.object_id),
-                    "object_repr": action.object_repr,
-                    "change_message": action.change_message,
+                    "model_name": model_name,
+                    "object_id": str(action.object_pk),
+                    "object_repr": object_repr,
+                    "change_message": change_message_str,
                     "obj_url": obj_url,
                 }
             )
@@ -100,8 +144,6 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
                 if isinstance(field, serializers.RelatedField)
                 else None
             )
-
-            print("test: ", related_model)
 
             choices = getattr(field, "choices", None)
             if choices:

@@ -1,5 +1,6 @@
 from django.db import models
 from api.customs import CustomCharField, CustomEmailField, CustomTextField
+from auditlog.registry import auditlog
 
 
 class AboutBlock(models.Model):
@@ -142,3 +143,13 @@ class FAQ(models.Model):
     class Meta:
         verbose_name = "FAQ"
         verbose_name_plural = verbose_name + "s"
+
+
+# auditlog.register(AboutBlock)
+# auditlog.register(MissionStatement)
+# auditlog.register(CompanyHistory)
+# auditlog.register(Value)
+# auditlog.register(ContactInformation)
+# auditlog.register(TeamMember)
+# auditlog.register(Category)
+# auditlog.register(FAQ)
