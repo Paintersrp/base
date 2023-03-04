@@ -100,7 +100,7 @@ const wipComponents = [
     props: {
       salesTitle: "Sales",
       salesDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
+        "Lorem ipsum dolorr sit amet, consectetur adipiscing elit. Sed euismod, est eget pellentesque pulvinar.",
       salesData: salesData,
       customersTitle: "Customers",
       customersDescription:
