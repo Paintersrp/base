@@ -11,8 +11,8 @@ import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
 import HeroCountdown from "../_NotStarted/CountDown/CountdownBlock";
-import Statistics from "../Statistics/Statistics";
-import Messages from "../Support/Messages/Messages";
+import Statistics from "../../Admin/Dashboard/Statistics";
+import Messages from "../../Support/Messages/Messages";
 import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 import Carousel from "../../Elements/Base/Carousel/Carousel";
 
@@ -94,16 +94,6 @@ const images = [
 const wipComponents = [
   {
     component: Messages,
-  },
-  {
-    component: Statistics,
-    props: {
-      numCustomers: 1000,
-      avgSatisfaction: 4.5,
-      numProjectsCompleted: 500,
-      revenue: 10000,
-      teamSize: 10,
-    },
   },
   {
     component: Infographic,

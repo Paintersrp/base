@@ -1,6 +1,16 @@
 from rest_framework import generics
 from .serializers import *
-from .models import Messages
+from .models import *
+
+
+class SubscriberListView(generics.ListCreateAPIView):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
+
+
+class SubscriberDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
 
 
 class MessagesListView(generics.ListCreateAPIView):

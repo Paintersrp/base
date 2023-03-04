@@ -33,6 +33,7 @@ urlpatterns = (
             views.RecentAdminActionsView.as_view(),
             name="recent_admin_actions",
         ),
+        path("api/subscribe/", views.subscribe_to_newsletter, name="user-list"),
         path("api/auth/", include("authorization.urls")),
         path("api/", include("articles.urls")),
         path("api/", include("landing.urls")),

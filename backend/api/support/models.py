@@ -32,4 +32,19 @@ class Messages(models.Model):
         verbose_name_plural = "Messages"
 
 
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True, verbose_name="Email")
+    subscribed_on = models.DateTimeField(
+        auto_now_add=True, verbose_name="Subscribed On"
+    )
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Subscribers"
+        verbose_name_plural = "Subscribers"
+
+
 auditlog.register(Messages)
+auditlog.register(Subscriber)

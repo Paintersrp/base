@@ -15,7 +15,7 @@ import RecentActions from "./RecentActions";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Link } from "react-router-dom";
-import Statistics from "../../WIP/Statistics/Statistics";
+import Statistics from "./Statistics";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -40,6 +40,23 @@ const useStyles = makeStyles((theme) => ({
   },
   activeLink: {
     color: "#007bff",
+  },
+  breadCrumbTitle: {
+    textAlign: "center",
+    color: "black",
+    borderRight: "1px solid #666666",
+    marginRight: 16,
+    paddingRight: 16,
+    fontWeight: 600,
+    fontFamily: "Poppins",
+  },
+  collapseAllContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  background: {
+    background: "#F5F5F5",
   },
 }));
 
@@ -103,18 +120,7 @@ function Dashboard() {
     <BaseContent maxWidth={1200} pt={4} pb={4}>
       {Object.keys(models).length > 0 ? (
         <>
-          <Typography
-            variant="h3"
-            style={{
-              textAlign: "center",
-              color: "black",
-              borderRight: "1px solid #666666",
-              marginRight: 16,
-              paddingRight: 16,
-              fontWeight: 600,
-              fontFamily: "Poppins",
-            }}
-          >
+          <Typography variant="h3" className={classes.breadCrumbTitle}>
             Dashboard
           </Typography>
           <Breadcrumbs
@@ -127,14 +133,8 @@ function Dashboard() {
             </Link>
             <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
-          <div style={{ width: "100%", color: "black" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
+          <div>
+            <div className={classes.collapseAllContainer}>
               <Typography color="textPrimary">
                 {collapsed ? "Open All" : "Collapse All"}
               </Typography>

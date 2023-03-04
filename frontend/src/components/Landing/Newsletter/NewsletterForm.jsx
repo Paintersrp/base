@@ -10,6 +10,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const CustomButton = withStyles({
   label: {
@@ -95,9 +96,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewsletterForm() {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
   const [state, setState] = useState("initial");
   const [error, setError] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+  });
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError(false);
+    setState("submitting");
+
+    axiosInstance
+      .post("/subscribe/", formData)
+      .then((response) => {
+        setState("success");
+      })
+      .catch((error) => {
+        setError(true);
+        setState("initial");
+      });
+  };
 
   return (
     <Box className={classes.root}>
@@ -105,35 +131,20 @@ export default function NewsletterForm() {
         <Typography variant="h2" className={classes.heading}>
           Subscribe to our Newsletter
         </Typography>
-        <form
-          className={classes.form}
-          onSubmit={(e) => {
-            e.preventDefault();
-            setError(false);
-            setState("submitting");
-
-            setTimeout(() => {
-              if (email === "fail@example.com") {
-                setError(true);
-                setState("initial");
-                return;
-              }
-
-              setState("success");
-            }, 1000);
-          }}
-        >
+        <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             className={classes.input}
             autoComplete="email"
-            name="emailaddress"
+            name="email"
             variant="outlined"
             notchedOutline
             placeholder="Your Email"
             required
+            value={formData.email}
             fullWidth
             id="emailaddress"
             label="Email Address"
+            onChange={handleChange}
           />
           <Grid container spacing={2}>
             <Grid

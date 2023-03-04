@@ -27,6 +27,7 @@ const PanelTable = ({
   handleConfirmDelete,
   handleMultipleDeleteAction,
 }) => {
+  console.log(metadata);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("");
   const { page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
@@ -105,8 +106,8 @@ const PanelTable = ({
             {keys.map((key) => (
               <TableCell key={key}>{metadata[key].verbose_name}</TableCell>
             ))}
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
+            <TableCell style={{ textAlign: "center" }}>Edit</TableCell>
+            <TableCell style={{ textAlign: "center" }}>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -125,15 +126,17 @@ const PanelTable = ({
                   />
                 </TableCell>
                 {keys.map((key) => (
-                  <TableCell key={key}>
-                    {key === "created_at"
-                      ? new Date(item[key]).toLocaleString()
-                      : typeof item[key] === "boolean"
-                      ? item[key]
-                        ? "true"
-                        : "false"
-                      : item[key]}
-                  </TableCell>
+                  <>
+                    <TableCell key={key}>
+                      {metadata[key].type === "DateTimeField"
+                        ? new Date(item[key]).toLocaleString()
+                        : typeof item[key] === "boolean"
+                        ? item[key]
+                          ? "true"
+                          : "false"
+                        : item[key]}
+                    </TableCell>
+                  </>
                 ))}
                 <TableCell style={{ width: "5%" }}>
                   <IconButton onClick={() => handleEdit(item)}>

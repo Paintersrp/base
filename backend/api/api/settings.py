@@ -142,6 +142,12 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
 }
 
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = (
+    "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"
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

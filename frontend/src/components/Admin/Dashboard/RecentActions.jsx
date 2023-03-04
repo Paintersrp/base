@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   cardHeader: {
     backgroundColor: "#E6E6E6",
   },
+  tableCell: {
+    padding: "6px 16px",
+    fontSize: "0.875rem",
+  },
 }));
 
 function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
@@ -89,14 +93,18 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
                   <TableBody>
                     {recentActions.map((action, index) => (
                       <TableRow key={index}>
-                        {/* <TableCell>{action.user}</TableCell> */}
-                        <TableCell>
+                        {/* <TableCell className={classes.tableCell}>{action.user}</TableCell> */}
+                        <TableCell className={classes.tableCell}>
                           {new Date(action.action_time).toLocaleString()}
                         </TableCell>
 
-                        <TableCell>{action.content_type}</TableCell>
-                        <TableCell>{action.change_message}</TableCell>
-                        <TableCell>
+                        <TableCell className={classes.tableCell}>
+                          {action.content_type}
+                        </TableCell>
+                        <TableCell className={classes.tableCell}>
+                          {action.change_message}
+                        </TableCell>
+                        <TableCell className={classes.tableCell}>
                           {action.obj_url === "Not Applicable" ? (
                             <>{action.obj_url}</>
                           ) : (

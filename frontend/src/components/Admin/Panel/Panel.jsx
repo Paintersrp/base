@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme) => ({
     color: "#007bff",
     height: "100%",
   },
+  breadCrumbTitle: {
+    textAlign: "center",
+    color: "black",
+    borderRight: "1px solid #666666",
+    marginRight: 16,
+    paddingRight: 16,
+    fontWeight: 600,
+    fontFamily: "Poppins",
+  },
 }));
 
 const Panel = ({ apiData }) => {
@@ -143,18 +152,7 @@ const Panel = ({ apiData }) => {
     <>
       {ready && model ? (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
-          <Typography
-            variant="h3"
-            style={{
-              textAlign: "center",
-              color: "black",
-              borderRight: "1px solid #666666",
-              marginRight: 16,
-              paddingRight: 16,
-              fontWeight: 600,
-              fontFamily: "Poppins",
-            }}
-          >
+          <Typography variant="h3" className={classes.breadCrumbTitle}>
             {model.verbose_name}
           </Typography>
           <Breadcrumbs
@@ -168,18 +166,6 @@ const Panel = ({ apiData }) => {
             <Typography color="textPrimary">{model.verbose_name}</Typography>
           </Breadcrumbs>
           <Grid container justifyContent="center">
-            {/* <Typography
-              variant="h3"
-              style={{
-                marginTop: 16,
-                marginBottom: 24,
-                textAlign: "center",
-                color: "black",
-              }}
-            >
-              {appName.charAt(0).toUpperCase() + appName.slice(1)} Page -{" "}
-              {model.verbose_name}
-            </Typography> */}
             <Grid
               item
               style={{

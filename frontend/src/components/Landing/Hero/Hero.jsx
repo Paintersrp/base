@@ -34,20 +34,6 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: 0,
     },
   },
-  button: {
-    minWidth: 140,
-    margin: theme.spacing(1),
-    boxShadow: theme.shadows[3],
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    borderRadius: 50,
-    transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-2px)",
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.dark,
-    },
-  },
 }));
 
 function Hero({ contactData, form = true }) {
@@ -105,7 +91,7 @@ function Hero({ contactData, form = true }) {
             />
           )}
 
-          <Grid item xs={12} md={12} className={classes.contactContainer}>
+          <Grid item xs={12} md={12}>
             <ContactButtons contactData={contactData[0]} />
             <Grid container flex justifyContent="center">
               <Social contactData={contactData[0]} color="light" />

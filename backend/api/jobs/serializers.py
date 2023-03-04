@@ -53,12 +53,10 @@ class JobPostingSerializer(serializers.ModelSerializer):
 
         instance = super().update(instance, validated_data)
 
-        # Update requirements
         for requirement_data in requirements_data:
             requirement, created = Requirement.objects.get_or_create(**requirement_data)
             instance.requirements.add(requirement)
 
-        # Update responsibilities
         for responsibility_data in responsibilities_data:
             responsibility, created = Responsibilities.objects.get_or_create(
                 **responsibility_data

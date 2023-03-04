@@ -1,10 +1,8 @@
-from django.contrib import admin
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import generics, serializers, status
 from django.apps import apps
-from django.db.models import Model
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from authorization.models import User
@@ -19,6 +17,36 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from auditlog.models import LogEntry
 import json
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from support.models import Subscriber
+
+
+@csrf_exempt
+def subscribe_to_newsletter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+
+        # add validatation
+        subscriber, created = Subscriber.objects.get_or_create(email=email)
+
+        message = Mail(
+            from_email="edgelordtest@gmail.com",
+            to_emails=email,
+            subject="Welcome to Our Newsletter",
+            html_content="Thank you for subscribing to our newsletter!",
+        )
+        try:
+            sg = SendGridAPIClient(api_key=settings.SENDGRID_API_KEY)
+            response = sg.send(message)
+        except Exception as e:
+            print("e", e)
+            return JsonResponse({"error": "Email failed to send"})
+
+        return JsonResponse({"success": True})
+
+    return JsonResponse({"error": "Invalid request method"})
 
 
 class UserListView(generics.ListCreateAPIView):

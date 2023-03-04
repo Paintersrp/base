@@ -14,7 +14,7 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@material-ui/core";
-import ThemeSettings from "../../../components/WIP/ThemeSettings/ThemeSettings";
+import ThemeSettings from "../../../components/Elements/Forms/ThemeSettings/ThemeSettings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 3,
       },
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
     },

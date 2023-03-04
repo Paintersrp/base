@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import LandingPage from "./components/Landing/_Page/LandingPage";
 import AboutPage from "./components/About/_Page/AboutPage";
-import SupportPage from "./components/WIP/Support/SupportPage";
+import SupportPage from "./components/Support/_Page/SupportPage";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import baseTheme from "./theme";
@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./lib/Axios/axiosInstance";
 import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
-import GeneratorPage from "./components/WIP/EndPointGenerator/EndPointGeneratorPage";
+import GeneratorPage from "./components/EndPointGenerator/EndPointGeneratorPage";
 import Loading from "./components/Elements/Layout/Loading";
 import JobIndividualView from "./components/Contact/Jobs/_Pages/JobIndividualView";
 import PanelPage from "./components/Admin/Panel/PanelPage";
@@ -133,7 +133,10 @@ function App() {
         <ThemeProvider theme={theme ? theme : baseTheme}>
           <CssBaseline />
           <Router>
-            <SiteRoutes handleUpdate={handleUpdate} setIsLoading={setIsLoading} />
+            <SiteRoutes
+              handleUpdate={handleUpdate}
+              setIsLoading={setIsLoading}
+            />
           </Router>
         </ThemeProvider>
       )}

@@ -47,7 +47,7 @@ export default function renderSections({
             }
           />
           <Collapse in={isOpen}>
-            <CardContent style={{ background: "#F5F5F5" }}>
+            <CardContent className={classes.background}>
               <List container>
                 {renderModels({
                   modelItem,

@@ -3,6 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
 
 const DateType = ({ fieldName, handleInputChange }) => {
+  console.log("DateType");
   return (
     <>
       <Grid

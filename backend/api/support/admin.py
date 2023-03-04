@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Messages
+from .models import *
 
 
 class MessageAdmin(admin.ModelAdmin):
@@ -15,4 +15,12 @@ class MessageAdmin(admin.ModelAdmin):
     ]
 
 
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = [
+        "subscribed_on",
+        "email",
+    ]
+
+
+admin.site.register(Subscriber, SubscriberAdmin)
 admin.site.register(Messages, MessageAdmin)

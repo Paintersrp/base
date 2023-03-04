@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework.response import Response
 from django.db import IntegrityError
-from .models import User, ThemeSettings
-from .serializers import UserSerializer, ThemeSettingsSerializer
+from .models import *
+from .serializers import *
 import json
 import jwt
 from rest_framework.decorators import permission_classes
@@ -85,8 +85,6 @@ def verify_jwt(request):
         },
         status=200,
     )
-
-
 
 
 @csrf_exempt
