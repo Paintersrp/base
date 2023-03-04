@@ -251,6 +251,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <CardContent style={{ width: "90%" }}>
                 <TextField
+                  margin="dense"
                   className={classes.field}
                   variant="outlined"
                   label="Title"
@@ -258,6 +259,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   onChange={handleInputChange}
                 />
                 <TextField
+                  margin="dense"
                   className={classes.field}
                   variant="outlined"
                   label="Price"
@@ -265,6 +267,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   onChange={handleInputChange}
                 />
                 <TextField
+                  margin="dense"
                   className={classes.multiline}
                   variant="outlined"
                   label="Best For"
@@ -275,6 +278,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                 />
 
                 <TextField
+                  margin="dense"
                   className={classes.field}
                   variant="outlined"
                   label="Guarantee"

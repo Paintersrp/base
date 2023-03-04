@@ -42,6 +42,9 @@ class RecentAdminActionsView(APIView):
         for action in recent_actions:
             object_repr = action.object_repr
             change_message = action.changes
+            app_label = action.content_type.app_label
+            model_name = action.content_type.model
+
             if action.action == LogEntry.Action.CREATE:
                 object_repr = f"Added {object_repr}"
                 change_message_str = object_repr
@@ -49,14 +52,13 @@ class RecentAdminActionsView(APIView):
                     model_class = apps.get_model(
                         app_label=app_label, model_name=model_name
                     )
-                    print(action.object_pk)
                     obj = action.content_type.get_object_for_this_type(
                         pk=action.object_pk
                     )
-                    print(obj)
+
                     obj_url = f"/admin/{app_label}/{model_name}/{obj.pk}/"
                 except:
-                    obj_url = "1"
+                    obj_url = "Object not found"
 
             elif action.action == LogEntry.Action.UPDATE:
                 object_repr = f"Changed {object_repr}"
@@ -80,9 +82,6 @@ class RecentAdminActionsView(APIView):
                 object_repr = f"Deleted {object_repr}"
                 change_message_str = object_repr
                 obj_url = "Not Applicable"
-
-            app_label = action.content_type.app_label
-            model_name = action.content_type.model
 
             data.append(
                 {

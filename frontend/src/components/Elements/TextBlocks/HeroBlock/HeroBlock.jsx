@@ -116,7 +116,11 @@ const HeroBlock = ({
         dangerouslySetInnerHTML={{ __html: heading }}
       />
       <Box className={classes.description}>{text}</Box>
-      {showButton && <StyledButton buttonText={btnText} />}
+      {showButton && (
+        <Link to="/services">
+          <StyledButton buttonText={btnText} />
+        </Link>
+      )}
     </Grid>
   );
 };

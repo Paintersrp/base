@@ -12,14 +12,14 @@ const useStyles = makeStyles((theme) => ({
   carousel: {
     margin: "0 auto",
     maxWidth: 1200,
-    width: "80%",
+    width: "100%",
     [theme.breakpoints.down("sm")]: {
       margin: "0 16px",
     },
   },
 }));
 
-const BaseCarousel = ({ children, title }) => {
+const BaseCarousel = ({ children, title, currentIndex }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -46,12 +46,15 @@ const BaseCarousel = ({ children, title }) => {
         bottom: isSmallScreen ? "8px" : "auto",
         top: "50%",
         transform: "translateY(-50%)",
+        marginRight: 10,
+        marginLeft: 10,
       },
     },
     swipe: isSmallScreen,
     slidesToShow: 3,
     slidesToScroll: 1,
     centerMode: false,
+    index: currentIndex,
   };
 
   return (

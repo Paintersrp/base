@@ -15,6 +15,7 @@ import RecentActions from "./RecentActions";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Link } from "react-router-dom";
+import Statistics from "../../WIP/Statistics/Statistics";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -49,6 +50,7 @@ function Dashboard() {
   const [recentActions, setRecentActions] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
 
   const handleCollapseAll = () => {
     const closedAppSections = {};
@@ -57,6 +59,7 @@ function Dashboard() {
     });
     setOpenAppSections(closedAppSections);
     setActionsOpen(false);
+    setStatsOpen(false);
     setCollapsed(true);
   };
 
@@ -67,6 +70,7 @@ function Dashboard() {
     });
     setOpenAppSections(initialOpenAppSections);
     setActionsOpen(true);
+    setStatsOpen(true);
     setCollapsed(false);
   };
 
@@ -82,6 +86,7 @@ function Dashboard() {
         });
         setOpenAppSections(initialOpenAppSections);
         setActionsOpen(true);
+        setStatsOpen(true);
       })
       .catch((error) => console.log(error));
 
@@ -156,6 +161,15 @@ function Dashboard() {
               </Grid>
             </Grid>
           </div>
+          <Statistics
+            statsOpen={statsOpen}
+            setStatsOpen={setStatsOpen}
+            numCustomers={1000}
+            avgSatisfaction={4.5}
+            numProjectsCompleted={500}
+            revenue={10000}
+            teamSize={10}
+          />
         </>
       ) : (
         <div>

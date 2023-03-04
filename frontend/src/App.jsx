@@ -133,7 +133,7 @@ function App() {
         <ThemeProvider theme={theme ? theme : baseTheme}>
           <CssBaseline />
           <Router>
-            <MyRoutes handleUpdate={handleUpdate} setIsLoading={setIsLoading} />
+            <SiteRoutes handleUpdate={handleUpdate} setIsLoading={setIsLoading} />
           </Router>
         </ThemeProvider>
       )}
@@ -141,7 +141,7 @@ function App() {
   );
 }
 
-function MyRoutes({ handleUpdate, setIsLoading }) {
+function SiteRoutes({ handleUpdate, setIsLoading }) {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith("/admin");
 

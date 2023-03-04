@@ -100,6 +100,7 @@ function BaseForm({
   handleSubmit,
   children,
   maxWidth = 360,
+  minWidth,
   minHeight = 0,
   limitPadding = false,
   extraPadding = false,
@@ -135,6 +136,7 @@ function BaseForm({
         }
         style={{
           maxWidth: maxWidth,
+          minWidth: minWidth ? minWidth : null,
           minHeight: minHeight,
           background: background,
           boxShadow: theme.shadows[boxShadow],

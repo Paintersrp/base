@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ContactButtons from "../../Contact/Contact/ContactButtons";
 import Social from "../../Contact/Social/Social";
-import StyledButton from "../../Elements/Buttons/StyledButton";
-import BaseForm from "../../Elements/Base/BaseForm";
 import HeroBlock from "../../Elements/TextBlocks/HeroBlock/HeroBlock";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 import HeroBlockEdit from "../../Elements/TextBlocks/HeroBlock/HeroBlockEdit";
@@ -51,32 +48,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.dark,
     },
   },
-  formField: {
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      color: "black",
-      fontWeight: "500",
-      fontSize: "0.9rem",
-    },
-    "& input": {
-      color: "black",
-    },
-  },
 }));
 
 function Hero({ contactData, form = true }) {
   const classes = useStyles();
   const [heroData, setHeroData] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,16 +70,9 @@ function Hero({ contactData, form = true }) {
     fetchData();
   }, []);
 
-  const [editing, setEditing] = useState(false);
-  const auth = useSelector((state) => state.auth);
-
   const updateHeroBlock = (updatedHeroBlock) => {
     setHeroData(updatedHeroBlock);
     setEditing(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
   };
 
   return (
@@ -142,67 +113,7 @@ function Hero({ contactData, form = true }) {
           </Grid>
         </div>
       </Grid>
-
-      {form ? (
-        <HeroForm />
-      ) : // <div
-      //   style={{ display: "flex", justifyContent: "center", width: "100%" }}
-      // >
-      //   <BaseForm
-      //     title="Ready to take the first step?"
-      //     body="Fill out the form below and one of our experts will get in touch
-      // with you to schedule a consultation."
-      //     handleSubmit={handleSubmit}
-      //     boxShadow={2}
-      //   >
-      //     <Grid item xs={12}>
-      //       <TextField
-      //         margin="dense"
-      //         label="Full Name"
-      //         variant="outlined"
-      //         fullWidth
-      //         className={classes.formField}
-      //       />
-      //     </Grid>
-      //     <Grid item xs={12}>
-      //       <TextField
-      //         margin="dense"
-      //         label="Email"
-      //         variant="outlined"
-      //         fullWidth
-      //         className={classes.formField}
-      //       />
-      //     </Grid>
-      //     <Grid item xs={12}>
-      //       <TextField
-      //         margin="dense"
-      //         label="Phone"
-      //         variant="outlined"
-      //         fullWidth
-      //         className={classes.formField}
-      //       />
-      //     </Grid>
-      //     <Grid item xs={12}>
-      //       <TextField
-      //         margin="dense"
-      //         label="Message"
-      //         variant="outlined"
-      //         multiline
-      //         rows={4}
-      //         fullWidth
-      //         className={classes.formField}
-      //       />
-      //     </Grid>
-      //     <Grid
-      //       item
-      //       xs={12}
-      //       style={{ display: "flex", justifyContent: "center" }}
-      //     >
-      //       <StyledButton buttonText="Get in touch" />
-      //     </Grid>
-      //   </BaseForm>
-      // </div>
-      null}
+      {form ? <HeroForm /> : null}
     </Grid>
   );
 }

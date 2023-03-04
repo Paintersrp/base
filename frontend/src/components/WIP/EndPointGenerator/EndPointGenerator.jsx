@@ -1,101 +1,14 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import BaseForm from "../../Elements/Base/BaseForm.jsx";
 import BaseCarousel from "../../Elements/Base/BaseCarousel.jsx";
+import FieldForm from "./FieldForm.jsx";
+import FieldActions from "./FieldActions.jsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4),
     maxWidth: 1200,
     margin: "auto",
-    marginTop: theme.spacing(4),
-  },
-
-  removeButton: {
-    backgroundColor: theme.palette.error.main,
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: theme.palette.error.dark,
-    },
-  },
-  codeDisplay: {
-    backgroundColor: theme.palette.grey[200],
-    padding: theme.spacing(2),
-    marginTop: theme.spacing(4),
-    borderRadius: 4,
-  },
-  field: {
-    width: "100%",
-    marginBottom: theme.spacing(1.5),
-    "& .MuiOutlinedInput-root": {
-      fontFamily: "Roboto",
-      padding: 0,
-      fontSize: "0.9rem",
-      fontWeight: "400",
-      width: "100%",
-      letterSpacing: 0.25,
-
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    "& .MuiFormLabel-root": {
-      fontFamily: "Roboto",
-      color: "black",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-    },
-    "& input": {
-      color: "black",
-    },
-  },
-  select: {
-    width: "100%",
-    background: theme.palette.text.light,
-    marginBottom: theme.spacing(1),
-    "& .MuiFormLabel-root": {
-      color: theme.palette.text.light,
-      fontWeight: "700",
-      fontSize: "0.9rem",
-    },
-    "& fieldset": {
-      borderColor: "black",
-    },
-    "&:hover fieldset": {
-      borderColor: "black",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "black",
-    },
-
-    "& .MuiMenu-paper": {
-      maxHeight: 40,
-      overflowY: "auto",
-    },
-  },
-  formTitle: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(1.5),
-    textAlign: "center",
-    color: theme.palette.text.dark,
   },
 }));
 
@@ -104,6 +17,7 @@ const EndPointGenerator = () => {
   const [modelName, setModelName] = useState("");
   const [verboseName, setVerboseName] = useState("");
   const [checkedKeys, setCheckedKeys] = useState([]);
+  const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [fields, setFields] = useState([
     {
       name: "",
@@ -130,6 +44,7 @@ const EndPointGenerator = () => {
       md_column_count: "",
     });
     setFields(values);
+    setCurrentFieldIndex(values.length - 1);
   };
 
   const handleRemoveField = (index) => {
@@ -141,7 +56,7 @@ const EndPointGenerator = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    let modelCode = `from django.db import models\n\n`;
+    let modelCode = `from django.db import models\nfrom api.customs import *\nfrom auditlog.registry import auditlog \n\n`;
     let serializerCode = `from rest_framework import serializers\nfrom .models import ${modelName}\n\n`;
     let viewsCode = `from rest_framework import generics\nfrom .serializers import *\nfrom .models import ${modelName}\n\n`;
     let urlsCode = `from django.urls import path\nfrom .views import *\n\n`;
@@ -165,11 +80,10 @@ const EndPointGenerator = () => {
     });
 
     modelCode += `\n  class Meta: \n    verbose_name = ${verboseName} \n    verbose_name_plural = ${verboseName}s`;
-    modelCode += "\n";
+    modelCode += `\n\n auditlog.register(${modelName})`;
 
     let fieldKeys = "[";
     checkedKeys.forEach((key, index) => {
-      console.log(key);
       if (key !== null && key !== "") {
         fieldKeys += `"${key}"`;
       }
@@ -180,17 +94,16 @@ const EndPointGenerator = () => {
     });
     fieldKeys += "]";
 
-    console.log(fieldKeys);
-
-    serializerCode += `class ${modelName}Serializer(serializers.ModelSerializer):\n  FIELD_KEYS = ${fieldKeys} \n\n class Meta:\n    model = ${modelName}\n    fields = '__all__'\n\n`;
+    serializerCode += `class ${modelName}Serializer(serializers.ModelSerializer):\n  FIELD_KEYS = ${fieldKeys} \n\n class Meta:\n    model = ${modelName}\n    fields = '__all__'\n\n ${modelName}.serializer_class = ${modelName}Serializer`;
 
     const capitalizedModelName =
       modelName.charAt(0).toUpperCase() + modelName.slice(1);
 
-    viewsCode += `class ${capitalizedModelName}ListView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):\n  queryset = ${modelName}.objects.all()\n  serializer_class = ${modelName}Serializer\n\n`;
+    viewsCode += `class ${capitalizedModelName}ListView(generics.ListCreateAPIView):\n  queryset = ${modelName}.objects.all()\n  serializer_class = ${modelName}Serializer\n\n`;
+    viewsCode += `class ${capitalizedModelName}DetailView(generics.RetrieveUpdateDestroyAPIView):\n  queryset = ${modelName}.objects.all()\n  serializer_class = ${modelName}Serializer\n\n`;
 
     urlsCode += `urlpatterns = [\n  path('${modelName.toLowerCase()}/', ${capitalizedModelName}ListView.as_view(), name="${modelName.toLowerCase()}-list"),\n`;
-    urlsCode += `  path('${modelName.toLowerCase()}/<int:pk>/', ${capitalizedModelName}ListView.as_view(), name="${modelName.toLowerCase()}-detail"),\n]\n`;
+    urlsCode += `  path('${modelName.toLowerCase()}/<int:pk>/', ${capitalizedModelName}DetailView.as_view(), name="${modelName.toLowerCase()}-detail"),\n]\n`;
 
     adminCode += `class ${capitalizedModelName}Admin(admin.ModelAdmin):\n  list_display = [`;
 
@@ -289,6 +202,7 @@ const EndPointGenerator = () => {
     });
 
     const parentElement = document.createElement("div");
+    parentElement.style.whiteSpace = "pre-wrap";
     parentElement.appendChild(copyButton);
     parentElement.appendChild(modelCodeSection);
     parentElement.appendChild(serializerCodeSection);
@@ -302,7 +216,6 @@ const EndPointGenerator = () => {
   };
 
   const handleKeys = (event, key) => {
-    console.log(event.target, key);
     const isChecked = event.target.checked;
     setCheckedKeys((prevState) => {
       if (isChecked) {
@@ -318,240 +231,32 @@ const EndPointGenerator = () => {
       <BaseForm
         title="API Endpoint Generator"
         handleSubmit={handleSubmit}
-        maxWidth={800}
+        maxWidth={1000}
         limitPadding
+        background="#F5F5F5"
       >
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <BaseCarousel>
+            <BaseCarousel currentIndex={currentFieldIndex}>
               {fields.map((field, index) => (
-                <BaseForm
-                  title={`Field #${index + 1}`}
-                  maxWidth={1200}
-                  elevation={0}
-                  limitPadding
-                >
-                  <Grid key={index} container spacing={0} alignItems="center">
-                    <Grid item xs={12} md={9}>
-                      <FormControl fullWidth>
-                        <Select
-                          className={classes.select}
-                          variant="outlined"
-                          margin="dense"
-                          displayEmpty
-                          labelId={`field-type-label-${index}`}
-                          id={`field-type-${index}`}
-                          value={field.type}
-                          name="type"
-                          onChange={(event) => handleChange(index, event)}
-                          fullWidth
-                          MenuProps={{
-                            anchorOrigin: {
-                              vertical: "bottom",
-                              horizontal: "left",
-                            },
-                            transformOrigin: {
-                              vertical: "top",
-                              horizontal: "left",
-                            },
-                            getContentAnchorEl: null,
-                            classes: {
-                              paper: classes.menuPaper,
-                            },
-                            PaperProps: {
-                              style: {
-                                maxHeight: 500,
-                              },
-                            },
-                          }}
-                        >
-                          <MenuItem value="">Select a type</MenuItem>
-                          <MenuItem value="BooleanField">BooleanField</MenuItem>
-                          <MenuItem value="CharField">CharField</MenuItem>
-                          <MenuItem value="DateTimeField">
-                            DateTimeField
-                          </MenuItem>
-                          <MenuItem value="EmailField">EmailField</MenuItem>
-                          <MenuItem value="FileField">FileField</MenuItem>
-                          <MenuItem value="FloatField">FloatField</MenuItem>
-                          <MenuItem value="ImageField">ImageField</MenuItem>
-                          <MenuItem value="IntegerField">IntegerField</MenuItem>
-                          <MenuItem value="ManyToManyField">
-                            ManyToManyField
-                          </MenuItem>
-                          <MenuItem value="TextField">TextField</MenuItem>
-                          <MenuItem value="URLField">URLField</MenuItem>
-                        </Select>
-                        {Object.keys(field).map((key) => {
-                          if (key !== "type" && key !== "value") {
-                            return (
-                              <Grid container key={key}>
-                                <Grid item xs={12}>
-                                  <TextField
-                                    key={`${key}-${index}`}
-                                    margin="dense"
-                                    variant="outlined"
-                                    id={`field-${key}-${index}`}
-                                    label={`${key}`}
-                                    name={key}
-                                    value={fields[index][key]}
-                                    onChange={(event) =>
-                                      handleChange(index, event)
-                                    }
-                                    fullWidth
-                                    className={classes.field}
-                                  />
-                                </Grid>
-                              </Grid>
-                            );
-                          }
-                          return null;
-                        })}
-                      </FormControl>
-                    </Grid>
-
-                    <Grid
-                      item
-                      xs={12}
-                      md={3}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Grid
-                        item
-                        xs={12}
-                        md={12}
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Button
-                          onClick={() => handleRemoveField(index)}
-                          className={classes.removeButton}
-                        >
-                          Remove
-                        </Button>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        md={12}
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          marginTop: 16,
-                        }}
-                      >
-                        Add to Field Keys?
-                        <Checkbox
-                          checked={checkedKeys.includes(field.name)}
-                          onChange={(event) => handleKeys(event, field.name)}
-                          name={`checkbox-${field.name}`}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </BaseForm>
+                <FieldForm
+                  field={field}
+                  fields={fields}
+                  index={index}
+                  handleChange={handleChange}
+                  handleRemoveField={handleRemoveField}
+                  checkedKeys={checkedKeys}
+                  handleKeys={handleKeys}
+                />
               ))}
             </BaseCarousel>
-            <Grid
-              item
-              xs={12}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 24,
-              }}
-            >
-              <Button
-                onClick={handleAddField}
-                variant="contained"
-                color="primary"
-              >
-                Add Field
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            justifyContent="center"
-            style={{
-              marginTop: 16,
-              flexDirection: "column",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Grid
-                item
-                xs={4}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <TextField
-                  margin="dense"
-                  variant="outlined"
-                  id="model-name"
-                  label="Model Name"
-                  value={modelName}
-                  onChange={(event) => setModelName(event.target.value)}
-                  className={classes.field}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <TextField
-                  margin="dense"
-                  variant="outlined"
-                  id="model-name"
-                  label="Verbose Name"
-                  value={verboseName}
-                  onChange={(event) => setVerboseName(event.target.value)}
-                  className={classes.field}
-                  style={{ width: "100%" }}
-                />
-              </Grid>
-              <Grid
-                xs={3}
-                style={{
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button type="submit" variant="contained" color="primary">
-                  Generate Endpoint
-                </Button>
-              </Grid>
-            </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography
-              variant="h3"
-              align="center"
-              style={{ color: "black", marginTop: 16 }}
-            >
-              Generated Results
-            </Typography>
-            <div id="code-display" className={classes.codeDisplay}></div>
+            <FieldActions
+              handleAddField={handleAddField}
+              modelName={modelName}
+              setModelName={setModelName}
+              verboseName={verboseName}
+              setVerboseName={setVerboseName}
+            />
           </Grid>
         </Grid>
       </BaseForm>
