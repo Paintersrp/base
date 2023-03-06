@@ -1,13 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import {
   FormControl,
-  InputLabel,
   ListItemIcon,
   ListItemText,
   MenuItem,
-  OutlinedInput,
   Select,
 } from "@material-ui/core";
 import {
@@ -27,6 +24,7 @@ import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
+import Container from "../../Layout/Container/Container";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -55,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
       maxHeight: 64,
       overflowY: "auto",
     },
+  },
+  label: {
+    color: "black",
   },
 }));
 
@@ -96,18 +97,15 @@ const iconList = [
   },
 ];
 
-function IconSelectMixin({ handleChange, formData, background = "white" }) {
+function IconSelectMixin({ handleChange, formData, background = "#F5F5F5" }) {
   const classes = useStyles();
 
   return (
     <FormControl style={{ width: "100%", paddingBottom: 8 }} variant="outlined">
-      <InputLabel shrink htmlFor="icon-select-label">
-        Icon
-      </InputLabel>
       <Select
         className={classes.select}
         variant="outlined"
-        value={formData.icon}
+        value={formData.icon || "Select an Icon"}
         onChange={handleChange}
         displayEmpty
         name="icon"
@@ -139,21 +137,29 @@ function IconSelectMixin({ handleChange, formData, background = "white" }) {
             },
           },
         }}
-        input={<OutlinedInput label="Icon" />}
       >
         <MenuItem value="Select an icon">
           <em>Select an icon</em>
         </MenuItem>
         {iconList.map((icon) => (
           <MenuItem key={icon.name} value={icon.name}>
-            <Grid container>
+            <Container justify="flex-start" align="center">
               <ListItemIcon
-                style={{ fontSize: "1.1rem", alignItems: "center" }}
+                style={{
+                  fontSize: "1.1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems: "center",
+                }}
               >
                 {icon.component}
               </ListItemIcon>
-              <ListItemText primary={icon.name} />
-            </Grid>
+              <ListItemText
+                primary={icon.name}
+                style={{ textAlign: "start" }}
+              />
+            </Container>
           </MenuItem>
         ))}
       </Select>

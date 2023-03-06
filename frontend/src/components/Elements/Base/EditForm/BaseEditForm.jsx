@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.palette.background.light,
     padding: theme.spacing(3),
     borderRadius: 10,
     boxShadow: theme.shadows[1],

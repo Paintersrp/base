@@ -19,7 +19,8 @@ from auditlog.models import LogEntry
 import json
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from support.models import Subscriber
+from support.models import Subscribers
+from articles.models import Articles
 
 
 @csrf_exempt
@@ -29,7 +30,7 @@ def subscribe_to_newsletter(request):
         email = data.get("email")
 
         # add validatation
-        subscriber, created = Subscriber.objects.get_or_create(email=email)
+        subscriber, created = Subscribers.objects.get_or_create(email=email)
 
         message = Mail(
             from_email="edgelordtest@gmail.com",
@@ -250,16 +251,35 @@ class ModelEndpointAPIView(APIView):
             if app_name not in endpoints:
                 endpoints[app_name] = []
 
-            endpoints[app_name].append(
-                {
-                    "model_name": model_name,
-                    "verbose_name": model._meta.verbose_name,
-                    "verbose_name_plural": model._meta.verbose_name_plural,
-                    "url": url,
-                    "metadata": metadata,
-                    "keys": serializer.FIELD_KEYS,
+            if model_name == "tags":
+                tag_counts = {}
+                articles = Articles.objects.all()
+                for article in articles:
+                    for tag in article.tags.all():
+                        if tag.name not in tag_counts:
+                            tag_counts[tag.name] = 1
+                        else:
+                            tag_counts[tag.name] += 1
+
+                metadata["tag_counts"] = {
+                    "type": "integer",
+                    "verbose_name": "Tag Counts",
+                    "values": tag_counts,
                 }
-            )
+
+            endpoint = {
+                "model_name": model_name,
+                "verbose_name": model._meta.verbose_name,
+                "verbose_name_plural": model._meta.verbose_name_plural,
+                "url": url,
+                "metadata": metadata,
+                "keys": serializer.FIELD_KEYS,
+            }
+
+            if hasattr(serializer, "SEARCH_KEYS"):
+                endpoint["search_keys"] = serializer.SEARCH_KEYS
+
+            endpoints[app_name].append(endpoint)
 
         return Response(endpoints)
 
@@ -313,5 +333,24 @@ class SingleModelAPIView(APIView):
             "metadata": metadata,
             "keys": serializer.FIELD_KEYS,
         }
+
+        if hasattr(serializer, "SEARCH_KEYS"):
+            endpoint["search_keys"] = serializer.SEARCH_KEYS
+
+        if model_name == "tags":
+            tag_counts = {}
+            articles = Articles.objects.all()
+            for article in articles:
+                for tag in article.tags.all():
+                    if tag.name not in tag_counts:
+                        tag_counts[tag.name] = 1
+                    else:
+                        tag_counts[tag.name] += 1
+
+            endpoint["count"] = {
+                "type": "integer",
+                "verbose_name": "Article Count",
+                "values": tag_counts,
+            }
 
         return Response(endpoint)

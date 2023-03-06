@@ -22,5 +22,5 @@ class SubscriberAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(Subscribers, SubscriberAdmin)
 admin.site.register(Messages, MessageAdmin)

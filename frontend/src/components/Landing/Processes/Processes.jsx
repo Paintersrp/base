@@ -11,6 +11,8 @@ import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEdi
 import EditButton from "../../Elements/Buttons/EditButton";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import Container from "../../Elements/Layout/Container/Container";
+import Item from "../../Elements/Layout/Item/Item";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,18 +81,8 @@ export default function Processes() {
 
   return (
     <Box className={classes.root}>
-      <Grid container spacing={0}>
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 0,
-            margin: 0,
-          }}
-        >
+      <Container>
+        <Item xs={12}>
           <Paper elevation={0} className={classes.paper}>
             {!editTitle ? (
               <TitleBlock
@@ -115,23 +107,16 @@ export default function Processes() {
                 />
               </>
             ) : null}
-            <Grid container spacing={2} className={classes.gridContainer}>
+            <Container>
               {processes.map((step, index) => (
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={4}
-                  className={classes.center}
-                >
+                <Item xs={12} sm={12} md={12} lg={4} xl={4} justify="center">
                   <Process step={step} />
-                </Grid>
+                </Item>
               ))}
-            </Grid>
+            </Container>
           </Paper>
-        </Grid>
-      </Grid>
+        </Item>
+      </Container>
     </Box>
   );
 }

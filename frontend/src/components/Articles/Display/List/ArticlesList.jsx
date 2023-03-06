@@ -9,14 +9,14 @@ import ArticlesDisplayBase from "../DisplayBase/ArticlesDisplayBase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     display: "flex",
     justifyContent: "center",
     paddingBottom: 60,
   },
   gridContainer: {
     maxWidth: 1000,
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     paddingTop: theme.spacing(3),
   },
   list: {
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     "&:not(:first-child)": {},
   },
   pageLink: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     color: theme.palette.text.primary,
     borderRadius: "50%",
     padding: "8px",

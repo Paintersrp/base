@@ -7,6 +7,7 @@ import ServiceCard from "../Timeline/ServiceCard";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
+    backgroundColor: theme.palette.background.light,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(2),
     },

@@ -1,5 +1,4 @@
 import { createTheme } from "@material-ui/core/styles";
-import { blueGrey, indigo, pink, deepPurple } from "@material-ui/core/colors";
 
 //primary #6b7c9b
 //secondary #644f45
@@ -8,7 +7,6 @@ import { blueGrey, indigo, pink, deepPurple } from "@material-ui/core/colors";
 //#01838F
 //#8f0d01
 
-// Define custom colors
 export const commonColors = {
   white: "#ffffff",
   black: "#000000",
@@ -73,9 +71,9 @@ const palettes = {
     disabledBackground: "rgba(0, 0, 0, 0.12)",
   },
   background: {
-    default: "#fff",
-    paper: "#fff",
-    light: "#fff",
+    default: "#f5f5f5",
+    paper: "#f5f5f5",
+    light: "#f5f5f5",
   },
 };
 

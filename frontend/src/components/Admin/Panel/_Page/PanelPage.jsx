@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
-import Panel from "./Panel";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import PageContainer from "../../../Elements/Layout/PageContainer";
+import Panel from "../Panel";
 
 function PanelPage() {
   const { id } = useParams();
@@ -21,7 +21,7 @@ function PanelPage() {
   }, []);
 
   return (
-    <ContentLayout
+    <PageContainer
       title="Landing Page"
       description="Where the land be yo."
       keywords="news, posts, articles, touch"
@@ -29,10 +29,8 @@ function PanelPage() {
       url="https://example.com/example-page"
       backgroundColor="#F5F5F5"
     >
-      {/* {data && <Panel apiData={data} />}
-      {location.state && <Panel />} */}
       {data || location.state ? <Panel apiData={data} /> : null}
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

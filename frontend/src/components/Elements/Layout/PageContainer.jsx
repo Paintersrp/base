@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Container } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import SEOHeader from "../Head/SEOHeader";
+import Container from "./Container/Container";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentLayout = ({
+const PageContainer = ({
   children,
   title,
   header,
@@ -62,7 +63,7 @@ const ContentLayout = ({
   );
 };
 
-ContentLayout.propTypes = {
+PageContainer.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   header: PropTypes.string,
@@ -72,4 +73,4 @@ ContentLayout.propTypes = {
   url: PropTypes.string,
 };
 
-export default ContentLayout;
+export default PageContainer;

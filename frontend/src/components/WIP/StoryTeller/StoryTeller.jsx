@@ -6,8 +6,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: theme.palette.background.light,
   },
   paper: {
+    backgroundColor: theme.palette.background.light,
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,

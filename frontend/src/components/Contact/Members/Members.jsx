@@ -11,14 +11,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     justifyContent: "center",
     marginTop: theme.spacing(5),
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
   },
   container: {
     display: "flex",
     maxWidth: 860,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     marginTop: 20,
   },
   sectionTitle: {

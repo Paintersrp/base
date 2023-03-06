@@ -18,10 +18,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 860,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     margin: theme.spacing(2, 2, 2, 2),
   },
   card: {
+    backgroundColor: theme.palette.background.light,
     maxWidth: 350,
     borderRadius: theme.spacing(1),
     boxShadow: theme.shadows[2],

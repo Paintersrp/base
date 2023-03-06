@@ -68,6 +68,7 @@ export const quizStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
   stepper: {
+    backgroundColor: theme.palette.background.light,
     [theme.breakpoints.down("xs")]: {
       "& .MuiStepLabel-label": {
         textAlign: "center",
@@ -82,6 +83,7 @@ export const quizStyles = makeStyles((theme) => ({
     },
   },
   fadeIn: {
+    backgroundColor: theme.palette.background.light,
     opacity: 0,
     animation: `$fadeIn 0.5s ease-in-out forwards`,
   },

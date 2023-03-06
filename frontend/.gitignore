@@ -13,8 +13,6 @@ dist-ssr
 *.local
 
 # Editor directories and files
-frontend/src/components/WIP/_Archived/
-frontend/src/components/WIP/_NotStarted/
 node_modules/
 .vscode/*
 !.vscode/extensions.json

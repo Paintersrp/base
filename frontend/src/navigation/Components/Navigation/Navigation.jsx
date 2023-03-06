@@ -95,8 +95,8 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down("lg")]: {
-      marginLeft: theme.spacing(2),
-      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(1.5),
+      marginRight: theme.spacing(1.5),
     },
   },
 }));
@@ -189,6 +189,9 @@ export default function Navigation({ links, appName, handleUpdate }) {
                       </Link>
                       <Link to="/articles" className={classes.navLink}>
                         News
+                      </Link>
+                      <Link to="/WIP" className={classes.navLink}>
+                        WIP
                       </Link>
                       <Link to="/generator" className={classes.navLink}>
                         Generator

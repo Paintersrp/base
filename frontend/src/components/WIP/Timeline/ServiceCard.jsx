@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     height: "100%",
+    backgroundColor: theme.palette.background.light,
   },
   cardMedia: {
     height: 0,

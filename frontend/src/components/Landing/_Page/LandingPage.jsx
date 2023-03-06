@@ -14,7 +14,7 @@ import LatestNews from "../News/News";
 import Testimonials from "../Testimonials/Testimonials";
 import NewsletterForm from "../Newsletter/NewsletterForm";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
+import PageContainer from "../../Elements/Layout/PageContainer";
 import IconScroller from "../../Elements/Animations/IconScroller/IconScroller";
 import Processes from "../Processes/Processes";
 import Pricing from "../Pricing/Pricing";
@@ -71,13 +71,13 @@ function LandingPage() {
   }, []);
 
   return (
-    <ContentLayout
+    <PageContainer
       title="Landing Page"
       description="Where the land be yo."
       keywords="news, posts, articles, touch"
       image="https://example.com/image.png"
       url="https://example.com/example-page"
-      backgroundColor="white"
+      backgroundColor="#F5F5F5"
     >
       {Object.keys(contactData).length > 0 ? (
         <>
@@ -92,7 +92,7 @@ function LandingPage() {
       ) : (
         <Loading loading={true} />
       )}
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

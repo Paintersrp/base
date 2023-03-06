@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    background: theme.palette.background.light,
   },
 }));
 
@@ -58,7 +59,7 @@ export default function Values({ valuesData }) {
           <Typography variant="h3" className={classes.title}>
             Core Values
           </Typography>
-          <Grid container spacing={2} className={classes.gridContainer}>
+          <Grid container spacing={1} className={classes.gridContainer}>
             <Grid item xs={12} sm={6} className={classes.listColumns}>
               <List>
                 {rowOne.map((value) => (

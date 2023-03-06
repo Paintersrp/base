@@ -4,6 +4,7 @@ import BaseForm from "../Elements/Base/BaseForm.jsx";
 import BaseCarousel from "../Elements/Base/BaseCarousel.jsx";
 import FieldForm from "./FieldForm.jsx";
 import FieldActions from "./FieldActions.jsx";
+import ManyToManyField from "../Elements/Fields/ManyToManyField.jsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,10 +22,12 @@ const EndPointGenerator = () => {
   const [fields, setFields] = useState([
     {
       name: "",
+      verbose_name: "",
       type: "",
       max_length: "",
       xs_column_count: "",
       md_column_count: "",
+      auto_now_add: "",
     },
   ]);
 
@@ -38,10 +41,12 @@ const EndPointGenerator = () => {
     const values = [...fields];
     values.push({
       name: "",
+      verbose_name: "",
       type: "",
       max_length: "",
       xs_column_count: "",
       md_column_count: "",
+      auto_now_add: "",
     });
     setFields(values);
     setCurrentFieldIndex(values.length - 1);
@@ -55,10 +60,12 @@ const EndPointGenerator = () => {
       setFields([
         {
           name: "",
+          verbose_name: "",
           type: "",
           max_length: "",
           xs_column_count: "",
           md_column_count: "",
+          auto_now_add: "",
         },
       ]);
     } else {
@@ -77,22 +84,48 @@ const EndPointGenerator = () => {
     let viewsCode = `from rest_framework import generics\nfrom .serializers import *\nfrom .models import ${modelName}\n\n`;
     let urlsCode = `from django.urls import path\nfrom .views import *\n\n`;
     let adminCode = `from django.contrib import admin\nfrom .models import ${modelName}\n\n`;
+    let modelType = "";
 
     modelCode += `class ${modelName}(models.Model):\n`;
 
     fields.forEach((field) => {
-      const { name, type, max_length, xs_column_count, md_column_count } =
-        field;
+      const {
+        name,
+        verbose_name,
+        type,
+        max_length,
+        xs_column_count,
+        md_column_count,
+        auto_now_add,
+      } = field;
       const argMaxLength = max_length ? `max_length=${max_length},` : "";
       const argXsCount = xs_column_count
         ? `xs_column_count=${xs_column_count},`
         : "";
       const argMdCount = md_column_count
-        ? `md_column_count=${md_column_count}`
+        ? `md_column_count=${md_column_count},`
         : "";
+      const argVerboseName = verbose_name
+        ? `verbose_name="${verbose_name}",`
+        : "";
+      const argAutoNowAdd = auto_now_add ? `auto_now_add=${auto_now_add}` : "";
+      let argModelType;
 
-      const fieldArgs = `${argMaxLength} ${argXsCount} ${argMdCount}`;
-      modelCode += `  ${name} = Custom${type}(${fieldArgs})\n`;
+      if (
+        type === "CharField" ||
+        type === "EmailField" ||
+        type === "TextField" ||
+        type === "DecimalField" ||
+        type === "BooleanField" ||
+        type === "ManyToManyField"
+      ) {
+        argModelType = `Custom${type}`;
+      } else {
+        argModelType = type;
+      }
+
+      const fieldArgs = `${argMaxLength} ${argXsCount} ${argMdCount} ${argVerboseName} ${argAutoNowAdd}`;
+      modelCode += `  ${name} = ${argModelType}(${fieldArgs})\n`;
     });
 
     modelCode += `\n  class Meta: \n    verbose_name = ${verboseName} \n    verbose_name_plural = ${verboseName}s`;

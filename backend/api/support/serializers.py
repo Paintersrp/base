@@ -10,13 +10,13 @@ class MessagesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class SubscriberSerializer(serializers.ModelSerializer):
+class SubscribersSerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["email", "subscribed_on"]
 
     class Meta:
-        model = Subscriber
+        model = Subscribers
         fields = "__all__"
 
 
 Messages.serializer_class = MessagesSerializer
-Subscriber.serializer_class = SubscriberSerializer
+Subscribers.serializer_class = SubscribersSerializer

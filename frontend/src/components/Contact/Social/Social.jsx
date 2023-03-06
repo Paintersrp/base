@@ -46,7 +46,7 @@ export default function Social({ contactData, title, color = "light" }) {
   let finalColor;
 
   if (color === "light") {
-    finalColor = theme.palette.text.light;
+    finalColor = theme.palette.background.light;
   } else if (color === "dark") {
     finalColor = theme.palette.primary.main;
   }

@@ -1,0 +1,34 @@
+.item {
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+
+@media (min-width: 0px) {
+  .item {
+    flex-basis: var(--item-basis-xs);
+  }
+}
+
+@media (min-width: 500px) {
+  .item {
+    flex-basis: var(--item-basis-sm);
+  }
+}
+
+@media (min-width: 650px) {
+  .item {
+    flex-basis: var(--item-basis-md);
+  }
+}
+
+@media (min-width: 900px) {
+  .item {
+    flex-basis: var(--item-basis-lg);
+  }
+}
+
+@media (min-width: 1280px) {
+  .item {
+    flex-basis: var(--item-basis-xl);
+  }
+}

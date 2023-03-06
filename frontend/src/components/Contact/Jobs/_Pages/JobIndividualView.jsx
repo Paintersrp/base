@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "77.5vh",
     justifyContent: "center",
     padding: theme.spacing(3, 2),
+    backgroundColor: theme.palette.background.light,
   },
 }));
 

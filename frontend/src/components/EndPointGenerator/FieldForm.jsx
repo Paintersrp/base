@@ -172,11 +172,17 @@ const FieldForm = ({
                       key={key}
                       style={{
                         paddingLeft:
-                          key === "max_length" || key === "md_column_count"
+                          key === "verbose_name" ||
+                          key === "xs_column_count" ||
+                          key === "auto_now_add"
                             ? 8
                             : 0,
                         paddingRight:
-                          key === "name" || key === "xs_column_count" ? 8 : 0,
+                          key === "name" ||
+                          key === "md_column_count" ||
+                          key === "max_length"
+                            ? 8
+                            : 0,
                       }}
                     >
                       <TextField

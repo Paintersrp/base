@@ -3,12 +3,17 @@ from authorization.models import User
 from api.customs import CustomCharField
 from auditlog.registry import auditlog
 
-# Create your models here.
+
 class Tags(models.Model):
-    name = CustomCharField(max_length=255, md_column_count=10, verbose_name="Item Name")
+    name = CustomCharField(max_length=255, md_column_count=10, verbose_name="Tag Name")
 
     def __str__(self):
         return self.name
+
+    def article_count(self):
+        return self.article_set.count()
+
+    article_count.short_description = "Article Count"
 
     class Meta:
         verbose_name = "Tags"

@@ -32,7 +32,7 @@ class Messages(models.Model):
         verbose_name_plural = "Messages"
 
 
-class Subscriber(models.Model):
+class Subscribers(models.Model):
     email = models.EmailField(unique=True, verbose_name="Email")
     subscribed_on = models.DateTimeField(
         auto_now_add=True, verbose_name="Subscribed On"
@@ -47,4 +47,4 @@ class Subscriber(models.Model):
 
 
 auditlog.register(Messages)
-auditlog.register(Subscriber)
+auditlog.register(Subscribers)

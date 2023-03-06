@@ -17,11 +17,11 @@ import {
 import { CheckCircleOutline } from "@material-ui/icons";
 import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0),
+    backgroundColor: theme.palette.background.light,
   },
   title: {
     fontWeight: "bold",
@@ -83,7 +83,15 @@ const JobPosting = ({ job }) => {
       {data && (
         <div className={classes.root}>
           <Grid container spacing={3}>
-            <BaseContent header="" maxWidth={1200} pad={6} mt={3} mb={3} br={1}>
+            <BaseContent
+              header=""
+              maxWidth={1200}
+              pad={6}
+              mt={3}
+              mb={3}
+              br={1}
+              background="#F5F5F5"
+            >
               <Grid container>
                 <Grid
                   item

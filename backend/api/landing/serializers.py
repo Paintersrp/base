@@ -30,6 +30,7 @@ class TitleBlockSerializer(serializers.ModelSerializer):
 
 class ItemSerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["buttonText", "buttonLink"]
+    SEARCH_KEYS = ["buttonLink"]
 
     class Meta:
         model = Item

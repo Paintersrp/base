@@ -45,6 +45,7 @@ const Quiz = () => {
               width: "100%",
               justifyContent: "center",
               flexWrap: "wrap",
+              background: "#F5F5F5",
             }}
           >
             <ResultsDisplay

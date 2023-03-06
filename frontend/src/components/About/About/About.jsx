@@ -11,12 +11,13 @@ import Heading from "../Heading/Heading";
 import ContentSection from "../Content/ContentSection";
 import useInput from "../../../hooks/useInput";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import Container from "../../Elements/Layout/Container/Container";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
   },
   section: {
     marginTop: theme.spacing(2),
@@ -28,10 +29,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: 20,
     color: "white",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     borderRadius: 14,
     maxWidth: 900,
     minWidth: 300,
+  },
+  gridContainer: {
+    background: theme.palette.background.light,
+    display: "flex",
+    justifyContent: "left",
   },
 }));
 
@@ -97,27 +103,17 @@ export default function About() {
       {missionData && (
         <div className={classes.root}>
           <Paper className={classes.paper} elevation={0}>
-            <Grid
-              container
-              spacing={2}
-              style={{ display: "flex", justifyContent: "left" }}
-            >
+            <Grid container spacing={2} className={classes.gridContainer}>
               <>
                 {!editTitle && auth.is_superuser ? (
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
+                  <Container justify="flex-end">
                     <EditDeleteButtonMenu
                       hideDelete
                       editClick={() => setEditTitle(!editTitle)}
                       position="end"
                       placement="bottom"
                     />
-                  </div>
+                  </Container>
                 ) : null}
                 {!editTitle ? (
                   <Heading data={data} />

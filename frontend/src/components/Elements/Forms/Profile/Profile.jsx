@@ -11,7 +11,7 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ContentLayout from "../../Layout/ContentLayout";
+import PageContainer from "../../Layout/PageContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +89,7 @@ const Profile = () => {
   };
 
   return (
-    <ContentLayout
+    <PageContainer
       title="Landing Page"
       description="Where the land be yo."
       keywords="news, posts, articles, touch"
@@ -221,7 +221,7 @@ const Profile = () => {
           </Box>
         </div>
       </div>
-    </ContentLayout>
+    </PageContainer>
   );
 };
 

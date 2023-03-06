@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.primary,
     maxWidth: 900,
+    backgroundColor: theme.palette.background.light,
   },
   sectionTitle: {
     marginBottom: theme.spacing(1),

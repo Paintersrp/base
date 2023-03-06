@@ -11,7 +11,7 @@ import BaseContent from "../../Elements/Base/BaseContent";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
-import PanelTable from "./PanelTable";
+import PanelTable from "./Table/PanelTable";
 import Loading from "../../Elements/Layout/Loading";
 
 const useStyles = makeStyles((theme) => ({
@@ -99,7 +99,6 @@ const Panel = ({ apiData }) => {
       setMetadata(location.state.metadata);
       setModel(location.state.model);
     } else {
-      console.log(apiData.url);
       setUrl(apiData.url);
       setAppName(apiData.app_name);
       setKeys(apiData.keys);
@@ -144,6 +143,28 @@ const Panel = ({ apiData }) => {
   const handleMultipleDeleteAction = (selectedIds) => {
     selectedIds.forEach((id) => {
       confirmedDelete(id);
+    });
+    setSelectedId([]);
+  };
+
+  const updateMultipleItems = (selectedIds, field, booleanValue) => {
+    selectedIds.forEach((id) => {
+      const updateEndpoint = `${url}${id}/`;
+      const updateData = { [field]: booleanValue };
+      axiosInstance
+        .patch(updateEndpoint, updateData)
+        .then(() => {
+          setData((prevData) =>
+            prevData.map((dataItem) =>
+              dataItem.id === id
+                ? { ...dataItem, [field]: booleanValue }
+                : dataItem
+            )
+          );
+        })
+        .catch((err) => {
+          setError(err);
+        });
     });
     setSelectedId([]);
   };
@@ -204,6 +225,7 @@ const Panel = ({ apiData }) => {
                     handleConfirmDelete={handleConfirmDelete}
                     handleClose={handleClose}
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
+                    updateMultipleItems={updateMultipleItems}
                   />
                 ) : (
                   <PanelTable
@@ -216,6 +238,7 @@ const Panel = ({ apiData }) => {
                     handleConfirmDelete={handleConfirmDelete}
                     handleClose={handleClose}
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
+                    updateMultipleItems={updateMultipleItems}
                   />
                 )}
               </>

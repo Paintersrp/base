@@ -1,5 +1,5 @@
 import React from "react";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
+import PageContainer from "../../Elements/Layout/PageContainer";
 import Benefits from "../Benefits/Benefits";
 import Timeline from "../../WIP/Timeline/Timeline";
 import { Grid, makeStyles } from "@material-ui/core";
@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
 function ServicesPage() {
   const classes = useStyles();
   return (
-    <ContentLayout
+    <PageContainer
       title="About Company"
       description="Where the info be yo."
       keywords="news, posts, articles, touch"
       image="https://example.com/image.png"
       url="https://example.com/example-page"
-      backgroundColor="white"
+      backgroundColor="#F5F5F5"
     >
       <Grid container justifyContent="center" style={{ display: "flex" }}>
         <div style={{ maxWidth: 1400, width: "100%" }}>
@@ -30,7 +30,7 @@ function ServicesPage() {
           </div>
         </div>
       </Grid>
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

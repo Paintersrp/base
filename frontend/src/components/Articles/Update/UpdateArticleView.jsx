@@ -28,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "77.5vh",
     justifyContent: "center",
     padding: "20px 0 20px 0",
+    backgroundColor: theme.palette.background.light,
   },
   card: {
     maxWidth: 1200,
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: theme.palette.background.light,
     color: theme.palette.text.dark,
   },
   title: {

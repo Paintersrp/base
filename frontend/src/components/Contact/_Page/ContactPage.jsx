@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
+import PageContainer from "../../Elements/Layout/PageContainer";
 import { Grid, makeStyles } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Members from "../Members/Members";
@@ -46,13 +46,13 @@ function ContactPage() {
   }
 
   return (
-    <ContentLayout
+    <PageContainer
       title="About Company"
       description="Where the info be yo."
       keywords="news, posts, articles, touch"
       image="https://example.com/image.png"
       url="https://example.com/example-page"
-      backgroundColor="white"
+      backgroundColor="#F5F5F5"
     >
       {membersData && contactData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
@@ -63,7 +63,7 @@ function ContactPage() {
           </div>
         </Grid>
       ) : null}
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

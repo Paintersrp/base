@@ -165,6 +165,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         <BaseForm
           handleSubmit={handleSubmit}
           maxWidth={800}
+          minWidth={800}
           minHeight={isSmallScreen ? 400 : 600}
           title={modelMetadata.verboseName}
           background="#F5F5F5"
@@ -178,6 +179,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   fieldName === "updated_at" ||
                   fieldName === "last_login" ||
                   fieldName === "date_joined" ||
+                  fieldName === "subscribed_on" ||
                   fieldName === "password"
                 ) {
                   return null;
@@ -192,7 +194,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   markdown,
                 } = fieldMetadata[fieldName];
 
-                console.log("markdown: ", markdown);
+                console.log(fieldName);
 
                 const { verbose_name } = metadata[fieldName];
 

@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { InputAdornment, TextField } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   field: {
     width: "100%",
     "& .MuiOutlinedInput-root": {
@@ -70,7 +71,14 @@ const useStyles = makeStyles({
       color: "black",
     },
   },
-});
+  searchIcon: {
+    color: theme.palette.grey[500],
+    marginLeft: theme.spacing(0.5),
+  },
+  searchInput: {
+    fontSize: "1rem",
+  },
+}));
 
 const FormField = ({
   id,
@@ -104,6 +112,18 @@ const FormField = ({
       select={select}
       SelectProps={SelectProps}
       type={type}
+      InputProps={{
+        ...(label === "Search" && {
+          classes: {
+            input: classes.searchInput,
+          },
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon className={classes.searchIcon} />
+            </InputAdornment>
+          ),
+        }),
+      }}
     >
       {children}
     </TextField>

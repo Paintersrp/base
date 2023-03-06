@@ -1,44 +1,15 @@
 import Demo from "../../Elements/Demo/Demo";
-import EventSchedule from "../_Archived/EventSchedule/EventSchedule";
-import MinimalTestimonials from "../_Archived/MinimalTestimonials/MinimalTestimonials";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import BaseCard from "../../Elements/Base/Card/BaseCard";
 import { Button, Grid, Typography } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
-import Magazine from "../Magazine/Magazine";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
 import Infographic from "../Infographic/Infographic";
-import HeroCountdown from "../_NotStarted/CountDown/CountdownBlock";
-import Statistics from "../../Admin/Dashboard/Statistics";
-import Messages from "../../Support/Messages/Messages";
-import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
-import Carousel from "../../Elements/Base/Carousel/Carousel";
-
-const testimonials = [
-  {
-    name: "John Doe",
-    company: "Acme Inc.",
-    review:
-      "I have been extremely satisfied with the services provided by this company. They exceeded my expectations.",
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Jane Smith",
-    company: "XYZ Corp.",
-    review:
-      "The team at this company was professional and efficient. I would recommend them to anyone.",
-    avatar: "https://i.pravatar.cc/150?img=2",
-  },
-  {
-    name: "Bob Johnson",
-    company: "ABC LLC.",
-    review:
-      "I was impressed with the level of expertise and attention to detail demonstrated by the team.",
-    avatar: "https://i.pravatar.cc/150?img=3",
-  },
-];
+import Item from "../../Elements/Layout/Item/Item";
+import Container from "../../Elements/Layout/Container/Container";
+import Text from "../../Elements/Layout/Text/Text";
+import Magazine from "../Magazine/Magazine";
 
 const actions = [
   <Grid
@@ -73,27 +44,12 @@ const customersData = [
   { label: "Lisa", value: 11 },
 ];
 
-const images = [
-  {
-    id: 1,
-    src: "https://via.placeholder.com/600x400/1abc9c/ffffff",
-    alt: "Image 1",
-  },
-  {
-    id: 2,
-    src: "https://via.placeholder.com/600x400/3498db/ffffff",
-    alt: "Image 2",
-  },
-  {
-    id: 3,
-    src: "https://via.placeholder.com/600x400/e74c3c/ffffff",
-    alt: "Image 3",
-  },
-];
-
 const wipComponents = [
   {
-    component: Messages,
+    component: Magazine,
+    props: {
+      showStudies: true,
+    },
   },
   {
     component: Infographic,
@@ -123,12 +79,6 @@ const wipComponents = [
     },
   },
   {
-    component: Magazine,
-    props: {
-      showStudies: true,
-    },
-  },
-  {
     component: Reviews,
   },
   {
@@ -149,7 +99,144 @@ const wipComponents = [
 
 export default function WIPDemo() {
   return (
-    <div style={{ maxWidth: "100vw" }}>
+    <div style={{ maxWidth: "100vw", background: "#F5F5F5" }}>
+      <Container spacing={2} style={{ padding: 4 }}>
+        <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
+          <Text type="h3">Custom Container/Item Responsive Test</Text>
+        </Item>
+        <Item
+          xs={12}
+          sm={12}
+          md={8}
+          lg={4}
+          xl={6}
+          justify="flex-end"
+          style={{
+            background: "lightgrey",
+            border: "1px solid grey",
+            marginBottom: 10,
+          }}
+        >
+          Item 1
+        </Item>
+        <Item
+          xs={12}
+          sm={12}
+          md={8}
+          lg={4}
+          xl={6}
+          justify="flex-start"
+          style={{
+            background: "lightgrey",
+            border: "1px solid grey",
+            marginBottom: 10,
+          }}
+        >
+          Item 2
+        </Item>
+        <Item
+          xs={12}
+          sm={12}
+          md={8}
+          lg={4}
+          xl={4}
+          justify="center"
+          style={{
+            background: "lightblue",
+            border: "1px solid grey",
+            marginBottom: 10,
+          }}
+        >
+          Item 3
+        </Item>
+        <Item
+          xs={12}
+          sm={12}
+          md={8}
+          lg={4}
+          xl={4}
+          justify="center"
+          style={{
+            background: "lightblue",
+            border: "1px solid grey",
+            marginBottom: 10,
+          }}
+        >
+          Item 4
+        </Item>
+        <Item
+          xs={12}
+          sm={12}
+          md={8}
+          lg={4}
+          xl={4}
+          justify="center"
+          style={{
+            background: "lightblue",
+            border: "1px solid grey",
+            marginBottom: 10,
+          }}
+        >
+          Item 5
+        </Item>
+        <Container spacing={2} padding={"0px !important"}>
+          <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
+            <Text type="h3">Nested Test</Text>
+          </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={3}
+            justify="center"
+            style={{
+              background: "lightgreen",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 6
+          </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={3}
+            justify="flex-end"
+            style={{
+              background: "lightgreen",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 7
+          </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={3}
+            justify="flex-start"
+            style={{
+              background: "lightgreen",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 8
+          </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={3}
+            justify="center"
+            style={{
+              background: "lightgreen",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 9
+          </Item>
+        </Container>
+      </Container>
       <Demo demoTitle="WIP Components" components={wipComponents} />
     </div>
   );

@@ -1,10 +1,10 @@
 import React from "react";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
+import PageContainer from "../../Elements/Layout/PageContainer";
 import Dashboard from "./Dashboard";
 
 function DashboardPage() {
   return (
-    <ContentLayout
+    <PageContainer
       title="Landing Page"
       description="Where the land be yo."
       keywords="news, posts, articles, touch"
@@ -13,7 +13,7 @@ function DashboardPage() {
       backgroundColor="#F5F5F5"
     >
       <Dashboard />
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

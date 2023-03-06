@@ -31,13 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
   details: {
     padding: theme.spacing(2),
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     color: "black",
     fontFamily: "Poppins",
     textAlign: "left",
   },
   summary: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     fontFamily: "Poppins",
     color: "black",
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     color: "black",
     [theme.breakpoints.down("md")]: {
       width: "50%",
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   editContainer: {
     fontFamily: "Poppins",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     color: "black",
     [theme.breakpoints.down("md")]: {
       width: "50%",
@@ -65,18 +65,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
-  },
-  testboi: {
-    backgroundColor: "#white",
-    display: "flex",
-    padding: 0,
-    margin: 0,
-    "& .MuiDialogContent-dividers": {
-      borderTop: "0px solid white !important",
-    },
-    "& .MuiDialogContent-root": {
-      border: "0px solid black",
-    },
   },
   yesButton: {
     fontFamily: "Poppins",

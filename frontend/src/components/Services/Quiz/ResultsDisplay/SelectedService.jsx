@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     margin: theme.spacing(2),
     minHeight: 625,
+    backgroundColor: theme.palette.background.light,
   },
   details: {
     display: "flex",

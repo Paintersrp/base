@@ -19,11 +19,13 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: theme.spacing(0),
     borderRadius: 0,
+    backgroundColor: theme.palette.background.light,
   },
   lastChild: {
     margin: 0,
     padding: theme.spacing(0),
     borderRadius: 0,
+    backgroundColor: theme.palette.background.light,
   },
 
   title: {
@@ -76,7 +78,7 @@ function JobListing() {
         <Grid
           container
           spacing={0}
-          style={{ marginTop: 40, padding: 16, background: "#FFFFFF" }}
+          style={{ marginTop: 40, padding: 16, background: "#F5F5F5" }}
         >
           <BaseContent
             maxWidth={900}
@@ -87,7 +89,7 @@ function JobListing() {
             mt={1}
             mb={1}
             br={1}
-            background="#FFFFFF"
+            background="#F5F5F5"
           >
             {jobPostings.map((jobPosting, index) => (
               <>
@@ -97,7 +99,7 @@ function JobListing() {
                   pad={2}
                   mt={0}
                   mb={0}
-                  background="#FFFFFF"
+                  background="#F5F5F5"
                 >
                   <Grid key={index} item xs={12}>
                     <Paper

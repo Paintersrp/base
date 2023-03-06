@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: theme.palette.primary.main,
-    color: "white",
+    color: theme.palette.background.light,
   },
   fadeIn: {
     opacity: 0,

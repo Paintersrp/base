@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     marginTop: 30,
     borderRadius: 0,
+    backgroundColor: theme.palette.background.light,
   },
   cardMedia: {
     paddingTop: "56.25%",

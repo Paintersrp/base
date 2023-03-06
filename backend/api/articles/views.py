@@ -13,8 +13,6 @@ from django.shortcuts import render
 class ArticleListCreateView(generics.ListCreateAPIView):
     queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
-    # authentication_classes = [JWTTokenAuthentication]
-    # permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         authorization_header = request.headers.get("Authorization")
@@ -64,15 +62,6 @@ class RecentArticlesView(ArticleListCreateView):
 class HighlightedArticlesView(generics.ListCreateAPIView):
     queryset = Articles.objects.filter(is_highlighted=True)
     serializer_class = ArticleSerializer
-
-
-# class HighlightedArticlesView(ArticleListCreateView):
-#     def get(self, request, *args, **kwargs):
-#         highlighted_articles = self.queryset.filter(is_highlighted=True)
-#         serializer = self.serializer_class(highlighted_articles, many=True)
-#         print(serializer.data)
-
-#         return JsonResponse(serializer.data, safe=False)
 
 
 class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

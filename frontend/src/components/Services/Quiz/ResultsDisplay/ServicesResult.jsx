@@ -7,11 +7,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(3),
     margin: theme.spacing(3),
+    backgroundColor: theme.palette.background.light,
   },
   item: {
     textAlign: "center",
     display: "flex",
     justifyContent: "center",
+    backgroundColor: theme.palette.background.light,
   },
 }));
 

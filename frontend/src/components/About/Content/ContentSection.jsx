@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   section: {
     marginTop: theme.spacing(2),
     color: "black",
+    background: theme.palette.background.light,
   },
   sectionTitle: {
     fontWeight: "bold",

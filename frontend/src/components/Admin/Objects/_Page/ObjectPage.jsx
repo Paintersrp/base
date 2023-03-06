@@ -1,7 +1,7 @@
 import { Breadcrumbs, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import ContentLayout from "../../../Elements/Layout/ContentLayout";
+import PageContainer from "../../../Elements/Layout/PageContainer";
 import AutoForm from "../AutoForm/AutoForm";
 import { NavigateNext } from "@material-ui/icons";
 import BaseContent from "../../../Elements/Base/BaseContent";
@@ -48,7 +48,7 @@ function ObjectPage() {
   };
 
   return (
-    <ContentLayout
+    <PageContainer
       title="Landing Page"
       description="Where the land be yo."
       keywords="news, posts, articles, touch"
@@ -97,7 +97,7 @@ function ObjectPage() {
           <AutoForm endpointUrl={url} data={data} handleUpdate={handleUpdate} />
         )}
       </BaseContent>
-    </ContentLayout>
+    </PageContainer>
   );
 }
 

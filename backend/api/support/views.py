@@ -3,14 +3,14 @@ from .serializers import *
 from .models import *
 
 
-class SubscriberListView(generics.ListCreateAPIView):
-    queryset = Subscriber.objects.all()
-    serializer_class = SubscriberSerializer
+class SubscribersListView(generics.ListCreateAPIView):
+    queryset = Subscribers.objects.all()
+    serializer_class = SubscribersSerializer
 
 
-class SubscriberDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Subscriber.objects.all()
-    serializer_class = SubscriberSerializer
+class SubscribersDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subscribers.objects.all()
+    serializer_class = SubscribersSerializer
 
 
 class MessagesListView(generics.ListCreateAPIView):

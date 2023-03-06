@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 3, 0, 3),
     margin: theme.spacing(3),
     maxWidth: 1200,
+    backgroundColor: theme.palette.background.light,
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(0),
       margin: theme.spacing(3),
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   reviewPaper: {
     padding: theme.spacing(2),
     borderRadius: 16,
+    backgroundColor: theme.palette.background.light,
   },
   reviewGrid: {
     display: "flex",

@@ -4,7 +4,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import CreateUpdateArticle from "../Create/ArticleCreateUpdate";
 import ArticlesList from "../Display/List/ArticlesList";
-import ContentLayout from "../../Elements/Layout/ContentLayout";
+import PageContainer from "../../Elements/Layout/PageContainer";
 import ArticlesDisplayBase from "../Display/DisplayBase/ArticlesDisplayBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 
@@ -42,13 +42,13 @@ const ArticlesPage = () => {
 
   return (
     <>
-      <ContentLayout
+      <PageContainer
         title="Articles"
         description="Where the articles be yo."
         keywords="news, posts, articles"
         image="https://example.com/image.png"
         url="https://example.com/example-page"
-        backgroundColor="white"
+        backgroundColor="#F5F5F5"
       >
         <ArticlesDisplayBase articles={articles} />
         <ArticlesList />
@@ -60,7 +60,7 @@ const ArticlesPage = () => {
           <AddIcon />
         </Fab>
         <CreateUpdateArticle open={open} setOpen={setOpen} />
-      </ContentLayout>
+      </PageContainer>
     </>
   );
 };

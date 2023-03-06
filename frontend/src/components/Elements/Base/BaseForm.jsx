@@ -105,7 +105,7 @@ function BaseForm({
   limitPadding = false,
   extraPadding = false,
   noSpacing = false,
-  background = "#FFFFFF",
+  background = "#F5F5F5",
   boxShadow = 0,
   justify = "center",
 }) {
