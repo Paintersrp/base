@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
-import LockIcon from "@material-ui/icons/Lock";
-import DesignIcon from "@material-ui/icons/Brush";
-import DevelopIcon from "@material-ui/icons/Code";
-import HostingIcon from "@material-ui/icons/Public";
-import LaunchIcon from "@material-ui/icons/Launch";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
@@ -19,7 +13,6 @@ import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 const useStyles = makeStyles((theme) => ({
   iconContainer: {
     textAlign: "center",
-    marginTop: 20,
   },
   icon: {
     fontSize: "2rem",

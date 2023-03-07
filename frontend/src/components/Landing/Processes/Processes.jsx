@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
-    minHeight: 550,
+    // minHeight: 550,
     minWidth: 325,
     padding: 0,
     margin: 0,
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Processes() {
+export default function Processes({ showTitleBlock = true }) {
   const classes = useStyles();
   const [block, setBlock] = useState([]);
   const [processes, setProcesses] = useState([]);
@@ -84,30 +84,35 @@ export default function Processes() {
       <Container>
         <Item xs={12}>
           <Paper elevation={0} className={classes.paper}>
-            {!editTitle ? (
-              <TitleBlock
-                subtitle={block.subtitle}
-                title={block.title}
-                alignment={block.alignment}
-                showDivider={block.show_divider}
-              />
-            ) : (
-              <TitleBlockEditor
-                titleBlock={block}
-                onUpdate={updateTitleBlock}
-                handleCancel={() => setEditTitle(!editTitle)}
-              />
-            )}
-            {!editTitle && auth.is_superuser ? (
+            {showTitleBlock && (
               <>
-                <EditDeleteButtonMenu
-                  editClick={() => setEditTitle(!editTitle)}
-                  hideDelete
-                  position="center"
-                />
+                {!editTitle ? (
+                  <TitleBlock
+                    subtitle={block.subtitle}
+                    title={block.title}
+                    alignment={block.alignment}
+                    showDivider={block.show_divider}
+                  />
+                ) : (
+                  <TitleBlockEditor
+                    titleBlock={block}
+                    onUpdate={updateTitleBlock}
+                    handleCancel={() => setEditTitle(!editTitle)}
+                  />
+                )}
+
+                {!editTitle && auth.is_superuser ? (
+                  <>
+                    <EditDeleteButtonMenu
+                      editClick={() => setEditTitle(!editTitle)}
+                      hideDelete
+                      position="center"
+                    />
+                  </>
+                ) : null}
               </>
-            ) : null}
-            <Container>
+            )}
+            <Container style={{ marginTop: showTitleBlock ? 24 : 0 }}>
               {processes.map((step, index) => (
                 <Item xs={12} sm={12} md={12} lg={4} xl={4} justify="center">
                   <Process step={step} />

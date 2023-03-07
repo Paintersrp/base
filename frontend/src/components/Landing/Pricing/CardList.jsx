@@ -1,32 +1,11 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import CheckIcon from "@material-ui/icons/Check";
-import { List, ListItem } from "@material-ui/core";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  pricingFeatures: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    marginBottom: theme.spacing(2),
-    textAlign: "center",
-    minHeight: 400,
-  },
-  checkIcon: {
-    color: theme.palette.primary.dark,
-    marginRight: "10px",
-  },
-  detail: {
-    color: theme.palette.text.dark,
-  },
-}));
-
-export default function CardList({ data, index, classes }) {
-  const [planData, setPlanData] = useState(data);
-
+export default function CardList({ data, classes }) {
   return (
     <List className={classes.pricingFeatures}>
-      {planData.features.map((feature) => (
+      {data.features.map((feature, index) => (
         <ListItem key={`feature-${index}`} className={classes.detail}>
           <CheckIcon className={classes.checkIcon} />
           {feature.detail}

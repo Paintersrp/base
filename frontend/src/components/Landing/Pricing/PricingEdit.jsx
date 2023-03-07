@@ -270,8 +270,8 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   margin="dense"
                   className={classes.multiline}
                   variant="outlined"
-                  label="Best For"
-                  value={formData.bestFor}
+                  label="Paragraph 1"
+                  value={formData.paragraph_one}
                   onChange={handleInputChange}
                   multiline
                   minRows={4}
@@ -279,11 +279,23 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
 
                 <TextField
                   margin="dense"
-                  className={classes.field}
+                  className={classes.multiline}
                   variant="outlined"
-                  label="Guarantee"
-                  value={formData.guarantee}
+                  label="Paragraph 2"
+                  value={formData.paragraph_two}
                   onChange={handleInputChange}
+                  multiline
+                  minRows={4}
+                />
+                <TextField
+                  margin="dense"
+                  className={classes.multiline}
+                  variant="outlined"
+                  label="Paragraph 3"
+                  value={formData.paragraph_three}
+                  onChange={handleInputChange}
+                  multiline
+                  minRows={4}
                 />
                 <ManyToManyField
                   data={formData.features}

@@ -96,10 +96,10 @@ const Questionaire = ({
 
   const handleSkip = () => {
     const recommendedService = services.find(
-      (service) => service.title === "Professional"
+      (service) => service.service_title === "Professional Tier"
     );
     const unrecommendedServices = services.filter(
-      (service) => service.title !== "Professional"
+      (service) => service.service_title !== "Professional Tier"
     );
     setRecommendedServices(recommendedService);
     setUnrecommendedServices(unrecommendedServices);

@@ -92,8 +92,10 @@ class SupportedSites(models.Model):
         verbose_name_plural = "SupportedSites"
 
 
-class PricingPlan(models.Model):
-    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+class ServiceTier(models.Model):
+    service_title = CustomCharField(
+        max_length=100, md_column_count=6, verbose_name="Service Title"
+    )
     price = CustomDecimalField(
         max_digits=10, decimal_places=2, md_column_count=6, verbose_name="Price"
     )
@@ -104,15 +106,18 @@ class PricingPlan(models.Model):
     supported_sites = models.ManyToManyField(
         SupportedSites, related_name="supportedsites", verbose_name="Supported Sites"
     )
-    bestFor = CustomTextField(
-        max_length=100, md_column_count=6, verbose_name="Best For"
+    paragraph_one = CustomTextField(
+        max_length=500, md_column_count=12, verbose_name="Paragraph 1"
     )
-    guarantee = CustomTextField(
-        max_length=100, md_column_count=6, verbose_name="Guarantee"
+    paragraph_two = CustomTextField(
+        max_length=500, md_column_count=12, verbose_name="Paragraph 2"
+    )
+    paragraph_three = CustomTextField(
+        max_length=500, md_column_count=12, verbose_name="Paragraph 3"
     )
 
     def __str__(self):
-        return self.title
+        return self.service_title
 
     def delete(self, *args, **kwargs):
         self.features.all().delete()
@@ -120,8 +125,8 @@ class PricingPlan(models.Model):
         super().delete(*args, **kwargs)
 
     class Meta:
-        verbose_name = "Pricing Tiers"
-        verbose_name_plural = "Pricing Tiers"
+        verbose_name = "Service Tiers"
+        verbose_name_plural = "Service Tiers"
 
 
 class Testimonial(models.Model):
@@ -158,7 +163,7 @@ def lowercase_name(sender, instance, **kwargs):
 auditlog.register(Process)
 auditlog.register(HeroBlock)
 auditlog.register(Testimonial)
-auditlog.register(PricingPlan)
+auditlog.register(ServiceTier)
 auditlog.register(TitleBlock)
 auditlog.register(Item)
 auditlog.register(Feature)

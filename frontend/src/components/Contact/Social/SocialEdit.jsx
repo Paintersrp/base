@@ -61,7 +61,7 @@ export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       formData={formData}
-      width="50%"
+      width="75%"
       excludeKeys={[
         "id",
         "email",

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 import { quizStyles } from "../styles";
 import Questionaire from "../Questionaire/Questionaire";
 import ResultsDisplay from "../ResultsDisplay/ResultsDisplay";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import ServiceComparison from "../../Individual/_ServiceCompare";
+import ComparisonTable from "../TablesDisplay/ComparisonTable";
 
 const Quiz = () => {
   const classes = quizStyles();
@@ -13,7 +15,7 @@ const Quiz = () => {
 
   useEffect(() => {
     axiosInstance
-      .get("/pricingplan/")
+      .get("/servicetier/")
       .then((response) => {
         console.log("Response");
         console.log(response.data);
@@ -28,13 +30,31 @@ const Quiz = () => {
     <div className={`${classes.root}`}>
       <Grid container flex justifyContent="center">
         {!recommendedServices && (
-          <>
-            <Questionaire
-              services={services}
-              setRecommendedServices={setRecommendedServices}
-              setUnrecommendedServices={setUnrecommendedServices}
-            />
-          </>
+          <Paper
+            elevation={0}
+            style={{
+              width: 1400,
+              background: "#F5F5F5",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Questionaire
+                services={services}
+                setRecommendedServices={setRecommendedServices}
+                setUnrecommendedServices={setUnrecommendedServices}
+              />
+            </div>
+            <ComparisonTable />
+          </Paper>
         )}
         {recommendedServices && (
           <Grid

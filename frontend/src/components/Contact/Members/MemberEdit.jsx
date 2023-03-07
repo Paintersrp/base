@@ -64,7 +64,7 @@ const MemberEdit = ({ member, onUpdate, handleCancel }) => {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       formData={formData}
-      width="95%"
+      width="350px"
       excludeKeys={["id", "image"]}
       multilineKeys={["bio"]}
       handleCancel={handleCancel}

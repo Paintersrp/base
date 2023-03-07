@@ -3,7 +3,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from .models import (
     HeroBlock,
-    PricingPlan,
+    ServiceTier,
     Feature,
     SupportedSites,
     Item,
@@ -13,7 +13,7 @@ from .models import (
 )
 from .serializers import (
     HeroBlockSerializer,
-    PricingPlanSerializer,
+    ServiceTierSerializer,
     FeatureSerializer,
     SupportedSitesSerializer,
     ItemSerializer,
@@ -22,8 +22,6 @@ from .serializers import (
     ProcessSerializer,
 )
 from authorization.authentication import JWTTokenAuthentication
-from django.db import transaction
-import re
 
 
 class HeroBlockMainAPIView(
@@ -110,16 +108,16 @@ class SupportedSiteViewSet(generics.ListCreateAPIView):
     serializer_class = SupportedSitesSerializer
 
 
-class PricingPlanView(
+class ServiceTierView(
     generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
 ):
-    queryset = PricingPlan.objects.all()
-    serializer_class = PricingPlanSerializer
+    queryset = ServiceTier.objects.all()
+    serializer_class = ServiceTierSerializer
 
     def create(self, request, *args, **kwargs):
         formatted_data = self.serializer_class().format_data(request.data)
 
-        title = formatted_data.get("title")
+        title = formatted_data.get("service_title")
         price = formatted_data.get("price")
 
         feature_list = formatted_data.get("features", [])
@@ -137,12 +135,13 @@ class PricingPlanView(
             )
             supported_sites_objs.append(supported_site_obj)
 
-        pricing_plan = PricingPlan.objects.create(
-            title=title,
+        pricing_plan = ServiceTier.objects.create(
+            service_title=title,
             price=price,
             image=formatted_data.get("image"),
-            bestFor=formatted_data.get("bestFor"),
-            guarantee=formatted_data.get("guarantee"),
+            paragraph_one=formatted_data.get("paragraph_one"),
+            paragraph_two=formatted_data.get("paragraph_two"),
+            paragraph_three=formatted_data.get("paragraph_three"),
         )
         pricing_plan.features.set(feature_objs)
         pricing_plan.supported_sites.set(supported_sites_objs)
@@ -152,15 +151,15 @@ class PricingPlanView(
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class PricingPlanDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PricingPlan.objects.all()
-    serializer_class = PricingPlanSerializer
+class ServiceTierDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ServiceTier.objects.all()
+    serializer_class = ServiceTierSerializer
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         formatted_data = self.serializer_class().format_data(request.data)
 
-        title = formatted_data.get("title", instance.title)
+        title = formatted_data.get("service_title", instance.service_title)
         price = formatted_data.get("price", instance.price)
 
         feature_list = formatted_data.get("features", [])
@@ -185,11 +184,18 @@ class PricingPlanDetailView(generics.RetrieveUpdateDestroyAPIView):
         else:
             image = instance.image
 
-        instance.title = title
+        instance.service_title = title
         instance.price = price
         instance.image = image
-        instance.bestFor = formatted_data.get("bestFor", instance.bestFor)
-        instance.guarantee = formatted_data.get("guarantee", instance.guarantee)
+        instance.paragraph_one = formatted_data.get(
+            "paragraph_one", instance.paragraph_one
+        )
+        instance.paragraph_two = formatted_data.get(
+            "paragraph_two", instance.paragraph_two
+        )
+        instance.paragraph_three = formatted_data.get(
+            "paragraph_three", instance.paragraph_three
+        )
         instance.save()
         instance.features.set(feature_objs)
         instance.supported_sites.set(supported_sites_objs)

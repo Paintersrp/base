@@ -109,8 +109,19 @@ const SelectField = ({ formData, fieldName, handleInputChange, choices }) => {
             </MenuItem>
             {choices &&
               Object.entries(choices).map(([key, value]) => (
-                <MenuItem key={key} value={value.name}>
-                  <span style={{ color: "black" }}>{value.name}</span>
+                <MenuItem
+                  key={key}
+                  value={
+                    fieldName === "servicetier"
+                      ? value.service_title
+                      : value.name
+                  }
+                >
+                  <span style={{ color: "black" }}>
+                    {fieldName === "servicetier"
+                      ? value.service_title
+                      : value.name}
+                  </span>
                 </MenuItem>
               ))}
           </Select>
@@ -124,13 +135,15 @@ const SelectField = ({ formData, fieldName, handleInputChange, choices }) => {
           paddingTop: 4,
         }}
       >
-        <StyledButton
-          noHover
-          borderRadius={40}
-          minWidth={140}
-          buttonText={!manualEntry ? "Create Category" : "Select Category"}
-          onClick={toggleManualEntry}
-        />
+        {fieldName !== "servicetier" ? (
+          <StyledButton
+            noHover
+            borderRadius={40}
+            minWidth={140}
+            buttonText={!manualEntry ? "Create Category" : "Select Category"}
+            onClick={toggleManualEntry}
+          />
+        ) : null}
       </Grid>
     </FormControl>
   );

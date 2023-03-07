@@ -3,7 +3,7 @@ import re
 from .models import (
     HeroBlock,
     Feature,
-    PricingPlan,
+    ServiceTier,
     SupportedSites,
     Item,
     TitleBlock,
@@ -53,13 +53,13 @@ class SupportedSitesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PricingPlanSerializer(serializers.ModelSerializer):
+class ServiceTierSerializer(serializers.ModelSerializer):
     features = FeatureSerializer(many=True)
     supported_sites = SupportedSitesSerializer(many=True)
-    FIELD_KEYS = ["title", "price"]
+    FIELD_KEYS = ["service_title", "price"]
 
     class Meta:
-        model = PricingPlan
+        model = ServiceTier
         fields = "__all__"
 
     def format_data(self, data):
@@ -107,4 +107,4 @@ Item.serializer_class = ItemSerializer
 Feature.serializer_class = FeatureSerializer
 Process.serializer_class = ProcessSerializer
 Testimonial.serializer_class = TestimonialSerializer
-PricingPlan.serializer_class = PricingPlanSerializer
+ServiceTier.serializer_class = ServiceTierSerializer

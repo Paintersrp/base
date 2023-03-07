@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Grid, Slide, useMediaQuery } from "@material-ui/core";
+import { Grid, useMediaQuery } from "@material-ui/core";
 import CardBase from "./CardBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { CondensedTopMedia } from "./CardStyles";
 import BaseCarousel from "../../Elements/Base/BaseCarousel";
-import Carousel from "../../Elements/Base/Carousel/Carousel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,24 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const images = [
-  {
-    id: 1,
-    src: "https://via.placeholder.com/600x400/1abc9c/ffffff",
-    alt: "Image 1",
-  },
-  {
-    id: 2,
-    src: "https://via.placeholder.com/600x400/3498db/ffffff",
-    alt: "Image 2",
-  },
-  {
-    id: 3,
-    src: "https://via.placeholder.com/600x400/e74c3c/ffffff",
-    alt: "Image 3",
-  },
-];
-
 export default function Pricing() {
   const classes = useStyles();
   const cardLayout = CondensedTopMedia();
@@ -55,7 +36,7 @@ export default function Pricing() {
 
   useEffect(() => {
     axiosInstance
-      .get("/pricingplan/")
+      .get("/servicetier/")
       .then((response) => {
         setPlans(response.data);
         console.log(plans);

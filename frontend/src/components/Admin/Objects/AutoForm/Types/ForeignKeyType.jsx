@@ -12,11 +12,13 @@ const ForeignKeyType = ({
   mdColumnCount,
 }) => {
   const [data, setData] = useState();
+  console.log("WHERE WE GOIN: ", fieldName);
 
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance.get(`/${fieldName}/`).then((response) => {
         setData(response.data);
+        console.log(response.data);
       });
     };
     fetchData();

@@ -20,11 +20,10 @@ const Container = ({
   align = "center",
   justify = "center",
   direction = "row",
-  textAlign = "center",
+  textAlign = "left",
   style,
   spacing = 0,
 }: ContainerProps) => {
-  
   const childrenWithSpacing = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       const childClassName = child.props.className;

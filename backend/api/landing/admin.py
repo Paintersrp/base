@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import (
     HeroBlock,
     Feature,
-    PricingPlan,
+    ServiceTier,
     SupportedSites,
     Item,
     TitleBlock,
@@ -21,15 +21,15 @@ class CustomHeroBlockAdmin(admin.ModelAdmin):
     list_display = ("title", "heading", "text", "buttonText")
 
 
-class CustomPricingPlanAdmin(admin.ModelAdmin):
-    list_display = ("title", "price", "image")
+class CustomServiceTierAdmin(admin.ModelAdmin):
+    list_display = ("service_title", "price", "image")
 
     fieldsets = (
         (
             None,
             {
                 "fields": (
-                    "title",
+                    "service_title",
                     "price",
                     "image",
                     "features",
@@ -85,5 +85,5 @@ admin.site.register(TitleBlock, CustomTitleBlockAdmin)
 admin.site.register(Item, CustomItemAdmin)
 admin.site.register(Process, CustomProcessAdmin)
 admin.site.register(SupportedSites)
-admin.site.register(PricingPlan, CustomPricingPlanAdmin)
+admin.site.register(ServiceTier, CustomServiceTierAdmin)
 admin.site.register(HeroBlock, CustomHeroBlockAdmin)

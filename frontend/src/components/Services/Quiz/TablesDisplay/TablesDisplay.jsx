@@ -10,7 +10,7 @@ const TablesDisplay = ({}) => {
 
   return (
     <>
-      <SlideIntoViewPort
+      {/* <SlideIntoViewPort
         animationDuration={isSmallScreen ? 1 : 1.5}
         onScreenPercentage={0.1}
         from={"left"}
@@ -29,7 +29,7 @@ const TablesDisplay = ({}) => {
             <ComparisonTable type="service" />
           </Grid>
         </Grid>
-      </SlideIntoViewPort>
+      </SlideIntoViewPort> */}
       <SlideIntoViewPort
         animationDuration={isSmallScreen ? 1 : 1.5}
         onScreenPercentage={0.05}

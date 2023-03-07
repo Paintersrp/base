@@ -36,7 +36,7 @@ import PanelPage from "./components/Admin/Panel/_Page/PanelPage";
 import AdminSidebar from "./components/Admin/Navigation/AdminSidebar";
 import DashboardPage from "./components/Admin/Dashboard/DashboardPage";
 import ObjectPage from "./components/Admin/Objects/_Page/ObjectPage";
-import ServiceIndividualView from "./components/Services/Individual/ServiceIndividualView";
+import ServiceIndividualPage from "./components/Services/Individual/_Page/ServiceIndividualPage";
 
 {
   /* 
@@ -149,20 +149,6 @@ function SiteRoutes({ handleUpdate, setIsLoading }) {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith("/admin");
 
-  const webDesignHostingTier = {
-    serviceName: "Professional Tier",
-    serviceDescription:
-      "Our Professional Tier provides a comprehensive solution for businesses looking to establish their online presence.",
-    features: [
-      "Custom website design",
-      "Mobile-responsive design",
-      "SEO optimization",
-      "Website maintenance and updates",
-      "Hosting, security, and performance monitoring",
-    ],
-    price: "$500,000/mo",
-  };
-
   return (
     <>
       <ScrollToTop />
@@ -193,10 +179,7 @@ function SiteRoutes({ handleUpdate, setIsLoading }) {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route
-          path="/services/:id"
-          element={<ServiceIndividualView {...webDesignHostingTier} />}
-        />
+        <Route path="/services/:id" element={<ServiceIndividualPage />} />
         <Route path="/contact" element={<ContactPage />} />
         {/* Demo Routes */}
         <Route path="/WIP" element={<WIPDemo />} />

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export const quizStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(3),
     padding: theme.spacing(2),
     width: "100%",
     display: "flex",
@@ -41,6 +41,7 @@ export const quizStyles = makeStyles((theme) => ({
     borderRadius: "8px",
     boxShadow: theme.shadows[2],
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(4),
     [theme.breakpoints.down("xs")]: {
       padding: theme.spacing(2, 1, 2, 1),
     },

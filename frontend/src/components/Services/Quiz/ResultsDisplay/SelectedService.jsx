@@ -15,6 +15,8 @@ import {
   Badge,
 } from "@material-ui/core";
 import { FaCheck } from "react-icons/fa";
+import StyledButton from "../../../Elements/Buttons/StyledButton";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,20 +120,24 @@ const SelectedService = ({ service, active, recommendedId }) => {
               <CardMedia
                 className={classes.cardMedia}
                 image={service.image}
-                title={service.title}
+                title={service.service_title}
               />
             </Grid>
             <div className={classes.details}>
               <CardContent className={classes.content}>
-                <Typography variant="h2">{service.title}</Typography>
+                <Typography variant="h2">{service.service_title}</Typography>
                 <Typography variant="subtitle2" className={classes.description}>
                   Monthly Price: ${service.price}
                 </Typography>
               </CardContent>
               <List dense className={classes.list}>
                 <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
+                  <ListItemText secondary={`${service.paragraph_one}`} />
+                </ListItem>
+                <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
                   <ListItemText primary="Features:" />
                 </ListItem>
+
                 {service.features.map((feature, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
@@ -141,17 +147,17 @@ const SelectedService = ({ service, active, recommendedId }) => {
                   </ListItem>
                 ))}
               </List>
-              <List dense className={classes.list}>
-                <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
-                  <ListItemText
-                    primary="Best For:"
-                    secondary={`${service.bestFor}:`}
-                  />
-                </ListItem>
-              </List>
             </div>
           </div>
+
+          <Link
+            to={`/services/${service.id}`}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <StyledButton buttonText="Learn More" />
+          </Link>
         </Grid>
+
         <Grid xs={12}>
           <CardActionArea>
             <Grid container flex justifyContent="center">

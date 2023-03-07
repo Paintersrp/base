@@ -1,92 +1,116 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid, IconButton } from "@material-ui/core";
 import EditHours from "./HoursEdit";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { baseClasses } from "../../../classes";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
-import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
+import { Today } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  textContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    maxWidth: "85%",
+  hoursContainer: {
+    // border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    background: "#F5F5F5",
+  },
+  dayLabel: {
+    fontWeight: "bold",
   },
   closedText: {
-    fontFamily: "Poppins",
-    color: "red",
-    fontWeight: "600",
+    color: theme.palette.error.main,
+    fontStyle: "italic",
   },
   title: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
+  todayIcon: {
+    color: theme.palette.primary.main,
+    cursor: "default",
+  },
 }));
 
-export default function Hours({ contactData }) {
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+export default function Hours({ contactData, showTitle = true }) {
   const classes = useStyles();
   const { flexCenter, fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
 
-  const days = [
-    { day: "Monday", value: data.monday },
-    { day: "Tuesday", value: data.tuesday },
-    { day: "Wednesday", value: data.wednesday },
-    { day: "Thursday", value: data.thursday },
-    { day: "Friday", value: data.friday },
-    { day: "Saturday", value: data.saturday },
-    { day: "Sunday", value: data.sunday },
-  ];
-
-  const updateContactData = (updateContactData) => {
-    setData(updateContactData);
+  const updateContactData = (updatedData) => {
+    setData(updatedData);
     setEditing(false);
   };
 
   return (
-    <>
-      {!editing ? (
+    <div className={classes.hoursContainer}>
+      {!editing && (
         <>
-          <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
-            Business Hours
-          </Typography>
-          <Flexbox justify="center" className={fadeIn}>
-            {days.map((day) => (
-              <div xs={12} sm={12} className={classes.textContainer}>
-                <Typography variant="subtitle1">{day.day}:</Typography>
-                {day.value === "Closed" ? (
+          {showTitle && (
+            <Typography variant="h3" className={`${classes.title} ${fadeIn}`}>
+              Business Hours
+            </Typography>
+          )}
+          <Grid container spacing={2} className={fadeIn}>
+            {daysOfWeek.map((dayOfWeek) => (
+              <Grid item xs={12} sm={6} key={dayOfWeek}>
+                <div className={classes.textContainer}>
+                  <IconButton className={classes.todayIcon} size="small">
+                    <Today />
+                  </IconButton>
                   <Typography
                     variant="subtitle1"
-                    className={classes.closedText}
+                    className={classes.dayLabel}
+                    color="primary"
                   >
-                    {day.value}
+                    {dayOfWeek}
                   </Typography>
-                ) : (
-                  <Typography variant="subtitle1">{day.value}</Typography>
-                )}
-              </div>
+                  {data[dayOfWeek.toLowerCase()] === "Closed" ? (
+                    <Typography
+                      variant="subtitle1"
+                      className={classes.closedText}
+                    >
+                      {data[dayOfWeek.toLowerCase()]}
+                    </Typography>
+                  ) : (
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {data[dayOfWeek.toLowerCase()]}
+                    </Typography>
+                  )}
+                </div>
+              </Grid>
             ))}
-          </Flexbox>
-          {!editing && auth.is_superuser ? (
-            <EditDeleteButtonMenu
-              hideDelete
-              position="center"
-              placement="bottom"
-              editClick={() => setEditing(!editing)}
-            />
-          ) : null}
+          </Grid>
         </>
-      ) : (
+      )}
+      {!editing && auth.is_superuser ? (
+        <EditDeleteButtonMenu
+          hideDelete
+          position="center"
+          placement="bottom"
+          editClick={() => setEditing(!editing)}
+        />
+      ) : null}
+      {editing && (
         <EditHours
           initialData={data}
           onUpdate={updateContactData}
           handleCancel={() => setEditing(!editing)}
         />
       )}
-    </>
+    </div>
   );
 }

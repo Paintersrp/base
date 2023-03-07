@@ -167,12 +167,6 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
             if field_type == "CharField" and "base_template" in field.style:
                 field_type = "TextField"
 
-            related_model = (
-                getattr(field, "queryset", None)
-                if isinstance(field, serializers.RelatedField)
-                else None
-            )
-
             choices = getattr(field, "choices", None)
             if choices:
                 choices_dict = dict(choices)
@@ -194,7 +188,6 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
                 "min_value": getattr(field, "min_value", None),
                 "max_value": getattr(field, "max_value", None),
                 "source": getattr(field, "source", None),
-                "related_model": related_model.__name__ if related_model else None,
                 "choices": field_choices,
             }
 

@@ -25,7 +25,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const [ready, setReady] = useState(false);
   const location = useLocation();
   let url, keys, appName, model, metadata;
-  console.log("testerearasdsa", location.state);
 
   if (!location.state) {
     axiosInstance
@@ -39,17 +38,10 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     ({ url, keys, appName, model, metadata } = location.state);
   }
 
-  console.log(url);
-  console.log(keys);
-  console.log(appName);
-  console.log(model);
-  console.log(metadata);
-
   useEffect(() => {
     axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
       setFieldMetadata(response.data.fields);
       setModelMetadata(response.data);
-      console.log("alphabear: ", response.data);
       setReady(true);
     });
 
@@ -74,7 +66,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   };
 
   const handleInputChange = (e) => {
-    console.log(e.target.value);
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -96,6 +87,11 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [fieldName]: newFeatures,
+      }));
+    } else if (fieldName === "items") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [fieldName]: [...prevFormData[fieldName], fieldValue],
       }));
     } else {
       setFormData((prevFormData) => ({
@@ -125,6 +121,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
       },
     };
 
+    console.log("DATA SENT: ", formData);
+
     const formDataWithoutId = {};
     for (const [key, value] of Object.entries(formData)) {
       if (key !== "id") {
@@ -151,6 +149,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           formDataWithoutId,
           config
         );
+
         routeBackToModel();
         handleUpdate();
       } catch (err) {
@@ -193,8 +192,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   justify,
                   markdown,
                 } = fieldMetadata[fieldName];
-
-                console.log(fieldName);
 
                 const { verbose_name } = metadata[fieldName];
 

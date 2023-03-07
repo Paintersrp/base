@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Social({ contactData, title, color = "light" }) {
+export default function Social({ contactData, showTitle, color = "light" }) {
   const classes = useStyles();
   const theme = useTheme();
   const { fadeIn } = baseClasses();
@@ -90,7 +90,7 @@ export default function Social({ contactData, title, color = "light" }) {
             flexDirection: "column",
           }}
         >
-          {title && (
+          {showTitle && (
             <div>
               <Typography variant="h4" className={classes.title}>
                 Follow Us

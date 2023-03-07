@@ -78,7 +78,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 
             instance.tags.set(tag_objs)
 
-        Articles.objects.filter(id=17).update()
         instance.save()
 
         return instance

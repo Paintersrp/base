@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
     HeroBlockAPIView,
-    PricingPlanView,
-    PricingPlanDetailView,
+    ServiceTierView,
+    ServiceTierDetailView,
     FeatureViewSet,
     SupportedSiteViewSet,
     ItemViewSet,
@@ -48,13 +48,13 @@ urlpatterns = [
         name="titleblock-search",
     ),
     path(
-        "pricingplan/",
-        PricingPlanView.as_view(),
-        name="pricingplan-list",
+        "servicetier/",
+        ServiceTierView.as_view(),
+        name="servicetier-list",
     ),
     path(
-        "pricingplan/<int:pk>/",
-        PricingPlanDetailView.as_view(),
-        name="pricingplan-detail",
+        "servicetier/<int:pk>/",
+        ServiceTierDetailView.as_view(),
+        name="servicetier-detail",
     ),
 ]

@@ -9,11 +9,14 @@ import {
   TableRow,
   Paper,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import { GiUpgrade } from "react-icons/gi";
 import { CgWebsite } from "react-icons/cg";
 import { IoBusinessSharp } from "react-icons/io5";
 import { FaMedium, FaWix, FaWordpress } from "react-icons/fa";
+import StyledButton from "../../../Elements/Buttons/StyledButton";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -62,12 +65,16 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     height: "auto",
   },
+  buttonCell: {
+    textAlign: "flex-start",
+    padding: theme.spacing(1),
+  },
 }));
 
 const serviceCompareLabels = [
-  { name: "Personal", icon: <CgWebsite fontSize="2.5rem" /> },
-  { name: "Premium", icon: <GiUpgrade fontSize="2.5rem" /> },
-  { name: "Business", icon: <IoBusinessSharp fontSize="2.5rem" /> },
+  { name: "Personal Tier", icon: <CgWebsite fontSize="2.5rem" /> },
+  { name: "Professional Tier", icon: <GiUpgrade fontSize="2.5rem" /> },
+  { name: "Enterprise Tier", icon: <IoBusinessSharp fontSize="2.5rem" /> },
 ];
 
 const serviceCompareData = [
@@ -88,35 +95,30 @@ const serviceCompareData = [
     competitor1: "Self-managed hosting",
     competitor2: "Support-managed hosting",
     competitor3: "Support-managed hosting",
-    // competitor3: "Value 3",
   },
   {
     feature: "Custom Built Plugins",
     competitor1: "Not included",
     competitor2: "Not included",
     competitor3: "Included, 2/month",
-    // competitor3: "Value 6",
   },
   {
     feature: "Blogging",
     competitor1: "Supported",
     competitor2: "Supported",
     competitor3: "Supported",
-    // competitor3: "Value 9",
   },
   {
     feature: "eCommmerce",
     competitor1: "Supported",
     competitor2: "Supported",
     competitor3: "Supported",
-    // competitor3: "Value 9",
   },
   {
     feature: "SEO",
     competitor1: "Self Managed with Plugins",
     competitor2: "Self Managed with Plugin",
     competitor3: "SEO Optimization Provided",
-    // competitor3: "Value 9",
   },
 
   {
@@ -124,14 +126,12 @@ const serviceCompareData = [
     competitor1: "24/7 Support",
     competitor2: "24/7 Support",
     competitor3: "24/7 Support",
-    // competitor3: "Value 9",
   },
   {
     feature: "Security",
     competitor1: "Built In",
     competitor2: "Built In",
     competitor3: "Built In",
-    // competitor3: "Value 9",
   },
 ];
 
@@ -147,7 +147,6 @@ const competitorData = [
     competitor1: "Basic hosting starts at $1.99",
     competitor2: "Premium Plans starts at $11/month",
     competitor3: "Premium Plans starts at $11/month",
-    // competitor3: "Value 3",
   },
   {
     feature: "Design",
@@ -160,42 +159,36 @@ const competitorData = [
     competitor1: "Plans available",
     competitor2: "Plans available",
     competitor3: "Plans available",
-    // competitor3: "Value 3",
   },
   {
     feature: "Custom Built Plugins",
     competitor1: "No",
     competitor2: "No",
     competitor3: "No",
-    // competitor3: "Value 6",
   },
   {
     feature: "Plugins",
     competitor1: "Many available, priced per",
     competitor2: "Many available, priced per",
     competitor3: "Many available, priced per",
-    // competitor3: "Value 9",
   },
   {
     feature: "Blogging",
     competitor1: "Supported",
     competitor2: "Supported",
     competitor3: "Supported",
-    // competitor3: "Value 9",
   },
   {
     feature: "eCommmerce",
     competitor1: "Plans available",
     competitor2: "Plans available",
     competitor3: "Plans available",
-    // competitor3: "Value 9",
   },
   {
     feature: "SEO",
     competitor1: "Plugin Managed",
     competitor2: "Plugin Managed",
     competitor3: "Plugin Managed",
-    // competitor3: "Value 9",
   },
 
   {
@@ -203,14 +196,12 @@ const competitorData = [
     competitor1: "Community Forums",
     competitor2: "24/7 Support Team",
     competitor3: "24/7 Support Team",
-    // competitor3: "Value 9",
   },
   {
     feature: "Security",
     competitor1: "Implement your own",
     competitor2: "Built In",
     competitor3: "Built In",
-    // competitor3: "Value 9",
   },
 ];
 
@@ -275,6 +266,35 @@ const ComparisonTable = ({
                   </TableCell>
                 </TableRow>
               ))}
+
+              <TableCell className={classes.buttonCell}></TableCell>
+              <TableCell className={classes.buttonCell}>
+                <Link to={`/services/2/`}>
+                  <StyledButton
+                    size="small"
+                    buttonText="Learn More"
+                    disabled={false}
+                  />
+                </Link>
+              </TableCell>
+              <TableCell className={classes.buttonCell}>
+                <Link to={`/services/3/`}>
+                  <StyledButton
+                    size="small"
+                    buttonText="Learn More"
+                    disabled={false}
+                  />
+                </Link>
+              </TableCell>
+              <TableCell className={classes.buttonCell}>
+                <Link to={`/services/4/`}>
+                  <StyledButton
+                    size="small"
+                    buttonText="Learn More"
+                    disabled={false}
+                  />
+                </Link>
+              </TableCell>
             </TableBody>
           </Table>
         </TableContainer>

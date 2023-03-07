@@ -67,8 +67,8 @@ export default function Contact({ contactData, color = "light" }) {
             </Typography>
           </div>
           <div xs={12} sm={12} md={6}>
-            <Information contactData={contactData} />
-            <Hours contactData={contactData} />
+            <Information showTitle={false} contactData={contactData} />
+            <Hours showTitle={false} contactData={contactData} />
           </div>
           <div xs={12} sm={12} md={6}>
             <div style={{ width: "100%" }}>
@@ -158,9 +158,13 @@ export default function Contact({ contactData, color = "light" }) {
                   <StyledButton buttonText="Get in touch" />
                 </Grid>
               </BaseForm>
+              <Social
+                color={color}
+                contactData={contactData}
+                showTitle={true}
+              />
             </div>
           </div>
-          <Social color={color} contactData={contactData} title={true} />
         </Flexbox>
       </Paper>
     </div>
