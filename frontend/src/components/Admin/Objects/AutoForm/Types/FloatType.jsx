@@ -21,7 +21,6 @@ const FieldType = ({
           justifyContent: "center",
           paddingRight: 8,
           paddingLeft: 8,
-          order: 50,
         }}
       >
         <FormField

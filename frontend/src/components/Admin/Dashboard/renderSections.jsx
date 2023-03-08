@@ -8,10 +8,14 @@ import {
   CardContent,
   IconButton,
   Collapse,
+  ListItemIcon,
+  Tooltip,
 } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Add, Launch } from "@material-ui/icons";
 import renderModels from "./renderModels";
+import { Link } from "react-router-dom";
 
 export default function renderSections({
   models,
@@ -26,6 +30,8 @@ export default function renderSections({
       return null;
     }
 
+    console.log("appName:", appName);
+
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
       setOpenAppSections((prev) => ({ ...prev, [appName]: !isOpen }));
@@ -36,7 +42,14 @@ export default function renderSections({
           <CardHeader
             className={classes.cardHeader}
             action={
-              <IconButton onClick={toggleOpen}>
+              <IconButton
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+                onClick={toggleOpen}
+              >
                 {isOpen ? <ExpandLess /> : <ExpandMore />}
               </IconButton>
             }
@@ -47,13 +60,37 @@ export default function renderSections({
             }
           />
           <Collapse in={isOpen}>
-            <CardContent className={classes.background}>
+            <CardContent
+              className={classes.background}
+              classes={{ root: classes.cardContent }}
+            >
               <List container>
                 {renderModels({
                   modelItem,
                   appName,
                   classes,
                 })}
+                {appName !== "general" && appName !== "jobs" && (
+                  <Link to={`/${appName === "landing" ? "" : appName}`}>
+                    <ListItemIcon
+                      style={{
+                        color: "black",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        marginTop: 8,
+                      }}
+                    >
+                      <Tooltip title="View Site Page" placement="top">
+                        <IconButton
+                          className={classes.launchButton}
+                          size="small"
+                        >
+                          <Launch />
+                        </IconButton>
+                      </Tooltip>
+                    </ListItemIcon>
+                  </Link>
+                )}
               </List>
             </CardContent>
           </Collapse>

@@ -36,6 +36,25 @@ class ServiceFullView(generics.GenericAPIView):
         return Response(serializer.data)
 
 
+class ServiceCompareTable(object):
+    def __init__(self, compare_labels, compare_rows):
+        self.compare_labels = compare_labels
+        self.compare_rows = compare_rows
+
+
+class ServiceCompareTableView(generics.GenericAPIView):
+    serializer_class = ServiceCompareTableSerializer
+
+    def get(self, request, *args, **kwargs):
+        compare_labels = ServiceTableLabels.objects.first()
+        compare_rows = ServiceCompareRows.objects.all()
+
+        service_table_full = ServiceCompareTable(compare_labels, compare_rows)
+        serializer = self.get_serializer(instance=service_table_full)
+
+        return Response(serializer.data)
+
+
 class BenefitsViewSet(
     generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
 ):
@@ -111,3 +130,23 @@ class ProcessImageItemDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance)
 
         return Response(serializer.data)
+
+
+class ServiceTableLabelsListView(generics.ListCreateAPIView):
+    queryset = ServiceTableLabels.objects.all()
+    serializer_class = ServiceTableLabelsSerializer
+
+
+class ServiceTableLabelsDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ServiceTableLabels.objects.all()
+    serializer_class = ServiceTableLabelsSerializer
+
+
+class ServiceCompareRowsListView(generics.ListCreateAPIView):
+    queryset = ServiceCompareRows.objects.all()
+    serializer_class = ServiceCompareRowsSerializer
+
+
+class ServiceCompareRowsDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ServiceCompareRows.objects.all()
+    serializer_class = ServiceCompareRowsSerializer

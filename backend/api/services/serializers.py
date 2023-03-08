@@ -37,6 +37,43 @@ class ProcessImageItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ServiceTableLabelsSerializer(serializers.ModelSerializer):
+    service_tier1 = serializers.StringRelatedField(source="service_tier1.service_title")
+    service_tier2 = serializers.StringRelatedField(source="service_tier2.service_title")
+    service_tier3 = serializers.StringRelatedField(source="service_tier3.service_title")
+
+    FIELD_KEYS = [
+        "service_tier1",
+        "service_tier2",
+        "service_tier3",
+    ]
+
+    class Meta:
+        model = ServiceTableLabels
+        fields = [
+            "id",
+            "service_tier1",
+            "tier1_icon",
+            "service_tier2",
+            "tier2_icon",
+            "service_tier3",
+            "tier3_icon",
+        ]
+
+
+class ServiceCompareRowsSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["feature", "tier1_value", "tier2_value", "tier3_value"]
+
+    class Meta:
+        model = ServiceCompareRows
+        fields = "__all__"
+
+
+class ServiceCompareTableSerializer(serializers.Serializer):
+    compare_labels = ServiceTableLabelsSerializer()
+    compare_rows = ServiceCompareRowsSerializer(many=True)
+
+
 class ServiceViewSerializer(serializers.Serializer):
     process_text = ProcessTextItemSerializer(many=True)
     process_image = ProcessImageItemSerializer(many=True)
@@ -44,6 +81,8 @@ class ServiceViewSerializer(serializers.Serializer):
     service_tier = ServiceTierSerializer(many=True)
 
 
+ServiceCompareRows.serializer_class = ServiceCompareRowsSerializer
+ServiceTableLabels.serializer_class = ServiceTableLabelsSerializer
 ProcessImageItem.serializer_class = ProcessImageItemSerializer
 ProcessTextItem.serializer_class = ProcessTextItemSerializer
 Benefits.serializer_class = BenefitsSerializer

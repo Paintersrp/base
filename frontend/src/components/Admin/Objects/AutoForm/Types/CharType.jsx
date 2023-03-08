@@ -21,12 +21,12 @@ const CharType = ({
         justifyContent: "center",
         paddingRight: 8,
         paddingLeft: 8,
-        order: 50,
       }}
     >
-      {fieldName === "icon" ? (
+      {fieldName.includes("icon") ? (
         <div style={{ marginTop: 8, width: "100%" }}>
           <IconSelectMixin
+            fieldName={fieldName}
             formData={formData}
             handleChange={handleInputChange}
             background="#F5F5F5"

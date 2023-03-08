@@ -50,7 +50,9 @@ class Skill(models.Model):
 class ContactInformation(models.Model):
     email = CustomEmailField(md_column_count=6, verbose_name="Email")
     phone = CustomCharField(max_length=20, md_column_count=6, verbose_name="Phone")
-    address = models.TextField(verbose_name="Address")
+    address = CustomTextField(
+        max_length=200, null=True, verbose_name="Address", markdown=False
+    )
 
     monday = CustomCharField(
         max_length=40, null=True, md_column_count=3, verbose_name="Monday"

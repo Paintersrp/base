@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from api.customs import *
 
 
 class User(AbstractUser):
@@ -18,3 +19,4 @@ class ThemeSettings(models.Model):
     primary_color = models.CharField(max_length=7)
     secondary_color = models.CharField(max_length=7)
     background_color = models.CharField(max_length=7)
+

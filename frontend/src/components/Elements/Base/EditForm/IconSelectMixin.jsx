@@ -23,7 +23,14 @@ import DesignIcon from "@material-ui/icons/Brush";
 import DevelopIcon from "@material-ui/icons/Code";
 import HostingIcon from "@material-ui/icons/Public";
 import LaunchIcon from "@material-ui/icons/Launch";
-import { IoLogoAngular, IoInfiniteSharp, IoMedalSharp } from "react-icons/io5";
+import {
+  IoLogoAngular,
+  IoInfiniteSharp,
+  IoMedalSharp,
+  IoBusinessSharp,
+} from "react-icons/io5";
+import { GiUpgrade } from "react-icons/gi";
+import { CgWebsite } from "react-icons/cg";
 import Container from "../../Layout/Container/Container";
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +81,8 @@ const iconList = [
   },
   { name: "FaCogs", component: <FaCogs /> },
   { name: "FaGlobe", component: <FaGlobe /> },
+  { name: "GiUpgrade", component: <GiUpgrade /> },
+  { name: "CgWebsite", component: <CgWebsite /> },
   { name: "DesignIcon", component: <DesignIcon /> },
   { name: "DevelopIcon", component: <DevelopIcon /> },
   { name: "LockIcon", component: <LockIcon /> },
@@ -95,20 +104,30 @@ const iconList = [
     name: "IoMedalSharp",
     component: <IoMedalSharp />,
   },
+  {
+    name: "IoBusinessSharp",
+    component: <IoBusinessSharp />,
+  },
 ];
 
-function IconSelectMixin({ handleChange, formData, background = "#F5F5F5" }) {
+function IconSelectMixin({
+  fieldName,
+  handleChange,
+  formData,
+  background = "#F5F5F5",
+}) {
   const classes = useStyles();
-
+  // console.log(fieldName);
+  // console.log(formData[fieldName]);
   return (
     <FormControl style={{ width: "100%", paddingBottom: 8 }} variant="outlined">
       <Select
         className={classes.select}
         variant="outlined"
-        value={formData.icon || "Select an Icon"}
+        value={fieldName ? formData[fieldName] : formData.icon}
         onChange={handleChange}
         displayEmpty
-        name="icon"
+        name={fieldName}
         style={{
           minWidth: "100%",
           background: background,

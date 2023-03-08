@@ -8,6 +8,7 @@ import TextType from "../../Objects/AutoForm/Types/TextType";
 import CharType from "../../Objects/AutoForm/Types/CharType";
 import BooleanType from "../../Objects/AutoForm/Types/BooleanType";
 import ForeignKeyType from "../../Objects/AutoForm/Types/ForeignKeyType";
+import FileType from "./Types/FileType";
 
 const getByType = (
   fieldName,
@@ -43,6 +44,7 @@ const getByType = (
       );
     case "CharField":
     case "EmailField":
+    case "URLField":
       return (
         <CharType
           formData={formData}
@@ -65,7 +67,6 @@ const getByType = (
         />
       );
     case "TextField":
-      console.log("WTF: ", markDownMixin);
       return (
         <TextType
           formData={formData}
@@ -121,6 +122,7 @@ const getByType = (
         />
       );
     case "ChoiceField":
+    case "PrimaryKeyRelatedField":
       return (
         <ChoiceType
           formData={formData}
@@ -128,6 +130,17 @@ const getByType = (
           verboseName={verboseName}
           handleInputChange={handleInputChange}
           choices={choices}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
+        />
+      );
+    case "FileField":
+      return (
+        <FileType
+          formData={formData}
+          fieldName={fieldName}
+          verboseName={verboseName}
+          handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
         />

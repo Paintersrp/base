@@ -51,7 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function JobListing() {
+function JobListing({
+  header = "Jobs",
+  subheader = "Interested in joining our team? See our open positions below.",
+ 
+  currentId = null,
+}) {
   const [jobPostings, setJobPostings] = useState();
   const classes = useStyles();
   const theme = useTheme();
@@ -82,8 +87,8 @@ function JobListing() {
         >
           <BaseContent
             maxWidth={900}
-            header="Jobs"
-            subheader="Interested in joining our team? See our open positions below."
+            header={header}
+            subheader={subheader}
             boxShadow={2}
             pad={3}
             mt={1}
@@ -139,18 +144,27 @@ function JobListing() {
                           >
                             {jobPosting.location} - {jobPosting.type}
                           </Typography>
-                          <Link to={`/jobposting/${jobPosting.id}`}>
+                          {currentId !== jobPosting.id ? (
+                            <Link to={`/jobposting/${jobPosting.id}`}>
+                              <StyledButton
+                                color={
+                                  index % 2 === 0
+                                    ? theme.palette.secondary.dark
+                                    : theme.palette.primary.main
+                                }
+                                buttonText="Apply"
+                                minWidth={0}
+                                size="small"
+                              />
+                            </Link>
+                          ) : (
                             <StyledButton
-                              color={
-                                index % 2 === 0
-                                  ? theme.palette.secondary.dark
-                                  : theme.palette.primary.main
-                              }
                               buttonText="Apply"
                               minWidth={0}
                               size="small"
+                              disabled
                             />
-                          </Link>
+                          )}
                         </Grid>
                       </Grid>
                     </Paper>

@@ -10,6 +10,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   select: {
+    marginTop: 8,
     width: "100%",
     maxHeight: "64px",
     overflow: "auto",
@@ -53,13 +54,13 @@ const ChoiceType = ({
   mdColumnCount,
 }) => {
   const classes = useStyles();
+  console.log(fieldName);
   return (
     <Grid
       item
       xs={xsColumnCount}
       md={mdColumnCount}
       style={{
-        order: 999,
         paddingRight: 8,
         paddingLeft: 8,
       }}
@@ -76,13 +77,7 @@ const ChoiceType = ({
             <Select
               className={classes.select}
               variant="outlined"
-              value={
-                formData[fieldName]
-                  ? formData[fieldName]
-                      .replace(/_/g, " ")
-                      .replace(/\b\w/g, (l) => l.toUpperCase())
-                  : ""
-              }
+              value={formData[fieldName]}
               onChange={handleInputChange}
               displayEmpty
               name={fieldName}
@@ -109,7 +104,7 @@ const ChoiceType = ({
               }}
             >
               <MenuItem value="">
-                <em>Select Text Alignment</em>
+                <em>Select {verboseName}</em>
               </MenuItem>
               {Object.entries(choices).map(([key, value]) => (
                 <MenuItem key={key} value={value.display}>

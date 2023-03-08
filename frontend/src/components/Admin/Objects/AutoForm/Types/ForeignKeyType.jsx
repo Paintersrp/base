@@ -15,13 +15,22 @@ const ForeignKeyType = ({
   console.log("WHERE WE GOIN: ", fieldName);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (fieldName.includes("service_tier")) {
+      axiosInstance.get(`/servicetier/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "job") {
+      axiosInstance.get(`/jobposting/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else {
       axiosInstance.get(`/${fieldName}/`).then((response) => {
         setData(response.data);
-        console.log(response.data);
+        console.log("YEAH:", response.data);
       });
-    };
-    fetchData();
+    }
   }, []);
 
   return (
@@ -34,16 +43,19 @@ const ForeignKeyType = ({
         justifyContent: "center",
         paddingRight: 8,
         paddingLeft: 8,
-        order: 1000,
+        width: "100%",
       }}
     >
       <>
-        <SelectField
-          formData={formData}
-          fieldName={fieldName}
-          handleInputChange={handleInputChange}
-          choices={data}
-        />
+        {data && (
+          <SelectField
+            formData={formData}
+            fieldName={fieldName}
+            verboseName={verboseName}
+            handleInputChange={handleInputChange}
+            choices={data}
+          />
+        )}
       </>
     </Grid>
   );

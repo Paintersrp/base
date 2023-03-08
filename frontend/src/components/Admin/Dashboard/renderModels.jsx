@@ -1,7 +1,23 @@
 import React from "react";
-import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
+  makeStyles,
+  Tooltip,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { NavigateNext } from "@material-ui/icons";
+import { NavigateNext, Add } from "@material-ui/icons";
+
+const useStyles = makeStyles((theme) => ({
+  addButton: {
+    color: "#4caf50", // green color
+    "&:hover": {
+      color: "#388e3c", // darker green color on hover
+    },
+  },
+}));
 
 export default function renderModels({ modelItem, appName, classes }) {
   return modelItem
@@ -22,11 +38,31 @@ export default function renderModels({ modelItem, appName, classes }) {
           key={model.model_name}
         >
           <ListItem button style={{ color: "black" }}>
-            <ListItemIcon style={{ color: "black" }}>
+            <ListItemIcon
+              style={{
+                color: "black",
+              }}
+            >
               <NavigateNext />
             </ListItemIcon>
 
             <ListItemText primary={model.verbose_name} />
+
+            <Link to={`/admin/${model.model_name}/control`}>
+              <ListItemIcon
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Tooltip title="Add" placement="top">
+                  <IconButton className={classes.addButton} size="small">
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+              </ListItemIcon>
+            </Link>
           </ListItem>
         </Link>
       );

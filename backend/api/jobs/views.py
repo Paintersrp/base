@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .serializers import *
-from .models import JobPosting
+from .models import *
 from rest_framework.response import Response
 from django.http import JsonResponse
 
@@ -61,3 +61,17 @@ class JobPostingAllListView(generics.ListCreateAPIView):
 class JobPostingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = JobPosting.objects.all()
     serializer_class = JobPostingSerializer
+
+
+class ApplicationListView(generics.ListCreateAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+
+    def perform_create(self, serializer):
+        resume = self.request.data.get("resume")
+        serializer.save(resume=resume)
+
+
+class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer

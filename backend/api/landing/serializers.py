@@ -17,7 +17,7 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HeroBlock
-        fields = "__all__"
+        fields = ["title", "buttonText", "heading", "text"]
 
 
 class TitleBlockSerializer(serializers.ModelSerializer):

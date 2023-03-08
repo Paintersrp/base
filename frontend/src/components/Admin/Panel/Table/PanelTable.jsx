@@ -33,6 +33,7 @@ const PanelTable = ({
   keys,
   data,
   metadata,
+  model,
   handleEdit,
   handleDelete,
   handleClose,
@@ -40,6 +41,7 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
 }) => {
+  console.log("METAL: ", model);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -275,7 +277,7 @@ const PanelTable = ({
                     </TableCell>
                     {metadata[key].verbose_name === "Tag Name" && (
                       <TableCell key="count" className={classes.tableCell}>
-                        {metadata["tag_counts"].values[item[key]] || 0}
+                        {model["count"].values[item[key]] || 0}
                       </TableCell>
                     )}
                   </>

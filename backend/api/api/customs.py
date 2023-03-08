@@ -43,6 +43,20 @@ class CustomBooleanField(models.BooleanField):
         super().__init__(*args, **kwargs)
 
 
+class CustomForeignKeyField(models.ForeignKey):
+    def __init__(self, *args, **kwargs):
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        super().__init__(*args, **kwargs)
+
+
+class CustomURLField(models.URLField):
+    def __init__(self, *args, **kwargs):
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        super().__init__(*args, **kwargs)
+
+
 class CustomManyToManyField(models.ManyToManyField):
     md_column_count = 6
     xs_column_count = 12

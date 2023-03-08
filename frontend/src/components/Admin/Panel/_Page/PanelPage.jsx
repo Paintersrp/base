@@ -21,14 +21,7 @@ function PanelPage() {
   }, []);
 
   return (
-    <PageContainer
-      title="Landing Page"
-      description="Where the land be yo."
-      keywords="news, posts, articles, touch"
-      image="https://example.com/image.png"
-      url="https://example.com/example-page"
-      backgroundColor="#F5F5F5"
-    >
+    <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
       {data || location.state ? <Panel apiData={data} /> : null}
     </PageContainer>
   );

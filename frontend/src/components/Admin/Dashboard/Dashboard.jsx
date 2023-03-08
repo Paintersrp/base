@@ -29,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
     margin: 24,
   },
   cardHeader: {
+    padding: theme.spacing(3, 2, 1, 2),
     backgroundColor: "#E6E6E6",
+    alignItems: "flex-start",
   },
   link: {
     color: "#1976d2",
@@ -57,6 +59,28 @@ const useStyles = makeStyles((theme) => ({
   },
   background: {
     background: "#F5F5F5",
+    padding: theme.spacing(2),
+    "& .MuiCardContent-root:last-child": {
+      paddingBottom: theme.spacing(2),
+    },
+  },
+  cardContent: {
+    paddingBottom: theme.spacing(2),
+    "&:last-child": {
+      paddingBottom: theme.spacing(1),
+    },
+  },
+  addButton: {
+    color: theme.palette.success.main,
+    "&:hover": {
+      color: theme.palette.success.dark,
+    },
+  },
+  launchButton: {
+    color: theme.palette.info.dark,
+    "&:hover": {
+      color: theme.palette.info.light,
+    },
   },
 }));
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import JobPosting, Requirement, Responsibilities
+from .models import *
 
 
 class ResponsibilitiesSerializer(serializers.ModelSerializer):
@@ -66,6 +66,27 @@ class JobPostingSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ApplicationSerializer(serializers.ModelSerializer):
+    job = serializers.StringRelatedField(source="job.position")
+    FIELD_KEYS = ["first_name", "last_name", "phone", "email", "city", "status", "job"]
+
+    class Meta:
+        model = Application
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "phone",
+            "email",
+            "city",
+            "zipcode",
+            "job",
+            "status",
+            "resume",
+        ]
+
+
+Application.serializer_class = ApplicationSerializer
 Requirement.serializer_class = RequirementSerializer
 Responsibilities.serializer_class = ResponsibilitiesSerializer
 JobPosting.serializer_class = JobPostingSerializer

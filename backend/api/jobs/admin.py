@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JobPosting, Requirement, Responsibilities
+from .models import *
 
 
 class RequirementAdmin(admin.ModelAdmin):
@@ -45,7 +45,11 @@ class JobPostingAdmin(admin.ModelAdmin):
         ),
     )
 
+class ApplicationAdmin(admin.ModelAdmin):
+  list_display = ['first_name', 'last_name', 'email', 'phone', 'created_at', 'city', 'zipcode']
 
+
+admin.site.register(Application, ApplicationAdmin)
 admin.site.register(JobPosting, JobPostingAdmin)
 admin.site.register(Responsibilities, ResponsibilitiesAdmin)
 admin.site.register(Requirement, RequirementAdmin)

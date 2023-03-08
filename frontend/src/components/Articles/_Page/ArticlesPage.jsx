@@ -42,14 +42,7 @@ const ArticlesPage = () => {
 
   return (
     <>
-      <PageContainer
-        title="Articles"
-        description="Where the articles be yo."
-        keywords="news, posts, articles"
-        image="https://example.com/image.png"
-        url="https://example.com/example-page"
-        backgroundColor="#F5F5F5"
-      >
+      <PageContainer backgroundColor="#F5F5F5" page_name="News">
         <ArticlesDisplayBase articles={articles} />
         <ArticlesList />
         <Fab

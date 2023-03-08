@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import User, ThemeSettings
+from .models import *
 from django.contrib.admin import AdminSite
 
 admin_site = AdminSite(name="admin")

@@ -46,14 +46,7 @@ function ContactPage() {
   }
 
   return (
-    <PageContainer
-      title="About Company"
-      description="Where the info be yo."
-      keywords="news, posts, articles, touch"
-      image="https://example.com/image.png"
-      url="https://example.com/example-page"
-      backgroundColor="#F5F5F5"
-    >
+    <PageContainer backgroundColor="#F5F5F5" page_name="Contact">
       {membersData && contactData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>

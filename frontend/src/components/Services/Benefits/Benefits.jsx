@@ -7,6 +7,7 @@ import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
 import EditButton from "../../Elements/Buttons/EditButton";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
+import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,13 +65,14 @@ const Benefits = () => {
     <div className={classes.root}>
       <Container maxWidth="false">
         {!editing && auth.is_superuser ? (
-          <div style={{ marginTop: 20 }}>
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
+          <div style={{ marginTop: 20, maxWidth: 1000 }}>
+            <EditDeleteButtonMenu
+              hideDelete
+              editClick={() => setEditing(!editing)}
             />
           </div>
         ) : null}
+
         {!editing ? (
           <TitleBlock
             subtitle={titleBlock.subtitle}

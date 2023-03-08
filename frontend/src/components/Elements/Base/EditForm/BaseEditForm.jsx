@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[1],
     margin: "0 auto",
   },
+  noShadowForm: {
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+    backgroundColor: theme.palette.background.light,
+    padding: theme.spacing(0, 3, 0, 3),
+    borderRadius: 10,
+    boxShadow: theme.shadows[0],
+    margin: "0 auto",
+  },
   formTitle: {
     fontWeight: "bold",
     marginBottom: theme.spacing(1.5),
@@ -57,12 +66,18 @@ function BaseEditForm({
   imageMixin = false,
   newImage = "",
   newImageName = "",
+  noBoxShadow = false,
+  fadeIn = true,
+  placement = "bottom",
 }) {
   const classes = useStyles();
 
   return (
-    <Flexbox direction="column" className={classes.fadeIn}>
-      <div className={classes.form} style={{ width: width }}>
+    <Flexbox direction="column" className={fadeIn ? classes.fadeIn : ""}>
+      <div
+        className={!noBoxShadow ? classes.form : classes.noShadowForm}
+        style={{ width: width }}
+      >
         {title ? (
           <Typography variant="h4" className={classes.formTitle}>
             {title}
@@ -105,10 +120,11 @@ function BaseEditForm({
           {iconMixin ? (
             <IconSelectMixin handleChange={handleChange} formData={formData} />
           ) : null}
+
           <UpdateCancelButtonMenu
             handleCancel={handleCancel}
             position="center"
-            placement="bottom"
+            placement={placement}
           />
         </form>
       </div>

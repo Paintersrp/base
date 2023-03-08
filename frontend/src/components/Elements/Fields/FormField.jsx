@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
-      fontSize: "0.9rem",
       fontWeight: "400",
       width: "100%",
       letterSpacing: 0.25,
@@ -25,10 +24,9 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiFormLabel-root": {
-      fontFamily: "Roboto",
+      fontFamily: "Poppins",
       color: "black",
       fontWeight: "500",
-      fontSize: "0.95rem",
     },
     "& input": {
       color: "black",
@@ -91,6 +89,7 @@ const FormField = ({
   select = false,
   SelectProps,
   children,
+  required = null,
   type = null,
 }) => {
   const classes = useStyles();
@@ -112,6 +111,7 @@ const FormField = ({
       select={select}
       SelectProps={SelectProps}
       type={type}
+      required={required}
       InputProps={{
         ...(label === "Search" && {
           classes: {

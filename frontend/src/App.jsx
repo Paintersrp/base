@@ -199,7 +199,7 @@ function SiteRoutes({ handleUpdate, setIsLoading }) {
         {/* Admin Routes */}
         <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/:id" element={<PanelPage />} />
-        <Route path="/admin/:id/control" element={<ObjectPage />} />
+        <Route path="/admin/:str/control" element={<ObjectPage />} />
         {/* <Route path="/admin/editarticle/:id" element={<EditPage />} /> */}
       </Routes>
       {!isAdminPath ? <Footer /> : <Footer />}

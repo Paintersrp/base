@@ -10,7 +10,6 @@ import ServiceFeatures from "../ServiceFeatures";
 import ServiceContact from "../ServiceContact";
 import ServicePrice from "../ServicePrice";
 import PageContainer from "../../../Elements/Layout/PageContainer";
-import ServiceComparison from "../_ServiceCompare";
 import ComparisonTable from "../../Quiz/TablesDisplay/ComparisonTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     maxWidth: 1400,
     backgroundColor: theme.palette.background.light,
-    boxShadow: "0px 3px 6px #00000029",
+
     borderRadius: "8px",
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(1),
@@ -75,7 +74,7 @@ function ServiceIndividualPage() {
       backgroundColor="#F5F5F5"
     >
       {data && processData && processImage && (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <ServiceHeader
             data={data}
             handleApplyNowClick={handleApplyNowClick}
@@ -92,7 +91,7 @@ function ServiceIndividualPage() {
             formRef={formRef}
             contactData={contactData}
           />
-          <ComparisonTable />
+          <ComparisonTable currentId={id} />
         </Paper>
       )}
     </PageContainer>

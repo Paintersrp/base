@@ -193,6 +193,9 @@ export default function Navigation({ links, appName, handleUpdate }) {
                       <Link to="/WIP" className={classes.navLink}>
                         WIP
                       </Link>
+                      <Link to="/admin" className={classes.navLink}>
+                        Admin
+                      </Link>
                       <Link to="/generator" className={classes.navLink}>
                         Generator
                       </Link>

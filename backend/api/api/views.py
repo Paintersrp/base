@@ -65,7 +65,11 @@ def custom_admin_url_return(request, content_type_id, object_id):
 @method_decorator(csrf_exempt, name="dispatch")
 class RecentAdminActionsView(APIView):
     def get(self, request, *args, **kwargs):
-        recent_actions = LogEntry.objects.order_by("-timestamp")[:10]
+        items = request.query_params.get("items", 10)
+        if items == "all":
+            recent_actions = LogEntry.objects.order_by("-timestamp")
+        else:
+            recent_actions = LogEntry.objects.order_by("-timestamp")[: int(items)]
 
         data = []
         for action in recent_actions:
@@ -194,14 +198,25 @@ class ModelMetadataAPIView(generics.RetrieveAPIView):
             metadata["fields"][field_name] = field_metadata
 
         for field in model._meta.fields:
-            xs_column_count = getattr(field, "xs_column_count", 12)
-            md_column_count = getattr(field, "md_column_count", 12)
-            justify = getattr(field, "justify", "left")
-            markdown = getattr(field, "markdown", "false")
-            metadata["fields"][field.name]["xs_column_count"] = xs_column_count
-            metadata["fields"][field.name]["md_column_count"] = md_column_count
-            metadata["fields"][field.name]["justify"] = justify
-            metadata["fields"][field.name]["markdown"] = markdown
+            if hasattr(field, "xs_column_count"):
+                metadata["fields"][field.name]["xs_column_count"] = getattr(
+                    field, "xs_column_count", 12
+                )
+
+            if hasattr(field, "md_column_count"):
+                metadata["fields"][field.name]["md_column_count"] = getattr(
+                    field, "md_column_count", 12
+                )
+
+            if hasattr(field, "justify"):
+                metadata["fields"][field.name]["justify"] = getattr(
+                    field, "justify", "left"
+                )
+
+            if hasattr(field, "markdown"):
+                metadata["fields"][field.name]["markdown"] = getattr(
+                    field, "markdown", "false"
+                )
 
         return Response(metadata)
 

@@ -25,10 +25,9 @@ const TextType = ({
           justifyContent: "center",
           paddingRight: 8,
           paddingLeft: 8,
-          order: 100,
         }}
       >
-        {markDownMixin === "false" ? (
+        {markDownMixin === "false" || !markDownMixin ? (
           <FormField
             id={fieldName}
             label={verboseName}

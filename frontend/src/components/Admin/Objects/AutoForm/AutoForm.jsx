@@ -15,34 +15,57 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const [formData, setFormData] = useState(data);
   const [modelMetadata, setModelMetadata] = useState({});
   const [fieldMetadata, setFieldMetadata] = useState({});
-  // const [url, setUrl] = useState([]);
-  // const [keys, setKeys] = useState([]);
-  // const [appName, setAppName] = useState([]);
-  // const [model, setModel] = useState([]);
-  // const [metadata, setMetadata] = useState([]);
+  const [url, setUrl] = useState([]);
+  const [keys, setKeys] = useState([]);
+  const [appName, setAppName] = useState([]);
+  const [model, setModel] = useState([]);
+  const [metadata, setMetadata] = useState([]);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
   const [ready, setReady] = useState(false);
   const location = useLocation();
-  let url, keys, appName, model, metadata;
 
-  if (!location.state) {
-    axiosInstance
-      .get(`/get_models${endpointUrl}`)
-      .then((response) => {
-        console.log(response.data);
-        ({ url, keys, appName, model, metadata } = data);
-      })
-      .catch((error) => console.log(error));
-  } else {
-    ({ url, keys, appName, model, metadata } = location.state);
-  }
+  // if (!location.state) {
+  //   axiosInstance
+  //     .get(`/get_models${endpointUrl}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       ({ url, keys, appName, model, metadata } = data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // } else {
+  //   ({ url, keys, appName, model, metadata } = location.state);
+  // }
+
+  useEffect(() => {
+    setReady(false);
+    if (!location.state) {
+      axiosInstance
+        .get(`/get_models${endpointUrl}`)
+        .then((response) => {
+          console.log(response.data);
+          setUrl(response.data.url);
+          setAppName(response.data.app_name);
+          setKeys(response.data.keys);
+          setMetadata(response.data.metadata);
+          setModel(response.data);
+          setReady(true);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      setUrl(location.state.url);
+      setAppName(location.state.appName);
+      setKeys(location.state.keys);
+      setMetadata(location.state.metadata);
+      setModel(location.state.model);
+      setReady(true);
+    }
+  }, []);
 
   useEffect(() => {
     axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
       setFieldMetadata(response.data.fields);
       setModelMetadata(response.data);
-      setReady(true);
     });
 
     // if (!location.state) {
@@ -66,10 +89,17 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   };
 
   const handleInputChange = (e) => {
+    console.log(e.target.type);
+    console.log(formData);
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : type === "file"
+          ? e.target.files[0]
+          : value,
     }));
   };
 
@@ -171,6 +201,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         >
           <Grid container justifyContent="center">
             {fieldMetadata &&
+              metadata &&
               Object.keys(fieldMetadata).map((fieldName) => {
                 if (
                   fieldName === "id" ||

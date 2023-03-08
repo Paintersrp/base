@@ -10,7 +10,6 @@ import {
 import Information from "../Information/Information";
 import Hours from "../Hours/Hours";
 import Social from "../Social/Social";
-import ContactForm from "../../Elements/Forms/ContactForm/ContactForm";
 import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 import BaseForm from "../../Elements/Base/BaseForm";
 import StyledButton from "../../Elements/Buttons/StyledButton";

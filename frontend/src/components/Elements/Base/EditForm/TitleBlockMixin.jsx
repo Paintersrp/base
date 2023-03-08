@@ -11,7 +11,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   select: {
-    background: theme.palette.text.light,
+    background: theme.palette.background.light,
     color: theme.palette.text.dark,
     "& .MuiSelect-icon": {
       color: theme.palette.text.dark,

@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
   btnContainer: {
     backgroundColor: theme.palette.primary.main,
   },
+  dialogPaper: {
+    borderRadius: 0,
+    background: theme.palette.background.light,
+  },
 }));
 
 const BaseDialog = ({
@@ -59,19 +63,29 @@ const BaseDialog = ({
   const classes = useStyles();
 
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="dialog-title">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="dialog-title"
+      style={{ borderRadius: 16 }}
+      classes={{ paper: classes.dialogPaper }}
+    >
       <DialogTitle
         className={classes.dialogTitle}
         id="dialog-title"
-        style={{ width: "100%" }}
+        style={{ width: "100%", borderRadius: 0 }}
       >
         <Typography variant="h4">{title}</Typography>
         <div className={classes.closeButtonContainer}>
           <CloseIcon onClick={onClose} />
         </div>
       </DialogTitle>
-      <DialogContent>
-        {content && <DialogContentText>{content}</DialogContentText>}
+      <DialogContent style={{ borderRadius: 16 }}>
+        {content && (
+          <DialogContentText style={{ borderRadius: 16 }}>
+            {content}
+          </DialogContentText>
+        )}
         {children}
       </DialogContent>
       <DialogActions className={classes.dialogActions}>

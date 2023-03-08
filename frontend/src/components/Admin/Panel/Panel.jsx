@@ -73,6 +73,7 @@ const Panel = ({ apiData }) => {
   };
 
   const fetchData = async () => {
+    console.log("URL:", url);
     if (url && keys) {
       axiosInstance
         .get(url)
@@ -212,7 +213,7 @@ const Panel = ({ apiData }) => {
             </Grid>
           </Grid>
           <TableContainer>
-            {data && (
+            {data && metadata && (
               <>
                 {id === "articles" ? (
                   <PanelTable
@@ -220,6 +221,7 @@ const Panel = ({ apiData }) => {
                     keys={keys}
                     data={data}
                     metadata={metadata}
+                    model={model}
                     handleEdit={handleArticleEdit}
                     handleDelete={handleDelete}
                     handleConfirmDelete={handleConfirmDelete}
@@ -233,6 +235,7 @@ const Panel = ({ apiData }) => {
                     keys={keys}
                     data={data}
                     metadata={metadata}
+                    model={model}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
                     handleConfirmDelete={handleConfirmDelete}

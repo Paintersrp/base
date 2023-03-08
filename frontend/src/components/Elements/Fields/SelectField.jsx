@@ -44,7 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectField = ({ formData, fieldName, handleInputChange, choices }) => {
+const SelectField = ({
+  formData,
+  fieldName,
+  verboseName,
+  handleInputChange,
+  choices,
+}) => {
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -105,21 +111,27 @@ const SelectField = ({ formData, fieldName, handleInputChange, choices }) => {
             }}
           >
             <MenuItem value="">
-              <em>Select Category</em>
+              <em>Select {verboseName}</em>
             </MenuItem>
             {choices &&
               Object.entries(choices).map(([key, value]) => (
                 <MenuItem
                   key={key}
                   value={
-                    fieldName === "servicetier"
+                    fieldName === "servicetier" ||
+                    fieldName.includes("service_tier")
                       ? value.service_title
+                      : fieldName === "job"
+                      ? value.position
                       : value.name
                   }
                 >
                   <span style={{ color: "black" }}>
-                    {fieldName === "servicetier"
+                    {fieldName === "servicetier" ||
+                    fieldName.includes("service_tier")
                       ? value.service_title
+                      : fieldName === "job"
+                      ? value.position
                       : value.name}
                   </span>
                 </MenuItem>
@@ -135,7 +147,7 @@ const SelectField = ({ formData, fieldName, handleInputChange, choices }) => {
           paddingTop: 4,
         }}
       >
-        {fieldName !== "servicetier" ? (
+        {!fieldName.includes("service_tier") && fieldName !== "job" ? (
           <StyledButton
             noHover
             borderRadius={40}

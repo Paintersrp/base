@@ -41,6 +41,7 @@ urlpatterns = (
         path("api/", include("services.urls")),
         path("api/", include("support.urls")),
         path("api/", include("jobs.urls")),
+        path("api/", include("general.urls")),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

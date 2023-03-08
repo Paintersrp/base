@@ -30,7 +30,7 @@ const JobIndividualView = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div className={`${classes.root}`}>{job && <JobPosting job={job} />}</div>

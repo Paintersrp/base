@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "services",
     "support",
     "jobs",
+    "general",
 ]
 
 MIDDLEWARE = [

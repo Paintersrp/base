@@ -13,7 +13,7 @@ class HeroBlock(models.Model):
     title = CustomCharField(max_length=200, md_column_count=6, verbose_name="Title")
     heading = CustomTextField(max_length=500, md_column_count=6, verbose_name="Tagline")
     text = CustomTextField(
-        max_length=500, md_column_count=6, verbose_name="Description Text"
+        max_length=500, md_column_count=6, verbose_name="Description"
     )
     buttonText = CustomCharField(
         max_length=50, md_column_count=6, verbose_name="Button Text"
