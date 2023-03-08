@@ -10,7 +10,7 @@ import Item from "../../Elements/Layout/Item/Item";
 import Container from "../../Elements/Layout/Container/Container";
 import Text from "../../Elements/Layout/Text/Text";
 import Magazine from "../Magazine/Magazine";
-import AdminLog from "../../Admin/Logs/AdminLog";
+import AdminLogReport from "../../Admin/Reports/AdminLogReport";
 
 const actions = [
   <Grid
@@ -47,7 +47,7 @@ const customersData = [
 
 const wipComponents = [
   {
-    component: AdminLog,
+    component: AdminLogReport,
   },
   {
     component: Magazine,
