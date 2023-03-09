@@ -10,6 +10,7 @@ import BaseDialog from "../Base/BaseDialog";
 import SEOEdit from "./SEOEdit";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import SEOEditMenu from "../Buttons/SEOEditMenu";
+import Loading from "./Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +71,7 @@ const PageContainer = ({
 
   return (
     <>
-      {data && (
+      {data ? (
         <>
           <SEOHeader
             title={data.title}
@@ -116,6 +117,8 @@ const PageContainer = ({
             </>
           </div>
         </>
+      ) : (
+        <Loading loading={true} />
       )}
     </>
   );

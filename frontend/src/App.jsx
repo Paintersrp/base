@@ -1,42 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import LandingPage from "./components/Landing/_Page/LandingPage";
-import AboutPage from "./components/About/_Page/AboutPage";
-import SupportPage from "./components/Support/_Page/SupportPage";
+import { BrowserRouter as Router } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import baseTheme from "./theme";
 import withAuth from "./lib/Auth/withAuth/withAuth";
-import ScrollToTop from "./utils/ScrollToTop";
-import LoginForm from "./components/Elements/Forms/Login/LoginForm";
-import RegisterForm from "./components/Elements/Forms/Register/RegisterForm";
-import Navigation from "./navigation/Components/Navigation/Navigation";
-import linkData from "./navigation/Components/Navigation/linkData";
-import Footer from "./navigation/Components/Footer/Footer";
-import Profile from "./components/Elements/Forms/Profile/Profile";
-import WIPDemo from "./components/WIP/_Page/WIPDemo";
-import ArticlesPage from "./components/Articles/_Page/ArticlesPage";
-import IndividualArticleView from "./components/Articles/Read/IndividualArticleView";
-import UpdateArticleView from "./components/Articles/Update/UpdateArticleView";
-import ServicesPage from "./components/Services/_Page/ServicesPage";
-import ContactPage from "./components/Contact/_Page/ContactPage";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./lib/Axios/axiosInstance";
 import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
-import GeneratorPage from "./components/EndPointGenerator/EndPointGeneratorPage";
 import Loading from "./components/Elements/Layout/Loading";
-import JobIndividualView from "./components/Contact/Jobs/_Pages/JobIndividualView";
-import PanelPage from "./components/Admin/Panel/_Page/PanelPage";
-import AdminSidebar from "./components/Admin/Navigation/AdminSidebar";
-import DashboardPage from "./components/Admin/Dashboard/DashboardPage";
-import ObjectPage from "./components/Admin/Objects/_Page/ObjectPage";
-import ServiceIndividualPage from "./components/Services/Individual/_Page/ServiceIndividualPage";
+import SiteRoutes from "./navigation/Routes/SiteRoutes";
 
 {
   /* 
@@ -141,68 +114,6 @@ function App() {
           </Router>
         </ThemeProvider>
       )}
-    </>
-  );
-}
-
-function SiteRoutes({ handleUpdate, setIsLoading }) {
-  const location = useLocation();
-  const isAdminPath = location.pathname.startsWith("/admin");
-
-  return (
-    <>
-      <ScrollToTop />
-      {!isAdminPath ? (
-        <Navigation
-          links={linkData}
-          appName={"EDGELORDS"}
-          handleUpdate={handleUpdate}
-        />
-      ) : (
-        <AdminSidebar appName={"EDGELORDS"} />
-      )}
-      <Routes>
-        {/* Auth Routes */}
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              handleUpdate={handleUpdate}
-              setIsLoading={setIsLoading}
-            />
-          }
-        />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/profile" element={<Profile />} />
-        {/* Page Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/support" element={<SupportPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/:id" element={<ServiceIndividualPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        {/* Demo Routes */}
-        <Route path="/WIP" element={<WIPDemo />} />
-        <Route path="/generator" element={<GeneratorPage />} />
-        <Route path="/jobposting/:id" element={<JobIndividualView />} />
-        {/* Feature Routes */}
-        <Route path="/articles" element={<ArticlesPage />} />
-        <Route path="/articles/:id" element={<IndividualArticleView />} />
-        <Route
-          path="/articles/:id/update"
-          element={
-            <div style={{ width: "100vw" }}>
-              <UpdateArticleView />
-            </div>
-          }
-        />
-        {/* Admin Routes */}
-        <Route path="/admin" element={<DashboardPage />} />
-        <Route path="/admin/:id" element={<PanelPage />} />
-        <Route path="/admin/:str/control" element={<ObjectPage />} />
-        {/* <Route path="/admin/editarticle/:id" element={<EditPage />} /> */}
-      </Routes>
-      {!isAdminPath ? <Footer /> : <Footer />}
     </>
   );
 }

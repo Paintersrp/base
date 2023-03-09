@@ -277,7 +277,9 @@ const PanelTable = ({
                     </TableCell>
                     {metadata[key].verbose_name === "Tag Name" && (
                       <TableCell key="count" className={classes.tableCell}>
-                        {model["count"].values[item[key]] || 0}
+                        {model["count"]
+                          ? model["count"].values[item[key]]
+                          : metadata["tag_counts"].values[item[key]]}
                       </TableCell>
                     )}
                   </>

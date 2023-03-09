@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Panel = ({ apiData }) => {
+  console.log("apiData", apiData);
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -107,7 +108,7 @@ const Panel = ({ apiData }) => {
       setModel(apiData);
     }
     handleUpdate();
-  }, [url]);
+  }, [url, apiData]);
 
   const handleClose = () => {
     setOpen(false);
@@ -172,7 +173,7 @@ const Panel = ({ apiData }) => {
 
   return (
     <>
-      {ready && model ? (
+      {ready && model && apiData ? (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
           <Typography variant="h3" className={classes.breadCrumbTitle}>
             {model.verbose_name}
@@ -213,7 +214,7 @@ const Panel = ({ apiData }) => {
             </Grid>
           </Grid>
           <TableContainer>
-            {data && metadata && (
+            {data && metadata && apiData && (
               <>
                 {id === "articles" ? (
                   <PanelTable

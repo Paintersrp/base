@@ -10,7 +10,7 @@ import {
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import CircleIcon from "@mui/icons-material/Circle";
+import mapAppIcon from "./mapModelIcons";
 
 export default function renderLinks({
   models,
@@ -35,9 +35,9 @@ export default function renderLinks({
           <ListItemIcon
             style={{
               color: (() => {
-                switch (index % 3) {
+                switch (index % 2) {
                   case 0:
-                    return theme.palette.secondary.light;
+                    return theme.palette.primary.light;
                   case 1:
                     return theme.palette.secondary.main;
                   case 2:
@@ -48,7 +48,7 @@ export default function renderLinks({
               })(),
             }}
           >
-            <CircleIcon />
+            {mapAppIcon(appName)}
           </ListItemIcon>
           <ListItemText
             className={classes.linkText}

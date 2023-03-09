@@ -8,21 +8,26 @@ function PanelPage() {
   const { id } = useParams();
   const location = useLocation();
   const [data, setData] = useState();
+  const [apiData, setApiData] = useState();
 
   useEffect(() => {
-    if (!location.state) {
-      axiosInstance
-        .get(`/get_models/${id}/`)
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => console.log(error));
+    axiosInstance
+      .get(`/get_models/${id}/`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, [id]);
+
+  useEffect(() => {
+    if (data) {
+      setApiData(data);
     }
-  }, []);
+  }, [data]);
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
-      {data || location.state ? <Panel apiData={data} /> : null}
+      {apiData ? <Panel apiData={apiData} /> : null}
     </PageContainer>
   );
 }
