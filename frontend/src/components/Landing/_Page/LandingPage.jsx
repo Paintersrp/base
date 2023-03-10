@@ -11,7 +11,6 @@ import {
   FaStackOverflow,
 } from "react-icons/fa";
 import LatestNews from "../News/News";
-import Testimonials from "../Testimonials/Testimonials";
 import NewsletterForm from "../Newsletter/NewsletterForm";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import PageContainer from "../../Elements/Layout/PageContainer";
@@ -20,6 +19,7 @@ import Processes from "../Processes/Processes";
 import Pricing from "../Pricing/Pricing";
 import Hero from "../Hero/Hero";
 import Loading from "../../Elements/Layout/Loading";
+import FABMenu from "../../Elements/Buttons/FABAdminMenu";
 
 const partners = [
   {
@@ -52,8 +52,9 @@ const partners = [
   },
 ];
 
-function LandingPage() {
+function LandingPage({ handleUpdate }) {
   const [contactData, setContactData] = useState([]);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,9 +73,16 @@ function LandingPage() {
 
   return (
     <PageContainer
+      editing={editing}
+      setEditing={setEditing}
       backgroundColor="#F5F5F5"
       page_name="Landing"
     >
+      <FABMenu
+        editing={editing}
+        setEditing={setEditing}
+        handleUpdate={handleUpdate}
+      />
       {Object.keys(contactData).length > 0 ? (
         <>
           <Hero contactData={contactData} form={true} />

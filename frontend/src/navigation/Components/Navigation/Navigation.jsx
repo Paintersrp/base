@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navigation({ links, appName, handleUpdate }) {
+export default function Navigation({ links, appName }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -216,7 +216,6 @@ export default function Navigation({ links, appName, handleUpdate }) {
                     <Link className={classes.appLink} to="/">
                       {appName}
                     </Link>
-                    <ThemeSettings handleUpdate={handleUpdate} />
                   </div>
                 </Grid>
               </Grid>

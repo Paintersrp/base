@@ -10,7 +10,9 @@ import {
   TextField,
   Grid,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
+import PaletteIcon from "@mui/icons-material/Palette";
 import { Settings } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
@@ -30,10 +32,20 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  icon: {
+    width: 56,
+    height: 56,
+    backgroundColor: "inherit",
+    color: "inherit",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: "inherit",
+    },
+  },
 }));
 
-const ThemeSettings = ({ handleUpdate }) => {
-  const classes = useStyles();
+const ThemeSettings = ({ handleUpdate, classes }) => {
+  // const classes = useStyles();
   const [open, setOpen] = useState(false);
   const auth = useSelector((state) => state.auth);
   const [primaryColor, setPrimaryColor] = useState(auth.primary);
@@ -165,14 +177,22 @@ const ThemeSettings = ({ handleUpdate }) => {
 
   return (
     <>
-      <IconButton
-        size="medium"
-        className=""
-        onClick={handleOpen}
-        style={{ marginLeft: 8 }}
+      <Tooltip
+        title="Theme Settings"
+        placement="left"
+        classes={{ tooltip: classes.tooltip }}
       >
-        <Settings color="secondary" style={{ fontSize: "1.75rem" }} />
-      </IconButton>
+        <IconButton
+          size="medium"
+          onClick={handleOpen}
+          className={classes.menuItem}
+        >
+          <PaletteIcon
+            className={classes.icon}
+            style={{ fontSize: "1.75rem" }}
+          />
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
           <DialogTitle>

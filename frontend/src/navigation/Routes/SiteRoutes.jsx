@@ -30,11 +30,7 @@ export default function SiteRoutes({ handleUpdate, setIsLoading }) {
     <>
       <ScrollToTop />
       {!isAdminPath ? (
-        <Navigation
-          links={linkData}
-          appName={"EDGELORDS"}
-          handleUpdate={handleUpdate}
-        />
+        <Navigation links={linkData} appName={"EDGELORDS"} />
       ) : (
         <AdminNavigation />
       )}
@@ -52,18 +48,39 @@ export default function SiteRoutes({ handleUpdate, setIsLoading }) {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile" element={<Profile />} />
         {/* Page Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/support" element={<SupportPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/:id" element={<ServiceIndividualPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/" element={<LandingPage handleUpdate={handleUpdate} />} />
+        <Route
+          path="/about"
+          element={<AboutPage handleUpdate={handleUpdate} />}
+        />
+        <Route
+          path="/support"
+          element={<SupportPage handleUpdate={handleUpdate} />}
+        />
+        <Route
+          path="/services"
+          element={<ServicesPage handleUpdate={handleUpdate} />}
+        />
+        <Route
+          path="/services/:id"
+          element={<ServiceIndividualPage handleUpdate={handleUpdate} />}
+        />
+        <Route
+          path="/contact"
+          element={<ContactPage handleUpdate={handleUpdate} />}
+        />
         {/* Demo Routes */}
         <Route path="/WIP" element={<WIPDemo />} />
-        <Route path="/generator" element={<GeneratorPage />} />
+        <Route
+          path="/generator"
+          element={<GeneratorPage handleUpdate={handleUpdate} />}
+        />
         <Route path="/jobposting/:id" element={<JobIndividualView />} />
         {/* Feature Routes */}
-        <Route path="/articles" element={<ArticlesPage />} />
+        <Route
+          path="/articles"
+          element={<ArticlesPage handleUpdate={handleUpdate} />}
+        />
         <Route path="/articles/:id" element={<IndividualArticleView />} />
         <Route
           path="/articles/:id/update"

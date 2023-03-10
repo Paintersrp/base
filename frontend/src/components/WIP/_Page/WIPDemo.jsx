@@ -11,6 +11,9 @@ import Container from "../../Elements/Layout/Container/Container";
 import Text from "../../Elements/Layout/Text/Text";
 import Magazine from "../Magazine/Magazine";
 import AdminLogReport from "../../Admin/Reports/AdminLogReport";
+import TestForm from "../TestForm";
+import GradientContent from "../../Elements/Layout/GradientContent";
+import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 
 const actions = [
   <Grid
@@ -104,143 +107,150 @@ const wipComponents = [
 export default function WIPDemo() {
   return (
     <div style={{ maxWidth: "100vw", background: "#F5F5F5" }}>
-      <Container spacing={2} style={{ padding: 4 }}>
-        <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
-          <Text type="h3">Custom Container/Item Responsive Test</Text>
-        </Item>
-        <Item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={6}
-          justify="flex-end"
-          style={{
-            background: "lightgrey",
-            border: "1px solid grey",
-            marginBottom: 10,
-          }}
-        >
-          Item 1
-        </Item>
-        <Item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={6}
-          justify="flex-start"
-          style={{
-            background: "lightgrey",
-            border: "1px solid grey",
-            marginBottom: 10,
-          }}
-        >
-          Item 2
-        </Item>
-        <Item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={4}
-          justify="center"
-          style={{
-            background: "lightblue",
-            border: "1px solid grey",
-            marginBottom: 10,
-          }}
-        >
-          Item 3
-        </Item>
-        <Item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={4}
-          justify="center"
-          style={{
-            background: "lightblue",
-            border: "1px solid grey",
-            marginBottom: 10,
-          }}
-        >
-          Item 4
-        </Item>
-        <Item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={4}
-          justify="center"
-          style={{
-            background: "lightblue",
-            border: "1px solid grey",
-            marginBottom: 10,
-          }}
-        >
-          Item 5
-        </Item>
-        <Container spacing={2} padding={"0px !important"}>
+      <LayeredGradientBackground
+
+      >
+        <TestForm />
+
+        <Container spacing={2} style={{ padding: 4 }}>
           <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
-            <Text type="h3">Nested Test</Text>
+            <Text type="h3">Custom Container/Item Responsive Test</Text>
           </Item>
           <Item
             xs={12}
             sm={12}
-            md={3}
-            justify="center"
-            style={{
-              background: "lightgreen",
-              border: "1px solid grey",
-              marginBottom: 10,
-            }}
-          >
-            Item 6
-          </Item>
-          <Item
-            xs={12}
-            sm={12}
-            md={3}
+            md={8}
+            lg={4}
+            xl={6}
             justify="flex-end"
             style={{
-              background: "lightgreen",
+              background: "lightgrey",
               border: "1px solid grey",
               marginBottom: 10,
             }}
           >
-            Item 7
+            Item 1
           </Item>
           <Item
             xs={12}
             sm={12}
-            md={3}
+            md={8}
+            lg={4}
+            xl={6}
             justify="flex-start"
             style={{
-              background: "lightgreen",
+              background: "lightgrey",
               border: "1px solid grey",
               marginBottom: 10,
             }}
           >
-            Item 8
+            Item 2
           </Item>
           <Item
             xs={12}
             sm={12}
-            md={3}
+            md={8}
+            lg={4}
+            xl={4}
             justify="center"
             style={{
-              background: "lightgreen",
+              background: "lightblue",
               border: "1px solid grey",
               marginBottom: 10,
             }}
           >
-            Item 9
+            Item 3
           </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={8}
+            lg={4}
+            xl={4}
+            justify="center"
+            style={{
+              background: "lightblue",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 4
+          </Item>
+          <Item
+            xs={12}
+            sm={12}
+            md={8}
+            lg={4}
+            xl={4}
+            justify="center"
+            style={{
+              background: "lightblue",
+              border: "1px solid grey",
+              marginBottom: 10,
+            }}
+          >
+            Item 5
+          </Item>
+          <Container spacing={2} padding={"0px !important"}>
+            <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
+              <Text type="h3">Nested Test</Text>
+            </Item>
+            <Item
+              xs={12}
+              sm={12}
+              md={3}
+              justify="center"
+              style={{
+                background: "lightgreen",
+                border: "1px solid grey",
+                marginBottom: 10,
+              }}
+            >
+              Item 6
+            </Item>
+            <Item
+              xs={12}
+              sm={12}
+              md={3}
+              justify="flex-end"
+              style={{
+                background: "lightgreen",
+                border: "1px solid grey",
+                marginBottom: 10,
+              }}
+            >
+              Item 7
+            </Item>
+            <Item
+              xs={12}
+              sm={12}
+              md={3}
+              justify="flex-start"
+              style={{
+                background: "lightgreen",
+                border: "1px solid grey",
+                marginBottom: 10,
+              }}
+            >
+              Item 8
+            </Item>
+            <Item
+              xs={12}
+              sm={12}
+              md={3}
+              justify="center"
+              style={{
+                background: "lightgreen",
+                border: "1px solid grey",
+                marginBottom: 10,
+              }}
+            >
+              Item 9
+            </Item>
+          </Container>
         </Container>
-      </Container>
+      </LayeredGradientBackground>
+
       <Demo demoTitle="WIP Components" components={wipComponents} />
     </div>
   );

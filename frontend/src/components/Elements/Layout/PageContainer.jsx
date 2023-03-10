@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     minHeight: 700,
-    width: "100vw",
+    width: "100%",
   },
   seoEdit: {
     position: "absolute",
@@ -40,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 const PageContainer = ({
   children,
   header,
+  editing,
+  setEditing,
   seoEdit = true,
   page_name = "Default",
   backgroundColor = "#FFFFFF",
@@ -47,7 +49,7 @@ const PageContainer = ({
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState();
-  const [editing, setEditing] = useState(false);
+  // const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,14 +94,6 @@ const PageContainer = ({
               </Container>
             ) : null}
             <>
-              {auth.is_superuser && seoEdit ? (
-                <div className={classes.seoEdit}>
-                  <SEOEditMenu
-                    editClick={() => setEditing(!editing)}
-                    pageTitle={page_name}
-                  />
-                </div>
-              ) : null}
               {data ? (
                 <BaseDialog
                   open={editing}

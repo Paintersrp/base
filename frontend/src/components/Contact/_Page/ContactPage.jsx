@@ -6,6 +6,7 @@ import Members from "../Members/Members";
 import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading";
 import JobListing from "../Jobs/Listing/Listing";
+import FABMenu from "../../Elements/Buttons/FABAdminMenu";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {
@@ -14,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ContactPage() {
+function ContactPage({ handleUpdate }) {
   const classes = useStyles();
+  const [editing, setEditing] = useState(false);
   const [membersData, setMembersData] = useState(null);
   const [contactData, setContactData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,7 +48,17 @@ function ContactPage() {
   }
 
   return (
-    <PageContainer backgroundColor="#F5F5F5" page_name="Contact">
+    <PageContainer
+      editing={editing}
+      setEditing={setEditing}
+      backgroundColor="#F5F5F5"
+      page_name="Contact"
+    >
+      <FABMenu
+        editing={editing}
+        setEditing={setEditing}
+        handleUpdate={handleUpdate}
+      />
       {membersData && contactData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>
