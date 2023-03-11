@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import useFormValidation from "../../../hooks/useFormValidation";
+import Validate from "../../../hooks/Validate";
 
 const CustomButton = withStyles({
   label: {
@@ -98,32 +100,32 @@ export default function NewsletterForm() {
   const classes = useStyles();
   const [state, setState] = useState("initial");
   const [error, setError] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-  });
+  const [formData, setFormData] = useState({});
 
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const submitLogic = (e) => {
     e.preventDefault();
     setError(false);
     setState("submitting");
 
     axiosInstance
-      .post("/subscribe/", formData)
+      .post("/subscribe/", values)
       .then((response) => {
         setState("success");
+        resetForm({ email: "" });
       })
       .catch((error) => {
         setError(true);
         setState("initial");
       });
   };
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <Box className={classes.root}>
@@ -140,11 +142,13 @@ export default function NewsletterForm() {
             notchedOutline
             placeholder="Your Email"
             required
-            value={formData.email}
+            value={values.email}
             fullWidth
             id="emailaddress"
             label="Email Address"
             onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <Grid container spacing={2}>
             <Grid

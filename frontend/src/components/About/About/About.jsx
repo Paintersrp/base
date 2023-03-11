@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: theme.palette.background.light,
+    backgroundColor: theme.palette.background.default,
   },
   section: {
     marginTop: theme.spacing(2),
@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: 20,
     color: "white",
-    backgroundColor: theme.palette.background.light,
+    backgroundColor: theme.palette.background.default,
     borderRadius: 14,
     maxWidth: 900,
     minWidth: 300,
   },
   gridContainer: {
-    background: theme.palette.background.light,
+    background: theme.palette.background.default,
     display: "flex",
     justifyContent: "left",
   },

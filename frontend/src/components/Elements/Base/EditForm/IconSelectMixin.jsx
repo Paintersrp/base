@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   label: {
     color: "black",
   },
+  menuPaper: {
+    background: theme.palette.background.default,
+  },
 }));
 
 const iconList = [

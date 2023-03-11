@@ -163,7 +163,7 @@ const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
         handleSubmit={handleSubmit}
         handleChange={handleChange}
         formData={formData}
-        width="75%"
+        width="90%"
         excludeKeys={["id", "icon"]}
         multilineKeys={["description"]}
         handleCancel={handleCancel}

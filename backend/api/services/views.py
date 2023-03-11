@@ -60,8 +60,6 @@ class BenefitsViewSet(
 ):
     queryset = Benefits.objects.all()
     serializer_class = BenefitsSerializer
-    authentication_classes = [TokenAuthentication, JWTTokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

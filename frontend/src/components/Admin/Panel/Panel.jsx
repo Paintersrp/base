@@ -12,7 +12,7 @@ import StyledButton from "../../Elements/Buttons/StyledButton";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
 import PanelTable from "./Table/PanelTable";
-import Loading from "../../Elements/Layout/Loading";
+import Loading from "../../Elements/Layout/Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {

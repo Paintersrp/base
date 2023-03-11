@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { GiEnergySword } from "react-icons/gi";
 import { useMediaQuery } from "@material-ui/core";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import useFormValidation from "../../../hooks/useFormValidation";
+import Validate from "../../../hooks/Validate";
+import CheckIcon from "@material-ui/icons/Check";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -148,30 +150,72 @@ export default function Footer() {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const [state, setState] = useState("initial");
+  const [error, setError] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  const submitLogic = (e) => {
+    e.preventDefault();
+    setError(false);
+    setState("submitting");
+
+    axiosInstance
+      .post("/subscribe/", values)
+      .then((response) => {
+        setState("success");
+        setFormData({ email: "" });
+        resetForm({ email: "" });
+      })
+      .catch((error) => {
+        setError(true);
+        setState("initial");
+      });
+  };
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <footer className={classes.root}>
       <Container className={classes.container} maxWidth={false}>
         <Grid container spacing={0} className={classes.grid}>
           <Grid item xs={12} sm={12} md={3} className={classes.gridForm}>
-            <FormControl className={classes.formControl}>
-              <TextField
-                className={classes.input}
-                autoComplete="email"
-                margin="dense"
-                name="emailaddress"
-                variant="outlined"
-                notchedOutline
-                placeholder="Your Email"
-                required
-                fullWidth
-                id="emailaddress"
-                label="Email Address"
-              />
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button className={classes.button}>Subscribe</Button>
-              </div>
-            </FormControl>
+            <form onSubmit={handleSubmit}>
+              <FormControl className={classes.formControl}>
+                <TextField
+                  className={classes.input}
+                  autoComplete="email"
+                  margin="dense"
+                  name="email"
+                  variant="outlined"
+                  notchedOutline
+                  placeholder="Your Email"
+                  required
+                  fullWidth
+                  id="emailaddress"
+                  label="Email Address"
+                  value={values.email}
+                  onChange={handleChange}
+                  error={!!errors.email}
+                  helperText={errors.email}
+                />
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button
+                    className={classes.button}
+                    disabled={state !== "initial"}
+                    type={state === "success" ? "button" : "submit"}
+                    endIcon={state === "success" ? <CheckIcon /> : null}
+                  >
+                    {state === "success" ? "Subscribed" : "Subscribe"}
+                  </Button>
+                </div>
+              </FormControl>
+            </form>
           </Grid>
           <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
             <Link to="/" className={classes.businessName}>

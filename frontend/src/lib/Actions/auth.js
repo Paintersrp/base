@@ -10,7 +10,6 @@ export const setAuth = (isAuth) => {
 };
 
 export const setUser = (isUser) => {
-  console.log(isUser);
   return {
     type: SET_USER,
     payload: isUser,
@@ -18,7 +17,6 @@ export const setUser = (isUser) => {
 };
 
 export const setTheme = (isTheme) => {
-  console.log(isTheme);
   return {
     type: SET_THEME,
     payload: isTheme,

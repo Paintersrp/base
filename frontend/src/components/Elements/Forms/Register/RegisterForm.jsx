@@ -8,11 +8,13 @@ import Link from "@material-ui/core/Link";
 import axios from "axios";
 import { IoLogoAngular } from "react-icons/io";
 import { Icon, Paper, Typography } from "@material-ui/core";
+import Validate from "../../../../hooks/Validate";
+import useFormValidation from "../../../../hooks/useFormValidation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.default,
     width: "100vw",
     minHeight: "772px",
     display: "flex",
@@ -20,17 +22,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(0),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#242424",
+    backgroundColor: theme.palette.background.default,
     borderRadius: 14,
   },
   icon: {
     margin: theme.spacing(1),
-    color: "white",
+    color: theme.palette.text.dark,
     fontSize: "2rem",
     width: 40,
     height: 40,
@@ -61,36 +63,36 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     textAlign: "center",
-    color: "white",
+    color: theme.palette.text.dark,
     fontSize: "1.75rem",
     paddingBottom: 10,
     marginBottom: 10,
-    borderBottom: "1px solid white",
+    borderBottom: `1px solid ${theme.palette.text.dark}`,
     width: "100%",
   },
   field: {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "white",
+        borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#e0e0e0",
+        borderColor: theme.palette.text.dark,
       },
     },
     "& .MuiFormLabel-root": {
-      color: "white",
+      color: theme.palette.text.dark,
       fontWeight: "700",
       fontSize: "0.9rem",
     },
     "& input": {
-      color: "white",
+      color: theme.palette.text.dark,
     },
   },
   label: {
-    color: "white",
+    color: theme.palette.text.dark,
   },
 }));
 
@@ -104,14 +106,7 @@ const RegisterForm = () => {
     password: "",
   });
 
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
+  const submitLogic = (event) => {
     event.preventDefault();
     axios
       .post("http://127.0.0.1:8000/api/auth/register/", formData)
@@ -122,6 +117,15 @@ const RegisterForm = () => {
         console.error(err);
       });
   };
+
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <div className={classes.root}>
@@ -145,6 +149,8 @@ const RegisterForm = () => {
                   autoFocus
                   className={classes.field}
                   onChange={handleChange}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -158,6 +164,8 @@ const RegisterForm = () => {
                   autoComplete="lname"
                   className={classes.field}
                   onChange={handleChange}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -171,6 +179,8 @@ const RegisterForm = () => {
                   autoComplete="username"
                   className={classes.field}
                   onChange={handleChange}
+                  error={!!errors.username}
+                  helperText={errors.username}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -184,6 +194,8 @@ const RegisterForm = () => {
                   autoComplete="email"
                   className={classes.field}
                   onChange={handleChange}
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -198,6 +210,8 @@ const RegisterForm = () => {
                   autoComplete="current-password"
                   className={classes.field}
                   onChange={handleChange}
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
             </Grid>

@@ -6,6 +6,7 @@ import {
   FaHome,
   FaHSquare,
   FaRegNewspaper,
+  FaSquareRootAlt,
 } from "react-icons/fa";
 import { MdContactSupport } from "react-icons/Md";
 
@@ -49,6 +50,11 @@ const linkData = [
         link: "/WIP",
         icon: <FaHSquare size={22} />,
       },
+      // {
+      //   name: "WIP2 Components",
+      //   link: "/WIP2",
+      //   icon: <FaSquareRootAlt size={22} />,
+      // },
     ],
   },
 ];

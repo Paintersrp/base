@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./lib/Axios/axiosInstance";
 import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
-import Loading from "./components/Elements/Layout/Loading";
+import Loading from "./components/Elements/Layout/Loading/Loading";
 import SiteRoutes from "./navigation/Routes/SiteRoutes";
 
 {
@@ -40,6 +40,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    dispatch({ type: "FETCH_DATA_REQUEST" });
     handleUpdate();
   }, []);
 
@@ -94,27 +95,20 @@ function App() {
             },
           })
         );
-        setIsLoading(false);
+
+        dispatch({ type: "FETCH_DATA_SUCCESS" });
       })
       .catch((error) => {
         console.error(error);
       });
   };
   return (
-    <>
-      {isLoading && <Loading />}
-      {!isLoading && (
-        <ThemeProvider theme={theme ? theme : baseTheme}>
-          <CssBaseline />
-          <Router>
-            <SiteRoutes
-              handleUpdate={handleUpdate}
-              setIsLoading={setIsLoading}
-            />
-          </Router>
-        </ThemeProvider>
-      )}
-    </>
+    <ThemeProvider theme={theme ? theme : baseTheme}>
+      <CssBaseline />
+      <Router>
+        <SiteRoutes handleUpdate={handleUpdate}  />
+      </Router>
+    </ThemeProvider>
   );
 }
 

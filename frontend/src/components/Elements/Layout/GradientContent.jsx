@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.primary.main})`,
+    background: `linear-gradient(to bottom, ${theme.palette.primary.light}, ${theme.palette.primary.light})`,
     zIndex: 1,
   },
   shape: {
@@ -37,11 +37,13 @@ const useStyles = makeStyles((theme) => ({
 
 const LayeredGradientBackground = ({ children }) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <div className={classes.background}>
       <div className={classes.gradient}></div>
-      <div className={classes.shape}></div>
+      {/* <div className={classes.shape}></div> */}
+
       <div className={classes.contentWrapper}>{children}</div>
     </div>
   );

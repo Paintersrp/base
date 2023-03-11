@@ -4,7 +4,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Members from "../Members/Members";
 import Contact from "../Contact/Contact";
-import Loading from "../../Elements/Layout/Loading";
+import Loading from "../../Elements/Layout/Loading/Loading";
 import JobListing from "../Jobs/Listing/Listing";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
 

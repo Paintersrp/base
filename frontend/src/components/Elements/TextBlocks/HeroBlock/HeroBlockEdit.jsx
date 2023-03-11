@@ -49,7 +49,7 @@ const HeroBlockEdit2 = ({ heroBlock, onUpdate, handleCancel }) => {
       formData={state}
       width="75%"
       excludeKeys={["name", "id"]}
-      multilineKeys={[""]}
+      multilineKeys={["text"]}
       handleSwitchChange={handleSwitchChange}
       handleCancel={handleCancel}
     />

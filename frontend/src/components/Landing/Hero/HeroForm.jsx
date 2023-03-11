@@ -7,6 +7,8 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import BaseForm from "../../Elements/Base/BaseForm";
+import useFormValidation from "../../../hooks/useFormValidation";
+import Validate from "../../../hooks/Validate";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -35,16 +37,15 @@ const useStyles = makeStyles((theme) => ({
 function HeroForm() {
   const classes = useStyles();
   const [apiError, setApiError] = useState(null);
-  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({});
 
-  const handleSubmit = (event) => {
+  const submitLogic = (event) => {
     event.preventDefault();
+    values.subject = "Hero Contact";
 
     axiosInstance
-      .post("/messages/", formData)
+      .post("/messages/", values)
       .then(() => {
-        console.log("test");
         setFormData({
           name: "",
           email: "",
@@ -58,27 +59,14 @@ function HeroForm() {
       });
   };
 
-  //   const validateForm = () => {
-  //     const newErrors = {};
-  //     if (!formData.username) {
-  //       newErrors.username = "Username is required";
-  //     }
-  //     if (!formData.password) {
-  //       newErrors.password = "Password is required";
-  //     }
-  //     setErrors(newErrors);
-  //     return Object.keys(newErrors).length === 0;
-  //   };
-
-  const handleChange = (event) => {
-    console.log(formData);
-
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-      subject: "Hero Contact",
-    });
-  };
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
@@ -100,6 +88,8 @@ function HeroForm() {
             value={formData.name}
             className={classes.formField}
             onChange={handleChange}
+            error={!!errors.name}
+            helperText={errors.name}
           />
         </Grid>
         <Grid item xs={12}>
@@ -113,6 +103,8 @@ function HeroForm() {
             fullWidth
             className={classes.formField}
             onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
           />
         </Grid>
         <Grid item xs={12}>
@@ -126,6 +118,8 @@ function HeroForm() {
             value={formData.phone}
             className={classes.formField}
             onChange={handleChange}
+            error={!!errors.phone}
+            helperText={errors.phone}
           />
         </Grid>
         <Grid item xs={12}>
@@ -141,6 +135,8 @@ function HeroForm() {
             value={formData.message}
             className={classes.formField}
             onChange={handleChange}
+            error={!!errors.message}
+            helperText={errors.message}
           />
         </Grid>
         <Grid

@@ -1,7 +1,7 @@
 import Demo from "../../Elements/Demo/Demo";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography, useTheme } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
@@ -14,6 +14,9 @@ import AdminLogReport from "../../Admin/Reports/AdminLogReport";
 import TestForm from "../TestForm";
 import GradientContent from "../../Elements/Layout/GradientContent";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
+import { useEffect, useState } from "react";
+import LoadingIndicator from "../../Elements/Layout/Loading/LoadingIndicator";
+import Loading from "../../Elements/Layout/Loading/Loading";
 
 const actions = [
   <Grid
@@ -105,11 +108,27 @@ const wipComponents = [
 ];
 
 export default function WIPDemo() {
-  return (
-    <div style={{ maxWidth: "100vw", background: "#F5F5F5" }}>
-      <LayeredGradientBackground
+  const theme = useTheme();
+  const [loading, setLoading] = useState(true);
 
-      >
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        {/* <LoadingIndicator size="large" color="primary" /> */}
+        <Loading loading={loading} message={"Tits?"} />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
+      <LayeredGradientBackground>
         <TestForm />
 
         <Container spacing={2} style={{ padding: 4 }}>
@@ -250,6 +269,27 @@ export default function WIPDemo() {
           </Container>
         </Container>
       </LayeredGradientBackground>
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          justifyContent: "flex-end",
+          background: theme.palette.primary.light,
+        }}
+      >
+        <svg
+          xmlns="https://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          viewBox="0 0 1920 100.1"
+        >
+          <path
+            fill={theme.palette.primary.main}
+            d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"
+          />
+        </svg>
+      </div>
 
       <Demo demoTitle="WIP Components" components={wipComponents} />
     </div>

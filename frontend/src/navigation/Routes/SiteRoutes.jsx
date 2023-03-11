@@ -22,10 +22,17 @@ import ScrollToTop from "../../utils/ScrollToTop";
 import Footer from "../Components/Footer/Footer";
 import Navigation from "../Components/Navigation/Navigation";
 import linkData from "../Components/Navigation/linkData";
+import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
+import { ScrollTopFab } from "../../components/Elements/Buttons/ScrollToTopFAB";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Elements/Layout/Loading/Loading";
 
-export default function SiteRoutes({ handleUpdate, setIsLoading }) {
+export default function SiteRoutes({ handleUpdate }) {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
   const isAdminPath = location.pathname.startsWith("/admin");
+
   return (
     <>
       <ScrollToTop />
@@ -34,71 +41,78 @@ export default function SiteRoutes({ handleUpdate, setIsLoading }) {
       ) : (
         <AdminNavigation />
       )}
-      <Routes>
-        {/* Auth Routes */}
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              handleUpdate={handleUpdate}
-              setIsLoading={setIsLoading}
-            />
-          }
-        />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/profile" element={<Profile />} />
-        {/* Page Routes */}
-        <Route path="/" element={<LandingPage handleUpdate={handleUpdate} />} />
-        <Route
-          path="/about"
-          element={<AboutPage handleUpdate={handleUpdate} />}
-        />
-        <Route
-          path="/support"
-          element={<SupportPage handleUpdate={handleUpdate} />}
-        />
-        <Route
-          path="/services"
-          element={<ServicesPage handleUpdate={handleUpdate} />}
-        />
-        <Route
-          path="/services/:id"
-          element={<ServiceIndividualPage handleUpdate={handleUpdate} />}
-        />
-        <Route
-          path="/contact"
-          element={<ContactPage handleUpdate={handleUpdate} />}
-        />
-        {/* Demo Routes */}
-        <Route path="/WIP" element={<WIPDemo />} />
-        <Route
-          path="/generator"
-          element={<GeneratorPage handleUpdate={handleUpdate} />}
-        />
-        <Route path="/jobposting/:id" element={<JobIndividualView />} />
-        {/* Feature Routes */}
-        <Route
-          path="/articles"
-          element={<ArticlesPage handleUpdate={handleUpdate} />}
-        />
-        <Route path="/articles/:id" element={<IndividualArticleView />} />
-        <Route
-          path="/articles/:id/update"
-          element={
-            <div style={{ width: "100vw" }}>
-              <UpdateArticleView />
-            </div>
-          }
-        />
-        {/* Admin Routes */}
-        <Route path="/admin" element={<DashboardPage />} />
-        <Route
-          path="/admin/:id"
-          element={<PanelPage />}
-          key={location.pathname}
-        />
-        <Route path="/admin/:str/control" element={<ObjectPage />} />
-      </Routes>
+      <ScrollTopFab />
+
+      {!loading.isLoading ? (
+        <Routes>
+          {/* Auth Routes */}
+          <Route
+            path="/login"
+            element={<LoginForm handleUpdate={handleUpdate} />}
+          />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/profile" element={<Profile />} />
+          {/* Page Routes */}
+          <Route
+            path="/"
+            element={<LandingPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/about"
+            element={<AboutPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/support"
+            element={<SupportPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/services"
+            element={<ServicesPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/services/:id"
+            element={<ServiceIndividualPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/contact"
+            element={<ContactPage handleUpdate={handleUpdate} />}
+          />
+          {/* Demo Routes */}
+          <Route path="/WIP" element={<WIPDemo />} />
+          <Route path="/WIP2" element={<WIP2Demo />} />
+          <Route
+            path="/generator"
+            element={<GeneratorPage handleUpdate={handleUpdate} />}
+          />
+          <Route path="/jobposting/:id" element={<JobIndividualView />} />
+          {/* Feature Routes */}
+          <Route
+            path="/articles"
+            element={<ArticlesPage handleUpdate={handleUpdate} />}
+          />
+          <Route path="/articles/:id" element={<IndividualArticleView />} />
+          <Route
+            path="/articles/:id/update"
+            element={
+              <div style={{ width: "100vw" }}>
+                <UpdateArticleView />
+              </div>
+            }
+          />
+          {/* Admin Routes */}
+          <Route path="/admin" element={<DashboardPage />} />
+          <Route
+            path="/admin/:id"
+            element={<PanelPage />}
+            key={location.pathname}
+          />
+          <Route path="/admin/:str/control" element={<ObjectPage />} />
+        </Routes>
+      ) : (
+        <div>
+          <Loading loading={loading} message={"Tits?"} />
+        </div>
+      )}
       {!isAdminPath ? <Footer /> : <Footer />}
     </>
   );

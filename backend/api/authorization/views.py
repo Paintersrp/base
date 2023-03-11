@@ -38,7 +38,7 @@ class ThemeSettingsView(generics.RetrieveUpdateAPIView):
             theme_settings = ThemeSettings(
                 primary_color="#2e3b55",
                 secondary_color="#ff8c00",
-                background_color="#FFFFFF",
+                background_color="#F5F5F5",
             )
 
         return theme_settings

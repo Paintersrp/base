@@ -18,8 +18,11 @@ import IconScroller from "../../Elements/Animations/IconScroller/IconScroller";
 import Processes from "../Processes/Processes";
 import Pricing from "../Pricing/Pricing";
 import Hero from "../Hero/Hero";
-import Loading from "../../Elements/Layout/Loading";
+import Loading from "../../Elements/Layout/Loading/Loading";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { ScrollTopFab } from "../../Elements/Buttons/ScrollToTopFAB";
+import { Fab } from "@material-ui/core";
 
 const partners = [
   {
@@ -78,6 +81,8 @@ function LandingPage({ handleUpdate }) {
       backgroundColor="#F5F5F5"
       page_name="Landing"
     >
+      <ScrollTopFab />
+
       <FABMenu
         editing={editing}
         setEditing={setEditing}

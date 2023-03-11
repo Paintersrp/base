@@ -6,7 +6,7 @@ import BaseForm from "../../../Elements/Base/BaseForm";
 import getByType from "./getByType";
 import { useLocation, useNavigate } from "react-router-dom";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
-import Loading from "../../../Elements/Layout/Loading";
+import Loading from "../../../Elements/Layout/Loading/Loading";
 
 const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const navigate = useNavigate();

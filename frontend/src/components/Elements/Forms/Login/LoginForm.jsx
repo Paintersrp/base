@@ -14,11 +14,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AdvancedSnackbar from "../../Snackbars/Snackbar";
 import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
+import useFormValidation from "../../../../hooks/useFormValidation";
+import Validate from "../../../../hooks/Validate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.light,
+    backgroundColor: theme.palette.background.default,
     width: "100vw",
     minHeight: "772px",
     display: "flex",
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: 20,
-    backgroundColor: theme.palette.background.light,
+    backgroundColor: theme.palette.background.default,
     borderRadius: 14,
   },
   icon: {
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     boxShadow: theme.shadows[3],
-    backgroundColor: theme.palette.primary,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     marginTop: 10,
     marginBottom: 10,
@@ -69,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     fontSize: "1.75rem",
     paddingBottom: 10,
-    borderBottom: "1px solid black",
+    borderBottom: `1px solid ${theme.palette.text.dark}`,
     width: "100%",
   },
   field: {
@@ -98,33 +100,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = ({ handleUpdate, setIsLoading }) => {
+const LoginForm = ({ handleUpdate }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
   const [formData, setFormData] = useState({});
-  const [errors, setErrors] = useState({});
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.username) {
-      newErrors.username = "Username is required";
-    }
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -138,46 +120,59 @@ const LoginForm = ({ handleUpdate, setIsLoading }) => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const submitLogic = (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      axiosInstance
-        .post("/auth/login/", formData)
-        .then((response) => {
-          dispatch(
-            setAuth({
-              is_authenticated: response.data.authenticated,
-            })
-          );
-          dispatch(
-            setUser({
-              is_superuser: response.data.is_superuser,
-              username: response.data.username,
-            })
-          );
-          dispatch(
-            setTheme({
-              primary: response.data.primary_color,
-              secondary: response.data.secondary_color,
-              background: response.data.background_color,
-            })
-          );
-          Cookies.set("jwt", response.data.jwt, { expires: 7 });
-          if (formData.rememberMe) {
-            Cookies.set("username", formData.username, { expires: 90 });
-          }
-          console.log(response.data);
-        })
-        .then(setIsLoading(true))
-        .then(handleUpdate)
-        .then(navigate("/"))
-        .catch((err) => {
-          console.log(err);
-          setOpen(true);
-          setError("Invalid username or password.");
-        });
+
+    if (Object.keys(errors).length !== 0) {
+      return;
     }
+
+    dispatch({ type: "FETCH_DATA_REQUEST" });
+
+    axiosInstance
+      .post("/auth/login/", values)
+      .then((response) => {
+        dispatch(
+          setAuth({
+            is_authenticated: response.data.authenticated,
+          })
+        );
+        dispatch(
+          setUser({
+            is_superuser: response.data.is_superuser,
+            username: response.data.username,
+          })
+        );
+        dispatch(
+          setTheme({
+            primary: response.data.primary_color,
+            secondary: response.data.secondary_color,
+            background: response.data.background_color,
+          })
+        );
+        Cookies.set("jwt", response.data.jwt, { expires: 7 });
+        if (formData.rememberMe) {
+          Cookies.set("username", formData.username, { expires: 90 });
+        }
+        console.log(response.data);
+      })
+      .then(handleUpdate)
+      .then(navigate("/"))
+      .catch((err) => {
+        console.log(err);
+        setOpen(true);
+        setError("Invalid username or password.");
+      });
   };
+
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <div className={classes.root}>
@@ -186,7 +181,7 @@ const LoginForm = ({ handleUpdate, setIsLoading }) => {
           <Icon className={classes.icon}>
             <IoLogoAngular />
           </Icon>
-          <Typography variant="h3">Sign in</Typography>
+          <Typography className={classes.heading}>Sign in</Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -223,7 +218,7 @@ const LoginForm = ({ handleUpdate, setIsLoading }) => {
               control={
                 <Checkbox
                   checked={formData.rememberMe}
-                  onChange={handleCheckbox}
+                  onChange={handleChange}
                   name="rememberMe"
                   style={{ color: "black" }}
                 />

@@ -17,6 +17,9 @@ class MessagesListView(generics.ListCreateAPIView):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
 
+    # def create(self, request, *args, **kwargs):
+    #     print(request.data)
+
 
 class MessagesDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Messages.objects.all()

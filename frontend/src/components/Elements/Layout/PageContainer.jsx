@@ -10,7 +10,7 @@ import BaseDialog from "../Base/BaseDialog";
 import SEOEdit from "./SEOEdit";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import SEOEditMenu from "../Buttons/SEOEditMenu";
-import Loading from "./Loading";
+import Loading from "./Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     minHeight: 700,
     width: "100%",
+    background: "inherit",
   },
   seoEdit: {
     position: "absolute",
@@ -44,7 +45,7 @@ const PageContainer = ({
   setEditing,
   seoEdit = true,
   page_name = "Default",
-  backgroundColor = "#FFFFFF",
+  backgroundColor = "#F5F5F5",
 }) => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);

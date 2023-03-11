@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -14,6 +14,9 @@ import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
 import BaseForm from "../../Elements/Base/BaseForm";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import FormField from "../../Elements/Fields/FormField";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import Validate from "../../../hooks/Validate";
+import useFormValidation from "../../../hooks/useFormValidation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Contact({ contactData, color = "light" }) {
   const classes = useStyles();
+  const [formData, setFormData] = useState({});
 
   const options = [
     { label: "General Inquiry", value: "General Inquiry" },
@@ -52,9 +56,33 @@ export default function Contact({ contactData, color = "light" }) {
     { label: "Other", value: "Other" },
   ];
 
-  const handleSubmit = (event) => {
+  const submitLogic = (event) => {
     event.preventDefault();
+
+    axiosInstance
+      .post("/messages/", values)
+      .then(() => {
+        resetForm({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          subject: "",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <div className={classes.root}>
@@ -84,10 +112,10 @@ export default function Contact({ contactData, color = "light" }) {
                     id="subject"
                     name="subject"
                     label="Subject"
-                    // value={formData.subject}
-                    // onChange={handleChange}
-                    // error={formData.errors.subject}
-                    // helperText={formData.errors.subject}
+                    value={values.subject}
+                    onChange={handleChange}
+                    error={!!errors.subject}
+                    helperText={errors.subject}
                     select={true}
                     SelectProps={{
                       MenuProps: {
@@ -118,6 +146,12 @@ export default function Contact({ contactData, color = "light" }) {
                     variant="outlined"
                     fullWidth
                     className={classes.formField}
+                    id="name"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    error={!!errors.name}
+                    helperText={errors.name}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -127,6 +161,12 @@ export default function Contact({ contactData, color = "light" }) {
                     variant="outlined"
                     fullWidth
                     className={classes.formField}
+                    id="email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -136,6 +176,12 @@ export default function Contact({ contactData, color = "light" }) {
                     variant="outlined"
                     fullWidth
                     className={classes.formField}
+                    id="phone"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    error={!!errors.phone}
+                    helperText={errors.phone}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -147,6 +193,12 @@ export default function Contact({ contactData, color = "light" }) {
                     rows={4}
                     fullWidth
                     className={classes.formField}
+                    id="message"
+                    name="message"
+                    value={values.message}
+                    onChange={handleChange}
+                    error={!!errors.message}
+                    helperText={errors.message}
                   />
                 </Grid>
                 <Grid
@@ -154,7 +206,7 @@ export default function Contact({ contactData, color = "light" }) {
                   xs={12}
                   style={{ display: "flex", justifyContent: "center" }}
                 >
-                  <StyledButton buttonText="Get in touch" />
+                  <StyledButton type="sumbit" buttonText="Get in touch" />
                 </Grid>
               </BaseForm>
               <Social

@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.light,
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
     display: "flex",
     width: "100%",
     minHeight: 700,
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   heading: {
-    color: "black",
+    color: "white",
     paddingTop: 40,
   },
 }));

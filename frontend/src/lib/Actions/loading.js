@@ -1,13 +1,15 @@
-export const startLoading = ({ loading }) => {
-  return {
-    type: "START_LOADING",
-    payload: { loading },
-  };
-};
+export const FETCH_DATA_REQUEST = "FETCH_DATA_REQUEST";
+export const FETCH_DATA_SUCCESS = "FETCH_DATA_SUCCESS";
+export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 
-export const stopLoading = ({ loading }) => {
-  return {
-    type: "STOP_LOADING",
-    payload: { loading },
-  };
-};
+export const fetchDataRequest = () => ({
+  type: FETCH_DATA_REQUEST,
+});
+
+export const fetchDataSuccess = () => ({
+  type: FETCH_DATA_SUCCESS,
+});
+
+export const fetchDataFailure = () => ({
+  type: FETCH_DATA_FAILURE,
+});

@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
-import Loading from "../../Elements/Layout/Loading";
+import Loading from "../../Elements/Layout/Loading/Loading";
 import renderSections from "./renderSections";
 import { NavigateNext } from "@material-ui/icons";
 import RecentActions from "./RecentActions";

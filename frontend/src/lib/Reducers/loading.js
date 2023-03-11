@@ -1,22 +1,33 @@
+import {
+  FETCH_DATA_REQUEST,
+  FETCH_DATA_SUCCESS,
+  FETCH_DATA_FAILURE,
+} from "../Actions/loading";
+
 const initialState = {
-  loading: false,
+  isLoading: false,
 };
 
-const loadingReducer = (state = initialState, action) => {
+function loadingReducer(state = initialState, action) {
   switch (action.type) {
-    case "START_LOADING":
+    case FETCH_DATA_REQUEST:
       return {
         ...state,
-        ...action.payload,
+        isLoading: true,
       };
-    case "STOP_LOADING":
+    case FETCH_DATA_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        isLoading: false,
+      };
+    case FETCH_DATA_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;
   }
-};
+}
 
 export default loadingReducer;
