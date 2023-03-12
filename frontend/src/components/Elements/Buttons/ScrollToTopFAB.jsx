@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     position: "fixed",
-    bottom: theme.spacing(4),
-    right: theme.spacing(4),
+    bottom: theme.spacing(10),
+    right: theme.spacing(12),
     zIndex: 1000,
     width: 56,
     height: 56,

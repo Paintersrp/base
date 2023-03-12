@@ -26,12 +26,15 @@ import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
 import { ScrollTopFab } from "../../components/Elements/Buttons/ScrollToTopFAB";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Elements/Layout/Loading/Loading";
+import { closeSnackbar, dataUpdated } from "../../lib/Actions/snackbar";
+import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 
 export default function SiteRoutes({ handleUpdate }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const isAdminPath = location.pathname.startsWith("/admin");
+  const { message, type, open } = useSelector((state) => state.snackbar);
 
   return (
     <>
@@ -41,6 +44,12 @@ export default function SiteRoutes({ handleUpdate }) {
       ) : (
         <AdminNavigation />
       )}
+      <AdvancedSnackbar
+        message={message}
+        type={type}
+        open={open}
+        onClose={() => dispatch(closeSnackbar())}
+      />
       <ScrollTopFab />
 
       {!loading.isLoading ? (
@@ -48,9 +57,12 @@ export default function SiteRoutes({ handleUpdate }) {
           {/* Auth Routes */}
           <Route
             path="/login"
-            element={<LoginForm handleUpdate={handleUpdate} />}
+            element={<LoginForm handleLogin={handleUpdate} />}
           />
-          <Route path="/register" element={<RegisterForm />} />
+          <Route
+            path="/register"
+            element={<RegisterForm handleRegister={handleUpdate} />}
+          />
           <Route path="/profile" element={<Profile />} />
           {/* Page Routes */}
           <Route

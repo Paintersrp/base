@@ -13,6 +13,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
+import { useDispatch } from "react-redux";
 
 const CustomButton = withStyles({
   label: {
@@ -101,6 +102,7 @@ export default function NewsletterForm() {
   const [state, setState] = useState("initial");
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   const submitLogic = (e) => {
     e.preventDefault();
@@ -112,10 +114,12 @@ export default function NewsletterForm() {
       .then((response) => {
         setState("success");
         resetForm({ email: "" });
+        dispatch({ type: "ALERT_SUCCESS", message: "Subscribed" });
       })
       .catch((error) => {
         setError(true);
         setState("initial");
+        dispatch({ type: "ALERT_FAIL", message: "Subscription Failed" });
       });
   };
   const {

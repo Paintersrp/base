@@ -17,6 +17,7 @@ const useFormValidation = (initialState, validate, handleSubmitLogin) => {
         ...values,
         [name]: value,
       });
+      console.log("DONE");
     }
   };
 

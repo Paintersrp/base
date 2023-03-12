@@ -9,6 +9,7 @@ import StyledButton from "../../Elements/Buttons/StyledButton";
 import BaseForm from "../../Elements/Base/BaseForm";
 import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -38,6 +39,7 @@ function HeroForm() {
   const classes = useStyles();
   const [apiError, setApiError] = useState(null);
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   const submitLogic = (event) => {
     event.preventDefault();
@@ -46,16 +48,21 @@ function HeroForm() {
     axiosInstance
       .post("/messages/", values)
       .then(() => {
-        setFormData({
+        resetForm({
           name: "",
           email: "",
           phone: "",
           message: "",
           subject: "",
         });
+        dispatch({ type: "ALERT_SUCCESS", message: "Message Sent" });
       })
       .catch((err) => {
         setApiError(err);
+        dispatch({
+          type: "ALERT_FAIL",
+          message: "Error occured, try again later",
+        });
       });
   };
 
@@ -85,11 +92,12 @@ function HeroForm() {
             name="name"
             variant="outlined"
             fullWidth
-            value={formData.name}
+            value={values.name}
             className={classes.formField}
             onChange={handleChange}
             error={!!errors.name}
             helperText={errors.name}
+            required
           />
         </Grid>
         <Grid item xs={12}>
@@ -99,12 +107,13 @@ function HeroForm() {
             id="email"
             name="email"
             variant="outlined"
-            value={formData.email}
+            value={values.email}
             fullWidth
             className={classes.formField}
             onChange={handleChange}
             error={!!errors.email}
             helperText={errors.email}
+            required
           />
         </Grid>
         <Grid item xs={12}>
@@ -115,11 +124,12 @@ function HeroForm() {
             name="phone"
             variant="outlined"
             fullWidth
-            value={formData.phone}
+            value={values.phone}
             className={classes.formField}
             onChange={handleChange}
             error={!!errors.phone}
             helperText={errors.phone}
+            required
           />
         </Grid>
         <Grid item xs={12}>
@@ -132,11 +142,12 @@ function HeroForm() {
             multiline
             rows={4}
             fullWidth
-            value={formData.message}
+            value={values.message}
             className={classes.formField}
             onChange={handleChange}
             error={!!errors.message}
             helperText={errors.message}
+            required
           />
         </Grid>
         <Grid

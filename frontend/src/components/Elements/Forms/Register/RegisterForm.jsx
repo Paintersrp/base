@@ -10,6 +10,11 @@ import { IoLogoAngular } from "react-icons/io";
 import { Icon, Paper, Typography } from "@material-ui/core";
 import Validate from "../../../../hooks/Validate";
 import useFormValidation from "../../../../hooks/useFormValidation";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,8 +101,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegisterForm = () => {
+const RegisterForm = ({ handleRegister }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -107,12 +114,41 @@ const RegisterForm = () => {
   });
 
   const submitLogic = (event) => {
+    const loginData = {
+      username: values.username,
+      password: values.password,
+    };
     event.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/api/auth/register/", formData)
+      .post("http://127.0.0.1:8000/api/auth/register/", values)
       .then((res) => {
-        console.log(res);
+        axiosInstance.post("/auth/login/", loginData).then((response) => {
+          dispatch(
+            setAuth({
+              is_authenticated: response.data.authenticated,
+            })
+          );
+          dispatch(
+            setUser({
+              is_superuser: response.data.is_superuser,
+              username: response.data.username,
+            })
+          );
+          dispatch(
+            setTheme({
+              primary: response.data.primary_color,
+              secondary: response.data.secondary_color,
+              background: response.data.background_color,
+            })
+          );
+          Cookies.set("jwt", response.data.jwt, { expires: 7 });
+          if (formData.rememberMe) {
+            Cookies.set("username", formData.username, { expires: 90 });
+          }
+        });
       })
+      .then(navigate("/"))
+      .then(handleRegister)
       .catch((err) => {
         console.error(err);
       });

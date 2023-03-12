@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = ({ handleUpdate }) => {
+const LoginForm = ({ handleLogin }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -111,13 +111,6 @@ const LoginForm = ({ handleUpdate }) => {
   const handleClose = () => {
     setOpen(false);
     setError(null);
-  };
-
-  const handleCheckbox = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.checked,
-    });
   };
 
   const submitLogic = (event) => {
@@ -154,10 +147,9 @@ const LoginForm = ({ handleUpdate }) => {
         if (formData.rememberMe) {
           Cookies.set("username", formData.username, { expires: 90 });
         }
-        console.log(response.data);
       })
-      .then(handleUpdate)
       .then(navigate("/"))
+      .then(handleLogin)
       .catch((err) => {
         console.log(err);
         setOpen(true);

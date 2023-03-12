@@ -17,6 +17,7 @@ import FormField from "../../Elements/Fields/FormField";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Validate from "../../../hooks/Validate";
 import useFormValidation from "../../../hooks/useFormValidation";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Contact({ contactData, color = "light" }) {
   const classes = useStyles();
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   const options = [
     { label: "General Inquiry", value: "General Inquiry" },
@@ -67,10 +69,18 @@ export default function Contact({ contactData, color = "light" }) {
           email: "",
           phone: "",
           message: "",
-          subject: "",
+          subject: "None",
         });
+        dispatch({ type: "ALERT_SUCCESS", message: "Message Sent" });
+      })
+      .then(() => {
+        console.log("VALUES: ", values);
       })
       .catch((err) => {
+        dispatch({
+          type: "ALERT_FAIL",
+          message: "Error occured, try again later",
+        });
         console.log(err);
       });
   };
@@ -109,6 +119,8 @@ export default function Contact({ contactData, color = "light" }) {
               >
                 <Grid item xs={12}>
                   <FormField
+                    key={values.subject}
+                    required
                     id="subject"
                     name="subject"
                     label="Subject"
@@ -131,7 +143,7 @@ export default function Contact({ contactData, color = "light" }) {
                       },
                     }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value="None">
                       <em>None</em>
                     </MenuItem>
                     {options.map((option) => (
@@ -152,6 +164,7 @@ export default function Contact({ contactData, color = "light" }) {
                     onChange={handleChange}
                     error={!!errors.name}
                     helperText={errors.name}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -167,6 +180,7 @@ export default function Contact({ contactData, color = "light" }) {
                     onChange={handleChange}
                     error={!!errors.email}
                     helperText={errors.email}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -182,6 +196,7 @@ export default function Contact({ contactData, color = "light" }) {
                     onChange={handleChange}
                     error={!!errors.phone}
                     helperText={errors.phone}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -199,6 +214,7 @@ export default function Contact({ contactData, color = "light" }) {
                     onChange={handleChange}
                     error={!!errors.message}
                     helperText={errors.message}
+                    required
                   />
                 </Grid>
                 <Grid

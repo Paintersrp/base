@@ -39,11 +39,6 @@ function App() {
   const [theme, setThemeUpdate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    dispatch({ type: "FETCH_DATA_REQUEST" });
-    handleUpdate();
-  }, []);
-
   const handleUpdate = () => {
     axiosInstance
       .get("/auth/settings/")
@@ -97,6 +92,7 @@ function App() {
         );
 
         dispatch({ type: "FETCH_DATA_SUCCESS" });
+        dispatch({ type: "ALERT_SUCCESS", message: "Login Successful" });
       })
       .catch((error) => {
         console.error(error);
@@ -106,7 +102,7 @@ function App() {
     <ThemeProvider theme={theme ? theme : baseTheme}>
       <CssBaseline />
       <Router>
-        <SiteRoutes handleUpdate={handleUpdate}  />
+        <SiteRoutes handleUpdate={handleUpdate} />
       </Router>
     </ThemeProvider>
   );

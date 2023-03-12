@@ -1,24 +1,46 @@
 import React, { useState } from "react";
-import { Snackbar, IconButton, makeStyles } from "@material-ui/core";
+import {
+  Snackbar,
+  IconButton,
+  makeStyles,
+  useTheme,
+  Grow,
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
 import WarningIcon from "@material-ui/icons/Warning";
-import { Slide, Fade } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiSnackbarContent-root": {
+      maxWidth: 325,
+    },
+  },
   success: {
-    backgroundColor: theme.palette.success.main,
+    backgroundColor: "transparent",
+    "& .MuiSnackbarContent-root": {
+      backgroundColor: theme.palette.success.main,
+    },
   },
   error: {
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: "transparent",
+    "& .MuiSnackbarContent-root": {
+      backgroundColor: theme.palette.error.main,
+    },
   },
   info: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "transparent",
+    "& .MuiSnackbarContent-root": {
+      backgroundColor: theme.palette.info.light,
+    },
   },
   warning: {
-    backgroundColor: theme.palette.warning.main,
+    backgroundColor: "transparent",
+    "& .MuiSnackbarContent-root": {
+      backgroundColor: theme.palette.secondary.main,
+    },
   },
   icon: {
     fontSize: 20,
@@ -30,12 +52,15 @@ const useStyles = makeStyles((theme) => ({
   message: {
     display: "flex",
     alignItems: "center",
-    "& .MuiSnackbarContent-root": {
-      fontFamily: "Poppins",
-      fontSize: "0.9rem",
-      fontWeight: "700",
-      backgroundColor: "inherit",
-    },
+    backgroundColor: "transparent",
+  },
+  content: {
+    display: "flex",
+    alignItems: "center",
+    fontFamily: "Roboto",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    backgroundColor: "transparent",
   },
 }));
 
@@ -44,10 +69,11 @@ const AdvancedSnackbar = ({
   type,
   open,
   onClose,
-  duration = 5000,
+  duration = 500000,
   position = "bottom-right",
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const iconVariants = {
     success: <CheckCircleIcon className={classes.iconVariant} />,
@@ -94,17 +120,18 @@ const AdvancedSnackbar = ({
       open={open}
       onClose={onClose}
       autoHideDuration={duration}
-      TransitionComponent={Fade}
+      TransitionComponent={Grow}
       anchorOrigin={anchorOrigin}
-      className={`${classes.message} ${classes[type]}`}
+      className={`${classes[type]}`}
+      classes={{ root: classes.root }}
       message={
-        <span className={`${classes.message} ${classes[type]}`}>
+        <span className={`${classes.content}`}>
           {iconVariants[type]}
           {message}
         </span>
       }
       action={
-        <IconButton color="inherit" onClick={onClose}>
+        <IconButton size="small" color="inherit" onClick={onClose}>
           <CloseIcon className={classes.icon} />
         </IconButton>
       }

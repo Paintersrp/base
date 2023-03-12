@@ -12,11 +12,10 @@ import Text from "../../Elements/Layout/Text/Text";
 import Magazine from "../Magazine/Magazine";
 import AdminLogReport from "../../Admin/Reports/AdminLogReport";
 import TestForm from "../TestForm";
-import GradientContent from "../../Elements/Layout/GradientContent";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
-import { useEffect, useState } from "react";
-import LoadingIndicator from "../../Elements/Layout/Loading/LoadingIndicator";
+import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
+import BlogPosts from "../BlogPosts/BlogPosts";
 
 const actions = [
   <Grid
@@ -51,7 +50,46 @@ const customersData = [
   { label: "Lisa", value: 11 },
 ];
 
+const blogPosts = [
+  {
+    id: 1,
+    title: "My First Blog Post",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "https://source.unsplash.com/1400x904/?service",
+    category: "food",
+  },
+  {
+    id: 2,
+    title: "My Second Blog Post",
+    description:
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    image: "https://source.unsplash.com/1400x903/?service",
+    category: "technology",
+  },
+  {
+    id: 3,
+    title: "My First Blog Post",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "https://source.unsplash.com/1400x902/?service",
+    category: "food",
+  },
+  {
+    id: 4,
+    title: "My Second Blog Post",
+    description:
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    image: "https://source.unsplash.com/1400x901/?service",
+    category: "technology",
+  },
+];
+
 const wipComponents = [
+  {
+    component: BlogPosts,
+    props: {
+      blogPosts: blogPosts,
+    },
+  },
   {
     component: AdminLogReport,
   },
@@ -109,18 +147,11 @@ const wipComponents = [
 
 export default function WIPDemo() {
   const theme = useTheme();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   if (loading) {
     return (
       <div>
-        {/* <LoadingIndicator size="large" color="primary" /> */}
         <Loading loading={loading} message={"Tits?"} />
       </div>
     );
