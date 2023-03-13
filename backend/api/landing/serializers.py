@@ -10,6 +10,9 @@ from .models import (
     Testimonial,
     Process,
 )
+from about.serializers import ContactInformationSerializer
+from articles.serializers import ArticleSerializer
+from api.views import get_model_metadata
 
 
 class HeroBlockSerializer(serializers.ModelSerializer):
@@ -99,6 +102,31 @@ class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
         fields = "__all__"
+
+
+class LandingFullSerializer(serializers.Serializer):
+    hero_block = HeroBlockSerializer()
+    title_block_process = TitleBlockSerializer()
+    title_block_news = TitleBlockSerializer()
+    service_tiers = ServiceTierSerializer(many=True)
+    processes = ProcessSerializer(many=True)
+    contact_information = ContactInformationSerializer()
+    articles = ArticleSerializer(many=True)
+    metadata = serializers.SerializerMethodField()
+
+    def get_metadata(self, obj):
+        metadata = []
+        for model in [
+            "HeroBlock",
+            "TitleBlock",
+            "ServiceTier",
+            "Process",
+            "TeamMember",
+            "ContactInformation",
+            "Article",
+        ]:
+            metadata.append(get_model_metadata(model))
+        return metadata
 
 
 HeroBlock.serializer_class = HeroBlockSerializer

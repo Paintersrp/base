@@ -1,5 +1,8 @@
 import React from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 
 const useStyles = makeStyles((theme) => ({
   buttonOne: {
@@ -51,6 +54,7 @@ const NavigationButtons = ({
           size="small"
           variant="contained"
           color="primary"
+          startIcon={<ArrowBackIosNewIcon />}
           onClick={onClickBtnOne}
           disabled={disabledBtnOne}
           className={classes.buttonOne}
@@ -61,6 +65,7 @@ const NavigationButtons = ({
           size="small"
           variant="contained"
           color="primary"
+          startIcon={<ArrowForwardIosIcon />}
           onClick={onClickBtnTwo}
           disabled={disabledBtnTwo}
           className={classes.buttonTwo}
@@ -73,6 +78,7 @@ const NavigationButtons = ({
           size="small"
           variant="contained"
           color="primary"
+          startIcon={<SkipNextIcon />}
           onClick={onClickBtnThree}
           className={classes.buttonOne}
         >

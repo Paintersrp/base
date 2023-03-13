@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.leavingScreen * 1,
+      duration: theme.transitions.duration.leavingScreen * 1.05,
     }),
   },
   appBarShift: {
@@ -38,7 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavigationBase = ({ open, toolBarContent, drawerContent }) => {
+const NavigationBase = ({
+  open,
+  toolBarContent,
+  drawerContent,
+  toggleDrawer,
+}) => {
   const classes = useStyles();
 
   return (
@@ -51,11 +56,13 @@ const NavigationBase = ({ open, toolBarContent, drawerContent }) => {
       >
         {toolBarContent}
       </AppBar>
+
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={open}
+        onClose={toggleDrawer(false)}
         classes={{
           paper: classes.drawerPaper,
         }}

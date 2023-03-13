@@ -7,6 +7,8 @@ import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import JobListing from "../Jobs/Listing/Listing";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
+import { useDispatch } from "react-redux";
+import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 
 const useStyles = makeStyles((theme) => ({
   quizContainer: {
@@ -17,33 +19,43 @@ const useStyles = makeStyles((theme) => ({
 
 function ContactPage({ handleUpdate }) {
   const classes = useStyles();
+  const [error, setError] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [metadata, setMetaData] = useState({});
   const [membersData, setMembersData] = useState(null);
   const [contactData, setContactData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [jobsData, setJobsData] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: "FETCH_DATA_REQUEST" });
     const fetchData = async () => {
-      setLoading(true);
       axiosInstance
         .get("/about/")
         .then((response) => {
           setMembersData(response.data.team_members);
           setContactData(response.data.contact_information);
-          setLoading(false);
+          setJobsData(response.data.jobs);
+          setMetaData(response.data.metadata);
         })
+        .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
-          console.log(err);
-        });
+          setError(err.error);
+          console.log(err.error);
+        })
+        .then(dispatch({ type: "FETCH_DATA_FAILURE" }));
     };
     fetchData();
   }, []);
 
-  if (loading) {
+  if (error) {
     return (
-      <div className={classes.loading}>
-        <Loading message="Test" />
-      </div>
+      <ErrorPage
+        message={error.message}
+        description={error.description}
+        instructions={error.instructions}
+        thanks={error.thanks}
+      />
     );
   }
 
@@ -59,11 +71,11 @@ function ContactPage({ handleUpdate }) {
         setEditing={setEditing}
         handleUpdate={handleUpdate}
       />
-      {membersData && contactData ? (
+      {membersData && contactData && jobsData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>
             <Members membersData={membersData} />
-            <JobListing />
+            <JobListing jobsData={jobsData} />
             <Contact color="dark" contactData={contactData} />
           </div>
         </Grid>

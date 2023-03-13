@@ -1,10 +1,14 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, TextField, Input, Button } from "@material-ui/core";
+import { Grid, Typography, TextField, Button } from "@material-ui/core";
 import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import axiosInstance from "../../../../lib/Axios/axiosInstance.js";
+import PublishSharpIcon from "@mui/icons-material/PublishSharp";
+import useFormValidation from "../../../../hooks/useFormValidation.jsx";
+import Validate from "../../../../hooks/Validate.jsx";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,12 +100,14 @@ const ApplicationForm = ({ job, formRef }) => {
     resume: null,
     job: job.id,
   });
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     fileInputRef.current.click();
   };
-  const handleSubmit = (event) => {
+  const submitLogic = (event) => {
     event.preventDefault();
+    console.log("here");
 
     const config = {
       headers: {
@@ -110,9 +116,9 @@ const ApplicationForm = ({ job, formRef }) => {
     };
 
     axiosInstance
-      .post("/application/", formData, config)
+      .post("/application/", values, config)
       .then(() => {
-        setFormData({
+        resetForm({
           first_name: "",
           last_name: "",
           email: "",
@@ -122,26 +128,25 @@ const ApplicationForm = ({ job, formRef }) => {
           resume: null,
           job: job.id,
         });
+        dispatch({ type: "ALERT_SUCCESS", message: "Application Sent" });
       })
       .catch((err) => {
         setApiError(err);
+        dispatch({
+          type: "ALERT_FAIL",
+          message: "Error occured, try again later",
+        });
       });
   };
 
-  const handleChange = (event) => {
-    console.log(formData);
-    if (event.target.name === "resume") {
-      setFormData({
-        ...formData,
-        resume: event.target.files[0],
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value,
-      });
-    }
-  };
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(formData, Validate, submitLogic);
 
   return (
     <form
@@ -170,10 +175,12 @@ const ApplicationForm = ({ job, formRef }) => {
               id="first_name"
               name="first_name"
               type="fname"
-              value={formData.first_name}
+              value={values.first_name}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.first_name}
+              helperText={errors.first_name}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -184,10 +191,12 @@ const ApplicationForm = ({ job, formRef }) => {
               id="last_name"
               name="last_name"
               type="lname"
-              value={formData.last_name}
+              value={values.last_name}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.last_name}
+              helperText={errors.last_name}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -197,11 +206,12 @@ const ApplicationForm = ({ job, formRef }) => {
               label="Email"
               id="email"
               name="email"
-              type="email"
-              value={formData.email}
+              value={values.email}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.email}
+              helperText={errors.email}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -212,10 +222,12 @@ const ApplicationForm = ({ job, formRef }) => {
               id="phone"
               name="phone"
               type="phone"
-              value={formData.phone}
+              value={values.phone}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.phone}
+              helperText={errors.phone}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -226,10 +238,12 @@ const ApplicationForm = ({ job, formRef }) => {
               id="city"
               name="city"
               type="city"
-              value={formData.city}
+              value={values.city}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.city}
+              helperText={errors.city}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -240,10 +254,12 @@ const ApplicationForm = ({ job, formRef }) => {
               id="zipcode"
               name="zipcode"
               type="zipcode"
-              value={formData.zipcode}
+              value={values.zipcode}
               onChange={handleChange}
               required
               fullWidth
+              error={!!errors.zipcode}
+              helperText={errors.zipcode}
             />
           </Grid>
           <div
@@ -262,11 +278,12 @@ const ApplicationForm = ({ job, formRef }) => {
                 id="resume-input"
                 name="resume"
                 label="Resume"
-                required
                 fullWidth
                 inputProps={{ accept: ".pdf,.docx" }}
                 onChange={handleChange}
                 className={classes.fileInput}
+                error={!!errors.resume}
+                helperText={errors.resume}
               />
               <div
                 style={{
@@ -287,12 +304,19 @@ const ApplicationForm = ({ job, formRef }) => {
                   <AttachFileIcon className={classes.icon} />
 
                   <span>
-                    {formData.resume ? formData.resume.name : "Upload Resume"}
+                    {values.resume ? values.resume.name : "Upload Resume"}
                   </span>
                 </Button>
               </div>
             </div>
           </div>
+          {errors.resume && (
+            <div style={{ width: "100%" }}>
+              <Typography color="error" align="center">
+                {errors.resume}
+              </Typography>
+            </div>
+          )}
           <Grid
             item
             xs={12}
@@ -300,10 +324,11 @@ const ApplicationForm = ({ job, formRef }) => {
           >
             <StyledButton
               color="primary"
-              size="medium"
+              size="small"
               type="submit"
               buttonText="Submit Application"
               minWidth="0"
+              endIcon={<PublishSharpIcon />}
             />
           </Grid>
         </Grid>

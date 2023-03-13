@@ -12,8 +12,7 @@ import {
   Typography,
   Tooltip,
 } from "@material-ui/core";
-import PaletteIcon from "@mui/icons-material/Palette";
-import { Settings } from "@material-ui/icons";
+import DisplaySettingsSharpIcon from "@mui/icons-material/DisplaySettingsSharp";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { setTheme } from "../../../../lib/Actions/auth";
@@ -187,9 +186,9 @@ const ThemeSettings = ({ handleUpdate, classes }) => {
           onClick={handleOpen}
           className={classes.menuItem}
         >
-          <PaletteIcon
+          <DisplaySettingsSharpIcon
             className={classes.icon}
-            style={{ fontSize: "1.75rem" }}
+            style={{ fontSize: "1.5rem" }}
           />
         </IconButton>
       </Tooltip>

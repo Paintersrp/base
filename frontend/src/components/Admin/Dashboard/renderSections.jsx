@@ -16,6 +16,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Add, Launch } from "@material-ui/icons";
 import renderModels from "./renderModels";
 import { Link } from "react-router-dom";
+import { renderIcon } from "./renderIcon";
 
 export default function renderSections({
   models,
@@ -29,8 +30,6 @@ export default function renderSections({
     if (appName === "authorization") {
       return null;
     }
-
-    console.log("appName:", appName);
 
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
@@ -54,9 +53,12 @@ export default function renderSections({
               </IconButton>
             }
             title={
-              <Typography variant="h3">
-                {appName.charAt(0).toUpperCase() + appName.slice(1)}
-              </Typography>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {renderIcon(appName, classes.modelIcon)}
+                <Typography variant="h3">
+                  {appName.charAt(0).toUpperCase() + appName.slice(1)}
+                </Typography>
+              </div>
             }
           />
           <Collapse in={isOpen}>

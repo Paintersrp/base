@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiFormLabel-root": {
-      fontFamily: "Poppins",
+      fontFamily: "Roboto",
       color: "black",
       fontWeight: "500",
     },

@@ -13,6 +13,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { useDispatch } from "react-redux";
 
 const CustomButton = withStyles({
@@ -79,13 +80,22 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.dark,
     },
   },
+  startIcon: {
+    paddingRight: 8,
+  },
   submit: {
-    margin: theme.spacing(2, 0, 2),
+    margin: theme.spacing(1),
+    boxShadow: theme.shadows[1],
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
     transition: "0.3s",
     "&:hover": {
       transform: "translateY(-2px)",
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.dark,
+      boxShadow: theme.shadows[3],
+      backgroundColor: theme.palette.primary.light,
+    },
+    "& .MuiButton-startIcon": {
+      margin: "0px !important",
     },
   },
   error: {
@@ -170,6 +180,8 @@ export default function NewsletterForm() {
                 disabled={state !== "initial"}
                 type={state === "success" ? "button" : "submit"}
                 className={classes.submit}
+                classes={{ startIcon: classes.startIcon }}
+                startIcon={<NewspaperIcon />}
                 endIcon={state === "success" ? <CheckIcon /> : null}
               >
                 {state === "success" ? "Subscribed" : "Submit"}

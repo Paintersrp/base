@@ -2,17 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
-  Paper,
   Typography,
-  Button,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField,
-  Input,
-  InputLabel,
-  InputAdornment,
   useTheme,
   useMediaQuery,
 } from "@material-ui/core";
@@ -21,6 +15,9 @@ import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import ApplicationForm from "./ApplicationForm.jsx";
 import JobListing from "../Listing/Listing.jsx";
+import ApprovalSharpIcon from "@mui/icons-material/ApprovalSharp";
+import axiosInstance from "../../../../lib/Axios/axiosInstance.js";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +67,29 @@ const useStyles = makeStyles((theme) => ({
 
 const JobPosting = ({ job }) => {
   const classes = useStyles();
+  const [jobsData, setJobsData] = useState(null);
   const formRef = useRef(null);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_DATA_REQUEST" });
+    const fetchData = async () => {
+      axiosInstance
+        .get("/jobposting/")
+        .then((response) => {
+          console.log(response.data);
+          setJobsData(response.data);
+        })
+        .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
+        .catch((err) => {
+          setError(err);
+        })
+        .then(dispatch({ type: "FETCH_DATA_FAILURE" }));
+    };
+    fetchData();
+  }, []);
 
   const handleApplyNowClick = () => {
     formRef.current.scrollIntoView({
@@ -83,7 +100,7 @@ const JobPosting = ({ job }) => {
 
   return (
     <>
-      {job && (
+      {job && jobsData && (
         <div className={classes.root}>
           <Grid container spacing={3}>
             <BaseContent
@@ -110,6 +127,7 @@ const JobPosting = ({ job }) => {
                     size="small"
                     buttonText="Apply Now"
                     onClick={handleApplyNowClick}
+                    startIcon={<ApprovalSharpIcon />}
                   />
                 </Grid>
                 <Grid
@@ -187,6 +205,7 @@ const JobPosting = ({ job }) => {
               </Grid>
               <ApplicationForm job={job} formRef={formRef} />
               <JobListing
+                jobsData={jobsData}
                 header="Looking for something else?"
                 subheader="See all our open positions below."
                 currentId={job.id}

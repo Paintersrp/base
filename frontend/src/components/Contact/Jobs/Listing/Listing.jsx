@@ -52,34 +52,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function JobListing({
+  jobsData,
   header = "Jobs",
   subheader = "Interested in joining our team? See our open positions below.",
- 
   currentId = null,
 }) {
-  const [jobPostings, setJobPostings] = useState();
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      axiosInstance
-        .get("/jobposting/")
-        .then((response) => {
-          console.log(response.data);
-          setJobPostings(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     axiosInstance
+  //       .get("/jobposting/")
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         setJobPostings(response.data);
+  //       })
+  //       .catch((err) => {
+  //         setError(err);
+  //       });
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <>
-      {jobPostings && (
+      {jobsData && (
         <Grid
           container
           spacing={0}
@@ -95,8 +94,9 @@ function JobListing({
             mb={1}
             br={1}
             background="#F5F5F5"
+            showIcon={true}
           >
-            {jobPostings.map((jobPosting, index) => (
+            {jobsData.map((jobPosting, index) => (
               <>
                 <BaseContent
                   maxWidth={900}
@@ -109,7 +109,7 @@ function JobListing({
                   <Grid key={index} item xs={12}>
                     <Paper
                       className={
-                        index === jobPostings.length - 1
+                        index === jobsData.length - 1
                           ? classes.lastChild
                           : classes.root
                       }

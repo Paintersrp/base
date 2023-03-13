@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import *
 from about.serializers import ContactInformationSerializer
 from landing.serializers import ServiceTierSerializer
+from landing.serializers import TitleBlockSerializer
+from api.views import get_model_metadata
 import re
 
 
@@ -79,6 +81,25 @@ class ServiceViewSerializer(serializers.Serializer):
     process_image = ProcessImageItemSerializer(many=True)
     contact_information = ContactInformationSerializer()
     service_tier = ServiceTierSerializer(many=True)
+    service_table_full = ServiceCompareTableSerializer()
+    benefits = BenefitsSerializer(many=True)
+    title_block_benefits = TitleBlockSerializer()
+    metadata = serializers.SerializerMethodField()
+
+    def get_metadata(self, obj):
+        metadata = []
+        for model in [
+            "ProcessTextItem",
+            "ProcessImageItem",
+            "ContactInformation",
+            "ServiceTier",
+            "ServiceTableLabels",
+            "ServiceCompareRows",
+            "Benefits",
+            "TitleBlock",
+        ]:
+            metadata.append(get_model_metadata(model))
+        return metadata
 
 
 ServiceCompareRows.serializer_class = ServiceCompareRowsSerializer

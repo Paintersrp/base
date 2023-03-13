@@ -23,6 +23,8 @@ from .serializers import (
     CategorySerializer,
 )
 from authorization.authentication import JWTTokenAuthentication
+from jobs.models import JobPosting
+from api.views import get_model_metadata
 
 
 class AboutFull(object):
@@ -34,6 +36,7 @@ class AboutFull(object):
         core_values,
         team_members,
         contact_information,
+        jobs,
     ):
         self.about_block = about_block
         self.mission_statement = mission_statement
@@ -41,6 +44,7 @@ class AboutFull(object):
         self.core_values = core_values
         self.team_members = team_members
         self.contact_information = contact_information
+        self.jobs = jobs
 
 
 class AboutFullView(generics.GenericAPIView):
@@ -53,6 +57,7 @@ class AboutFullView(generics.GenericAPIView):
         core_values = Value.objects.all()
         team_members = TeamMember.objects.all()
         contact_information = ContactInformation.objects.first()
+        jobs = JobPosting.objects.filter(filled=False)
 
         about_full = AboutFull(
             about_block,
@@ -61,6 +66,7 @@ class AboutFullView(generics.GenericAPIView):
             core_values,
             team_members,
             contact_information,
+            jobs,
         )
 
         serializer = self.get_serializer(instance=about_full)
@@ -200,6 +206,7 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
+
 
 
 class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

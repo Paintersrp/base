@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "6px 16px",
     fontWeight: "bold",
   },
+  editIcon: {
+    color: theme.palette.success.light,
+  },
 }));
 
 const PanelTable = ({
@@ -289,16 +292,19 @@ const PanelTable = ({
                   style={{ width: "5%" }}
                   className={classes.tableCell}
                 >
-                  <IconButton onClick={() => handleEdit(item)}>
-                    <EditIcon />
+                  <IconButton size="small" onClick={() => handleEdit(item)}>
+                    <EditIcon className={classes.editIcon} />
                   </IconButton>
                 </TableCell>
                 <TableCell
                   style={{ width: "5%" }}
                   className={classes.tableCell}
                 >
-                  <IconButton onClick={() => handleDelete(item.id)}>
-                    <DeleteIcon />
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    <DeleteIcon color="error" />
                   </IconButton>
                 </TableCell>
               </TableRow>

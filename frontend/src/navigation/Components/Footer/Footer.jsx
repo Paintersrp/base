@@ -15,6 +15,7 @@ import axiosInstance from "../../../lib/Axios/axiosInstance";
 import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
 import CheckIcon from "@material-ui/icons/Check";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,12 +54,18 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   button: {
-    margin: theme.spacing(1, 0),
-    width: "50%",
-    color: theme.palette.primary.contrastText,
+    margin: theme.spacing(1),
+    boxShadow: theme.shadows[1],
     backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.contrastText,
+    transition: "0.3s",
     "&:hover": {
-      backgroundColor: theme.palette.secondary.dark,
+      transform: "translateY(-2px)",
+      boxShadow: theme.shadows[3],
+      backgroundColor: theme.palette.primary.light,
+    },
+    "& .MuiButton-startIcon": {
+      margin: "0px !important",
     },
   },
   icon: {
@@ -115,6 +122,9 @@ const useStyles = makeStyles((theme) => ({
     "& input": {
       color: theme.palette.text.light,
     },
+  },
+  startIcon: {
+    paddingRight: 8,
   },
 }));
 
@@ -207,8 +217,10 @@ export default function Footer() {
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <Button
                     className={classes.button}
+                    classes={{ startIcon: classes.startIcon }}
                     disabled={state !== "initial"}
                     type={state === "success" ? "button" : "submit"}
+                    startIcon={<NewspaperIcon />}
                     endIcon={state === "success" ? <CheckIcon /> : null}
                   >
                     {state === "success" ? "Subscribed" : "Subscribe"}

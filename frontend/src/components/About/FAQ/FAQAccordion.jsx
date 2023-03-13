@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   containerLayout: {
     display: "flex",
-    width: "100vw",
+    width: "100%",
     marginBottom: 40,
     flexDirection: "column",
     justifyContent: "center",
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FAQAccordion = () => {
+const FAQAccordion = ({ setError }) => {
   const classes = useStyles();
   const [currentCategory, setCurrentCategory] = useState([]);
   const [faqs, setFaqs] = useState([]);
@@ -84,7 +84,7 @@ const FAQAccordion = () => {
         setEditing({});
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message);
       });
   };
 

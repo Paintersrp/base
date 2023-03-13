@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
   fab: {
     position: "fixed",
     bottom: theme.spacing(10),
-    right: theme.spacing(12),
+    right: theme.spacing(10),
     zIndex: 1000,
-    width: 56,
-    height: 56,
+    // width: 56,
+    // height: 56,
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
     transition: "transform 0.2s ease-in-out",
@@ -75,22 +75,15 @@ export function ScrollTopFab(props) {
         placement="left"
         classes={{ tooltip: classes.tooltip }}
       >
-        <Fab aria-label="menu" className={classes.fab} onClick={handleClick}>
-          <KeyboardArrowUpIcon style={{ fontSize: "1.75rem" }} />
+        <Fab
+          aria-label="menu"
+          className={classes.fab}
+          onClick={handleClick}
+          size="small"
+        >
+          <KeyboardArrowUpIcon style={{ fontSize: "1.5rem" }} />
         </Fab>
       </Tooltip>
-      {/* <Fab
-        className={classes.root}
-        onClick={handleClick}
-        color="secondary"
-        size="small"
-        aria-label="scroll back to top"
-      >
-        <KeyboardArrowUpIcon />
-      </Fab> */}
-      {/* <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div> */}
     </Zoom>
   );
 }

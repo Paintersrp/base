@@ -20,7 +20,96 @@ import json
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from support.models import Subscribers
-from articles.models import Articles
+from articles.models import Articles, Tags
+
+
+def get_model_metadata(model_name):
+    models = apps.get_models(include_auto_created=True)
+
+    model = next((m for m in models if m.__name__.lower() == model_name.lower()), None)
+
+    if model is None:
+        return {}
+
+    serializer_class = getattr(model, "serializer_class", serializers.ModelSerializer)
+    serializer = serializer_class()
+    fields = serializer.get_fields()
+
+    metadata = {
+        "modelName": model.__name__,
+        "verboseName": model._meta.verbose_name,
+        "verboseNamePlural": model._meta.verbose_name_plural,
+        "appLabel": model._meta.app_label,
+        "primaryKey": model._meta.pk.name,
+        "ordering": model._meta.ordering,
+        "uniqueTogether": model._meta.unique_together,
+        "indexes": model._meta.indexes,
+        "permissions": model._meta.permissions,
+        "abstract": model._meta.abstract,
+        "fields": {},
+    }
+
+    for field_name, field in fields.items():
+        field_type = field.__class__.__name__
+        if field_type == "CharField" and "base_template" in field.style:
+            field_type = "TextField"
+
+        choices = getattr(field, "choices", None)
+        if choices:
+            choices_dict = dict(choices)
+            field_choices = [
+                {"value": value, "display": display}
+                for value, display in choices_dict.items()
+            ]
+        else:
+            field_choices = None
+
+        field_metadata = {
+            "type": field_type,
+            "required": field.required,
+            "read_only": field.read_only,
+            "label": field.label,
+            "help_text": field.help_text,
+            "min_length": getattr(field, "min_length", None),
+            "max_length": getattr(field, "max_length", None),
+            "min_value": getattr(field, "min_value", None),
+            "max_value": getattr(field, "max_value", None),
+            "source": getattr(field, "source", None),
+            "choices": field_choices,
+        }
+
+        metadata["fields"][field_name] = field_metadata
+
+    for field in model._meta.fields:
+        if hasattr(field, "xs_column_count"):
+            metadata["fields"][field.name]["xs_column_count"] = getattr(
+                field, "xs_column_count", 12
+            )
+
+        if hasattr(field, "md_column_count"):
+            metadata["fields"][field.name]["md_column_count"] = getattr(
+                field, "md_column_count", 12
+            )
+
+        if hasattr(field, "justify"):
+            metadata["fields"][field.name]["justify"] = getattr(
+                field, "justify", "left"
+            )
+
+        if hasattr(field, "markdown"):
+            metadata["fields"][field.name]["markdown"] = getattr(
+                field, "markdown", "false"
+            )
+
+    return metadata
+
+
+class ModelMetadataAPIView(APIView):
+    def get(self, request, model_name, format=None):
+        metadata = get_model_metadata(model_name)
+        if not metadata:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(metadata)
 
 
 @csrf_exempt
@@ -135,92 +224,6 @@ class RecentAdminActionsView(APIView):
     dispatch = method_decorator(cache_page(60 * 5))(APIView.dispatch)
 
 
-class ModelMetadataAPIView(generics.RetrieveAPIView):
-    def get(self, request, model_name, format=None):
-        models = apps.get_models(include_auto_created=True)
-
-        model = next(
-            (m for m in models if m.__name__.lower() == model_name.lower()), None
-        )
-
-        if model is None:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer_class = getattr(
-            model, "serializer_class", serializers.ModelSerializer
-        )
-        serializer = serializer_class()
-        fields = serializer.get_fields()
-
-        metadata = {
-            "modelName": model.__name__,
-            "verboseName": model._meta.verbose_name,
-            "verboseNamePlural": model._meta.verbose_name_plural,
-            "appLabel": model._meta.app_label,
-            "primaryKey": model._meta.pk.name,
-            "ordering": model._meta.ordering,
-            "uniqueTogether": model._meta.unique_together,
-            "indexes": model._meta.indexes,
-            "permissions": model._meta.permissions,
-            "abstract": model._meta.abstract,
-            "fields": {},
-        }
-
-        for field_name, field in fields.items():
-            field_type = field.__class__.__name__
-            if field_type == "CharField" and "base_template" in field.style:
-                field_type = "TextField"
-
-            choices = getattr(field, "choices", None)
-            if choices:
-                choices_dict = dict(choices)
-                field_choices = [
-                    {"value": value, "display": display}
-                    for value, display in choices_dict.items()
-                ]
-            else:
-                field_choices = None
-
-            field_metadata = {
-                "type": field_type,
-                "required": field.required,
-                "read_only": field.read_only,
-                "label": field.label,
-                "help_text": field.help_text,
-                "min_length": getattr(field, "min_length", None),
-                "max_length": getattr(field, "max_length", None),
-                "min_value": getattr(field, "min_value", None),
-                "max_value": getattr(field, "max_value", None),
-                "source": getattr(field, "source", None),
-                "choices": field_choices,
-            }
-
-            metadata["fields"][field_name] = field_metadata
-
-        for field in model._meta.fields:
-            if hasattr(field, "xs_column_count"):
-                metadata["fields"][field.name]["xs_column_count"] = getattr(
-                    field, "xs_column_count", 12
-                )
-
-            if hasattr(field, "md_column_count"):
-                metadata["fields"][field.name]["md_column_count"] = getattr(
-                    field, "md_column_count", 12
-                )
-
-            if hasattr(field, "justify"):
-                metadata["fields"][field.name]["justify"] = getattr(
-                    field, "justify", "left"
-                )
-
-            if hasattr(field, "markdown"):
-                metadata["fields"][field.name]["markdown"] = getattr(
-                    field, "markdown", "false"
-                )
-
-        return Response(metadata)
-
-
 class ModelEndpointAPIView(APIView):
     def get(self, request, format=None):
         models = apps.get_models(include_auto_created=True)
@@ -262,12 +265,19 @@ class ModelEndpointAPIView(APIView):
             if model_name == "tags":
                 tag_counts = {}
                 articles = Articles.objects.all()
+                all_tags = Tags.objects.all()
+
+                for tag in all_tags:
+                    tag_counts[tag.name] = 0
+
                 for article in articles:
                     for tag in article.tags.all():
                         if tag.name not in tag_counts:
                             tag_counts[tag.name] = 1
                         else:
                             tag_counts[tag.name] += 1
+
+                print(tag_counts)
 
                 metadata["tag_counts"] = {
                     "type": "integer",
@@ -348,6 +358,11 @@ class SingleModelAPIView(APIView):
         if model_name == "tags":
             tag_counts = {}
             articles = Articles.objects.all()
+            all_tags = Tags.objects.all()
+
+            for tag in all_tags:
+                tag_counts[tag.name] = 0
+
             for article in articles:
                 for tag in article.tags.all():
                     if tag.name not in tag_counts:

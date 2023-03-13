@@ -11,17 +11,59 @@ from .models import (
     Testimonial,
     Process,
 )
-from .serializers import (
-    HeroBlockSerializer,
-    ServiceTierSerializer,
-    FeatureSerializer,
-    SupportedSitesSerializer,
-    ItemSerializer,
-    TitleBlockSerializer,
-    TestimonialSerializer,
-    ProcessSerializer,
-)
+from .serializers import *
 from authorization.authentication import JWTTokenAuthentication
+from about.models import ContactInformation
+from articles.models import Articles
+
+
+class LandingFull(object):
+    def __init__(
+        self,
+        hero_block,
+        title_block_process,
+        title_block_news,
+        service_tiers,
+        processes,
+        contact_information,
+        articles,
+    ):
+
+        self.hero_block = hero_block
+        self.title_block_process = title_block_process
+        self.title_block_news = title_block_news
+        self.service_tiers = service_tiers
+        self.processes = processes
+        self.contact_information = contact_information
+        self.articles = articles
+
+
+class LandingFullView(generics.GenericAPIView):
+    serializer_class = LandingFullSerializer
+
+    def get(self, request, *args, **kwargs):
+        hero_block = HeroBlock.objects.first()
+        title_block_process = TitleBlock.objects.get(name="process")
+        title_block_news = TitleBlock.objects.get(name="news")
+        service_tiers = ServiceTier.objects.all()
+        processes = Process.objects.all()
+        contact_information = ContactInformation.objects.first()
+        articles = Articles.objects.filter(is_highlighted=True)
+        print(articles)
+
+        landing_full = LandingFull(
+            hero_block,
+            title_block_process,
+            title_block_news,
+            service_tiers,
+            processes,
+            contact_information,
+            articles,
+        )
+
+        serializer = self.get_serializer(instance=landing_full)
+
+        return Response(serializer.data)
 
 
 class HeroBlockMainAPIView(

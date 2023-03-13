@@ -1,6 +1,6 @@
 .loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.2);
-  border-top: 4px solid #fff;
+  border: 12px solid rgba(0, 0, 0, 0.3);
+  border-top: 12px solid #fff;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -18,11 +18,11 @@
 }
 
 .loading-spinner--color-primary {
-  border-top-color: #3498db;
+  border-top-color: #ff8c00;
 }
 
 .loading-spinner--color-secondary {
-  border-top-color: #2ecc71;
+  border-top-color: #47815f;
 }
 
 .loading-spinner--color-tertiary {

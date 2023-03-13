@@ -36,25 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Hero({ contactData, form = true }) {
+function Hero({ heroData, setHeroData, contactData, form = true }) {
   const classes = useStyles();
-  const [heroData, setHeroData] = useState([]);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      axiosInstance
-        .get("/heroblock/main/")
-        .then((response) => {
-          setHeroData(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    };
-    fetchData();
-  }, []);
 
   const updateHeroBlock = (updatedHeroBlock) => {
     setHeroData(updatedHeroBlock);
@@ -92,9 +77,9 @@ function Hero({ contactData, form = true }) {
           )}
 
           <Grid item xs={12} md={12}>
-            <ContactButtons contactData={contactData[0]} />
+            <ContactButtons contactData={contactData} />
             <Grid container flex justifyContent="center">
-              <Social contactData={contactData[0]} color="light" />
+              <Social contactData={contactData} color="light" />
             </Grid>
           </Grid>
         </div>

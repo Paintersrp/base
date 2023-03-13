@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useMediaQuery } from "@material-ui/core";
+import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -14,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1.5),
     textAlign: "center",
     color: theme.palette.text.dark,
+  },
+  iconDefault: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -32,6 +36,8 @@ function BaseContent({
   pb = 0,
   br = 1,
   background = "#F5F5F5",
+  showIcon = false,
+  topIcon = <WorkSharpIcon style={{ color: "#2e3b55" }} fontSize="medium" />,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -65,6 +71,18 @@ function BaseContent({
           width: "100%",
         }}
       >
+        {showIcon && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 8,
+            }}
+          >
+            {topIcon}
+          </div>
+        )}
         {header && (
           <Typography variant="h3" className={classes.header}>
             {header}

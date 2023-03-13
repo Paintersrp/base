@@ -7,10 +7,14 @@ import NavigationUser from "./NavigationUser";
 import NavigationAuthed from "./NavigationAuthed";
 import NavigationUnauthed from "./NavigationUnauthed";
 import NavigationAdmin from "./NavigationAdmin";
+import { Divider, List, ListItem, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   list: {
-    width: 250,
+    width: 240,
+  },
+  divider: {
+    background: theme.palette.primary.light,
   },
 }));
 
@@ -19,25 +23,52 @@ export default function NavigationDrawer({ links, toggleDrawer }) {
   const auth = useSelector((state) => state.auth);
 
   return (
-    <div className={classes.list}>
-      {auth.username ? (
-        <NavigationUser username={auth.username} toggleDrawer={toggleDrawer} />
-      ) : null}
-      <NavigationLinks links={links} toggleDrawer={toggleDrawer} />
-
-      <>
-        {auth.is_authenticated ? (
-          <NavigationAuthed
-            toggleDrawer={toggleDrawer}
-            handleLogout={handleLogout}
-          />
-        ) : (
-          <NavigationUnauthed toggleDrawer={toggleDrawer} />
-        )}
-        {auth.is_superuser ? (
-          <NavigationAdmin toggleDrawer={toggleDrawer} />
+    <>
+      <div className={classes.list}>
+        {auth.username ? (
+          <>
+            <NavigationUser
+              username={auth.username}
+              toggleDrawer={toggleDrawer}
+            />
+            <Divider className={classes.divider} />
+          </>
         ) : null}
-      </>
-    </div>
+        <NavigationLinks links={links} toggleDrawer={toggleDrawer} />
+
+        <>
+          {auth.is_authenticated ? (
+            <NavigationAuthed
+              toggleDrawer={toggleDrawer}
+              handleLogout={handleLogout}
+            />
+          ) : (
+            <NavigationUnauthed toggleDrawer={toggleDrawer} />
+          )}
+          {auth.is_superuser ? (
+            <NavigationAdmin toggleDrawer={toggleDrawer} />
+          ) : null}
+        </>
+      </div>
+      <List
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "flex-end",
+        }}
+      >
+        <ListItem>
+          <Typography
+            align="center"
+            variant="caption"
+            style={{ width: "100%" }}
+          >
+            © 2023 Edgelords
+            <br />
+            All rights reserved.
+          </Typography>
+        </ListItem>
+      </List>
+    </>
   );
 }

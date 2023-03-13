@@ -75,6 +75,8 @@ const Panel = ({ apiData }) => {
 
   const fetchData = async () => {
     console.log("URL:", url);
+    console.log("KEYS: ", keys);
+    console.log("METADATA", metadata);
     if (url && keys) {
       axiosInstance
         .get(url)

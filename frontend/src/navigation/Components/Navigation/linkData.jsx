@@ -1,45 +1,83 @@
-import {
-  FaAddressCard,
-  FaBell,
-  FaBoxOpen,
-  FaInfoCircle,
-  FaHome,
-  FaHSquare,
-  FaRegNewspaper,
-  FaSquareRootAlt,
-} from "react-icons/fa";
-import { MdContactSupport } from "react-icons/Md";
+import { FaBoxOpen, FaHSquare } from "react-icons/fa";
+import QuizIcon from "@mui/icons-material/Quiz";
+import HomeIcon from "@mui/icons-material/Home";
+import StyleIcon from "@mui/icons-material/Style";
+import InfoIcon from "@mui/icons-material/Info";
+import DeskIcon from "@mui/icons-material/Desk";
+import ApiSharpIcon from "@mui/icons-material/ApiSharp";
+import DiamondSharpIcon from "@mui/icons-material/DiamondSharp";
+import ContactMailSharpIcon from "@mui/icons-material/ContactMailSharp";
+import NewspaperSharpIcon from "@mui/icons-material/NewspaperSharp";
+import ContactSupportSharpIcon from "@mui/icons-material/ContactSupportSharp";
+import WorkSharpIcon from "@mui/icons-material/WorkSharp";
+import ChevronRightSharpIcon from "@mui/icons-material/ChevronRightSharp";
 
-const linkData = [
+const linkData = (jobPostings) => [
   {
     name: "Home",
-    icon: <FaHome size={22} />,
+    icon: <HomeIcon style={{ color: "#ff8c00" }} />,
     link: "/",
   },
   {
     name: "About",
-    icon: <FaInfoCircle size={22} />,
+    icon: <InfoIcon />,
     link: "/about",
   },
   {
-    name: "Services",
-    icon: <FaBell size={22} />,
-    link: "/services",
-  },
-  {
     name: "Contact",
-    icon: <FaAddressCard size={22} />,
+    icon: <ContactMailSharpIcon style={{ color: "#ff8c00" }} />,
     link: "/contact",
   },
+
+  {
+    name: "Services",
+    icon: <StyleIcon />,
+    children: [
+      {
+        name: "Services Overview",
+        link: "/services",
+        icon: <QuizIcon style={{ color: "#ff8c00" }} />,
+      },
+      {
+        name: "Personal Tier",
+        link: "/services/2/",
+        icon: <DeskIcon />,
+      },
+      {
+        name: "Premium Tier",
+        link: "/services/3/",
+        icon: <ApiSharpIcon style={{ color: "#ff8c00" }} />,
+      },
+      {
+        name: "Professional Tier",
+        link: "/services/4/",
+        icon: <DiamondSharpIcon />,
+      },
+    ],
+  },
+
   {
     name: "Articles",
-    icon: <FaRegNewspaper size={22} />,
+    icon: <NewspaperSharpIcon style={{ color: "#ff8c00" }} />,
     link: "/articles",
   },
   {
     name: "Support",
-    icon: <MdContactSupport size={22} />,
+    icon: <ContactSupportSharpIcon />,
     link: "/support",
+  },
+  {
+    name: "Jobs",
+    icon: <WorkSharpIcon style={{ color: "#ff8c00" }} />,
+    children: jobPostings.map((job, index) => ({
+      name: job.position,
+      link: `/jobposting/${job.id}/`,
+      icon: (
+        <ChevronRightSharpIcon
+          style={{ color: index % 2 === 0 ? "#ff8c00" : null }}
+        />
+      ),
+    })),
   },
   {
     name: "Demos",
@@ -48,13 +86,8 @@ const linkData = [
       {
         name: "WIP Components",
         link: "/WIP",
-        icon: <FaHSquare size={22} />,
+        icon: <FaHSquare size={22} style={{ color: "#ff8c00" }} />,
       },
-      // {
-      //   name: "WIP2 Components",
-      //   link: "/WIP2",
-      //   icon: <FaSquareRootAlt size={22} />,
-      // },
     ],
   },
 ];

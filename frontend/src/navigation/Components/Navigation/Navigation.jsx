@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link } from "react-router-dom";
 import { GiEnergySword } from "react-icons/gi";
 import NavigationDrawer from "./NavigationDrawer";
 import {
@@ -14,7 +8,8 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@material-ui/core";
-import ThemeSettings from "../../../components/Elements/Forms/ThemeSettings/ThemeSettings";
+import NavigationBase from "../NavigationBase";
+import AppbarContent from "./AppbarContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,17 +49,6 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     "&:hover": {
       color: theme.palette.secondary.main,
-      transform: "translateY(-2px)",
-      "&::after": {
-        content: '""',
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: -5,
-        height: 3,
-        backgroundColor: theme.palette.secondary.main,
-        borderRadius: 3,
-      },
     },
   },
   navLinks: {
@@ -143,94 +127,20 @@ export default function Navigation({ links, appName }) {
   };
 
   return (
-    <div className={classes.root}>
-      <HideOnScroll>
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-              }}
-            >
-              <Grid container>
-                <Grid item xs={1}>
-                  <IconButton
-                    onClick={toggleDrawer(true)}
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    className={classes.menuButton}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Grid>
-
-                {!isSmallScreen && (
-                  <Grid
-                    item
-                    xs={10}
-                    alignItems="center"
-                    justifyContent="center"
-                    style={{ display: "flex" }}
-                  >
-                    <div className={classes.navLinks}>
-                      <Link to="/" className={classes.navLink}>
-                        Home
-                      </Link>
-                      <Link to="/about" className={classes.navLink}>
-                        About
-                      </Link>
-                      <Link to="/services" className={classes.navLink}>
-                        Services
-                      </Link>
-                      <Link to="/contact" className={classes.navLink}>
-                        Contact
-                      </Link>
-                      <Link to="/articles" className={classes.navLink}>
-                        News
-                      </Link>
-                      <Link to="/WIP" className={classes.navLink}>
-                        WIP
-                      </Link>
-
-                      <Link to="/generator" className={classes.navLink}>
-                        Generator
-                      </Link>
-                    </div>
-                  </Grid>
-                )}
-                <Grid
-                  item
-                  xs={isSmallScreen ? 11 : 1}
-                  alignItems="center"
-                  justifyContent="flex-end"
-                  style={{ display: "flex" }}
-                >
-                  <div
-                    className={classes.appName}
-                    style={{ width: isSmallScreen ? "100%" : null }}
-                  >
-                    <Link className={classes.appLink} to="/">
-                      {appName}
-                    </Link>
-                  </div>
-                </Grid>
-              </Grid>
-            </div>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
-      <Drawer
-        open={open}
-        onClose={toggleDrawer(false)}
-        className={classes.drawerRoot}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
+    <NavigationBase
+      open={open}
+      toggleDrawer={toggleDrawer}
+      toolBarContent={
+        <AppbarContent
+          open={open}
+          isSmallScreen={isSmallScreen}
+          toggleDrawer={toggleDrawer}
+          appName={appName}
+        />
+      }
+      drawerContent={
         <NavigationDrawer links={links} toggleDrawer={toggleDrawer} />
-      </Drawer>
-    </div>
+      }
+    />
   );
 }

@@ -1,23 +1,9 @@
 from django.urls import path
-from .views import (
-    HeroBlockAPIView,
-    ServiceTierView,
-    ServiceTierDetailView,
-    FeatureViewSet,
-    SupportedSiteViewSet,
-    ItemViewSet,
-    TitleBlockAPIView,
-    TitleBlockDetailAPIView,
-    TestimonialViewSet,
-    ProcessViewSet,
-    ProcessDetailViewSet,
-    HeroBlockMainAPIView,
-    HeroBlockDetailAPIView,
-    TitleBlockUpdateAPIView,
-)
+from .views import *
 
 
 urlpatterns = [
+    path("landing/", LandingFullView.as_view(), name="landing-full"),
     path("feature/", FeatureViewSet.as_view(), name="feature-list"),
     path("supportedsites/", SupportedSiteViewSet.as_view(), name="sites-list"),
     path("item/", ItemViewSet.as_view({"get": "list"}), name="item-list"),

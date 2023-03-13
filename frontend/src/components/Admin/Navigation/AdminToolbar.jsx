@@ -16,6 +16,7 @@ import {
 } from "@material-ui/icons";
 import { Badge, Menu, MenuItem } from "@material-ui/core";
 import MessageIcon from "@mui/icons-material/Message";
+import SubjectIcon from "@mui/icons-material/Subject";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -85,7 +86,7 @@ const AdminToolbar = ({ open, toggleDrawer }) => {
           [classes.hide]: open,
         })}
       >
-        <MenuIcon className={classes.altIcon} />
+        <SubjectIcon className={classes.altIcon} />
       </IconButton>
       <Typography variant="h6" noWrap style={{ minWidth: 120, marginRight: 8 }}>
         Admin Dashboard

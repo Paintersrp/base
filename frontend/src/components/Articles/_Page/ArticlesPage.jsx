@@ -7,6 +7,7 @@ import ArticlesList from "../Display/List/ArticlesList";
 import PageContainer from "../../Elements/Layout/PageContainer";
 import ArticlesDisplayBase from "../Display/DisplayBase/ArticlesDisplayBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ArticlesPage = () => {
   const classes = useStyles();
+  const [error, setError] = useState();
   const [articles, setArticles] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -37,8 +39,13 @@ const ArticlesPage = () => {
       })
       .catch((err) => {
         setError(err);
+        console.log("err: ", err);
       });
   }, []);
+
+  if (error) {
+    return <ErrorPage errorMessage={error.message} />;
+  }
 
   return (
     <>

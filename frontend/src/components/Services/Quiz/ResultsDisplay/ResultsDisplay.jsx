@@ -7,6 +7,8 @@ import { quizStyles } from "../styles";
 import ServicesResult from "./ServicesResult";
 import TablesDisplay from "../TablesDisplay/TablesDisplay";
 import Benefits from "../../Benefits/Benefits";
+import StyleSharpIcon from "@mui/icons-material/StyleSharp";
+import RestartAltSharpIcon from "@mui/icons-material/RestartAltSharp";
 
 const ResultsDisplay = ({
   services,
@@ -15,6 +17,9 @@ const ResultsDisplay = ({
   setUnrecommendedServices,
   recommendedServices,
   unrecommendedServices,
+  benefitsData,
+  benefitsBlock,
+  setBenefitsBlock,
 }) => {
   const classes = quizStyles();
   const theme = useTheme();
@@ -47,17 +52,28 @@ const ResultsDisplay = ({
         )}
       </Grid>
       <Grid container flex justifyContent="center">
-        <StyledButton size="small" buttonText="Book a Service" />
+        <StyledButton
+          size="small"
+          startIcon={<StyleSharpIcon />}
+          buttonText="Book a Service"
+          minWidth={160}
+        />
       </Grid>
       <Grid container flex justifyContent="center">
         <StyledButton
           size="small"
           buttonText="Reset Quiz"
           onClick={handleReset}
+          startIcon={<RestartAltSharpIcon />}
+          minWidth={160}
         />
       </Grid>
       <TablesDisplay />
-      <Benefits />
+      <Benefits
+        benefits={benefitsData}
+        block={benefitsBlock}
+        setBlock={setBenefitsBlock}
+      />
     </Box>
   );
 };

@@ -2,7 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import CallToActionIcon from "@mui/icons-material/CallToAction";
 import StyledButton from "../../Buttons/StyledButton";
+import { FaPhone, FaVoicemail } from "react-icons/fa";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
   },
   btnContainer: {
     display: "flex",
-    width: "100%",
     justifyContent: "center",
+    marginTop: 10,
+    width: "100%",
+    alignItems: "center",
   },
   subheadline: {
     fontSize: "0.95rem",
@@ -56,7 +60,10 @@ const HeroBlock = ({ title, heading, text, btnText, showButton = true }) => {
       {showButton && (
         <div className={classes.btnContainer}>
           <Link to="/services">
-            <StyledButton buttonText={btnText} />
+            <StyledButton
+              startIcon={<CallToActionIcon />}
+              buttonText={btnText}
+            />
           </Link>
         </div>
       )}

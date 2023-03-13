@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import BaseForm from "../../Elements/Base/BaseForm";
 import useFormValidation from "../../../hooks/useFormValidation";
@@ -155,7 +154,11 @@ function HeroForm() {
           xs={12}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <StyledButton type="submit" buttonText="Get in touch" />
+          <StyledButton
+            startIcon={<ContactMailIcon />}
+            type="submit"
+            buttonText="Get in touch"
+          />
         </Grid>
       </BaseForm>
     </div>

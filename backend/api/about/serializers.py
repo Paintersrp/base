@@ -1,16 +1,8 @@
 from rest_framework import serializers
 from PIL import Image
-from .models import (
-    AboutBlock,
-    MissionStatement,
-    CompanyHistory,
-    Value,
-    TeamMember,
-    Skill,
-    ContactInformation,
-    FAQ,
-    Category,
-)
+from .models import *
+from jobs.serializers import JobPostingSerializer
+from api.views import get_model_metadata
 
 
 class AboutBlockSerializer(serializers.ModelSerializer):
@@ -159,6 +151,22 @@ class AboutFullSerializer(serializers.Serializer):
     core_values = ValueSerializer(many=True)
     team_members = TeamMemberSerializer(many=True)
     contact_information = ContactInformationSerializer()
+    jobs = JobPostingSerializer(many=True)
+    metadata = serializers.SerializerMethodField()
+
+    def get_metadata(self, obj):
+        metadata = []
+        for model in [
+            "AboutBlock",
+            "MissionStatement",
+            "CompanyHistory",
+            "Value",
+            "TeamMember",
+            "ContactInformation",
+            "JobPosting",
+        ]:
+            metadata.append(get_model_metadata(model))
+        return metadata
 
 
 AboutBlock.serializer_class = AboutBlockSerializer

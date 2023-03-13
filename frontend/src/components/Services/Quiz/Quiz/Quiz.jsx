@@ -4,32 +4,24 @@ import { quizStyles } from "../styles";
 import Questionaire from "../Questionaire/Questionaire";
 import ResultsDisplay from "../ResultsDisplay/ResultsDisplay";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
-import ServiceComparison from "../../Individual/_ServiceCompare";
 import ComparisonTable from "../TablesDisplay/ComparisonTable";
 
-const Quiz = () => {
+const Quiz = ({
+  services,
+  setServices,
+  tableData,
+  benefitsData,
+  benefitsBlock,
+  setBenefitsBlock,
+}) => {
   const classes = quizStyles();
-  const [services, setServices] = useState([]);
   const [recommendedServices, setRecommendedServices] = useState(null);
   const [unrecommendedServices, setUnrecommendedServices] = useState([]);
-
-  useEffect(() => {
-    axiosInstance
-      .get("/servicetier/")
-      .then((response) => {
-        console.log("Response");
-        console.log(response.data);
-        setServices(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <div className={`${classes.root}`}>
       <Grid container flex justifyContent="center">
-        {!recommendedServices && (
+        {!recommendedServices && services && tableData && (
           <Paper
             elevation={0}
             style={{
@@ -53,7 +45,7 @@ const Quiz = () => {
                 setUnrecommendedServices={setUnrecommendedServices}
               />
             </div>
-            <ComparisonTable />
+            <ComparisonTable tableData={tableData} />
           </Paper>
         )}
         {recommendedServices && (
@@ -75,6 +67,9 @@ const Quiz = () => {
               setRecommendedServices={setRecommendedServices}
               recommendedServices={recommendedServices}
               unrecommendedServices={unrecommendedServices}
+              benefitsData={benefitsData}
+              benefitsBlock={benefitsBlock}
+              setBenefitsBlock={setBenefitsBlock}
             />
           </Grid>
         )}

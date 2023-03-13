@@ -30,6 +30,7 @@ function ServiceIndividualPage() {
   const classes = useStyles();
   const [data, setData] = useState();
   const [fullData, setFullData] = useState();
+  const [tableData, setTableData] = useState();
   const [contactData, setContactData] = useState();
   const [processData, setProcessData] = useState();
   const [processImage, setProcessImage] = useState();
@@ -58,6 +59,7 @@ function ServiceIndividualPage() {
           (image) => image.servicetier === filteredServiceTier[0].service_title
         );
         setProcessImage(filteredProcessImage[0].image);
+        setTableData(response.data.service_table_full);
       })
       .catch((err) => {
         console.log(err);
@@ -91,7 +93,7 @@ function ServiceIndividualPage() {
             formRef={formRef}
             contactData={contactData}
           />
-          <ComparisonTable currentId={id} />
+          <ComparisonTable currentId={id} tableData={tableData} />
         </Paper>
       )}
     </PageContainer>

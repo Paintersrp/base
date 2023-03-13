@@ -7,16 +7,28 @@ from rest_framework.response import Response
 from .models import *
 from .serializers import *
 from about.models import ContactInformation
-from landing.models import ServiceTier
+from landing.models import ServiceTier, TitleBlock
 from django.shortcuts import get_object_or_404
 
 
 class ServiceFull(object):
-    def __init__(self, process_text, process_image, contact_information, service_tier):
+    def __init__(
+        self,
+        process_text,
+        process_image,
+        contact_information,
+        service_tier,
+        service_table_full,
+        title_block_benefits,
+        benefits,
+    ):
         self.process_text = process_text
         self.process_image = process_image
         self.contact_information = contact_information
         self.service_tier = service_tier
+        self.service_table_full = service_table_full
+        self.title_block_benefits = title_block_benefits
+        self.benefits = benefits
 
 
 class ServiceFullView(generics.GenericAPIView):
@@ -27,9 +39,20 @@ class ServiceFullView(generics.GenericAPIView):
         process_image = ProcessImageItem.objects.all()
         contact_information = ContactInformation.objects.first()
         service_tier = ServiceTier.objects.all()
+        compare_labels = ServiceTableLabels.objects.first()
+        compare_rows = ServiceCompareRows.objects.all()
+        service_table_full = ServiceCompareTable(compare_labels, compare_rows)
+        title_block_benefits = TitleBlock.objects.get(name="benefits")
+        benefits = Benefits.objects.all()
 
         service_full = ServiceFull(
-            process_text, process_image, contact_information, service_tier
+            process_text,
+            process_image,
+            contact_information,
+            service_tier,
+            service_table_full,
+            title_block_benefits,
+            benefits,
         )
         serializer = self.get_serializer(instance=service_full)
 

@@ -3,13 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import FindInPageIcon from "@mui/icons-material/FindInPage";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import EditOffSharpIcon from "@mui/icons-material/EditOffSharp";
+import ModeEditSharpIcon from "@mui/icons-material/ModeEditSharp";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Link } from "react-router-dom";
 import ThemeSettings from "../Forms/ThemeSettings/ThemeSettings";
+import SmartToySharpIcon from "@mui/icons-material/SmartToySharp";
+import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -17,11 +19,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(10),
     right: theme.spacing(4),
     zIndex: 1000,
-    width: 56,
-    height: 56,
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
-    transition: "transform 0.2s ease-in-out",
+    transition: "transform 0.5s ease-in-out",
     boxShadow: "none !important",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -33,22 +33,20 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(10),
     right: theme.spacing(4),
     zIndex: 1000,
-    width: 56,
-    height: 56,
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
-    transition: "transform 0.3s ease-in-out",
+    transition: "transform 0.5s ease-in-out",
     boxShadow: "none !important",
-    transform: "rotate(180deg)",
+    transform: "rotate(270deg)",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      transform: "rotate(180deg)",
+      transform: "rotate(270deg)",
     },
   },
   menu: {
     position: "fixed",
-    bottom: theme.spacing(17),
+    bottom: theme.spacing(15),
     right: theme.spacing(3),
     display: "flex",
     flexDirection: "column",
@@ -59,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuItem: {
     fontSize: "1.5rem",
-    width: 56,
-    height: 56,
+    width: 40,
+    height: 40,
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
     marginTop: theme.spacing(1),
@@ -99,7 +97,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
       <Slide
         direction="left"
         in={expanded}
-        timeout={300}
+        timeout={500}
         mountOnEnter
         unmountOnExit
         onExited={handleTransitionExited}
@@ -114,8 +112,13 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
               className={classes.menuItem}
               color="primary"
               onClick={() => setEditing(!editing)}
+              size="small"
             >
-              <ModeEditIcon style={{ fontSize: "1.75rem" }} />
+              {editing ? (
+                <EditOffSharpIcon style={{ fontSize: "1.5rem" }} />
+              ) : (
+                <ModeEditSharpIcon style={{ fontSize: "1.5rem" }} />
+              )}
             </IconButton>
           </Tooltip>
           <Tooltip
@@ -133,7 +136,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
             >
               <AdminPanelSettingsIcon
                 className={classes.iconSize}
-                style={{ fontSize: "1.75rem" }}
+                style={{ fontSize: "1.5rem" }}
               />
             </IconButton>
           </Tooltip>
@@ -146,8 +149,9 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
               className={classes.menuItem}
               color="primary"
               onClick={() => setEditing(!editing)}
+              size="small"
             >
-              <FindInPageIcon style={{ fontSize: "1.75rem" }} />
+              <SmartToySharpIcon style={{ fontSize: "1.5rem" }} />
             </IconButton>
           </Tooltip>
           <Tooltip
@@ -160,7 +164,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
         </div>
       </Slide>
       <Tooltip
-        title={expanded ? "Close" : "Menu"}
+        title={expanded ? "Close Menu" : "Open Menu"}
         placement="left"
         classes={{ tooltip: classes.tooltip }}
       >
@@ -168,8 +172,9 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
           aria-label="menu"
           className={expanded ? classes.fabExpanded : classes.fab}
           onClick={handleExpandClick}
+          size="small"
         >
-          <ChevronLeftIcon style={{ fontSize: "1.75rem" }} />
+          <MoreVertSharpIcon style={{ fontSize: "1.5rem" }} />
         </Fab>
       </Tooltip>
     </div>

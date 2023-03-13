@@ -4,7 +4,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
-import { FaSignInAlt, FaUnlockAlt } from "react-icons/fa";
+import HowToRegSharpIcon from "@mui/icons-material/HowToRegSharp";
+import LoginSharpIcon from "@mui/icons-material/LoginSharp";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -39,7 +40,7 @@ export default function NavigationUnauthed({ toggleDrawer }) {
         onClick={toggleDrawer(false)}
       >
         <ListItemIcon style={{ color: "white" }}>
-          <FaUnlockAlt size={22} />
+          <HowToRegSharpIcon style={{ color: "#ff8c00" }} />
         </ListItemIcon>
         <ListItemText primary="Register" className={classes.linkText} />
       </ListItem>
@@ -51,7 +52,7 @@ export default function NavigationUnauthed({ toggleDrawer }) {
         onClick={toggleDrawer(false)}
       >
         <ListItemIcon style={{ color: "white" }}>
-          <FaSignInAlt size={22} />
+          <LoginSharpIcon />
         </ListItemIcon>
         <ListItemText primary="Login" className={classes.linkText} />
       </ListItem>

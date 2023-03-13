@@ -52,10 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LatestNews() {
-  const [articlesData, setArticlesData] = useState([]);
-  const [titleBlock, setTitleBlock] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default function LatestNews({ articlesData, block, setBlock }) {
   const [error, setError] = useState(null);
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
@@ -64,46 +61,9 @@ export default function LatestNews() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const updateTitleBlock = (updateTitleBlock) => {
-    setTitleBlock(updateTitleBlock);
+    setBlock(updateTitleBlock);
     setEditing(false);
   };
-
-  useEffect(() => {
-    axiosInstance
-      .get("/titleblock/news/")
-      .then((response) => {
-        setTitleBlock(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-
-    axiosInstance
-      .get("/articles/highlighted/")
-      .then((response) => {
-        setArticlesData(response.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  }, []);
-
-  if (isLoading) {
-    return (
-      <Grid container spacing={3}>
-        {[0, 1, 2].map((article) => (
-          <Grid item key={article} xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardContent className={classes.cardContent}>
-                <h5>Loading</h5>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    );
-  }
 
   if (error) {
     return (
@@ -119,14 +79,14 @@ export default function LatestNews() {
         <Grid item xs={12}>
           {!editing ? (
             <TitleBlock
-              subtitle={titleBlock.subtitle}
-              title={titleBlock.title}
-              alignment={titleBlock.alignment}
-              showDivider={titleBlock.show_divider}
+              subtitle={block.subtitle}
+              title={block.title}
+              alignment={block.alignment}
+              showDivider={block.show_divider}
             />
           ) : (
             <TitleBlockEditor
-              titleBlock={titleBlock}
+              titleBlock={block}
               onUpdate={updateTitleBlock}
               handleCancel={() => setEditing(!editing)}
             />

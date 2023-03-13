@@ -9,17 +9,25 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: 250,
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 0),
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
   profileIcon: {
     marginRight: theme.spacing(1),
     color: "white",
   },
   links: {
+    minHeight: 64,
     "&:hover": {
       boxShadow: theme.shadows[7],
       backgroundColor: theme.palette.primary.light,
     },
+  },
+  divider: {
+    background: theme.palette.primary.light,
   },
 }));
 
@@ -38,9 +46,8 @@ export default function NavigationUser({ username, toggleDrawer }) {
         <ListItemIcon style={{ color: "white" }}>
           <AccountCircle size={22} />
         </ListItemIcon>
-        <ListItemText primary={username} className={classes.linkText} />
+        <ListItemText primary={`${username}`} className={classes.linkText} />
       </ListItem>
-      <Divider style={{ backgroundColor: "grey" }} />
     </div>
   );
 }

@@ -31,15 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Members = ({ membersData }) => {
   const classes = useStyles();
-  const [members, setMembers] = useState([]);
-
-  useEffect(() => {
-    setMembers(membersData);
-  }, []);
 
   return (
     <div className={classes.root}>
-      {members ? (
+      {membersData ? (
         <Flexbox className={classes.container}>
           <div xs={12} sm={12}>
             <Typography
@@ -50,7 +45,7 @@ const Members = ({ membersData }) => {
               Company Management
             </Typography>
           </div>
-          {members.map((member) => (
+          {membersData.map((member) => (
             <Member member={member} />
           ))}
         </Flexbox>

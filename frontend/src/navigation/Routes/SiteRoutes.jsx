@@ -28,21 +28,42 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Elements/Layout/Loading/Loading";
 import { closeSnackbar, dataUpdated } from "../../lib/Actions/snackbar";
 import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../lib/Axios/axiosInstance";
 
 export default function SiteRoutes({ handleUpdate }) {
+  const [jobPostings, setJobPostings] = useState();
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const isAdminPath = location.pathname.startsWith("/admin");
   const { message, type, open } = useSelector((state) => state.snackbar);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      axiosInstance
+        .get("/jobposting/")
+        .then((response) => {
+          setJobPostings(response.data);
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <ScrollToTop />
-      {!isAdminPath ? (
-        <Navigation links={linkData} appName={"EDGELORDS"} />
-      ) : (
-        <AdminNavigation />
+      {jobPostings && (
+        <>
+          {!isAdminPath ? (
+            <Navigation links={linkData(jobPostings)} appName={"EDGELORDS"} />
+          ) : (
+            <AdminNavigation />
+          )}
+        </>
       )}
       <AdvancedSnackbar
         message={message}

@@ -21,6 +21,7 @@ import {
 } from "recharts";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -46,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
   activeLink: {
     color: "#007bff",
+  },
+  modelIcon: {
+    color: theme.palette.info.dark,
+    marginRight: theme.spacing(2),
+    fontSize: "2.5rem",
   },
 }));
 
@@ -80,7 +86,15 @@ export default function Statistics(props) {
             {statsOpen ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         }
-        title={<Typography variant="h3">Service Stats</Typography>}
+        title={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <BarChartIcon
+              className={classes.modelIcon}
+              style={{ fontSize: "2rem" }}
+            />
+            <Typography variant="h3">Service Stats</Typography>
+          </div>
+        }
       />
       <Collapse in={statsOpen}>
         <CardContent>

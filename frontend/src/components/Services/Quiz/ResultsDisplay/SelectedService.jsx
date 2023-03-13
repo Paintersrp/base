@@ -17,6 +17,7 @@ import {
 import { FaCheck } from "react-icons/fa";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import { Link } from "react-router-dom";
+import LinkSharpIcon from "@mui/icons-material/LinkSharp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -154,23 +155,11 @@ const SelectedService = ({ service, active, recommendedId }) => {
             to={`/services/${service.id}`}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            <StyledButton buttonText="Learn More" />
+            <StyledButton
+              startIcon={<LinkSharpIcon />}
+              buttonText="Learn More"
+            />
           </Link>
-        </Grid>
-
-        <Grid xs={12}>
-          <CardActionArea>
-            <Grid container flex justifyContent="center">
-              <Button
-                size="large"
-                variant="contained"
-                color="primary"
-                className={classes.button}
-              >
-                Book a Service
-              </Button>
-            </Grid>
-          </CardActionArea>
         </Grid>
       </Grid>
     </Card>

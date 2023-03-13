@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { FaDashcube } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import AdminPanelSettingsSharpIcon from "@mui/icons-material/AdminPanelSettingsSharp";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -40,7 +40,7 @@ export default function NavigationAdmin({ toggleDrawer }) {
       }}
     >
       <ListItemIcon style={{ color: "white" }}>
-        <FaDashcube size={22} />
+        <AdminPanelSettingsSharpIcon style={{ color: "#ff8c00" }} />
       </ListItemIcon>
       <ListItemText primary="Admin" className={classes.linkText} />
     </ListItem>

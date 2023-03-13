@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Button, Chip, Grid } from "@material-ui/core";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -59,6 +60,7 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
             size="small"
             variant="contained"
             className={classes.button}
+            startIcon={<ReadMoreIcon />}
           >
             More
           </Button>

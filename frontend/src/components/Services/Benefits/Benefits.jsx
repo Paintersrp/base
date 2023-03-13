@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid } from "@material-ui/core";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Benefit from "./Benefit";
 import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
-import EditButton from "../../Elements/Buttons/EditButton";
 import { useSelector } from "react-redux";
 import TitleBlockEditor from "../../Elements/TextBlocks/TitleBlock/TitleBlockEditor";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
@@ -29,35 +27,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Benefits = () => {
+const Benefits = ({ benefits, block, setBlock }) => {
   const classes = useStyles();
-  const [benefits, setBenefits] = useState([]);
-  const [titleBlock, setTitleBlock] = useState([]);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    axiosInstance
-      .get("/benefits/")
-      .then((response) => {
-        setBenefits(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    axiosInstance
-      .get("/titleblock/benefits/")
-      .then((response) => {
-        setTitleBlock(response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const updateTitleBlock = (updateTitleBlock) => {
-    setTitleBlock(updateTitleBlock);
+    setBlock(updateTitleBlock);
     setEditing(false);
   };
 
@@ -75,15 +51,15 @@ const Benefits = () => {
 
         {!editing ? (
           <TitleBlock
-            subtitle={titleBlock.subtitle}
-            title={titleBlock.title}
-            description={titleBlock.description}
-            alignment={titleBlock.alignment}
-            showDivider={titleBlock.showDivider}
+            subtitle={block.subtitle}
+            title={block.title}
+            description={block.description}
+            alignment={block.alignment}
+            showDivider={block.showDivider}
           />
         ) : (
           <TitleBlockEditor
-            titleBlock={titleBlock}
+            titleBlock={block}
             onUpdate={updateTitleBlock}
             handleCancel={() => setEditing(!editing)}
             description

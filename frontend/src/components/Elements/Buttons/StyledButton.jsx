@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   startIcon: {
-    margin: 0,
+    paddingRight: 8,
   },
 }));
 
@@ -39,6 +39,7 @@ export default function StyledButton({
   type,
   noHover = false,
   startIcon = null,
+  endIcon = null,
   minWidth = 140,
   disabled = false,
   borderRadius = 48,
@@ -56,6 +57,7 @@ export default function StyledButton({
       onClick={onClick}
       type={type}
       startIcon={startIcon}
+      endIcon={endIcon}
       style={{
         minWidth: minWidth,
         backgroundColor: color,

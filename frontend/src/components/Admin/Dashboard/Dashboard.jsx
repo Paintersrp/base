@@ -82,6 +82,11 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.info.light,
     },
   },
+  modelIcon: {
+    color: theme.palette.info.dark,
+    marginRight: theme.spacing(2),
+    fontSize: "2rem",
+  },
 }));
 
 function Dashboard() {

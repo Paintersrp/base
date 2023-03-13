@@ -12,22 +12,26 @@ const useFormValidation = (initialState, validate, handleSubmitLogin) => {
         ...values,
         [name]: checked,
       });
+    } else if (name.includes("resume")) {
+      setValues({
+        ...values,
+        [name]: event.target.files[0],
+      });
     } else {
       setValues({
         ...values,
         [name]: value,
       });
-      console.log("DONE");
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(validate(values));
+    console.log(validate(values));
     setIsSubmitting(true);
-    console.log("ERRORS: ", validate(values));
     if (Object.keys(validate(values)).length !== 0) {
-      return;
+      return errors;
     }
 
     handleSubmitLogin(event);

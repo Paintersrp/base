@@ -47,32 +47,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Processes({ showTitleBlock = true }) {
+export default function Processes({
+  block,
+  setBlock,
+  processData,
+  showTitleBlock = true,
+}) {
   const classes = useStyles();
-  const [block, setBlock] = useState([]);
-  const [processes, setProcesses] = useState([]);
   const [editTitle, setEditTitle] = useState(false);
   const auth = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    axiosInstance
-      .get("/titleblock/process/")
-      .then((response) => {
-        setBlock(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-
-    axiosInstance
-      .get("/process/")
-      .then((response) => {
-        setProcesses(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  }, []);
 
   const updateTitleBlock = (updateTitleBlock) => {
     setBlock(updateTitleBlock);
@@ -113,7 +96,7 @@ export default function Processes({ showTitleBlock = true }) {
               </>
             )}
             <Container style={{ marginTop: showTitleBlock ? 24 : 0 }}>
-              {processes.map((step, index) => (
+              {processData.map((step, index) => (
                 <Item xs={12} sm={12} md={12} lg={4} xl={4} justify="center">
                   <Process step={step} />
                 </Item>

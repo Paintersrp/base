@@ -27,31 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Pricing() {
+export default function Pricing({ serviceData }) {
   const classes = useStyles();
   const cardLayout = CondensedTopMedia();
-  const [plans, setPlans] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  useEffect(() => {
-    axiosInstance
-      .get("/servicetier/")
-      .then((response) => {
-        setPlans(response.data);
-        console.log(plans);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <div className={classes.root}>
       {isSmallScreen ? (
         <Grid container className={classes.pricingContainer}>
           <BaseCarousel title="Pricing Tiers">
-            {plans.map((plan, index) => (
+            {serviceData.map((plan, index) => (
               <CardBase index={index} plan={plan} classes={cardLayout} />
             ))}
           </BaseCarousel>
@@ -59,7 +46,7 @@ export default function Pricing() {
       ) : (
         <>
           <Grid container className={classes.pricingContainer}>
-            {plans.map((plan, index) => (
+            {serviceData.map((plan, index) => (
               <Grid
                 item
                 xs={12}

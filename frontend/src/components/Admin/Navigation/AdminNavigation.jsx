@@ -41,6 +41,7 @@ const AdminNavigation = ({}) => {
   return (
     <NavigationBase
       open={open}
+      toggleDrawer={toggleDrawer}
       toolBarContent={<AdminToolbar open={open} toggleDrawer={toggleDrawer} />}
       drawerContent={
         <AdminDrawerContent

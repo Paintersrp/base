@@ -13,12 +13,6 @@ function LoadingIndicator({ size, color, className }) {
   });
 
   return (
-    // <PageContainer
-    //   editing={editing}
-    //   setEditing={setEditing}
-    //   backgroundColor="#F5F5F5"
-    //   page_name="Landing"
-    // >
     <div
       style={{
         display: "flex",
@@ -29,7 +23,6 @@ function LoadingIndicator({ size, color, className }) {
     >
       <div className={spinnerClasses}></div>
     </div>
-    // </PageContainer>
   );
 }
 

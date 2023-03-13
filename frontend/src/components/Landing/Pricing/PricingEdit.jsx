@@ -159,6 +159,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
   };
 
   const handleInputChange = (e) => {
+    console.log(e.target.name);
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -194,7 +195,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/pricingplan/${formData.id}/`,
+        `http://localhost:8000/api/servicetier/${formData.id}/`,
         formData,
         config
       );
@@ -203,7 +204,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/pricingplan/${formData.id}/`
+        `http://localhost:8000/api/servicetier/${formData.id}/`
       );
       console.log("??: ", res.data);
       setFormData(res.data);
@@ -255,7 +256,9 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   className={classes.field}
                   variant="outlined"
                   label="Title"
-                  value={formData.title}
+                  name="service_title"
+                  id="service_title"
+                  value={formData.service_title}
                   onChange={handleInputChange}
                 />
                 <TextField

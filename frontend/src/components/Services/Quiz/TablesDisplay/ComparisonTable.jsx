@@ -16,6 +16,9 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { useEffect, useState } from "react";
 import Icon from "../../../Elements/Icon/Icon";
+import LinkSharpIcon from "@mui/icons-material/LinkSharp";
+import DatasetSharpIcon from "@mui/icons-material/DatasetSharp";
+import TableChartIcon from "@mui/icons-material/TableChart";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -70,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: "2.5rem",
+  },
+  featureIcon: {
+    width: 40,
+    height: 40,
   },
 }));
 
@@ -144,29 +151,19 @@ const competitorData = [
 ];
 
 const ComparisonTable = ({
+  tableData = null,
   heading = "Compare Our Services",
   type = "service",
   currentId = null,
 }) => {
-  console.log(currentId);
   const classes = useStyles();
-  const [data, setData] = useState();
-  const [labels, setLabels] = useState();
+  const [data, setData] = useState({});
+  const [labels, setLabels] = useState({});
+  const [competitionLabels, setCompetitionLabels] = useState(competitorLabels);
+  const [competitionData, setCompetitionData] = useState(competitorData);
 
   useEffect(() => {
-    if (type === "service") {
-      axiosInstance
-        .get("/servicetable/")
-        .then((response) => {
-          console.log("Response");
-          console.log(response.data);
-          setData(response.data.compare_rows);
-          setLabels(response.data.compare_labels);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (type === "competition") {
+    if (type === "competition") {
       setLabels(competitorLabels);
       setData(competitorData);
     }
@@ -183,9 +180,14 @@ const ComparisonTable = ({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell className={classes.headerCell}>Features</TableCell>
+                  <TableCell className={classes.headerCell}>
+                    <Icon icon={"TableChartIcon"} className={classes.icon} />
+                    <Typography variant="h6" className={classes.competitorName}>
+                      Features
+                    </Typography>
+                  </TableCell>
                   {type === "competition" &&
-                    labels.map((competitor) => (
+                    competitionLabels.map((competitor) => (
                       <TableCell
                         key={competitor.name}
                         className={classes.headerCell}
@@ -202,48 +204,48 @@ const ComparisonTable = ({
                   {type === "service" && (
                     <>
                       <TableCell
-                        key={labels.service_tier1}
+                        key={tableData.compare_labels.service_tier1}
                         className={classes.headerCell}
                       >
                         <Icon
-                          icon={labels.tier1_icon}
+                          icon={tableData.compare_labels.tier1_icon}
                           className={classes.icon}
                         />
                         <Typography
                           variant="h6"
                           className={classes.competitorName}
                         >
-                          {labels.service_tier1}
+                          {tableData.compare_labels.service_tier1}
                         </Typography>
                       </TableCell>
                       <TableCell
-                        key={labels.service_tier2}
+                        key={tableData.compare_labels.service_tier2}
                         className={classes.headerCell}
                       >
                         <Icon
-                          icon={labels.tier2_icon}
+                          icon={tableData.compare_labels.tier2_icon}
                           className={classes.icon}
                         />
                         <Typography
                           variant="h6"
                           className={classes.competitorName}
                         >
-                          {labels.service_tier2}
+                          {tableData.compare_labels.service_tier2}
                         </Typography>
                       </TableCell>
                       <TableCell
-                        key={labels.service_tier3}
+                        key={tableData.compare_labels.service_tier3}
                         className={classes.headerCell}
                       >
                         <Icon
-                          icon={labels.tier3_icon}
+                          icon={tableData.compare_labels.tier3_icon}
                           className={classes.icon}
                         />
                         <Typography
                           variant="h6"
                           className={classes.competitorName}
                         >
-                          {labels.service_tier3}
+                          {tableData.compare_labels.service_tier3}
                         </Typography>
                       </TableCell>
                     </>
@@ -251,26 +253,54 @@ const ComparisonTable = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((row, index) => (
-                  <TableRow key={row.feature}>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      className={classes.featureCell}
-                    >
-                      {row.feature}
-                    </TableCell>
-                    <TableCell className={classes.contentCell}>
-                      {row.tier1_value}
-                    </TableCell>
-                    <TableCell className={classes.contentCell}>
-                      {row.tier2_value}
-                    </TableCell>
-                    <TableCell className={classes.contentCell}>
-                      {row.tier3_value}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {type === "service" && (
+                  <>
+                    {tableData.compare_rows.map((row, index) => (
+                      <TableRow key={row.feature}>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          className={classes.featureCell}
+                        >
+                          {row.feature}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier1_value}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier2_value}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier3_value}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
+                {type === "competition" && (
+                  <>
+                    {competitionData.map((row, index) => (
+                      <TableRow key={row.feature}>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          className={classes.featureCell}
+                        >
+                          {row.feature}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier1_value}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier2_value}
+                        </TableCell>
+                        <TableCell className={classes.contentCell}>
+                          {row.tier3_value}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
 
                 <TableCell className={classes.buttonCell}></TableCell>
                 <TableCell className={classes.buttonCell}>
@@ -279,6 +309,7 @@ const ComparisonTable = ({
                       size="small"
                       buttonText="Learn More"
                       disabled={parseInt(currentId) === 2 ? true : false}
+                      startIcon={<LinkSharpIcon />}
                     />
                   </Link>
                 </TableCell>
@@ -288,6 +319,7 @@ const ComparisonTable = ({
                       size="small"
                       buttonText="Learn More"
                       disabled={parseInt(currentId) === 3 ? true : false}
+                      startIcon={<LinkSharpIcon />}
                     />
                   </Link>
                 </TableCell>
@@ -297,6 +329,7 @@ const ComparisonTable = ({
                       size="small"
                       buttonText="Learn More"
                       disabled={parseInt(currentId) === 4 ? true : false}
+                      startIcon={<LinkSharpIcon />}
                     />
                   </Link>
                 </TableCell>

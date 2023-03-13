@@ -57,7 +57,7 @@ export default function NavigationLinks({ links, toggleDrawer }) {
   };
 
   return (
-    <List>
+    <List style={{ paddingTop: 0, paddingBottom: 0 }}>
       {links.map((item, index) => (
         <React.Fragment key={item.name}>
           <ListItem

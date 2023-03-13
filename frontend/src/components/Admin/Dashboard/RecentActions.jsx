@@ -17,6 +17,7 @@ import {
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Link } from "react-router-dom";
+import TimelineSharpIcon from "@mui/icons-material/TimelineSharp";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     padding: "6px 16px",
     fontSize: "0.875rem",
   },
+  icon: {
+    color: theme.palette.info.dark,
+    marginRight: theme.spacing(2),
+  },
 }));
 
 function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
@@ -68,7 +73,15 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
               {actionsOpen ? <ExpandLess /> : <ExpandMore />}
             </IconButton>
           }
-          title={<Typography variant="h3">Recent Admin Actions</Typography>}
+          title={
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TimelineSharpIcon
+                className={classes.icon}
+                style={{ fontSize: "2rem" }}
+              />
+              <Typography variant="h3">Recent Admin Actions</Typography>
+            </div>
+          }
         />
         <Collapse in={actionsOpen}>
           <CardContent>

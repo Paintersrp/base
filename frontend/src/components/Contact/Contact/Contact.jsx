@@ -17,6 +17,7 @@ import FormField from "../../Elements/Fields/FormField";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Validate from "../../../hooks/Validate";
 import useFormValidation from "../../../hooks/useFormValidation";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -222,7 +223,11 @@ export default function Contact({ contactData, color = "light" }) {
                   xs={12}
                   style={{ display: "flex", justifyContent: "center" }}
                 >
-                  <StyledButton type="sumbit" buttonText="Get in touch" />
+                  <StyledButton
+                    startIcon={<ContactMailIcon />}
+                    type="sumbit"
+                    buttonText="Get in touch"
+                  />
                 </Grid>
               </BaseForm>
               <Social

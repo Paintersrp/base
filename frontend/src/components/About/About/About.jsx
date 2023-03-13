@@ -4,8 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Values from "../Values/Values";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import { useSelector } from "react-redux";
-import EditButton from "../../Elements/Buttons/EditButton";
+import { useDispatch, useSelector } from "react-redux";
 import AboutHeadingEdit from "../Heading/AboutHeadingEdit";
 import Heading from "../Heading/Heading";
 import ContentSection from "../Content/ContentSection";
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function About() {
+export default function About({ setError }) {
   const {
     value: missionData,
     handleChange: handleChangeMission,
@@ -51,6 +50,7 @@ export default function About() {
   const classes = useStyles();
 
   const [data, setData] = useState([]);
+  const [metadata, setMetaData] = useState({});
   const [historyData, setHistoryData] = useState([]);
   const [valuesData, setValuesData] = useState(null);
 
@@ -59,8 +59,10 @@ export default function About() {
   const [editHistory, setEditHistory] = useState(false);
   const [missionBody, setMissionBody] = useState(false);
   const [historyBody, setHistoryBody] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: "FETCH_DATA_REQUEST" });
     const fetchData = async () => {
       axiosInstance
         .get("/about/")
@@ -75,10 +77,13 @@ export default function About() {
           setHistoryBody(
             response.data.company_history.body.replace(/<br\s*[\/]?>/gi, "")
           );
+          setMetaData(response.data.metadata);
         })
+        .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
-          console.log(err);
-        });
+          setError(err.error);
+        })
+        .then(dispatch({ type: "FETCH_DATA_FAILURE" }));
     };
     fetchData();
   }, []);

@@ -22,9 +22,15 @@ import {
 } from "react-icons/io5";
 import { GiUpgrade } from "react-icons/gi";
 import { CgWebsite } from "react-icons/cg";
+import DatasetSharpIcon from "@mui/icons-material/DatasetSharp";
+import TableChartIcon from "@mui/icons-material/TableChart";
 
 const Icon = ({ icon, className }) => {
   switch (icon) {
+    case "DatasetSharp":
+      return <DatasetSharpIcon fontSize="2.5rem" className={className} />;
+    case "TableChartIcon":
+      return <TableChartIcon fontSize="2.5rem" className={className} />;
     case "FaUser":
       return <FaUser className={className} />;
     case "FaUsers":

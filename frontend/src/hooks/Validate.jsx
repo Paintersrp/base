@@ -10,6 +10,14 @@ const Validate = (values) => {
     }
   }
 
+  if ("first_name" in values) {
+    if (!values.first_name) {
+      errors.first_name = "First name is required";
+    } else if (values.first_name.length > 50) {
+      errors.first_name = "First name must be less than 50 characters";
+    }
+  }
+
   if ("lastName" in values) {
     if (!values.lastName) {
       errors.lastName = "Last name is required";
@@ -17,6 +25,14 @@ const Validate = (values) => {
       errors.lastName = "Last name must be less than 50 characters";
     }
   }
+  if ("last_name" in values) {
+    if (!values.last_name) {
+      errors.last_name = "Last name is required";
+    } else if (values.last_name.length > 50) {
+      errors.last_name = "Last name must be less than 50 characters";
+    }
+  }
+
   if ("fullName" in values) {
     if (!values.fullName) {
       errors.fullName = "Full name is required";
@@ -75,6 +91,38 @@ const Validate = (values) => {
       errors.phone = "Phone number is required";
     } else if (!/^\+?\d{8,15}$/.test(values.phone)) {
       errors.phone = "Phone number is invalid";
+    }
+  }
+
+  if ("resume" in values) {
+    if (!values.resume) {
+      errors.resume = "Resume is required";
+    }
+  }
+  
+  if ("zipcode" in values) {
+    if (!values.zipcode) {
+      errors.zipcode = "Zipcode is required";
+    }
+    if (!/^\d{5}$/.test(values.zipcode)) {
+      errors.zipcode =
+        "The zip code field must be exactly 5 digits long and contain only numbers.";
+    }
+  }
+
+  if ("city" in values) {
+    console.log(values.city);
+    if (!values.city) {
+      errors.city = "City is required";
+    }
+    if (!/^[a-zA-Z]+$/.test(values.city)) {
+      errors.city = "The city field must contain only alphabetic characters.";
+    }
+    if (values.city.length < 2) {
+      errors.city = "The city field must be at least 2 characters long.";
+    }
+    if (values.city.length > 50) {
+      errors.city = "The city field cannot exceed 50 characters.";
     }
   }
 
