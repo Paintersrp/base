@@ -11,10 +11,8 @@ export default function CardBase({ plan, classes }) {
   const [planData, setPlanData] = useState(plan);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
-  console.log(plan);
 
   const updatePlan = (updatePlan) => {
-    console.log("updatePlan", updatePlan);
     setPlanData(updatePlan);
     setEditing(false);
   };

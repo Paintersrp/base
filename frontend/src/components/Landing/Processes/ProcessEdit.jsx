@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
+import { getCookie } from "../../../Utils";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,8 +111,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
-  console.log(process);
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState(process);
 
   const handleChange = (event) => {
@@ -136,21 +132,14 @@ const ProcessEdit = ({ process, updateProcess, handleCancel }) => {
       },
     };
     try {
-      await axios.patch(
+      const res = await axios.patch(
         `http://localhost:8000/api/process/${process.id}/`,
         formData,
         config
       );
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/api/process/${process.id}/`
-      );
       setFormData(res.data);
       updateProcess(res.data);
-      console.log(res.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../../../../Elements/Layout/Container/Container";
 import Text from "../../../../Elements/Layout/Text/Text";
 import ActionMixin from "./Mixins/ActionMixin";
-import FilterMixin from "./Mixins/FilterMixin";
+import MessageFilterMixin from "./Mixins/MessageFilterMixin";
 import SearchMixin from "./Mixins/SearchMixin";
 
 const ControlPanel = ({
@@ -24,7 +24,7 @@ const ControlPanel = ({
   return (
     <>
       {(keys.includes("is_read") || keys.includes("is_archived")) && (
-        <FilterMixin
+        <MessageFilterMixin
           isReadFilter={isReadFilter}
           setIsReadFilter={setIsReadFilter}
           isArchivedFilter={isArchivedFilter}

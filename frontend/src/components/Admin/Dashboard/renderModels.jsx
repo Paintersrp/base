@@ -10,15 +10,6 @@ import {
 import { Link } from "react-router-dom";
 import { NavigateNext, Add } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
-  addButton: {
-    color: "#4caf50", // green color
-    "&:hover": {
-      color: "#388e3c", // darker green color on hover
-    },
-  },
-}));
-
 export default function renderModels({ modelItem, appName, classes }) {
   return modelItem
     .filter((model) => model.url !== null)
@@ -37,7 +28,11 @@ export default function renderModels({ modelItem, appName, classes }) {
           }}
           key={model.model_name}
         >
-          <ListItem button style={{ color: "black" }}>
+          <ListItem
+            button
+            style={{ color: "black" }}
+            className={classes.hoverLink}
+          >
             <ListItemIcon
               style={{
                 color: "black",

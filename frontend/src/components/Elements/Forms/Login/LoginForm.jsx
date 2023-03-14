@@ -16,6 +16,7 @@ import AdvancedSnackbar from "../../Snackbars/Snackbar";
 import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
 import useFormValidation from "../../../../hooks/useFormValidation";
 import Validate from "../../../../hooks/Validate";
+import bcrypt from "bcryptjs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,8 +114,10 @@ const LoginForm = ({ handleLogin }) => {
     setError(null);
   };
 
-  const submitLogic = (event) => {
+  const submitLogic = async (event) => {
     event.preventDefault();
+    let salt;
+    let loginData;
 
     if (Object.keys(errors).length !== 0) {
       return;
@@ -123,37 +126,63 @@ const LoginForm = ({ handleLogin }) => {
     dispatch({ type: "FETCH_DATA_REQUEST" });
 
     axiosInstance
-      .post("/auth/login/", values)
-      .then((response) => {
-        dispatch(
-          setAuth({
-            is_authenticated: response.data.authenticated,
-          })
-        );
-        dispatch(
-          setUser({
-            is_superuser: response.data.is_superuser,
-            username: response.data.username,
-          })
-        );
-        dispatch(
-          setTheme({
-            primary: response.data.primary_color,
-            secondary: response.data.secondary_color,
-            background: response.data.background_color,
-          })
-        );
-        Cookies.set("jwt", response.data.jwt, { expires: 7 });
-        if (formData.rememberMe) {
-          Cookies.set("username", formData.username, { expires: 90 });
+      .post("/auth/salt/", { username: values.username })
+      .then(async (response) => {
+        if (response.data.salt) {
+          salt = response.data.salt;
+          const hashedPassword = await new Promise((resolve, reject) => {
+            bcrypt.hash(values.password, salt, (err, hash) => {
+              if (err) reject(err);
+              resolve(hash);
+            });
+          });
+
+          loginData = {
+            username: values.username,
+            password: hashedPassword,
+          };
+        } else {
+          loginData = {
+            username: values.username,
+            password: values.password,
+          };
         }
       })
-      .then(navigate("/"))
-      .then(handleLogin)
-      .catch((err) => {
-        console.log(err);
-        setOpen(true);
-        setError("Invalid username or password.");
+      .then(async (response) => {
+        axiosInstance
+          .post("/auth/login/", loginData)
+          .then((response) => {
+            dispatch(
+              setAuth({
+                is_authenticated: response.data.authenticated,
+              })
+            );
+            dispatch(
+              setUser({
+                is_superuser: response.data.is_superuser,
+                username: response.data.username,
+              })
+            );
+            dispatch(
+              setTheme({
+                primary: response.data.primary_color,
+                secondary: response.data.secondary_color,
+                background: response.data.background_color,
+              })
+            );
+            console.log(values);
+            if (values.rememberMe) {
+              Cookies.set("jwt", response.data.jwt);
+              Cookies.set("username", formData.username, { expires: 90 });
+            }
+          })
+          .then(navigate("/"))
+          .then(handleLogin)
+          .catch((err) => {
+            console.log(err);
+            setOpen(true);
+            setError("Invalid username or password.");
+          });
       });
   };
 

@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 export default function EditHours({ initialData, onUpdate, handleCancel }) {
   const [contactData, setContactData] = useState(initialData);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setContactData({
@@ -24,10 +26,15 @@ export default function EditHours({ initialData, onUpdate, handleCancel }) {
     };
     try {
       await axios
-        .patch(`http://localhost:8000/api/contact/`, contactData, config)
+        .patch(
+          `http://localhost:8000/api/contactinformation/1/`,
+          contactData,
+          config
+        )
         .then((res) => {
           setContactData(res.data);
           onUpdate(res.data);
+          dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
         });
     } catch (error) {
       console.log(error);

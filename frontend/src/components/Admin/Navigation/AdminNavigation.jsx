@@ -4,7 +4,7 @@ import AdminToolbar from "./AdminToolbar";
 import AdminDrawerContent from "./AdminDrawerContent";
 import NavigationBase from "../../../navigation/Components/NavigationBase";
 
-const AdminNavigation = ({}) => {
+const AdminNavigation = ({ setCount, count }) => {
   const [models, setModels] = useState({});
   const [open, setOpen] = useState(false);
   const [openLinks, setOpenLinks] = useState({});
@@ -42,13 +42,21 @@ const AdminNavigation = ({}) => {
     <NavigationBase
       open={open}
       toggleDrawer={toggleDrawer}
-      toolBarContent={<AdminToolbar open={open} toggleDrawer={toggleDrawer} />}
+      toolBarContent={
+        <AdminToolbar
+          open={open}
+          toggleDrawer={toggleDrawer}
+          setCount={setCount}
+          count={count}
+        />
+      }
       drawerContent={
         <AdminDrawerContent
           models={models}
           toggleDrawer={toggleDrawer}
           openLinks={openLinks}
           handleClick={handleClick}
+          count={count}
         />
       }
     />

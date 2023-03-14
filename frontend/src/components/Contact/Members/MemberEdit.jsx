@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 const MemberEdit = ({ member, onUpdate, handleCancel }) => {
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
   const [formData, setFormData] = useState(member);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     if (event.target.name === "image") {
@@ -51,8 +53,8 @@ const MemberEdit = ({ member, onUpdate, handleCancel }) => {
       const res = await axios.get(
         `http://localhost:8000/api/members/${formData.id}/`
       );
-      console.log(res.data);
       onUpdate(res.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

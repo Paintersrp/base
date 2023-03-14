@@ -16,12 +16,11 @@ import {
   TablePagination,
   TableRow,
 } from "@material-ui/core";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
-    color: "white",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -88,9 +87,9 @@ export default function AdminLogReport() {
   const actionFlags = [...new Set(data.map((row) => row.action_flag))];
 
   return (
-    <div style={{ width: "100vw" }}>
+    <div style={{ width: "100%" }}>
       <FormControl className={classes.formControl}>
-        <InputLabel style={{ color: "white" }}>Filter by App Label</InputLabel>
+        <InputLabel>Filter by App Label</InputLabel>
         <Select
           multiple
           value={appLabelFilter}
@@ -120,7 +119,7 @@ export default function AdminLogReport() {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel style={{ color: "white" }}>Filter by Model Name</InputLabel>
+        <InputLabel>Filter by Model Name</InputLabel>
         <Select
           MenuProps={{
             anchorOrigin: {
@@ -151,9 +150,7 @@ export default function AdminLogReport() {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel style={{ color: "white" }}>
-          Filter by Action Flag
-        </InputLabel>
+        <InputLabel>Filter by Action Flag</InputLabel>
         <Select
           multiple
           variant="filled"
@@ -191,33 +188,15 @@ export default function AdminLogReport() {
         >
           <TableHead>
             <TableRow>
-              <TableCell align="right" style={{ color: "white" }}>
-                Action Time
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Action Flag
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Content Type
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                App Label
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Model Name
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Object ID
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Object Representation
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Change Message
-              </TableCell>
-              <TableCell align="right" style={{ color: "white" }}>
-                Object URL
-              </TableCell>
+              <TableCell align="left">Action Time</TableCell>
+              <TableCell align="left">Action Flag</TableCell>
+              <TableCell align="left">Content Type</TableCell>
+              <TableCell align="left">App Label</TableCell>
+              <TableCell align="left">Model Name</TableCell>
+              <TableCell align="left">Object ID</TableCell>
+              <TableCell align="left">Object Representation</TableCell>
+              <TableCell align="left">Change Message</TableCell>
+              <TableCell align="left">Object URL</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -225,33 +204,17 @@ export default function AdminLogReport() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.action_time}
+                  <TableCell align="left">
+                    {new Date(row.action_time).toLocaleString()}
                   </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.action_flag}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.content_type}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.app_label}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.model_name}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.object_id}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.object_repr}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.change_message}
-                  </TableCell>
-                  <TableCell align="right" style={{ color: "white" }}>
-                    {row.obj_url}
-                  </TableCell>
+                  <TableCell align="left">{row.action_flag}</TableCell>
+                  <TableCell align="left">{row.content_type}</TableCell>
+                  <TableCell align="left">{row.app_label}</TableCell>
+                  <TableCell align="left">{row.model_name}</TableCell>
+                  <TableCell align="left">{row.object_id}</TableCell>
+                  <TableCell align="left">{row.object_repr}</TableCell>
+                  <TableCell align="left">{row.change_message}</TableCell>
+                  <TableCell align="left">{row.obj_url}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -266,7 +229,6 @@ export default function AdminLogReport() {
         onChangePage={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         rowOptions={[5, 10, 25, 50]}
-        style={{ color: "white" }}
       />
     </div>
   );

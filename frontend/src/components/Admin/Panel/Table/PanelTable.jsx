@@ -15,6 +15,7 @@ import DeleteConfirmationModal from "../../../Elements/Modals/DeleteConfirmation
 import useTablePagination from "../../../../hooks/useTablePagination";
 import { Pagination } from "../../../Elements/Fields/Pagination";
 import ControlPanel from "./ControlPanel/ControlPanel";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -44,7 +45,6 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
 }) => {
-  console.log("METAL: ", model);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -75,6 +75,13 @@ const PanelTable = ({
     const result = filterReadData(filterArchivedData(data));
     setFilteredData(result);
   };
+
+  useEffect(() => {
+    if (model.model_name === "messages") {
+      setIsReadFilter(false);
+      setIsArchivedFilter(false);
+    }
+  }, []);
 
   useEffect(() => {
     handleFilterData();
@@ -231,7 +238,7 @@ const PanelTable = ({
               className={classes.headerCell}
               style={{ textAlign: "center" }}
             >
-              Edit
+              {model.model_name === "messages" ? "Read" : "Edit"}
             </TableCell>
             <TableCell
               className={classes.headerCell}
@@ -268,16 +275,26 @@ const PanelTable = ({
                   />
                 </TableCell>
                 {keys.map((key) => (
-                  <>
-                    <TableCell key={key} className={classes.tableCell}>
-                      {metadata[key].type === "DateTimeField"
-                        ? new Date(item[key]).toLocaleString()
-                        : typeof item[key] === "boolean"
-                        ? item[key]
-                          ? "true"
-                          : "false"
-                        : item[key]}
-                    </TableCell>
+                  <React.Fragment key={key}>
+                    {metadata[key].type === "ImageField" ? (
+                      <TableCell className={classes.tableCell}>
+                        <img
+                          src={item[key]}
+                          alt="Thumbnail"
+                          style={{ width: 150, height: 100 }}
+                        />
+                      </TableCell>
+                    ) : (
+                      <TableCell className={classes.tableCell}>
+                        {metadata[key].type === "DateTimeField"
+                          ? new Date(item[key]).toLocaleString()
+                          : typeof item[key] === "boolean"
+                          ? item[key]
+                            ? "true"
+                            : "false"
+                          : item[key]}
+                      </TableCell>
+                    )}
                     {metadata[key].verbose_name === "Tag Name" && (
                       <TableCell key="count" className={classes.tableCell}>
                         {model["count"]
@@ -285,7 +302,7 @@ const PanelTable = ({
                           : metadata["tag_counts"].values[item[key]]}
                       </TableCell>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
 
                 <TableCell
@@ -293,7 +310,11 @@ const PanelTable = ({
                   className={classes.tableCell}
                 >
                   <IconButton size="small" onClick={() => handleEdit(item)}>
-                    <EditIcon className={classes.editIcon} />
+                    {model.model_name === "messages" ? (
+                      <MarkEmailReadIcon className={classes.editIcon} />
+                    ) : (
+                      <EditIcon className={classes.editIcon} />
+                    )}
                   </IconButton>
                 </TableCell>
                 <TableCell
@@ -318,7 +339,7 @@ const PanelTable = ({
         />
       </Table>
       <Pagination
-        count={data.length}
+        count={filteredData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleCustomPageChange}

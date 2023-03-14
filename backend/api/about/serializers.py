@@ -108,10 +108,7 @@ class FAQSerializer(serializers.ModelSerializer):
 
 class TeamMemberSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)
-    FIELD_KEYS = [
-        "name",
-        "role",
-    ]
+    FIELD_KEYS = ["name", "role", "image"]
 
     class Meta:
         model = TeamMember
@@ -124,6 +121,9 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             "linkedIn",
             "github",
             "twitter",
+            "facebook",
+            "instagram",
+            "youtube",
         )
 
     def validate_image(self, image):

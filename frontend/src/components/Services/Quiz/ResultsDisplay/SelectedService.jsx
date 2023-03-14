@@ -91,7 +91,7 @@ const SelectedService = ({ service, active, recommendedId }) => {
       className={`${classes.root} `}
       style={{
         minHeight: 400,
-        width: active ? 350 : 350,
+        width: active ? 325 : 325,
         opacity: active ? 1 : hovered ? 0.7 : 0.5,
         transition: "all 0.3s ease",
       }}

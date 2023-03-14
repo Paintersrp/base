@@ -99,6 +99,7 @@ function BaseEditForm({
                 <FormField
                   key={key}
                   id={key}
+                  name={key}
                   label={key.charAt(0).toUpperCase() + key.slice(1)}
                   value={formData[key]}
                   onChange={handleChange}

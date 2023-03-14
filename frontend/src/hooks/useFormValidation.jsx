@@ -7,7 +7,7 @@ const useFormValidation = (initialState, validate, handleSubmitLogin) => {
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
-    if (name.includes("checkbox")) {
+    if (name.includes("checkbox") || name.includes("rememberMe")) {
       setValues({
         ...values,
         [name]: checked,

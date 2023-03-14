@@ -67,20 +67,15 @@ function ServicesPage({ handleUpdate }) {
         setEditing={setEditing}
         handleUpdate={handleUpdate}
       />
-      <Grid container justifyContent="center" style={{ display: "flex" }}>
-        <div style={{ maxWidth: 1400, width: "100%" }}>
-          <div className={classes.quizContainer}>
-            <Quiz
-              services={services}
-              setServices={setServices}
-              tableData={data.service_table_full}
-              benefitsData={data.benefits}
-              benefitsBlock={benefitsBlock}
-              setBenefitsBlock={setBenefitsBlock}
-            />
-          </div>
-        </div>
-      </Grid>
+
+      <Quiz
+        services={services}
+        setServices={setServices}
+        tableData={data.service_table_full}
+        benefitsData={data.benefits}
+        benefitsBlock={benefitsBlock}
+        setBenefitsBlock={setBenefitsBlock}
+      />
     </PageContainer>
   );
 }

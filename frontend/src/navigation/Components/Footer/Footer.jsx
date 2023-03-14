@@ -16,6 +16,12 @@ import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
 import CheckIcon from "@material-ui/icons/Check";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import YouTubeIcon from "@material-ui/icons/YouTube";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -126,25 +132,42 @@ const useStyles = makeStyles((theme) => ({
   startIcon: {
     paddingRight: 8,
   },
+  socialIcons: {
+    padding: theme.spacing(0.5),
+    marginTop: theme.spacing(0),
+    display: "flex",
+    justifyContent: "center",
+    "&:hover": {
+      color: theme.palette.primary.light,
+      backgroundColor: "inherit",
+    },
+  },
+  iconButton: {
+    color: theme.palette.secondary.main,
+    "&:hover": {
+      color: theme.palette.common.white,
+      backgroundColor: "inherit",
+    },
+  },
 }));
 
 const links = [
   { name: "About", href: "about" },
   {
-    name: "Contact",
-    href: "contact",
-  },
-  {
     name: "Services",
     href: "services",
+  },
+  {
+    name: "Contact",
+    href: "contact",
   },
   {
     name: "News",
     href: "articles",
   },
   {
-    name: "Help",
-    href: "help",
+    name: "Support",
+    href: "support",
   },
   {
     name: "Privacy",
@@ -156,7 +179,7 @@ const links = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({ socialData }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -189,6 +212,33 @@ export default function Footer() {
     handleSubmit,
     resetForm,
   } = useFormValidation(formData, Validate, submitLogic);
+
+  const socialPlatforms = [
+    {
+      name: "facebook",
+      icon: <FacebookIcon className={classes.iconButton} />,
+    },
+    {
+      name: "twitter",
+      icon: <TwitterIcon className={classes.iconButton} />,
+    },
+    {
+      name: "instagram",
+      icon: <InstagramIcon className={classes.iconButton} />,
+    },
+    {
+      name: "linkedin",
+      icon: <LinkedInIcon className={classes.iconButton} />,
+    },
+    {
+      name: "youtube",
+      icon: <YouTubeIcon className={classes.iconButton} />,
+    },
+    {
+      name: "github",
+      icon: <GitHubIcon className={classes.iconButton} />,
+    },
+  ];
 
   return (
     <footer className={classes.root}>
@@ -262,7 +312,45 @@ export default function Footer() {
             <Typography variant="h6" className={classes.typography}>
               Follow us
             </Typography>
-            <div
+            {socialData && (
+              <div
+                style={{
+                  maxWidth: "100%",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Grid
+                  container
+                  className={classes.socialIcons}
+                  style={{
+                    maxWidth: "50%",
+                  }}
+                >
+                  {socialPlatforms.map((platform) => {
+                    if (socialData[platform.name]) {
+                      return (
+                        <Grid item xs={4}>
+                          <IconButton
+                            key={platform.name}
+                            className={classes.socialIcons}
+                            aria-label={platform.name}
+                            href={`https://www.${platform.name}.com/${
+                              socialData[platform.name]
+                            }`}
+                          >
+                            {platform.icon}
+                          </IconButton>
+                        </Grid>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </Grid>
+              </div>
+            )}
+            {/* <div
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -278,7 +366,7 @@ export default function Footer() {
               <IconButton href="#" className={classes.icon}>
                 <FaInstagram />
               </IconButton>
-            </div>
+            </div> */}
           </Grid>
         </Grid>
       </Container>

@@ -59,7 +59,7 @@ class SupportedSitesSerializer(serializers.ModelSerializer):
 class ServiceTierSerializer(serializers.ModelSerializer):
     features = FeatureSerializer(many=True)
     supported_sites = SupportedSitesSerializer(many=True)
-    FIELD_KEYS = ["service_title", "price"]
+    FIELD_KEYS = ["service_title", "price", "image"]
 
     class Meta:
         model = ServiceTier

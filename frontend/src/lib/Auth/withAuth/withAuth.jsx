@@ -13,7 +13,7 @@ const withAuth = (WrappedComponent) => {
         axiosInstance
           .get("auth/verify/")
           .then((res) => {
-            console.log(res);
+            console.log("token check:", res.data);
             dispatch(
               setAuth({
                 is_authenticated: res.data.authenticated,
@@ -32,6 +32,11 @@ const withAuth = (WrappedComponent) => {
                 background: res.data.background,
               })
             );
+
+            if (res.data.refreshed_token) {
+              Cookies.remove("jwt");
+              Cookies.set("jwt", res.data.refreshed_token);
+            }
           })
           .catch((err) => {
             dispatch(setAuth({ is_authenticated: false }));

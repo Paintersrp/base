@@ -1,28 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
-import { baseClasses } from "../../../classes";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
-
-const useStyles = makeStyles(() => ({
-  textContainer: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  title: {
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  fieldContainer: {
-    width: "50%",
-  },
-}));
+import { useDispatch } from "react-redux";
 
 export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
-  const classes = useStyles();
-  const { fadeIn } = baseClasses();
-
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialData);
 
   const handleChange = (event) => {
@@ -42,13 +25,19 @@ export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
       },
     };
     try {
-      await axios.patch(`http://localhost:8000/api/contact/`, formData, config);
+      await axios.patch(
+        `http://localhost:8000/api/contactinformation/1/`,
+        formData,
+        config
+      );
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }
     try {
-      const res = await axios.get(`http://localhost:8000/api/contact/`);
-      setFormData(res.data);
+      const res = await axios.get(
+        `http://localhost:8000/api/contactinformation/1/`
+      );
       onUpdate(res.data);
     } catch (error) {
       console.log(error);

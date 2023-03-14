@@ -25,7 +25,7 @@ const Quiz = ({
           <Paper
             elevation={0}
             style={{
-              width: 1400,
+              width: "100%",
               background: "#F5F5F5",
               display: "flex",
               justifyContent: "center",

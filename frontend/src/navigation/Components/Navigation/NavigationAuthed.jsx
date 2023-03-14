@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 import ExitToAppSharpIcon from "@mui/icons-material/ExitToAppSharp";
 import AccountBoxSharpIcon from "@mui/icons-material/AccountBoxSharp";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavigationAuthed({ toggleDrawer, handleLogout }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <>

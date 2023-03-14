@@ -26,7 +26,6 @@ const SEOEdit = ({ data, onUpdate, handleCancel }) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("test");
     e.preventDefault();
 
     if (!formData.image) {
@@ -40,8 +39,8 @@ const SEOEdit = ({ data, onUpdate, handleCancel }) => {
       },
     };
     try {
-      await axios.patch(
-        `http://localhost:8000/api/header/test/`,
+      const res = await axios.patch(
+        `http://localhost:8000/api/header/${formData.page}/`,
         formData,
         config
       );
@@ -49,8 +48,10 @@ const SEOEdit = ({ data, onUpdate, handleCancel }) => {
       console.log(error);
     }
     try {
-      const res = await axios.get(`http://localhost:8000/api/header/test/`);
-      console.log(res.data);
+      const res = await axios.get(
+        `http://localhost:8000/api/header/${formData.page}/`
+      );
+      setFormData(res.data);
       onUpdate(res.data);
     } catch (error) {
       console.log(error);

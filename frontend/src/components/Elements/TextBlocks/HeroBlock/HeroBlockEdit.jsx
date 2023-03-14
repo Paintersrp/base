@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../../utils";
 import BaseEditForm from "../../Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 const HeroBlockEdit2 = ({ heroBlock, onUpdate, handleCancel }) => {
   const [state, setState] = useState({ ...heroBlock });
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setState({
@@ -36,6 +38,7 @@ const HeroBlockEdit2 = ({ heroBlock, onUpdate, handleCancel }) => {
         config
       );
       onUpdate(res.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

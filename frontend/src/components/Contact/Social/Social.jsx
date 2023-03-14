@@ -5,6 +5,8 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import { useSelector } from "react-redux";
 import SocialEdit from "./SocialEdit";
 import { baseClasses } from "../../../classes";
@@ -76,6 +78,14 @@ export default function Social({ contactData, showTitle, color = "light" }) {
     {
       name: "linkedin",
       icon: <LinkedInIcon fontSize="large" className={classes.socialIcon} />,
+    },
+    {
+      name: "youtube",
+      icon: <YouTubeIcon fontSize="large" className={classes.socialIcon} />,
+    },
+    {
+      name: "github",
+      icon: <GitHubIcon fontSize="large" className={classes.socialIcon} />,
     },
   ];
 

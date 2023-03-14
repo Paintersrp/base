@@ -69,8 +69,8 @@ const AdvancedSnackbar = ({
   type,
   open,
   onClose,
-  duration = 500000,
-  position = "bottom-right",
+  duration = 5000,
+  position = "top-center",
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -123,6 +123,7 @@ const AdvancedSnackbar = ({
       TransitionComponent={Grow}
       anchorOrigin={anchorOrigin}
       className={`${classes[type]}`}
+      style={{ marginTop: position === "top-center" ? 52 : 0 }}
       classes={{ root: classes.root }}
       message={
         <span className={`${classes.content}`}>

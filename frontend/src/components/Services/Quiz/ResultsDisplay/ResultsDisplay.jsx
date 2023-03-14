@@ -37,7 +37,7 @@ const ResultsDisplay = ({
   };
 
   return (
-    <Box className={`${classes.fadeIn}`}>
+    <Box className={`${classes.fadeIn}`} style={{ width: "100%" }}>
       <Grid container flex justifyContent="center">
         {isSmallScreen ? (
           <ServicesResultCarousel

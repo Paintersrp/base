@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -117,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
 const BenefitEdit = ({ benefit, updateBenefit, handleCancel }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState(benefit);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setFormData({
@@ -145,6 +147,7 @@ const BenefitEdit = ({ benefit, updateBenefit, handleCancel }) => {
           console.log("benefit", res.data);
           setFormData(res.data);
           updateBenefit(res.data);
+          dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
         });
     } catch (error) {
       console.log(error);

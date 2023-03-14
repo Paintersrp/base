@@ -7,8 +7,10 @@ import getByType from "./getByType";
 import { useLocation, useNavigate } from "react-router-dom";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import Loading from "../../../Elements/Layout/Loading/Loading";
+import { useDispatch } from "react-redux";
 
 const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -24,18 +26,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const [newImageName, setNewImageName] = useState(null);
   const [ready, setReady] = useState(false);
   const location = useLocation();
-
-  // if (!location.state) {
-  //   axiosInstance
-  //     .get(`/get_models${endpointUrl}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       ({ url, keys, appName, model, metadata } = data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // } else {
-  //   ({ url, keys, appName, model, metadata } = location.state);
-  // }
 
   useEffect(() => {
     setReady(false);
@@ -67,19 +57,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
       setFieldMetadata(response.data.fields);
       setModelMetadata(response.data);
     });
-
-    // if (!location.state) {
-    //   axiosInstance
-    //     .get(`/get_models${endpointUrl}`)
-    //     .then((response) => {
-    //       print(response.data[modelMetadata.modelName]);
-    //       setModel(response.data[modelMetadata.modelName]);
-
-    //     })
-    //     .catch((error) => console.log(error));
-    // } else {
-    //   let { url, keys, appName, model, metadata } = location.state;
-    // }
   }, []);
 
   const handleImageChange = (event) => {
@@ -169,6 +146,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         );
         routeBackToModel();
         handleUpdate();
+        dispatch({ type: "ALERT_SUCCESS", message: "Object Created" });
       } catch (err) {
         console.log(err);
       }
@@ -182,6 +160,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
 
         routeBackToModel();
         handleUpdate();
+        dispatch({ type: "ALERT_SUCCESS", message: "Object Updated" });
       } catch (err) {
         console.log(err);
       }

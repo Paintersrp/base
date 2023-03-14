@@ -85,21 +85,32 @@ class AboutBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AboutBlockSerializer
 
 
-class MissionStatementAPIView(
-    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
-):
+class MissionStatementAPIView(generics.ListCreateAPIView):
     queryset = MissionStatement.objects.all()
     serializer_class = MissionStatementSerializer
 
 
-class CompanyHistoryAPIView(
-    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
-):
+class MissionStatementDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MissionStatement.objects.all()
+    serializer_class = MissionStatementSerializer
+
+
+class CompanyHistoryAPIView(generics.ListCreateAPIView):
+    queryset = CompanyHistory.objects.all()
+    serializer_class = CompanyHistorySerializer
+
+
+class CompanyHistoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CompanyHistory.objects.all()
     serializer_class = CompanyHistorySerializer
 
 
 class ContactInformationAPIView(generics.ListCreateAPIView):
+    queryset = ContactInformation.objects.all()
+    serializer_class = ContactInformationSerializer
+
+
+class ContactInformationDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactInformation.objects.all()
     serializer_class = ContactInformationSerializer
 
@@ -158,14 +169,22 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return JsonResponse(serializer.errors, status=400)
 
 
-class CategoryAPIView(
-    generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
-):
+class CategoryAPIView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-class ValueViewSet(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class ValueViewSet(generics.ListCreateAPIView):
+    queryset = Value.objects.all()
+    serializer_class = ValueSerializer
+
+
+class ValueDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Value.objects.all()
     serializer_class = ValueSerializer
 
@@ -182,6 +201,9 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
         linkedIn = form_data.get("linkedIn")
         github = form_data.get("github")
         twitter = form_data.get("twitter")
+        facebook = form_data.get("facebook")
+        instagram = form_data.get("instagram")
+        youtube = form_data.get("youtube")
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
@@ -196,6 +218,9 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
             "linkedIn": linkedIn,
             "github": github,
             "twitter": twitter,
+            "facebook": facebook,
+            "instagram": instagram,
+            "youtube": youtube,
         }
 
         serializer = TeamMemberSerializer(data=data)
@@ -206,7 +231,6 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
-
 
 
 class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -222,6 +246,9 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
         linkedIn = form_data.get("linkedIn")
         github = form_data.get("github")
         twitter = form_data.get("twitter")
+        facebook = form_data.get("facebook")
+        instagram = form_data.get("instagram")
+        youtube = form_data.get("youtube")
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
@@ -238,6 +265,9 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
             "linkedIn": linkedIn,
             "github": github,
             "twitter": twitter,
+            "facebook": facebook,
+            "instagram": instagram,
+            "youtube": youtube,
         }
 
         serializer = TeamMemberSerializer(member, data=data)

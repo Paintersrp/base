@@ -26,25 +26,48 @@ import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
 import { ScrollTopFab } from "../../components/Elements/Buttons/ScrollToTopFAB";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Elements/Layout/Loading/Loading";
-import { closeSnackbar, dataUpdated } from "../../lib/Actions/snackbar";
+import { closeSnackbar } from "../../lib/Actions/snackbar";
 import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/Axios/axiosInstance";
+import AdminRoute from "./AdminRoute";
+import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
+import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
+
+{
+  /* 
+  import PrivateRoute from "./navigation/Routes/ProtectedRoute";
+ 
+
+    Private Route Example:
+        <Route exact path="/logout" element={<PrivateRoute />}>
+          <Route path="/logout" element={<RegisterForm />} />
+        </Route> 
+
+    Admin Route Example:
+        <Route exact path="/register" element={<AdminRoute />}>
+          <Route path="/register" element={<RegisterForm />} />
+        </Route> 
+  */
+}
 
 export default function SiteRoutes({ handleUpdate }) {
   const [jobPostings, setJobPostings] = useState();
+  const [socialData, setSocialData] = useState();
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const isAdminPath = location.pathname.startsWith("/admin");
   const { message, type, open } = useSelector((state) => state.snackbar);
+  const [count, setCount] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       axiosInstance
-        .get("/jobposting/")
+        .get("/appinfo/")
         .then((response) => {
-          setJobPostings(response.data);
+          setJobPostings(response.data.jobs);
+          setSocialData(response.data.contact_information);
         })
         .catch((err) => {
           setError(err);
@@ -55,13 +78,12 @@ export default function SiteRoutes({ handleUpdate }) {
 
   return (
     <>
-      <ScrollToTop />
       {jobPostings && (
         <>
           {!isAdminPath ? (
             <Navigation links={linkData(jobPostings)} appName={"EDGELORDS"} />
           ) : (
-            <AdminNavigation />
+            <AdminNavigation setCount={setCount} count={count} />
           )}
         </>
       )}
@@ -133,20 +155,34 @@ export default function SiteRoutes({ handleUpdate }) {
             }
           />
           {/* Admin Routes */}
-          <Route path="/admin" element={<DashboardPage />} />
+          <Route exact path="/admin" element={<AdminRoute />}>
+            <Route path="/admin" element={<DashboardPage />} />
+          </Route>
+          <Route exact path="/adminlog" element={<AdminRoute />}>
+            <Route path="/adminlog" element={<AdminLogPage />} />
+          </Route>
+
           <Route
             path="/admin/:id"
             element={<PanelPage />}
             key={location.pathname}
           />
           <Route path="/admin/:str/control" element={<ObjectPage />} />
+          <Route
+            path="/admin/:str/read"
+            element={<ReadPage setCount={setCount} />}
+          />
         </Routes>
       ) : (
         <div>
           <Loading loading={loading} message={"Tits?"} />
         </div>
       )}
-      {!isAdminPath ? <Footer /> : <Footer />}
+      {!isAdminPath ? (
+        <Footer socialData={socialData} />
+      ) : (
+        <Footer socialData={socialData} />
+      )}
     </>
   );
 }

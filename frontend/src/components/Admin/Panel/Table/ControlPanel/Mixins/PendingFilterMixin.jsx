@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Checkbox,
-  Typography,
-  FormControlLabel,
-  makeStyles,
-} from "@material-ui/core";
-
+import { Checkbox, FormControlLabel, makeStyles } from "@material-ui/core";
 import StyledButton from "../../../../../Elements/Buttons/StyledButton";
 import Text from "../../../../../Elements/Layout/Text/Text";
 
@@ -16,11 +10,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FilterMixin = ({
-  isReadFilter,
-  setIsReadFilter,
-  isArchivedFilter,
-  setIsArchivedFilter,
+const PendingFilterMixin = ({
+  setIsPendingFilter,
+  setIsReviewingFilter,
+  setIsRejectedFilter,
+  setIsAcceptedFilter,
   handleClearFilters,
 }) => {
   const classes = useStyles();
@@ -112,4 +106,4 @@ const FilterMixin = ({
   );
 };
 
-export default FilterMixin;
+export default PendingFilterMixin;

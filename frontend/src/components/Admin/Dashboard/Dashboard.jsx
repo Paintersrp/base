@@ -87,6 +87,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     fontSize: "2rem",
   },
+  hoverLink: {
+    "&:hover": {
+      background: "rgba(0, 0, 0, 0.2)",
+    },
+  },
 }));
 
 function Dashboard() {

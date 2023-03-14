@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   card: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.default,
     color: "black",
     width: "100%",
     boxShadow: theme.shadows[0],
@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   quillMargins: {
-    marginBottom: 16,
-    marginRight: 8,
-    marginTop: 8,
+    marginTop: theme.spacing(1),
   },
   buttonContainer: {
     display: "flex",

@@ -10,23 +10,7 @@ import { setTheme } from "./lib/Actions/auth";
 import chroma from "chroma-js";
 import Loading from "./components/Elements/Layout/Loading/Loading";
 import SiteRoutes from "./navigation/Routes/SiteRoutes";
-
-{
-  /* 
-  import PrivateRoute from "./navigation/Routes/ProtectedRoute";
-  import AdminRoute from "./navigation/Routes/AdminRoute";
-
-    Private Route Example:
-        <Route exact path="/logout" element={<PrivateRoute />}>
-          <Route path="/logout" element={<RegisterForm />} />
-        </Route> 
-
-    Admin Route Example:
-        <Route exact path="/register" element={<AdminRoute />}>
-          <Route path="/register" element={<RegisterForm />} />
-        </Route> 
-  */
-}
+import ScrollToTop from "./utils/ScrollToTop";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -101,7 +85,9 @@ function App() {
   return (
     <ThemeProvider theme={theme ? theme : baseTheme}>
       <CssBaseline />
+
       <Router>
+        <ScrollToTop />
         <SiteRoutes handleUpdate={handleUpdate} />
       </Router>
     </ThemeProvider>

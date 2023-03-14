@@ -37,6 +37,7 @@ export const quizStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   formContainer: {
+    width: "100%",
     backgroundColor: theme.palette.background.light,
     borderRadius: "8px",
     boxShadow: theme.shadows[2],

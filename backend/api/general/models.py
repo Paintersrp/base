@@ -25,9 +25,7 @@ class Header(models.Model):
         md_column_count=6,
         verbose_name="Keywords",
     )
-    image = models.ImageField(
-        verbose_name="Image",
-    )
+    image = models.ImageField(verbose_name="Image", upload_to="seo_images")
     url = CustomURLField(
         verbose_name="URL",
         md_column_count=6,

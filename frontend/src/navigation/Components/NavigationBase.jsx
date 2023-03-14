@@ -49,7 +49,7 @@ const NavigationBase = ({
   return (
     <div className={classes.root}>
       <AppBar
-        position="fixed"
+        position="absolute"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}

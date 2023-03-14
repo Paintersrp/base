@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import SettingsIcon from "@material-ui/icons/Settings";
-import MenuIcon from "@material-ui/icons/Menu";
+import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import {
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
@@ -16,7 +16,10 @@ import {
 } from "@material-ui/icons";
 import { Badge, Menu, MenuItem } from "@material-ui/core";
 import MessageIcon from "@mui/icons-material/Message";
+import handleLogout from "../../../lib/Auth/Logout";
 import SubjectIcon from "@mui/icons-material/Subject";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -42,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   accountButtonIcon: {
     color: theme.palette.secondary.main,
-    marginRight: 24,
+    marginRight: 4,
     "&:hover": {
       color: theme.palette.secondary.main,
       textDecoration: "underline",
@@ -57,15 +60,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   badge: {
-    "&:hover": {
-      color: theme.palette.primary.light,
+    "& .MuiBadge-badge": {
+      fontSize: 11,
+      background: theme.palette.primary.light,
     },
   },
 }));
 
-const AdminToolbar = ({ open, toggleDrawer }) => {
+const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [data, setData] = useState(null);
+  // const [count, setCount] = useState(null);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -75,94 +81,110 @@ const AdminToolbar = ({ open, toggleDrawer }) => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    axiosInstance
+      .get("/messages/unread/")
+      .then((response) => {
+        setData(response.data.messages);
+        setCount(response.data.count);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <Toolbar>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={toggleDrawer(true)}
-        edge="start"
-        className={clsx(classes.menuButton, {
-          [classes.hide]: open,
-        })}
-      >
-        <SubjectIcon className={classes.altIcon} />
-      </IconButton>
-      <Typography variant="h6" noWrap style={{ minWidth: 120, marginRight: 8 }}>
-        Admin Dashboard
-      </Typography>
-      <div className={classes.accountButton}></div>
-      <IconButton
-        aria-label="show notifications"
-        aria-controls="notifications-menu"
-        aria-haspopup="true"
-        onClick={toggleDrawer(true)}
-        color="inherit"
-        className={classes.badgeIcon}
-      >
-        <Badge badgeContent={2} color="secondary">
-          <NotificationsIcon className={classes.notificationIcon} />
-        </Badge>
-      </IconButton>
-      <IconButton
-        aria-label="show messages"
-        color="inherit"
-        className={classes.badgeIcon}
-      >
-        <Badge badgeContent={8} color="secondary">
-          <MessageIcon />
-        </Badge>
-      </IconButton>
-      <div className={classes.exitButtonContainer}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenuOpen}
-          color="inherit"
-          className={classes.accountButtonIcon}
-        >
-          <AccountCircleIcon />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          getContentAnchorEl={null}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          PaperProps={{
-            style: {
-              marginTop: "8px",
-
-              maxHeight: "calc(100vh - 120px)",
-              width: "200px",
-            },
-          }}
-        >
-          <MenuItem onClick={handleMenuClose}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </MenuItem>
-          <MenuItem onClick={handleMenuClose}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </MenuItem>
-        </Menu>
-        <Typography>Back to Site</Typography>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <IconButton color="inherit" className={classes.exitButton}>
-            <ExitToAppIcon className={classes.altIcon} />
+      {count && data && (
+        <>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer(true)}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <SubjectIcon className={classes.altIcon} />
           </IconButton>
-        </Link>
-      </div>
+          <Typography
+            variant="h6"
+            noWrap
+            style={{ minWidth: 120, marginRight: 8 }}
+          >
+            Admin Dashboard
+          </Typography>
+          <Link to={"admin/messages"}>
+            <IconButton
+              aria-label="show messages"
+              color="inherit"
+              className={classes.accountButtonIcon}
+            >
+              <Badge
+                badgeContent={count}
+                color="secondary"
+                small
+                className={classes.badge}
+              >
+                <MessageIcon />
+              </Badge>
+            </IconButton>
+          </Link>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenuOpen}
+            color="inherit"
+            className={classes.accountButtonIcon}
+          >
+            <AccountCircleIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            getContentAnchorEl={null}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            MenuListProps={{
+              style: {
+                padding: 0,
+              },
+            }}
+            PaperProps={{
+              style: {
+                marginTop: "8px",
+                maxHeight: "calc(100vh - 120px)",
+                width: "200px",
+              },
+            }}
+          >
+            <MenuItem onClick={handleMenuClose}>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </MenuItem>
+          </Menu>
+          <div className={classes.exitButtonContainer}>
+            <Typography>Back to Site</Typography>
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+              <IconButton color="inherit" className={classes.exitButton}>
+                <ExitToAppIcon className={classes.altIcon} />
+              </IconButton>
+            </Link>
+          </div>
+        </>
+      )}
     </Toolbar>
   );
 };

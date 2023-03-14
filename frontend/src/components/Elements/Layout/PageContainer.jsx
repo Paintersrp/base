@@ -50,7 +50,6 @@ const PageContainer = ({
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState();
-  // const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {

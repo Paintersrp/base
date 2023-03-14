@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "phone": "555-555-5555",
+    "subject": "Lorem ipsum dolor sit amet",
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel risus vitae sapien hendrerit pulvinar eu vel eros. Sed finibus consequat tortor quis dictum. Nulla facilisi. Nunc scelerisque commodo metus in venenatis. Donec semper neque vel felis ullamcorper auctor. Duis commodo purus sit amet aliquet consectetur. Nulla ac varius mauris. Duis ultricies volutpat sagittis. Sed pulvinar urna eget commodo dignissim. Nam eget justo vel massa commodo feugiat ac et magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla facilisi. Morbi feugiat lorem nulla, non iaculis eros sodales sit amet. Morbi quis ipsum vel magna tincidunt bibendum ac id magna.",
+    "created_at": "2022-01-01T10:30:00",
+    "is_read": false,
+    "is_replied": false,
+    "is_archived": false
+  },
+  {
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "janedoe@example.com",
+    "phone": "555-555-5555",
+    "subject": "Maecenas aliquam ultricies",
+    "message": "Maecenas aliquam ultricies tellus vel bibendum. Praesent in volutpat sapien. Sed ornare luctus arcu quis suscipit. Integer eu mauris mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed id felis a libero vulputate pretium. Nulla facilisi. Vivamus malesuada dignissim purus, at dapibus tortor pretium eget. Sed vehicula magna in arcu fermentum, eget rutrum ipsum pharetra. Sed dictum tincidunt tortor, sit amet faucibus eros accumsan sit amet. Etiam sagittis justo ac turpis finibus, sed dictum velit fringilla. Donec ac nibh auctor, maximus est ut, pharetra velit. Duis congue auctor mi, a pellentesque ipsum interdum nec. Fusce placerat ac nulla vel bibendum.",
+    "created_at": "2022-01-02T12:45:00",
+    "is_read": true,
+    "is_replied": true,
+    "is_archived": false
+  }
+]

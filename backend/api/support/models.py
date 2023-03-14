@@ -14,7 +14,7 @@ class Messages(models.Model):
     phone = CustomCharField(max_length=20, md_column_count=6, verbose_name="Phone")
     subject = CustomCharField(max_length=100, md_column_count=4, verbose_name="Subject")
     message = CustomTextField(
-        max_length=2000, md_column_count=12, verbose_name="Message"
+        max_length=20000, md_column_count=12, verbose_name="Message"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     is_read = CustomBooleanField(

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -7,7 +7,13 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import axios from "axios";
 import { IoLogoAngular } from "react-icons/io";
-import { Icon, Paper, Typography } from "@material-ui/core";
+import {
+  Icon,
+  IconButton,
+  Paper,
+  Typography,
+  useMediaQuery,
+} from "@material-ui/core";
 import Validate from "../../../../hooks/Validate";
 import useFormValidation from "../../../../hooks/useFormValidation";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +21,13 @@ import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
+import bcrypt from "bcryptjs";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
+    margin: theme.spacing(3, 0, 3, 0),
     backgroundColor: theme.palette.background.default,
     width: "100vw",
     minHeight: "772px",
@@ -112,15 +121,35 @@ const RegisterForm = ({ handleRegister }) => {
     email: "",
     password: "",
   });
+  const [sendData, setSendData] = useState({});
 
-  const submitLogic = (event) => {
+  const submitLogic = async (event) => {
+    event.preventDefault();
+
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await new Promise((resolve, reject) => {
+      bcrypt.hash(values.password, salt, (err, hash) => {
+        if (err) reject(err);
+        resolve(hash);
+      });
+    });
+
+    setSendData({ ...values, password: hashedPassword, salt: salt });
+    console.log({ ...values, password: hashedPassword, salt: salt });
+
     const loginData = {
       username: values.username,
-      password: values.password,
+      password: hashedPassword,
     };
-    event.preventDefault();
+
+    console.log("VALUES:", values);
+
     axios
-      .post("http://127.0.0.1:8000/api/auth/register/", values)
+      .post("http://127.0.0.1:8000/api/auth/register/", {
+        ...values,
+        password: hashedPassword,
+        salt: salt,
+      })
       .then((res) => {
         axiosInstance.post("/auth/login/", loginData).then((response) => {
           dispatch(
@@ -163,9 +192,84 @@ const RegisterForm = ({ handleRegister }) => {
     resetForm,
   } = useFormValidation(formData, Validate, submitLogic);
 
+  const textFields = [
+    {
+      label: "First Name",
+      id: "firstName",
+      autoComplete: "fname",
+    },
+    {
+      label: "Last Name",
+      id: "lastName",
+      autoComplete: "lname",
+    },
+    {
+      label: "Username",
+      id: "username",
+      autoComplete: "username",
+    },
+    {
+      label: "Email Address",
+      id: "email",
+      autoComplete: "email",
+    },
+    {
+      label: "Password",
+      id: "password",
+      autoComplete: "current-password",
+      type: "password",
+    },
+  ];
+
+  const advancedTextFields = [
+    {
+      id: "phone",
+      label: "Phone Number",
+      autoComplete: "phone",
+      type: "tel",
+      grid: 12,
+    },
+    {
+      id: "address",
+      label: "Address",
+      autoComplete: "address",
+      type: "text",
+      grid: 12,
+    },
+    {
+      id: "city",
+      label: "City",
+      autoComplete: "city",
+      type: "text",
+    },
+    {
+      id: "state",
+      label: "State",
+      autoComplete: "state",
+      type: "text",
+    },
+
+    {
+      id: "zipcode",
+      label: "Zipcode",
+      autoComplete: "zipcode",
+      type: "text",
+    },
+    {
+      id: "country",
+      label: "Country",
+      autoComplete: "country",
+      type: "text",
+    },
+  ];
+
+  const [isAdvanced, setIsAdvanced] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <div className={classes.root}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth={isAdvanced ? "lg" : "xs"}>
         <Paper className={classes.paper} elevation={6}>
           <Icon className={classes.icon}>
             <IoLogoAngular />
@@ -173,102 +277,92 @@ const RegisterForm = ({ handleRegister }) => {
           <Typography className={classes.heading}>Register</Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  className={classes.field}
-                  onChange={handleChange}
-                  error={!!errors.firstName}
-                  helperText={errors.firstName}
-                />
+              <Grid item xs={isAdvanced ? (isSmallScreen ? 12 : 6) : 12}>
+                <Grid container spacing={2}>
+                  {textFields.map((textField) => (
+                    <Grid
+                      item
+                      xs={
+                        textField.id === "firstName" ||
+                        textField.id === "lastName"
+                          ? 6
+                          : 12
+                      }
+                      key={textField.id}
+                    >
+                      <TextField
+                        variant="outlined"
+                        required
+                        fullWidth
+                        name={textField.id}
+                        label={textField.label}
+                        autoComplete={textField.autoComplete}
+                        type={textField.type || "text"}
+                        id={textField.id}
+                        className={classes.field}
+                        onChange={handleChange}
+                        error={!!errors[textField.id]}
+                        helperText={errors[textField.id]}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                  className={classes.field}
-                  onChange={handleChange}
-                  error={!!errors.lastName}
-                  helperText={errors.lastName}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  className={classes.field}
-                  onChange={handleChange}
-                  error={!!errors.username}
-                  helperText={errors.username}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  className={classes.field}
-                  onChange={handleChange}
-                  error={!!errors.email}
-                  helperText={errors.email}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  className={classes.field}
-                  onChange={handleChange}
-                  error={!!errors.password}
-                  helperText={errors.password}
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-            <Grid
-              container
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Grid item>
-                <Link href="/login">Already have an account? Login</Link>
+              {isAdvanced && (
+                <Grid item xs={isAdvanced ? (isSmallScreen ? 12 : 6) : 12}>
+                  <Grid container spacing={2}>
+                    {isAdvanced &&
+                      advancedTextFields.map((textField) => (
+                        <Grid
+                          item
+                          xs={textField.grid ? textField.grid : 6}
+                          key={textField.id}
+                        >
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            name={textField.id}
+                            label={textField.label}
+                            autoComplete={textField.autoComplete}
+                            type={textField.type || "text"}
+                            id={textField.id}
+                            className={classes.field}
+                            onChange={handleChange}
+                            error={!!errors[textField.id]}
+                            helperText={errors[textField.id]}
+                          />
+                        </Grid>
+                      ))}
+                  </Grid>
+                </Grid>
+              )}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton onClick={() => setIsAdvanced(!isAdvanced)}>
+                  {isAdvanced ? <ExpandLess /> : <ExpandMore />}
+                </IconButton>
+                <Typography style={{ marginLeft: 8 }}>
+                  Advanced Registration
+                </Typography>
+              </div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign Up
+              </Button>
+              <Grid
+                container
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Grid item>
+                  <Link href="/login">Already have an account? Login</Link>
+                </Grid>
               </Grid>
             </Grid>
           </form>

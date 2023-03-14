@@ -73,10 +73,21 @@ const Panel = ({ apiData }) => {
     });
   };
 
+  const handleRead = (data) => {
+    navigate(`/admin/${model.model_name}/read`, {
+      state: {
+        url: url,
+        keys: keys,
+        appName: appName,
+        model: model,
+        metadata: metadata,
+        id: data.id,
+        data: data,
+      },
+    });
+  };
+
   const fetchData = async () => {
-    console.log("URL:", url);
-    console.log("KEYS: ", keys);
-    console.log("METADATA", metadata);
     if (url && keys) {
       axiosInstance
         .get(url)
@@ -226,6 +237,20 @@ const Panel = ({ apiData }) => {
                     metadata={metadata}
                     model={model}
                     handleEdit={handleArticleEdit}
+                    handleDelete={handleDelete}
+                    handleConfirmDelete={handleConfirmDelete}
+                    handleClose={handleClose}
+                    handleMultipleDeleteAction={handleMultipleDeleteAction}
+                    updateMultipleItems={updateMultipleItems}
+                  />
+                ) : id === "messages" ? (
+                  <PanelTable
+                    open={open}
+                    keys={keys}
+                    data={data}
+                    metadata={metadata}
+                    model={model}
+                    handleEdit={handleRead}
                     handleDelete={handleDelete}
                     handleConfirmDelete={handleConfirmDelete}
                     handleClose={handleClose}

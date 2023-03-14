@@ -11,9 +11,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import SettingsIcon from "@material-ui/icons/Settings";
+import MessageIcon from "@mui/icons-material/Message";
+import ApprovalSharpIcon from "@mui/icons-material/ApprovalSharp";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import renderLinks from "./renderLinks";
+import { Badge } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   drawerHeader: {
@@ -32,6 +34,17 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     background: theme.palette.primary.light,
   },
+  links: {
+    "&:hover": {
+      background: theme.palette.text.secondary,
+    },
+  },
+  badge: {
+    "& .MuiBadge-badge": {
+      fontSize: 11,
+      background: theme.palette.primary.light,
+    },
+  },
 }));
 
 const AdminDrawerContent = ({
@@ -39,6 +52,7 @@ const AdminDrawerContent = ({
   toggleDrawer,
   openLinks,
   handleClick,
+  count,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -54,24 +68,68 @@ const AdminDrawerContent = ({
         </IconButton>
       </div>
       <Divider className={classes.divider} />
-      <List>
-        <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon className={classes.altIcon} />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-        </Link>
-        <Link to="/users" style={{ textDecoration: "none", color: "inherit" }}>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon className={classes.icon} />
-            </ListItemIcon>
-            <ListItemText primary="Users" />
-          </ListItem>
-        </Link>
-      </List>
+
+      <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
+        <ListItem
+          button
+          className={classes.links}
+          onClick={toggleDrawer(false)}
+        >
+          <ListItemIcon>
+            <DashboardIcon className={classes.altIcon} />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+      </Link>
+
+      <Link to="/adminlog" style={{ textDecoration: "none", color: "inherit" }}>
+        <ListItem
+          button
+          onClick={toggleDrawer(false)}
+          className={classes.links}
+        >
+          <ListItemIcon>
+            <AssignmentIcon className={classes.icon} />
+          </ListItemIcon>
+          <ListItemText primary="Admin Log" />
+        </ListItem>
+      </Link>
+      <Link
+        to="/admin/messages"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ListItem
+          button
+          onClick={toggleDrawer(false)}
+          className={classes.links}
+        >
+          <ListItemIcon>
+            {/* <MessageIcon className={classes.altIcon} /> */}
+            <Badge
+              badgeContent={count}
+              color="secondary"
+              small
+              className={classes.badge}
+            >
+              <MessageIcon className={classes.altIcon} />
+            </Badge>
+          </ListItemIcon>
+          <ListItemText primary="Messages" />
+        </ListItem>
+      </Link>
+      <Link to="/users" style={{ textDecoration: "none", color: "inherit" }}>
+        <ListItem
+          button
+          className={classes.links}
+          onClick={toggleDrawer(false)}
+        >
+          <ListItemIcon>
+            <PeopleIcon className={classes.icon} />
+          </ListItemIcon>
+          <ListItemText primary="Users (WIP)" />
+        </ListItem>
+      </Link>
+
       <Divider className={classes.divider} />
       {renderLinks({
         models,
@@ -82,28 +140,7 @@ const AdminDrawerContent = ({
         toggleDrawer,
       })}
       <Divider className={classes.divider} />
-      <List>
-        <Link to="/tasks" style={{ textDecoration: "none", color: "inherit" }}>
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon className={classes.altIcon} />
-            </ListItemIcon>
-            <ListItemText primary="Admin Log" />
-          </ListItem>
-        </Link>
-        <Link
-          to="/settings"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <SettingsIcon className={classes.icon} />
-            </ListItemIcon>
-            <ListItemText primary="Subscriber Log" />
-          </ListItem>
-        </Link>
-      </List>
-      <Divider className={classes.divider} />
+
       <List
         style={{
           display: "flex",

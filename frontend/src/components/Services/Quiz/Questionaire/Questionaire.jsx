@@ -152,7 +152,7 @@ const Questionaire = ({
   return (
     <Box
       style={{
-        maxWidth: isSmallScreen ? 500 : null,
+        maxWidth: isSmallScreen ? 375 : null,
         width: isSmallScreen ? "100%" : 800,
       }}
       className={`${classes.formContainer} ${classes.fadeIn}`}

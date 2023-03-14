@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.light,
     padding: theme.spacing(8, 0, 20, 0),
+    width: "100%",
   },
   gridItem: {
     display: "flex",
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     minHeight: "100%",
+    width: "100%",
   },
 }));
 
@@ -39,7 +41,7 @@ const Benefits = ({ benefits, block, setBlock }) => {
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="false">
+      <Container style={{ width: "100%" }}>
         {!editing && auth.is_superuser ? (
           <div style={{ marginTop: 20, maxWidth: 1000 }}>
             <EditDeleteButtonMenu
@@ -66,7 +68,7 @@ const Benefits = ({ benefits, block, setBlock }) => {
           />
         )}
         <div className={classes.benefitContainer}>
-          <Grid container>
+          <Grid container style={{ width: "100%" }}>
             {benefits.map((benefit, index) => (
               <Grid
                 item

@@ -9,7 +9,7 @@ admin_site.site_header = "EDGELORDS"
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ("username", "email", "first_name", "last_name", "is_staff")
+    list_display = ("username", "email", "first_name", "last_name", "salt", "is_staff")
     search_fields = ("username", "email")
     actions = ["delete_selected"]
 
@@ -26,3 +26,4 @@ class CustomThemeSettingsAdmin(admin.ModelAdmin):
 
 admin.site.register(ThemeSettings, CustomThemeSettingsAdmin)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(TokenBlacklist)

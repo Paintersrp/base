@@ -13,11 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     position: "fixed",
-    bottom: theme.spacing(10),
-    right: theme.spacing(10),
+    bottom: theme.spacing(4),
+    right: theme.spacing(9),
     zIndex: 1000,
-    // width: 56,
-    // height: 56,
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
     transition: "transform 0.2s ease-in-out",
@@ -26,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
       transform: "scale(1.01)",
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.main,
+    },
+    [theme.breakpoints.down("xs")]: {
+      bottom: theme.spacing(2),
+      right: theme.spacing(8),
     },
   },
   tooltip: {
@@ -55,8 +57,7 @@ function scrollToTop() {
   });
 }
 
-export function ScrollTopFab(props) {
-  const { children } = props;
+export function ScrollTopFab() {
   const classes = useStyles();
 
   const trigger = useScrollTrigger({

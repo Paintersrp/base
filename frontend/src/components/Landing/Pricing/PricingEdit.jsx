@@ -9,6 +9,7 @@ import ImageInput from "../../Elements/Fields/ImageInput";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { getCookie } from "../../../utils";
 import ManyToManyField from "../../Elements/Fields/ManyToManyField";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -151,6 +152,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
   const [formData, setFormData] = useState(plan);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
+  const dispatch = useDispatch();
 
   const handleImageChange = (event) => {
     formData.image = event.target.files[0];
@@ -209,6 +211,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
       console.log("??: ", res.data);
       setFormData(res.data);
       updatePlan(res.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

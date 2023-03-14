@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import { Link, Paper } from "@material-ui/core";
+import {
+  FaTwitter,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaGithub,
+} from "react-icons/fa";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -37,6 +45,12 @@ const useStyles = makeStyles((theme) => {
         color: theme.palette.secondary.main,
       },
     },
+    link: {
+      "&:hover": {
+        transform: "translateY(-10px)",
+        color: theme.palette.secondary.main,
+      },
+    },
     "@keyframes scrolling": {
       "0%": { transform: "translateX(0)" },
       "25%": { transform: "translateX(-25%)" },
@@ -47,9 +61,48 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export default function IconScroller({ data }) {
+const partners = [
+  {
+    id: 1,
+    icon: FaTwitter,
+    name: "twitter",
+    profile: "EdgelordsLLC",
+  },
+  {
+    id: 2,
+    icon: FaFacebook,
+    name: "facebook",
+    profile: "EdgelordsLLC",
+  },
+  {
+    id: 3,
+    icon: FaInstagram,
+    name: "instagram",
+    profile: "EdgelordsLLC",
+  },
+  {
+    id: 4,
+    icon: FaLinkedin,
+    name: "linkedin",
+    profile: "EdgelordsLLC",
+  },
+  {
+    id: 5,
+    icon: FaYoutube,
+    name: "youtube",
+    profile: "EdgelordsLLC",
+  },
+  {
+    id: 6,
+    icon: FaGithub,
+    name: "github",
+    profile: "EdgelordsLLC",
+  },
+];
+
+export default function IconScroller({}) {
   const classes = useStyles();
-  const duplicatedPartners = [...data, ...data, ...data];
+  const duplicatedPartners = [...partners, ...partners, ...partners];
   const [isScrolling, setIsScrolling] = useState(true);
 
   return (
@@ -63,12 +116,17 @@ export default function IconScroller({ data }) {
           className={classes.wrapper}
           style={{ animationPlayState: isScrolling ? "running" : "paused" }}
         >
-          {duplicatedPartners.map((partner) => (
-            <div key={partner.id} className={classes.icon}>
-              {React.createElement(partner.icon, {
-                size: 50,
-                color: partner.color,
-              })}
+          {duplicatedPartners.map((social) => (
+            <div key={social.id} className={classes.icon}>
+              <Link
+                className={classes.link}
+                href={`https://www.${social.name}.com/${social.profile}`}
+              >
+                {React.createElement(social.icon, {
+                  size: 50,
+                  color: social.color,
+                })}
+              </Link>
             </div>
           ))}
         </div>

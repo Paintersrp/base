@@ -6,18 +6,23 @@ import IconButton from "@material-ui/core/IconButton";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import YouTubeIcon from "@material-ui/icons/YouTube";
 
 const useStyles = makeStyles((theme) => ({
   cardContent: {
     padding: "0px 16px 0px 16px",
   },
   socialIcons: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(0),
     display: "flex",
     justifyContent: "center",
+    "&:hover": {
+      color: theme.palette.primary.light,
+    },
   },
   iconButton: {
-    padding: theme.spacing(1),
     color: theme.palette.primary.dark,
     "&:hover": {
       color: theme.palette.primary.gold,
@@ -32,6 +37,32 @@ const useStyles = makeStyles((theme) => ({
 
 const MemberContent = ({ member }) => {
   const classes = useStyles();
+  const socialPlatforms = [
+    {
+      name: "facebook",
+      icon: <FacebookIcon className={classes.iconButton} />,
+    },
+    {
+      name: "twitter",
+      icon: <TwitterIcon className={classes.iconButton} />,
+    },
+    {
+      name: "instagram",
+      icon: <InstagramIcon className={classes.iconButton} />,
+    },
+    {
+      name: "linkedIn",
+      icon: <LinkedInIcon className={classes.iconButton} />,
+    },
+    {
+      name: "youtube",
+      icon: <YouTubeIcon className={classes.iconButton} />,
+    },
+    {
+      name: "github",
+      icon: <GitHubIcon className={classes.iconButton} />,
+    },
+  ];
 
   return (
     <CardContent className={classes.cardContent}>
@@ -44,30 +75,24 @@ const MemberContent = ({ member }) => {
         {member.bio}
       </Typography>
       <div className={classes.socialIcons}>
-        <IconButton
-          className={classes.iconButton}
-          href={member.linkedIn}
-          target="_blank"
-          aria-label="LinkedIn"
-        >
-          <LinkedInIcon />
-        </IconButton>
-        <IconButton
-          className={classes.iconButton}
-          href={member.github}
-          target="_blank"
-          aria-label="GitHub"
-        >
-          <GitHubIcon />
-        </IconButton>
-        <IconButton
-          className={classes.iconButton}
-          href={member.twitter}
-          target="_blank"
-          aria-label="Twitter"
-        >
-          <TwitterIcon />
-        </IconButton>
+        {socialPlatforms.map((platform) => {
+          if (member[platform.name]) {
+            return (
+              <IconButton
+                key={platform.name}
+                className={classes.socialIcons}
+                aria-label={platform.name}
+                href={`https://www.${platform.name}.com/${
+                  member[platform.name]
+                }`}
+              >
+                {platform.icon}
+              </IconButton>
+            );
+          } else {
+            return null;
+          }
+        })}
       </div>
     </CardContent>
   );

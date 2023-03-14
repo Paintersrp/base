@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 const QuestionAnswerEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
   const [formData, setFormData] = useState(QA);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setFormData({
@@ -30,6 +32,7 @@ const QuestionAnswerEdit = ({ QA, onUpdate, onEdit, handleCancel }) => {
       );
       onUpdate();
       onEdit(false);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

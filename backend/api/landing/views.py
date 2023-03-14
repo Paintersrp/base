@@ -49,7 +49,6 @@ class LandingFullView(generics.GenericAPIView):
         processes = Process.objects.all()
         contact_information = ContactInformation.objects.first()
         articles = Articles.objects.filter(is_highlighted=True)
-        print(articles)
 
         landing_full = LandingFull(
             hero_block,

@@ -94,14 +94,13 @@ const AboutHeadingEdit = ({ aboutBlock, onUpdate, handleCancel }) => {
           />
           <Typography
             variant="h5"
-            color="black"
-            style={{ textAlign: "center" }}
+            style={{ textAlign: "center", color: "black" }}
           >
-            About Block Change
+            About Block Edit
           </Typography>
           <FormField
             key="title"
-            label="Title"
+            label="Company Title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />

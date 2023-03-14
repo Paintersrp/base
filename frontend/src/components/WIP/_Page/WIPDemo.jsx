@@ -10,7 +10,7 @@ import Item from "../../Elements/Layout/Item/Item";
 import Container from "../../Elements/Layout/Container/Container";
 import Text from "../../Elements/Layout/Text/Text";
 import Magazine from "../Magazine/Magazine";
-import AdminLogReport from "../../Admin/Reports/AdminLogReport";
+import AdminLogReport from "../../Admin/Reports/AdminLog/AdminLogReport";
 import TestForm from "../TestForm";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";

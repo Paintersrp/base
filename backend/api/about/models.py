@@ -97,6 +97,12 @@ class ContactInformation(models.Model):
     twitter = CustomCharField(
         max_length=100, null=True, md_column_count=6, verbose_name="Twitter"
     )
+    youtube = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="Youtube"
+    )
+    github = CustomCharField(
+        max_length=100, null=True, md_column_count=6, verbose_name="Github"
+    )
 
     class Meta:
         verbose_name = "Contact Information"
@@ -107,14 +113,38 @@ class TeamMember(models.Model):
     image = models.ImageField(upload_to="about_members", verbose_name="Image")
     name = CustomCharField(max_length=100, md_column_count=5, verbose_name="Name")
     role = CustomCharField(max_length=100, md_column_count=5, verbose_name="Role")
+    bio = models.TextField(verbose_name="Bio")
 
     linkedIn = CustomCharField(
-        max_length=100, md_column_count=4, verbose_name="LinkedIn"
+        max_length=100,
+        md_column_count=4,
+        verbose_name="LinkedIn",
+        blank=True,
+        null=True,
     )
-
-    github = CustomCharField(max_length=100, md_column_count=4, verbose_name="GitHub")
-    twitter = CustomCharField(max_length=100, md_column_count=4, verbose_name="Twitter")
-    bio = models.TextField(verbose_name="Bio")
+    github = CustomCharField(
+        max_length=100, md_column_count=4, verbose_name="GitHub", blank=True, null=True
+    )
+    twitter = CustomCharField(
+        max_length=100, md_column_count=4, verbose_name="Twitter", blank=True, null=True
+    )
+    facebook = CustomCharField(
+        max_length=100,
+        md_column_count=4,
+        verbose_name="Facebook",
+        blank=True,
+        null=True,
+    )
+    instagram = CustomCharField(
+        max_length=100,
+        md_column_count=4,
+        verbose_name="Instagram",
+        blank=True,
+        null=True,
+    )
+    youtube = CustomCharField(
+        max_length=100, md_column_count=4, verbose_name="YouTube", blank=True, null=True
+    )
 
     def __str__(self):
         return self.name

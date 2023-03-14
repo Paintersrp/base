@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
+import { useDispatch } from "react-redux";
 
 export default function InformationEdit({
   initialData,
@@ -9,6 +10,7 @@ export default function InformationEdit({
   handleCancel,
 }) {
   const [formData, setFormData] = useState(initialData);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setFormData({
@@ -28,10 +30,15 @@ export default function InformationEdit({
     };
     try {
       await axios
-        .patch(`http://localhost:8000/api/contact/`, formData, config)
+        .patch(
+          `http://localhost:8000/api/contactinformation/1/`,
+          formData,
+          config
+        )
         .then((res) => {
           setFormData(res.data);
           onUpdate(res.data);
+          dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
         });
     } catch (error) {
       console.log(error);

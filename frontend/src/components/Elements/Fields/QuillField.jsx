@@ -7,7 +7,6 @@ const useStyles = makeStyles({
   root: {
     marginBottom: 0,
     padding: 0,
-    marginLeft: 5,
     "& .ql-editor": {
       width: "100%",
       margin: "0 0 10px 0",
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
   sizeSmall: {
     marginBottom: 0,
     padding: 0,
-    marginLeft: 5,
+
     "& .ql-editor": {
       width: "100%",
       margin: "0 0 10px 0",
@@ -38,7 +37,6 @@ const useStyles = makeStyles({
   sizeMedium: {
     marginBottom: 0,
     padding: 0,
-    marginLeft: 5,
     "& .ql-editor": {
       width: "100%",
       margin: "0 0 10px 0",
@@ -55,7 +53,6 @@ const useStyles = makeStyles({
   sizeLarge: {
     marginBottom: 0,
     padding: 0,
-    marginLeft: 5,
     "& .ql-editor": {
       width: "100%",
       margin: "0 0 10px 0",

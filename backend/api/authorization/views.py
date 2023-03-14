@@ -8,11 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework.response import Response
 from django.db import IntegrityError
-from .models import *
+from .models import User, TokenBlacklist
 from .serializers import *
 import json
 import jwt
 from rest_framework.decorators import permission_classes
+import datetime
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class ThemeSettingsView(generics.RetrieveUpdateAPIView):
@@ -29,7 +31,16 @@ class ThemeSettingsView(generics.RetrieveUpdateAPIView):
                 )
                 username = decoded_token["user"]
                 user = User.objects.get(username=username)
-                theme_settings = user.theme_settings
+                print(user.email)
+
+                if user.theme_settings:
+                    theme_settings = user.theme_settings
+                else:
+                    theme_settings = ThemeSettings(
+                        primary_color="#2e3b55",
+                        secondary_color="#ff8c00",
+                        background_color="#F5F5F5",
+                    )
                 return theme_settings
 
             except (jwt.exceptions.DecodeError, User.DoesNotExist):
@@ -55,14 +66,13 @@ class ThemeSettingsView(generics.RetrieveUpdateAPIView):
 
 @csrf_exempt
 def verify_jwt(request):
-    """Func String"""
-
     authorization_header = request.headers.get("Authorization")
 
     if not authorization_header:
         return JsonResponse({"error": "Missing authorization header"}, status=401)
 
     token = authorization_header.split(" ")[1]
+
     try:
         decoded_token = jwt.decode(
             jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"]
@@ -70,8 +80,45 @@ def verify_jwt(request):
         username = decoded_token["user"]
         user = User.objects.get(username=username)
         theme = ThemeSettings.objects.get(user=user)
+        expiration_time = datetime.datetime.fromtimestamp(decoded_token["exp"])
 
-    except (jwt.exceptions.DecodeError, User.DoesNotExist):
+        if expiration_time - datetime.timedelta(days=1) <= datetime.datetime.now():
+            exp = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+            payload = {"user": username, "exp": exp}
+            refreshed_token = jwt.encode(
+                payload,
+                settings.SECRET_KEY,
+                algorithm="HS256",
+            )
+
+            try:
+                print("BLACKLISTED BLACKLISTED")
+                old_token = TokenBlacklist.objects.get(token=token)
+            except TokenBlacklist.DoesNotExist:
+                old_token = TokenBlacklist(token=token)
+                print("BLACKLISTED2 BLACKLISTED2")
+                token = "None"
+
+            old_token.save()
+
+            return JsonResponse(
+                {
+                    "authenticated": True,
+                    "is_superuser": user.is_superuser,
+                    "username": username,
+                    "primary": theme.primary_color,
+                    "secondary": theme.secondary_color,
+                    "background": theme.background_color,
+                    "refreshed_token": refreshed_token,
+                },
+                status=200,
+            )
+
+        if TokenBlacklist.objects.filter(token=token).exists():
+            print("BLACKLISTED3 BLACKLISTED3")
+            return JsonResponse({"authenticated": False}, status=401)
+
+    except (jwt.exceptions.DecodeError, User.DoesNotExist, ObjectDoesNotExist):
         return JsonResponse({"authenticated": False}, status=401)
 
     return JsonResponse(
@@ -85,6 +132,25 @@ def verify_jwt(request):
         },
         status=200,
     )
+
+
+@csrf_exempt
+def get_salt_view(request):
+    """Func String"""
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+
+        if not data["username"]:
+            return JsonResponse({"error": "Missing required fields"}, status=400)
+
+        user = User.objects.get(username=data["username"])
+
+        return JsonResponse({"salt": user.salt})
+
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 @csrf_exempt
@@ -105,9 +171,12 @@ def login_view(request):
             return JsonResponse({"error": "Invalid username or password"}, status=401)
 
         login(request, user)
-        token = jwt.encode(
-            {"user": data["username"]}, settings.SECRET_KEY, algorithm="HS256"
-        )
+
+        exp = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+        payload = {"user": data["username"], "exp": exp}
+
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
         response = JsonResponse(
             {
                 "jwt": token,
@@ -116,7 +185,7 @@ def login_view(request):
                 "username": data["username"],
             }
         )
-        response.set_cookie(key="jwt", value=token, httponly=True)
+        response.set_cookie(key="jwt", value=token, httponly=True, expires=exp)
 
         return response
 
@@ -130,6 +199,7 @@ def register(request):
 
     if request.method == "POST":
         data = json.loads(request.body)
+        print(data)
 
         if not data["username"] or not data["email"] or not data["password"]:
             return JsonResponse({"error": "Missing required fields"}, status=400)
@@ -140,8 +210,19 @@ def register(request):
             )
 
         try:
-            user = User.objects.create_user(
-                data["username"], data["email"], data["password"]
+            user = User.objects.create_user_with_settings(
+                data["username"],
+                data["email"],
+                data["password"],
+                data["firstName"],
+                data["lastName"],
+                data["phone"],
+                data["address"],
+                data["city"],
+                data["state"],
+                data["zipcode"],
+                data["country"],
+                data["salt"],
             )
 
         except IntegrityError:
@@ -157,10 +238,12 @@ def register(request):
 
 def logout_view(request):
     authorization_header = request.headers.get("Authorization")
+
     if not authorization_header:
         return JsonResponse({"error": "Missing authorization header"}, status=401)
 
     token = authorization_header.split(" ")[1]
+
     try:
         decoded_token = jwt.decode(
             jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"]
@@ -168,6 +251,9 @@ def logout_view(request):
         username = decoded_token["user"]
         user = User.objects.get(username=username)
         logout(request)
+        TokenBlacklist.objects.create(token=token)
+        print("BLACKLISTED4 BLACKLISTED4")
+
         return JsonResponse({"message": "User logged out successfully"})
 
     except (jwt.exceptions.DecodeError, User.DoesNotExist):

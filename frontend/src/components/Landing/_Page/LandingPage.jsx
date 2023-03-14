@@ -1,15 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import {
-  FaTwitter,
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaYoutube,
-  FaGithub,
-  FaStackOverflow,
-} from "react-icons/fa";
 import LatestNews from "../News/News";
 import NewsletterForm from "../Newsletter/NewsletterForm";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
@@ -18,42 +9,10 @@ import IconScroller from "../../Elements/Animations/IconScroller/IconScroller";
 import Processes from "../Processes/Processes";
 import Pricing from "../Pricing/Pricing";
 import Hero from "../Hero/Hero";
-import Loading from "../../Elements/Layout/Loading/Loading";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
 import { ScrollTopFab } from "../../Elements/Buttons/ScrollToTopFAB";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
-
-const partners = [
-  {
-    id: 1,
-    icon: FaTwitter,
-  },
-  {
-    id: 2,
-    icon: FaFacebook,
-  },
-  {
-    id: 3,
-    icon: FaInstagram,
-  },
-  {
-    id: 4,
-    icon: FaLinkedin,
-  },
-  {
-    id: 5,
-    icon: FaYoutube,
-  },
-  {
-    id: 6,
-    icon: FaGithub,
-  },
-  {
-    id: 7,
-    icon: FaStackOverflow,
-  },
-];
 
 function LandingPage({ handleUpdate }) {
   const [error, setError] = useState();
@@ -133,7 +92,7 @@ function LandingPage({ handleUpdate }) {
             setBlock={setNewsBlock}
           />
           <NewsletterForm />
-          <IconScroller data={partners} />
+          <IconScroller />
         </>
       )}
     </PageContainer>
