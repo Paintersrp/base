@@ -47,7 +47,7 @@ urlpatterns = [
     path("about/", AboutFullView.as_view(), name="about-full"),
     path("teammember/", TeamMemberListCreateView.as_view(), name="teammember-list"),
     path(
-        "members/<int:pk>/",
+        "teammember/<int:pk>/",
         TeamMemberRetrieveUpdateDestroyView.as_view(),
         name="member-detail",
     ),

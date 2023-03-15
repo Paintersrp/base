@@ -33,7 +33,3 @@ class Articles(models.Model):
     class Meta:
         verbose_name = "Articles"
         verbose_name_plural = "Articles"
-
-
-auditlog.register(Tags)
-auditlog.register(Articles)

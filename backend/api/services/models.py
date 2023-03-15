@@ -6,9 +6,10 @@ from auditlog.registry import auditlog
 
 class Benefits(BaseModel):
     title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
-    description = models.TextField(
+    description = CustomTextField(
         max_length=250,
         verbose_name="Description",
+        md_column_count=12,
     )
     icon = CustomCharField(max_length=40, md_column_count=12, verbose_name="Icon")
     buttonText = CustomCharField(
@@ -114,10 +115,3 @@ class ServiceCompareRows(models.Model):
     class Meta:
         verbose_name = "Service Table Rows"
         verbose_name_plural = "Service Table Rows"
-
-
-auditlog.register(Benefits)
-auditlog.register(ProcessTextItem)
-auditlog.register(ProcessImageItem)
-auditlog.register(ServiceTableLabels)
-auditlog.register(ServiceCompareRows)

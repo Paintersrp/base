@@ -8,7 +8,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BaseContent from "../../Elements/Base/BaseContent";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,8 +71,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReadMessage = ({ message, url, keys, appName, model, metadata, id }) => {
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+const ReadMessage = ({ message }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+
+  const handleBackButtonClick = () => {
+    navigate(-1);
+    setTimeout(() => {
+      scrollToTop();
+    }, 250);
+  };
 
   return (
     <BaseContent pt={0} pb={4} boxShadow={0}>
@@ -84,27 +99,14 @@ const ReadMessage = ({ message, url, keys, appName, model, metadata, id }) => {
           style={{ marginBottom: 16 }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Link
-              to={`/admin${url}`}
-              state={{
-                url: url,
-                keys: keys,
-                appName: appName,
-                model: model,
-                metadata: metadata,
-                id: id,
-              }}
-              key={appName}
-              className={classes.activeLink}
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={handleBackButtonClick}
+              className={classes.backButton}
             >
-              <IconButton
-                size="small"
-                color="primary"
-                className={classes.backButton}
-              >
-                <ArrowBack />
-              </IconButton>
-            </Link>
+              <ArrowBack />
+            </IconButton>
           </div>
         </Box>
         <Typography variant="h4" className={classes.title}>

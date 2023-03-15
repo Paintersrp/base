@@ -58,12 +58,9 @@ class CustomURLField(models.URLField):
 
 
 class CustomManyToManyField(models.ManyToManyField):
-    md_column_count = 6
-    xs_column_count = 12
-
     def __init__(self, *args, **kwargs):
-        self.md_column_count = kwargs.pop("md_column_count", self.md_column_count)
-        self.xs_column_count = kwargs.pop("xs_column_count", self.xs_column_count)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 

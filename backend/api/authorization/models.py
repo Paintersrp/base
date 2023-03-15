@@ -47,17 +47,41 @@ class CustomUserManager(UserManager):
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=255)
-    salt = models.CharField(max_length=255, null=True)
+    username = CustomCharField(
+        max_length=255, unique=True, md_column_count=6, verbose_name="Username"
+    )
+    email = CustomEmailField(unique=True, md_column_count=6, verbose_name="Email")
+    first_name = CustomCharField(
+        max_length=255, md_column_count=6, verbose_name="First Name"
+    )
+    last_name = CustomCharField(
+        max_length=255, md_column_count=6, verbose_name="Last Name"
+    )
 
-    phone_number = models.CharField(max_length=20, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=100, blank=True)
-    country = models.CharField(max_length=100, blank=True)
-    zip_code = models.CharField(max_length=20, blank=True)
+    password = CustomCharField(
+        max_length=255, md_column_count=6, verbose_name="Password"
+    )
+    salt = CustomCharField(
+        max_length=255, null=True, md_column_count=6, verbose_name="Salt"
+    )
+    phone_number = CustomCharField(
+        max_length=20, blank=True, md_column_count=6, verbose_name="Phone Number"
+    )
+    address = CustomCharField(
+        max_length=255, blank=True, md_column_count=6, verbose_name="Address"
+    )
+    city = CustomCharField(
+        max_length=100, blank=True, md_column_count=6, verbose_name="City"
+    )
+    state = CustomCharField(
+        max_length=100, blank=True, md_column_count=6, verbose_name="State"
+    )
+    zip_code = CustomCharField(
+        max_length=20, blank=True, md_column_count=6, verbose_name="Zipcode"
+    )
+    country = CustomCharField(
+        max_length=100, blank=True, md_column_count=6, verbose_name="Country"
+    )
 
     objects = CustomUserManager()
 
@@ -68,16 +92,38 @@ class User(AbstractUser):
 
 class ThemeSettings(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="theme_settings"
+        User,
+        on_delete=models.CASCADE,
+        related_name="theme_settings",
+        verbose_name="User",
     )
-    primary_color = models.CharField(max_length=7)
-    secondary_color = models.CharField(max_length=7)
-    background_color = models.CharField(max_length=7)
+    primary_color = CustomCharField(
+        max_length=7, md_column_count=4, verbose_name="Primary"
+    )
+
+    secondary_color = CustomCharField(
+        max_length=7, md_column_count=4, verbose_name="Secondary"
+    )
+    background_color = CustomCharField(
+        max_length=7, md_column_count=4, verbose_name="Background"
+    )
+
+    class Meta:
+        verbose_name = "Theme Settings"
+        verbose_name_plural = "Theme Settings"
 
 
 class TokenBlacklist(models.Model):
-    token = models.CharField(max_length=255, unique=True)
-    blacklisted_at = models.DateTimeField(auto_now_add=True)
+    token = CustomTextField(
+        max_length=500, unique=True, md_column_count=12, verbose_name="Token"
+    )
+    blacklisted_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Blacklisted At"
+    )
 
     def __str__(self):
         return self.token
+
+    class Meta:
+        verbose_name = "Token Blacklist"
+        verbose_name_plural = "Token Blacklist"

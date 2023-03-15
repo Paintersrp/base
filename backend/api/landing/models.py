@@ -1,22 +1,18 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from api.customs import (
-    CustomCharField,
-    CustomTextField,
-    CustomDecimalField,
-)
+from api.customs import *
 from auditlog.registry import auditlog
 
 
 class HeroBlock(models.Model):
     title = CustomCharField(max_length=200, md_column_count=6, verbose_name="Title")
+    buttonText = CustomCharField(
+        max_length=50, md_column_count=6, verbose_name="Button Text"
+    )
     heading = CustomTextField(max_length=500, md_column_count=6, verbose_name="Tagline")
     text = CustomTextField(
         max_length=500, md_column_count=6, verbose_name="Description"
-    )
-    buttonText = CustomCharField(
-        max_length=50, md_column_count=6, verbose_name="Button Text"
     )
 
     class Meta:
@@ -88,23 +84,28 @@ class SupportedSites(models.Model):
         return self.detail
 
     class Meta:
-        verbose_name = "SupportedSites"
-        verbose_name_plural = "SupportedSites"
+        verbose_name = "Supported Sites"
+        verbose_name_plural = "Supported Sites"
 
 
 class ServiceTier(models.Model):
+    image = models.ImageField(upload_to="pricing_images", verbose_name="Image")
     service_title = CustomCharField(
         max_length=100, md_column_count=6, verbose_name="Service Title"
     )
     price = CustomDecimalField(
         max_digits=10, decimal_places=2, md_column_count=6, verbose_name="Price"
     )
-    image = models.ImageField(upload_to="pricing_images", verbose_name="Image")
-    features = models.ManyToManyField(
-        Feature, related_name="features", verbose_name="Features"
+
+    features = CustomManyToManyField(
+        Feature, related_name="features", verbose_name="Features", md_column_count=6
     )
-    supported_sites = models.ManyToManyField(
-        SupportedSites, related_name="supportedsites", verbose_name="Supported Sites"
+
+    supported_sites = CustomManyToManyField(
+        SupportedSites,
+        related_name="supportedsites",
+        verbose_name="Supported Sites",
+        md_column_count=6,
     )
     paragraph_one = CustomTextField(
         max_length=500, md_column_count=12, verbose_name="Paragraph 1"
@@ -123,6 +124,11 @@ class ServiceTier(models.Model):
         self.features.all().delete()
         self.supported_sites.all().delete()
         super().delete(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.features.xs_column_count = 12
+        self.features.md_column_count = 8
 
     class Meta:
         verbose_name = "Service Tiers"
@@ -158,13 +164,3 @@ class Process(models.Model):
 @receiver(pre_save, sender=TitleBlock)
 def lowercase_name(sender, instance, **kwargs):
     instance.name = instance.name.lower()
-
-
-auditlog.register(Process)
-auditlog.register(HeroBlock)
-auditlog.register(Testimonial)
-auditlog.register(ServiceTier)
-auditlog.register(TitleBlock)
-auditlog.register(Item)
-auditlog.register(Feature)
-auditlog.register(SupportedSites)

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  Divider,
+  Grid,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import BaseForm from "../../../Elements/Base/BaseForm";
 import getByType from "./getByType";
@@ -8,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import Loading from "../../../Elements/Layout/Loading/Loading";
 import { useDispatch } from "react-redux";
+import { renderComponentPreview } from "./renderComponentPreview";
 
 const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   const dispatch = useDispatch();
@@ -138,6 +146,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     }
 
     if (Object.keys(data).length === 0) {
+      console.log("if'd");
       try {
         const response = await axiosInstance.post(
           endpointUrl,
@@ -151,6 +160,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         console.log(err);
       }
     } else {
+      console.log("else'd");
+      console.log("else'd id: ", data);
       try {
         const response = await axiosInstance.patch(
           `${endpointUrl}${data.id}/`,
@@ -177,6 +188,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           minHeight={isSmallScreen ? 400 : 600}
           title={modelMetadata.verboseName}
           background="#F5F5F5"
+          boxShadow={2}
         >
           <Grid container justifyContent="center">
             {fieldMetadata &&
@@ -189,7 +201,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   fieldName === "last_login" ||
                   fieldName === "date_joined" ||
                   fieldName === "subscribed_on" ||
-                  fieldName === "password"
+                  fieldName === "password" ||
+                  fieldName === "salt"
                 ) {
                   return null;
                 }
@@ -202,6 +215,10 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   justify,
                   markdown,
                 } = fieldMetadata[fieldName];
+
+                if (fieldName === "features") {
+                  console.log(fieldMetadata[fieldName]);
+                }
 
                 const { verbose_name } = metadata[fieldName];
 
@@ -246,6 +263,48 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
               onClick={routeBackToModel}
               minWidth={80}
             />
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              paddingTop: 16,
+            }}
+          >
+            <Paper
+              style={{
+                width: "100%",
+                background: "rgba(0,0,0,0.1)",
+                padding: 24,
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {modelMetadata.modelName !== "Feature" &&
+              modelMetadata.modelName !== "SupportedSites" ? (
+                <>
+                  <Typography
+                    variant="h3"
+                    align="center"
+                    color="textSecondary"
+                    style={{ marginBottom: 16 }}
+                  >
+                    Component Preview
+                  </Typography>
+                  <Divider style={{ marginBottom: 16 }} />
+                  {renderComponentPreview(modelMetadata, formData, newImage)}
+                </>
+              ) : (
+                <Typography variant="h3" align="center" color="textSecondary">
+                  No Component Attached to Model
+                </Typography>
+              )}
+            </Paper>
           </Grid>
         </BaseForm>
       ) : (

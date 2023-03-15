@@ -34,6 +34,3 @@ class Header(models.Model):
     class Meta:
         verbose_name = "SEO Headers"
         verbose_name_plural = "SEO Headers"
-
-
-auditlog.register(Header)

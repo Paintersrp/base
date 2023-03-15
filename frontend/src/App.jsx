@@ -21,7 +21,6 @@ function App() {
   });
   const dispatch = useDispatch();
   const [theme, setThemeUpdate] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleUpdate = () => {
     axiosInstance

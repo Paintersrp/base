@@ -18,8 +18,6 @@ import ServiceIndividualPage from "../../components/Services/Individual/_Page/Se
 import ServicesPage from "../../components/Services/_Page/ServicesPage";
 import SupportPage from "../../components/Support/_Page/SupportPage";
 import WIPDemo from "../../components/WIP/_Page/WIPDemo";
-import ScrollToTop from "../../utils/ScrollToTop";
-import Footer from "../Components/Footer/Footer";
 import Navigation from "../Components/Navigation/Navigation";
 import linkData from "../Components/Navigation/linkData";
 import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
@@ -33,6 +31,7 @@ import axiosInstance from "../../lib/Axios/axiosInstance";
 import AdminRoute from "./AdminRoute";
 import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
 import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
+import Footer from "../Components/Footer/Footer";
 
 {
   /* 
@@ -168,14 +167,19 @@ export default function SiteRoutes({ handleUpdate }) {
             key={location.pathname}
           />
           <Route path="/admin/:str/control" element={<ObjectPage />} />
+          <Route path="/admin/:str/control/:pk" element={<ObjectPage />} />
           <Route
             path="/admin/:str/read"
+            element={<ReadPage setCount={setCount} />}
+          />
+          <Route
+            path="/admin/:str/read/:pk"
             element={<ReadPage setCount={setCount} />}
           />
         </Routes>
       ) : (
         <div>
-          <Loading loading={loading} message={"Tits?"} />
+          <Loading loading={loading} message={"Gathering Resources"} />
         </div>
       )}
       {!isAdminPath ? (

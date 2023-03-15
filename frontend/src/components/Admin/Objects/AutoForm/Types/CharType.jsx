@@ -2,6 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
 import IconSelectMixin from "../../../../Elements/Base/EditForm/IconSelectMixin";
+import HeroBlock from "../../../../Elements/TextBlocks/HeroBlock/HeroBlock";
 
 const CharType = ({
   formData,
@@ -42,6 +43,7 @@ const CharType = ({
           />
         </>
       )}
+      
     </Grid>
   );
 };

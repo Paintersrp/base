@@ -15,7 +15,6 @@ import TestForm from "../TestForm";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
-import BlogPosts from "../BlogPosts/BlogPosts";
 
 const actions = [
   <Grid
@@ -84,15 +83,6 @@ const blogPosts = [
 ];
 
 const wipComponents = [
-  {
-    component: BlogPosts,
-    props: {
-      blogPosts: blogPosts,
-    },
-  },
-  {
-    component: AdminLogReport,
-  },
   {
     component: Magazine,
     props: {

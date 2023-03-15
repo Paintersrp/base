@@ -10,8 +10,17 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class TokenBlacklistSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["token", "blacklisted_at"]
+
+    class Meta:
+        model = TokenBlacklist
+        fields = "__all__"
+
+
 class ThemeSettingsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["user"]
+    user = serializers.StringRelatedField(source="user.username")
+    FIELD_KEYS = ["user", "primary_color", "secondary_color", "background_color"]
 
     class Meta:
         model = ThemeSettings
@@ -19,4 +28,5 @@ class ThemeSettingsSerializer(serializers.ModelSerializer):
 
 
 User.serializer_class = UserSerializer
+TokenBlacklist.serializer_class = TokenBlacklistSerializer
 ThemeSettings.serializer_class = ThemeSettingsSerializer

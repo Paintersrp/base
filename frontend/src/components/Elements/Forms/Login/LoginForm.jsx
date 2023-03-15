@@ -4,14 +4,13 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import { Checkbox, FormControlLabel, Icon, Paper } from "@material-ui/core";
 import { IoLogoAngular } from "react-icons/io";
 import Cookies from "js-cookie";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdvancedSnackbar from "../../Snackbars/Snackbar";
 import { setAuth, setTheme, setUser } from "../../../../lib/Actions/auth";
 import useFormValidation from "../../../../hooks/useFormValidation";
@@ -99,6 +98,9 @@ const useStyles = makeStyles((theme) => ({
   label: {
     color: "black",
   },
+  linkText: {
+    color: "#007bff",
+  },
 }));
 
 const LoginForm = ({ handleLogin }) => {
@@ -171,8 +173,11 @@ const LoginForm = ({ handleLogin }) => {
               })
             );
             console.log(values);
+            console.log(response.data);
             if (values.rememberMe) {
-              Cookies.set("jwt", response.data.jwt);
+              const expires = new Date(Date.parse(response.data.exp));
+              Cookies.set("jwt", response.data.jwt, { expires });
+
               Cookies.set("username", formData.username, { expires: 90 });
             }
           })
@@ -213,7 +218,6 @@ const LoginForm = ({ handleLogin }) => {
               label="Username"
               name="username"
               autoComplete="username"
-              autoFocus
               className={classes.field}
               onChange={handleChange}
               error={!!errors.username}
@@ -257,12 +261,12 @@ const LoginForm = ({ handleLogin }) => {
             </Button>
             <Grid container>
               <Grid item xs style={{ marginTop: 5 }}>
-                <Link href="#" variant="body2">
+                <Link to="#" className={classes.linkText}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item style={{ marginTop: 5 }}>
-                <Link href="#" variant="body2">
+                <Link to="/register" className={classes.linkText}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

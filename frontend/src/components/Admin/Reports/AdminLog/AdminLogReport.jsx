@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -27,13 +28,16 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 250,
     maxWidth: 250,
   },
+  link: {
+    color: "#007bff",
+  },
 }));
 
 export default function AdminLogReport() {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [appLabelFilter, setAppLabelFilter] = useState([]);
   const [modelNameFilter, setModelNameFilter] = useState([]);
   const [actionFlagFilter, setActionFlagFilter] = useState([]);
@@ -132,7 +136,6 @@ export default function AdminLogReport() {
             },
             getContentAnchorEl: null,
           }}
-          variant="filled"
           multiple
           value={modelNameFilter}
           onChange={handleModelNameFilterChange}
@@ -153,7 +156,6 @@ export default function AdminLogReport() {
         <InputLabel>Filter by Action Flag</InputLabel>
         <Select
           multiple
-          variant="filled"
           value={actionFlagFilter}
           onChange={handleActionFlagFilterChange}
           input={<Input id="select-multiple-action-flag" />}
@@ -181,20 +183,16 @@ export default function AdminLogReport() {
         </Select>
       </FormControl>
       <TableContainer>
-        <Table
-          className={classes.table}
-          size="small"
-          aria-label="a dense table"
-        >
+        <Table className={classes.table} size="small">
           <TableHead>
             <TableRow>
+              <TableCell align="left">User</TableCell>
               <TableCell align="left">Action Time</TableCell>
               <TableCell align="left">Action Flag</TableCell>
-              <TableCell align="left">Content Type</TableCell>
+
               <TableCell align="left">App Label</TableCell>
               <TableCell align="left">Model Name</TableCell>
-              <TableCell align="left">Object ID</TableCell>
-              <TableCell align="left">Object Representation</TableCell>
+
               <TableCell align="left">Change Message</TableCell>
               <TableCell align="left">Object URL</TableCell>
             </TableRow>
@@ -204,24 +202,32 @@ export default function AdminLogReport() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.id}>
+                  <TableCell align="left">{row.user}</TableCell>
                   <TableCell align="left">
                     {new Date(row.action_time).toLocaleString()}
                   </TableCell>
                   <TableCell align="left">{row.action_flag}</TableCell>
-                  <TableCell align="left">{row.content_type}</TableCell>
                   <TableCell align="left">{row.app_label}</TableCell>
                   <TableCell align="left">{row.model_name}</TableCell>
-                  <TableCell align="left">{row.object_id}</TableCell>
-                  <TableCell align="left">{row.object_repr}</TableCell>
                   <TableCell align="left">{row.change_message}</TableCell>
-                  <TableCell align="left">{row.obj_url}</TableCell>
+                  <TableCell align="left">
+                    {row.obj_url === "Not Applicable" ||
+                    row.obj_url === "Object not found" ||
+                    row.obj_url === "Failed" ? (
+                      <>{row.obj_url}</>
+                    ) : (
+                      <Link className={classes.link} to={`${row.obj_url}`}>
+                        {row.obj_url}
+                      </Link>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
+        rowsPerPageOptions={[20, 50, 100]}
         component="div"
         count={filteredData.length}
         rowsPerPage={rowsPerPage}

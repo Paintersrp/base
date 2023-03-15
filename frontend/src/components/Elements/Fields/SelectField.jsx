@@ -51,6 +51,7 @@ const SelectField = ({
   handleInputChange,
   choices,
 }) => {
+  console.log(choices);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -123,6 +124,8 @@ const SelectField = ({
                       ? value.service_title
                       : fieldName === "job"
                       ? value.position
+                      : fieldName === "user"
+                      ? value.username
                       : value.name
                   }
                 >
@@ -132,6 +135,8 @@ const SelectField = ({
                       ? value.service_title
                       : fieldName === "job"
                       ? value.position
+                      : fieldName === "user"
+                      ? value.username
                       : value.name}
                   </span>
                 </MenuItem>
@@ -147,7 +152,9 @@ const SelectField = ({
           paddingTop: 4,
         }}
       >
-        {!fieldName.includes("service_tier") && fieldName !== "job" ? (
+        {!fieldName.includes("service_tier") &&
+        fieldName !== "job" &&
+        fieldName !== "user" ? (
           <StyledButton
             noHover
             borderRadius={40}

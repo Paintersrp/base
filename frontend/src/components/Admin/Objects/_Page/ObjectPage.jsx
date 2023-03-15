@@ -8,6 +8,7 @@ import BaseContent from "../../../Elements/Base/BaseContent";
 import UpdateArticleView from "../../../Articles/Update/UpdateArticleView";
 import ArticleCreate from "../Mixins/Articles/ArticleCreate";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import Loading from "../../../Elements/Layout/Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ObjectPage() {
-  const { str } = useParams();
+  const { str, pk } = useParams();
+  console.log(str);
   const classes = useStyles();
   const location = useLocation();
   const [model, setModel] = useState(null);
@@ -36,10 +38,7 @@ function ObjectPage() {
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
   const [ready, setReady] = useState(false);
-
-  // const { url, keys, appName, model, metadata, id, data } =
-  //   location.state || {};
-  // console.log("STATE: ", location.state);
+  const [create, setCreate] = useState(false);
 
   const fetchData = async () => {
     if (url && keys) {
@@ -47,6 +46,7 @@ function ObjectPage() {
         .get(url)
         .then((response) => {
           setData(response.data);
+          console.log("OBJ PAGE: ", response.data);
         })
         .catch((err) => {
           setError(err);
@@ -56,7 +56,8 @@ function ObjectPage() {
 
   useEffect(() => {
     setReady(false);
-    if (!location.state) {
+    if (!location.state && !pk) {
+      console.log("HERE");
       axiosInstance
         .get(`/get_models/${str}/`)
         .then((response) => {
@@ -66,6 +67,34 @@ function ObjectPage() {
           setKeys(response.data.keys);
           setMetadata(response.data.metadata);
           setModel(response.data);
+          setReady(true);
+          setCreate(true);
+          console.log("OBJ PAGE URL: ", response.data.url);
+          console.log("OBJ PAGE KEYS: ", response.data.keys);
+        })
+        .catch((error) => console.log(error));
+    } else if (!location.state && pk) {
+      axiosInstance
+        .get(`/get_models/${str}/`)
+        .then((response) => {
+          console.log(response.data);
+          setUrl(response.data.url);
+          setAppName(response.data.app_name);
+          setKeys(response.data.keys);
+          setMetadata(response.data.metadata);
+          setModel(response.data);
+
+          setCreate(false);
+          console.log("OBJ PAGE URL: ", response.data.url);
+          console.log("OBJ PAGE KEYS: ", response.data.keys);
+        })
+        .catch((error) => console.log(error));
+      axiosInstance
+        .get(`/${str}/${pk}/`)
+        .then((response) => {
+          setData(response.data);
+          setCreate(false);
+          console.log("GOT DATA?: ", response.data);
           setReady(true);
         })
         .catch((error) => console.log(error));
@@ -77,6 +106,8 @@ function ObjectPage() {
       setModel(location.state.model);
       setId(location.state.id);
       setData(location.state.data);
+      console.log("OBJ PAGE URL2: ", location.state.url);
+      console.log("OBJ PAGE KEYS2: ", location.state.keys);
       setReady(true);
     }
   }, []);
@@ -84,6 +115,10 @@ function ObjectPage() {
   const handleUpdate = () => {
     fetchData();
   };
+
+  if (!ready) {
+    return <Loading loading={true} message="Gathering Resources" />;
+  }
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
@@ -123,7 +158,7 @@ function ObjectPage() {
             <UpdateArticleView manualId={id} />
           ) : model.verbose_name === "Articles" ? (
             <ArticleCreate />
-          ) : !data ? (
+          ) : create ? (
             <AutoForm endpointUrl={url} handleUpdate={handleUpdate} />
           ) : (
             <AutoForm

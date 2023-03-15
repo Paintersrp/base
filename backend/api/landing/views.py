@@ -15,6 +15,8 @@ from .serializers import *
 from authorization.authentication import JWTTokenAuthentication
 from about.models import ContactInformation
 from articles.models import Articles
+from auditlog.models import LogEntry
+from api.utilities import create_log_entry, return_changes
 
 
 class LandingFull(object):
@@ -88,20 +90,90 @@ class HeroBlockAPIView(generics.ListCreateAPIView):
     queryset = HeroBlock.objects.all()
     serializer_class = HeroBlockSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class HeroBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HeroBlock.objects.all()
     serializer_class = HeroBlockSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = HeroBlock.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class TitleBlockAPIView(generics.ListCreateAPIView):
     queryset = TitleBlock.objects.all()
     serializer_class = TitleBlockSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class TitleBlockUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TitleBlock.objects.all()
     serializer_class = TitleBlockSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = TitleBlock.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class TitleBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -109,14 +181,50 @@ class TitleBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TitleBlockSerializer
     lookup_field = "name"
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = TitleBlock.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
         item = self.get_object()
+        old_instance = Item.objects.get(pk=item.pk)
 
         if not request.FILES.get("image"):
             data["image"] = item.image
@@ -131,22 +239,112 @@ class ItemViewSet(viewsets.ModelViewSet):
 
             item.buttonText = request.data["buttonText"]
             item.buttonLink = request.data["buttonLink"]
-            # item = serializer.save()
+
             item.save()
+
+            changes = return_changes(item, old_instance)
+            create_log_entry(LogEntry.Action.UPDATE, request.username, item, changes)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class FeatureViewSet(generics.ListCreateAPIView):
     queryset = Feature.objects.all()
     serializer_class = FeatureSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+
+class FeatureDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Feature.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class SupportedSiteViewSet(generics.ListCreateAPIView):
     queryset = SupportedSites.objects.all()
     serializer_class = SupportedSitesSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+
+class SupportedSiteDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SupportedSites.objects.all()
+    serializer_class = SupportedSitesSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = SupportedSites.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ServiceTierView(
@@ -186,6 +384,7 @@ class ServiceTierView(
         )
         pricing_plan.features.set(feature_objs)
         pricing_plan.supported_sites.set(supported_sites_objs)
+        create_log_entry(LogEntry.Action.CREATE, request.username, pricing_plan, None)
 
         serializer = self.get_serializer(pricing_plan)
 
@@ -198,6 +397,7 @@ class ServiceTierDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        old_instance = ServiceTier.objects.get(pk=instance.pk)
         formatted_data = self.serializer_class().format_data(request.data)
 
         title = formatted_data.get("service_title", instance.service_title)
@@ -242,19 +442,86 @@ class ServiceTierDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.supported_sites.set(supported_sites_objs)
         serializer = self.get_serializer(instance)
 
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
         return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProcessViewSet(generics.ListCreateAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class ProcessDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Process.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class TestimonialViewSet(generics.ListCreateAPIView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

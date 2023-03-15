@@ -9,8 +9,9 @@ const ManyToManyType = ({
   verboseName,
   handleManyToManyChange,
   xsColumnCount = 12,
-  mdColumnCount = 10,
+  mdColumnCount = 6,
 }) => {
+  console.log("md: TTTTT: ", mdColumnCount);
   return (
     <Grid
       item

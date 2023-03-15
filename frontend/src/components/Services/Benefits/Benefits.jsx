@@ -41,7 +41,7 @@ const Benefits = ({ benefits, block, setBlock }) => {
 
   return (
     <div className={classes.root}>
-      <Container style={{ width: "100%" }}>
+      <Container maxWidth="xl" style={{ width: "100%" }}>
         {!editing && auth.is_superuser ? (
           <div style={{ marginTop: 20, maxWidth: 1000 }}>
             <EditDeleteButtonMenu

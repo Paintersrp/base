@@ -17,7 +17,27 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class ThemeSettingsView(generics.RetrieveUpdateAPIView):
+class TokenBlacklistAPIView(generics.ListCreateAPIView):
+    queryset = TokenBlacklist.objects.all()
+    serializer_class = TokenBlacklistSerializer
+
+
+class TokenBlacklistDetailView(generics.RetrieveUpdateAPIView):
+    queryset = TokenBlacklist.objects.all()
+    serializer_class = TokenBlacklistSerializer
+
+
+class ThemeSettingsAPIView(generics.ListCreateAPIView):
+    queryset = ThemeSettings.objects.all()
+    serializer_class = ThemeSettingsSerializer
+
+
+class ThemeSettingsDetailGenericView(generics.RetrieveUpdateAPIView):
+    queryset = ThemeSettings.objects.all()
+    serializer_class = ThemeSettingsSerializer
+
+
+class ThemeSettingsDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = ThemeSettingsSerializer
 
     def get_object(self):
@@ -31,7 +51,6 @@ class ThemeSettingsView(generics.RetrieveUpdateAPIView):
                 )
                 username = decoded_token["user"]
                 user = User.objects.get(username=username)
-                print(user.email)
 
                 if user.theme_settings:
                     theme_settings = user.theme_settings
@@ -110,6 +129,7 @@ def verify_jwt(request):
                     "secondary": theme.secondary_color,
                     "background": theme.background_color,
                     "refreshed_token": refreshed_token,
+                    "exp": exp,
                 },
                 status=200,
             )
@@ -183,6 +203,7 @@ def login_view(request):
                 "authenticated": True,
                 "is_superuser": user.is_superuser,
                 "username": data["username"],
+                "exp": exp,
             }
         )
         response.set_cookie(key="jwt", value=token, httponly=True, expires=exp)

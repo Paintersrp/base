@@ -1,111 +1,70 @@
 import React, { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import FormControl from "@material-ui/core/FormControl";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Container,
+  Grid,
+  Typography,
+  Divider,
+  FormControl,
+  TextField,
+  Button,
+  IconButton,
+} from "@material-ui/core";
+import TokenSharpIcon from "@mui/icons-material/TokenSharp";
 import { Link } from "react-router-dom";
-import { GiEnergySword } from "react-icons/gi";
-import { useMediaQuery } from "@material-ui/core";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
 import useFormValidation from "../../../hooks/useFormValidation";
-import Validate from "../../../hooks/Validate";
-import CheckIcon from "@material-ui/icons/Check";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import TwitterIcon from "@material-ui/icons/Twitter";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import YouTubeIcon from "@material-ui/icons/YouTube";
+import Validate from "../../../hooks/Validate";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import CheckIcon from "@material-ui/icons/Check";
+import { useDispatch } from "react-redux";
+import { links, socialPlatforms } from "./FooterData";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    width: "100%",
-    minHeight: 200,
+    padding: theme.spacing(4, 0, 2, 0),
   },
   container: {
+    maxWidth: 1280,
+    margin: "0 auto",
+    textAlign: "center",
+  },
+  logo: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    flexWrap: "wrap",
-    width: "100%",
+    marginBottom: theme.spacing(3),
+  },
+  logoIcon: {
+    marginRight: theme.spacing(1),
+  },
+  appTitle: {
+    fontWeight: 600,
+    fontSize: "1.25rem",
+  },
+  title: {
+    fontWeight: 600,
+    fontSize: "1rem",
+    marginBottom: 0,
   },
   link: {
-    fontWeight: 700,
-    margin: theme.spacing(1),
     color: theme.palette.primary.contrastText,
+    marginTop: 2,
+    fontWeight: 300,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
   },
-  grid: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
+  divider: {
+    margin: theme.spacing(4, 0),
+    backgroundColor: theme.palette.primary.light,
   },
-  typography: {
-    textAlign: "center",
-    margin: theme.spacing(2, 0),
-  },
-  formControl: {
-    margin: theme.spacing(1, 0),
-    color: "white",
-  },
-  button: {
-    margin: theme.spacing(1),
-    boxShadow: theme.shadows[1],
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.primary.contrastText,
-    transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-2px)",
-      boxShadow: theme.shadows[3],
-      backgroundColor: theme.palette.primary.light,
-    },
-    "& .MuiButton-startIcon": {
-      margin: "0px !important",
-    },
-  },
-  icon: {
-    color: theme.palette.primary.contrastText,
-    "&:hover": {
-      color: theme.palette.secondary.main,
-    },
-  },
-  gridItem: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  gridForm: {
-    paddingTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
-  },
-  gridSocial: {
-    width: "50%",
-    display: "flex",
-    flexDirection: "column",
-    paddingBottom: 20,
-  },
-  businessName: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    color: theme.palette.primary.contrastText,
-    "&:hover": {
-      color: theme.palette.secondary.main,
-    },
+  disclaimer: {
+    color: theme.palette.primary.light,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
   input: {
     margin: theme.spacing(1),
@@ -129,63 +88,46 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.light,
     },
   },
-  startIcon: {
-    paddingRight: 8,
+  formControl: {
+    margin: theme.spacing(1, 0),
+    color: "white",
+  },
+  button: {
+    margin: theme.spacing(1),
+    boxShadow: theme.shadows[1],
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.contrastText,
+    transition: "0.3s",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: theme.shadows[3],
+      backgroundColor: theme.palette.primary.light,
+    },
+    "& .MuiButton-startIcon": {
+      margin: "0px !important",
+    },
   },
   socialIcons: {
-    padding: theme.spacing(0.5),
-    marginTop: theme.spacing(0),
     display: "flex",
     justifyContent: "center",
     "&:hover": {
       color: theme.palette.primary.light,
-      backgroundColor: "inherit",
     },
   },
   iconButton: {
     color: theme.palette.secondary.main,
     "&:hover": {
-      color: theme.palette.common.white,
-      backgroundColor: "inherit",
+      color: theme.palette.secondary.light,
     },
   },
 }));
 
-const links = [
-  { name: "About", href: "about" },
-  {
-    name: "Services",
-    href: "services",
-  },
-  {
-    name: "Contact",
-    href: "contact",
-  },
-  {
-    name: "News",
-    href: "articles",
-  },
-  {
-    name: "Support",
-    href: "support",
-  },
-  {
-    name: "Privacy",
-    href: "privacy",
-  },
-  {
-    name: "Terms",
-    href: "terms",
-  },
-];
-
-export default function Footer({ socialData }) {
+const Footer = ({ socialData }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [state, setState] = useState("initial");
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   const submitLogic = (e) => {
     e.preventDefault();
@@ -198,10 +140,12 @@ export default function Footer({ socialData }) {
         setState("success");
         setFormData({ email: "" });
         resetForm({ email: "" });
+        dispatch({ type: "ALERT_SUCCESS", message: "Subscribed" });
       })
       .catch((error) => {
         setError(true);
         setState("initial");
+        dispatch({ type: "ALERT_FAIL", message: "Subscription Failed" });
       });
   };
   const {
@@ -213,38 +157,22 @@ export default function Footer({ socialData }) {
     resetForm,
   } = useFormValidation(formData, Validate, submitLogic);
 
-  const socialPlatforms = [
-    {
-      name: "facebook",
-      icon: <FacebookIcon className={classes.iconButton} />,
-    },
-    {
-      name: "twitter",
-      icon: <TwitterIcon className={classes.iconButton} />,
-    },
-    {
-      name: "instagram",
-      icon: <InstagramIcon className={classes.iconButton} />,
-    },
-    {
-      name: "linkedin",
-      icon: <LinkedInIcon className={classes.iconButton} />,
-    },
-    {
-      name: "youtube",
-      icon: <YouTubeIcon className={classes.iconButton} />,
-    },
-    {
-      name: "github",
-      icon: <GitHubIcon className={classes.iconButton} />,
-    },
-  ];
-
   return (
-    <footer className={classes.root}>
-      <Container className={classes.container} maxWidth={false}>
-        <Grid container spacing={0} className={classes.grid}>
-          <Grid item xs={12} sm={12} md={3} className={classes.gridForm}>
+    <div className={classes.root}>
+      <Container className={classes.container}>
+        <div className={classes.logo}>
+          <Link href="#" className={classes.link} style={{ display: "flex" }}>
+            <TokenSharpIcon
+              className={classes.logoIcon}
+              style={{ fontSize: "1.6rem" }}
+            />
+            <Typography variant="h4" className={classes.appTitle}>
+              EDGELORDS
+            </Typography>
+          </Link>
+        </div>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
             <form onSubmit={handleSubmit}>
               <FormControl className={classes.formControl}>
                 <TextField
@@ -279,38 +207,19 @@ export default function Footer({ socialData }) {
               </FormControl>
             </form>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} className={classes.gridItem}>
-            <Link to="/" className={classes.businessName}>
-              <div className={classes.link}>
-                <Typography variant="h2" className={classes.link}>
-                  <GiEnergySword size="24" />
-                  EDGELORDS
-                </Typography>
-              </div>
-            </Link>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: !isSmallScreen ? "row" : "column",
-                justifyContent: "center",
-                textAlign: "center",
-              }}
-            >
+          <Grid item xs={12} sm={4}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               {links.map((link) => (
                 <Link key={link.name} to={link.href} className={classes.link}>
                   {link.name}
                 </Link>
               ))}
             </div>
-            <Typography variant={"subtitle1"} className={classes.typography}>
-              Copyright © {new Date().getFullYear()} EDGELORDS. All rights
-              reserved.
-            </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={3} className={classes.gridSocial}>
-            <Typography variant="h6" className={classes.typography}>
-              Follow us
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" className={classes.title}>
+              Connect with Us
             </Typography>
             {socialData && (
               <div
@@ -320,56 +229,35 @@ export default function Footer({ socialData }) {
                   display: "flex",
                 }}
               >
-                <Grid
-                  container
-                  className={classes.socialIcons}
-                  style={{
-                    maxWidth: "50%",
-                  }}
-                >
-                  {socialPlatforms.map((platform) => {
-                    if (socialData[platform.name]) {
-                      return (
-                        <Grid item xs={4}>
-                          <IconButton
-                            key={platform.name}
-                            className={classes.socialIcons}
-                            aria-label={platform.name}
-                            href={`https://www.${platform.name}.com/${
-                              socialData[platform.name]
-                            }`}
-                          >
-                            {platform.icon}
-                          </IconButton>
-                        </Grid>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-                </Grid>
+                {socialPlatforms.map((platform) => {
+                  if (socialData[platform.name]) {
+                    return (
+                      <IconButton
+                        key={platform.name}
+                        className={classes.socialIcons}
+                        aria-label={platform.name}
+                        href={`https://www.${platform.name}.com/${
+                          socialData[platform.name]
+                        }`}
+                      >
+                        <platform.icon className={classes.iconButton} />
+                      </IconButton>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
               </div>
             )}
-            {/* <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <IconButton href="#" className={classes.icon}>
-                <FaFacebook />
-              </IconButton>
-              <IconButton href="#" className={classes.icon}>
-                <FaTwitter />
-              </IconButton>
-              <IconButton href="#" className={classes.icon}>
-                <FaInstagram />
-              </IconButton>
-            </div> */}
           </Grid>
         </Grid>
+        <Divider className={classes.divider} />
+        <Typography variant="body2" className={classes.disclaimer}>
+          © 2023 EDGELORDS. All rights reserved.
+        </Typography>
       </Container>
-    </footer>
+    </div>
   );
-}
+};
+
+export default Footer;

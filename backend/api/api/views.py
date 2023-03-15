@@ -131,7 +131,6 @@ def subscribe_to_newsletter(request):
             sg = SendGridAPIClient(api_key=settings.SENDGRID_API_KEY)
             response = sg.send(message)
         except Exception as e:
-            print("e", e)
             return JsonResponse({"error": "Email failed to send"})
 
         return JsonResponse({"success": True})
@@ -166,39 +165,71 @@ class RecentAdminActionsView(APIView):
             change_message = action.changes
             app_label = action.content_type.app_label
             model_name = action.content_type.model
+            change_message_str = ""
+
+            try:
+                model_class = apps.get_model(app_label=app_label, model_name=model_name)
+                model_verbose_name = model_class._meta.verbose_name.title()
+            except:
+                model_verbose_name = "Not Found"
 
             if action.action == LogEntry.Action.CREATE:
                 object_repr = f"Added {object_repr}"
                 change_message_str = object_repr
                 try:
-                    model_class = apps.get_model(
-                        app_label=app_label, model_name=model_name
-                    )
                     obj = action.content_type.get_object_for_this_type(
                         pk=action.object_pk
                     )
 
-                    obj_url = f"/admin/{app_label}/{model_name}/{obj.pk}/"
+                    if model_name == "messages":
+                        obj_url = f"/admin/{model_name}/read/{obj.pk}/"
+                    else:
+                        obj_url = f"/admin/{model_name}/control/{obj.pk}/"
                 except:
-                    obj_url = "Object not found"
+                    try:
+                        obj = action.content_type.get_object_for_this_type(
+                            pk=action.object_id
+                        )
+
+                        if model_name == "messages":
+                            obj_url = f"/admin/{model_name}/read/{obj.pk}/"
+                        else:
+                            obj_url = f"/admin/{model_name}/control/{obj.pk}/"
+                    except:
+                        obj_url = "Object not found"
 
             elif action.action == LogEntry.Action.UPDATE:
                 object_repr = f"Changed {object_repr}"
+                change_message_str = change_message
 
-                if change_message:
-                    change_message = json.loads(change_message)
-                    for field, values in change_message.items():
-                        old_value = str(values[0])
-                        new_value = str(values[1])
-                        change_message_str = f"{field}: {old_value} -> {new_value}\n"
+                # if change_message:
+                #     change_message = json.loads(change_message)
+                #     for field, values in change_message.items():
+                #         old_value = str(values[0])
+                #         new_value = str(values[1])
+                #         change_message_str = f"{field}: {old_value} -> {new_value}\n"
 
                 try:
                     obj = action.content_type.get_object_for_this_type(
                         pk=action.object_pk
                     )
-                    obj_url = f"/admin/{app_label}/{model_name}/{obj.pk}/"
+
+                    if model_name == "messages":
+                        obj_url = f"/admin/{model_name}/read/{obj.pk}/"
+                    else:
+                        obj_url = f"/admin/{model_name}/control/{obj.pk}/"
                 except:
-                    obj_url = "Failed"
+                    try:
+                        obj = action.content_type.get_object_for_this_type(
+                            pk=action.object_id
+                        )
+
+                        if model_name == "messages":
+                            obj_url = f"/admin/{model_name}/read/{obj.pk}/"
+                        else:
+                            obj_url = f"/admin/{model_name}/control/{obj.pk}/"
+                    except:
+                        obj_url = "Failed"
 
             elif action.action == LogEntry.Action.DELETE:
                 object_repr = f"Deleted {object_repr}"
@@ -209,10 +240,10 @@ class RecentAdminActionsView(APIView):
                 {
                     "user": str(action.actor),
                     "action_time": action.timestamp,
-                    "action_flag": action.get_action_display(),
+                    "action_flag": action.get_action_display().capitalize(),
                     "content_type": str(action.content_type),
-                    "app_label": app_label,
-                    "model_name": model_name,
+                    "app_label": app_label.capitalize(),
+                    "model_name": model_verbose_name,
                     "object_id": str(action.object_pk),
                     "object_repr": object_repr,
                     "change_message": change_message_str,
@@ -276,8 +307,6 @@ class ModelEndpointAPIView(APIView):
                             tag_counts[tag.name] = 1
                         else:
                             tag_counts[tag.name] += 1
-
-                print(tag_counts)
 
                 metadata["tag_counts"] = {
                     "type": "integer",

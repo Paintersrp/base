@@ -67,7 +67,7 @@ class JobPostingSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    job = serializers.StringRelatedField(source="job.position")
+    job = serializers.StringRelatedField(source="job.id")
     FIELD_KEYS = ["first_name", "last_name", "phone", "email", "city", "status", "job"]
 
     class Meta:

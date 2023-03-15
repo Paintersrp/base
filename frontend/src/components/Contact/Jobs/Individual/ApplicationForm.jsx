@@ -98,7 +98,7 @@ const ApplicationForm = ({ job, formRef }) => {
     city: "",
     zipcode: "",
     resume: null,
-    job: job.id,
+    job: job.position,
   });
   const dispatch = useDispatch();
 
@@ -126,7 +126,7 @@ const ApplicationForm = ({ job, formRef }) => {
           city: "",
           zipcode: "",
           resume: null,
-          job: job.id,
+          job: job.position,
         });
         dispatch({ type: "ALERT_SUCCESS", message: "Application Sent" });
       })

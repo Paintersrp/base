@@ -60,12 +60,6 @@ class JobPosting(models.Model):
 
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"
-    RESUME_CHOICES = (
-        ("pdf", "PDF"),
-        ("doc", "Microsoft Word"),
-        ("docx", "Microsoft Word (Open XML)"),
-        ("txt", "Plain Text"),
-    )
 
     STATUS_CHOICES = (
         ("Pending", "Pending"),
@@ -138,9 +132,3 @@ class Application(models.Model):
     class Meta:
         verbose_name = "Application"
         verbose_name_plural = "Applications"
-
-
-auditlog.register(Application)
-auditlog.register(JobPosting)
-auditlog.register(Responsibilities)
-auditlog.register(Requirement)

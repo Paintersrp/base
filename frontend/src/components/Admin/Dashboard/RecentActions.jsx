@@ -101,12 +101,15 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      {/* <TableCell className={classes.headerCell}>User</TableCell> */}
+                      <TableCell className={classes.headerCell}>User</TableCell>
                       <TableCell className={classes.headerCell}>
                         Action Time
                       </TableCell>
                       <TableCell className={classes.headerCell}>
-                        Content Type
+                        App Label
+                      </TableCell>
+                      <TableCell className={classes.headerCell}>
+                        Model Name
                       </TableCell>
                       <TableCell className={classes.headerCell}>
                         Change Message
@@ -117,19 +120,25 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
                   <TableBody>
                     {recentActions.map((action, index) => (
                       <TableRow key={index}>
-                        {/* <TableCell className={classes.tableCell}>{action.user}</TableCell> */}
+                        <TableCell className={classes.tableCell}>
+                          {action.user}
+                        </TableCell>
                         <TableCell className={classes.tableCell}>
                           {new Date(action.action_time).toLocaleString()}
                         </TableCell>
-
                         <TableCell className={classes.tableCell}>
-                          {action.content_type}
+                          {action.app_label}
+                        </TableCell>
+                        <TableCell className={classes.tableCell}>
+                          {action.model_name}
                         </TableCell>
                         <TableCell className={classes.tableCell}>
                           {action.change_message}
                         </TableCell>
                         <TableCell className={classes.tableCell}>
-                          {action.obj_url === "Not Applicable" ? (
+                          {action.obj_url === "Not Applicable" ||
+                          action.obj_url === "Object not found" ||
+                          action.obj_url === "Failed" ? (
                             <>{action.obj_url}</>
                           ) : (
                             <Link

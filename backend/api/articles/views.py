@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -8,6 +8,8 @@ from authorization.authentication import JWTTokenAuthentication
 import jwt
 from django.contrib import admin
 from django.shortcuts import render
+from auditlog.models import LogEntry
+from api.utilities import create_log_entry, return_changes
 
 
 class ArticleListCreateView(generics.ListCreateAPIView):
@@ -44,11 +46,16 @@ class ArticleListCreateView(generics.ListCreateAPIView):
 
         if serializer.is_valid():
             data["content"] = data["content"].replace("<img", "<img class='media'")
-            serializer.create(validated_data=data, username=user)
+            instance = serializer.create(validated_data=data, username=user)
+
+            create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
 
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
 
 class RecentArticlesView(ArticleListCreateView):
@@ -70,6 +77,7 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         article = self.get_object()
+        old_instance = Articles.objects.get(pk=article.pk)
         form_data = request.POST
         title = form_data.get("title")
         content = form_data.get("content")
@@ -93,16 +101,61 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             data["content"] = data["content"].replace("<img", "<img class='media'")
             serializer.update(article, validated_data=data)
 
+            changes = return_changes(article, old_instance)
+            create_log_entry(LogEntry.Action.UPDATE, request.username, article, changes)
+
             return JsonResponse(serializer.data, status=200)
 
         return JsonResponse(serializer.errors, status=400)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class TagsView(generics.ListCreateAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class TagsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Tags.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

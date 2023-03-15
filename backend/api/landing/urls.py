@@ -5,14 +5,24 @@ from .views import *
 urlpatterns = [
     path("landing/", LandingFullView.as_view(), name="landing-full"),
     path("feature/", FeatureViewSet.as_view(), name="feature-list"),
-    path("supportedsites/", SupportedSiteViewSet.as_view(), name="sites-list"),
-    path("item/", ItemViewSet.as_view({"get": "list"}), name="item-list"),
+    path(
+        "feature/<int:pk>/",
+        FeatureDetailViewSet.as_view(),
+        name="feature-detail",
+    ),
+    path("supportedsites/", SupportedSiteViewSet.as_view(), name="supportedsites-list"),
+    path(
+        "supportedsites/<int:pk>/",
+        SupportedSiteDetailViewSet.as_view(),
+        name="supportedsites-detail",
+    ),
+    path("item/", ItemViewSet.as_view({"get": "list"}), name="item-ignore-list"),
     path(
         "item/<int:pk>/",
         ItemViewSet.as_view({"patch": "update", "put": "update"}),
         name="item2-list",
     ),
-    path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-list"),
+    path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-ignore-list"),
     path("process/", ProcessViewSet.as_view(), name="process-list"),
     path("process/<int:pk>/", ProcessDetailViewSet.as_view(), name="process-detail"),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),

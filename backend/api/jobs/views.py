@@ -1,9 +1,11 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import *
 from .models import *
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from auditlog.models import LogEntry
+from api.utilities import create_log_entry, return_changes
 
 
 class JobPostingListView(generics.ListCreateAPIView):
@@ -68,6 +70,11 @@ class ApplicationListView(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
+
+class ApplicationListView(generics.ListCreateAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+
     def create(self, request, *args, **kwargs):
         form_data = request.data
         first_name = form_data.get("first_name")
@@ -76,9 +83,9 @@ class ApplicationListView(generics.ListCreateAPIView):
         phone = form_data.get("phone")
         city = form_data.get("city")
         zipcode = form_data.get("zipcode")
-        job = get_object_or_404(JobPosting, pk=form_data.get("job"))
+        job = get_object_or_404(JobPosting, position=form_data.get("job"))
         resume = request.FILES.get("resume")
-        
+
         data = {
             "first_name": first_name,
             "last_name": last_name,
@@ -90,10 +97,14 @@ class ApplicationListView(generics.ListCreateAPIView):
             "resume": resume,
         }
 
+        print(data)
+
         serializer = ApplicationSerializer(data=data)
 
         if serializer.is_valid():
             serializer.create(validated_data=data)
+            instance = serializer.save()
+            create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
 
             return JsonResponse(serializer.data, status=201)
 
@@ -108,3 +119,32 @@ class ApplicationListView(generics.ListCreateAPIView):
 class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Application.objects.get(pk=instance.pk)
+        resume = request.FILES.get("resume")
+
+        if resume is None:
+            data = request.data.copy()
+            data["resume"] = instance.resume
+        else:
+            instance.resume.delete()
+
+            data = request.data
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

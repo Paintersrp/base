@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectedService = ({ service, active, recommendedId }) => {
+const SelectedService = ({ service, active, recommendedId, newImage }) => {
   const classes = useStyles();
   const [hovered, setHovered] = useState(false);
 
@@ -120,7 +120,7 @@ const SelectedService = ({ service, active, recommendedId }) => {
             <Grid xs={12}>
               <CardMedia
                 className={classes.cardMedia}
-                image={service.image}
+                image={newImage ? newImage : service.image}
                 title={service.service_title}
               />
             </Grid>
@@ -139,14 +139,15 @@ const SelectedService = ({ service, active, recommendedId }) => {
                   <ListItemText primary="Features:" />
                 </ListItem>
 
-                {service.features.map((feature, index) => (
-                  <ListItem key={index}>
-                    <ListItemIcon>
-                      <FaCheck className={classes.featureIcon} />
-                    </ListItemIcon>
-                    <ListItemText secondary={feature.detail} />
-                  </ListItem>
-                ))}
+                {service.features &&
+                  service.features.map((feature, index) => (
+                    <ListItem key={index}>
+                      <ListItemIcon>
+                        <FaCheck className={classes.featureIcon} />
+                      </ListItemIcon>
+                      <ListItemText secondary={feature.detail} />
+                    </ListItem>
+                  ))}
               </List>
             </div>
           </div>

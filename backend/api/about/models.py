@@ -175,13 +175,3 @@ class FAQ(models.Model):
     class Meta:
         verbose_name = "FAQ"
         verbose_name_plural = verbose_name + "s"
-
-
-# auditlog.register(AboutBlock)
-# auditlog.register(MissionStatement)
-# auditlog.register(CompanyHistory)
-# auditlog.register(Value)
-# auditlog.register(ContactInformation)
-# auditlog.register(TeamMember)
-# auditlog.register(Category)
-# auditlog.register(FAQ)

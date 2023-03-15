@@ -45,6 +45,7 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
 }) => {
+  console.log("bigboikeys:", keys);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -286,13 +287,29 @@ const PanelTable = ({
                       </TableCell>
                     ) : (
                       <TableCell className={classes.tableCell}>
-                        {metadata[key].type === "DateTimeField"
-                          ? new Date(item[key]).toLocaleString()
-                          : typeof item[key] === "boolean"
-                          ? item[key]
-                            ? "true"
-                            : "false"
-                          : item[key]}
+                        {metadata[key].type === "DateTimeField" ? (
+                          new Date(item[key]).toLocaleString()
+                        ) : typeof item[key] === "boolean" ? (
+                          item[key] ? (
+                            "true"
+                          ) : (
+                            "false"
+                          )
+                        ) : key === "token" ? (
+                          "..." + item[key].substring(80, 120) + "..." // display only first 10 characters of the token string
+                        ) : key.includes("color") ? (
+                          <div
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              backgroundColor: item[key],
+                              borderRadius: "50%",
+                              border: "1px solid grey",
+                            }}
+                          />
+                        ) : (
+                          item[key]
+                        )}
                       </TableCell>
                     )}
                     {metadata[key].verbose_name === "Tag Name" && (

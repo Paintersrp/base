@@ -8,6 +8,7 @@ import NavigationAuthed from "./NavigationAuthed";
 import NavigationUnauthed from "./NavigationUnauthed";
 import NavigationAdmin from "./NavigationAdmin";
 import { Divider, List, ListItem, Typography } from "@material-ui/core";
+import NavigationNoUser from "./NavigationNoUser";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -15,6 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     background: theme.palette.primary.light,
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 0),
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
 }));
 
@@ -25,15 +33,19 @@ export default function NavigationDrawer({ links, toggleDrawer }) {
   return (
     <>
       <div className={classes.list}>
-        {auth.username ? (
-          <>
-            <NavigationUser
-              username={auth.username}
-              toggleDrawer={toggleDrawer}
-            />
-            <Divider className={classes.divider} />
-          </>
-        ) : null}
+        <div className={classes.toolbar}>
+          {auth.username ? (
+            <>
+              <NavigationUser
+                username={auth.username}
+                toggleDrawer={toggleDrawer}
+              />
+            </>
+          ) : (
+            <NavigationNoUser />
+          )}
+        </div>
+        <Divider className={classes.divider} />
         <NavigationLinks links={links} toggleDrawer={toggleDrawer} />
 
         <>

@@ -67,7 +67,15 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "general.middleware.Default404ResponseMiddleware",
+    "general.middleware.JWTMiddleware",
+    "auditlog.middleware.AuditlogMiddleware",
 ]
+
+AUDITLOG_CONTEXT_PROCESSORS = [
+    "general.context_processors.auditlog_context_processor",
+]
+
+AUDITLOG_ENABLE = True
 
 ROOT_URLCONF = "api.urls"
 

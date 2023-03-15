@@ -14,7 +14,10 @@ export default function renderModels({ modelItem, appName, classes }) {
   return modelItem
     .filter((model) => model.url !== null)
     .map((model) => {
-      console.log("MODEL: ", model);
+      // if (model.model_name === "feature") {
+      //   return null;
+      // }
+
       return (
         <Link
           to={`/admin/${model.model_name}`}

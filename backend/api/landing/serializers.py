@@ -20,7 +20,7 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HeroBlock
-        fields = ["title", "buttonText", "heading", "text"]
+        fields = "__all__"
 
 
 class TitleBlockSerializer(serializers.ModelSerializer):
@@ -133,6 +133,7 @@ HeroBlock.serializer_class = HeroBlockSerializer
 TitleBlock.serializer_class = TitleBlockSerializer
 Item.serializer_class = ItemSerializer
 Feature.serializer_class = FeatureSerializer
+SupportedSites.serializer_class = SupportedSitesSerializer
 Process.serializer_class = ProcessSerializer
 Testimonial.serializer_class = TestimonialSerializer
 ServiceTier.serializer_class = ServiceTierSerializer

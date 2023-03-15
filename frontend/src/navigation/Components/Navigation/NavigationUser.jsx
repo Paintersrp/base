@@ -8,13 +8,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  list: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 0),
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
   profileIcon: {
     marginRight: theme.spacing(1),
     color: "white",
@@ -35,19 +28,17 @@ export default function NavigationUser({ username, toggleDrawer }) {
   const classes = useStyles();
 
   return (
-    <div className={classes.list}>
-      <ListItem
-        button
-        className={classes.links}
-        component={Link}
-        to="/profile"
-        onClick={toggleDrawer(false)}
-      >
-        <ListItemIcon style={{ color: "white" }}>
-          <AccountCircle size={22} />
-        </ListItemIcon>
-        <ListItemText primary={`${username}`} className={classes.linkText} />
-      </ListItem>
-    </div>
+    <ListItem
+      button
+      className={classes.links}
+      component={Link}
+      to="/profile"
+      onClick={toggleDrawer(false)}
+    >
+      <ListItemIcon style={{ color: "white" }}>
+        <AccountCircle size={22} />
+      </ListItemIcon>
+      <ListItemText primary={`${username}`} className={classes.linkText} />
+    </ListItem>
   );
 }

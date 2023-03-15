@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Process({ step }) {
+export default function Process({ step, noEdit = false, noFade = false }) {
   const classes = useStyles();
   const [featureData, setFeatureData] = useState(step);
   const [editing, setEditing] = useState(false);
@@ -72,19 +72,19 @@ export default function Process({ step }) {
           {!editing ? (
             <>
               <Grid className={classes.iconContainer} item xs={12}>
-                <Icon icon={featureData.icon} className={classes.icon} />
+                <Icon icon={step.icon} className={classes.icon} />
               </Grid>
               <Grid item xs={12}>
                 <Typography className={classes.heading}>
-                  {featureData.title}
+                  {step.title}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" className={classes.description}>
-                  {featureData.description}
+                  {step.description}
                 </Typography>
               </Grid>
-              {!editing && auth.is_superuser ? (
+              {!editing && auth.is_superuser && !noEdit ? (
                 <div style={{ width: "95%" }}>
                   <EditDeleteButtonMenu
                     editClick={() => setEditing(!editing)}

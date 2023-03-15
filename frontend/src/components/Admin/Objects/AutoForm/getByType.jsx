@@ -28,7 +28,9 @@ const getByType = (
   justify,
   markDownMixin
 ) => {
-  console.log(markDownMixin);
+  if (fieldType === "ListSerializer") {
+    console.log("Why though?", xs_column_count, md_column_count);
+  }
   switch (fieldType) {
     case "BooleanField":
       return (
@@ -98,7 +100,14 @@ const getByType = (
       );
     case "DateTimeField":
       return (
-        <DateType fieldName={fieldName} handleInputChange={handleInputChange} />
+        <DateType
+          formData={formData}
+          fieldName={fieldName}
+          verboseName={verboseName}
+          handleInputChange={handleInputChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
+        />
       );
     case "ListSerializer":
       return (

@@ -35,7 +35,8 @@ const withAuth = (WrappedComponent) => {
 
             if (res.data.refreshed_token) {
               Cookies.remove("jwt");
-              Cookies.set("jwt", res.data.refreshed_token);
+              const expires = new Date(Date.parse(res.data.exp));
+              Cookies.set("jwt", res.data.refreshed_token, { expires });
             }
           })
           .catch((err) => {

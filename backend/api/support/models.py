@@ -44,7 +44,3 @@ class Subscribers(models.Model):
     class Meta:
         verbose_name = "Subscribers"
         verbose_name_plural = "Subscribers"
-
-
-auditlog.register(Messages)
-auditlog.register(Subscribers)

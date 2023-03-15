@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { IoLogoAngular } from "react-icons/io";
 import {
@@ -108,6 +108,9 @@ const useStyles = makeStyles((theme) => ({
   label: {
     color: theme.palette.text.dark,
   },
+  linkText: {
+    color: "#007bff",
+  },
 }));
 
 const RegisterForm = ({ handleRegister }) => {
@@ -142,8 +145,6 @@ const RegisterForm = ({ handleRegister }) => {
       password: hashedPassword,
     };
 
-    console.log("VALUES:", values);
-
     axios
       .post("http://127.0.0.1:8000/api/auth/register/", {
         ...values,
@@ -170,10 +171,9 @@ const RegisterForm = ({ handleRegister }) => {
               background: response.data.background_color,
             })
           );
-          Cookies.set("jwt", response.data.jwt, { expires: 7 });
-          if (formData.rememberMe) {
-            Cookies.set("username", formData.username, { expires: 90 });
-          }
+          const expires = new Date(Date.parse(response.data.exp));
+          Cookies.set("jwt", response.data.jwt, { expires });
+          Cookies.set("username", formData.username, { expires: 90 });
         });
       })
       .then(navigate("/"))
@@ -361,7 +361,9 @@ const RegisterForm = ({ handleRegister }) => {
                 }}
               >
                 <Grid item>
-                  <Link href="/login">Already have an account? Login</Link>
+                  <Link to="/login" className={classes.linkText}>
+                    Already have an account? Login
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>

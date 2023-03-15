@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from authorization.views import *
 
 urlpatterns = (
     [
@@ -33,7 +34,27 @@ urlpatterns = (
             views.RecentAdminActionsView.as_view(),
             name="recent_admin_actions",
         ),
-        path("api/subscribe/", views.subscribe_to_newsletter, name="user-list"),
+        path("api/subscribe/", views.subscribe_to_newsletter, name="subscribe-list"),
+        path(
+            "api/themesettings/",
+            ThemeSettingsAPIView.as_view(),
+            name="themesettings-list",
+        ),
+        path(
+            "api/themesettings/<int:pk>/",
+            ThemeSettingsDetailGenericView.as_view(),
+            name="themesettings-detail",
+        ),
+        path(
+            "api/tokenblacklist/",
+            TokenBlacklistAPIView.as_view(),
+            name="tokenblacklist-list",
+        ),
+        path(
+            "api/tokenblacklist/<int:pk>/",
+            TokenBlacklistDetailView.as_view(),
+            name="tokenblacklist-detail",
+        ),
         path("api/auth/", include("authorization.urls")),
         path("api/", include("articles.urls")),
         path("api/", include("landing.urls")),

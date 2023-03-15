@@ -27,9 +27,11 @@ export default function renderSections({
   const sections = [];
 
   Object.entries(models).map(([appName, modelItem], index) => {
-    if (appName === "authorization") {
-      return null;
-    }
+    // if (appName === "authorization") {
+    //   return null;
+    // }
+
+    console.log(modelItem);
 
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
@@ -72,27 +74,29 @@ export default function renderSections({
                   appName,
                   classes,
                 })}
-                {appName !== "general" && appName !== "jobs" && (
-                  <Link to={`/${appName === "landing" ? "" : appName}`}>
-                    <ListItemIcon
-                      style={{
-                        color: "black",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        marginTop: 8,
-                      }}
-                    >
-                      <Tooltip title="View Site Page" placement="top">
-                        <IconButton
-                          className={classes.launchButton}
-                          size="small"
-                        >
-                          <Launch />
-                        </IconButton>
-                      </Tooltip>
-                    </ListItemIcon>
-                  </Link>
-                )}
+                {appName !== "general" &&
+                  appName !== "jobs" &&
+                  appName !== "authorization" && (
+                    <Link to={`/${appName === "landing" ? "" : appName}`}>
+                      <ListItemIcon
+                        style={{
+                          color: "black",
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          marginTop: 8,
+                        }}
+                      >
+                        <Tooltip title="View Site Page" placement="top">
+                          <IconButton
+                            className={classes.launchButton}
+                            size="small"
+                          >
+                            <Launch />
+                          </IconButton>
+                        </Tooltip>
+                      </ListItemIcon>
+                    </Link>
+                  )}
               </List>
             </CardContent>
           </Collapse>

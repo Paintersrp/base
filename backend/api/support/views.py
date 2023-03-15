@@ -1,22 +1,74 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import *
 from .models import *
 from rest_framework.response import Response
+from auditlog.models import LogEntry
+from api.utilities import create_log_entry, return_changes
 
 
 class SubscribersListView(generics.ListCreateAPIView):
     queryset = Subscribers.objects.all()
     serializer_class = SubscribersSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class SubscribersDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Subscribers.objects.all()
     serializer_class = SubscribersSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Subscribers.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class MessagesListView(generics.ListCreateAPIView):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
 
 class UnreadMessagesView(MessagesListView):
@@ -44,3 +96,23 @@ class MessagesDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance)
         data = {"count": count, "messages": serializer.data}
         return Response(data)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = Messages.objects.get(pk=instance.pk)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ReadPage({ setCount }) {
-  const { str } = useParams();
+  const { str, pk } = useParams();
+  console.log("STR: ", str);
   const classes = useStyles();
   const location = useLocation();
   const [model, setModel] = useState(null);
@@ -35,44 +36,64 @@ function ReadPage({ setCount }) {
   const [data, setData] = useState(null);
   const [ready, setReady] = useState(false);
 
-  const fetchData = async () => {
-    if (url && keys) {
-      axiosInstance
-        .get(url)
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    }
-  };
+  if (pk) {
+    console.log("PK");
+  } else {
+    console.log("NO PK");
+  }
 
   useEffect(() => {
-    setUrl(location.state.url);
-    setAppName(location.state.appName);
-    setKeys(location.state.keys);
-    setMetadata(location.state.metadata);
-    setModel(location.state.model);
-    setId(location.state.id);
-    setData(location.state.data);
-    console.log(location.state.url);
+    if (location.state) {
+      setUrl(location.state.url);
+      setAppName(location.state.appName);
+      setKeys(location.state.keys);
+      setMetadata(location.state.metadata);
+      setModel(location.state.model);
+      setId(location.state.id);
+      setData(location.state.data);
+      console.log(location.state.url);
 
-    axiosInstance
-      .get(`${location.state.url}${location.state.id}/`)
-      .then((response) => {
-        setData(response.data.messages);
-        setCount(response.data.count);
-        console.log("RED:", response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      axiosInstance
+        .get(`${location.state.url}${location.state.id}/`)
+        .then((response) => {
+          setData(response.data.messages);
+          setCount(response.data.count);
+          console.log("RED:", response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (pk) {
+      axiosInstance
+        .get(`/get_models/${str}/`)
+        .then((response) => {
+          console.log(response.data);
+          setUrl(response.data.url);
+          setAppName(response.data.app_name);
+          setKeys(response.data.keys);
+          setMetadata(response.data.metadata);
+          setModel(response.data);
+          setReady(true);
+          console.log("OBJ PAGE URL: ", response.data.url);
+          console.log("OBJ PAGE KEYS: ", response.data.keys);
+        })
+        .catch((error) => console.log(error));
+      axiosInstance
+        .get(`messages/${pk}/`)
+        .then((response) => {
+          setData(response.data.messages);
+          setCount(response.data.count);
+          console.log("RED:", response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, []);
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
-      {metadata && (
+      {metadata && data && (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
           <div style={{ paddingBottom: 16, display: "flex" }}>
             <Typography variant="h3" className={classes.title}>
