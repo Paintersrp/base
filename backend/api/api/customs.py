@@ -2,6 +2,22 @@ from django.db import models
 from django.utils import timezone
 
 
+def custom_metadata(
+    autoform_label=None,
+    autoform_description=None,
+    pages_associated=None,
+    include_preview=False,
+):
+    def decorator(cls):
+        cls._meta.autoform_label = autoform_label
+        cls._meta.autoform_description = autoform_description
+        cls._meta.pages_associated = pages_associated
+        cls._meta.include_preview = include_preview
+        return cls
+
+    return decorator
+
+
 class CustomCharField(models.CharField):
     def __init__(self, *args, **kwargs):
         self.xs_column_count = kwargs.pop("xs_column_count", 12)

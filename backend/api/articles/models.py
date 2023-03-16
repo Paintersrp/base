@@ -1,11 +1,25 @@
 from django.db import models
 from authorization.models import User
-from api.customs import CustomCharField
+from api.customs import *
 from auditlog.registry import auditlog
 
 
+@custom_metadata(
+    autoform_label="Manage Article Tag Objects",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "News": "/news",
+    },
+    include_preview=False,
+)
 class Tags(models.Model):
-    name = CustomCharField(max_length=255, md_column_count=10, verbose_name="Tag Name")
+    name = CustomCharField(
+        max_length=255,
+        md_column_count=10,
+        verbose_name="Tag Name",
+        help_text="Help Text Placeholder",
+    )
 
     def __str__(self):
         return self.name
@@ -20,8 +34,17 @@ class Tags(models.Model):
         verbose_name_plural = "Tags"
 
 
+@custom_metadata(
+    autoform_label="Manage Article Objects",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "News": "/news",
+    },
+    include_preview=False,
+)
 class Articles(models.Model):
-    title = models.CharField(max_length=255)
+    title = CustomCharField(max_length=255)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -7,17 +7,49 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  makeStyles,
 } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import BaseForm from "../../../Elements/Base/BaseForm";
 import getByType from "./getByType";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import Loading from "../../../Elements/Layout/Loading/Loading";
 import { useDispatch } from "react-redux";
 import { renderComponentPreview } from "./renderComponentPreview";
+import {
+  Home as HomeIcon,
+  Info as InfoIcon,
+  ContactMail as ContactMailIcon,
+} from "@material-ui/icons";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.shape.borderRadius,
+    padding: theme.spacing(2),
+    margin: theme.spacing(3, 0, 1, 0),
+    width: "100%",
+  },
+  listItem: {
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(1),
+    color: theme.palette.text.secondary,
+    borderRadius: theme.shape.borderRadius,
+    border: `1px solid ${theme.palette.text.secondary}`,
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
+}));
 
 const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -146,7 +178,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     }
 
     if (Object.keys(data).length === 0) {
-      console.log("if'd");
+      console.log("if'd", model);
       try {
         const response = await axiosInstance.post(
           endpointUrl,
@@ -155,7 +187,10 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         );
         routeBackToModel();
         handleUpdate();
-        dispatch({ type: "ALERT_SUCCESS", message: "Object Created" });
+        dispatch({
+          type: "ALERT_SUCCESS",
+          message: `${model.verbose_name} Object - Created `,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -186,7 +221,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           maxWidth={800}
           minWidth={800}
           minHeight={isSmallScreen ? 400 : 600}
-          title={modelMetadata.verboseName}
+          title={modelMetadata.autoFormLabel || modelMetadata.verboseName}
+          body={modelMetadata.autoFormDescription}
           background="#F5F5F5"
           boxShadow={2}
         >
@@ -214,16 +250,20 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   md_column_count,
                   justify,
                   markdown,
+                  help_text,
                 } = fieldMetadata[fieldName];
 
                 if (fieldName === "features") {
                   console.log(fieldMetadata[fieldName]);
+                } else if (fieldName === "title") {
+                  console.log("HELP TEXT: ", modelMetadata);
                 }
 
                 const { verbose_name } = metadata[fieldName];
 
                 const inputElement = getByType(
                   fieldName,
+                  modelMetadata,
                   verbose_name,
                   type,
                   handleInputChange,
@@ -238,7 +278,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   xs_column_count,
                   md_column_count,
                   justify,
-                  markdown
+                  markdown,
+                  help_text
                 );
 
                 if (inputElement) {
@@ -285,8 +326,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                 alignItems: "center",
               }}
             >
-              {modelMetadata.modelName !== "Feature" &&
-              modelMetadata.modelName !== "SupportedSites" ? (
+              {modelMetadata.preview ? (
                 <>
                   <Typography
                     variant="h3"
@@ -306,6 +346,33 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
               )}
             </Paper>
           </Grid>
+          {modelMetadata.pagesAssociated && (
+            <div className={classes.root}>
+              <Typography align="center" variant="h3" color="textSecondary">
+                Associated Pages
+              </Typography>
+              <List dense component="nav" style={{ display: "flex" }}>
+                {Object.entries(modelMetadata.pagesAssociated).map(
+                  ([page, url], index) => (
+                    <React.Fragment key={page}>
+                      <ListItem
+                        button
+                        component={Link}
+                        to={url}
+                        className={classes.listItem}
+                        style={{ maxWidth: "25%" }}
+                      >
+                        <ListItemIcon>
+                          <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={page} />
+                      </ListItem>
+                    </React.Fragment>
+                  )
+                )}
+              </List>
+            </div>
+          )}
         </BaseForm>
       ) : (
         <Loading loading={true} />

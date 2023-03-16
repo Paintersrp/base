@@ -3,32 +3,49 @@ from api.customs import *
 from auditlog.registry import auditlog
 
 
+@custom_metadata(
+    autoform_label="SEO Header Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "About": "/about",
+        "Services": "/services",
+        "Contact": "/contact",
+        "News": "/news",
+    },
+    include_preview=True,
+)
 class Header(models.Model):
     page = CustomCharField(
         max_length=20,
         md_column_count=6,
         verbose_name="Page",
+        help_text="Top Header Display of Hero Section",
     )
     title = CustomTextField(
         max_length=200,
         md_column_count=6,
         verbose_name="Title",
+        help_text="Top Header Display of Hero Section",
     )
     description = CustomTextField(
         max_length=300,
         xs_column_count=12,
         md_column_count=12,
         verbose_name="Description",
+        help_text="Top Header Display of Hero Section",
     )
     keywords = CustomTextField(
         max_length=200,
         md_column_count=6,
         verbose_name="Keywords",
+        help_text="Top Header Display of Hero Section",
     )
     image = models.ImageField(verbose_name="Image", upload_to="seo_images")
     url = CustomURLField(
         verbose_name="URL",
         md_column_count=6,
+        help_text="Top Header Display of Hero Section",
     )
 
     class Meta:

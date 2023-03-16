@@ -1,7 +1,18 @@
 import Demo from "../../Elements/Demo/Demo";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import { Button, Grid, Typography, useTheme } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  makeStyles,
+  OutlinedInput,
+  TextField,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
@@ -135,9 +146,49 @@ const wipComponents = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  title: {
+    marginBottom: theme.spacing(3),
+  },
+  submitButton: {
+    margin: theme.spacing(3, 0, 2),
+    padding: theme.spacing(2, 5),
+    borderRadius: theme.spacing(2),
+    textTransform: "none",
+    fontWeight: "bold",
+  },
+  input: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: theme.palette.secondary.light,
+      },
+      "&:hover fieldset": {
+        borderColor: theme.palette.secondary.main,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+    "& .MuiInputLabel-outlined": {
+      color: theme.palette.secondary.light,
+    },
+    "&:hover .MuiInputLabel-outlined": {
+      color: theme.palette.secondary.main,
+    },
+    "&.Mui-focused .MuiInputLabel-outlined": {
+      color: theme.palette.primary.main,
+    },
+  },
+}));
+
 export default function WIPDemo() {
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
+  const classes = useStyles();
 
   if (loading) {
     return (
@@ -151,7 +202,6 @@ export default function WIPDemo() {
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
       <LayeredGradientBackground>
         <TestForm />
-
         <Container spacing={2} style={{ padding: 4 }}>
           <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">
             <Text type="h3">Custom Container/Item Responsive Test</Text>

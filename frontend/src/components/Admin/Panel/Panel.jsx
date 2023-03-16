@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
 import PanelTable from "./Table/PanelTable";
 import Loading from "../../Elements/Layout/Loading/Loading";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -37,7 +38,7 @@ const Panel = ({ apiData }) => {
   const { id } = useParams();
   const location = useLocation();
   const [data, setData] = useState([]);
-  const [selectedId, setSelectedId] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const [model, setModel] = useState(null);
@@ -45,6 +46,7 @@ const Panel = ({ apiData }) => {
   const [keys, setKeys] = useState(null);
   const [url, setUrl] = useState(null);
   const [metadata, setMetadata] = useState(null);
+  const dispatch = useDispatch();
 
   const handleArticleEdit = (data) => {
     navigate(`/admin/${model.model_name}/control`, {
@@ -132,34 +134,41 @@ const Panel = ({ apiData }) => {
   };
 
   const handleConfirmDelete = () => {
-    confirmedDelete(selectedId);
+    confirmedDelete(selected);
     handleClose();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (item) => {
     handleOpen();
-    setSelectedId(id);
+    setSelected(item);
+    console.log("item:", item);
   };
 
-  const confirmedDelete = (itemId) => {
-    const deleteEndpoint = `${url}${itemId}/`;
+  const confirmedDelete = (selected) => {
+    const deleteEndpoint = `${url}${selected.id}/`;
+    console.log(selected);
 
     axiosInstance
       .delete(deleteEndpoint)
       .then(() => {
         setData((prevData) =>
-          prevData.filter((dataItem) => dataItem.id !== itemId)
+          prevData.filter((dataItem) => dataItem.id !== selected.id)
         );
+        dispatch({
+          type: "ALERT_SUCCESS",
+          message: `${model.verbose_name} - Object: ${selected.id} Deleted`,
+        });
       })
       .catch((err) => {
-        setError(err);
+        console.log(err);
+        // setError(err);
       });
   };
   const handleMultipleDeleteAction = (selectedIds) => {
     selectedIds.forEach((id) => {
       confirmedDelete(id);
     });
-    setSelectedId([]);
+    setSelected([]);
   };
 
   const updateMultipleItems = (selectedIds, field, booleanValue) => {
@@ -181,7 +190,7 @@ const Panel = ({ apiData }) => {
           setError(err);
         });
     });
-    setSelectedId([]);
+    setSelected([]);
   };
 
   return (
@@ -218,7 +227,7 @@ const Panel = ({ apiData }) => {
                   appName: appName,
                   model: model,
                   metadata: metadata,
-                  id: selectedId ? selectedId : null,
+                  id: selected ? selected : null,
                 }}
                 key={appName}
               >

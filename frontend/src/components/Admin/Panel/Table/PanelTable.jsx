@@ -338,10 +338,7 @@ const PanelTable = ({
                   style={{ width: "5%" }}
                   className={classes.tableCell}
                 >
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDelete(item.id)}
-                  >
+                  <IconButton size="small" onClick={() => handleDelete(item)}>
                     <DeleteIcon color="error" />
                   </IconButton>
                 </TableCell>

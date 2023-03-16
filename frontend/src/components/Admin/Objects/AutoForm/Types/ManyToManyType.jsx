@@ -9,7 +9,7 @@ const ManyToManyType = ({
   verboseName,
   handleManyToManyChange,
   xsColumnCount = 12,
-  mdColumnCount = 6,
+  mdColumnCount = 12,
 }) => {
   console.log("md: TTTTT: ", mdColumnCount);
   return (

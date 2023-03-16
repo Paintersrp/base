@@ -12,6 +12,7 @@ import FileType from "./Types/FileType";
 
 const getByType = (
   fieldName,
+  modelMetadata,
   verboseName,
   fieldType,
   handleInputChange,
@@ -26,11 +27,9 @@ const getByType = (
   xs_column_count,
   md_column_count,
   justify,
-  markDownMixin
+  markDownMixin,
+  help_text
 ) => {
-  if (fieldType === "ListSerializer") {
-    console.log("Why though?", xs_column_count, md_column_count);
-  }
   switch (fieldType) {
     case "BooleanField":
       return (
@@ -55,6 +54,8 @@ const getByType = (
           handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          helpText={help_text}
+          modelMetadata={modelMetadata}
         />
       );
     case "StringRelatedField":
@@ -79,6 +80,7 @@ const getByType = (
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
           markDownMixin={markDownMixin}
+          helpText={help_text}
         />
       );
     case "IntegerField":

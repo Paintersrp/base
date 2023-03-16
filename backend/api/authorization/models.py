@@ -46,41 +46,92 @@ class CustomUserManager(UserManager):
         return user
 
 
+@custom_metadata(
+    autoform_label="Manage User Object",
+    autoform_description="Description Placeholder",
+    include_preview=False,
+)
 class User(AbstractUser):
     username = CustomCharField(
-        max_length=255, unique=True, md_column_count=6, verbose_name="Username"
+        max_length=255,
+        unique=True,
+        md_column_count=6,
+        verbose_name="Username",
+        help_text="Help Text Placeholder",
     )
-    email = CustomEmailField(unique=True, md_column_count=6, verbose_name="Email")
+    email = CustomEmailField(
+        unique=True,
+        md_column_count=6,
+        verbose_name="Email",
+        help_text="Help Text Placeholder",
+    )
     first_name = CustomCharField(
-        max_length=255, md_column_count=6, verbose_name="First Name"
+        max_length=255,
+        md_column_count=6,
+        verbose_name="First Name",
+        help_text="Help Text Placeholder",
     )
     last_name = CustomCharField(
-        max_length=255, md_column_count=6, verbose_name="Last Name"
+        max_length=255,
+        md_column_count=6,
+        verbose_name="Last Name",
+        help_text="Help Text Placeholder",
     )
 
     password = CustomCharField(
-        max_length=255, md_column_count=6, verbose_name="Password"
+        max_length=255,
+        md_column_count=6,
+        verbose_name="Password",
+        help_text="Help Text Placeholder",
     )
     salt = CustomCharField(
-        max_length=255, null=True, md_column_count=6, verbose_name="Salt"
+        max_length=255,
+        null=True,
+        md_column_count=6,
+        verbose_name="Salt",
+        help_text="Help Text Placeholder",
     )
     phone_number = CustomCharField(
-        max_length=20, blank=True, md_column_count=6, verbose_name="Phone Number"
+        max_length=20,
+        blank=True,
+        md_column_count=6,
+        verbose_name="Phone Number",
+        help_text="Help Text Placeholder",
     )
     address = CustomCharField(
-        max_length=255, blank=True, md_column_count=6, verbose_name="Address"
+        max_length=255,
+        blank=True,
+        md_column_count=6,
+        verbose_name="Address",
+        help_text="Help Text Placeholder",
     )
     city = CustomCharField(
-        max_length=100, blank=True, md_column_count=6, verbose_name="City"
+        max_length=100,
+        blank=True,
+        md_column_count=6,
+        verbose_name="City",
+        help_text="Help Text Placeholder",
     )
     state = CustomCharField(
-        max_length=100, blank=True, md_column_count=6, verbose_name="State"
+        max_length=100,
+        blank=True,
+        md_column_count=6,
+        verbose_name="State",
+        help_text="Help Text Placeholder",
     )
     zip_code = CustomCharField(
-        max_length=20, blank=True, md_column_count=6, verbose_name="Zipcode"
+        max_length=20,
+        blank=True,
+        md_column_count=6,
+        verbose_name="Zipcode",
+        help_text="Help Text Placeholder",
     )
     country = CustomCharField(
-        max_length=100, blank=True, md_column_count=6, verbose_name="Country"
+        max_length=100,
+        blank=True,
+        md_column_count=6,
+        verbose_name="Country",
+        help_text="Help Text Placeholder",
     )
 
     objects = CustomUserManager()
@@ -90,22 +141,37 @@ class User(AbstractUser):
         verbose_name_plural = "Users"
 
 
+@custom_metadata(
+    autoform_label="Manage User Theme Settings",
+    autoform_description="Description Placeholder",
+    include_preview=False,
+)
 class ThemeSettings(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         related_name="theme_settings",
         verbose_name="User",
+        help_text="Help Text Placeholder",
     )
     primary_color = CustomCharField(
-        max_length=7, md_column_count=4, verbose_name="Primary"
+        max_length=7,
+        md_column_count=4,
+        verbose_name="Primary",
+        help_text="Help Text Placeholder",
     )
 
     secondary_color = CustomCharField(
-        max_length=7, md_column_count=4, verbose_name="Secondary"
+        max_length=7,
+        md_column_count=4,
+        verbose_name="Secondary",
+        help_text="Help Text Placeholder",
     )
     background_color = CustomCharField(
-        max_length=7, md_column_count=4, verbose_name="Background"
+        max_length=7,
+        md_column_count=4,
+        verbose_name="Background",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
@@ -113,12 +179,23 @@ class ThemeSettings(models.Model):
         verbose_name_plural = "Theme Settings"
 
 
+@custom_metadata(
+    autoform_label="Manage JWT Token Blacklist",
+    autoform_description="Description Placeholder",
+    include_preview=False,
+)
 class TokenBlacklist(models.Model):
     token = CustomTextField(
-        max_length=500, unique=True, md_column_count=12, verbose_name="Token"
+        max_length=500,
+        unique=True,
+        md_column_count=12,
+        verbose_name="Token",
+        help_text="Help Text Placeholder",
     )
     blacklisted_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Blacklisted At"
+        auto_now_add=True,
+        verbose_name="Blacklisted At",
+        help_text="Help Text Placeholder",
     )
 
     def __str__(self):

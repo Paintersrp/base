@@ -1,8 +1,16 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import FormField from "../../../../Elements/Fields/FormField";
 import IconSelectMixin from "../../../../Elements/Base/EditForm/IconSelectMixin";
-import HeroBlock from "../../../../Elements/TextBlocks/HeroBlock/HeroBlock";
+import Container from "../../../../Elements/Layout/Container/Container";
+
+const useStyles = makeStyles((theme) => ({
+  helpText: {
+    margin: theme.spacing(1, 0, 0, 0),
+    padding: 0,
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const CharType = ({
   formData,
@@ -11,7 +19,10 @@ const CharType = ({
   handleInputChange,
   xsColumnCount,
   mdColumnCount,
+  helpText,
+  modelMetadata,
 }) => {
+  const classes = useStyles();
   return (
     <Grid
       item
@@ -34,16 +45,20 @@ const CharType = ({
           />
         </div>
       ) : (
-        <>
+        <Container justify="flex-start">
+          <Typography className={classes.helpText}>
+            {helpText ? helpText : "\u00A0"}
+          </Typography>
           <FormField
             id={fieldName}
             label={verboseName}
             onChange={handleInputChange}
             value={formData[fieldName]}
+            // helperText={helpText}
+            classes={{ helperText: classes.helperText }}
           />
-        </>
+        </Container>
       )}
-      
     </Grid>
   );
 };

@@ -47,6 +47,18 @@ def get_model_metadata(model_name):
         "permissions": model._meta.permissions,
         "abstract": model._meta.abstract,
         "fields": {},
+        "autoFormLabel": model._meta.autoform_label
+        if hasattr(model._meta, "autoform_label")
+        else None,
+        "autoFormDescription": model._meta.autoform_description
+        if hasattr(model._meta, "autoform_description")
+        else None,
+        "pagesAssociated": model._meta.pages_associated
+        if hasattr(model._meta, "pages_associated")
+        else None,
+        "preview": model._meta.include_preview
+        if hasattr(model._meta, "include_preview")
+        else False,
     }
 
     for field_name, field in fields.items():

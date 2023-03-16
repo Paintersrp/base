@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     "& input": {
       color: "black",
     },
+    "& .MuiFormHelperText-contained": {
+      fontFamily: "Roboto",
+      color: theme.palette.text.secondary,
+      fontWeight: "500",
+      marginBottom: theme.spacing(1),
+    },
   },
   multiline: {
     marginTop: 5,
@@ -63,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
       fontFamily: "Roboto",
       color: "black",
       fontWeight: "500",
+    },
+    "& .MuiFormHelperText-contained": {
+      fontFamily: "Roboto",
+      color: "black",
+      fontWeight: "500",
       fontSize: "0.95rem",
     },
     "& input": {
@@ -75,6 +86,9 @@ const useStyles = makeStyles((theme) => ({
   },
   searchInput: {
     fontSize: "1rem",
+  },
+  helperText: {
+    color: "red",
   },
 }));
 
@@ -99,6 +113,7 @@ const FormField = ({
       name={id}
       id={id}
       className={!multiline ? classes.field : classes.multiline}
+      classes={{ helperText: classes.helperText }}
       variant="outlined"
       label={label}
       margin="dense"

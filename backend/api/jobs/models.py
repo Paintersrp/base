@@ -1,6 +1,6 @@
 from django.db import models
 from auditlog.registry import auditlog
-from api.customs import CustomCharField, CustomEmailField, CustomTextField
+from api.customs import *
 
 
 class Requirement(models.Model):
@@ -17,19 +17,46 @@ class Responsibilities(models.Model):
         return f"{self.detail[:50]}..."
 
 
+@custom_metadata(
+    autoform_label="Job Posting Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Jobs": "/jobs",
+        "Contact": "/contact",
+    },
+    include_preview=True,
+)
 class JobPosting(models.Model):
     position = CustomCharField(
-        max_length=40, md_column_count=4, verbose_name="Position"
+        max_length=40,
+        md_column_count=4,
+        verbose_name="Position",
+        help_text="Top Header Display of Hero Section",
     )
     location = CustomCharField(
-        max_length=80, md_column_count=4, verbose_name="Location"
+        max_length=80,
+        md_column_count=4,
+        verbose_name="Location",
+        help_text="Top Header Display of Hero Section",
     )
-    type = CustomCharField(max_length=20, md_column_count=4, verbose_name="Type")
+    type = CustomCharField(
+        max_length=20,
+        md_column_count=4,
+        verbose_name="Type",
+        help_text="Top Header Display of Hero Section",
+    )
     tagline = CustomTextField(
-        max_length=100, md_column_count=6, null=True, verbose_name="Tagline"
+        max_length=100,
+        md_column_count=12,
+        null=True,
+        verbose_name="Tagline",
+        help_text="Top Header Display of Hero Section",
     )
     who_we_are = CustomTextField(
-        max_length=500, md_column_count=6, verbose_name="Who We Are"
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Who We Are",
+        help_text="Top Header Display of Hero Section",
     )
     requirements = models.ManyToManyField(
         Requirement, related_name="requirement", verbose_name="Requirement"
@@ -40,13 +67,24 @@ class JobPosting(models.Model):
         verbose_name="Responsibilities",
     )
     why_apply = CustomTextField(
-        max_length=500, md_column_count=6, verbose_name="Why Apply"
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Why Apply",
+        help_text="Top Header Display of Hero Section",
     )
     looking_for = CustomTextField(
-        max_length=500, md_column_count=6, null=True, verbose_name="Looking For"
+        max_length=500,
+        md_column_count=12,
+        null=True,
+        verbose_name="Looking For",
+        help_text="Top Header Display of Hero Section",
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
-    filled = models.BooleanField(default=False, verbose_name="Filled")
+    filled = models.BooleanField(
+        default=False,
+        verbose_name="Filled",
+        help_text="Top Header Display of Hero Section",
+    )
 
     def delete(self, *args, **kwargs):
         self.requirements.all().delete()
@@ -58,6 +96,15 @@ class JobPosting(models.Model):
         verbose_name_plural = "Job Openings"
 
 
+@custom_metadata(
+    autoform_label="Application Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Jobs": "/jobs",
+        "Contact": "/contact",
+    },
+    include_preview=False,
+)
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"
 
@@ -73,23 +120,27 @@ class Application(models.Model):
         xs_column_count=12,
         md_column_count=6,
         verbose_name="First Name",
+        help_text="Top Header Display of Hero Section",
     )
     last_name = CustomCharField(
         max_length=30,
         xs_column_count=12,
         md_column_count=6,
         verbose_name="Last Name",
+        help_text="Top Header Display of Hero Section",
     )
     email = CustomEmailField(
         xs_column_count=12,
         md_column_count=6,
         verbose_name="Email",
+        help_text="Top Header Display of Hero Section",
     )
     phone = CustomCharField(
         max_length=20,
         xs_column_count=12,
         md_column_count=6,
         verbose_name="Phone",
+        help_text="Top Header Display of Hero Section",
     )
     created_at = models.DateTimeField(verbose_name="Created At", auto_now_add=True)
     city = CustomCharField(
@@ -97,12 +148,14 @@ class Application(models.Model):
         xs_column_count=12,
         md_column_count=6,
         verbose_name="City",
+        help_text="Top Header Display of Hero Section",
     )
     zipcode = CustomCharField(
         max_length=15,
         xs_column_count=12,
         md_column_count=6,
         verbose_name="Zip Code",
+        help_text="Top Header Display of Hero Section",
     )
     job = models.ForeignKey(
         JobPosting,
@@ -110,6 +163,7 @@ class Application(models.Model):
         related_name="job",
         default=1,
         verbose_name="Job",
+        help_text="Top Header Display of Hero Section",
     )
 
     resume = models.FileField(
@@ -127,6 +181,7 @@ class Application(models.Model):
         choices=STATUS_CHOICES,
         default="Pending",
         verbose_name="Status",
+        help_text="Top Header Display of Hero Section",
     )
 
     class Meta:

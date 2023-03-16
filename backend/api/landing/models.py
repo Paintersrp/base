@@ -5,14 +5,38 @@ from api.customs import *
 from auditlog.registry import auditlog
 
 
+@custom_metadata(
+    autoform_label="Hero Text Block",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+    },
+    include_preview=True,
+)
 class HeroBlock(models.Model):
-    title = CustomCharField(max_length=200, md_column_count=6, verbose_name="Title")
-    buttonText = CustomCharField(
-        max_length=50, md_column_count=6, verbose_name="Button Text"
+    title = CustomCharField(
+        max_length=200,
+        md_column_count=6,
+        verbose_name="Title",
+        help_text="Help Text Placeholder",
     )
-    heading = CustomTextField(max_length=500, md_column_count=6, verbose_name="Tagline")
+    buttonText = CustomCharField(
+        max_length=50,
+        md_column_count=6,
+        verbose_name="Button Text",
+        help_text="Help Text Placeholder",
+    )
+    heading = CustomTextField(
+        max_length=500,
+        md_column_count=6,
+        verbose_name="Tagline",
+        help_text="Help Text Placeholder",
+    )
     text = CustomTextField(
-        max_length=500, md_column_count=6, verbose_name="Description"
+        max_length=500,
+        md_column_count=6,
+        verbose_name="Description",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
@@ -20,6 +44,15 @@ class HeroBlock(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
+@custom_metadata(
+    autoform_label="TitleBlock Titties",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+)
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
         ("Left", "Left"),
@@ -28,22 +61,47 @@ class TitleBlock(models.Model):
     )
 
     name = CustomCharField(
-        max_length=100, unique=True, md_column_count=8, verbose_name="Section Name"
+        max_length=100,
+        unique=True,
+        md_column_count=8,
+        verbose_name="Section Name",
+        help_text="Help Text Placeholder",
     )
-    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+
+    title = CustomCharField(
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Title",
+        help_text="Help Text Placeholder",
+    )
+
     subtitle = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Subtitle"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Subtitle",
+        help_text="Help Text Placeholder",
     )
+
     description = CustomTextField(
-        max_length=250, null=True, md_column_count=12, verbose_name="Description"
+        max_length=250,
+        null=True,
+        md_column_count=12,
+        verbose_name="Description",
+        help_text="Help Text Placeholder",
     )
+
     alignment = CustomCharField(
         max_length=10,
         choices=ALIGNMENT_CHOICES,
         md_column_count=12,
         verbose_name="Alignment",
     )
-    show_divider = models.BooleanField(default=False, verbose_name="Show Divider?")
+
+    show_divider = models.BooleanField(
+        default=False,
+        verbose_name="Show Divider?",
+        help_text="Help Text Placeholder",
+    )
 
     class Meta:
         verbose_name = "Section Headings"
@@ -64,9 +122,21 @@ class Item(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
+@custom_metadata(
+    autoform_label="Service Tier Features",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class Feature(models.Model):
     detail = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Feature Detail"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Feature Detail",
+        help_text="Help Text Placeholder",
     )
 
     def __str__(self):
@@ -77,8 +147,22 @@ class Feature(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
+@custom_metadata(
+    autoform_label="Service Tier Supported Sites",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class SupportedSites(models.Model):
-    detail = CustomCharField(max_length=100)
+    detail = CustomCharField(
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Supported Site Detail",
+        help_text="Help Text Placeholder",
+    )
 
     def __str__(self):
         return self.detail
@@ -88,17 +172,41 @@ class SupportedSites(models.Model):
         verbose_name_plural = "Supported Sites"
 
 
+@custom_metadata(
+    autoform_label="Service Tiers",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+)
 class ServiceTier(models.Model):
-    image = models.ImageField(upload_to="pricing_images", verbose_name="Image")
+    image = models.ImageField(
+        upload_to="pricing_images",
+        verbose_name="Image",
+        help_text="Help Text Placeholder",
+    )
     service_title = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Service Title"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Service Title",
+        help_text="Help Text Placeholder",
     )
     price = CustomDecimalField(
-        max_digits=10, decimal_places=2, md_column_count=6, verbose_name="Price"
+        max_digits=10,
+        decimal_places=2,
+        md_column_count=6,
+        verbose_name="Price",
+        help_text="Help Text Placeholder",
     )
 
     features = CustomManyToManyField(
-        Feature, related_name="features", verbose_name="Features", md_column_count=6
+        Feature,
+        related_name="features",
+        verbose_name="Features",
+        md_column_count=6,
+        help_text="Help Text Placeholder",
     )
 
     supported_sites = CustomManyToManyField(
@@ -106,15 +214,25 @@ class ServiceTier(models.Model):
         related_name="supportedsites",
         verbose_name="Supported Sites",
         md_column_count=6,
+        help_text="Help Text Placeholder",
     )
     paragraph_one = CustomTextField(
-        max_length=500, md_column_count=12, verbose_name="Paragraph 1"
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Paragraph 1",
+        help_text="Help Text Placeholder",
     )
     paragraph_two = CustomTextField(
-        max_length=500, md_column_count=12, verbose_name="Paragraph 2"
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Paragraph 2",
+        help_text="Help Text Placeholder",
     )
     paragraph_three = CustomTextField(
-        max_length=500, md_column_count=12, verbose_name="Paragraph 3"
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Paragraph 3",
+        help_text="Help Text Placeholder",
     )
 
     def __str__(self):
@@ -149,12 +267,34 @@ class Testimonial(models.Model):
         verbose_name_plural = "Testimonials"
 
 
+@custom_metadata(
+    autoform_label="Process Steps",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+)
 class Process(models.Model):
-    title = CustomCharField(max_length=100, md_column_count=8, verbose_name="Title")
-    description = CustomTextField(
-        max_length=200, md_column_count=12, verbose_name="Description"
+    title = CustomCharField(
+        max_length=100,
+        md_column_count=8,
+        verbose_name="Title",
+        help_text="Help Text Placeholder",
     )
-    icon = CustomCharField(max_length=40, md_column_count=12, verbose_name="Icon")
+    description = CustomTextField(
+        max_length=200,
+        md_column_count=12,
+        verbose_name="Description",
+        help_text="Help Text Placeholder",
+    )
+    icon = CustomCharField(
+        max_length=40,
+        md_column_count=12,
+        verbose_name="Icon",
+        help_text="Help Text Placeholder",
+    )
 
     class Meta:
         verbose_name = "Processes"

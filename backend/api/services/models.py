@@ -4,18 +4,38 @@ from api.customs import *
 from auditlog.registry import auditlog
 
 
+@custom_metadata(
+    autoform_label="Benefit Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=True,
+)
 class Benefits(BaseModel):
-    title = CustomCharField(max_length=100, md_column_count=6, verbose_name="Title")
+    title = CustomCharField(
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Title",
+        help_text="Help Text Placeholder",
+    )
     description = CustomTextField(
         max_length=250,
         verbose_name="Description",
         md_column_count=12,
+        help_text="Help Text Placeholder",
     )
-    icon = CustomCharField(max_length=40, md_column_count=12, verbose_name="Icon")
+    icon = CustomCharField(
+        max_length=40,
+        md_column_count=12,
+        verbose_name="Icon",
+        help_text="Help Text Placeholder",
+    )
     buttonText = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Button Text",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
@@ -23,6 +43,14 @@ class Benefits(BaseModel):
         verbose_name_plural = "Benefits"
 
 
+@custom_metadata(
+    autoform_label="Process Image Item Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class ProcessImageItem(models.Model):
     image = models.ImageField(upload_to="process_images", verbose_name="Image")
     servicetier = models.ForeignKey(
@@ -38,24 +66,35 @@ class ProcessImageItem(models.Model):
         verbose_name_plural = "Process Image Items"
 
 
+@custom_metadata(
+    autoform_label="Process Text Item Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class ProcessTextItem(models.Model):
     title = CustomCharField(
         max_length=100,
         xs_column_count=12,
         md_column_count=6,
         verbose_name="Title",
+        help_text="Help Text Placeholder",
     )
     description = CustomTextField(
         max_length=500,
         xs_column_count=12,
-        md_column_count=6,
+        md_column_count=12,
         verbose_name="Description",
+        help_text="Help Text Placeholder",
     )
     icon = CustomCharField(
         max_length=40,
         xs_column_count=12,
         md_column_count=12,
         verbose_name="Icon",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
@@ -63,6 +102,14 @@ class ProcessTextItem(models.Model):
         verbose_name_plural = "Process Text Items"
 
 
+@custom_metadata(
+    autoform_label="Service Table Labels Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class ServiceTableLabels(models.Model):
     service_tier1 = CustomForeignKeyField(
         ServiceTier,
@@ -72,7 +119,9 @@ class ServiceTableLabels(models.Model):
         md_column_count=6,
     )
     tier1_icon = CustomCharField(
-        max_length=40, md_column_count=6, verbose_name="Icon 1"
+        max_length=40,
+        md_column_count=6,
+        verbose_name="Icon 1",
     )
     service_tier2 = CustomForeignKeyField(
         ServiceTier,
@@ -82,7 +131,9 @@ class ServiceTableLabels(models.Model):
         md_column_count=6,
     )
     tier2_icon = CustomCharField(
-        max_length=40, md_column_count=6, verbose_name="Icon 2"
+        max_length=40,
+        md_column_count=6,
+        verbose_name="Icon 2",
     )
     service_tier3 = CustomForeignKeyField(
         ServiceTier,
@@ -92,7 +143,9 @@ class ServiceTableLabels(models.Model):
         md_column_count=6,
     )
     tier3_icon = CustomCharField(
-        max_length=40, md_column_count=6, verbose_name="Icon 3"
+        max_length=40,
+        md_column_count=6,
+        verbose_name="Icon 3",
     )
 
     class Meta:
@@ -100,16 +153,38 @@ class ServiceTableLabels(models.Model):
         verbose_name_plural = "Service Table Labels"
 
 
+@custom_metadata(
+    autoform_label="Service Compare Rows Object",
+    autoform_description="Description Placeholder",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+)
 class ServiceCompareRows(models.Model):
-    feature = CustomCharField(max_length=40, md_column_count=6, verbose_name="Feature")
+    feature = CustomCharField(
+        max_length=40,
+        md_column_count=6,
+        verbose_name="Feature",
+        help_text="Help Text Placeholder",
+    )
     tier1_value = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Tier 1"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Tier 1",
+        help_text="Help Text Placeholder",
     )
     tier2_value = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Tier 2"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Tier 2",
+        help_text="Help Text Placeholder",
     )
     tier3_value = CustomCharField(
-        max_length=100, md_column_count=6, verbose_name="Tier 3"
+        max_length=100,
+        md_column_count=6,
+        verbose_name="Tier 3",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
