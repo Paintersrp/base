@@ -222,7 +222,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           minWidth={800}
           minHeight={isSmallScreen ? 400 : 600}
           title={modelMetadata.autoFormLabel || modelMetadata.verboseName}
-          body={modelMetadata.autoFormDescription}
+          body={modelMetadata.longDescription}
           background="#F5F5F5"
           boxShadow={2}
         >

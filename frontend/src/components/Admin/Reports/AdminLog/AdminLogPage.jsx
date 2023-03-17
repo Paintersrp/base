@@ -8,6 +8,8 @@ import BaseContent from "../../../Elements/Base/BaseContent";
 import { Breadcrumbs, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import Loading from "../../../Elements/Layout/Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -29,10 +31,19 @@ const useStyles = makeStyles((theme) => ({
 const AdminLogPage = ({}) => {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
+  const [data, setData] = useState(false);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("replace_me");
+    const fetchData = async () => {
+      const result = await axiosInstance.get(
+        "/recent_admin_actions/?items=all"
+      );
+      setData(result.data);
+      setLoading(false);
+    };
+    fetchData();
   }, []);
 
   if (error) {
@@ -45,6 +56,10 @@ const AdminLogPage = ({}) => {
       />
     );
   }
+  if (loading) {
+    return <Loading loading={true} message="Gathering Resources" />;
+  }
+
   return (
     <PageContainer
       editing={editing}
@@ -66,7 +81,7 @@ const AdminLogPage = ({}) => {
           </Link>
           <Typography color="textPrimary">Admin Log</Typography>
         </Breadcrumbs>
-        <AdminLogReport />
+        <AdminLogReport data={data} />
       </BaseContent>
     </PageContainer>
   );

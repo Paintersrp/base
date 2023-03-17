@@ -33,24 +33,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminLogReport() {
+export default function AdminLogReport({data}) {
   const classes = useStyles();
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [appLabelFilter, setAppLabelFilter] = useState([]);
   const [modelNameFilter, setModelNameFilter] = useState([]);
   const [actionFlagFilter, setActionFlagFilter] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axiosInstance.get(
-        "/recent_admin_actions/?items=all"
-      );
-      setData(result.data);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axiosInstance.get(
+  //       "/recent_admin_actions/?items=all"
+  //     );
+  //     setData(result.data);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

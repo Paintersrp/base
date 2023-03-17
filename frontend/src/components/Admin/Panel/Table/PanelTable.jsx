@@ -45,7 +45,6 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
 }) => {
-  console.log("bigboikeys:", keys);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -198,6 +197,7 @@ const PanelTable = ({
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
+
       <Table>
         <TableHead>
           <TableRow>

@@ -23,16 +23,6 @@ const ControlPanel = ({
 }) => {
   return (
     <>
-      {(keys.includes("is_read") || keys.includes("is_archived")) && (
-        <MessageFilterMixin
-          isReadFilter={isReadFilter}
-          setIsReadFilter={setIsReadFilter}
-          isArchivedFilter={isArchivedFilter}
-          setIsArchivedFilter={setIsArchivedFilter}
-          handleClearFilters={handleClearFilters}
-        />
-      )}
-
       <Text
         style={{
           marginBottom: 2,
@@ -57,6 +47,15 @@ const ControlPanel = ({
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
+        {(keys.includes("is_read") || keys.includes("is_archived")) && (
+          <MessageFilterMixin
+            isReadFilter={isReadFilter}
+            setIsReadFilter={setIsReadFilter}
+            isArchivedFilter={isArchivedFilter}
+            setIsArchivedFilter={setIsArchivedFilter}
+            handleClearFilters={handleClearFilters}
+          />
+        )}
       </Container>
     </>
   );

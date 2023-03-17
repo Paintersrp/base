@@ -19,12 +19,20 @@ class Responsibilities(models.Model):
 
 @custom_metadata(
     autoform_label="Job Posting Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class JobPosting(models.Model):
     position = CustomCharField(
@@ -98,12 +106,20 @@ class JobPosting(models.Model):
 
 @custom_metadata(
     autoform_label="Application Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"

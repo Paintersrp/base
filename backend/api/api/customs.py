@@ -4,15 +4,31 @@ from django.utils import timezone
 
 def custom_metadata(
     autoform_label=None,
-    autoform_description=None,
+    long_description=None,
+    short_description=None,
     pages_associated=None,
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug=None,
+    tags=None,
+    related_components=None,
+    visibility=True,
+    access_level="All",
 ):
     def decorator(cls):
         cls._meta.autoform_label = autoform_label
-        cls._meta.autoform_description = autoform_description
+        cls._meta.long_description = long_description
+        cls._meta.short_description = short_description
         cls._meta.pages_associated = pages_associated
         cls._meta.include_preview = include_preview
+        cls._meta.icon = icon
+        cls._meta.icon_class = icon_class
+        cls._meta.slug = slug
+        cls._meta.tags = tags
+        cls._meta.related_components = related_components
+        cls._meta.visibility = visibility
+        cls._meta.access_level = access_level
         return cls
 
     return decorator

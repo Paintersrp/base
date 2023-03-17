@@ -5,13 +5,21 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Message Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Support": "/support",
         "Contact": "/contact",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Messages(models.Model):
     name = CustomCharField(
@@ -45,13 +53,25 @@ class Messages(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     is_read = CustomBooleanField(
-        default=False, md_column_count=4, justify="center", verbose_name="Is Read"
+        default=False,
+        md_column_count=4,
+        justify="center",
+        verbose_name="Is Read",
+        help_text="Help Text Placeholder",
     )
     is_replied = CustomBooleanField(
-        default=False, md_column_count=4, justify="center", verbose_name="Is Replied"
+        default=False,
+        md_column_count=4,
+        justify="center",
+        verbose_name="Is Replied",
+        help_text="Help Text Placeholder",
     )
     is_archived = CustomBooleanField(
-        default=False, md_column_count=4, justify="center", verbose_name="Is Archived"
+        default=False,
+        md_column_count=4,
+        justify="center",
+        verbose_name="Is Archived",
+        help_text="Help Text Placeholder",
     )
 
     class Meta:
@@ -61,11 +81,19 @@ class Messages(models.Model):
 
 @custom_metadata(
     autoform_label="Subscriber Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Subscribers(models.Model):
     email = CustomEmailField(

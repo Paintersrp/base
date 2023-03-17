@@ -50,8 +50,11 @@ def get_model_metadata(model_name):
         "autoFormLabel": model._meta.autoform_label
         if hasattr(model._meta, "autoform_label")
         else None,
-        "autoFormDescription": model._meta.autoform_description
-        if hasattr(model._meta, "autoform_description")
+        "longDescription": model._meta.long_description
+        if hasattr(model._meta, "long_description")
+        else None,
+        "shortDescription": model._meta.short_description
+        if hasattr(model._meta, "short_description")
         else None,
         "pagesAssociated": model._meta.pages_associated
         if hasattr(model._meta, "pages_associated")
@@ -59,6 +62,21 @@ def get_model_metadata(model_name):
         "preview": model._meta.include_preview
         if hasattr(model._meta, "include_preview")
         else False,
+        "icon": model._meta.icon if hasattr(model._meta, "icon") else None,
+        "icon_class": model._meta.icon_class
+        if hasattr(model._meta, "icon_class")
+        else None,
+        "slug": model._meta.slug if hasattr(model._meta, "slug") else None,
+        "tags": model._meta.tags if hasattr(model._meta, "tags") else False,
+        "relatedComponents": model._meta.related_components
+        if hasattr(model._meta, "related_components")
+        else None,
+        "visibility": model._meta.visibility
+        if hasattr(model._meta, "visibility")
+        else None,
+        "access_level": model._meta.access_level
+        if hasattr(model._meta, "access_level")
+        else None,
     }
 
     for field_name, field in fields.items():

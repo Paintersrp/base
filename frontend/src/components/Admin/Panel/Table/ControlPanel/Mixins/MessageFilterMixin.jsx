@@ -1,12 +1,52 @@
 import React from "react";
-import { Checkbox, FormControlLabel, makeStyles } from "@material-ui/core";
+import { Box, Button, Grid, makeStyles } from "@material-ui/core";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { CheckCircleOutline, RadioButtonUnchecked } from "@material-ui/icons";
 import StyledButton from "../../../../../Elements/Buttons/StyledButton";
-import Text from "../../../../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
-  checkboxLabel: {
-    color: "black",
-    fontSize: "0.875rem",
+  filterButton: {
+    minWidth: 130,
+    borderRadius: "20px",
+    color: "#4A4A4A",
+    border: "1px solid #E0E0E0",
+    background: "#F5F5F5",
+    "&:hover": {
+      background: "#E0E0E0",
+    },
+    "&$active": {
+      background: "#0A66C2",
+      color: "#FFFFFF",
+      "&:hover": {
+        background: "#0B5EA6",
+      },
+    },
+  },
+  active: {},
+  resetButton: {
+    borderRadius: "20px",
+    boxShadow: "none",
+    color: "#FFFFFF",
+    background: theme.palette.primary.main,
+    "&:hover": {
+      background: "#0B5EA6",
+    },
+  },
+  toggleButtonGroup: {
+    display: "flex",
+    flexDirection: "row",
+    marginRight: theme.spacing(1),
+  },
+  toggleButtonLabel: {
+    fontSize: "0.75rem",
+    fontWeight: "bold",
+    marginLeft: theme.spacing(1),
+  },
+  checked: {
+    color: theme.palette.success.main,
+  },
+  unchecked: {
+    color: theme.palette.error.main,
   },
 }));
 
@@ -19,90 +59,114 @@ const MessageFilterMixin = ({
 }) => {
   const classes = useStyles();
 
+  const handleReadFilterChange = (event, value) => {
+    setIsReadFilter(
+      value === "read" ? true : value === "unread" ? false : null
+    );
+  };
+
+  const handleArchivedFilterChange = (event, value) => {
+    setIsArchivedFilter(
+      value === "archived" ? true : value === "unarchived" ? false : null
+    );
+  };
+
   return (
-    <>
-      <Text
-        style={{
-          marginTop: 2,
-          marginLeft: 4,
-          marginBottom: 0,
-          fontSize: "0.9rem",
-          color: "black",
-        }}
+    <Grid
+      container
+      style={{ display: "flex", flexDirection: "row" }}
+      spacing={0}
+    >
+      <ToggleButtonGroup
+        value={
+          isReadFilter === true
+            ? "read"
+            : isReadFilter === false
+            ? "unread"
+            : null
+        }
+        exclusive
+        size="small"
+        onChange={handleReadFilterChange}
+        className={classes.toggleButtonGroup}
       >
-        Filters:
-      </Text>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isReadFilter === true}
-            onChange={() =>
-              setIsReadFilter(isReadFilter === true ? null : true)
-            }
-          />
+        <ToggleButton
+          value="read"
+          className={classes.filterButton}
+          classes={{ selected: classes.active }}
+        >
+          {isReadFilter === true ? (
+            <CheckCircleOutline className={classes.checked} />
+          ) : (
+            <RadioButtonUnchecked className={classes.unchecked} />
+          )}
+          <span className={classes.toggleButtonLabel}>Read</span>
+        </ToggleButton>
+
+        <ToggleButton
+          value="unread"
+          className={classes.filterButton}
+          classes={{ selected: classes.active }}
+        >
+          {isReadFilter === false ? (
+            <CheckCircleOutline className={classes.checked} />
+          ) : (
+            <RadioButtonUnchecked className={classes.unchecked} />
+          )}
+          <span className={classes.toggleButtonLabel}>Unread</span>
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <ToggleButtonGroup
+        size="small"
+        value={
+          isArchivedFilter === true
+            ? "archived"
+            : isArchivedFilter === false
+            ? "unarchived"
+            : null
         }
-        label="Read"
-        classes={{ label: classes.checkboxLabel }}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isReadFilter === false}
-            onChange={() =>
-              setIsReadFilter(isReadFilter === false ? null : false)
-            }
-          />
-        }
-        label="Unread"
-        classes={{ label: classes.checkboxLabel }}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isArchivedFilter === true}
-            onChange={() =>
-              setIsArchivedFilter(isArchivedFilter === true ? null : true)
-            }
-          />
-        }
-        label="Archived"
-        classes={{ label: classes.checkboxLabel }}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isArchivedFilter === false}
-            onChange={() =>
-              setIsArchivedFilter(isArchivedFilter === false ? null : false)
-            }
-          />
-        }
-        label="Unarchived"
-        classes={{ label: classes.checkboxLabel }}
-      />
-      {isArchivedFilter !== null || isReadFilter !== null ? (
+        exclusive
+        onChange={handleArchivedFilterChange}
+        className={classes.toggleButtonGroup}
+      >
+        <ToggleButton
+          value="archived"
+          className={classes.filterButton}
+          classes={{ selected: classes.active }}
+        >
+          {isArchivedFilter === true ? (
+            <CheckCircleOutline className={classes.checked} />
+          ) : (
+            <RadioButtonUnchecked className={classes.unchecked} />
+          )}
+          <span className={classes.toggleButtonLabel}>Archived</span>
+        </ToggleButton>
+
+        <ToggleButton
+          value="unarchived"
+          className={classes.filterButton}
+          classes={{ selected: classes.active }}
+        >
+          {isArchivedFilter === false ? (
+            <CheckCircleOutline className={classes.checked} />
+          ) : (
+            <RadioButtonUnchecked className={classes.unchecked} />
+          )}
+          <span className={classes.toggleButtonLabel}>Unarchived</span>
+        </ToggleButton>
+      </ToggleButtonGroup>
+
+      <div style={{ display: "flex", alignItems: "center" }}>
         <StyledButton
-          noHover
-          buttonText="Clear"
+          buttonText={"Reset"}
+          minWidth={0}
+          size="small"
           variant="contained"
-          color="primary"
-          minWidth={50}
           onClick={handleClearFilters}
-          borderRadius={2}
+          disabled={isArchivedFilter === null && isReadFilter === null}
         />
-      ) : (
-        <StyledButton
-          noHover
-          buttonText="Clear"
-          variant="contained"
-          color="primary"
-          onClick={handleClearFilters}
-          minWidth={50}
-          borderRadius={2}
-          disabled
-        />
-      )}
-    </>
+      </div>
+    </Grid>
   );
 };
 

@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Panel = ({ apiData }) => {
-  console.log("apiData", apiData);
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();

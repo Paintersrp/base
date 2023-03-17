@@ -48,8 +48,16 @@ class CustomUserManager(UserManager):
 
 @custom_metadata(
     autoform_label="Manage User Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class User(AbstractUser):
     username = CustomCharField(
@@ -143,8 +151,16 @@ class User(AbstractUser):
 
 @custom_metadata(
     autoform_label="Manage User Theme Settings",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ThemeSettings(models.Model):
     user = models.OneToOneField(
@@ -181,8 +197,16 @@ class ThemeSettings(models.Model):
 
 @custom_metadata(
     autoform_label="Manage JWT Token Blacklist",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class TokenBlacklist(models.Model):
     token = CustomTextField(

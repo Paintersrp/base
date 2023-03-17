@@ -5,11 +5,19 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Manage About Heading Block",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "About": "/about",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class AboutBlock(models.Model):
     title = CustomCharField(
@@ -31,11 +39,19 @@ class AboutBlock(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Mission Statement Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "About": "/about",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class MissionStatement(models.Model):
     title = CustomCharField(
@@ -59,11 +75,19 @@ class MissionStatement(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Company History Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "About": "/about",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class CompanyHistory(models.Model):
     title = CustomCharField(
@@ -87,11 +111,19 @@ class CompanyHistory(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Company Value Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "About": "/about",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Value(models.Model):
     title = CustomCharField(
@@ -118,12 +150,20 @@ class Skill(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Company Contact Information Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ContactInformation(models.Model):
     email = CustomEmailField(
@@ -254,12 +294,20 @@ class ContactInformation(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Team Member Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class TeamMember(models.Model):
     image = models.ImageField(
@@ -345,12 +393,20 @@ class TeamMember(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Team Member Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Category(models.Model):
     name = CustomCharField(
@@ -367,12 +423,20 @@ class Category(models.Model):
 
 @custom_metadata(
     autoform_label="Manage FAQ Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "About": "/about",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class FAQ(models.Model):
     category = models.ForeignKey(

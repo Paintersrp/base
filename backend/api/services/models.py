@@ -6,11 +6,19 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Benefit Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Services": "/services",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Benefits(BaseModel):
     title = CustomCharField(
@@ -45,11 +53,19 @@ class Benefits(BaseModel):
 
 @custom_metadata(
     autoform_label="Process Image Item Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ProcessImageItem(models.Model):
     image = models.ImageField(upload_to="process_images", verbose_name="Image")
@@ -68,11 +84,19 @@ class ProcessImageItem(models.Model):
 
 @custom_metadata(
     autoform_label="Process Text Item Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ProcessTextItem(models.Model):
     title = CustomCharField(
@@ -104,11 +128,19 @@ class ProcessTextItem(models.Model):
 
 @custom_metadata(
     autoform_label="Service Table Labels Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ServiceTableLabels(models.Model):
     service_tier1 = CustomForeignKeyField(
@@ -155,11 +187,19 @@ class ServiceTableLabels(models.Model):
 
 @custom_metadata(
     autoform_label="Service Compare Rows Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ServiceCompareRows(models.Model):
     feature = CustomCharField(

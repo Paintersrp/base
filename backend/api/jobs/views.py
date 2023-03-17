@@ -104,7 +104,12 @@ class ApplicationListView(generics.ListCreateAPIView):
         if serializer.is_valid():
             serializer.create(validated_data=data)
             instance = serializer.save()
-            create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+            create_log_entry(
+                LogEntry.Action.CREATE,
+                request.username if request.username else None,
+                instance,
+                None,
+            )
 
             return JsonResponse(serializer.data, status=201)
 
@@ -138,13 +143,23 @@ class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -86,7 +86,12 @@ class AboutBlockAPIView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -106,7 +111,7 @@ class AboutBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         old_instance = AboutBlock.objects.get(pk=instance.pk)
 
         image = request.FILES.get("image")
-        
+
         if image is None or image == instance.image:
             data = request.data.copy()
             data["image"] = instance.image
@@ -120,14 +125,24 @@ class AboutBlockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -141,7 +156,12 @@ class MissionStatementAPIView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -165,14 +185,24 @@ class MissionStatementDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -186,7 +216,12 @@ class CompanyHistoryAPIView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -210,14 +245,24 @@ class CompanyHistoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -231,7 +276,12 @@ class ContactInformationAPIView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -255,14 +305,24 @@ class ContactInformationDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -288,7 +348,12 @@ class FAQListCreateView(generics.ListCreateAPIView):
 
         if serializer.is_valid():
             faq = serializer.create(validated_data=data)
-            create_log_entry(LogEntry.Action.CREATE, request.username, faq, None)
+            create_log_entry(
+                LogEntry.Action.CREATE,
+                request.username if request.username else None,
+                faq,
+                None,
+            )
 
             return JsonResponse(serializer.data, status=200)
 
@@ -318,7 +383,12 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         if serializer.is_valid():
             serializer.update(faq, validated_data=data)
             changes = return_changes(faq, old_instance)
-            create_log_entry(LogEntry.Action.UPDATE, request.username, faq, changes)
+            create_log_entry(
+                LogEntry.Action.UPDATE,
+                request.username if request.username else None,
+                faq,
+                changes,
+            )
 
             return JsonResponse(serializer.data, status=200)
 
@@ -327,7 +397,12 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -341,7 +416,12 @@ class CategoryAPIView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -365,14 +445,24 @@ class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -386,7 +476,12 @@ class ValueViewSet(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
-        create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -410,14 +505,24 @@ class ValueDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
 
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -461,7 +566,12 @@ class TeamMemberListCreateView(generics.ListCreateAPIView):
         if serializer.is_valid():
             serializer.create(validated_data=data)
             instance = self.perform_create(serializer)
-            create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
+            create_log_entry(
+                LogEntry.Action.CREATE,
+                request.username if request.username else None,
+                instance,
+                None,
+            )
 
             return JsonResponse(serializer.data, status=201)
 
@@ -514,7 +624,12 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
         if serializer.is_valid():
             serializer.update(member, validated_data=data)
             changes = return_changes(member, old_instance)
-            create_log_entry(LogEntry.Action.UPDATE, request.username, member, changes)
+            create_log_entry(
+                LogEntry.Action.UPDATE,
+                request.username if request.username else None,
+                member,
+                changes,
+            )
 
             return JsonResponse(serializer.data, status=200)
 
@@ -523,6 +638,11 @@ class TeamMemberRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        create_log_entry(LogEntry.Action.DELETE, request.username, instance, None)
+        create_log_entry(
+            LogEntry.Action.DELETE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)

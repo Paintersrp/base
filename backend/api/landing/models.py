@@ -7,11 +7,19 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Hero Text Block",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class HeroBlock(models.Model):
     title = CustomCharField(
@@ -46,12 +54,20 @@ class HeroBlock(models.Model):
 
 @custom_metadata(
     autoform_label="TitleBlock Titties",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
@@ -124,12 +140,20 @@ class Item(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tier Features",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Feature(models.Model):
     detail = CustomCharField(
@@ -149,12 +173,20 @@ class Feature(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tier Supported Sites",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=False,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class SupportedSites(models.Model):
     detail = CustomCharField(
@@ -174,12 +206,20 @@ class SupportedSites(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tiers",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class ServiceTier(models.Model):
     image = models.ImageField(
@@ -269,12 +309,20 @@ class Testimonial(models.Model):
 
 @custom_metadata(
     autoform_label="Process Steps",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Process(models.Model):
     title = CustomCharField(

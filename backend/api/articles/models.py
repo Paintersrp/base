@@ -6,7 +6,8 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Manage Article Tag Objects",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "News": "/news",
@@ -36,7 +37,8 @@ class Tags(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Article Objects",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "News": "/news",

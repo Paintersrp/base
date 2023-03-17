@@ -5,7 +5,8 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="SEO Header Object",
-    autoform_description="Description Placeholder",
+    long_description="Description Placeholder",
+    short_description="Short Description",
     pages_associated={
         "Landing": "/",
         "About": "/about",
@@ -14,6 +15,13 @@ from auditlog.registry import auditlog
         "News": "/news",
     },
     include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
 )
 class Header(models.Model):
     page = CustomCharField(

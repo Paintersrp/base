@@ -11,12 +11,13 @@ import {
 } from "@material-ui/core";
 import { MdExpandMore } from "react-icons/Md";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import QuestionAnswerEdit from "./QuestionAnswerEdit";
 import axios from "axios";
 
 import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   question: {
@@ -96,6 +97,7 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
   const [expanded, setExpanded] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
+  const dispatch = useDispatch();
 
   const handleChange = (panel) => (event, isExpanded) => {
     if (isExpanded) {
@@ -141,7 +143,11 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
   };
 
   const confirmedDelete = async (id) => {
-    await axios.delete(`http://localhost:8000/api/faq/${id}/`);
+    await axiosInstance.delete(`http://localhost:8000/api/faq/${id}/`);
+    dispatch({
+      type: "ALERT_SUCCESS",
+      message: `FAQ Object Deleted`,
+    });
     onUpdate();
   };
 
