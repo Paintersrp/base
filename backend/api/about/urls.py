@@ -2,8 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path("value/", ValueViewSet.as_view(), name="value-list"),
-    path("value/<int:pk>/", ValueDetailViewSet.as_view(), name="value-detail"),
+    path("value/", ValueAPIView.as_view(), name="value-list"),
+    path("value/<int:pk>/", ValueDetailAPIView.as_view(), name="value-detail"),
     path("category/", CategoryAPIView.as_view(), name="category-list"),
     path("category/<int:pk>/", CategoryDetailAPIView.as_view(), name="category-detail"),
     path("faq/", FAQListCreateView.as_view(), name="faq-list"),
@@ -45,10 +45,10 @@ urlpatterns = [
         name="companyhistory-update",
     ),
     path("about/", AboutFullView.as_view(), name="about-full"),
-    path("teammember/", TeamMemberListCreateView.as_view(), name="teammember-list"),
+    path("teammember/", TeamMemberAPIView.as_view(), name="teammember-list"),
     path(
         "teammember/<int:pk>/",
-        TeamMemberRetrieveUpdateDestroyView.as_view(),
+        TeamMemberDetailAPIView.as_view(),
         name="member-detail",
     ),
 ]

@@ -3,16 +3,16 @@ from .views import *
 
 
 urlpatterns = [
-    path("benefits/", BenefitsViewSet.as_view(), name="benefits-list"),
-    path("benefits/<int:pk>/", BenefitsDetailViewSet.as_view(), name="benefits-detail"),
+    path("benefits/", BenefitsAPIView.as_view(), name="benefits-list"),
+    path("benefits/<int:pk>/", BenefitsDetailAPIView.as_view(), name="benefits-detail"),
     path(
         "processtextitem/",
-        ProcessTextItemListView.as_view(),
+        ProcessTextItemAPIView.as_view(),
         name="processtextitem-list",
     ),
     path(
         "processtextitem/<int:pk>/",
-        ProcessTextItemDetailView.as_view(),
+        ProcessTextItemDetailAPIView.as_view(),
         name="processtextitem-detail",
     ),
     path(

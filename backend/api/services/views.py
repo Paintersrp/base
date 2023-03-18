@@ -1,8 +1,4 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from authorization.authentication import JWTTokenAuthentication
-from api.signals import log_changes
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
@@ -11,6 +7,7 @@ from landing.models import ServiceTier, TitleBlock
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
+from api.custom_views import *
 
 
 class ServiceFull(object):
@@ -80,124 +77,28 @@ class ServiceCompareTableView(generics.GenericAPIView):
         return Response(serializer.data)
 
 
-class BenefitsViewSet(generics.ListCreateAPIView):
+class BenefitsAPIView(BaseListView):
     queryset = Benefits.objects.all()
     serializer_class = BenefitsSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
+    model_class = Benefits
 
 
-class BenefitsDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+class BenefitsDetailAPIView(BaseDetailView):
     queryset = Benefits.objects.all()
     serializer_class = BenefitsSerializer
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        old_instance = Benefits.objects.get(pk=instance.pk)
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        changes = return_changes(instance, old_instance)
-        create_log_entry(
-            LogEntry.Action.UPDATE,
-            request.username if request.username else None,
-            instance,
-            changes,
-        )
-
-        return Response(serializer.data)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    model_class = Benefits
 
 
-class ProcessTextItemListView(generics.ListCreateAPIView):
+class ProcessTextItemAPIView(BaseListView):
     queryset = ProcessTextItem.objects.all()
     serializer_class = ProcessTextItemSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
+    model_class = ProcessTextItem
 
 
-class ProcessTextItemDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ProcessTextItemDetailAPIView(BaseDetailView):
     queryset = ProcessTextItem.objects.all()
     serializer_class = ProcessTextItemSerializer
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        old_instance = ProcessTextItem.objects.get(pk=instance.pk)
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        changes = return_changes(instance, old_instance)
-        create_log_entry(
-            LogEntry.Action.UPDATE,
-            request.username if request.username else None,
-            instance,
-            changes,
-        )
-
-        return Response(serializer.data)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    model_class = ProcessTextItem
 
 
 class ProcessImageItemListView(generics.ListCreateAPIView):
@@ -258,6 +159,29 @@ class ProcessImageItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ServiceTableLabelsListView(generics.ListCreateAPIView):
     queryset = ServiceTableLabels.objects.all()
     serializer_class = ServiceTableLabelsSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            instance,
+            None,
+        )
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+    def get_queryset(self):
+        return self.model_class.objects.all()
 
 
 class ServiceTableLabelsDetailView(generics.RetrieveUpdateDestroyAPIView):

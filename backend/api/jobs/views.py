@@ -70,11 +70,6 @@ class ApplicationListView(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
-
-class ApplicationListView(generics.ListCreateAPIView):
-    queryset = Application.objects.all()
-    serializer_class = ApplicationSerializer
-
     def create(self, request, *args, **kwargs):
         form_data = request.data
         first_name = form_data.get("first_name")
