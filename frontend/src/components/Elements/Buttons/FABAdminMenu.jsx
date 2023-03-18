@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import ThemeSettings from "../Forms/ThemeSettings/ThemeSettings";
 import SmartToySharpIcon from "@mui/icons-material/SmartToySharp";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -95,12 +95,22 @@ const useStyles = makeStyles((theme) => ({
 const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const dispatch = useDispatch();
+  const editmode = useSelector((state) => state.editmode);
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleEditClick = () => {
+    if (editmode.editMode) {
+      dispatch({ type: "TOGGLE_EDITMODE_OFF" });
+    } else {
+      dispatch({ type: "TOGGLE_EDITMODE_ON" });
+    }
   };
 
   const handleTransitionExited = () => {
@@ -132,7 +142,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
                     <IconButton
                       className={classes.menuItem}
                       color="primary"
-                      onClick={() => setEditing(!editing)}
+                      onClick={handleEditClick}
                       size="small"
                     >
                       {editing ? (

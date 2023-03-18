@@ -12,21 +12,25 @@ import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
+    margin: theme.spacing(0, 0, 1, 0),
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.text.secondary,
       },
       "&:hover fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.secondary.main,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.primary.light,
       },
     },
     "& .MuiFormLabel-root": {
       color: "black",
       fontWeight: "500",
       fontSize: "0.9rem",
+    },
+    "& .MuiFormControl-root": {
+      margin: "0px !important",
     },
     "& input": {
       color: "black",
@@ -85,6 +89,7 @@ function HeroForm() {
       >
         <Grid item xs={12}>
           <TextField
+            color="primary"
             margin="dense"
             label="Full Name"
             id="name"

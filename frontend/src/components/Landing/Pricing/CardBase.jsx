@@ -11,6 +11,7 @@ export default function CardBase({ plan, classes }) {
   const [planData, setPlanData] = useState(plan);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const editmode = useSelector((state) => state.editmode);
 
   const updatePlan = (updatePlan) => {
     setPlanData(updatePlan);
@@ -32,12 +33,13 @@ export default function CardBase({ plan, classes }) {
             <CardList data={planData} classes={classes} />
             <CardButtons plan={planData} />
           </CardContent>
-          {!editing && auth.is_superuser ? (
+          {!editing && editmode.editMode ? (
             <>
               <EditDeleteButtonMenu
                 editClick={() => setEditing(!editing)}
                 hideDelete
                 position="end"
+                adminLink="servicetier"
               />
             </>
           ) : null}

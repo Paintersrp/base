@@ -56,6 +56,7 @@ export default function Processes({
   const classes = useStyles();
   const [editTitle, setEditTitle] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const editmode = useSelector((state) => state.editmode);
 
   const updateTitleBlock = (updateTitleBlock) => {
     setBlock(updateTitleBlock);
@@ -74,6 +75,7 @@ export default function Processes({
                     subtitle={block.subtitle}
                     title={block.title}
                     alignment={block.alignment}
+                    description={block.description}
                     showDivider={block.show_divider}
                   />
                 ) : (
@@ -84,12 +86,13 @@ export default function Processes({
                   />
                 )}
 
-                {!editTitle && auth.is_superuser ? (
+                {!editTitle && editmode.editMode ? (
                   <>
                     <EditDeleteButtonMenu
                       editClick={() => setEditTitle(!editTitle)}
                       hideDelete
                       position="center"
+                      adminLink="titleblock"
                     />
                   </>
                 ) : null}

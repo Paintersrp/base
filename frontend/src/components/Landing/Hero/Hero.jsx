@@ -12,8 +12,8 @@ import HeroForm from "./HeroForm";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
-    padding: 20,
-    marginTop: 80,
+    padding: theme.spacing(2, 0, 1, 0),
+    marginTop: 60,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     display: "flex",
     flexDirection: "column",
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 function Hero({ heroData, setHeroData, contactData, form = true }) {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
+  const editmode = useSelector((state) => state.editmode);
   const auth = useSelector((state) => state.auth);
 
   const updateHeroBlock = (updatedHeroBlock) => {
@@ -50,7 +51,7 @@ function Hero({ heroData, setHeroData, contactData, form = true }) {
     <Grid container flex className={classes.container}>
       <Grid item xs={12}>
         <div className={classes.overlay}>
-          {!editing && auth.is_superuser ? (
+          {!editing && editmode.editMode ? (
             <>
               <EditDeleteButtonMenu
                 editClick={() => setEditing(!editing)}
@@ -58,6 +59,7 @@ function Hero({ heroData, setHeroData, contactData, form = true }) {
                 placement="top"
                 position="center"
                 finalColor="white"
+                adminLink="heroblock"
               />
             </>
           ) : null}

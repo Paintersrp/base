@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     backgroundColor: theme.palette.background.light,
-    paddingBottom: 40,
     [theme.breakpoints.down("1100")]: {
       flexDirection: "column",
     },
@@ -57,6 +56,7 @@ export default function LatestNews({ articlesData, block, setBlock }) {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const editmode = useSelector((state) => state.editmode);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -83,6 +83,7 @@ export default function LatestNews({ articlesData, block, setBlock }) {
               title={block.title}
               alignment={block.alignment}
               showDivider={block.show_divider}
+              description={block.description}
             />
           ) : (
             <TitleBlockEditor
@@ -91,12 +92,13 @@ export default function LatestNews({ articlesData, block, setBlock }) {
               handleCancel={() => setEditing(!editing)}
             />
           )}
-          {!editing && auth.is_superuser ? (
+          {!editing && editmode.editMode ? (
             <>
               <EditDeleteButtonMenu
                 editClick={() => setEditing(!editing)}
                 hideDelete
                 position="center"
+                adminLink="titleblock"
               />
             </>
           ) : null}

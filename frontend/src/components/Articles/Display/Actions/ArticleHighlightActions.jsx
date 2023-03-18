@@ -16,6 +16,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontFamily: "Roboto",
   },
+  chipAlt: {
+    borderRadius: 14,
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.text.light,
+    marginRight: 5,
+    marginTop: 5,
+    fontWeight: 600,
+    fontFamily: "Roboto",
+  },
   chipContainer: {
     display: "flex",
     width: "100%",
@@ -48,8 +57,12 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
       alignItems="center"
     >
       <div className={classes.chipContainer}>
-        {article.tags.map((tag) => (
-          <Chip key={tag.name} label={tag.name} className={classes.chip} />
+        {article.tags.map((tag, index) => (
+          <Chip
+            key={tag.name}
+            label={tag.name}
+            className={index % 2 === 0 ? classes.chip : classes.chipAlt}
+          />
         ))}
       </div>
       <Grid container flex justifyContent="space-between" alignItems="center">

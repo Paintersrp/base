@@ -10,8 +10,7 @@ const defaultCardStyle = makeStyles((theme) => ({
     transition: "0.3s",
     "&:hover": {
       transform: "translateY(-5px)",
-      boxShadow: theme.shadows[7],
-      border: `0.5px solid ${theme.palette.secondary.main}`,
+      boxShadow: `0 5px 10px ${theme.palette.primary.light}`,
     },
   },
   rootNoHover: {

@@ -6,7 +6,12 @@ import LinkIcon from "@mui/icons-material/Link";
 
 export default function CardButtons({ plan }) {
   return (
-    <Grid container spacing={0} justifyContent="center">
+    <Grid
+      container
+      spacing={0}
+      justifyContent="center"
+      style={{ marginBottom: 16 }}
+    >
       <Grid item xs={12} justifyContent="center" style={{ display: "flex" }}>
         <Link to={`/services/${plan.id}`}>
           <StyledButton buttonText="View Details" startIcon={<LinkIcon />} />

@@ -26,11 +26,14 @@ const CustomButton = withStyles({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 40,
+    padding: theme.spacing(1, 1, 4, 1),
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.palette.background.light,
-    paddingBottom: theme.spacing(10),
+    [theme.breakpoints.down("md")]: {
+      padding: 10,
+    },
   },
   container: {
     maxWidth: "600px",
@@ -40,13 +43,16 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 14,
     padding: theme.spacing(4),
     direction: "column",
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "350px",
+      padding: theme.spacing(4),
+    },
   },
   heading: {
     fontFamily: "Poppins",
-    fontSize: "2.25rem",
     textAlign: "center",
     fontWeight: 700,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.down("md")]: {
       fontSize: "1.75rem",
     },
@@ -61,14 +67,14 @@ const useStyles = makeStyles((theme) => ({
   input: {
     margin: theme.spacing(1),
     "& .MuiOutlinedInput-root": {
-      "&.Mui-focused fieldset": {
-        borderColor: theme.palette.text.dark,
-      },
       "& fieldset": {
         borderColor: theme.palette.text.dark,
       },
       "&:hover fieldset": {
-        borderColor: theme.palette.text.dark,
+        borderColor: theme.palette.secondary.main,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.light,
       },
     },
     "& .MuiFormLabel-root": {
@@ -143,8 +149,8 @@ export default function NewsletterForm() {
 
   return (
     <Box className={classes.root}>
-      <Container className={classes.container}>
-        <Typography variant="h2" className={classes.heading}>
+      <div className={classes.container}>
+        <Typography variant="h3" className={classes.heading}>
           Subscribe to our Newsletter
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
@@ -199,7 +205,7 @@ export default function NewsletterForm() {
             ? "Oh no an error occured! 😢 Please try again later."
             : "No spam, just news."}
         </Typography>
-      </Container>
+      </div>
     </Box>
   );
 }

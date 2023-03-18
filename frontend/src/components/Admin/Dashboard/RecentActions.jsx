@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
-  console.log("rl:", recentActions);
   const classes = useStyles();
   const handleExpandClick = () => {
     setActionsOpen(!actionsOpen);

@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     display: "flex",
     flexDirection: "column",
-    marginBottom: theme.spacing(3),
   },
   socialIcons: {
     transition: "0.3s",
@@ -43,6 +42,7 @@ export default function Social({ contactData, showTitle, color = "light" }) {
   const theme = useTheme();
   const { fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
+  const editmode = useSelector((state) => state.editmode);
   const [contacts, setContacts] = useState(contactData);
   const [editing, setEditing] = useState(false);
   let finalColor;
@@ -128,13 +128,14 @@ export default function Social({ contactData, showTitle, color = "light" }) {
               }
             })}
           </div>
-          {!editing && auth.is_superuser ? (
+          {!editing && editmode.editMode ? (
             <EditDeleteButtonMenu
               hideDelete
               editClick={() => setEditing(!editing)}
               position="center"
               placement="bottom"
               finalColor={finalColor}
+              adminLink="contactinformation"
             />
           ) : null}
         </div>

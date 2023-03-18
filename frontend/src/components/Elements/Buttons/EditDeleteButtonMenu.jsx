@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   tooltip: {
@@ -28,6 +30,7 @@ const EditDeleteButtonMenu = ({
   editClick,
   deleteClick,
   finalColor = "primary",
+  adminLink,
 }) => {
   const classes = useStyles();
 
@@ -77,6 +80,30 @@ const EditDeleteButtonMenu = ({
           >
             <DeleteIcon />
           </IconButton>
+        </Tooltip>
+      ) : null}
+      {adminLink ? (
+        <Tooltip
+          title="Admin Panel"
+          classes={{
+            tooltip: classes.tooltip,
+            arrow: classes.arrow,
+          }}
+          arrow
+          placement={placement}
+        >
+          <Link to={`/admin/${adminLink}`}>
+            <IconButton
+              style={{ marginRight: 5, marginBottom: 5 }}
+              size="small"
+              color="primary"
+              label="delete"
+              aria-label="Delete"
+              onClick={deleteClick}
+            >
+              <AdminPanelSettingsIcon style={{ color: finalColor }} />
+            </IconButton>
+          </Link>
         </Tooltip>
       ) : null}
     </div>

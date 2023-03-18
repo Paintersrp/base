@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard() {
   const classes = useStyles();
   const [models, setModels] = useState({});
+  const [configs, setConfigs] = useState({});
   const [openAppSections, setOpenAppSections] = useState({});
   const [recentActions, setRecentActions] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -129,10 +130,12 @@ function Dashboard() {
     axiosInstance
       .get("/get_models/")
       .then((response) => {
-        setModels(response.data);
+        setModels(response.data.models);
+        setConfigs(response.data.configs);
+        console.log("Models: ", response.data);
 
         const initialOpenAppSections = {};
-        Object.keys(response.data).forEach((app) => {
+        Object.keys(response.data.models).forEach((app) => {
           initialOpenAppSections[app] = true;
         });
         setOpenAppSections(initialOpenAppSections);
@@ -182,6 +185,7 @@ function Dashboard() {
             <Grid container>
               {renderSections({
                 models,
+                configs,
                 openAppSections,
                 setOpenAppSections,
                 classes,

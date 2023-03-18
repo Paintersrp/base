@@ -69,14 +69,14 @@ const useStyles = makeStyles((theme) => ({
   input: {
     margin: theme.spacing(1),
     "& .MuiOutlinedInput-root": {
-      "&.Mui-focused fieldset": {
-        borderColor: theme.palette.text.light,
-      },
       "& fieldset": {
         borderColor: theme.palette.text.light,
       },
       "&:hover fieldset": {
-        borderColor: theme.palette.text.light,
+        borderColor: theme.palette.secondary.main,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.light,
       },
     },
     "& .MuiFormLabel-root": {
@@ -210,9 +210,17 @@ const Footer = ({ socialData }) => {
           <Grid item xs={12} sm={4}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {links.map((link) => (
-                <Link key={link.name} to={link.href} className={classes.link}>
-                  {link.name}
-                </Link>
+                <div>
+                  <Typography>
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      className={classes.link}
+                    >
+                      {link.name}
+                    </Link>
+                  </Typography>
+                </div>
               ))}
             </div>
           </Grid>

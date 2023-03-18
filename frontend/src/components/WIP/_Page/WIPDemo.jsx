@@ -26,6 +26,7 @@ import TestForm from "../TestForm";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
+import MultiParagraphEditor from "../Blog/Page";
 
 const actions = [
   <Grid
@@ -201,6 +202,7 @@ export default function WIPDemo() {
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
       <LayeredGradientBackground>
+        <MultiParagraphEditor />
         <TestForm />
         <Container spacing={2} style={{ padding: 4 }}>
           <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">

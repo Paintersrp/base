@@ -23,6 +23,8 @@ export function renderIcon(appName, className) {
       );
     case "landing":
       return <HomeIcon className={className} style={{ fontSize: "1.5rem" }} />;
+    case "InfoIcon":
+      return <InfoIcon className={className} style={{ fontSize: "1.5rem" }} />;
     case "about":
       return <InfoIcon className={className} style={{ fontSize: "1.5rem" }} />;
     case "services":

@@ -59,6 +59,7 @@ export default function Process({ step, noEdit = false, noFade = false }) {
   const [featureData, setFeatureData] = useState(step);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const editmode = useSelector((state) => state.editmode);
 
   const updateProcess = (updateProcess) => {
     setFeatureData(updateProcess);
@@ -84,12 +85,13 @@ export default function Process({ step, noEdit = false, noFade = false }) {
                   {step.description}
                 </Typography>
               </Grid>
-              {!editing && auth.is_superuser && !noEdit ? (
+              {!editing && editmode.editMode && !noEdit ? (
                 <div style={{ width: "95%" }}>
                   <EditDeleteButtonMenu
                     editClick={() => setEditing(!editing)}
                     hideDelete
                     position="end"
+                    adminLink="process"
                   />
                 </div>
               ) : null}

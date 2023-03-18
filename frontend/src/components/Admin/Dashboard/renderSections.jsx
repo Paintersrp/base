@@ -20,6 +20,7 @@ import { renderIcon } from "./renderIcon";
 
 export default function renderSections({
   models,
+  configs,
   openAppSections,
   setOpenAppSections,
   classes,
@@ -27,11 +28,7 @@ export default function renderSections({
   const sections = [];
 
   Object.entries(models).map(([appName, modelItem], index) => {
-    // if (appName === "authorization") {
-    //   return null;
-    // }
-
-    console.log(modelItem);
+    console.log("modelConfig: ", configs[appName]);
 
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
