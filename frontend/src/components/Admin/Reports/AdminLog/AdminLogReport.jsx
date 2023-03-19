@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Checkbox,
-  FormControl,
-  Input,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -16,8 +9,8 @@ import {
   TablePagination,
   TableRow,
 } from "@material-ui/core";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { Link } from "react-router-dom";
+import FilterToolbar from "./FilterToolbar";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -31,26 +24,20 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#007bff",
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
+  },
 }));
 
-export default function AdminLogReport({data}) {
+export default function AdminLogReport({ data }) {
   const classes = useStyles();
-  // const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [appLabelFilter, setAppLabelFilter] = useState([]);
   const [modelNameFilter, setModelNameFilter] = useState([]);
   const [actionFlagFilter, setActionFlagFilter] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await axiosInstance.get(
-  //       "/recent_admin_actions/?items=all"
-  //     );
-  //     setData(result.data);
-  //   };
-  //   fetchData();
-  // }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -62,17 +49,57 @@ export default function AdminLogReport({data}) {
   };
 
   const handleAppLabelFilterChange = (event) => {
-    setAppLabelFilter(event.target.value);
+    const filterValue = event.target.value.toLowerCase();
+    const isFilterSelected = appLabelFilter.includes(filterValue);
+
+    if (!filterValue) {
+      setAppLabelFilter([]);
+    } else if (isFilterSelected) {
+      setAppLabelFilter(
+        appLabelFilter.filter((filter) => filter !== filterValue)
+      );
+    } else {
+      setAppLabelFilter([...appLabelFilter, filterValue]);
+    }
     setPage(0);
   };
 
   const handleModelNameFilterChange = (event) => {
-    setModelNameFilter(event.target.value);
+    const filterValue = event.target.value.toLowerCase();
+    const isFilterSelected = modelNameFilter.includes(filterValue);
+
+    if (!filterValue) {
+      setModelNameFilter([]);
+    } else if (isFilterSelected) {
+      setModelNameFilter(
+        modelNameFilter.filter((filter) => filter !== filterValue)
+      );
+    } else {
+      setModelNameFilter([...modelNameFilter, filterValue]);
+    }
     setPage(0);
   };
 
   const handleActionFlagFilterChange = (event) => {
-    setActionFlagFilter(event.target.value);
+    const filterValue = event.target.value.toLowerCase();
+    const isFilterSelected = actionFlagFilter.includes(filterValue);
+
+    if (!filterValue) {
+      setActionFlagFilter([]);
+    } else if (isFilterSelected) {
+      setActionFlagFilter(
+        actionFlagFilter.filter((filter) => filter !== filterValue)
+      );
+    } else {
+      setActionFlagFilter([...actionFlagFilter, filterValue]);
+    }
+    setPage(0);
+  };
+
+  const handleResetFilter = () => {
+    setActionFlagFilter([]);
+    setModelNameFilter([]);
+    setAppLabelFilter([]);
     setPage(0);
   };
 
@@ -92,96 +119,20 @@ export default function AdminLogReport({data}) {
 
   return (
     <div style={{ width: "100%" }}>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Filter by App Label</InputLabel>
-        <Select
-          multiple
-          value={appLabelFilter}
-          onChange={handleAppLabelFilterChange}
-          input={<Input id="select-multiple-app-label" />}
-          renderValue={(selected) => selected.join(", ")}
-          MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left",
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "left",
-            },
-            getContentAnchorEl: null,
-          }}
-        >
-          {appLabels.map((appLabel) => (
-            <MenuItem key={appLabel} value={appLabel.toLowerCase()}>
-              <Checkbox
-                checked={appLabelFilter.includes(appLabel.toLowerCase())}
-              />
-              <ListItemText primary={appLabel} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Filter by Model Name</InputLabel>
-        <Select
-          MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left",
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "left",
-            },
-            getContentAnchorEl: null,
-          }}
-          multiple
-          value={modelNameFilter}
-          onChange={handleModelNameFilterChange}
-          input={<Input id="select-multiple-model-name" />}
-          renderValue={(selected) => selected.join(", ")}
-        >
-          {modelNames.map((modelName) => (
-            <MenuItem key={modelName} value={modelName.toLowerCase()}>
-              <Checkbox
-                checked={modelNameFilter.includes(modelName.toLowerCase())}
-              />
-              <ListItemText primary={modelName} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Filter by Action Flag</InputLabel>
-        <Select
-          multiple
-          value={actionFlagFilter}
-          onChange={handleActionFlagFilterChange}
-          input={<Input id="select-multiple-action-flag" />}
-          renderValue={(selected) => selected.join(", ")}
-          MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left",
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "left",
-            },
-            getContentAnchorEl: null,
-          }}
-        >
-          {actionFlags.map((actionFlag) => (
-            <MenuItem key={actionFlag} value={actionFlag.toLowerCase()}>
-              <Checkbox
-                checked={actionFlagFilter.includes(actionFlag.toLowerCase())}
-              />
-              <ListItemText primary={actionFlag} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <div style={{ marginBottom: 24 }}>
+        <FilterToolbar
+          appLabels={appLabels}
+          modelNames={modelNames}
+          actionFlags={actionFlags}
+          appLabelFilter={appLabelFilter}
+          modelNameFilter={modelNameFilter}
+          actionFlagFilter={actionFlagFilter}
+          handleAppLabelFilterChange={handleAppLabelFilterChange}
+          handleModelNameFilterChange={handleModelNameFilterChange}
+          handleActionFlagFilterChange={handleActionFlagFilterChange}
+          handleResetFilter={handleResetFilter}
+        />
+      </div>
       <TableContainer>
         <Table className={classes.table} size="small">
           <TableHead>

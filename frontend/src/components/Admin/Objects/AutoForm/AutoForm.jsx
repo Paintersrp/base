@@ -189,7 +189,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         handleUpdate();
         dispatch({
           type: "ALERT_SUCCESS",
-          message: `${model.verbose_name} Object - Created `,
+          message: `${model.verbose_name} Object - Created ${model.verbose_name}`,
         });
       } catch (err) {
         console.log(err);
@@ -318,7 +318,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
             <Paper
               style={{
                 width: "100%",
-                background: "rgba(0,0,0,0.1)",
+                background: "",
                 padding: 24,
                 display: "flex",
                 justifyContent: "center",

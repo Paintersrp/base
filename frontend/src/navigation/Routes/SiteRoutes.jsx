@@ -32,6 +32,7 @@ import AdminRoute from "./AdminRoute";
 import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
 import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
 import Footer from "../Components/Footer/Footer";
+import ApplicationViewPage from "../../components/Admin/Objects/_Page/ApplicationViewPage";
 
 {
   /* 
@@ -56,6 +57,8 @@ export default function SiteRoutes({ handleUpdate }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
+  const auth = useSelector((state) => state.auth);
+
   const isAdminPath = location.pathname.startsWith("/admin");
   const { message, type, open } = useSelector((state) => state.snackbar);
   const [count, setCount] = useState(null);
@@ -94,7 +97,7 @@ export default function SiteRoutes({ handleUpdate }) {
       />
       <ScrollTopFab />
 
-      {!loading.isLoading ? (
+      {!loading.isLoading && auth.is_checked ? (
         <Routes>
           {/* Auth Routes */}
           <Route
@@ -163,18 +166,26 @@ export default function SiteRoutes({ handleUpdate }) {
 
           <Route
             path="/admin/:id"
-            element={<PanelPage />}
+            element={<PanelPage setCount={setCount} />}
             key={location.pathname}
           />
           <Route path="/admin/:str/control" element={<ObjectPage />} />
           <Route path="/admin/:str/control/:pk" element={<ObjectPage />} />
           <Route
-            path="/admin/:str/read"
+            path="/admin/messages/read"
             element={<ReadPage setCount={setCount} />}
           />
           <Route
-            path="/admin/:str/read/:pk"
+            path="/admin/messages/read/:pk"
             element={<ReadPage setCount={setCount} />}
+          />
+          <Route
+            path="/admin/application/read"
+            element={<ApplicationViewPage />}
+          />
+          <Route
+            path="/admin/application/read/:pk"
+            element={<ApplicationViewPage />}
           />
         </Routes>
       ) : (

@@ -8,18 +8,17 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import SettingsIcon from "@material-ui/icons/Settings";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import {
-  Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
   ExitToApp as ExitToAppIcon,
 } from "@material-ui/icons";
-import { Badge, Menu, MenuItem } from "@material-ui/core";
+import { Badge, Menu, MenuItem, Tooltip } from "@material-ui/core";
 import MessageIcon from "@mui/icons-material/Message";
 import handleLogout from "../../../lib/Auth/Logout";
 import SubjectIcon from "@mui/icons-material/Subject";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -64,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 11,
       background: theme.palette.primary.light,
     },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
   },
 }));
 
@@ -113,32 +117,76 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             Admin Dashboard
           </Typography>
-          <Link to={"admin/messages"}>
+
+          <Tooltip
+            title="View Messages"
+            placement="bottom"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <Link to={"admin/messages"}>
+              <IconButton
+                aria-label="show messages"
+                color="inherit"
+                className={classes.accountButtonIcon}
+              >
+                <Badge
+                  badgeContent={count}
+                  color="secondary"
+                  small
+                  className={classes.badge}
+                >
+                  <MessageIcon />
+                </Badge>
+              </IconButton>
+            </Link>
+          </Tooltip>
+
+          <Tooltip
+            title="View Applications"
+            placement="bottom"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <Link to={"admin/application"}>
+              <IconButton
+                aria-label="show messages"
+                color="inherit"
+                className={classes.accountButtonIcon}
+              >
+                <WorkSharpIcon />
+              </IconButton>
+            </Link>
+          </Tooltip>
+          <Tooltip
+            title="View Admin Log"
+            placement="bottom"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <Link to={"adminlog"}>
+              <IconButton
+                aria-label="show messages"
+                color="inherit"
+                className={classes.accountButtonIcon}
+              >
+                <AutoStoriesIcon />
+              </IconButton>
+            </Link>
+          </Tooltip>
+          <Tooltip
+            title="Account"
+            placement="bottom"
+            classes={{ tooltip: classes.tooltip }}
+          >
             <IconButton
-              aria-label="show messages"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
               color="inherit"
               className={classes.accountButtonIcon}
             >
-              <Badge
-                badgeContent={count}
-                color="secondary"
-                small
-                className={classes.badge}
-              >
-                <MessageIcon />
-              </Badge>
+              <AccountCircleIcon />
             </IconButton>
-          </Link>
-          <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenuOpen}
-            color="inherit"
-            className={classes.accountButtonIcon}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+          </Tooltip>
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}

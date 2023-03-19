@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
@@ -50,12 +50,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Member = ({ member }) => {
+const Member = ({ member, newImage }) => {
   const classes = useStyles();
   const { fadeIn } = baseClasses();
   const [editing, setEditing] = useState(false);
   const [memberData, setMemberData] = useState(member);
   const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setMemberData(member);
+  }, [member]);
 
   const updateMember = (updateMember) => {
     setMemberData(updateMember);
@@ -72,7 +76,7 @@ const Member = ({ member }) => {
                 avatar={
                   <Avatar
                     variant="rounded"
-                    src={memberData.image}
+                    src={newImage ? newImage : memberData.image}
                     className={classes.avatar}
                   />
                 }

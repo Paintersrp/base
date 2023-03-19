@@ -18,7 +18,8 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Link } from "react-router-dom";
 import TimelineSharpIcon from "@mui/icons-material/TimelineSharp";
-import BookIcon from "@mui/icons-material/Book";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -75,7 +76,7 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <IconButton color="secondary">
-                  <BookIcon />
+                  <AutoStoriesIcon />
                 </IconButton>
               </Link>
               <IconButton onClick={handleExpandClick}>

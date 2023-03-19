@@ -11,47 +11,7 @@ import Validate from "../../../../hooks/Validate.jsx";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.background.light,
-  },
-  title: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(1),
-  },
-  location: {
-    color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(0),
-  },
-  employmentType: {
-    color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(0),
-  },
-  applyButton: {
-    marginLeft: "auto",
-    maxHeight: 40,
-  },
-  referButton: {
-    marginRight: theme.spacing(2),
-  },
-  sectionTitle: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(0.5),
-    marginTop: theme.spacing(4),
-  },
-  requirementItem: {
-    marginBottom: theme.spacing(0),
-  },
-  requirementIcon: {
-    color: theme.palette.primary.main,
-  },
-  whyApply: {
-    marginBottom: theme.spacing(4),
-  },
   form: {
-    marginTop: theme.spacing(0),
-  },
-  submitButton: {
     marginTop: theme.spacing(0),
   },
   fileInputContainer: {
@@ -59,13 +19,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     gap: theme.spacing(1),
     width: "100%",
-  },
-  fileInputLabel: {
-    display: "flex",
-    alignItems: "center",
-  },
-  attachFileIcon: {
-    marginRight: theme.spacing(1),
   },
   fileInput: {
     display: "none",

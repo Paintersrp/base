@@ -89,6 +89,12 @@ class BenefitsDetailAPIView(BaseDetailView):
     model_class = Benefits
 
 
+class BenefitsBulkAPIView(BaseBulkView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitsSerializer
+    model_class = Benefits
+
+
 class ProcessTextItemAPIView(BaseListView):
     queryset = ProcessTextItem.objects.all()
     serializer_class = ProcessTextItemSerializer
@@ -96,6 +102,12 @@ class ProcessTextItemAPIView(BaseListView):
 
 
 class ProcessTextItemDetailAPIView(BaseDetailView):
+    queryset = ProcessTextItem.objects.all()
+    serializer_class = ProcessTextItemSerializer
+    model_class = ProcessTextItem
+
+
+class ProcessTextItemBulkAPIView(BaseBulkView):
     queryset = ProcessTextItem.objects.all()
     serializer_class = ProcessTextItemSerializer
     model_class = ProcessTextItem
@@ -156,9 +168,16 @@ class ProcessImageItemDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 
-class ServiceTableLabelsListView(generics.ListCreateAPIView):
+class ProcessImageItemBulkAPIView(BaseBulkView):
+    queryset = ProcessImageItem.objects.all()
+    serializer_class = ProcessImageItemSerializer
+    model_class = ProcessImageItem
+
+
+class ServiceTableLabelsListView(BaseListView):
     queryset = ServiceTableLabels.objects.all()
     serializer_class = ServiceTableLabelsSerializer
+    model_class = ServiceTableLabels
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -219,6 +238,12 @@ class ServiceTableLabelsDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class ServiceTableLabelsBulkAPIView(BaseBulkView):
+    queryset = ServiceTableLabels.objects.all()
+    serializer_class = ServiceTableLabelsSerializer
+    model_class = ServiceTableLabels
+
+
 class ServiceCompareRowsListView(generics.ListCreateAPIView):
     queryset = ServiceCompareRows.objects.all()
     serializer_class = ServiceCompareRowsSerializer
@@ -277,3 +302,9 @@ class ServiceCompareRowsDetailView(generics.RetrieveUpdateDestroyAPIView):
         )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ServiceCompareRowsBulkAPIView(BaseBulkView):
+    queryset = ServiceCompareRows.objects.all()
+    serializer_class = ServiceCompareRowsSerializer
+    model_class = ServiceCompareRows

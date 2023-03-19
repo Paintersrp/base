@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Heading({ data }) {
+export default function Heading({ data, newImage }) {
   const classes = useStyles();
   return (
     <Grid container className={classes.fadeIn}>
@@ -45,7 +45,7 @@ export default function Heading({ data }) {
       <Grid item xs={12} sm={12} style={{ padding: 0, margin: 0 }}>
         <CardMedia
           className={classes.media}
-          image={`${data.image}`}
+          image={`${newImage ? newImage : data.image}`}
           title="title"
         />
       </Grid>

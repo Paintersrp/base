@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Typography } from "@material-ui/core";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BenefitEdit from "./BenefitEdit";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
@@ -15,11 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Benefit = ({ benefit }) => {
+const Benefit = ({ benefit, edit = true }) => {
   const [data, setData] = useState(benefit);
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setData(benefit);
+  }, [benefit]);
 
   const updateBenefit = (updateBenefit) => {
     setData(updateBenefit);
@@ -41,7 +45,7 @@ const Benefit = ({ benefit }) => {
           elevation={1}
           headerTitleProps={{ variant: "h5" }}
           actions={[
-            !editing && auth.is_superuser ? (
+            !editing && auth.is_superuser && edit ? (
               <EditDeleteButtonMenu
                 hideDelete
                 editClick={() => setEditing(!editing)}

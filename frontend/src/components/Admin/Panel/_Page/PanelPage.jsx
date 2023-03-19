@@ -4,7 +4,7 @@ import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import PageContainer from "../../../Elements/Layout/PageContainer";
 import Panel from "../Panel";
 
-function PanelPage() {
+function PanelPage({ setCount }) {
   const { id } = useParams();
   const location = useLocation();
   const [data, setData] = useState();
@@ -27,7 +27,7 @@ function PanelPage() {
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
-      {apiData ? <Panel apiData={apiData} /> : null}
+      {apiData ? <Panel apiData={apiData} setCount={setCount} /> : null}
     </PageContainer>
   );
 }

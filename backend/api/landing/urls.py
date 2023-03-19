@@ -4,17 +4,29 @@ from .views import *
 
 urlpatterns = [
     path("landing/", LandingFullView.as_view(), name="landing-full"),
-    path("feature/", FeatureViewSet.as_view(), name="feature-list"),
+    path("feature/", FeatureAPIView.as_view(), name="feature-list"),
     path(
         "feature/<int:pk>/",
-        FeatureDetailViewSet.as_view(),
+        FeatureDetailAPIView.as_view(),
         name="feature-detail",
     ),
-    path("supportedsites/", SupportedSiteViewSet.as_view(), name="supportedsites-list"),
+    path(
+        "feature/bulk/",
+        FeatureBulkAPIView.as_view(),
+        name="feature-bulk-detail",
+    ),
+    path(
+        "supportedsites/", SupportedSitesAPIView.as_view(), name="supportedsites-list"
+    ),
     path(
         "supportedsites/<int:pk>/",
-        SupportedSiteDetailViewSet.as_view(),
+        SupportedSitesDetailAPIView.as_view(),
         name="supportedsites-detail",
+    ),
+    path(
+        "supportedsites/bulk/",
+        SupportedSitesBulkAPIView.as_view(),
+        name="supportedsites-bulk-detail",
     ),
     path("item/", ItemViewSet.as_view({"get": "list"}), name="item-ignore-list"),
     path(
@@ -22,15 +34,35 @@ urlpatterns = [
         ItemViewSet.as_view({"patch": "update", "put": "update"}),
         name="item2-list",
     ),
-    path("testimonial/", TestimonialViewSet.as_view(), name="testimonial-ignore-list"),
-    path("process/", ProcessViewSet.as_view(), name="process-list"),
-    path("process/<int:pk>/", ProcessDetailViewSet.as_view(), name="process-detail"),
+    path("testimonial/", TestimonialAPIView.as_view(), name="testimonial-ignore-list"),
+    path(
+        "testimonial/<int:pk>/",
+        TestimonialDetailAPIView.as_view(),
+        name="testimonial-ignore-detail",
+    ),
+    path(
+        "testimonial/bulk/",
+        TestimonialBulkAPIView.as_view(),
+        name="testimonial-bulk-detail",
+    ),
+    path("process/", ProcessAPIView.as_view(), name="process-list"),
+    path("process/<int:pk>/", ProcessDetailAPIView.as_view(), name="process-detail"),
+    path(
+        "process/bulk/",
+        ProcessBulkAPIView.as_view(),
+        name="process-bulk-detail",
+    ),
     path("heroblock/main/", HeroBlockMainAPIView.as_view(), name="heroblock-single"),
     path("heroblock/", HeroBlockAPIView.as_view(), name="heroblock-list"),
     path(
         "heroblock/<int:pk>/",
         HeroBlockDetailAPIView.as_view(),
         name="heroblock-detail",
+    ),
+    path(
+        "heroblock/bulk/",
+        HeroBlockBulkAPIView.as_view(),
+        name="heroblock-bulk-detail",
     ),
     path("titleblock/", TitleBlockAPIView.as_view(), name="titleblock-list"),
     path(
@@ -44,6 +76,11 @@ urlpatterns = [
         name="titleblock-search",
     ),
     path(
+        "titleblock/del/bulk/",
+        TitleBlockBulkAPIView.as_view(),
+        name="titleblock-bulk-detail",
+    ),
+    path(
         "servicetier/",
         ServiceTierView.as_view(),
         name="servicetier-list",
@@ -52,5 +89,10 @@ urlpatterns = [
         "servicetier/<int:pk>/",
         ServiceTierDetailView.as_view(),
         name="servicetier-detail",
+    ),
+    path(
+        "servicetier/bulk/",
+        ServiceTierBulkAPIView.as_view(),
+        name="servicetier-bulk-detail",
     ),
 ]

@@ -5,11 +5,9 @@ import { Typography } from "@material-ui/core";
 import SEOHeader from "../Head/SEOHeader";
 import Container from "./Container/Container";
 import { useSelector } from "react-redux";
-import StyledButton from "../Buttons/StyledButton";
 import BaseDialog from "../Base/BaseDialog";
 import SEOEdit from "./SEOEdit";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import SEOEditMenu from "../Buttons/SEOEditMenu";
 import Loading from "./Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({

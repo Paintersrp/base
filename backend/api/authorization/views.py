@@ -15,6 +15,7 @@ import jwt
 from rest_framework.decorators import permission_classes
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from api.custom_views import *
 
 
 class TokenBlacklistAPIView(generics.ListCreateAPIView):
@@ -27,6 +28,12 @@ class TokenBlacklistDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = TokenBlacklistSerializer
 
 
+class TokenBlacklistBulkAPIView(BaseBulkView):
+    queryset = TokenBlacklist.objects.all()
+    serializer_class = TokenBlacklistSerializer
+    model_class = TokenBlacklist
+
+
 class ThemeSettingsAPIView(generics.ListCreateAPIView):
     queryset = ThemeSettings.objects.all()
     serializer_class = ThemeSettingsSerializer
@@ -35,6 +42,12 @@ class ThemeSettingsAPIView(generics.ListCreateAPIView):
 class ThemeSettingsDetailGenericView(generics.RetrieveUpdateAPIView):
     queryset = ThemeSettings.objects.all()
     serializer_class = ThemeSettingsSerializer
+
+
+class ThemeSettingsBulkAPIView(BaseBulkView):
+    queryset = ThemeSettings.objects.all()
+    serializer_class = ThemeSettingsSerializer
+    model_class = ThemeSettings
 
 
 class ThemeSettingsDetailView(generics.RetrieveUpdateAPIView):

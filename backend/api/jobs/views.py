@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
+from api.custom_views import *
 
 
 class JobPostingListView(generics.ListCreateAPIView):
@@ -66,6 +67,12 @@ class JobPostingDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = JobPostingSerializer
 
 
+class JobPostingBulkAPIView(BaseBulkView):
+    queryset = JobPosting.objects.all()
+    serializer_class = JobPostingSerializer
+    model_class = JobPosting
+
+
 class ApplicationListView(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
@@ -92,8 +99,6 @@ class ApplicationListView(generics.ListCreateAPIView):
             "resume": resume,
         }
 
-        print(data)
-
         serializer = ApplicationSerializer(data=data)
 
         if serializer.is_valid():
@@ -119,6 +124,15 @@ class ApplicationListView(generics.ListCreateAPIView):
 class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        job_serializer = JobPostingSerializer(instance.job)
+        serialized_job = job_serializer.data
+
+        data = {"job": serialized_job, "application": serializer.data}
+        return Response(data)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -158,3 +172,9 @@ class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
         )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ApplicationBulkAPIView(BaseBulkView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+    model_class = Application

@@ -10,7 +10,7 @@ from auditlog.registry import auditlog
     pages_associated={
         "About": "/about",
     },
-    include_preview=False,
+    include_preview=True,
     icon=None,
     icon_class=None,
     slug="header",
@@ -399,7 +399,7 @@ class TeamMember(models.Model):
         "Landing": "/",
         "Contact": "/contact",
     },
-    include_preview=True,
+    include_preview=False,
     icon=None,
     icon_class=None,
     slug="header",

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import ServiceAbout from "../ServiceAbout";
-import ServiceProcess from "../ServiceProcess";
+import ServiceProcess from "../ServiceProcess/ServiceProcess";
 import ServiceHeader from "../ServiceHeader";
 import ServiceFeatures from "../ServiceFeatures";
 import ServiceContact from "../ServiceContact";

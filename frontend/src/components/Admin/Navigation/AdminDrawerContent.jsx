@@ -10,12 +10,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import MessageIcon from "@mui/icons-material/Message";
-import ApprovalSharpIcon from "@mui/icons-material/ApprovalSharp";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import renderLinks from "./renderLinks";
-import { Badge } from "@material-ui/core";
+import { Badge, Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   drawerHeader: {
@@ -45,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.light,
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
+  },
 }));
 
 const AdminDrawerContent = ({
@@ -69,66 +74,113 @@ const AdminDrawerContent = ({
       </div>
       <Divider className={classes.divider} />
 
-      <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
-        <ListItem
-          button
-          className={classes.links}
-          onClick={toggleDrawer(false)}
-        >
-          <ListItemIcon>
-            <DashboardIcon className={classes.altIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-      </Link>
-
-      <Link to="/adminlog" style={{ textDecoration: "none", color: "inherit" }}>
-        <ListItem
-          button
-          onClick={toggleDrawer(false)}
-          className={classes.links}
-        >
-          <ListItemIcon>
-            <AssignmentIcon className={classes.icon} />
-          </ListItemIcon>
-          <ListItemText primary="Admin Log" />
-        </ListItem>
-      </Link>
-      <Link
-        to="/admin/messages"
-        style={{ textDecoration: "none", color: "inherit" }}
+      <Tooltip
+        title="Back to Dashboard"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
       >
-        <ListItem
-          button
-          onClick={toggleDrawer(false)}
-          className={classes.links}
+        <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem
+            button
+            className={classes.links}
+            onClick={toggleDrawer(false)}
+          >
+            <ListItemIcon>
+              <DashboardIcon className={classes.altIcon} />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+        </Link>
+      </Tooltip>
+
+      <Tooltip
+        title="View Unread Messages"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <Link
+          to="/admin/messages"
+          style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemIcon>
-            {/* <MessageIcon className={classes.altIcon} /> */}
-            <Badge
-              badgeContent={count}
-              color="secondary"
-              small
-              className={classes.badge}
-            >
-              <MessageIcon className={classes.altIcon} />
-            </Badge>
-          </ListItemIcon>
-          <ListItemText primary="Messages" />
-        </ListItem>
-      </Link>
-      <Link to="/users" style={{ textDecoration: "none", color: "inherit" }}>
-        <ListItem
-          button
-          className={classes.links}
-          onClick={toggleDrawer(false)}
+          <ListItem
+            button
+            onClick={toggleDrawer(false)}
+            className={classes.links}
+          >
+            <ListItemIcon>
+              <Badge
+                badgeContent={count}
+                color="secondary"
+                small
+                className={classes.badge}
+              >
+                <MessageIcon className={classes.icon} />
+              </Badge>
+            </ListItemIcon>
+            <ListItemText primary="Messages" />
+          </ListItem>
+        </Link>
+      </Tooltip>
+      <Tooltip
+        title="View Applications"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <Link
+          to="/admin/application"
+          style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemIcon>
-            <PeopleIcon className={classes.icon} />
-          </ListItemIcon>
-          <ListItemText primary="Users (WIP)" />
-        </ListItem>
-      </Link>
+          <ListItem
+            button
+            className={classes.links}
+            onClick={toggleDrawer(false)}
+          >
+            <ListItemIcon>
+              <WorkSharpIcon className={classes.altIcon} />
+            </ListItemIcon>
+            <ListItemText primary="Applications" />
+          </ListItem>
+        </Link>
+      </Tooltip>
+      <Tooltip
+        title="Full Admin Log"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <Link
+          to="/adminlog"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem
+            button
+            onClick={toggleDrawer(false)}
+            className={classes.links}
+          >
+            <ListItemIcon>
+              <AutoStoriesIcon className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText primary="Admin Log" />
+          </ListItem>
+        </Link>
+      </Tooltip>
+      <Tooltip
+        title="View User Log"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <Link to="/users" style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem
+            button
+            className={classes.links}
+            onClick={toggleDrawer(false)}
+          >
+            <ListItemIcon>
+              <PeopleIcon className={classes.altIcon} />
+            </ListItemIcon>
+            <ListItemText primary="Users (WIP)" />
+          </ListItem>
+        </Link>
+      </Tooltip>
 
       <Divider className={classes.divider} />
       {renderLinks({

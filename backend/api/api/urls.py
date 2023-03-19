@@ -46,6 +46,11 @@ urlpatterns = (
             name="themesettings-detail",
         ),
         path(
+            "api/themesettings/bulk/",
+            ThemeSettingsBulkAPIView.as_view(),
+            name="themesettings-bulk-detail",
+        ),
+        path(
             "api/tokenblacklist/",
             TokenBlacklistAPIView.as_view(),
             name="tokenblacklist-list",
@@ -54,6 +59,11 @@ urlpatterns = (
             "api/tokenblacklist/<int:pk>/",
             TokenBlacklistDetailView.as_view(),
             name="tokenblacklist-detail",
+        ),
+        path(
+            "api/tokenblacklist/bulk/",
+            TokenBlacklistBulkAPIView.as_view(),
+            name="tokenblacklist-bulk-detail",
         ),
         path("api/auth/", include("authorization.urls")),
         path("api/", include("articles.urls")),

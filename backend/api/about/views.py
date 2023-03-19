@@ -68,6 +68,12 @@ class AboutBlockDetailAPIView(BaseDetailView):
     model_class = AboutBlock
 
 
+class AboutBlockBulkAPIView(BaseBulkView):
+    queryset = AboutBlock.objects.all()
+    serializer_class = AboutBlockSerializer
+    model_class = AboutBlock
+
+
 class MissionStatementAPIView(BaseListView):
     queryset = MissionStatement.objects.all()
     serializer_class = MissionStatementSerializer
@@ -75,6 +81,12 @@ class MissionStatementAPIView(BaseListView):
 
 
 class MissionStatementDetailAPIView(BaseDetailView):
+    queryset = MissionStatement.objects.all()
+    serializer_class = MissionStatementSerializer
+    model_class = MissionStatement
+
+
+class MissionStatementBulkAPIView(BaseBulkView):
     queryset = MissionStatement.objects.all()
     serializer_class = MissionStatementSerializer
     model_class = MissionStatement
@@ -92,6 +104,12 @@ class CompanyHistoryDetailAPIView(BaseDetailView):
     model_class = CompanyHistory
 
 
+class CompanyHistoryBulkAPIView(BaseBulkView):
+    queryset = CompanyHistory.objects.all()
+    serializer_class = CompanyHistorySerializer
+    model_class = CompanyHistory
+
+
 class ContactInformationAPIView(BaseListView):
     queryset = ContactInformation.objects.all()
     serializer_class = ContactInformationSerializer
@@ -104,37 +122,39 @@ class ContactInformationDetailAPIView(BaseDetailView):
     model_class = ContactInformation
 
 
+class ContactInformationBulkAPIView(BaseBulkView):
+    queryset = ContactInformation.objects.all()
+    serializer_class = ContactInformationSerializer
+    model_class = ContactInformation
+
+
 class FAQListCreateView(generics.ListCreateAPIView):
     queryset = FAQ.objects.all()
     serializer_class = FAQSerializer
 
     def create(self, request, *args, **kwargs):
-        form_data = request.POST
-        category = form_data.get("category")
-        question = form_data.get("question")
-        answer = form_data.get("answer")
-
         data = {
-            "category": category,
-            "question": question,
-            "answer": answer,
+            "category": request.POST.get("category"),
+            "question": request.POST.get("question"),
+            "answer": request.POST.get("answer"),
         }
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
+        faq = serializer.create(validated_data=data)
 
-        if serializer.is_valid():
-            faq = serializer.create(validated_data=data)
-            create_log_entry(
-                LogEntry.Action.CREATE,
-                request.username if request.username else None,
-                faq,
-                None,
-            )
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            faq,
+            None,
+        )
 
-            return JsonResponse(serializer.data, status=200)
+        headers = self.get_success_headers(serializer.data)
 
-        return JsonResponse(serializer.errors, status=400)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -184,6 +204,12 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class FAQBulkAPIView(BaseBulkView):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer
+    model_class = FAQ
+
+
 class CategoryAPIView(BaseListView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -191,6 +217,12 @@ class CategoryAPIView(BaseListView):
 
 
 class CategoryDetailAPIView(BaseDetailView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    model_class = Category
+
+
+class CategoryBulkAPIView(BaseBulkView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     model_class = Category
@@ -208,6 +240,12 @@ class ValueDetailAPIView(BaseDetailView):
     model_class = Value
 
 
+class ValueBulkAPIView(BaseBulkView):
+    queryset = Value.objects.all()
+    serializer_class = ValueSerializer
+    model_class = Value
+
+
 class TeamMemberAPIView(BaseListView):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
@@ -215,6 +253,12 @@ class TeamMemberAPIView(BaseListView):
 
 
 class TeamMemberDetailAPIView(BaseDetailView):
+    queryset = TeamMember.objects.all()
+    serializer_class = TeamMemberSerializer
+    model_class = TeamMember
+
+
+class TeamMemberBulkAPIView(BaseBulkView):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
     model_class = TeamMember

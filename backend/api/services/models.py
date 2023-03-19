@@ -58,7 +58,7 @@ class Benefits(BaseModel):
     pages_associated={
         "Services": "/services",
     },
-    include_preview=False,
+    include_preview=True,
     icon=None,
     icon_class=None,
     slug="header",
@@ -89,7 +89,7 @@ class ProcessImageItem(models.Model):
     pages_associated={
         "Services": "/services",
     },
-    include_preview=False,
+    include_preview=True,
     icon=None,
     icon_class=None,
     slug="header",

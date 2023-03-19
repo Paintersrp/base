@@ -60,7 +60,7 @@ const ActionMixin = ({
 
   const handleConfirmDelete = () => {
     handleClose();
-    const selectedIds = selectedItems.map((item) => item.id);
+    const selectedIds = selectedItems.map((item) => item);
     handleMultipleDelete(selectedIds);
   };
 

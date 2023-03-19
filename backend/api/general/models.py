@@ -14,7 +14,7 @@ from auditlog.registry import auditlog
         "Contact": "/contact",
         "News": "/news",
     },
-    include_preview=True,
+    include_preview=False,
     icon=None,
     icon_class=None,
     slug="header",

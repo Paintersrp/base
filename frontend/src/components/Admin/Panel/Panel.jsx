@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Panel = ({ apiData }) => {
+const Panel = ({ apiData, setCount }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -163,32 +163,96 @@ const Panel = ({ apiData }) => {
         // setError(err);
       });
   };
+
   const handleMultipleDeleteAction = (selectedIds) => {
-    selectedIds.forEach((id) => {
-      confirmedDelete(id);
-    });
-    setSelected([]);
+    if (
+      model.verbose_name === "SEO Headers" ||
+      model.verbose_name === "Section Headings"
+    ) {
+      axiosInstance
+        .delete(`${url}del/bulk/`, { data: { ids: selectedIds } })
+        .then(() => {
+          setData((prevData) =>
+            prevData.filter((dataItem) => !selectedIds.includes(dataItem.id))
+          );
+          dispatch({
+            type: "ALERT_SUCCESS",
+            message: `${model.verbose_name} - Object(s): ${selectedIds} Deleted`,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          // setError(err);
+        });
+    } else {
+      axiosInstance
+        .delete(`${url}bulk/`, { data: { ids: selectedIds } })
+        .then((response) => {
+          setData((prevData) =>
+            prevData.filter((dataItem) => !selectedIds.includes(dataItem.id))
+          );
+          dispatch({
+            type: "ALERT_SUCCESS",
+            message: `${model.verbose_name} - Object(s): ${selectedIds} Deleted`,
+          });
+          if (model.verbose_name === "Messages") {
+            setCount(response.data.count);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          // setError(err);
+        });
+    }
   };
 
   const updateMultipleItems = (selectedIds, field, booleanValue) => {
-    selectedIds.forEach((id) => {
-      const updateEndpoint = `${url}${id}/`;
-      const updateData = { [field]: booleanValue };
-      axiosInstance
-        .patch(updateEndpoint, updateData)
-        .then(() => {
+    axiosInstance
+      .patch(`${url}bulk/`, {
+        ids: selectedIds,
+        field: field,
+        value: booleanValue,
+      })
+      .then((response) => {
+        if (field[0] === "is_archived" && booleanValue === true) {
           setData((prevData) =>
             prevData.map((dataItem) =>
-              dataItem.id === id
+              selectedIds.includes(dataItem.id)
+                ? { ...dataItem, [field]: booleanValue, is_read: true }
+                : dataItem
+            )
+          );
+        } else if (field[0] === "is_read" && booleanValue === false) {
+          setData((prevData) =>
+            prevData.map((dataItem) =>
+              selectedIds.includes(dataItem.id)
+                ? { ...dataItem, [field]: booleanValue, is_archived: false }
+                : dataItem
+            )
+          );
+        } else {
+          setData((prevData) =>
+            prevData.map((dataItem) =>
+              selectedIds.includes(dataItem.id)
                 ? { ...dataItem, [field]: booleanValue }
                 : dataItem
             )
           );
-        })
-        .catch((err) => {
-          setError(err);
+        }
+
+        dispatch({
+          type: "ALERT_SUCCESS",
+          message: `${model.verbose_name} - Object(s): ${selectedIds} Updated`,
         });
-    });
+        if (field[0] === "is_read") {
+          setCount(response.data.count);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // setError(err);
+      });
+
     setSelected([]);
   };
 
@@ -251,7 +315,7 @@ const Panel = ({ apiData }) => {
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
                     updateMultipleItems={updateMultipleItems}
                   />
-                ) : id === "messages" ? (
+                ) : id === "messages" || id === "application" ? (
                   <PanelTable
                     open={open}
                     keys={keys}

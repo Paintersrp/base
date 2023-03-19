@@ -23,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ReadPage({ setCount }) {
-  const { str, pk } = useParams();
-  console.log("STR: ", str);
+  const { pk } = useParams();
   const classes = useStyles();
   const location = useLocation();
   const [model, setModel] = useState(null);
@@ -65,7 +64,7 @@ function ReadPage({ setCount }) {
         });
     } else if (pk) {
       axiosInstance
-        .get(`/get_models/${str}/`)
+        .get(`/get_models/messages/`)
         .then((response) => {
           console.log(response.data);
           setUrl(response.data.url);
@@ -125,15 +124,7 @@ function ReadPage({ setCount }) {
               <Typography color="textPrimary">Read</Typography>
             </Breadcrumbs>
           </div>
-          <ReadMessage
-            message={data}
-            url={url}
-            keys={keys}
-            appName={appName}
-            model={model}
-            metadata={metadata}
-            id={id}
-          />
+          <ReadMessage message={data} />
         </BaseContent>
       )}
     </PageContainer>

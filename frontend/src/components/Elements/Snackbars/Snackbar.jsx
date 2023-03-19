@@ -15,12 +15,15 @@ import WarningIcon from "@material-ui/icons/Warning";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiSnackbarContent-root": {
-      maxWidth: 325,
+      maxWidth: 340,
+      minWidth: 340,
     },
   },
   success: {
     backgroundColor: "transparent",
     "& .MuiSnackbarContent-root": {
+      padding: theme.spacing(0.5, 2, 0.5, 1),
+
       backgroundColor: theme.palette.success.main,
     },
   },
@@ -62,6 +65,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     backgroundColor: "transparent",
   },
+  action: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
 }));
 
 const AdvancedSnackbar = ({
@@ -69,7 +77,7 @@ const AdvancedSnackbar = ({
   type,
   open,
   onClose,
-  duration = 5000,
+  duration = 500000,
   position = "top-center",
 }) => {
   const classes = useStyles();
@@ -126,15 +134,18 @@ const AdvancedSnackbar = ({
       style={{ marginTop: position === "top-center" ? 52 : 0 }}
       classes={{ root: classes.root }}
       message={
-        <span className={`${classes.content}`}>
+        <div className={`${classes.content}`}>
           {iconVariants[type]}
           {message}
-        </span>
+        </div>
       }
       action={
-        <IconButton size="small" color="inherit" onClick={onClose}>
-          <CloseIcon className={classes.icon} />
-        </IconButton>
+        <div className={classes.action}>
+          <div style={{ flexGrow: 1 }} />
+          <IconButton size="small" color="inherit" onClick={onClose}>
+            <CloseIcon className={classes.icon} />
+          </IconButton>
+        </div>
       }
     />
   );

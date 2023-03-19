@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Typography,
@@ -37,6 +37,10 @@ export default function Information({ contactData, showTitle = true }) {
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    setData(contactData);
+  }, [contactData]);
 
   const updateContactData = (updateContactData) => {
     setData(updateContactData);

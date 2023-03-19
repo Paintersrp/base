@@ -6,6 +6,7 @@ import {
   Grid,
   Paper,
   Box,
+  Divider,
 } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   sectionTitle: {
     fontWeight: 600,
     color: "#4A5568",
-    margin: theme.spacing(4, 0, 0, 0),
+    margin: theme.spacing(3, 0, 0, 0),
   },
   sectionDescription: {
     fontWeight: 400,
@@ -113,11 +114,15 @@ const ReadMessage = ({ message }) => {
           {message.subject}
         </Typography>
         <Typography variant="subtitle1" className={classes.subtitle}>
-          {message.name} | {new Date(message.created_at).toLocaleString()}
+          {message.name} |{" "}
+          {message.created_at
+            ? new Date(message.created_at).toLocaleString()
+            : new Date(Date.now()).toLocaleString()}
         </Typography>
         <Typography variant="body1" className={classes.messageText}>
           {message.message}
         </Typography>
+        <Divider style={{ marginTop: 24 }} />
         <div>
           <Typography variant="h5" className={classes.sectionTitle}>
             Message Details

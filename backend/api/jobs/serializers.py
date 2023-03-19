@@ -83,6 +83,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "job",
             "status",
             "resume",
+            "created_at",
         ]
 
 

@@ -42,41 +42,14 @@ class HeaderDetailAPIView(BaseDetailView):
     model_class = Header
 
 
-class HeaderPageView(generics.RetrieveUpdateDestroyAPIView):
+class HeaderBulkAPIView(BaseBulkView):
     queryset = Header.objects.all()
     serializer_class = HeaderSerializer
+    model_class = Header
+
+
+class HeaderPageView(BaseDetailView):
+    queryset = Header.objects.all()
+    serializer_class = HeaderSerializer
+    model_class = Header
     lookup_field = "page"
-
-    def update(self, request, *args, **kwargs):
-        header = self.get_object()
-        form_data = request.POST
-        page = form_data.get("page")
-        title = form_data.get("title")
-        description = form_data.get("description")
-        keywords = form_data.get("keywords")
-        url = form_data.get("url")
-
-        if request.FILES.get("image"):
-            image = request.FILES.get("image")
-            header.image.storage.delete(header.image.path)
-            header.image = image
-        else:
-            image = header.image
-
-        data = {
-            "page": page,
-            "title": title,
-            "description": description,
-            "image": image,
-            "keywords": keywords,
-            "url": url,
-        }
-
-        serializer = HeaderSerializer(header, data=data)
-
-        if serializer.is_valid():
-            serializer.update(header, validated_data=data)
-
-            return JsonResponse(serializer.data, status=200)
-
-        return JsonResponse(serializer.errors, status=400)

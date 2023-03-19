@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
@@ -44,13 +44,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Value({ value }) {
+export default function Value({ value, edit = true }) {
   const classes = useStyles();
   const [valueData, setValueData] = useState(value);
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
   const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setValueData(value);
+  }, [value]);
 
   const updateValue = (updateValue) => {
     setValueData(updateValue);
@@ -90,7 +94,7 @@ export default function Value({ value }) {
           <Typography className={classes.subtitle}>
             <Grid container justifyContent="space-between" alignItems="center">
               {valueData.title}
-              {!editing && auth.is_superuser ? (
+              {!editing && auth.is_superuser && edit && (
                 <>
                   <EditDeleteButtonMenu
                     hideDelete
@@ -100,18 +104,19 @@ export default function Value({ value }) {
                     placement="bottom"
                   />
                 </>
-              ) : null}
+              )}
             </Grid>
           </Typography>
         </ListItem>
-      ) : (
+      ) : edit ? (
         <ValueEdit
           value={valueData}
           onUpdate={updateValue}
           handleCancel={() => setEditing(!editing)}
           editState={editing}
         />
-      )}
+      ) : null}
+
       <DeleteConfirmationModal
         open={open}
         handleClose={handleClose}

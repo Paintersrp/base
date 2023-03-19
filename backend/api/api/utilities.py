@@ -7,9 +7,12 @@ import json
 
 def return_change_message_str(changes):
     change_message_str = ""
-    for field, values in changes.items():
+    num_changes = len(changes)
+    for i, (field, values) in enumerate(changes.items()):
         old_value, new_value = values
-        change_message_str += f"{field}: {old_value} -> {new_value}\n"
+        change_message_str += f"{field}: {old_value} -> {new_value}"
+        if i < num_changes - 1:
+            change_message_str += ", "
 
     return change_message_str
 

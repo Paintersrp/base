@@ -91,7 +91,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
+const AccordionQA = ({
+  faq,
+  onUpdate,
+  editing,
+  setEditing,
+  handleCancel,
+  edit = true,
+}) => {
   const auth = useSelector((state) => state.auth);
   const classes = useStyles();
   const [expanded, setExpanded] = useState([]);
@@ -172,7 +179,7 @@ const AccordionQA = ({ faq, onUpdate, editing, setEditing, handleCancel }) => {
                   {faq.question}
                 </Typography>
               </div>
-              {auth.is_superuser ? (
+              {auth.is_superuser && edit ? (
                 <>
                   <EditDeleteButtonMenu
                     editClick={() => setEditing(!editing)}

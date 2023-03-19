@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Social({ contactData, showTitle, color = "light" }) {
+  console.log("contactData: ", contactData);
   const classes = useStyles();
   const theme = useTheme();
   const { fadeIn } = baseClasses();

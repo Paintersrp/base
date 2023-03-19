@@ -198,8 +198,12 @@ const Footer = ({ socialData }) => {
                     classes={{ startIcon: classes.startIcon }}
                     disabled={state !== "initial"}
                     type={state === "success" ? "button" : "submit"}
-                    startIcon={<NewspaperIcon />}
-                    endIcon={state === "success" ? <CheckIcon /> : null}
+                    startIcon={<NewspaperIcon style={{ marginRight: 8 }} />}
+                    endIcon={
+                      state === "success" ? (
+                        <CheckIcon style={{ marginRight: 8 }} />
+                      ) : null
+                    }
                   >
                     {state === "success" ? "Subscribed" : "Subscribe"}
                   </Button>

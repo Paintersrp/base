@@ -209,7 +209,7 @@ const PanelTable = ({
                 checked={selectedItems.length === data.length}
                 onChange={(event) => {
                   if (event.target.checked) {
-                    setSelectedItems(data);
+                    setSelectedItems(filteredData);
                   } else {
                     setSelectedItems([]);
                   }
@@ -239,7 +239,10 @@ const PanelTable = ({
               className={classes.headerCell}
               style={{ textAlign: "center" }}
             >
-              {model.model_name === "messages" ? "Read" : "Edit"}
+              {model.model_name === "messages" ||
+              model.model_name === "application"
+                ? "Read"
+                : "Edit"}
             </TableCell>
             <TableCell
               className={classes.headerCell}
@@ -327,7 +330,8 @@ const PanelTable = ({
                   className={classes.tableCell}
                 >
                   <IconButton size="small" onClick={() => handleEdit(item)}>
-                    {model.model_name === "messages" ? (
+                    {model.model_name === "messages" ||
+                    model.model_name === "application" ? (
                       <MarkEmailReadIcon className={classes.editIcon} />
                     ) : (
                       <EditIcon className={classes.editIcon} />

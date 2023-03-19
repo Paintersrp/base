@@ -4,12 +4,13 @@ import EditButton from "../../Elements/Buttons/EditButton";
 import ContentEdit from "./ContentEdit";
 import DOMPurify from "dompurify";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   section: {
     marginTop: theme.spacing(2),
     color: "black",
-    background: theme.palette.background.light,
+    background: theme.palette.background.default,
   },
   sectionTitle: {
     fontWeight: "bold",
@@ -44,9 +45,9 @@ const ContentSection = ({
   setEdit,
   onUpdate,
   type,
-  auth,
 }) => {
   const classes = useStyles();
+  const auth = useSelector((state) => state.auth);
 
   return (
     <Grid item xs={12} sm={12} className={classes.section}>

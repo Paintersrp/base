@@ -33,7 +33,8 @@ const AdminNavigation = ({ setCount, count }) => {
     axiosInstance
       .get("/get_models/")
       .then((response) => {
-        setModels(response.data);
+        setModels(response.data.models);
+        console.log("models:", response.data.models);
       })
       .catch((error) => console.log(error));
   }, []);

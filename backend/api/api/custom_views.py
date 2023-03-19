@@ -77,6 +77,7 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         if hasattr(instance, "image") and instance.image is not None:
             instance.image.delete()
+
         self.perform_destroy(instance)
         create_log_entry(
             LogEntry.Action.DELETE,
@@ -89,3 +90,79 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return self.model_class.objects.all()
+
+
+from rest_framework import generics
+
+
+class BaseBulkView(generics.DestroyAPIView, generics.UpdateAPIView):
+    serializer_class = None
+    model_class = None
+
+    def destroy(self, request, *args, **kwargs):
+        ids = request.data.get("ids", [])
+        if not ids:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.filter(id__in=ids)
+
+        for obj in queryset:
+            if hasattr(obj, "image") and obj.image is not None:
+                obj.image.delete()
+
+        deleted = queryset.delete()
+
+        if self.model_class.__name__ == "Messages":
+            unread_queryset = self.filter_queryset(self.get_queryset())
+            unread_queryset = unread_queryset.filter(is_read=False)
+            count = unread_queryset.count()
+            print(count)
+
+            return Response({"count": count}, status=status.HTTP_200_OK)
+
+        if deleted[0] == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def update(self, request, *args, **kwargs):
+        ids = request.data.get("ids", [])
+        if not ids:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        field = request.data.get("field")
+        value = request.data.get("value")
+
+        if not field or value is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.filter(id__in=ids)
+
+        if field[0] == "is_archived":
+            print({field[0]: value, "is_read": True})
+            updated = queryset.update(**{field[0]: value, "is_read": True})
+
+        if field[0] == "is_read" and value == True:
+            updated = queryset.update(**{field[0]: value})
+            unread_queryset = self.filter_queryset(self.get_queryset())
+            unread_queryset = unread_queryset.filter(is_read=False)
+            count = unread_queryset.count()
+            print(count)
+
+            return Response({"count": count}, status=status.HTTP_200_OK)
+
+        elif field[0] == "is_read" and value == False:
+            updated = queryset.update(**{field[0]: value, "is_archived": False})
+            unread_queryset = self.filter_queryset(self.get_queryset())
+            unread_queryset = unread_queryset.filter(is_read=False)
+            count = unread_queryset.count()
+            print(count)
+
+            return Response({"count": count}, status=status.HTTP_200_OK)
+
+        if updated == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

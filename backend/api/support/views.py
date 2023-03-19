@@ -19,46 +19,22 @@ class SubscribersDetailAPIView(BaseDetailView):
     model_class = Subscribers
 
 
-class MessagesListView(generics.ListCreateAPIView):
+class SubscribersBulkAPIView(BaseBulkView):
+    queryset = Subscribers.objects.all()
+    serializer_class = SubscribersSerializer
+    model_class = Subscribers
+
+
+class MessagesAPIView(BaseListView):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
+    model_class = Messages
 
 
-class UnreadMessagesView(MessagesListView):
-    def get_queryset(self):
-        return Messages.objects.filter(is_read=False)
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        count = queryset.count()
-        serializer = self.get_serializer(queryset, many=True)
-        data = {"count": count, "messages": serializer.data}
-        return Response(data)
-
-
-class MessagesDetailView(generics.RetrieveUpdateDestroyAPIView):
+class MessagesDetailAPIView(BaseDetailView):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
+    model_class = Messages
 
     def retrieve(self, request, *args, **kwargs):
         unread_queryset = Messages.objects.filter(is_read=False)
@@ -70,32 +46,20 @@ class MessagesDetailView(generics.RetrieveUpdateDestroyAPIView):
         data = {"count": count, "messages": serializer.data}
         return Response(data)
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        old_instance = Messages.objects.get(pk=instance.pk)
 
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+class MessagesBulkAPIView(BaseBulkView):
+    queryset = Messages.objects.all()
+    serializer_class = MessagesSerializer
+    model_class = Messages
 
-        changes = return_changes(instance, old_instance)
-        create_log_entry(
-            LogEntry.Action.UPDATE,
-            request.username if request.username else None,
-            instance,
-            changes,
-        )
 
-        return Response(serializer.data)
+class UnreadMessagesView(MessagesAPIView):
+    def get_queryset(self):
+        return Messages.objects.filter(is_read=False)
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        count = queryset.count()
+        serializer = self.get_serializer(queryset, many=True)
+        data = {"count": count, "messages": serializer.data}
+        return Response(data)

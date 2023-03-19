@@ -17,6 +17,8 @@ import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
+    width: 40,
+    height: 40,
     position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(3),
@@ -35,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   fabExpanded: {
+    width: 40,
+    height: 40,
+    width: 40,
+    height: 40,
     position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(3),
@@ -209,14 +215,14 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
             placement="left"
             classes={{ tooltip: classes.tooltip }}
           >
-            <Fab
+            <IconButton
               aria-label="menu"
               className={expanded ? classes.fabExpanded : classes.fab}
               onClick={handleExpandClick}
               size="small"
             >
               <MoreVertSharpIcon style={{ fontSize: "1.5rem" }} />
-            </Fab>
+            </IconButton>
           </Tooltip>
         </div>
       )}

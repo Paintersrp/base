@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, IconButton } from "@material-ui/core";
 import EditHours from "./HoursEdit";
@@ -49,6 +49,10 @@ export default function Hours({ contactData, showTitle = true }) {
   const auth = useSelector((state) => state.auth);
   const [data, setData] = useState(contactData);
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    setData(contactData);
+  }, [contactData]);
 
   const updateContactData = (updatedData) => {
     setData(updatedData);
