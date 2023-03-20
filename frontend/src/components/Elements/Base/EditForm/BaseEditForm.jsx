@@ -8,6 +8,7 @@ import IconSelectMixin from "./IconSelectMixin";
 import ImageEditMixin from "./ImageEditMxin";
 import UpdateCancelButtonMenu from "../../Buttons/UpdateCancelButtonMenu";
 import Flexbox from "../../Layout/Flexbox/Flexbox";
+import JobMixin from "./JobMixin";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     boxShadow: theme.shadows[1],
     margin: "0 auto",
+    display: "flex",
   },
   noShadowForm: {
     marginTop: theme.spacing(0),
@@ -56,7 +58,9 @@ function BaseEditForm({
   handleSubmit,
   handleChange,
   handleCancel,
+  handleManyToManyChange,
   formData,
+  setFormData,
   width = "100%",
   excludeKeys = [],
   multilineKeys = [],
@@ -64,6 +68,7 @@ function BaseEditForm({
   handleSwitchChange = {},
   iconMixin = false,
   imageMixin = false,
+  JobMixin = false,
   newImage = "",
   newImageName = "",
   noBoxShadow = false,
@@ -100,7 +105,15 @@ function BaseEditForm({
                   key={key}
                   id={key}
                   name={key}
-                  label={key.charAt(0).toUpperCase() + key.slice(1)}
+                  label={
+                    key === "who_we_are"
+                      ? "Who We Are"
+                      : key === "looking_for"
+                      ? "Looking For"
+                      : key === "why_apply"
+                      ? "Why Apply"
+                      : key.charAt(0).toUpperCase() + key.slice(1)
+                  }
                   value={formData[key]}
                   onChange={handleChange}
                   multiline={multilineKeys.includes(key)}
@@ -120,6 +133,14 @@ function BaseEditForm({
           ) : null}
           {iconMixin ? (
             <IconSelectMixin handleChange={handleChange} formData={formData} />
+          ) : null}
+          {JobMixin ? (
+            <JobMixin
+              handleSwitchChange={handleSwitchChange}
+              formData={formData}
+              handleManyToManyChange={handleManyToManyChange}
+              setFormData={setFormData}
+            />
           ) : null}
 
           <UpdateCancelButtonMenu

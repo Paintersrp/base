@@ -15,14 +15,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tooltip: {
-    fontFamily: "Roboto",
-    fontSize: ".9rem",
-    fontWeight: 600,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "4px",
-    color: theme.palette.primary.contrastText,
-    minWidth: 65,
-    textAlign: "center",
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
   arrow: {
     color: theme.palette.primary.main,
@@ -41,8 +36,7 @@ const ArticleAuthActions = ({ article, navigate, handleDelete }) => {
           tooltip: classes.tooltip,
           arrow: classes.arrow,
         }}
-        arrow
-        placement="top"
+        placement="bottom"
       >
         <IconButton
           size="small"
@@ -59,8 +53,7 @@ const ArticleAuthActions = ({ article, navigate, handleDelete }) => {
           tooltip: classes.tooltip,
           arrow: classes.arrow,
         }}
-        arrow
-        placement="top"
+        placement="bottom"
       >
         <IconButton
           className={classes.iconButton}

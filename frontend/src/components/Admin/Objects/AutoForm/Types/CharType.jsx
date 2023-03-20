@@ -54,7 +54,6 @@ const CharType = ({
             label={verboseName}
             onChange={handleInputChange}
             value={formData[fieldName]}
-            // helperText={helpText}
             classes={{ helperText: classes.helperText }}
           />
         </Container>

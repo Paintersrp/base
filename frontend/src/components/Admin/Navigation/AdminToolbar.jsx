@@ -75,7 +75,6 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [data, setData] = useState(null);
-  // const [count, setCount] = useState(null);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

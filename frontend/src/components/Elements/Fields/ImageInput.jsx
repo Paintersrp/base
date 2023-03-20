@@ -4,7 +4,7 @@ import { Grid, InputAdornment, TextField } from "@material-ui/core";
 import StyledButton from "../Buttons/StyledButton";
 import Flexbox from "../Layout/Flexbox/Flexbox";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   input: {
     display: "flex",
     justifyContent: "center",
@@ -29,12 +29,6 @@ const useStyles = makeStyles(() => ({
       "& fieldset": {
         borderColor: "black",
         alignItems: "center",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
       },
     },
     "& .MuiFormLabel-root": {

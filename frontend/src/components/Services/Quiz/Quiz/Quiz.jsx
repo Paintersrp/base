@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { quizStyles } from "../styles";
 import Questionaire from "../Questionaire/Questionaire";
 import ResultsDisplay from "../ResultsDisplay/ResultsDisplay";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import ComparisonTable from "../TablesDisplay/ComparisonTable";
 
 const Quiz = ({
   services,
   setServices,
-  tableData,
+  servicesTableData,
+  competitorsTableData,
   benefitsData,
   benefitsBlock,
   setBenefitsBlock,
+  quizData,
 }) => {
   const classes = quizStyles();
   const [recommendedServices, setRecommendedServices] = useState(null);
@@ -21,7 +22,7 @@ const Quiz = ({
   return (
     <div className={`${classes.root}`}>
       <Grid container flex justifyContent="center">
-        {!recommendedServices && services && tableData && (
+        {!recommendedServices && services && servicesTableData && (
           <Paper
             elevation={0}
             style={{
@@ -43,9 +44,10 @@ const Quiz = ({
                 services={services}
                 setRecommendedServices={setRecommendedServices}
                 setUnrecommendedServices={setUnrecommendedServices}
+                quizData={quizData}
               />
             </div>
-            <ComparisonTable tableData={tableData} />
+            <ComparisonTable tableData={servicesTableData} />
           </Paper>
         )}
         {recommendedServices && (
@@ -70,6 +72,8 @@ const Quiz = ({
               benefitsData={benefitsData}
               benefitsBlock={benefitsBlock}
               setBenefitsBlock={setBenefitsBlock}
+              servicesTableData={servicesTableData}
+              competitorsTableData={competitorsTableData}
             />
           </Grid>
         )}

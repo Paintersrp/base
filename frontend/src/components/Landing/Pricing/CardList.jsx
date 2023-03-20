@@ -7,7 +7,11 @@ export default function CardList({ data, classes }) {
     <List className={classes.pricingFeatures}>
       {data.features.map((feature, index) => (
         <ListItem key={`feature-${index}`} className={classes.detail}>
-          <CheckIcon className={classes.checkIcon} />
+          <CheckIcon
+            className={
+              index % 2 === 0 ? classes.checkIcon : classes.checkIconAlt
+            }
+          />
           {feature.detail}
         </ListItem>
       ))}

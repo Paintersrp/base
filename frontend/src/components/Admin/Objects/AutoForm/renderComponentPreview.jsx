@@ -73,7 +73,12 @@ export function renderComponentPreview(modelMetadata, formData, newImage) {
     case "Value":
       return (
         <div>
-          <Value value={formData} edit={false} />
+          <Value
+            value={formData}
+            edit={false}
+            index={0}
+            start={Math.floor(Math.random() * 2)}
+          />
         </div>
       );
     case "ContactInformation":

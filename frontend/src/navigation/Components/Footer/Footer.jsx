@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   IconButton,
+  Tooltip,
 } from "@material-ui/core";
 import TokenSharpIcon from "@mui/icons-material/TokenSharp";
 import { Link } from "react-router-dom";
@@ -119,6 +120,11 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: theme.palette.secondary.light,
     },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "11px",
   },
 }));
 
@@ -244,16 +250,22 @@ const Footer = ({ socialData }) => {
                 {socialPlatforms.map((platform) => {
                   if (socialData[platform.name]) {
                     return (
-                      <IconButton
-                        key={platform.name}
-                        className={classes.socialIcons}
-                        aria-label={platform.name}
-                        href={`https://www.${platform.name}.com/${
-                          socialData[platform.name]
-                        }`}
+                      <Tooltip
+                        title={`@${socialData[platform.name]}`}
+                        placement="bottom"
+                        classes={{ tooltip: classes.tooltip }}
                       >
-                        <platform.icon className={classes.iconButton} />
-                      </IconButton>
+                        <IconButton
+                          key={platform.name}
+                          className={classes.socialIcons}
+                          aria-label={platform.name}
+                          href={`https://www.${platform.name}.com/${
+                            socialData[platform.name]
+                          }`}
+                        >
+                          <platform.icon className={classes.iconButton} />
+                        </IconButton>
+                      </Tooltip>
                     );
                   } else {
                     return null;

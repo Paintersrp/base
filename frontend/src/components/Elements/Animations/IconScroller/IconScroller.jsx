@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, Paper } from "@material-ui/core";
+import { Link, Paper, Tooltip } from "@material-ui/core";
 import {
   FaTwitter,
   FaFacebook,
@@ -44,6 +44,11 @@ const useStyles = makeStyles((theme) => {
         transform: "translateY(-10px)",
         color: theme.palette.secondary.main,
       },
+    },
+    tooltip: {
+      backgroundColor: theme.palette.text.secondary,
+      color: "#ffffff",
+      fontSize: "12px",
     },
     link: {
       "&:hover": {
@@ -118,15 +123,21 @@ export default function IconScroller({}) {
         >
           {duplicatedPartners.map((social) => (
             <div key={social.id} className={classes.icon}>
-              <Link
-                className={classes.link}
-                href={`https://www.${social.name}.com/${social.profile}`}
+              <Tooltip
+                title={`@${social.profile}`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
               >
-                {React.createElement(social.icon, {
-                  size: 50,
-                  color: social.color,
-                })}
-              </Link>
+                <Link
+                  className={classes.link}
+                  href={`https://www.${social.name}.com/${social.profile}`}
+                >
+                  {React.createElement(social.icon, {
+                    size: 50,
+                    color: social.color,
+                  })}
+                </Link>
+              </Tooltip>
             </div>
           ))}
         </div>

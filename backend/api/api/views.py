@@ -211,7 +211,7 @@ class RecentAdminActionsView(APIView):
                         pk=action.object_pk
                     )
 
-                    if model_name == "messages":
+                    if model_name == "messages" or model_name == "application":
                         obj_url = f"/admin/{model_name}/read/{obj.pk}/"
                     else:
                         obj_url = f"/admin/{model_name}/control/{obj.pk}/"
@@ -221,7 +221,7 @@ class RecentAdminActionsView(APIView):
                             pk=action.object_id
                         )
 
-                        if model_name == "messages":
+                        if model_name == "messages" or model_name == "application":
                             obj_url = f"/admin/{model_name}/read/{obj.pk}/"
                         else:
                             obj_url = f"/admin/{model_name}/control/{obj.pk}/"
@@ -232,19 +232,12 @@ class RecentAdminActionsView(APIView):
                 object_repr = f"Changed {object_repr}"
                 change_message_str = change_message
 
-                # if change_message:
-                #     change_message = json.loads(change_message)
-                #     for field, values in change_message.items():
-                #         old_value = str(values[0])
-                #         new_value = str(values[1])
-                #         change_message_str = f"{field}: {old_value} -> {new_value}\n"
-
                 try:
                     obj = action.content_type.get_object_for_this_type(
                         pk=action.object_pk
                     )
 
-                    if model_name == "messages":
+                    if model_name == "messages" or model_name == "application":
                         obj_url = f"/admin/{model_name}/read/{obj.pk}/"
                     else:
                         obj_url = f"/admin/{model_name}/control/{obj.pk}/"
@@ -254,7 +247,7 @@ class RecentAdminActionsView(APIView):
                             pk=action.object_id
                         )
 
-                        if model_name == "messages":
+                        if model_name == "messages" or model_name == "application":
                             obj_url = f"/admin/{model_name}/read/{obj.pk}/"
                         else:
                             obj_url = f"/admin/{model_name}/control/{obj.pk}/"
@@ -285,116 +278,6 @@ class RecentAdminActionsView(APIView):
     dispatch = method_decorator(cache_page(60 * 5))(APIView.dispatch)
 
 
-# class ModelEndpointAPIView(APIView):
-#     def get(self, request, format=None):
-#         models = apps.get_models(include_auto_created=True)
-#         app_configs = {
-#             app_config.label: app_config for app_config in apps.get_app_configs()
-#         }
-
-#         endpoints = {}
-
-#         for model in models:
-#             app_name = model._meta.app_label
-#             config = app_configs.get(app_name)
-#             model_name = model.__name__.lower()
-#             serializer_class = getattr(model, "serializer_class", None)
-#             if serializer_class is None:
-#                 continue
-
-#             serializer = serializer_class()
-#             fields = serializer.get_fields()
-#             metadata = {}
-
-#             for field_name, field in fields.items():
-#                 if not field_name == "id":
-#                     metadata[field_name] = {"type": field.__class__.__name__}
-
-#                     if model._meta.get_field(field_name).verbose_name:
-#                         metadata[field_name]["verbose_name"] = model._meta.get_field(
-#                             field_name
-#                         ).verbose_name
-
-#             if "alignment" in metadata:
-#                 metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
-
-#             try:
-#                 url = reverse(f"{model_name}-list")
-#                 url = url.replace("/api/", "/")
-#             except NoReverseMatch:
-#                 url = None
-
-#             if app_name not in endpoints:
-#                 endpoints[app_name] = []
-
-#             if model_name == "tags":
-#                 tag_counts = {}
-#                 articles = Articles.objects.all()
-#                 all_tags = Tags.objects.all()
-
-#                 for tag in all_tags:
-#                     tag_counts[tag.name] = 0
-
-#                 for article in articles:
-#                     for tag in article.tags.all():
-#                         if tag.name not in tag_counts:
-#                             tag_counts[tag.name] = 1
-#                         else:
-#                             tag_counts[tag.name] += 1
-
-#                 metadata["tag_counts"] = {
-#                     "type": "integer",
-#                     "verbose_name": "Tag Counts",
-#                     "values": tag_counts,
-#                 }
-
-#             endpoint = {
-#                 "model_name": model_name,
-#                 "verbose_name": model._meta.verbose_name,
-#                 "verbose_name_plural": model._meta.verbose_name_plural,
-#                 "url": url,
-#                 "metadata": metadata,
-#                 "keys": serializer.FIELD_KEYS,
-#                 "autoFormLabel": model._meta.autoform_label
-#                 if hasattr(model._meta, "autoform_label")
-#                 else None,
-#                 "longDescription": model._meta.long_description
-#                 if hasattr(model._meta, "long_description")
-#                 else None,
-#                 "shortDescription": model._meta.short_description
-#                 if hasattr(model._meta, "short_description")
-#                 else None,
-#                 "pagesAssociated": model._meta.pages_associated
-#                 if hasattr(model._meta, "pages_associated")
-#                 else None,
-#                 "preview": model._meta.include_preview
-#                 if hasattr(model._meta, "include_preview")
-#                 else False,
-#                 "icon": model._meta.icon if hasattr(model._meta, "icon") else None,
-#                 "icon_class": model._meta.icon_class
-#                 if hasattr(model._meta, "icon_class")
-#                 else None,
-#                 "slug": model._meta.slug if hasattr(model._meta, "slug") else None,
-#                 "tags": model._meta.tags if hasattr(model._meta, "tags") else False,
-#                 "relatedComponents": model._meta.related_components
-#                 if hasattr(model._meta, "related_components")
-#                 else None,
-#                 "visibility": model._meta.visibility
-#                 if hasattr(model._meta, "visibility")
-#                 else None,
-#                 "access_level": model._meta.access_level
-#                 if hasattr(model._meta, "access_level")
-#                 else None,
-#             }
-
-#             if hasattr(serializer, "SEARCH_KEYS"):
-#                 endpoint["search_keys"] = serializer.SEARCH_KEYS
-
-#             endpoints[app_name].append(endpoint)
-
-#         return Response(endpoints)
-
-
 class ModelEndpointAPIView(APIView):
     def get(self, request, format=None):
         models = apps.get_models(include_auto_created=True)
@@ -417,6 +300,8 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "support"
                 or app_label == "jobs"
                 or app_label == "general"
+                or app_label == "tables"
+                or app_label == "quizes"
             ):
                 endpoints["configs"][app_label] = {
                     "icon": app_config.icon if hasattr(app_config, "icon") else None,
@@ -438,10 +323,13 @@ class ModelEndpointAPIView(APIView):
                 if not field_name == "id":
                     metadata[field_name] = {"type": field.__class__.__name__}
 
-                    if model._meta.get_field(field_name).verbose_name:
-                        metadata[field_name]["verbose_name"] = model._meta.get_field(
-                            field_name
-                        ).verbose_name
+                    try:
+                        if model._meta.get_field(field_name).verbose_name:
+                            metadata[field_name][
+                                "verbose_name"
+                            ] = model._meta.get_field(field_name).verbose_name
+                    except:
+                        metadata[field_name]["verbose_name"] = None
 
             if "alignment" in metadata:
                 metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
@@ -522,14 +410,17 @@ class SingleModelAPIView(APIView):
         metadata = {}
 
         for field_name, field in fields.items():
+            print(field_name, field)
             if not field_name == "id":
                 metadata[field_name] = {"type": field.__class__.__name__}
 
-                if model._meta.get_field(field_name).verbose_name:
-                    metadata[field_name]["verbose_name"] = model._meta.get_field(
-                        field_name
-                    ).verbose_name
-
+                try:
+                    if model._meta.get_field(field_name).verbose_name:
+                        metadata[field_name]["verbose_name"] = model._meta.get_field(
+                            field_name
+                        ).verbose_name
+                except:
+                    metadata[field_name]["verbose_name"] = "Default"
         try:
             url = reverse(f"{model_name}-list")
             url = url.replace("/api/", "/")

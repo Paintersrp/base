@@ -53,6 +53,7 @@ export default function Processes({
   processData,
   showTitleBlock = true,
 }) {
+  console.log("processData: ", processData);
   const classes = useStyles();
   const [editTitle, setEditTitle] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -93,6 +94,7 @@ export default function Processes({
                       hideDelete
                       position="center"
                       adminLink="titleblock"
+                      text="Title Block"
                     />
                   </>
                 ) : null}

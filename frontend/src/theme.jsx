@@ -159,6 +159,8 @@ const baseTheme = createTheme({
     body1: {
       fontWeight: 400,
       fontSize: "0.95rem",
+      lineHeight: 1.334,
+      letterSpacing: "-0.00833em",
     },
     body2: {
       fontWeight: 400,

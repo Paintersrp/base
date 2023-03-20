@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 function AboutPage({ handleUpdate }) {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(false);
-
+  const editmode = useSelector((state) => state.editmode);
 
   if (error) {
     return (
@@ -29,14 +29,13 @@ function AboutPage({ handleUpdate }) {
       backgroundColor="#F5F5F5"
       page_name="About"
     >
-      
       <FABMenu
         editing={editing}
         setEditing={setEditing}
         handleUpdate={handleUpdate}
       />
-      <About setError={setError} />
-      <FAQAccordion setError={setError} />
+      <About setError={setError} editMode={editmode.editMode} />
+      <FAQAccordion setError={setError} editMode={editmode.editMode} />
     </PageContainer>
   );
 }

@@ -16,6 +16,9 @@ import {
   FaBalanceScale,
   FaCogs,
   FaGlobe,
+  FaMedium,
+  FaWix,
+  FaWordpress,
 } from "react-icons/fa";
 import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
 import LockIcon from "@material-ui/icons/Lock";
@@ -29,6 +32,7 @@ import {
   IoMedalSharp,
   IoBusinessSharp,
 } from "react-icons/io5";
+import TokenSharpIcon from "@mui/icons-material/TokenSharp";
 import { GiUpgrade } from "react-icons/gi";
 import { CgWebsite } from "react-icons/cg";
 import Container from "../../Layout/Container/Container";
@@ -70,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const iconList = [
+  { name: "FaWordpress", component: <FaWordpress /> },
+  { name: "FaMedium", component: <FaMedium /> },
+  { name: "FaWix", component: <FaWix /> },
   { name: "FaUser", component: <FaUser /> },
   { name: "FaUsers", component: <FaUsers /> },
   { name: "FaShieldAlt", component: <FaShieldAlt /> },
@@ -104,6 +111,10 @@ const iconList = [
     component: <IoInfiniteSharp />,
   },
   {
+    name: "TokenSharpIcon",
+    component: <TokenSharpIcon />,
+  },
+  {
     name: "IoMedalSharp",
     component: <IoMedalSharp />,
   },
@@ -120,8 +131,6 @@ function IconSelectMixin({
   background = "#F5F5F5",
 }) {
   const classes = useStyles();
-  // console.log(fieldName);
-  // console.log(formData[fieldName]);
   return (
     <FormControl style={{ width: "100%", paddingBottom: 8 }} variant="outlined">
       <Select

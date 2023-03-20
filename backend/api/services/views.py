@@ -4,6 +4,8 @@ from .models import *
 from .serializers import *
 from about.models import ContactInformation
 from landing.models import ServiceTier, TitleBlock
+from tables.models import *
+from tables.serializers import *
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
@@ -17,7 +19,8 @@ class ServiceFull(object):
         process_image,
         contact_information,
         service_tier,
-        service_table_full,
+        service_table_services,
+        service_table_competitors,
         title_block_benefits,
         benefits,
     ):
@@ -25,7 +28,8 @@ class ServiceFull(object):
         self.process_image = process_image
         self.contact_information = contact_information
         self.service_tier = service_tier
-        self.service_table_full = service_table_full
+        self.service_table_services = service_table_services
+        self.service_table_competitors = service_table_competitors
         self.title_block_benefits = title_block_benefits
         self.benefits = benefits
 
@@ -38,9 +42,9 @@ class ServiceFullView(generics.GenericAPIView):
         process_image = ProcessImageItem.objects.all()
         contact_information = ContactInformation.objects.first()
         service_tier = ServiceTier.objects.all()
-        compare_labels = ServiceTableLabels.objects.first()
-        compare_rows = ServiceCompareRows.objects.all()
-        service_table_full = ServiceCompareTable(compare_labels, compare_rows)
+
+        service_table_services = ServiceTable.objects.get(name="Tiers")
+        service_table_competitors = ServiceTable.objects.get(name="Competitors")
         title_block_benefits = TitleBlock.objects.get(name="benefits")
         benefits = Benefits.objects.all()
 
@@ -49,30 +53,12 @@ class ServiceFullView(generics.GenericAPIView):
             process_image,
             contact_information,
             service_tier,
-            service_table_full,
+            service_table_services,
+            service_table_competitors,
             title_block_benefits,
             benefits,
         )
         serializer = self.get_serializer(instance=service_full)
-
-        return Response(serializer.data)
-
-
-class ServiceCompareTable(object):
-    def __init__(self, compare_labels, compare_rows):
-        self.compare_labels = compare_labels
-        self.compare_rows = compare_rows
-
-
-class ServiceCompareTableView(generics.GenericAPIView):
-    serializer_class = ServiceCompareTableSerializer
-
-    def get(self, request, *args, **kwargs):
-        compare_labels = ServiceTableLabels.objects.first()
-        compare_rows = ServiceCompareRows.objects.all()
-
-        service_table_full = ServiceCompareTable(compare_labels, compare_rows)
-        serializer = self.get_serializer(instance=service_table_full)
 
         return Response(serializer.data)
 
@@ -172,139 +158,3 @@ class ProcessImageItemBulkAPIView(BaseBulkView):
     queryset = ProcessImageItem.objects.all()
     serializer_class = ProcessImageItemSerializer
     model_class = ProcessImageItem
-
-
-class ServiceTableLabelsListView(BaseListView):
-    queryset = ServiceTableLabels.objects.all()
-    serializer_class = ServiceTableLabelsSerializer
-    model_class = ServiceTableLabels
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
-
-    def get_queryset(self):
-        return self.model_class.objects.all()
-
-
-class ServiceTableLabelsDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ServiceTableLabels.objects.all()
-    serializer_class = ServiceTableLabelsSerializer
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        old_instance = ServiceTableLabels.objects.get(pk=instance.pk)
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        changes = return_changes(instance, old_instance)
-        create_log_entry(
-            LogEntry.Action.UPDATE,
-            request.username if request.username else None,
-            instance,
-            changes,
-        )
-
-        return Response(serializer.data)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class ServiceTableLabelsBulkAPIView(BaseBulkView):
-    queryset = ServiceTableLabels.objects.all()
-    serializer_class = ServiceTableLabelsSerializer
-    model_class = ServiceTableLabels
-
-
-class ServiceCompareRowsListView(generics.ListCreateAPIView):
-    queryset = ServiceCompareRows.objects.all()
-    serializer_class = ServiceCompareRowsSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
-
-
-class ServiceCompareRowsDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ServiceCompareRows.objects.all()
-    serializer_class = ServiceCompareRowsSerializer
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        old_instance = ServiceCompareRows.objects.get(pk=instance.pk)
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        changes = return_changes(instance, old_instance)
-        create_log_entry(
-            LogEntry.Action.UPDATE,
-            request.username if request.username else None,
-            instance,
-            changes,
-        )
-
-        return Response(serializer.data)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class ServiceCompareRowsBulkAPIView(BaseBulkView):
-    queryset = ServiceCompareRows.objects.all()
-    serializer_class = ServiceCompareRowsSerializer
-    model_class = ServiceCompareRows

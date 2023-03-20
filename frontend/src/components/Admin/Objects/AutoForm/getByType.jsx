@@ -46,6 +46,7 @@ const getByType = (
     case "CharField":
     case "EmailField":
     case "URLField":
+    case "SlugField":
       return (
         <CharType
           formData={formData}

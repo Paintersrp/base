@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Member = ({ member, newImage }) => {
+const Member = ({ member, editMode = false, newImage }) => {
   const classes = useStyles();
   const { fadeIn } = baseClasses();
   const [editing, setEditing] = useState(false);
@@ -88,13 +88,15 @@ const Member = ({ member, newImage }) => {
                 }}
               />
               <MemberContent member={memberData} />
-              {!editing && auth.is_superuser ? (
+              {!editing && editMode ? (
                 <div style={{ marginTop: 4, marginBottom: 4, marginRight: 8 }}>
                   <EditDeleteButtonMenu
                     hideDelete
                     editClick={() => setEditing(!editing)}
                     position="flex-end"
                     placement="bottom"
+                    text="Member"
+                    obj={member.id}
                   />
                 </div>
               ) : null}

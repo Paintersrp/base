@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
 from django.db.models import ImageField
@@ -8,9 +9,31 @@ from django.db.models import ImageField
 class BaseListView(generics.ListCreateAPIView):
     serializer_class = None
     model_class = None
+    foreign_key_fields = []
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        data = request.data.copy()
+
+        for field in self.foreign_key_fields:
+            print(field)
+            if field in data:
+                related_class = self.serializer_class.Meta.model._meta.get_field(
+                    field
+                ).remote_field.model
+                print(data[field])
+
+                try:
+                    related_obj = related_class.objects.get(id=data[field])
+                    print(related_obj.id)
+                except related_class.DoesNotExist:
+                    raise NotFound(
+                        detail=f"{related_class.__name__} with id {data[field]} does not exist"
+                    )
+
+                data[f"{field}"] = related_obj.id
+                print(data)
+
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 

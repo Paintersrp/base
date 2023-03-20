@@ -5,11 +5,12 @@ import List from "@material-ui/core/List";
 import Grid from "@material-ui/core/Grid";
 import { useState } from "react";
 import Value from "./Value";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: "bold",
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
   },
@@ -26,9 +27,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     background: theme.palette.background.light,
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
-export default function Values({ valuesData }) {
+export default function Values({ valuesData, editMode }) {
   const classes = useStyles();
   const [rowOne, setRowOne] = useState(null);
   const [rowTwo, setRowTwo] = useState(null);
@@ -57,20 +63,34 @@ export default function Values({ valuesData }) {
       {!loading ? (
         <>
           <Typography variant="h3" className={classes.title}>
-            Core Values
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              Core Values
+              {editMode && <AdminButton tooltipText="Values" link="value" />}
+            </div>
           </Typography>
+
           <Grid container spacing={1} className={classes.gridContainer}>
             <Grid item xs={12} sm={6} className={classes.listColumns}>
               <List>
-                {rowOne.map((value) => (
-                  <Value value={value} />
+                {rowOne.map((value, index) => (
+                  <Value
+                    value={value}
+                    editMode={editMode}
+                    index={index}
+                    start={0}
+                  />
                 ))}
               </List>
             </Grid>
             <Grid item xs={12} sm={6} className={classes.listColumns}>
               <List>
-                {rowTwo.map((value) => (
-                  <Value value={value} />
+                {rowTwo.map((value, index) => (
+                  <Value
+                    value={value}
+                    editMode={editMode}
+                    index={index}
+                    start={1}
+                  />
                 ))}
               </List>
             </Grid>

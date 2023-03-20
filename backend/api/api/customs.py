@@ -42,6 +42,14 @@ class CustomCharField(models.CharField):
         super().__init__(*args, **kwargs)
 
 
+class CustomSlugField(models.SlugField):
+    def __init__(self, *args, **kwargs):
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.justify = kwargs.pop("justify", "left")
+        super().__init__(*args, **kwargs)
+
+
 class CustomEmailField(models.EmailField):
     def __init__(self, *args, **kwargs):
         self.xs_column_count = kwargs.pop("xs_column_count", 12)
@@ -60,6 +68,14 @@ class CustomTextField(models.TextField):
 
 
 class CustomDecimalField(models.DecimalField):
+    def __init__(self, *args, **kwargs):
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.justify = kwargs.pop("justify", "left")
+        super().__init__(*args, **kwargs)
+
+
+class CustomPositiveIntegerField(models.PositiveIntegerField):
     def __init__(self, *args, **kwargs):
         self.xs_column_count = kwargs.pop("xs_column_count", 12)
         self.md_column_count = kwargs.pop("md_column_count", 12)

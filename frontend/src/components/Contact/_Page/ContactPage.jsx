@@ -7,7 +7,7 @@ import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import JobListing from "../Jobs/Listing/Listing";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +26,7 @@ function ContactPage({ handleUpdate }) {
   const [contactData, setContactData] = useState(null);
   const [jobsData, setJobsData] = useState(null);
   const dispatch = useDispatch();
+  const editmode = useSelector((state) => state.editmode);
 
   useEffect(() => {
     dispatch({ type: "FETCH_DATA_REQUEST" });
@@ -74,9 +75,13 @@ function ContactPage({ handleUpdate }) {
       {membersData && contactData && jobsData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>
-            <Members membersData={membersData} />
-            <JobListing jobsData={jobsData} />
-            <Contact color="dark" contactData={contactData} />
+            <Members membersData={membersData} editMode={editmode.editMode} />
+            <JobListing jobsData={jobsData} editMode={editmode.editMode} />
+            <Contact
+              color="dark"
+              contactData={contactData}
+              editMode={editmode.editMode}
+            />
           </div>
         </Grid>
       ) : null}

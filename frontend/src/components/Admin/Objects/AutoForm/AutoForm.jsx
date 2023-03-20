@@ -238,7 +238,10 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   fieldName === "date_joined" ||
                   fieldName === "subscribed_on" ||
                   fieldName === "password" ||
-                  fieldName === "salt"
+                  fieldName === "salt" ||
+                  fieldName === "question_sets" ||
+                  fieldName === "questions" ||
+                  fieldName === "answer_choices"
                 ) {
                   return null;
                 }

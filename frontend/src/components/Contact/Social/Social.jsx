@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Typography, IconButton } from "@material-ui/core";
+import { Typography, IconButton, Tooltip } from "@material-ui/core";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -35,15 +35,24 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     paddingTop: 30,
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
-export default function Social({ contactData, showTitle, color = "light" }) {
+export default function Social({
+  contactData,
+  showTitle,
+  color = "light",
+  editMode,
+}) {
   console.log("contactData: ", contactData);
   const classes = useStyles();
   const theme = useTheme();
   const { fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
-  const editmode = useSelector((state) => state.editmode);
   const [contacts, setContacts] = useState(contactData);
   const [editing, setEditing] = useState(false);
   let finalColor;
@@ -112,24 +121,30 @@ export default function Social({ contactData, showTitle, color = "light" }) {
             {socialPlatforms.map((platform) => {
               if (contacts[platform.name]) {
                 return (
-                  <IconButton
-                    key={platform.name}
-                    className={classes.socialIcons}
-                    style={{ color: finalColor }}
-                    aria-label={platform.name}
-                    href={`https://www.${platform.name}.com/${
-                      contacts[platform.name]
-                    }`}
+                  <Tooltip
+                    title={`@${contacts[platform.name]}`}
+                    placement="bottom"
+                    classes={{ tooltip: classes.tooltip }}
                   >
-                    {platform.icon}
-                  </IconButton>
+                    <IconButton
+                      key={platform.name}
+                      className={classes.socialIcons}
+                      style={{ color: finalColor }}
+                      aria-label={platform.name}
+                      href={`https://www.${platform.name}.com/${
+                        contacts[platform.name]
+                      }`}
+                    >
+                      {platform.icon}
+                    </IconButton>
+                  </Tooltip>
                 );
               } else {
                 return null;
               }
             })}
           </div>
-          {!editing && editmode.editMode ? (
+          {!editing && editMode ? (
             <EditDeleteButtonMenu
               hideDelete
               editClick={() => setEditing(!editing)}
@@ -137,6 +152,7 @@ export default function Social({ contactData, showTitle, color = "light" }) {
               placement="bottom"
               finalColor={finalColor}
               adminLink="contactinformation"
+              text="Socials"
             />
           ) : null}
         </div>

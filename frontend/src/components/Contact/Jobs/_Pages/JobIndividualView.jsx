@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import JobPosting from "../Individual/JobsIndividual";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import FABMenu from "../../../Elements/Buttons/FABAdminMenu";
+import PageContainer from "../../../Elements/Layout/PageContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,10 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobIndividualView = () => {
+const JobIndividualView = ({ handleUpdate }) => {
   const classes = useStyles();
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     axiosInstance
@@ -33,7 +36,21 @@ const JobIndividualView = () => {
   }, [id]);
 
   return (
-    <div className={`${classes.root}`}>{job && <JobPosting job={job} />}</div>
+    <PageContainer
+      editing={editing}
+      setEditing={setEditing}
+      backgroundColor="#F5F5F5"
+      page_name="Default"
+    >
+      <div style={{ maxWidth: "100%" }}>
+        <FABMenu
+          editing={editing}
+          setEditing={setEditing}
+          handleUpdate={handleUpdate}
+        />
+        {job && <JobPosting job={job} setJob={setJob} />}
+      </div>
+    </PageContainer>
   );
 };
 

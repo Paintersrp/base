@@ -11,7 +11,7 @@ import Pricing from "../Pricing/Pricing";
 import Hero from "../Hero/Hero";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
 import { ScrollTopFab } from "../../Elements/Buttons/ScrollToTopFAB";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 
 function LandingPage({ handleUpdate }) {
@@ -23,6 +23,7 @@ function LandingPage({ handleUpdate }) {
   const [newsBlock, setNewsBlock] = useState([]);
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
+  const editmode = useSelector((state) => state.editmode);
 
   useEffect(() => {
     dispatch({ type: "FETCH_DATA_REQUEST" });
@@ -78,6 +79,7 @@ function LandingPage({ handleUpdate }) {
             heroData={heroData}
             setHeroData={setHeroData}
             contactData={data.contact_information}
+            editMode={editmode.editMode}
             form={true}
           />
           <Pricing serviceData={data.service_tiers} />
@@ -91,7 +93,7 @@ function LandingPage({ handleUpdate }) {
             block={newsBlock}
             setBlock={setNewsBlock}
           />
-          <NewsletterForm />
+          <NewsletterForm editMode={editmode.editMode} />
           <IconScroller />
         </>
       )}

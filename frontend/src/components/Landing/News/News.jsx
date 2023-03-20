@@ -99,6 +99,7 @@ export default function LatestNews({ articlesData, block, setBlock }) {
                 hideDelete
                 position="center"
                 adminLink="titleblock"
+                text="Title Block"
               />
             </>
           ) : null}

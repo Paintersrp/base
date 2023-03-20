@@ -6,15 +6,19 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 
 export const links = [
-  { name: "About", href: "about" },
   {
-    name: "Services",
-    href: "services",
+    name: "About",
+    href: "about",
   },
   {
     name: "Contact",
     href: "contact",
   },
+  {
+    name: "Services",
+    href: "services",
+  },
+
   {
     name: "News",
     href: "articles",

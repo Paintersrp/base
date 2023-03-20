@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import { Button, Chip, Grid } from "@material-ui/core";
+import { Button, Chip, Grid, Tooltip } from "@material-ui/core";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 const ArticleHighlightActions = ({ article, subtitleVariant }) => {
@@ -67,17 +72,23 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
       </div>
       <Grid container flex justifyContent="space-between" alignItems="center">
         <Typography variant={subtitleVariant}>By: {article.author}</Typography>
-        <Link to={`/articles/${article.id}`}>
-          <Button
-            key="2"
-            size="small"
-            variant="contained"
-            className={classes.button}
-            startIcon={<ReadMoreIcon />}
-          >
-            More
-          </Button>
-        </Link>
+        <Tooltip
+          title="Read Full Post"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <Link to={`/articles/${article.id}`}>
+            <Button
+              key="2"
+              size="small"
+              variant="contained"
+              className={classes.button}
+              startIcon={<ReadMoreIcon />}
+            >
+              More
+            </Button>
+          </Link>
+        </Tooltip>
       </Grid>
     </Grid>
   );

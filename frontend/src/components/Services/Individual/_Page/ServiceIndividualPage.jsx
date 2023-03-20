@@ -11,6 +11,7 @@ import ServiceContact from "../ServiceContact";
 import ServicePrice from "../ServicePrice";
 import PageContainer from "../../../Elements/Layout/PageContainer";
 import ComparisonTable from "../../Quiz/TablesDisplay/ComparisonTable";
+import TablesDisplay from "../../Quiz/TablesDisplay/TablesDisplay";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,7 +60,7 @@ function ServiceIndividualPage() {
           (image) => image.servicetier === filteredServiceTier[0].service_title
         );
         setProcessImage(filteredProcessImage[0].image);
-        setTableData(response.data.service_table_full);
+        setTableData(response.data.service_table_services);
       })
       .catch((err) => {
         console.log(err);
@@ -93,7 +94,12 @@ function ServiceIndividualPage() {
             formRef={formRef}
             contactData={contactData}
           />
-          <ComparisonTable currentId={id} tableData={tableData} />
+          <TablesDisplay
+            tableData={tableData}
+            heading="Compare Our Services"
+            direction="up"
+            currentId={id}
+          />
         </Paper>
       )}
     </PageContainer>

@@ -10,7 +10,6 @@ import { Today } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   hoursContainer: {
-    // border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   closedText: {
     color: theme.palette.error.main,
-    fontStyle: "italic",
+    fontWeight: 800,
   },
   title: {
     paddingTop: theme.spacing(2),
@@ -29,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
   todayIcon: {
     color: theme.palette.primary.main,
+    cursor: "default",
+  },
+  todayIconAlt: {
+    color: theme.palette.secondary.main,
     cursor: "default",
   },
 }));
@@ -43,7 +46,7 @@ const daysOfWeek = [
   "Sunday",
 ];
 
-export default function Hours({ contactData, showTitle = true }) {
+export default function Hours({ contactData, editMode, showTitle = true }) {
   const classes = useStyles();
   const { flexCenter, fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
@@ -69,7 +72,7 @@ export default function Hours({ contactData, showTitle = true }) {
             </Typography>
           )}
           <Grid container spacing={2} className={fadeIn}>
-            {daysOfWeek.map((dayOfWeek) => (
+            {daysOfWeek.map((dayOfWeek, index) => (
               <Grid item xs={12} sm={6} key={dayOfWeek}>
                 <div className={classes.textContainer}>
                   <IconButton className={classes.todayIcon} size="small">
@@ -78,15 +81,12 @@ export default function Hours({ contactData, showTitle = true }) {
                   <Typography
                     variant="subtitle1"
                     className={classes.dayLabel}
-                    color="primary"
+                    color="black"
                   >
                     {dayOfWeek}
                   </Typography>
                   {data[dayOfWeek.toLowerCase()] === "Closed" ? (
-                    <Typography
-                      variant="subtitle1"
-                      className={classes.closedText}
-                    >
+                    <Typography className={classes.closedText}>
                       {data[dayOfWeek.toLowerCase()]}
                     </Typography>
                   ) : (
@@ -100,12 +100,14 @@ export default function Hours({ contactData, showTitle = true }) {
           </Grid>
         </>
       )}
-      {!editing && auth.is_superuser ? (
+      {!editing && editMode ? (
         <EditDeleteButtonMenu
           hideDelete
           position="center"
           placement="bottom"
           editClick={() => setEditing(!editing)}
+          text={"Hours"}
+          adminLink="contactinformation"
         />
       ) : null}
       {editing && (

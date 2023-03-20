@@ -17,12 +17,13 @@ const CondensedTopMedia = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("md")]: {
       width: "100%",
+      minWidth: 325,
+      width: 325,
     },
   },
   pricingTitle: {
     marginBottom: theme.spacing(0),
     fontWeight: 600,
-    // fontSize: theme.fontSize.four,
     textAlign: "center",
     fontFamily: "Poppins",
     color: theme.palette.primary.dark,
@@ -30,11 +31,10 @@ const CondensedTopMedia = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   pricingPrice: {
-    // fontSize: theme.fontSize.three,
     textAlign: "center",
-    padding: theme.spacing(1, 0, 0, 0),
+    padding: theme.spacing(1, 0, 1, 0),
     margin: 0,
-    color: theme.palette.text.dark,
+    color: theme.palette.primary.main,
   },
   media: {
     paddingTop: "56.25%",
@@ -48,10 +48,18 @@ const CondensedTopMedia = makeStyles((theme) => ({
     minHeight: 325,
   },
   checkIcon: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.main,
+    marginRight: "10px",
+  },
+  checkIconAlt: {
+    color: theme.palette.secondary.main,
     marginRight: "10px",
   },
   detail: {
+    padding: theme.spacing(0.5, 1, 0.5, 1),
+    color: theme.palette.text.secondary,
+  },
+  detailAlt: {
     padding: theme.spacing(0.5, 1, 0.5, 1),
     color: theme.palette.text.dark,
   },

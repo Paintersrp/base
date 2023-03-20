@@ -55,6 +55,7 @@ const ChoiceType = ({
 }) => {
   const classes = useStyles();
   console.log(fieldName);
+  console.log(choices);
   return (
     <Grid
       item
@@ -107,7 +108,7 @@ const ChoiceType = ({
                 <em>Select {verboseName}</em>
               </MenuItem>
               {Object.entries(choices).map(([key, value]) => (
-                <MenuItem key={key} value={value.display}>
+                <MenuItem key={key} value={value.value}>
                   <span style={{ color: "black" }}>{value.display}</span>
                 </MenuItem>
               ))}

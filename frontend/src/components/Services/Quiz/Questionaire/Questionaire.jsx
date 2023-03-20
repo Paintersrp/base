@@ -19,11 +19,13 @@ import { useTheme } from "@material-ui/core/styles";
 import NavigationButtons from "./NavigationButtons";
 import { quizStyles } from "../styles";
 import { calculateQuizResult } from "../Quiz/QuizUtiils";
+import axiosInstance from "../../../../lib/Axios/axiosInstance";
 
 const Questionaire = ({
   services,
   setRecommendedServices,
   setUnrecommendedServices,
+  quizData,
 }) => {
   const classes = quizStyles();
   const theme = useTheme();
@@ -34,7 +36,9 @@ const Questionaire = ({
   const [prevDisabled, setPrevDisabled] = useState(true);
 
   const [weeklyServiceHours, setWeeklyServiceHours] = useState("");
+  const [weeklyServiceId, setWeeklyServiceId] = useState("");
   const [hourlyBudget, setHourlyBudget] = useState("");
+  const [hourlyBudgetId, setHourlyBudgetId] = useState("");
   const [preferredFeatures, setPreferredFeatures] = useState([]);
   const [serviceScores, setServiceScores] = useState({});
 
@@ -48,11 +52,26 @@ const Questionaire = ({
   });
 
   const handleServiceHoursChange = (event) => {
+    console.log(event.target.value);
     setWeeklyServiceHours(Number(event.target.value));
+    console.log(newQuestions[currentStep].answer_choices);
+
+    const selectedAnswerChoice = newQuestions[currentStep].answer_choices.find(
+      (choice) => Number(choice.value) === Number(event.target.value)
+    );
+    const answerChoiceId = selectedAnswerChoice.id;
+
+    setWeeklyServiceId(answerChoiceId);
   };
 
   const handleHourlyBudgetChange = (event) => {
     setHourlyBudget(Number(event.target.value));
+
+    const selectedAnswerChoice = newQuestions[currentStep].answer_choices.find(
+      (choice) => Number(choice.value) === Number(event.target.value)
+    );
+    const answerChoiceId = selectedAnswerChoice.id;
+    setHourlyBudgetId(answerChoiceId);
   };
 
   const handlePreferredFeatureChange = (event, feature) => {
@@ -66,18 +85,42 @@ const Questionaire = ({
   };
 
   const handleQuizResult = () => {
+    console.log("newQuestions0: ", newQuestions[0]);
+    console.log("newQuestions1: ", newQuestions[1]);
+    console.log("newQuestions2: ", newQuestions[2]);
     const { newScores, recommendedService, unrecommendedServices } =
       calculateQuizResult(services, hourlyBudget, preferredFeatures);
 
     setServiceScores(newScores);
     setRecommendedServices(recommendedService);
     setUnrecommendedServices(unrecommendedServices);
+    console.log("newScores: ", newScores);
+
+    const formData = new FormData();
+    formData.append("questionnaire", 2);
+    formData.append(
+      "results",
+      JSON.stringify({
+        [newQuestions[0].id]: weeklyServiceId,
+        [newQuestions[1].id]: hourlyBudgetId,
+
+      })
+    );
+
+    axiosInstance
+      .post(`/questionnaireresults/`, formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleNext = () => {
     const newStep = currentStep + 1;
     setCurrentStep(newStep);
-    if (newStep === questions.length) {
+    if (newStep === newQuestions.length) {
       setNextDisabled(true);
     } else {
       setPrevDisabled(false);
@@ -103,7 +146,7 @@ const Questionaire = ({
     );
     setRecommendedServices(recommendedService);
     setUnrecommendedServices(unrecommendedServices);
-    setCurrentStep(questions.length);
+    setCurrentStep(newQuestions.length);
     setNextDisabled(true);
     setPrevDisabled(false);
     document.documentElement.scrollTo({
@@ -113,41 +156,8 @@ const Questionaire = ({
     });
   };
 
-  const questions = [
-    {
-      question: "Placeholder Text",
-      options: [
-        { label: "Less than 10 hours", value: 10 },
-        { label: "10-20 hours", value: 20 },
-        { label: "More than 20 hours", value: Infinity },
-      ],
-      state: weeklyServiceHours,
-      handle: handleServiceHoursChange,
-      name: "Needs",
-    },
-    {
-      question: "What is your budget per month?",
-      options: [
-        { label: "Less than $30", value: 30 },
-        { label: "Between $30 and $100", value: 100 },
-        { label: "Over $100", value: Infinity },
-      ],
-      state: hourlyBudget,
-      handle: handleHourlyBudgetChange,
-      name: "Budget",
-    },
-    {
-      question: "Placeholder Text",
-      options: [
-        { label: "Less than 10 hours", value: 10 },
-        { label: "10-20 hours", value: 20 },
-        { label: "More than 20 hours", value: Infinity },
-      ],
-      state: weeklyServiceHours,
-      handle: handleServiceHoursChange,
-      name: "Urgency",
-    },
-  ];
+  console.log("quizData: ", quizData.question_sets[0].questions);
+  const newQuestions = quizData.question_sets[0].questions;
 
   return (
     <Box
@@ -168,9 +178,9 @@ const Questionaire = ({
           className={classes.stepper}
           style={{ padding: "0px !important" }}
         >
-          {questions.map((set, index) => (
-            <Step key={set.name}>
-              <StepLabel>{set.name}</StepLabel>
+          {newQuestions.map((set, index) => (
+            <Step key={set.id}>
+              <StepLabel>{set.text}</StepLabel>
             </Step>
           ))}
           <Step key="Features">
@@ -178,7 +188,7 @@ const Questionaire = ({
           </Step>
         </Stepper>
 
-        {currentStep < questions.length ? (
+        {currentStep < newQuestions.length ? (
           <Grid container flex justifyContent="center">
             <FormControl
               component="fieldset"
@@ -189,22 +199,39 @@ const Questionaire = ({
               }}
             >
               <FormLabel component="legend" className={classes.formLabel}>
-                {questions.map(
-                  (set, index) => currentStep === index && set.question
+                {newQuestions.map(
+                  (set, index) => currentStep === index && set.text
                 )}
               </FormLabel>
+
               <RadioGroup
-                aria-label={questions[currentStep].name}
-                name={questions[currentStep].name}
-                value={questions[currentStep].state}
-                onChange={questions[currentStep].handle}
+                aria-label={newQuestions[currentStep].name}
+                name={newQuestions[currentStep].value}
+                value={
+                  newQuestions[currentStep].order === 1
+                    ? weeklyServiceHours
+                    : newQuestions[currentStep].order === 2
+                    ? hourlyBudget
+                    : newQuestions[currentStep].order === 3
+                    ? weeklyServiceHours
+                    : "Ass"
+                }
+                onChange={
+                  currentStep === 0
+                    ? handleServiceHoursChange
+                    : currentStep === 1
+                    ? handleHourlyBudgetChange
+                    : currentStep === 2
+                    ? handleServiceHoursChange
+                    : null
+                }
                 className={classes.radioGroup}
               >
-                {questions[currentStep].options.map((data, index) => (
+                {newQuestions[currentStep].answer_choices.map((data, index) => (
                   <FormControlLabel
-                    value={data.value}
+                    value={Number(data.value)}
                     control={<Radio color="primary" />}
-                    label={data.label}
+                    label={data.text}
                     className={classes.formControlLabel}
                     classes={{ root: classes.formControlRootLabel }}
                   />

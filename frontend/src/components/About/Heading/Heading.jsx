@@ -4,14 +4,14 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { CardMedia } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   title: {
-    marginTop: 20,
+    margin: theme.spacing(3, 0),
     textAlign: "center",
     color: "black",
   },
   media: {
-    scale: "0.75",
+    marginBottom: theme.spacing(3),
     paddingTop: "56.25%",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -36,13 +36,17 @@ const useStyles = makeStyles(() => ({
 export default function Heading({ data, newImage }) {
   const classes = useStyles();
   return (
-    <Grid container className={classes.fadeIn}>
+    <Grid
+      container
+      className={classes.fadeIn}
+      style={{ display: "flex", justifyContent: "center" }}
+    >
       <Grid item xs={12} sm={12}>
         <Typography variant="h2" className={classes.title}>
           About {data.title}
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} style={{ padding: 0, margin: 0 }}>
+      <Grid item xs={9} sm={9}>
         <CardMedia
           className={classes.media}
           image={`${newImage ? newImage : data.image}`}

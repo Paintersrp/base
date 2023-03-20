@@ -11,11 +11,11 @@ export default function CardHead({ plan, classes }) {
         justifyContent="center"
         alignItems="center"
       />
-      <Typography className={classes.pricingTitle}>
+      <Typography variant="h4" className={classes.pricingTitle}>
         {plan.service_title}
       </Typography>
       <Grid container direction="row" align="center" justifyContent="center">
-        <Typography className={classes.pricingPrice}>
+        <Typography variant="h5" className={classes.pricingPrice}>
           <div style={{ display: "flex" }}>${plan.price}/month</div>
         </Typography>
       </Grid>

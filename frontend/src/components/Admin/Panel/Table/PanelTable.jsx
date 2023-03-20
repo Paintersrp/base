@@ -45,6 +45,8 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
 }) => {
+  console.log("keys: ", keys);
+  console.log("metadata: ", metadata);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");

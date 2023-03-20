@@ -15,6 +15,7 @@ import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { useDispatch } from "react-redux";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const CustomButton = withStyles({
   label: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     direction: "column",
     [theme.breakpoints.down("md")]: {
       maxWidth: "350px",
-      padding: theme.spacing(4),
+      padding: theme.spacing(2),
     },
   },
   heading: {
@@ -113,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewsletterForm() {
+export default function NewsletterForm({ editMode }) {
   const classes = useStyles();
   const [state, setState] = useState("initial");
   const [error, setError] = useState(false);
@@ -205,6 +206,17 @@ export default function NewsletterForm() {
             ? "Oh no an error occured! 😢 Please try again later."
             : "No spam, just news."}
         </Typography>
+        {editMode && (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
+            <AdminButton link="subscribers" tooltipText="Subscribers" />
+          </div>
+        )}
       </div>
     </Box>
   );

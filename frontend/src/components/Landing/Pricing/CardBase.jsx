@@ -24,6 +24,7 @@ export default function CardBase({ plan, classes }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {!editing ? (
@@ -40,6 +41,8 @@ export default function CardBase({ plan, classes }) {
                 hideDelete
                 position="end"
                 adminLink="servicetier"
+                text={`Service Tier`}
+                obj={plan.id}
               />
             </>
           ) : null}

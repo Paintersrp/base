@@ -92,6 +92,8 @@ export default function Process({ step, noEdit = false, noFade = false }) {
                     hideDelete
                     position="end"
                     adminLink="process"
+                    text="Process"
+                    obj={step.id}
                   />
                 </div>
               ) : null}

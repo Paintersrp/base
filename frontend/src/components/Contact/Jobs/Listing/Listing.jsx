@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Grid,
   Typography,
-  Button,
   Paper,
   useMediaQuery,
   useTheme,
   Divider,
+  Tooltip,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import BaseContent from "../../../Elements/Base/BaseContent.jsx";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import { Link } from "react-router-dom";
+import AdminButton from "../../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.dark,
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 function JobListing({
@@ -56,25 +61,11 @@ function JobListing({
   header = "Jobs",
   subheader = "Interested in joining our team? See our open positions below.",
   currentId = null,
+  editMode,
 }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     axiosInstance
-  //       .get("/jobposting/")
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         setJobPostings(response.data);
-  //       })
-  //       .catch((err) => {
-  //         setError(err);
-  //       });
-  //   };
-  //   fetchData();
-  // }, []);
 
   return (
     <>
@@ -117,11 +108,11 @@ function JobListing({
                     >
                       <Grid container spacing={2}>
                         <Grid item xs={12} md={7}>
-                          <Typography variant="h6" className={classes.title}>
+                          <Typography variant="h5" className={classes.title}>
                             {jobPosting.position}
                           </Typography>
                           <Typography
-                            variant="body1"
+                            variant="body2"
                             className={classes.description}
                           >
                             {jobPosting.tagline}
@@ -139,24 +130,30 @@ function JobListing({
                           }}
                         >
                           <Typography
-                            variant="body1"
+                            variant="body2"
                             className={classes.location}
                           >
                             {jobPosting.location} - {jobPosting.type}
                           </Typography>
                           {currentId !== jobPosting.id ? (
-                            <Link to={`/jobposting/${jobPosting.id}`}>
-                              <StyledButton
-                                color={
-                                  index % 2 === 0
-                                    ? theme.palette.secondary.dark
-                                    : theme.palette.primary.main
-                                }
-                                buttonText="Apply"
-                                minWidth={0}
-                                size="small"
-                              />
-                            </Link>
+                            <Tooltip
+                              title={`Apply Now - ${jobPosting.position}`}
+                              placement="bottom"
+                              classes={{ tooltip: classes.tooltip }}
+                            >
+                              <Link to={`/jobposting/${jobPosting.id}`}>
+                                <StyledButton
+                                  color={
+                                    index % 2 === 0
+                                      ? theme.palette.secondary.dark
+                                      : theme.palette.primary.main
+                                  }
+                                  buttonText="Apply"
+                                  minWidth={0}
+                                  size="small"
+                                />
+                              </Link>
+                            </Tooltip>
                           ) : (
                             <StyledButton
                               buttonText="Apply"
@@ -182,6 +179,17 @@ function JobListing({
                 </BaseContent>
               </>
             ))}
+            {editMode && (
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <AdminButton tooltipText="Job Openings" link="jobposting" />
+              </div>
+            )}
           </BaseContent>
         </Grid>
       )}

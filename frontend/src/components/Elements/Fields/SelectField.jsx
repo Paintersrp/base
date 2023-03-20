@@ -52,6 +52,7 @@ const SelectField = ({
   choices,
 }) => {
   console.log(choices);
+  console.log("formData: ", formData);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -81,10 +82,10 @@ const SelectField = ({
             variant="outlined"
             value={
               formData[fieldName]
-                ? formData[fieldName]
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())
-                : ""
+              // ? formData[fieldName]
+              //     .replace(/_/g, " ")
+              //     .replace(/\b\w/g, (l) => l.toUpperCase())
+              // : ""
             }
             onChange={handleChange}
             displayEmpty
@@ -126,7 +127,9 @@ const SelectField = ({
                       ? value.position
                       : fieldName === "user"
                       ? value.username
-                      : value.name
+                      : fieldName === "question"
+                      ? value.id
+                      : value.id
                   }
                 >
                   <span style={{ color: "black" }}>
@@ -137,6 +140,8 @@ const SelectField = ({
                       ? value.position
                       : fieldName === "user"
                       ? value.username
+                      : fieldName === "question"
+                      ? value.id
                       : value.name}
                   </span>
                 </MenuItem>

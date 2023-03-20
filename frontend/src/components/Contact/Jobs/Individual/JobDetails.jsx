@@ -31,12 +31,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     marginBottom: theme.spacing(0.5),
     marginTop: theme.spacing(4),
+    color: "black",
   },
   requirementItem: {
     marginBottom: theme.spacing(0),
   },
   requirementIcon: {
     color: theme.palette.primary.main,
+  },
+  requirementIconAlt: {
+    color: theme.palette.secondary.main,
+  },
+  container: {
+    background: theme.palette.background.default,
+    color: "black",
   },
 }));
 
@@ -47,7 +55,7 @@ const JobDetails = ({ job, handleApplyNowClick }) => {
 
   return (
     <>
-      <Grid container>
+      <Grid container className={classes.container}>
         <Grid
           item
           xs={12}
@@ -93,23 +101,36 @@ const JobDetails = ({ job, handleApplyNowClick }) => {
         <Typography variant="h4" className={classes.sectionTitle}>
           Who We Are
         </Typography>
-        <Typography variant="body2">{job.who_we_are}</Typography>
+        <Typography variant="body2" style={{ color: "black" }}>
+          {job.who_we_are}
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h4" className={classes.sectionTitle}>
           What We're Looking For
         </Typography>
-        <Typography variant="body2">{job.looking_for}</Typography>
+        <Typography variant="body2" style={{ color: "black" }}>
+          {job.looking_for}
+        </Typography>
         <Typography variant="h4" className={classes.sectionTitle}>
           Job Requirements
         </Typography>
         <List>
-          {job.requirements.map((requirement) => (
+          {job.requirements.map((requirement, index) => (
             <ListItem className={classes.requirementItem}>
-              <ListItemIcon className={classes.requirementIcon}>
+              <ListItemIcon
+                className={
+                  index % 2 === 0
+                    ? classes.requirementIcon
+                    : classes.requirementIconAlt
+                }
+              >
                 <CheckCircleOutline />
               </ListItemIcon>
-              <ListItemText primary={requirement.detail} />
+              <ListItemText
+                primary={requirement.detail}
+                style={{ color: "black" }}
+              />
             </ListItem>
           ))}
         </List>
@@ -117,12 +138,21 @@ const JobDetails = ({ job, handleApplyNowClick }) => {
           Job Responsibilities
         </Typography>
         <List>
-          {job.responsibilities.map((responsibility) => (
+          {job.responsibilities.map((responsibility, index) => (
             <ListItem className={classes.requirementItem}>
-              <ListItemIcon className={classes.requirementIcon}>
+              <ListItemIcon
+                className={
+                  index % 2 === 0
+                    ? classes.requirementIcon
+                    : classes.requirementIconAlt
+                }
+              >
                 <CheckCircleOutline />
               </ListItemIcon>
-              <ListItemText primary={responsibility.detail} />
+              <ListItemText
+                primary={responsibility.detail}
+                style={{ color: "black" }}
+              />
             </ListItem>
           ))}
         </List>

@@ -5,30 +5,41 @@ import BaseContent from "../../../Elements/Base/BaseContent.jsx";
 import ApplicationForm from "./ApplicationForm.jsx";
 import JobListing from "../Listing/Listing.jsx";
 import axiosInstance from "../../../../lib/Axios/axiosInstance.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import JobDetails from "./JobDetails.jsx";
+import AdminButton from "../../../Elements/Buttons/AdminButton.jsx";
+import JobEdit from "./JobEdit.jsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: theme.spacing(5),
     padding: theme.spacing(0),
-    backgroundColor: theme.palette.background.light,
+    display: "flex",
+    justifyContent: "center",
   },
 
   sectionTitle: {
     fontWeight: "bold",
     marginBottom: theme.spacing(0.5),
     marginTop: theme.spacing(4),
+    color: "black",
   },
   whyApply: {
     marginBottom: theme.spacing(4),
+    color: "black",
+  },
+  container: {
+    background: theme.palette.background.default,
+    width: "100%",
   },
 }));
 
-const JobPosting = ({ job }) => {
+const JobPosting = ({ job, setJob }) => {
   const classes = useStyles();
   const [jobsData, setJobsData] = useState(null);
   const formRef = useRef(null);
   const dispatch = useDispatch();
+  const editmode = useSelector((state) => state.editmode);
 
   useEffect(() => {
     dispatch({ type: "FETCH_DATA_REQUEST" });
@@ -59,7 +70,7 @@ const JobPosting = ({ job }) => {
     <>
       {job && jobsData && (
         <div className={classes.root}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} className={classes.container}>
             <BaseContent
               header=""
               maxWidth={1200}
@@ -69,6 +80,23 @@ const JobPosting = ({ job }) => {
               br={1}
               background="#F5F5F5"
             >
+              {editmode.editMode && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    marginBottom: 8,
+                  }}
+                >
+                  <AdminButton
+                    link="jobposting"
+                    tooltipText="Job Openings"
+                    size="medium"
+                    placement="top"
+                  />
+                </div>
+              )}
               <JobDetails job={job} handleApplyNowClick={handleApplyNowClick} />
               <Grid item xs={12}>
                 <Typography variant="h4" className={classes.sectionTitle}>
@@ -78,12 +106,18 @@ const JobPosting = ({ job }) => {
                   {job.why_apply}
                 </Typography>
               </Grid>
-              <ApplicationForm job={job} formRef={formRef} />
+
+              <ApplicationForm
+                job={job}
+                formRef={formRef}
+                editMode={editmode.editMode}
+              />
               <JobListing
                 jobsData={jobsData}
                 header="Looking for something else?"
                 subheader="See all our open positions below."
                 currentId={job.id}
+                editMode={editmode.editMode}
               />
             </BaseContent>
           </Grid>

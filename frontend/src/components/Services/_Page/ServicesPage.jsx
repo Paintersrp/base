@@ -17,7 +17,10 @@ const useStyles = makeStyles((theme) => ({
 function ServicesPage({ handleUpdate }) {
   const classes = useStyles();
   const [error, setError] = useState();
-  const [data, setData] = useState(false);
+  const [quizData, setQuizData] = useState([]);
+  const [data, setData] = useState([]);
+  const [servicesTable, setServicesTable] = useState([]);
+  const [competitorsTable, setCompetitorsTable] = useState([]);
   const [metadata, setMetaData] = useState({});
   const [services, setServices] = useState(false);
   const [benefitsBlock, setBenefitsBlock] = useState([]);
@@ -31,9 +34,22 @@ function ServicesPage({ handleUpdate }) {
         .get("/services/")
         .then((response) => {
           setData(response.data);
+          setServicesTable(response.data.service_table_services);
+          setCompetitorsTable(response.data.service_table_competitors);
           setServices(response.data.service_tier);
           setBenefitsBlock(response.data.title_block_benefits);
           setMetaData(response.data.metadata);
+        })
+        .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
+        .catch((err) => {
+          setError(err.error);
+        })
+        .then(dispatch({ type: "FETCH_DATA_FAILURE" }));
+      axiosInstance
+        .get("/questionnaire/2/")
+        .then((response) => {
+          setQuizData(response.data);
+          console.log("questionnaire: ", response.data);
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
@@ -71,10 +87,12 @@ function ServicesPage({ handleUpdate }) {
       <Quiz
         services={services}
         setServices={setServices}
-        tableData={data.service_table_full}
+        servicesTableData={servicesTable}
+        competitorsTableData={competitorsTable}
         benefitsData={data.benefits}
         benefitsBlock={benefitsBlock}
         setBenefitsBlock={setBenefitsBlock}
+        quizData={quizData}
       />
     </PageContainer>
   );

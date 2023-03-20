@@ -4,7 +4,12 @@ import { useTheme } from "@material-ui/core/styles";
 import ComparisonTable from "./ComparisonTable";
 import { SlideIntoViewPort } from "../../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 
-const TablesDisplay = ({}) => {
+const TablesDisplay = ({
+  tableData,
+  heading = null,
+  direction = "right",
+  currentId = null,
+}) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -13,7 +18,7 @@ const TablesDisplay = ({}) => {
       <SlideIntoViewPort
         animationDuration={isSmallScreen ? 1 : 1.5}
         onScreenPercentage={0.05}
-        from={"right"}
+        from={direction}
       >
         <Grid container flex justifyContent="center">
           <Grid
@@ -26,7 +31,11 @@ const TablesDisplay = ({}) => {
               marginTop: theme.spacing(4),
             }}
           >
-            <ComparisonTable type="competition" heading="How We Stack Up" />
+            <ComparisonTable
+              tableData={tableData}
+              heading={heading}
+              currentId={currentId}
+            />
           </Grid>
         </Grid>
       </SlideIntoViewPort>

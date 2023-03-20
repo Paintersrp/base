@@ -9,6 +9,7 @@ import PublishSharpIcon from "@mui/icons-material/PublishSharp";
 import useFormValidation from "../../../../hooks/useFormValidation.jsx";
 import Validate from "../../../../hooks/Validate.jsx";
 import { useDispatch } from "react-redux";
+import AdminButton from "../../../Elements/Buttons/AdminButton.jsx";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -37,9 +38,34 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1),
   },
+  formField: {
+    margin: theme.spacing(0, 0, 1, 0),
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: theme.palette.text.secondary,
+      },
+      "&:hover fieldset": {
+        borderColor: theme.palette.secondary.main,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.light,
+      },
+    },
+    "& .MuiFormLabel-root": {
+      color: "black",
+      fontWeight: "500",
+      fontSize: "0.9rem",
+    },
+    "& .MuiFormControl-root": {
+      margin: "0px !important",
+    },
+    "& input": {
+      color: "black",
+    },
+  },
 }));
 
-const ApplicationForm = ({ job, formRef }) => {
+const ApplicationForm = ({ job, formRef, editMode }) => {
   const classes = useStyles();
   const fileInputRef = useRef(null);
   const [apiError, setApiError] = useState(null);
@@ -134,6 +160,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.first_name}
               helperText={errors.first_name}
+              className={classes.formField}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -150,6 +177,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.last_name}
               helperText={errors.last_name}
+              className={classes.formField}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -165,6 +193,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.email}
               helperText={errors.email}
+              className={classes.formField}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -181,6 +210,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.phone}
               helperText={errors.phone}
+              className={classes.formField}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -197,6 +227,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.city}
               helperText={errors.city}
+              className={classes.formField}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -213,6 +244,7 @@ const ApplicationForm = ({ job, formRef }) => {
               fullWidth
               error={!!errors.zipcode}
               helperText={errors.zipcode}
+              className={classes.formField}
             />
           </Grid>
           <div
@@ -285,6 +317,17 @@ const ApplicationForm = ({ job, formRef }) => {
             />
           </Grid>
         </Grid>
+        {editMode && (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
+            <AdminButton tooltipText="Applications" link="application" />
+          </div>
+        )}
       </BaseContent>
     </form>
   );

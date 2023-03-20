@@ -141,7 +141,7 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/generator"
             element={<GeneratorPage handleUpdate={handleUpdate} />}
           />
-          <Route path="/jobposting/:id" element={<JobIndividualView />} />
+          <Route path="/jobposting/:id" element={<JobIndividualView handleUpdate={handleUpdate} />} />
           {/* Feature Routes */}
           <Route
             path="/articles"

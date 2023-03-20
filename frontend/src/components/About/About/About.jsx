@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.palette.background.default,
+    marginTop: 20,
   },
   section: {
     marginTop: theme.spacing(2),
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function About({ setError }) {
+export default function About({ setError, editMode = false }) {
   const {
     value: missionData,
     handleChange: handleChangeMission,
@@ -110,13 +111,15 @@ export default function About({ setError }) {
           <Paper className={classes.paper} elevation={0}>
             <Grid container spacing={2} className={classes.gridContainer}>
               <>
-                {!editTitle && auth.is_superuser ? (
+                {!editTitle && editMode ? (
                   <Container justify="flex-end">
                     <EditDeleteButtonMenu
                       hideDelete
                       editClick={() => setEditTitle(!editTitle)}
                       position="end"
                       placement="bottom"
+                      adminLink="aboutblock"
+                      text="About Header"
                     />
                   </Container>
                 ) : null}
@@ -140,6 +143,9 @@ export default function About({ setError }) {
                 onUpdate={updateMission}
                 type={"missionstatement"}
                 auth={auth}
+                editMode={editMode}
+                adminLink="missionstatement"
+                text="Mission Statement"
               />
               <ContentSection
                 title={historyData.title}
@@ -149,9 +155,14 @@ export default function About({ setError }) {
                 onUpdate={updateHistory}
                 type={"companyhistory"}
                 auth={auth}
+                editMode={editMode}
+                adminLink="companyhistory"
+                text="Company History"
               />
               <Grid item xs={12} sm={12} className={classes.section}>
-                {valuesData ? <Values valuesData={valuesData} /> : null}
+                {valuesData ? (
+                  <Values valuesData={valuesData} editMode={editMode} />
+                ) : null}
               </Grid>
             </Grid>
           </Paper>

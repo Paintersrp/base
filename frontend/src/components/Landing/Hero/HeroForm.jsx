@@ -9,6 +9,7 @@ import BaseForm from "../../Elements/Base/BaseForm";
 import useFormValidation from "../../../hooks/useFormValidation";
 import Validate from "../../../hooks/Validate";
 import { useDispatch } from "react-redux";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HeroForm() {
+function HeroForm({ editMode }) {
   const classes = useStyles();
   const [apiError, setApiError] = useState(null);
   const [formData, setFormData] = useState({});
@@ -165,6 +166,17 @@ function HeroForm() {
             buttonText="Get in touch"
           />
         </Grid>
+        {editMode && (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
+            <AdminButton link="messages" tooltipText="Messages" />
+          </div>
+        )}
       </BaseForm>
     </div>
   );

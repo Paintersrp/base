@@ -79,10 +79,10 @@ const useStyles = makeStyles((theme) => ({
         borderColor: "black",
       },
       "&:hover fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.secondary.main,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.primary.light,
       },
     },
     "& .MuiFormLabel-root": {
@@ -272,7 +272,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   value={formData.price}
                   onChange={handleInputChange}
                 />
-                <TextField
+                {/* <TextField
                   margin="dense"
                   className={classes.multiline}
                   variant="outlined"
@@ -302,7 +302,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   onChange={handleInputChange}
                   multiline
                   minRows={4}
-                />
+                /> */}
                 <ManyToManyField
                   data={formData.features}
                   handleManyToManyChange={handleManyToManyChange}
@@ -310,13 +310,13 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   verboseName="Features"
                   setFormData={setFormData}
                 />
-                <ManyToManyField
+                {/* <ManyToManyField
                   data={formData.supported_sites}
                   handleManyToManyChange={handleManyToManyChange}
                   fieldName="supported_sites"
                   verboseName="Supported Sites"
                   setFormData={setFormData}
-                />
+                /> */}
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <StyledButton
                     type="submit"

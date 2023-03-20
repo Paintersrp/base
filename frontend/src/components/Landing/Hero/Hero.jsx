@@ -36,10 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Hero({ heroData, setHeroData, contactData, form = true }) {
+function Hero({ heroData, setHeroData, contactData, editMode, form = true }) {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
-  const editmode = useSelector((state) => state.editmode);
   const auth = useSelector((state) => state.auth);
 
   const updateHeroBlock = (updatedHeroBlock) => {
@@ -51,7 +50,7 @@ function Hero({ heroData, setHeroData, contactData, form = true }) {
     <Grid container flex className={classes.container}>
       <Grid item xs={12}>
         <div className={classes.overlay}>
-          {!editing && editmode.editMode ? (
+          {!editing && editMode ? (
             <>
               <EditDeleteButtonMenu
                 editClick={() => setEditing(!editing)}
@@ -60,6 +59,7 @@ function Hero({ heroData, setHeroData, contactData, form = true }) {
                 position="center"
                 finalColor="white"
                 adminLink="heroblock"
+                text="Hero Block"
               />
             </>
           ) : null}
@@ -81,12 +81,16 @@ function Hero({ heroData, setHeroData, contactData, form = true }) {
           <Grid item xs={12} md={12}>
             <ContactButtons contactData={contactData} />
             <Grid container flex justifyContent="center">
-              <Social contactData={contactData} color="light" />
+              <Social
+                contactData={contactData}
+                color="light"
+                editMode={editMode}
+              />
             </Grid>
           </Grid>
         </div>
       </Grid>
-      {form ? <HeroForm /> : null}
+      {form ? <HeroForm editMode={editMode} /> : null}
     </Grid>
   );
 }

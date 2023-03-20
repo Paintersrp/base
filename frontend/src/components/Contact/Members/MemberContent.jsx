@@ -9,6 +9,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   cardContent: {
@@ -22,16 +23,35 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.light,
     },
   },
+  socialIcon: {
+    marginTop: theme.spacing(0),
+    display: "flex",
+    justifyContent: "center",
+    "&:hover": {
+      color: theme.palette.primary.light,
+    },
+  },
   iconButton: {
     color: theme.palette.primary.dark,
     "&:hover": {
-      color: theme.palette.primary.gold,
+      color: theme.palette.secondary.main,
+    },
+  },
+  iconButtonAlt: {
+    color: theme.palette.secondary.main,
+    "&:hover": {
+      color: theme.palette.secondary.main,
     },
   },
   body: {
     padding: 0,
     color: "black",
     minHeight: 100,
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
 }));
 
@@ -40,27 +60,27 @@ const MemberContent = ({ member }) => {
   const socialPlatforms = [
     {
       name: "facebook",
-      icon: <FacebookIcon className={classes.iconButton} />,
+      icon: <FacebookIcon />,
     },
     {
       name: "twitter",
-      icon: <TwitterIcon className={classes.iconButton} />,
+      icon: <TwitterIcon />,
     },
     {
       name: "instagram",
-      icon: <InstagramIcon className={classes.iconButton} />,
+      icon: <InstagramIcon />,
     },
     {
       name: "linkedIn",
-      icon: <LinkedInIcon className={classes.iconButton} />,
+      icon: <LinkedInIcon />,
     },
     {
       name: "youtube",
-      icon: <YouTubeIcon className={classes.iconButton} />,
+      icon: <YouTubeIcon />,
     },
     {
       name: "github",
-      icon: <GitHubIcon className={classes.iconButton} />,
+      icon: <GitHubIcon />,
     },
   ];
 
@@ -75,19 +95,25 @@ const MemberContent = ({ member }) => {
         {member.bio}
       </Typography>
       <div className={classes.socialIcons}>
-        {socialPlatforms.map((platform) => {
+        {socialPlatforms.map((platform, index) => {
           if (member[platform.name]) {
             return (
-              <IconButton
-                key={platform.name}
-                className={classes.socialIcons}
-                aria-label={platform.name}
-                href={`https://www.${platform.name}.com/${
-                  member[platform.name]
-                }`}
+              <Tooltip
+                title={`@${member[platform.name]}`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
               >
-                {platform.icon}
-              </IconButton>
+                <IconButton
+                  key={platform.name}
+                  className={classes.iconButton}
+                  aria-label={platform.name}
+                  href={`https://www.${platform.name}.com/${
+                    member[platform.name]
+                  }`}
+                >
+                  {platform.icon}
+                </IconButton>
+              </Tooltip>
             );
           } else {
             return null;

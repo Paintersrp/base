@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 import HowToRegSharpIcon from "@mui/icons-material/HowToRegSharp";
 import LoginSharpIcon from "@mui/icons-material/LoginSharp";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -25,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
+  },
 }));
 
 export default function NavigationUnauthed({ toggleDrawer }) {
@@ -32,30 +38,42 @@ export default function NavigationUnauthed({ toggleDrawer }) {
 
   return (
     <>
-      <ListItem
-        button
-        className={classes.links}
-        component={Link}
-        to="/register"
-        onClick={toggleDrawer(false)}
+      <Tooltip
+        title="Register Now"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
       >
-        <ListItemIcon style={{ color: "white" }}>
-          <HowToRegSharpIcon style={{ color: "#ff8c00" }} />
-        </ListItemIcon>
-        <ListItemText primary="Register" className={classes.linkText} />
-      </ListItem>
-      <ListItem
-        button
-        className={classes.links}
-        component={Link}
-        to="/login"
-        onClick={toggleDrawer(false)}
+        <ListItem
+          button
+          className={classes.links}
+          component={Link}
+          to="/register"
+          onClick={toggleDrawer(false)}
+        >
+          <ListItemIcon style={{ color: "white" }}>
+            <HowToRegSharpIcon style={{ color: "#ff8c00" }} />
+          </ListItemIcon>
+          <ListItemText primary="Register" className={classes.linkText} />
+        </ListItem>
+      </Tooltip>
+      <Tooltip
+        title="Login Now"
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
       >
-        <ListItemIcon style={{ color: "white" }}>
-          <LoginSharpIcon />
-        </ListItemIcon>
-        <ListItemText primary="Login" className={classes.linkText} />
-      </ListItem>
+        <ListItem
+          button
+          className={classes.links}
+          component={Link}
+          to="/login"
+          onClick={toggleDrawer(false)}
+        >
+          <ListItemIcon style={{ color: "white" }}>
+            <LoginSharpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Login" className={classes.linkText} />
+        </ListItem>
+      </Tooltip>
     </>
   );
 }

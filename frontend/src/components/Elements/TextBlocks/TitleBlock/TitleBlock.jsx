@@ -105,7 +105,7 @@ function TitleBlock({
       </Container>
 
       {description && (
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <FadeIntoViewPort onScreenPercentage={0.1} animationDuration={2}>
             <Typography
               variant="h5"

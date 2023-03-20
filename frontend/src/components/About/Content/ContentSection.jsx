@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
   },
   body: {
-    marginBottom: theme.spacing(1.5),
+    marginBottom: theme.spacing(0),
     fontWeight: 400,
+    fontSize: "1.01rem",
   },
   fadeIn: {
     opacity: 0,
@@ -45,6 +46,9 @@ const ContentSection = ({
   setEdit,
   onUpdate,
   type,
+  editMode,
+  adminLink,
+  text = "",
 }) => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
@@ -59,10 +63,12 @@ const ContentSection = ({
           >
             <Grid container justifyContent="space-between">
               {title}
-              {!editState && auth.is_superuser ? (
+              {!editState && editMode ? (
                 <EditDeleteButtonMenu
                   hideDelete
                   editClick={() => setEdit(!editState)}
+                  adminLink={adminLink}
+                  text={text}
                 />
               ) : null}
             </Grid>

@@ -20,6 +20,8 @@ const ResultsDisplay = ({
   benefitsData,
   benefitsBlock,
   setBenefitsBlock,
+  servicesTableData,
+  competitorsTableData,
 }) => {
   const classes = quizStyles();
   const theme = useTheme();
@@ -68,7 +70,15 @@ const ResultsDisplay = ({
           minWidth={160}
         />
       </Grid>
-      <TablesDisplay />
+      <TablesDisplay
+        tableData={servicesTableData}
+        heading="Compare Our Services"
+      />
+      <TablesDisplay
+        tableData={competitorsTableData}
+        heading="How We Stack Up"
+        direction="left"
+      />
       <Benefits
         benefits={benefitsData}
         block={benefitsBlock}

@@ -6,6 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 const useStyles = makeStyles((theme) => ({
   field: {
     width: "100%",
+    margin: theme.spacing(0, 0, 1, 0),
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
@@ -17,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
         borderColor: "black",
       },
       "&:hover fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.secondary.main,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "black",
+        borderColor: theme.palette.primary.light,
       },
     },
     "& .MuiFormLabel-root": {

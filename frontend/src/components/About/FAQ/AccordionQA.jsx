@@ -27,23 +27,23 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: "1.2rem",
     fontWeight: 700,
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     color: "black",
   },
   details: {
     padding: theme.spacing(2),
     backgroundColor: theme.palette.background.light,
     color: "black",
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     textAlign: "left",
   },
   summary: {
     backgroundColor: theme.palette.background.light,
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     color: "black",
   },
   detailsContainer: {
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   editContainer: {
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     alignItems: "center",
     backgroundColor: theme.palette.background.light,
     color: "black",
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   yesButton: {
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     width: "100%",
     marginTop: theme.spacing(2),
     marginRight: theme.spacing(1),
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   noButton: {
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     width: "100%",
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(1),
@@ -98,6 +98,7 @@ const AccordionQA = ({
   setEditing,
   handleCancel,
   edit = true,
+  editMode = false,
 }) => {
   const auth = useSelector((state) => state.auth);
   const classes = useStyles();
@@ -179,11 +180,13 @@ const AccordionQA = ({
                   {faq.question}
                 </Typography>
               </div>
-              {auth.is_superuser && edit ? (
+              {editMode && edit ? (
                 <>
                   <EditDeleteButtonMenu
                     editClick={() => setEditing(!editing)}
                     deleteClick={() => handleDelete(faq.id)}
+                    text={`FAQ`}
+                    obj={faq.id}
                   />
                 </>
               ) : null}

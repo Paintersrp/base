@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import AccordionQA from "./AccordionQA";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.background.light,
     fontWeight: "700",
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     textTransform: "uppercase",
     fontSize: "0.95rem",
     marginRight: 5,
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   tabsIndicator: {
     width: "100%",
     backgroundColor: theme.palette.background.light,
-    borderBottom: `3px solid ${theme.palette.secondary.dark}`,
+    borderBottom: `3px solid ${theme.palette.secondary.main}`,
   },
   sectionTitle: {
     fontWeight: "bold",
@@ -56,10 +57,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
     textAlign: "left",
     color: "black",
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
-const FAQAccordion = ({ setError }) => {
+const FAQAccordion = ({ setError, editMode }) => {
   const classes = useStyles();
   const [currentCategory, setCurrentCategory] = useState([]);
   const [faqs, setFaqs] = useState([]);
@@ -131,6 +134,7 @@ const FAQAccordion = ({ setError }) => {
             <>
               <Typography variant="h3" className={classes.sectionTitle}>
                 Frequently Asked Questions
+                {editMode && <AdminButton tooltipText="FAQ" link="faq" />}
               </Typography>
               <Tabs
                 value={currentCategory}
@@ -163,6 +167,7 @@ const FAQAccordion = ({ setError }) => {
                             setEditing(newEditing);
                           }}
                           handleCancel={() => handleCancel(index)}
+                          editMode={editMode}
                         />
                       </Grid>
                     ))

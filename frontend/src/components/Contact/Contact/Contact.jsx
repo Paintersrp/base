@@ -19,6 +19,7 @@ import Validate from "../../../hooks/Validate";
 import useFormValidation from "../../../hooks/useFormValidation";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { useDispatch } from "react-redux";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +46,34 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     paddingBottom: theme.spacing(2),
   },
+  formField: {
+    margin: theme.spacing(0, 0, 1, 0),
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: theme.palette.text.secondary,
+      },
+      "&:hover fieldset": {
+        borderColor: theme.palette.secondary.main,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.light,
+      },
+    },
+    "& .MuiFormLabel-root": {
+      color: "black",
+      fontWeight: "500",
+      fontSize: "0.9rem",
+    },
+    "& .MuiFormControl-root": {
+      margin: "0px !important",
+    },
+    "& input": {
+      color: "black",
+    },
+  },
 }));
 
-export default function Contact({ contactData, color = "light" }) {
+export default function Contact({ contactData, editMode, color = "light" }) {
   const classes = useStyles();
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
@@ -105,8 +131,16 @@ export default function Contact({ contactData, color = "light" }) {
             </Typography>
           </div>
           <div xs={12} sm={12} md={6}>
-            <Information showTitle={false} contactData={contactData} />
-            <Hours showTitle={false} contactData={contactData} />
+            <Information
+              showTitle={false}
+              editMode={editMode}
+              contactData={contactData}
+            />
+            <Hours
+              showTitle={false}
+              contactData={contactData}
+              editMode={editMode}
+            />
           </div>
           <div xs={12} sm={12} md={6}>
             <div style={{ width: "100%" }}>
@@ -229,11 +263,23 @@ export default function Contact({ contactData, color = "light" }) {
                     buttonText="Get in touch"
                   />
                 </Grid>
+                {editMode && (
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <AdminButton link="messages" tooltipText="Messages" />
+                  </div>
+                )}
               </BaseForm>
               <Social
                 color={color}
                 contactData={contactData}
                 showTitle={true}
+                editMode={editMode}
               />
             </div>
           </div>

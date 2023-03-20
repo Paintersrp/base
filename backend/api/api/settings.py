@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "support",
     "jobs",
     "general",
+    "tables",
+    "quizes",
 ]
 
 MIDDLEWARE = [

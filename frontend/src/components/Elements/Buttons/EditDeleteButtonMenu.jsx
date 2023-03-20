@@ -9,14 +9,9 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   tooltip: {
-    fontFamily: "Roboto",
-    fontSize: ".9rem",
-    fontWeight: 600,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "4px",
-    color: theme.palette.primary.contrastText,
-    minWidth: 65,
-    textAlign: "center",
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
   arrow: {
     color: theme.palette.primary.main,
@@ -26,11 +21,13 @@ const useStyles = makeStyles((theme) => ({
 const EditDeleteButtonMenu = ({
   hideDelete = false,
   position = "flex-end",
-  placement = "top",
+  placement = "bottom",
   editClick,
   deleteClick,
   finalColor = "primary",
   adminLink,
+  text = "",
+  obj = null,
 }) => {
   const classes = useStyles();
 
@@ -42,12 +39,11 @@ const EditDeleteButtonMenu = ({
       }}
     >
       <Tooltip
-        title="Edit"
+        title={obj ? `Edit ${text} Object: ${obj}` : `Edit ${text}`}
         classes={{
           tooltip: classes.tooltip,
           arrow: classes.arrow,
         }}
-        arrow
         placement={placement}
       >
         <IconButton
@@ -62,12 +58,11 @@ const EditDeleteButtonMenu = ({
       </Tooltip>
       {!hideDelete ? (
         <Tooltip
-          title="Delete"
+          title={obj ? `Delete ${text} Object: ${obj}` : `Delete ${text}`}
           classes={{
             tooltip: classes.tooltip,
             arrow: classes.arrow,
           }}
-          arrow
           placement={placement}
         >
           <IconButton
@@ -84,12 +79,11 @@ const EditDeleteButtonMenu = ({
       ) : null}
       {adminLink ? (
         <Tooltip
-          title="Admin Panel"
+          title={`${text} Admin Panel`}
           classes={{
             tooltip: classes.tooltip,
             arrow: classes.arrow,
           }}
-          arrow
           placement={placement}
         >
           <Link to={`/admin/${adminLink}`}>

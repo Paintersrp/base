@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pricingContainer: {
     display: "flex",
+    justifyContent: "center",
     flexWrap: "wrap",
     backgroundColor: theme.palette.background.light,
     maxWidth: 1400,

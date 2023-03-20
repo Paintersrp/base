@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.background.light,
   },
+  avatarAlt: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.background.light,
+  },
   fadeIn: {
     opacity: 0,
     animation: `$fadeIn 0.5s ease-in-out forwards`,
@@ -44,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Value({ value, edit = true }) {
+export default function Value({ value, index, start, edit = true, editMode }) {
   const classes = useStyles();
   const [valueData, setValueData] = useState(value);
   const [editing, setEditing] = useState(false);
@@ -85,16 +89,18 @@ export default function Value({ value, edit = true }) {
   };
 
   return (
-    <React.Fragment>
+    <React.Fragment key={index}>
       {!editing ? (
         <ListItem className={classes.fadeIn}>
-          <Avatar className={classes.avatar}>
+          <Avatar
+            className={index % 2 === start ? classes.avatar : classes.avatarAlt}
+          >
             <Icon icon={valueData.icon} />
           </Avatar>
           <Typography className={classes.subtitle}>
             <Grid container justifyContent="space-between" alignItems="center">
               {valueData.title}
-              {!editing && auth.is_superuser && edit && (
+              {!editing && editMode && edit && (
                 <>
                   <EditDeleteButtonMenu
                     hideDelete
@@ -102,6 +108,8 @@ export default function Value({ value, edit = true }) {
                     deleteClick={() => handleDelete(value.id)}
                     position="center"
                     placement="bottom"
+                    text={`Value`}
+                    obj={value.id}
                   />
                 </>
               )}

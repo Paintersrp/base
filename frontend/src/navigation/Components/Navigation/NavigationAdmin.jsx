@@ -5,6 +5,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 import AdminPanelSettingsSharpIcon from "@mui/icons-material/AdminPanelSettingsSharp";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -24,25 +25,36 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
+  },
 }));
 
 export default function NavigationAdmin({ toggleDrawer }) {
   const classes = useStyles();
 
   return (
-    <ListItem
-      button
-      className={classes.links}
-      component={Link}
-      to="/admin"
-      onClick={() => {
-        toggleDrawer(false);
-      }}
+    <Tooltip
+      title="Open Admin Dashboard"
+      placement="right"
+      classes={{ tooltip: classes.tooltip }}
     >
-      <ListItemIcon style={{ color: "white" }}>
-        <AdminPanelSettingsSharpIcon style={{ color: "#ff8c00" }} />
-      </ListItemIcon>
-      <ListItemText primary="Admin" className={classes.linkText} />
-    </ListItem>
+      <ListItem
+        button
+        className={classes.links}
+        component={Link}
+        to="/admin"
+        onClick={() => {
+          toggleDrawer(false);
+        }}
+      >
+        <ListItemIcon style={{ color: "white" }}>
+          <AdminPanelSettingsSharpIcon style={{ color: "#ff8c00" }} />
+        </ListItemIcon>
+        <ListItemText primary="Admin" className={classes.linkText} />
+      </ListItem>
+    </Tooltip>
   );
 }

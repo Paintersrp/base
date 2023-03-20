@@ -7,6 +7,9 @@ import {
   FaBalanceScale,
   FaCogs,
   FaGlobe,
+  FaMedium,
+  FaWix,
+  FaWordpress,
 } from "react-icons/fa";
 import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
 import LockIcon from "@material-ui/icons/Lock";
@@ -24,9 +27,18 @@ import { GiUpgrade } from "react-icons/gi";
 import { CgWebsite } from "react-icons/cg";
 import DatasetSharpIcon from "@mui/icons-material/DatasetSharp";
 import TableChartIcon from "@mui/icons-material/TableChart";
+import TokenSharpIcon from "@mui/icons-material/TokenSharp";
 
 const Icon = ({ icon, className }) => {
   switch (icon) {
+    case "TokenSharpIcon":
+      return <TokenSharpIcon fontSize="2.5rem" className={className} />;
+    case "FaWordpress":
+      return <FaWordpress fontSize="2.5rem" className={className} />;
+    case "FaMedium":
+      return <FaMedium fontSize="2.5rem" className={className} />;
+    case "FaWix":
+      return <FaWix fontSize="2.5rem" className={className} />;
     case "DatasetSharp":
       return <DatasetSharpIcon fontSize="2.5rem" className={className} />;
     case "TableChartIcon":

@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { useState } from "react";
 import Member from "./Member";
 import Flexbox from "../../Elements/Layout/Flexbox/Flexbox";
+import { IconButton, Tooltip } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,10 +28,12 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid black",
     paddingBottom: theme.spacing(1),
     color: "black",
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
-const Members = ({ membersData }) => {
+const Members = ({ membersData, editMode }) => {
   const classes = useStyles();
 
   return (
@@ -43,10 +47,13 @@ const Members = ({ membersData }) => {
               style={{ width: "100%" }}
             >
               Company Management
+              {editMode && (
+                <AdminButton link="teammember" tooltipText={"Team Members"} />
+              )}
             </Typography>
           </div>
           {membersData.map((member) => (
-            <Member member={member} />
+            <Member member={member} editMode={editMode} />
           ))}
         </Flexbox>
       ) : null}

@@ -31,7 +31,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Information({ contactData, showTitle = true }) {
+export default function Information({
+  contactData,
+  editMode,
+  showTitle = true,
+}) {
   const classes = useStyles();
   const { fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
@@ -84,7 +88,7 @@ export default function Information({ contactData, showTitle = true }) {
             </ListItem>
             <ListItem>
               <ListItemIcon style={{ justifyContent: "center" }}>
-                <PhoneIcon color="primary" style={{ fontSize: "1.75rem" }} />
+                <PhoneIcon color="secondary" style={{ fontSize: "1.75rem" }} />
               </ListItemIcon>
               <ListItemText
                 primary={
@@ -139,13 +143,15 @@ export default function Information({ contactData, showTitle = true }) {
               <ContactButtons contactData={data} />
             </ListItem>
           </List>
-          {!editing && auth.is_superuser ? (
+          {!editing && editMode ? (
             <div style={{ marginTop: 16 }}>
               <EditDeleteButtonMenu
                 hideDelete
                 position="center"
                 placement="bottom"
                 editClick={() => setEditing(!editing)}
+                text={"Contact Information"}
+                adminLink="contactinformation"
               />
             </div>
           ) : null}

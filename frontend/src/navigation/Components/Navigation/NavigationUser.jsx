@@ -6,6 +6,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   profileIcon: {
@@ -22,23 +23,34 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     background: theme.palette.primary.light,
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "14px",
+  },
 }));
 
 export default function NavigationUser({ username, toggleDrawer }) {
   const classes = useStyles();
 
   return (
-    <ListItem
-      button
-      className={classes.links}
-      component={Link}
-      to="/profile"
-      onClick={toggleDrawer(false)}
+    <Tooltip
+      title="View Account Profile"
+      placement="right"
+      classes={{ tooltip: classes.tooltip }}
     >
-      <ListItemIcon style={{ color: "white" }}>
-        <AccountCircle size={22} />
-      </ListItemIcon>
-      <ListItemText primary={`${username}`} className={classes.linkText} />
-    </ListItem>
+      <ListItem
+        button
+        className={classes.links}
+        component={Link}
+        to="/profile"
+        onClick={toggleDrawer(false)}
+      >
+        <ListItemIcon style={{ color: "white" }}>
+          <AccountCircle size={22} />
+        </ListItemIcon>
+        <ListItemText primary={`${username}`} className={classes.linkText} />
+      </ListItem>
+    </Tooltip>
   );
 }

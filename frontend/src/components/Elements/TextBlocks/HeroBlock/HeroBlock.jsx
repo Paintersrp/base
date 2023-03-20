@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Poppins",
     fontWeight: 700,
     textTransform: "uppercase",
-    marginBottom: theme.spacing(1),
-    fontSize: "1.25rem",
+    marginBottom: theme.spacing(0),
+    fontSize: "1.75rem",
     color: theme.palette.secondary.main,
+    textAlign: "center",
   },
   btnContainer: {
     display: "flex",
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   subheadline: {
     fontSize: "0.95rem",
     color: theme.palette.text.light,
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
     textAlign: "center",
     [theme.breakpoints.down("xs")]: {
       marginBottom: theme.spacing(1.5),
@@ -39,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     maxWidth: 500,
-    color: theme.palette.grey[500],
-    marginBottom: theme.spacing(2),
+    color: theme.palette.grey[400],
+    marginBottom: theme.spacing(4),
     textAlign: "center",
   },
 }));

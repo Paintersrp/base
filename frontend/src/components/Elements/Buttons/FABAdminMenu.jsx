@@ -141,7 +141,11 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
               {auth.is_superuser && (
                 <>
                   <Tooltip
-                    title="Toggle Edit Mode"
+                    title={
+                      editmode.editMode
+                        ? "Toggle Edit Mode Off"
+                        : "Toggle Edit Mode On"
+                    }
                     placement="left"
                     classes={{ tooltip: classes.tooltip }}
                   >
@@ -151,7 +155,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
                       onClick={handleEditClick}
                       size="small"
                     >
-                      {editing ? (
+                      {editmode.editMode ? (
                         <EditOffSharpIcon style={{ fontSize: "1.5rem" }} />
                       ) : (
                         <ModeEditSharpIcon style={{ fontSize: "1.5rem" }} />
