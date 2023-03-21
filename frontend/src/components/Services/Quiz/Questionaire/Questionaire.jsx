@@ -14,18 +14,23 @@ import {
   Stepper,
   Box,
   useMediaQuery,
+  TextField,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import NavigationButtons from "./NavigationButtons";
 import { quizStyles } from "../styles";
 import { calculateQuizResult } from "../Quiz/QuizUtiils";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import AdminButton from "../../../Elements/Buttons/AdminButton";
+import Validate from "../../../../hooks/Validate";
+import useFormValidation from "../../../../hooks/useFormValidation";
 
 const Questionaire = ({
   services,
   setRecommendedServices,
   setUnrecommendedServices,
   quizData,
+  editMode,
 }) => {
   const classes = quizStyles();
   const theme = useTheme();
@@ -35,11 +40,13 @@ const Questionaire = ({
   const [nextDisabled, setNextDisabled] = useState(false);
   const [prevDisabled, setPrevDisabled] = useState(true);
 
+  const [contactData, setContactData] = useState({});
   const [weeklyServiceHours, setWeeklyServiceHours] = useState("");
   const [weeklyServiceId, setWeeklyServiceId] = useState("");
   const [hourlyBudget, setHourlyBudget] = useState("");
   const [hourlyBudgetId, setHourlyBudgetId] = useState("");
   const [preferredFeatures, setPreferredFeatures] = useState([]);
+  const [preferredFeaturesId, setPreferredFeaturesId] = useState([]);
   const [serviceScores, setServiceScores] = useState({});
 
   const serviceFeatures = [];
@@ -75,11 +82,16 @@ const Questionaire = ({
   };
 
   const handlePreferredFeatureChange = (event, feature) => {
+    console.log("feature", feature);
     if (event.target.checked) {
-      setPreferredFeatures((prevState) => [...prevState, feature]);
+      setPreferredFeatures((prevState) => [...prevState, feature.text]);
+      setPreferredFeaturesId((prevState) => [...prevState, feature.id]);
     } else {
       setPreferredFeatures((prevState) =>
-        prevState.filter((item) => item !== feature)
+        prevState.filter((item) => item !== feature.text)
+      );
+      setPreferredFeaturesId((prevState) =>
+        prevState.filter((item) => item !== feature.id)
       );
     }
   };
@@ -103,9 +115,13 @@ const Questionaire = ({
       JSON.stringify({
         [newQuestions[0].id]: weeklyServiceId,
         [newQuestions[1].id]: hourlyBudgetId,
-
+        [newQuestions[2].id]: preferredFeaturesId,
       })
     );
+    formData.append("contact_name", values.fullName);
+    formData.append("contact_email", values.email);
+    formData.append("contact_phone", values.phone);
+    formData.append("contact_state", values.state);
 
     axiosInstance
       .post(`/questionnaireresults/`, formData)
@@ -120,7 +136,7 @@ const Questionaire = ({
   const handleNext = () => {
     const newStep = currentStep + 1;
     setCurrentStep(newStep);
-    if (newStep === newQuestions.length) {
+    if (newStep === newQuestions.length + 1) {
       setNextDisabled(true);
     } else {
       setPrevDisabled(false);
@@ -156,7 +172,25 @@ const Questionaire = ({
     });
   };
 
-  console.log("quizData: ", quizData.question_sets[0].questions);
+  // const handleChange = (event) => {
+  //   const { name, value, checked } = event.target;
+  //   setContactData({
+  //     ...contactData,
+  //     [name]: value,
+  //   });
+  //   console.log(contactData);
+  // };
+
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormValidation(contactData, Validate, handleQuizResult);
+
+  console.log("quizData: ", quizData);
   const newQuestions = quizData.question_sets[0].questions;
 
   return (
@@ -167,6 +201,14 @@ const Questionaire = ({
       }}
       className={`${classes.formContainer} ${classes.fadeIn}`}
     >
+      {editMode && (
+        <div
+          style={{ display: "flex", width: "100%", justifyContent: "flex-end" }}
+        >
+          <AdminButton link="questionnaire" tooltipText="Questionnaire" />
+        </div>
+      )}
+
       <Typography variant="h2" align="center" className={classes.formHeader}>
         Service Finder
       </Typography>
@@ -180,93 +222,182 @@ const Questionaire = ({
         >
           {newQuestions.map((set, index) => (
             <Step key={set.id}>
-              <StepLabel>{set.text}</StepLabel>
+              <StepLabel>{set.slug}</StepLabel>
             </Step>
           ))}
-          <Step key="Features">
-            <StepLabel>Features</StepLabel>
+          <Step key="Submit">
+            <StepLabel>Submit</StepLabel>
           </Step>
         </Stepper>
-
         {currentStep < newQuestions.length ? (
-          <Grid container flex justifyContent="center">
-            <FormControl
-              component="fieldset"
-              className={classes.fieldset}
-              style={{
-                maxWidth: isSmallScreen ? 500 : null,
-                width: isSmallScreen ? "100%" : 800,
-              }}
-            >
-              <FormLabel component="legend" className={classes.formLabel}>
-                {newQuestions.map(
-                  (set, index) => currentStep === index && set.text
-                )}
-              </FormLabel>
+          <>
+            {!newQuestions[currentStep].text.includes("feature") ? (
+              <Grid container flex justifyContent="center">
+                <FormControl
+                  component="fieldset"
+                  className={classes.fieldset}
+                  style={{
+                    maxWidth: isSmallScreen ? 500 : null,
+                    width: isSmallScreen ? "100%" : 800,
+                  }}
+                >
+                  <FormLabel component="legend" className={classes.formLabel}>
+                    {newQuestions.map(
+                      (set, index) => currentStep === index && set.text
+                    )}
+                  </FormLabel>
 
-              <RadioGroup
-                aria-label={newQuestions[currentStep].name}
-                name={newQuestions[currentStep].value}
-                value={
-                  newQuestions[currentStep].order === 1
-                    ? weeklyServiceHours
-                    : newQuestions[currentStep].order === 2
-                    ? hourlyBudget
-                    : newQuestions[currentStep].order === 3
-                    ? weeklyServiceHours
-                    : "Ass"
-                }
-                onChange={
-                  currentStep === 0
-                    ? handleServiceHoursChange
-                    : currentStep === 1
-                    ? handleHourlyBudgetChange
-                    : currentStep === 2
-                    ? handleServiceHoursChange
-                    : null
-                }
-                className={classes.radioGroup}
-              >
-                {newQuestions[currentStep].answer_choices.map((data, index) => (
-                  <FormControlLabel
-                    value={Number(data.value)}
-                    control={<Radio color="primary" />}
-                    label={data.text}
-                    className={classes.formControlLabel}
-                    classes={{ root: classes.formControlRootLabel }}
+                  <RadioGroup
+                    aria-label={newQuestions[currentStep].name}
+                    name={newQuestions[currentStep].value}
+                    value={
+                      newQuestions[currentStep].order === 1
+                        ? weeklyServiceHours
+                        : newQuestions[currentStep].order === 2
+                        ? hourlyBudget
+                        : newQuestions[currentStep].order === 3
+                        ? weeklyServiceHours
+                        : "Ass"
+                    }
+                    onChange={
+                      currentStep === 0
+                        ? handleServiceHoursChange
+                        : currentStep === 1
+                        ? handleHourlyBudgetChange
+                        : currentStep === 2
+                        ? handleServiceHoursChange
+                        : null
+                    }
+                    className={classes.radioGroup}
+                  >
+                    {newQuestions[currentStep].answer_choices.map(
+                      (data, index) => (
+                        <FormControlLabel
+                          value={Number(data.value)}
+                          control={<Radio color="primary" />}
+                          label={data.text}
+                          className={classes.formControlLabel}
+                          classes={{ root: classes.formControlRootLabel }}
+                        />
+                      )
+                    )}
+                  </RadioGroup>
+                  <br />
+                </FormControl>
+                <NavigationButtons
+                  onClickBtnOne={handlePrev}
+                  onClickBtnTwo={handleNext}
+                  onClickBtnThree={handleSkip}
+                  disabledBtnOne={prevDisabled}
+                  disabledBtnTwo={nextDisabled}
+                />
+              </Grid>
+            ) : (
+              <Grid container flex justifyContent="center">
+                <FormControl component="fieldset" className={classes.fieldset}>
+                  <FormLabel component="legend" className={classes.formLabel}>
+                    What feature is most important to you?
+                  </FormLabel>
+                  <FormGroup>
+                    {newQuestions[currentStep].answer_choices.map(
+                      (data, index) => (
+                        <FormControlLabel
+                          checked={preferredFeatures.includes(data.text)}
+                          control={<Checkbox color="primary" />}
+                          label={data.text}
+                          className={classes.formControlLabel}
+                          classes={{ root: classes.formControlRootLabel }}
+                          onChange={(event) =>
+                            handlePreferredFeatureChange(event, data)
+                          }
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                  <br />
+                </FormControl>
+                <Box mt={3} display="flex" justifyContent="space-between">
+                  <NavigationButtons
+                    onClickBtnOne={handlePrev}
+                    onClickBtnTwo={handleNext}
+                    onClickBtnThree={handleSkip}
+                    disabledBtnOne={prevDisabled}
+                    disabledBtnTwo={nextDisabled}
                   />
-                ))}
-              </RadioGroup>
-              <br />
-            </FormControl>
-            <NavigationButtons
-              onClickBtnOne={handlePrev}
-              onClickBtnTwo={handleNext}
-              onClickBtnThree={handleSkip}
-              disabledBtnOne={prevDisabled}
-              disabledBtnTwo={nextDisabled}
-            />
-          </Grid>
+                </Box>
+              </Grid>
+            )}
+          </>
         ) : (
           <Grid container flex justifyContent="center">
             <FormControl component="fieldset" className={classes.fieldset}>
               <FormLabel component="legend" className={classes.formLabel}>
-                What feature is most important to you?
+                Contact Information
               </FormLabel>
-              <FormGroup>
-                {serviceFeatures.map((feature, index) => (
-                  <FormControlLabel
-                    key={index}
-                    checked={preferredFeatures.includes(feature)}
-                    control={<Checkbox color="primary" />}
-                    label={feature}
-                    onChange={(event) =>
-                      handlePreferredFeatureChange(event, feature)
-                    }
-                    className={classes.formControlLabel}
+              <Grid container flex justifyContent="center">
+                <Grid item xs={6} style={{ paddingRight: 4 }}>
+                  <TextField
+                    margin="dense"
+                    label="Full Name"
+                    id="fullName"
+                    name="fullName"
+                    variant="outlined"
+                    value={values.name}
+                    fullWidth
+                    className={classes.formField}
+                    onChange={handleChange}
+                    error={!!errors.name}
+                    helperText={errors.name}
+                    required
                   />
-                ))}
-              </FormGroup>
+                </Grid>
+                <Grid item xs={6} style={{ paddingLeft: 4 }}>
+                  <TextField
+                    margin="dense"
+                    label="Email"
+                    id="email"
+                    name="email"
+                    variant="outlined"
+                    value={values.email}
+                    fullWidth
+                    className={classes.formField}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6} style={{ paddingRight: 4 }}>
+                  <TextField
+                    margin="dense"
+                    label="Phone"
+                    id="phone"
+                    name="phone"
+                    variant="outlined"
+                    fullWidth
+                    value={values.phone}
+                    className={classes.formField}
+                    error={!!errors.phone}
+                    helperText={errors.phone}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={6} style={{ paddingLeft: 4 }}>
+                  <TextField
+                    margin="dense"
+                    label="State of Residence"
+                    id="state"
+                    name="state"
+                    variant="outlined"
+                    fullWidth
+                    value={values.state}
+                    className={classes.formField}
+                    error={!!errors.state}
+                    helperText={errors.state}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
               <br />
             </FormControl>
             <Box mt={3} display="flex" justifyContent="space-between">

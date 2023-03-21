@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Benefits = ({ benefits, block, setBlock }) => {
+const Benefits = ({ benefits, block, setBlock, editMode }) => {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -39,14 +39,28 @@ const Benefits = ({ benefits, block, setBlock }) => {
     setEditing(false);
   };
 
+  // {editMode && (
+  //   <div
+  //     style={{
+  //       display: "flex",
+  //       width: "100%",
+  //       justifyContent: "flex-end",
+  //     }}
+  //   >
+  //     <AdminButton link="servicetable" tooltipText="Tables" />
+  //   </div>
+  // )}
+
   return (
     <div className={classes.root}>
       <Container maxWidth="xl" style={{ width: "100%" }}>
-        {!editing && auth.is_superuser ? (
+        {!editing && editMode ? (
           <div style={{ marginTop: 20, maxWidth: 1000 }}>
             <EditDeleteButtonMenu
               hideDelete
               editClick={() => setEditing(!editing)}
+              adminLink="titleblock"
+              text="Title Block"
             />
           </div>
         ) : null}
@@ -80,7 +94,7 @@ const Benefits = ({ benefits, block, setBlock }) => {
                 className={classes.gridItem}
                 key={benefit.title}
               >
-                <Benefit benefit={benefit} />
+                <Benefit benefit={benefit} editMode={editMode} />
               </Grid>
             ))}
           </Grid>

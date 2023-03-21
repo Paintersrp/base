@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ServicesResult = ({ recommendedId, others }) => {
+const ServicesResult = ({ recommendedId, others, editMode }) => {
   const classes = useStyles();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -42,7 +42,7 @@ const ServicesResult = ({ recommendedId, others }) => {
             transform:
               index === activeIndex
                 ? "translateX(0%) scale(1)"
-                : "translateX(0%) scale(0.95)",
+                : "translateX(0%) scale(1)",
             transition: "all 0.3s ease",
           }}
           onClick={() => handleClick(index)}
@@ -52,6 +52,7 @@ const ServicesResult = ({ recommendedId, others }) => {
             service={service}
             active={index === activeIndex}
             recommendedId={recommendedId}
+            editMode={editMode}
           />
         </Grid>
       ))}

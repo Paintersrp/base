@@ -3,7 +3,7 @@ import PageContainer from "../../Elements/Layout/PageContainer";
 import { Grid, makeStyles } from "@material-ui/core";
 import Quiz from "../Quiz/Quiz/Quiz";
 import FABMenu from "../../Elements/Buttons/FABAdminMenu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 
@@ -25,6 +25,7 @@ function ServicesPage({ handleUpdate }) {
   const [services, setServices] = useState(false);
   const [benefitsBlock, setBenefitsBlock] = useState([]);
   const [editing, setEditing] = useState(false);
+  const editmode = useSelector((state) => state.editmode);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -93,6 +94,7 @@ function ServicesPage({ handleUpdate }) {
         benefitsBlock={benefitsBlock}
         setBenefitsBlock={setBenefitsBlock}
         quizData={quizData}
+        editMode={editmode.editMode}
       />
     </PageContainer>
   );

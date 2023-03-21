@@ -18,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   noHoverButton: {
-    padding: 6.5,
-    marginRight: theme.spacing(0),
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
+    },
+    "& .MuiButton-startIcon": {
+      margin: "0px !important",
     },
   },
   startIcon: {

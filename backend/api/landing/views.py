@@ -2,7 +2,7 @@ from rest_framework import status, generics, mixins, viewsets
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
-from about.models import ContactInformation
+from contact.models import ContactInformation, Socials
 from articles.models import Articles
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
@@ -18,6 +18,7 @@ class LandingFull(object):
         service_tiers,
         processes,
         contact_information,
+        socials,
         articles,
     ):
 
@@ -27,6 +28,7 @@ class LandingFull(object):
         self.service_tiers = service_tiers
         self.processes = processes
         self.contact_information = contact_information
+        self.socials = socials
         self.articles = articles
 
 
@@ -40,6 +42,7 @@ class LandingFullView(generics.GenericAPIView):
         service_tiers = ServiceTier.objects.all()
         processes = Process.objects.all()
         contact_information = ContactInformation.objects.first()
+        socials = Socials.objects.first()
         articles = Articles.objects.filter(is_highlighted=True)
 
         landing_full = LandingFull(
@@ -49,6 +52,7 @@ class LandingFullView(generics.GenericAPIView):
             service_tiers,
             processes,
             contact_information,
+            socials,
             articles,
         )
 

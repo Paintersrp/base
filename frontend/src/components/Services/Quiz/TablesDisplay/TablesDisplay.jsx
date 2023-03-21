@@ -9,6 +9,8 @@ const TablesDisplay = ({
   heading = null,
   direction = "right",
   currentId = null,
+  links = true,
+  editMode,
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -35,6 +37,8 @@ const TablesDisplay = ({
               tableData={tableData}
               heading={heading}
               currentId={currentId}
+              links={links}
+              editMode={editMode}
             />
           </Grid>
         </Grid>

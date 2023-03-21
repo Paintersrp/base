@@ -27,6 +27,8 @@ import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import MultiParagraphEditor from "../Blog/Page";
+import QuestionnaireAnalysis from "../../Admin/Panel/Analysis";
+import SurveyAnalysis from "../../Admin/Panel/SurveyAnalysis";
 
 const actions = [
   <Grid
@@ -201,6 +203,8 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
+      <QuestionnaireAnalysis />
+      <SurveyAnalysis />
       <LayeredGradientBackground>
         <MultiParagraphEditor />
         <TestForm />

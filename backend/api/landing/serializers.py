@@ -10,7 +10,7 @@ from .models import (
     Testimonial,
     Process,
 )
-from about.serializers import ContactInformationSerializer
+from contact.serializers import ContactInformationSerializer, SocialsSerializer
 from articles.serializers import ArticleSerializer
 from api.views import get_model_metadata
 
@@ -111,6 +111,7 @@ class LandingFullSerializer(serializers.Serializer):
     service_tiers = ServiceTierSerializer(many=True)
     processes = ProcessSerializer(many=True)
     contact_information = ContactInformationSerializer()
+    socials = SocialsSerializer()
     articles = ArticleSerializer(many=True)
     metadata = serializers.SerializerMethodField()
 

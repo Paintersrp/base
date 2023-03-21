@@ -9,11 +9,13 @@ import {
   TableRow,
   Paper,
   makeStyles,
+  Tooltip,
 } from "@material-ui/core";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import { Link } from "react-router-dom";
 import Icon from "../../../Elements/Icon/Icon";
 import LinkSharpIcon from "@mui/icons-material/LinkSharp";
+import AdminButton from "../../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -66,12 +68,19 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: "2.5rem",
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 const ComparisonTable = ({
   tableData = null,
   heading = "Compare Our Services",
   currentId = null,
+  links = true,
+  editMode,
 }) => {
   const classes = useStyles();
 
@@ -79,10 +88,22 @@ const ComparisonTable = ({
     <Grid container justifyContent="center" alignItems="center">
       <Grid item style={{ width: "100%", maxWidth: 1000 }}>
         <TableContainer component={Paper} className={classes.tableContainer}>
+          {editMode && (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "flex-end",
+              }}
+            >
+              <AdminButton link="servicetable" tooltipText="Tables" />
+            </div>
+          )}
+
           <Typography variant="h3" align="center" gutterBottom>
             {heading}
           </Typography>
-          <Table>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell className={classes.headerCell}>
@@ -152,37 +173,61 @@ const ComparisonTable = ({
                   </TableRow>
                 </>
               ))}
-              <TableCell className={classes.buttonCell}></TableCell>
-              <TableCell className={classes.buttonCell}>
-                <Link to={`/services/2/`}>
-                  <StyledButton
-                    size="small"
-                    buttonText="Learn More"
-                    disabled={parseInt(currentId) === 2 ? true : false}
-                    startIcon={<LinkSharpIcon />}
-                  />
-                </Link>
-              </TableCell>
-              <TableCell className={classes.buttonCell}>
-                <Link to={`/services/3/`}>
-                  <StyledButton
-                    size="small"
-                    buttonText="Learn More"
-                    disabled={parseInt(currentId) === 3 ? true : false}
-                    startIcon={<LinkSharpIcon />}
-                  />
-                </Link>
-              </TableCell>
-              <TableCell className={classes.buttonCell}>
-                <Link to={`/services/4/`}>
-                  <StyledButton
-                    size="small"
-                    buttonText="Learn More"
-                    disabled={parseInt(currentId) === 4 ? true : false}
-                    startIcon={<LinkSharpIcon />}
-                  />
-                </Link>
-              </TableCell>
+
+              {links && (
+                <>
+                  <TableCell className={classes.buttonCell}></TableCell>
+                  <TableCell className={classes.buttonCell}>
+                    <Tooltip
+                      title="Personal Tier Page"
+                      placement="bottom"
+                      classes={{ tooltip: classes.tooltip }}
+                    >
+                      <Link to={`/services/2/`}>
+                        <StyledButton
+                          size="small"
+                          buttonText="Learn More"
+                          disabled={parseInt(currentId) === 2 ? true : false}
+                          startIcon={<LinkSharpIcon />}
+                        />
+                      </Link>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell className={classes.buttonCell}>
+                    <Tooltip
+                      title="Professional Tier Page"
+                      placement="bottom"
+                      classes={{ tooltip: classes.tooltip }}
+                    >
+                      <Link to={`/services/3/`}>
+                        <StyledButton
+                          size="small"
+                          buttonText="Learn More"
+                          disabled={parseInt(currentId) === 3 ? true : false}
+                          startIcon={<LinkSharpIcon />}
+                        />
+                      </Link>
+                    </Tooltip>
+                  </TableCell>
+
+                  <TableCell className={classes.buttonCell}>
+                    <Tooltip
+                      title="Enterprise Tier Page"
+                      placement="bottom"
+                      classes={{ tooltip: classes.tooltip }}
+                    >
+                      <Link to={`/services/4/`}>
+                        <StyledButton
+                          size="small"
+                          buttonText="Learn More"
+                          disabled={parseInt(currentId) === 4 ? true : false}
+                          startIcon={<LinkSharpIcon />}
+                        />
+                      </Link>
+                    </Tooltip>
+                  </TableCell>
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

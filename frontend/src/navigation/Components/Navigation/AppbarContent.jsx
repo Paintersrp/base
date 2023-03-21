@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
-import { Grid, Tooltip } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import SubjectIcon from "@mui/icons-material/Subject";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,11 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
   altIcon: {
     color: theme.palette.secondary.main,
-  },
-  tooltip: {
-    backgroundColor: theme.palette.text.secondary,
-    color: "#ffffff",
-    fontSize: "14px",
   },
 }));
 
@@ -121,6 +116,7 @@ export default function AppbarContent({
                 >
                   About
                 </Link>
+
                 <Link
                   to="/contact"
                   className={classes.navLink}

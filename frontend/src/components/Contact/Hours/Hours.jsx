@@ -46,16 +46,16 @@ const daysOfWeek = [
   "Sunday",
 ];
 
-export default function Hours({ contactData, editMode, showTitle = true }) {
+export default function Hours({ hoursData, editMode, showTitle = true }) {
   const classes = useStyles();
   const { flexCenter, fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);
-  const [data, setData] = useState(contactData);
+  const [data, setData] = useState(hoursData);
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    setData(contactData);
-  }, [contactData]);
+    setData(hoursData);
+  }, [hoursData]);
 
   const updateContactData = (updatedData) => {
     setData(updatedData);

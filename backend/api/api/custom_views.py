@@ -4,6 +4,7 @@ from rest_framework.exceptions import NotFound
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
 from django.db.models import ImageField
+from django.contrib.contenttypes.models import ContentType
 
 
 class BaseListView(generics.ListCreateAPIView):
@@ -12,7 +13,18 @@ class BaseListView(generics.ListCreateAPIView):
     foreign_key_fields = []
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         data = request.data.copy()
+
+        if request.data.get("content_type"):
+            print("yes")
+            content_type = request.data.get("content_type")
+            object_id = request.data.get("object_id")
+            content_object = ContentType.objects.get_for_id(
+                content_type
+            ).get_object_for_this_type(id=object_id)
+            request.data["content_object"] = content_object
+            print(content_object)
 
         for field in self.foreign_key_fields:
             print(field)
@@ -34,6 +46,9 @@ class BaseListView(generics.ListCreateAPIView):
                 print(data)
 
         serializer = self.get_serializer(data=data)
+
+        serializer.is_valid()
+        print(serializer.errors)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 

@@ -16,6 +16,7 @@ import useTablePagination from "../../../../hooks/useTablePagination";
 import { Pagination } from "../../../Elements/Fields/Pagination";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -44,6 +45,7 @@ const PanelTable = ({
   handleConfirmDelete,
   handleMultipleDeleteAction,
   updateMultipleItems,
+  handleView,
 }) => {
   console.log("keys: ", keys);
   console.log("metadata: ", metadata);
@@ -237,6 +239,14 @@ const PanelTable = ({
               </>
             ))}
 
+            {model.model_name === "questionnaire" ? (
+              <TableCell
+                className={classes.headerCell}
+                style={{ textAlign: "center" }}
+              >
+                View
+              </TableCell>
+            ) : null}
             <TableCell
               className={classes.headerCell}
               style={{ textAlign: "center" }}
@@ -326,6 +336,17 @@ const PanelTable = ({
                     )}
                   </React.Fragment>
                 ))}
+
+                {model.model_name === "questionnaire" ? (
+                  <TableCell
+                    style={{ width: "5%" }}
+                    className={classes.tableCell}
+                  >
+                    <IconButton size="small" onClick={() => handleView(item)}>
+                      <BarChartIcon color="info" />
+                    </IconButton>
+                  </TableCell>
+                ) : null}
 
                 <TableCell
                   style={{ width: "5%" }}

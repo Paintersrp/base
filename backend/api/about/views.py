@@ -7,6 +7,7 @@ from jobs.models import JobPosting
 from auditlog.models import LogEntry
 from api.utilities import create_log_entry, return_changes
 from api.custom_views import *
+from contact.models import *
 
 
 class AboutFull(object):
@@ -17,7 +18,9 @@ class AboutFull(object):
         company_history,
         core_values,
         team_members,
-        contact_information,
+        contact_information2,
+        socials,
+        hours,
         jobs,
     ):
         self.about_block = about_block
@@ -25,7 +28,9 @@ class AboutFull(object):
         self.company_history = company_history
         self.core_values = core_values
         self.team_members = team_members
-        self.contact_information = contact_information
+        self.contact_information2 = contact_information2
+        self.socials = socials
+        self.hours = hours
         self.jobs = jobs
 
 
@@ -38,7 +43,9 @@ class AboutFullView(generics.GenericAPIView):
         company_history = CompanyHistory.objects.first()
         core_values = Value.objects.all()
         team_members = TeamMember.objects.all()
-        contact_information = ContactInformation.objects.first()
+        contact_information2 = ContactInformation.objects.first()
+        socials = Socials.objects.first()
+        hours = Hours.objects.first()
         jobs = JobPosting.objects.filter(filled=False)
 
         about_full = AboutFull(
@@ -47,7 +54,9 @@ class AboutFullView(generics.GenericAPIView):
             company_history,
             core_values,
             team_members,
-            contact_information,
+            contact_information2,
+            socials,
+            hours,
             jobs,
         )
 
@@ -108,24 +117,6 @@ class CompanyHistoryBulkAPIView(BaseBulkView):
     queryset = CompanyHistory.objects.all()
     serializer_class = CompanyHistorySerializer
     model_class = CompanyHistory
-
-
-class ContactInformationAPIView(BaseListView):
-    queryset = ContactInformation.objects.all()
-    serializer_class = ContactInformationSerializer
-    model_class = ContactInformation
-
-
-class ContactInformationDetailAPIView(BaseDetailView):
-    queryset = ContactInformation.objects.all()
-    serializer_class = ContactInformationSerializer
-    model_class = ContactInformation
-
-
-class ContactInformationBulkAPIView(BaseBulkView):
-    queryset = ContactInformation.objects.all()
-    serializer_class = ContactInformationSerializer
-    model_class = ContactInformation
 
 
 class FAQListCreateView(generics.ListCreateAPIView):
@@ -244,21 +235,3 @@ class ValueBulkAPIView(BaseBulkView):
     queryset = Value.objects.all()
     serializer_class = ValueSerializer
     model_class = Value
-
-
-class TeamMemberAPIView(BaseListView):
-    queryset = TeamMember.objects.all()
-    serializer_class = TeamMemberSerializer
-    model_class = TeamMember
-
-
-class TeamMemberDetailAPIView(BaseDetailView):
-    queryset = TeamMember.objects.all()
-    serializer_class = TeamMemberSerializer
-    model_class = TeamMember
-
-
-class TeamMemberBulkAPIView(BaseBulkView):
-    queryset = TeamMember.objects.all()
-    serializer_class = TeamMemberSerializer
-    model_class = TeamMember

@@ -13,11 +13,14 @@ import {
   ListItemIcon,
   CardActionArea,
   Badge,
+  Tooltip,
 } from "@material-ui/core";
 import { FaCheck } from "react-icons/fa";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import { Link } from "react-router-dom";
 import LinkSharpIcon from "@mui/icons-material/LinkSharp";
+import PricingEdit from "../../../Landing/Pricing/PricingEdit";
+import EditDeleteButtonMenu from "../../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(0),
     },
   },
-
   description: {
     paddingTop: theme.spacing(1),
   },
@@ -80,11 +82,30 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: theme.spacing(1),
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+    marginTop: 4,
+  },
 }));
 
-const SelectedService = ({ service, active, recommendedId, newImage }) => {
+const SelectedService = ({
+  service,
+  active,
+  recommendedId,
+  newImage,
+  editMode,
+}) => {
   const classes = useStyles();
   const [hovered, setHovered] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [serviceData, setServiceData] = useState(service);
+
+  const updateData = (updateData) => {
+    setServiceData(updateData);
+    setEditing(false);
+  };
 
   return (
     <Card
@@ -92,7 +113,7 @@ const SelectedService = ({ service, active, recommendedId, newImage }) => {
       style={{
         minHeight: 400,
         width: active ? 325 : 325,
-        opacity: active ? 1 : hovered ? 0.7 : 0.5,
+        opacity: active ? 1 : hovered ? 0.8 : 0.6,
         transition: "all 0.3s ease",
       }}
       onMouseEnter={() => setHovered(true)}
@@ -116,51 +137,86 @@ const SelectedService = ({ service, active, recommendedId, newImage }) => {
         )}
 
         <Grid xs={12} style={{ width: "100%" }}>
-          <div style={{ width: "100%" }}>
-            <Grid xs={12}>
-              <CardMedia
-                className={classes.cardMedia}
-                image={newImage ? newImage : service.image}
-                title={service.service_title}
-              />
-            </Grid>
-            <div className={classes.details}>
-              <CardContent className={classes.content}>
-                <Typography variant="h2">{service.service_title}</Typography>
-                <Typography variant="subtitle2" className={classes.description}>
-                  Monthly Price: ${service.price}
-                </Typography>
-              </CardContent>
-              <List dense className={classes.list}>
-                <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
-                  <ListItemText secondary={`${service.paragraph_one}`} />
-                </ListItem>
-                <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
-                  <ListItemText primary="Features:" />
-                </ListItem>
-
-                {service.features &&
-                  service.features.map((feature, index) => (
-                    <ListItem key={index}>
-                      <ListItemIcon>
-                        <FaCheck className={classes.featureIcon} />
-                      </ListItemIcon>
-                      <ListItemText secondary={feature.detail} />
+          {!editing ? (
+            <>
+              <div style={{ width: "100%" }}>
+                <Grid xs={12}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={newImage ? newImage : serviceData.image}
+                    title={serviceData.service_title}
+                  />
+                </Grid>
+                <div className={classes.details}>
+                  <CardContent className={classes.content}>
+                    <Typography variant="h2">
+                      {serviceData.service_title}
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.description}
+                    >
+                      Monthly Price: ${serviceData.price}
+                    </Typography>
+                  </CardContent>
+                  <List dense className={classes.list}>
+                    <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
+                      <ListItemText
+                        secondary={`${serviceData.paragraph_one}`}
+                      />
                     </ListItem>
-                  ))}
-              </List>
-            </div>
-          </div>
+                    <ListItem style={{ paddingLeft: 0, marginLeft: 0 }}>
+                      <ListItemText primary="Features:" />
+                    </ListItem>
 
-          <Link
-            to={`/services/${service.id}`}
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            <StyledButton
-              startIcon={<LinkSharpIcon />}
-              buttonText="Learn More"
+                    {serviceData.features &&
+                      serviceData.features.map((feature, index) => (
+                        <ListItem key={index}>
+                          <ListItemIcon>
+                            <FaCheck className={classes.featureIcon} />
+                          </ListItemIcon>
+                          <ListItemText secondary={feature.detail} />
+                        </ListItem>
+                      ))}
+                  </List>
+                </div>
+              </div>
+              <Tooltip
+                title={`${serviceData.service_title} Page`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <Link
+                  to={`/services/${serviceData.id}`}
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <StyledButton
+                    startIcon={<LinkSharpIcon />}
+                    buttonText="Learn More"
+                    noHover
+                  />
+                </Link>
+              </Tooltip>
+            </>
+          ) : (
+            <PricingEdit
+              updatePlan={updateData}
+              plan={serviceData}
+              handleCancel={() => setEditing(!editing)}
+              boxShadow={0}
+              detailed
             />
-          </Link>
+          )}
+          {!editing && editMode ? (
+            <div>
+              <EditDeleteButtonMenu
+                editClick={() => setEditing(!editing)}
+                hideDelete
+                adminLink="titleblock"
+                text="Title Block"
+              />
+            </div>
+          ) : null}
         </Grid>
       </Grid>
     </Card>

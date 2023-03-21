@@ -66,6 +66,8 @@ urlpatterns = (
             name="tokenblacklist-bulk-detail",
         ),
         path("api/auth/", include("authorization.urls")),
+        path("api/", include("content.urls")),
+        path("api/", include("contact.urls")),
         path("api/", include("tables.urls")),
         path("api/", include("quizes.urls")),
         path("api/", include("articles.urls")),

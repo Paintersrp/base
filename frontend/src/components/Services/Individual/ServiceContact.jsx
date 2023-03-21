@@ -12,6 +12,7 @@ import Validate from "../../../hooks/Validate";
 import { useDispatch } from "react-redux";
 import ContactMailSharpIcon from "@mui/icons-material/ContactMailSharp";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import AdminButton from "../../Elements/Buttons/AdminButton";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ServiceContact({ data, formRef, contactData }) {
+function ServiceContact({ data, formRef, contactData, socialData, editMode }) {
   const classes = useStyles();
   const [apiError, setApiError] = useState(null);
   const [formData, setFormData] = useState({});
@@ -182,6 +183,17 @@ function ServiceContact({ data, formRef, contactData }) {
               helperText={errors.message}
             />
           </Grid>
+          {editMode && (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "flex-end",
+              }}
+            >
+              <AdminButton link="messages" tooltipText="Messages" />
+            </div>
+          )}
           <Grid
             item
             xs={12}
@@ -231,12 +243,17 @@ function ServiceContact({ data, formRef, contactData }) {
           >
             {contactData && (
               <div style={{ maxWidth: 500 }}>
-                <Information contactData={contactData} showTitle={false} />
+                <Information
+                  contactData={contactData}
+                  showTitle={false}
+                  editMode={editMode}
+                />
                 <div style={{ marginTop: 24 }}>
                   <Social
-                    contactData={contactData}
+                    contactData={socialData}
                     showTitle={false}
                     color="dark"
+                    editMode={editMode}
                   />
                 </div>
               </div>

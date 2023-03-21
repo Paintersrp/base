@@ -22,6 +22,7 @@ const ResultsDisplay = ({
   setBenefitsBlock,
   servicesTableData,
   competitorsTableData,
+  editMode,
 }) => {
   const classes = quizStyles();
   const theme = useTheme();
@@ -40,16 +41,30 @@ const ResultsDisplay = ({
 
   return (
     <Box className={`${classes.fadeIn}`} style={{ width: "100%" }}>
-      <Grid container flex justifyContent="center">
+      <Grid
+        container
+        flex
+        justifyContent="center"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
         {isSmallScreen ? (
-          <ServicesResultCarousel
-            recommended={recommendedServices}
-            others={unrecommendedServices}
-          />
+          <div>
+            <ServicesResultCarousel
+              recommended={recommendedServices}
+              others={unrecommendedServices}
+              editMode={editMode}
+            />
+          </div>
         ) : (
           <ServicesResult
             recommendedId={recommendedServices.id}
             others={services}
+            editMode={editMode}
           />
         )}
       </Grid>
@@ -73,16 +88,20 @@ const ResultsDisplay = ({
       <TablesDisplay
         tableData={servicesTableData}
         heading="Compare Our Services"
+        editMode={editMode}
       />
       <TablesDisplay
         tableData={competitorsTableData}
         heading="How We Stack Up"
         direction="left"
+        links={false}
+        editMode={editMode}
       />
       <Benefits
         benefits={benefitsData}
         block={benefitsBlock}
         setBlock={setBenefitsBlock}
+        editMode={editMode}
       />
     </Box>
   );

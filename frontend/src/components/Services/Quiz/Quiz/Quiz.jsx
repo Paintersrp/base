@@ -14,6 +14,7 @@ const Quiz = ({
   benefitsBlock,
   setBenefitsBlock,
   quizData,
+  editMode,
 }) => {
   const classes = quizStyles();
   const [recommendedServices, setRecommendedServices] = useState(null);
@@ -45,9 +46,13 @@ const Quiz = ({
                 setRecommendedServices={setRecommendedServices}
                 setUnrecommendedServices={setUnrecommendedServices}
                 quizData={quizData}
+                editMode={editMode}
               />
             </div>
-            <ComparisonTable tableData={servicesTableData} />
+            <ComparisonTable
+              tableData={servicesTableData}
+              editMode={editMode}
+            />
           </Paper>
         )}
         {recommendedServices && (
@@ -74,6 +79,7 @@ const Quiz = ({
               setBenefitsBlock={setBenefitsBlock}
               servicesTableData={servicesTableData}
               competitorsTableData={competitorsTableData}
+              editMode={editMode}
             />
           </Grid>
         )}

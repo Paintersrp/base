@@ -147,15 +147,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
+const PricingEdit = ({
+  plan,
+  updatePlan,
+  handleCancel,
+  boxShadow = 1,
+  detailed = false,
+}) => {
   const classes = useStyles();
   const [formData, setFormData] = useState(plan);
+  console.log(plan);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
   const dispatch = useDispatch();
 
   const handleImageChange = (event) => {
-    formData.image = event.target.files[0];
     setNewImage(URL.createObjectURL(event.target.files[0]));
     setNewImageName(event.target.files[0].name);
   };
@@ -224,7 +230,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
   return (
     <>
       <div className={`${classes.root} ${classes.fadeIn}`}>
-        <Card className={classes.card}>
+        <Card className={classes.card} elevation={boxShadow}>
           <form onSubmit={handleSubmit}>
             {formData.image && (
               <>
@@ -253,7 +259,7 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
               </>
             )}
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <CardContent style={{ width: "90%" }}>
+              <CardContent style={{ width: detailed ? "100%" : "90%" }}>
                 <TextField
                   margin="dense"
                   className={classes.field}
@@ -272,17 +278,19 @@ const PricingEdit = ({ plan, updatePlan, handleCancel }) => {
                   value={formData.price}
                   onChange={handleInputChange}
                 />
-                {/* <TextField
-                  margin="dense"
-                  className={classes.multiline}
-                  variant="outlined"
-                  label="Paragraph 1"
-                  value={formData.paragraph_one}
-                  onChange={handleInputChange}
-                  multiline
-                  minRows={4}
-                />
-
+                {detailed && (
+                  <TextField
+                    margin="dense"
+                    className={classes.multiline}
+                    variant="outlined"
+                    label="Paragraph 1"
+                    value={formData.paragraph_one}
+                    onChange={handleInputChange}
+                    multiline
+                    minRows={4}
+                  />
+                )}
+                {/*
                 <TextField
                   margin="dense"
                   className={classes.multiline}

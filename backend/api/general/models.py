@@ -59,3 +59,50 @@ class Header(models.Model):
     class Meta:
         verbose_name = "SEO Headers"
         verbose_name_plural = "SEO Headers"
+
+
+@custom_metadata(
+    autoform_label="Content Text Block Object",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Landing": "/",
+        "About": "/about",
+        "Services": "/services",
+        "Contact": "/contact",
+        "News": "/news",
+    },
+    include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
+)
+class ContentTextBlock(models.Model):
+    slug = CustomCharField(
+        unique=True,
+        max_length=20,
+        md_column_count=6,
+        verbose_name="Slug",
+        help_text="Identifier",
+    )
+    title = CustomTextField(
+        max_length=200,
+        md_column_count=6,
+        verbose_name="Title",
+        help_text="Top Header Display of Hero Section",
+    )
+    description = CustomTextField(
+        max_length=300,
+        xs_column_count=12,
+        md_column_count=12,
+        verbose_name="Description",
+        help_text="Top Header Display of Hero Section",
+    )
+
+    class Meta:
+        verbose_name = "Content Text Blocks"
+        verbose_name_plural = "Content Text Blocks"

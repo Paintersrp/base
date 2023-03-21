@@ -73,7 +73,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Contact({ contactData, editMode, color = "light" }) {
+export default function Contact({
+  contactData,
+  hoursData,
+  socialData,
+  editMode,
+  color = "light",
+}) {
   const classes = useStyles();
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
@@ -138,7 +144,7 @@ export default function Contact({ contactData, editMode, color = "light" }) {
             />
             <Hours
               showTitle={false}
-              contactData={contactData}
+              hoursData={hoursData}
               editMode={editMode}
             />
           </div>
@@ -277,7 +283,7 @@ export default function Contact({ contactData, editMode, color = "light" }) {
               </BaseForm>
               <Social
                 color={color}
-                contactData={contactData}
+                contactData={socialData}
                 showTitle={true}
                 editMode={editMode}
               />

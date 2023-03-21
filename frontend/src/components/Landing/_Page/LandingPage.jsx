@@ -78,7 +78,7 @@ function LandingPage({ handleUpdate }) {
           <Hero
             heroData={heroData}
             setHeroData={setHeroData}
-            contactData={data.contact_information}
+            contactData={data.socials}
             editMode={editmode.editMode}
             form={true}
           />

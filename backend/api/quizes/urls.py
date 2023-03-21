@@ -73,4 +73,9 @@ urlpatterns = [
         QuestionnaireResultAnswerAPIView.as_view(),
         name="questionnaireresultanswer-list",
     ),
+    path(
+        "questionnaires/<int:pk>/results/",
+        questionnaire_results,
+        name="questionnaire_results",
+    ),
 ]

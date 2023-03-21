@@ -35,21 +35,6 @@ urlpatterns = [
         name="aboutblock-bulk-detail",
     ),
     path(
-        "contactinformation/",
-        ContactInformationAPIView.as_view(),
-        name="contactinformation-list",
-    ),
-    path(
-        "contactinformation/<int:pk>/",
-        ContactInformationDetailAPIView.as_view(),
-        name="contactinformation-list",
-    ),
-    path(
-        "contactinformation/bulk/",
-        ContactInformationBulkAPIView.as_view(),
-        name="contactinformation-bulk-detail",
-    ),
-    path(
         "missionstatement/",
         MissionStatementAPIView.as_view(),
         name="missionstatement-list",
@@ -78,17 +63,6 @@ urlpatterns = [
         "companyhistory/bulk/",
         CompanyHistoryBulkAPIView.as_view(),
         name="companyhistory-bulk-detail",
-    ),
-    path("teammember/", TeamMemberAPIView.as_view(), name="teammember-list"),
-    path(
-        "teammember/<int:pk>/",
-        TeamMemberDetailAPIView.as_view(),
-        name="member-detail",
-    ),
-    path(
-        "teammember/bulk/",
-        TeamMemberBulkAPIView.as_view(),
-        name="teammember-bulk-detail",
     ),
     path("about/", AboutFullView.as_view(), name="about-full"),
 ]

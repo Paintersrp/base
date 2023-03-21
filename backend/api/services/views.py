@@ -2,9 +2,10 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
-from about.models import ContactInformation
+from contact.models import ContactInformation, Socials
 from landing.models import ServiceTier, TitleBlock
 from tables.models import *
+from general.models import ContentTextBlock
 from tables.serializers import *
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
@@ -18,20 +19,24 @@ class ServiceFull(object):
         process_text,
         process_image,
         contact_information,
+        socials,
         service_tier,
         service_table_services,
         service_table_competitors,
         title_block_benefits,
         benefits,
+        content_text_block,
     ):
         self.process_text = process_text
         self.process_image = process_image
         self.contact_information = contact_information
+        self.socials = socials
         self.service_tier = service_tier
         self.service_table_services = service_table_services
         self.service_table_competitors = service_table_competitors
         self.title_block_benefits = title_block_benefits
         self.benefits = benefits
+        self.content_text_block = content_text_block
 
 
 class ServiceFullView(generics.GenericAPIView):
@@ -41,22 +46,25 @@ class ServiceFullView(generics.GenericAPIView):
         process_text = ProcessTextItem.objects.all()
         process_image = ProcessImageItem.objects.all()
         contact_information = ContactInformation.objects.first()
+        socials = Socials.objects.first()
         service_tier = ServiceTier.objects.all()
-
         service_table_services = ServiceTable.objects.get(name="Tiers")
         service_table_competitors = ServiceTable.objects.get(name="Competitors")
         title_block_benefits = TitleBlock.objects.get(name="benefits")
         benefits = Benefits.objects.all()
+        content_text_block = ContentTextBlock.objects.get(slug="service-individual")
 
         service_full = ServiceFull(
             process_text,
             process_image,
             contact_information,
+            socials,
             service_tier,
             service_table_services,
             service_table_competitors,
             title_block_benefits,
             benefits,
+            content_text_block,
         )
         serializer = self.get_serializer(instance=service_full)
 
@@ -104,6 +112,7 @@ class ProcessImageItemListView(generics.ListCreateAPIView):
     serializer_class = ProcessImageItemSerializer
 
     def create(self, request, *args, **kwargs):
+
         servicetier_name = request.data.get("servicetier")
         servicetier = get_object_or_404(ServiceTier, service_title=servicetier_name)
 
@@ -127,6 +136,7 @@ class ProcessImageItemDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProcessImageItemSerializer
 
     def update(self, request, *args, **kwargs):
+        print(request.data)
         instance = self.get_object()
         old_instance = ProcessImageItem.objects.get(pk=instance.pk)
         servicetier_name = request.data.get("servicetier")

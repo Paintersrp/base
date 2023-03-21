@@ -74,7 +74,7 @@ const MessageFilterMixin = ({
   return (
     <Grid
       container
-      style={{ display: "flex", flexDirection: "row" }}
+      style={{ display: "flex", flexDirection: "row", marginTop: 8 }}
       spacing={0}
     >
       <ToggleButtonGroup

@@ -12,6 +12,8 @@ import ServicePrice from "../ServicePrice";
 import PageContainer from "../../../Elements/Layout/PageContainer";
 import ComparisonTable from "../../Quiz/TablesDisplay/ComparisonTable";
 import TablesDisplay from "../../Quiz/TablesDisplay/TablesDisplay";
+import { useSelector } from "react-redux";
+import FABMenu from "../../../Elements/Buttons/FABAdminMenu";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,16 +29,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ServiceIndividualPage() {
+function ServiceIndividualPage({ handleUpdate }) {
   const classes = useStyles();
   const [data, setData] = useState();
   const [fullData, setFullData] = useState();
+  const [contentTextData, setContentTextData] = useState();
   const [tableData, setTableData] = useState();
   const [contactData, setContactData] = useState();
+  const [socialData, setSocialData] = useState();
   const [processData, setProcessData] = useState();
   const [processImage, setProcessImage] = useState();
   const { id } = useParams();
   const formRef = useRef(null);
+  const [editing, setEditing] = useState(false);
+  const editmode = useSelector((state) => state.editmode);
 
   const handleApplyNowClick = () => {
     formRef.current.scrollIntoView({
@@ -55,11 +61,13 @@ function ServiceIndividualPage() {
         );
         setData(filteredServiceTier[0]);
         setContactData(response.data.contact_information);
+        setSocialData(response.data.socials);
         setProcessData(response.data.process_text);
+        setContentTextData(response.data.content_text_block);
         const filteredProcessImage = response.data.process_image.filter(
           (image) => image.servicetier === filteredServiceTier[0].service_title
         );
-        setProcessImage(filteredProcessImage[0].image);
+        setProcessImage(filteredProcessImage[0]);
         setTableData(response.data.service_table_services);
       })
       .catch((err) => {
@@ -76,29 +84,40 @@ function ServiceIndividualPage() {
       url="https://example.com/example-page"
       backgroundColor="#F5F5F5"
     >
+      <FABMenu
+        editing={editing}
+        setEditing={setEditing}
+        handleUpdate={handleUpdate}
+      />
       {data && processData && processImage && (
         <Paper className={classes.paper} elevation={0}>
           <ServiceHeader
             data={data}
             handleApplyNowClick={handleApplyNowClick}
           />
-          <ServiceAbout data={data} />
+          <ServiceAbout data={data} editMode={editmode.editMode} />
           <ServiceProcess
+            setContentTextData={setContentTextData}
+            contentTextData={contentTextData}
             processData={processData}
             processImage={processImage}
+            editMode={editmode.editMode}
           />
-          <ServiceFeatures data={data} />
-          <ServicePrice data={data} />
+          <ServiceFeatures data={data} editMode={editmode.editMode} />
+          <ServicePrice data={data} editMode={editmode.editMode} />
           <ServiceContact
             data={data}
             formRef={formRef}
             contactData={contactData}
+            socialData={socialData}
+            editMode={editmode.editMode}
           />
           <TablesDisplay
             tableData={tableData}
             heading="Compare Our Services"
             direction="up"
             currentId={id}
+            editMode={editmode.editMode}
           />
         </Paper>
       )}

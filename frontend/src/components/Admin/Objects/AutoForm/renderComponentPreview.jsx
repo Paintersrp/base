@@ -82,17 +82,17 @@ export function renderComponentPreview(modelMetadata, formData, newImage) {
         </div>
       );
     case "ContactInformation":
+      return <Information contactData={formData} showTitle={false} />;
+    case "Socials":
       return (
-        <div>
-          <Information contactData={formData} showTitle={false} />
-          <Hours contactData={formData} showTitle={false} />
-          <div
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
-          >
-            <Social contactData={formData} showTitle={false} color="dark" />
-          </div>
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <Social contactData={formData} showTitle={false} color="dark" />
         </div>
       );
+    case "Hours":
+      return <Hours hoursData={formData} showTitle={false} />;
     case "TeamMember":
       return <Member member={formData} newImage={newImage} />;
     case "Benefits":

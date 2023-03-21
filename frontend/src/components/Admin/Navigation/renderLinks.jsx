@@ -22,9 +22,9 @@ export default function renderLinks({
   toggleDrawer,
 }) {
   return Object.entries(models).map(([appName, appModels], index) => {
-    if (appName === "authorization") {
-      return null;
-    }
+    // if (appName === "authorization") {
+    //   return null;
+    // }
 
     return (
       <div key={appName}>
@@ -59,7 +59,6 @@ export default function renderLinks({
               {mapAppIcon(appName)}
             </ListItemIcon>
             <ListItemText
-              className={classes.linkText}
               primary={appName.charAt(0).toUpperCase() + appName.slice(1)}
             />
             {openLinks[appName] ? (
@@ -92,13 +91,16 @@ export default function renderLinks({
                   >
                     <ListItem
                       button
-                      className={classes.nested}
                       onClick={toggleDrawer(false)}
+                      className={classes.nestedLinks}
                     >
                       <ListItemIcon>
                         <ChevronRightIcon style={{ color: "white" }} />
                       </ListItemIcon>
-                      <ListItemText primary={model.verbose_name} />
+                      <ListItemText
+                        primary={model.verbose_name}
+                        classes={{ primary: classes.nestedText }}
+                      />
                     </ListItem>
                   </Link>
                 </Tooltip>

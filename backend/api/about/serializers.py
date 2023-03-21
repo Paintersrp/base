@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from PIL import Image
 from .models import *
+from contact.models import *
+from contact.serializers import *
 from jobs.serializers import JobPostingSerializer
 from api.views import get_model_metadata
 
@@ -43,18 +45,6 @@ class ValueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Value
-        fields = "__all__"
-
-
-class ContactInformationSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = [
-        "phone",
-        "address",
-        "email",
-    ]
-
-    class Meta:
-        model = ContactInformation
         fields = "__all__"
 
 
@@ -106,51 +96,15 @@ class FAQSerializer(serializers.ModelSerializer):
         return instance
 
 
-class TeamMemberSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=False, allow_null=True)
-    FIELD_KEYS = ["name", "role", "image"]
-
-    class Meta:
-        model = TeamMember
-        fields = (
-            "id",
-            "name",
-            "role",
-            "image",
-            "bio",
-            "linkedIn",
-            "github",
-            "twitter",
-            "facebook",
-            "instagram",
-            "youtube",
-        )
-
-    def validate_image(self, image):
-        if image is None:
-            return image
-
-        max_size = 1024 * 1024
-
-        if image.size > max_size:
-            raise serializers.ValidationError("Image file too large ( > 1mb )")
-
-        try:
-            Image.open(image).verify()
-
-        except Exception:
-            raise serializers.ValidationError("Invalid image format")
-
-        return image
-
-
 class AboutFullSerializer(serializers.Serializer):
     about_block = AboutBlockSerializer()
     mission_statement = MissionStatementSerializer()
     company_history = CompanyHistorySerializer()
     core_values = ValueSerializer(many=True)
     team_members = TeamMemberSerializer(many=True)
-    contact_information = ContactInformationSerializer()
+    contact_information2 = ContactInformationSerializer()
+    socials = SocialsSerializer()
+    hours = HoursSerializer()
     jobs = JobPostingSerializer(many=True)
     metadata = serializers.SerializerMethodField()
 
@@ -172,7 +126,6 @@ class AboutFullSerializer(serializers.Serializer):
 AboutBlock.serializer_class = AboutBlockSerializer
 CompanyHistory.serializer_class = CompanyHistorySerializer
 MissionStatement.serializer_class = MissionStatementSerializer
-ContactInformation.serializer_class = ContactInformationSerializer
 TeamMember.serializer_class = TeamMemberSerializer
 FAQ.serializer_class = FAQSerializer
 Value.serializer_class = ValueSerializer

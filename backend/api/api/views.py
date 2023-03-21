@@ -302,6 +302,8 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "general"
                 or app_label == "tables"
                 or app_label == "quizes"
+                or app_label == "contact"
+                or app_label == "content"
             ):
                 endpoints["configs"][app_label] = {
                     "icon": app_config.icon if hasattr(app_config, "icon") else None,

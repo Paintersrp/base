@@ -1,6 +1,13 @@
 from .models import *
 from .serializers import *
 from api.custom_views import *
+from collections import defaultdict
+from typing import Dict
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from .utils import analyze_questionnaire_results
+from rest_framework.decorators import api_view
 
 
 class QuestionnaireAPIView(BaseListView):
@@ -88,3 +95,20 @@ class QuestionnaireResultAnswerAPIView(BaseListView):
     queryset = QuestionnaireResultAnswer.objects.all()
     serializer_class = QuestionnaireResultAnswerSerializer
     model_class = QuestionnaireResultAnswer
+
+
+@csrf_exempt
+@api_view(["PATCH", "GET"])
+def questionnaire_results(request, pk):
+    questionnaire = get_object_or_404(Questionnaire, id=pk)
+    results = QuestionnaireResults.objects.filter(questionnaire=questionnaire)
+    analysis = analyze_questionnaire_results(results)
+    print(len(results))
+
+    response_data = {
+        "questionnaire_id": pk,
+        "questionnaire_name": questionnaire.title,
+        "num_responses": len(results),
+        "question_analysis": analysis,
+    }
+    return JsonResponse(response_data)

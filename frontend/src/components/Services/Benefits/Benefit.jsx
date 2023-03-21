@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Tooltip, Typography } from "@material-ui/core";
 import StyledButton from "../../Elements/Buttons/StyledButton";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
 import { useEffect, useState } from "react";
@@ -7,15 +7,22 @@ import { useSelector } from "react-redux";
 import BenefitEdit from "./BenefitEdit";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 import BaseCard from "../../Elements/Base/Card/BaseCard";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   benefitDescription: {
     color: "#6B6B6B",
     minHeight: 100,
   },
+  tooltip: {
+    marginTop: 4,
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
-const Benefit = ({ benefit, edit = true }) => {
+const Benefit = ({ benefit, edit = true, editMode }) => {
   const [data, setData] = useState(benefit);
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
@@ -45,10 +52,12 @@ const Benefit = ({ benefit, edit = true }) => {
           elevation={1}
           headerTitleProps={{ variant: "h5" }}
           actions={[
-            !editing && auth.is_superuser && edit ? (
+            !editing && editMode && edit ? (
               <EditDeleteButtonMenu
                 hideDelete
                 editClick={() => setEditing(!editing)}
+                adminLink="benefits"
+                text="Benefits"
               />
             ) : null,
           ]}
@@ -57,12 +66,20 @@ const Benefit = ({ benefit, edit = true }) => {
             {data.description}
           </Typography>
           {benefit.buttonText && (
-            <Container
-              disableGutters
-              style={{ display: "flex", justifyContent: "center" }}
+            <Tooltip
+              title={`View ${data.buttonText}`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
             >
-              <StyledButton size="small" buttonText={data.buttonText} />
-            </Container>
+              <Container
+                disableGutters
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Link to={`/${benefit.page_link}`}>
+                  <StyledButton size="small" buttonText={data.buttonText} />
+                </Link>
+              </Container>
+            </Tooltip>
           )}
         </BaseCard>
       ) : (

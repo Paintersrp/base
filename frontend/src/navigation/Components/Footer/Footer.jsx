@@ -167,15 +167,21 @@ const Footer = ({ socialData }) => {
     <div className={classes.root}>
       <Container className={classes.container}>
         <div className={classes.logo}>
-          <Link href="#" className={classes.link} style={{ display: "flex" }}>
-            <TokenSharpIcon
-              className={classes.logoIcon}
-              style={{ fontSize: "1.6rem" }}
-            />
-            <Typography variant="h4" className={classes.appTitle}>
-              EDGELORDS
-            </Typography>
-          </Link>
+          <Tooltip
+            title={`View Home Page`}
+            placement="right"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <Link href="#" className={classes.link} style={{ display: "flex" }}>
+              <TokenSharpIcon
+                className={classes.logoIcon}
+                style={{ fontSize: "1.6rem" }}
+              />
+              <Typography variant="h4" className={classes.appTitle}>
+                EDGELORDS
+              </Typography>
+            </Link>
+          </Tooltip>
         </div>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
@@ -222,13 +228,19 @@ const Footer = ({ socialData }) => {
               {links.map((link) => (
                 <div>
                   <Typography>
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      className={classes.link}
+                    <Tooltip
+                      title={`View ${link.name} Page`}
+                      placement="right"
+                      classes={{ tooltip: classes.tooltip }}
                     >
-                      {link.name}
-                    </Link>
+                      <Link
+                        key={link.name}
+                        to={link.href}
+                        className={classes.link}
+                      >
+                        {link.name}
+                      </Link>
+                    </Tooltip>
                   </Typography>
                 </div>
               ))}

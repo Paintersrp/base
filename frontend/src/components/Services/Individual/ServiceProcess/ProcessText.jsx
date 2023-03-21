@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import Icon from "../../../Elements/Icon/Icon";
+import ProcessTextEdit from "./ProcessTextEdit";
+import EditDeleteButtonMenu from "../../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   processItem: {
@@ -30,33 +32,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProcessText({ textItem, index }) {
+function ProcessText({ textItem, index, editMode }) {
   const classes = useStyles();
+  const [data, setData] = useState(textItem);
+  const [editing, setEditing] = useState(false);
+
+  const updateProcess = (updateProcess) => {
+    setData(updateProcess);
+    setEditing(false);
+  };
 
   return (
-    <ListItem className={classes.processItem}>
-      <ListItemIcon
-        className={
-          index % 2 === 0 ? classes.processIconSecondary : classes.processIcon
-        }
-      >
-        <Icon icon={textItem.icon} className={classes.icon} />
-      </ListItemIcon>
-      <ListItemText
-        primary={
-          <Typography
-            variant="body2"
-            align="left"
-            style={{ textDecoration: "underline", fontWeight: "bold" }}
-          >
-            {textItem.title}
-          </Typography>
-        }
-        secondary={
-          <Typography variant="body2">{textItem.description}</Typography>
-        }
-      />
-    </ListItem>
+    <>
+      <ListItem className={classes.processItem}>
+        {!editing ? (
+          <>
+            <ListItemIcon
+              className={
+                index % 2 === 0
+                  ? classes.processIconSecondary
+                  : classes.processIcon
+              }
+            >
+              <Icon icon={data.icon} className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography
+                  variant="body2"
+                  align="left"
+                  style={{ textDecoration: "underline", fontWeight: "bold" }}
+                >
+                  {data.title}
+                </Typography>
+              }
+              secondary={
+                <Typography variant="body2">{data.description}</Typography>
+              }
+            />
+          </>
+        ) : (
+          <ProcessTextEdit
+            item={data}
+            updateProcess={updateProcess}
+            handleCancel={() => setEditing(!editing)}
+          />
+        )}
+      </ListItem>
+      {!editing && editMode ? (
+        <div style={{ width: "100%" }}>
+          <EditDeleteButtonMenu
+            editClick={() => setEditing(!editing)}
+            hideDelete
+            position="end"
+            adminLink="processtextitem"
+            text="Process Text Item"
+            obj={data.id}
+          />
+        </div>
+      ) : null}
+    </>
   );
 }
 

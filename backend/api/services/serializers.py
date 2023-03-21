@@ -1,23 +1,18 @@
 from rest_framework import serializers
 from .models import *
+from general.serializers import ContentTextBlockSerializer
 from tables.serializers import ServiceTableSerializer
-from about.serializers import ContactInformationSerializer
+from contact.serializers import ContactInformationSerializer, SocialsSerializer
 from landing.serializers import ServiceTierSerializer, TitleBlockSerializer
 from api.views import get_model_metadata
 
 
 class BenefitsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "description", "icon", "buttonText"]
+    FIELD_KEYS = ["title", "description", "icon", "buttonText", "page_link"]
 
     class Meta:
         model = Benefits
-        fields = [
-            "id",
-            "icon",
-            "title",
-            "buttonText",
-            "description",
-        ]
+        fields = ["id", "icon", "title", "buttonText", "description", "page_link"]
 
 
 class ProcessTextItemSerializer(serializers.ModelSerializer):
@@ -42,11 +37,13 @@ class ServiceViewSerializer(serializers.Serializer):
     process_text = ProcessTextItemSerializer(many=True)
     process_image = ProcessImageItemSerializer(many=True)
     contact_information = ContactInformationSerializer()
+    socials = SocialsSerializer()
     service_tier = ServiceTierSerializer(many=True)
     service_table_services = ServiceTableSerializer()
     service_table_competitors = ServiceTableSerializer()
     benefits = BenefitsSerializer(many=True)
     title_block_benefits = TitleBlockSerializer()
+    content_text_block = ContentTextBlockSerializer()
     metadata = serializers.SerializerMethodField()
 
     def get_metadata(self, obj):

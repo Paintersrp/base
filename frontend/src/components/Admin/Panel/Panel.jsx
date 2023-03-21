@@ -87,6 +87,19 @@ const Panel = ({ apiData, setCount }) => {
       },
     });
   };
+  const handleView = (data) => {
+    navigate(`/admin/${model.model_name}/analysis`, {
+      state: {
+        url: url,
+        keys: keys,
+        appName: appName,
+        model: model,
+        metadata: metadata,
+        id: data.id,
+        data: data,
+      },
+    });
+  };
 
   const fetchData = async () => {
     if (url && keys) {
@@ -342,6 +355,7 @@ const Panel = ({ apiData, setCount }) => {
                     handleClose={handleClose}
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
                     updateMultipleItems={updateMultipleItems}
+                    handleView={handleView}
                   />
                 )}
               </>

@@ -138,6 +138,12 @@ class Question(models.Model):
         verbose_name="Question Text",
         help_text="Top Header Display of Hero Section",
     )
+    slug = CustomSlugField(
+        verbose_name="Slug",
+        md_column_count=6,
+        help_text="Help Text Placeholder",
+        default="Placeholder",
+    )
     order = CustomPositiveIntegerField(
         default=0,
         xs_column_count=12,
@@ -210,10 +216,15 @@ class AnswerChoice(models.Model):
 
 class QuestionnaireResults(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
-    # contact_name = models.CharField(max_length=255)
-    # contact_email = models.EmailField(max_length=255)
-    # contact_phone = models.CharField(max_length=20)
+    contact_name = models.CharField(max_length=255, null=False)
+    contact_email = models.EmailField(max_length=255, null=False)
+    contact_phone = models.CharField(max_length=20, null=True)
+    contact_state = models.CharField(max_length=20, null=True)
     results = models.JSONField()
+
+    class Meta:
+        verbose_name = "Questionnaire Results"
+        verbose_name_plural = "Questionnaire Results"
 
 
 class QuestionnaireResultAnswer(models.Model):
@@ -221,7 +232,13 @@ class QuestionnaireResultAnswer(models.Model):
         QuestionnaireResults, on_delete=models.CASCADE, related_name="answers"
     )
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=255, blank=True, null=True)
+
     answer_choice = models.ForeignKey(
         AnswerChoice, on_delete=models.CASCADE, blank=True, null=True
     )
-    text = models.CharField(max_length=255, blank=True, null=True)
+    answer_choice_text = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Questionnaire Result Answer Choice"
+        verbose_name_plural = "Questionnaire Result Answer Choices"

@@ -15,6 +15,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import renderLinks from "./renderLinks";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import { Badge, Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.text.secondary,
     color: "#ffffff",
     fontSize: "14px",
+  },
+  linkText: {
+    fontSize: "5rem",
+  },
+  nestedText: {
+    fontSize: "0.8rem",
+  },
+  nestedLinks: {
+    "&:hover": {
+      background: theme.palette.text.secondary,
+    },
   },
 }));
 
@@ -136,7 +148,7 @@ const AdminDrawerContent = ({
             onClick={toggleDrawer(false)}
           >
             <ListItemIcon>
-              <WorkSharpIcon className={classes.altIcon} />
+              <ApprovalIcon className={classes.altIcon} />
             </ListItemIcon>
             <ListItemText primary="Applications" />
           </ListItem>

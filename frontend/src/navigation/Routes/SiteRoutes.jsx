@@ -33,6 +33,7 @@ import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
 import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
 import Footer from "../Components/Footer/Footer";
 import ApplicationViewPage from "../../components/Admin/Objects/_Page/ApplicationViewPage";
+import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
 
 {
   /* 
@@ -69,7 +70,7 @@ export default function SiteRoutes({ handleUpdate }) {
         .get("/appinfo/")
         .then((response) => {
           setJobPostings(response.data.jobs);
-          setSocialData(response.data.contact_information);
+          setSocialData(response.data.socials);
         })
         .catch((err) => {
           setError(err);
@@ -141,7 +142,10 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/generator"
             element={<GeneratorPage handleUpdate={handleUpdate} />}
           />
-          <Route path="/jobposting/:id" element={<JobIndividualView handleUpdate={handleUpdate} />} />
+          <Route
+            path="/jobposting/:id"
+            element={<JobIndividualView handleUpdate={handleUpdate} />}
+          />
           {/* Feature Routes */}
           <Route
             path="/articles"
@@ -171,6 +175,8 @@ export default function SiteRoutes({ handleUpdate }) {
           />
           <Route path="/admin/:str/control" element={<ObjectPage />} />
           <Route path="/admin/:str/control/:pk" element={<ObjectPage />} />
+          <Route path="/admin/:str/analysis" element={<AnalysisPage />} />
+          <Route path="/admin/:str/analysis/:pk" element={<AnalysisPage />} />
           <Route
             path="/admin/messages/read"
             element={<ReadPage setCount={setCount} />}

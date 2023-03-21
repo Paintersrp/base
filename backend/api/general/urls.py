@@ -14,5 +14,24 @@ urlpatterns = [
         HeaderBulkAPIView.as_view(),
         name="header-bulk-detail",
     ),
-    path("appinfo/", AppInfoFullView.as_view(), name="app-full"),
+    path(
+        "contenttextblock/",
+        ContentTextBlockAPIView.as_view(),
+        name="contenttextblock-list",
+    ),
+    path(
+        "contenttextblock/<int:pk>/",
+        ContentTextBlockDetailAPIView.as_view(),
+        name="contenttextblock-detail",
+    ),
+    path(
+        "contenttextblock/<str:page>/",
+        ContentTextBlockPageView.as_view(),
+        name="contenttextblock-search",
+    ),
+    path(
+        "contenttextblock/del/bulk/",
+        ContentTextBlockBulkAPIView.as_view(),
+        name="contenttextblock-bulk-detail",
+    ),
 ]

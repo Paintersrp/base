@@ -2,17 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    AboutBlock,
-    MissionStatement,
-    CompanyHistory,
-    Value,
-    TeamMember,
-    Skill,
-    ContactInformation,
-    Category,
-    FAQ,
-)
+from .models import *
 
 # Register your models here.
 class CustomAboutBlockAdmin(admin.ModelAdmin):
@@ -51,56 +41,6 @@ class CustomMissionStatementAdmin(admin.ModelAdmin):
         return form
 
 
-class ArticleForm(forms.ModelForm):
-    class Meta:
-        model = TeamMember
-        fields = "__all__"
-
-
-class TeamMemberAdmin(admin.ModelAdmin):
-    form = ArticleForm
-
-    list_display = (
-        "name",
-        "bio",
-        "linkedIn",
-        "github",
-        # "thumbnail",
-        "twitter",
-    )
-    list_filter = ["name"]
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "name",
-                    "bio",
-                    "linkedIn",
-                    "github",
-                    "image",
-                    "twitter",
-                    "role",
-                )
-            },
-        ),
-    )
-
-    def thumbnail(self, obj):
-        if obj.image.url:
-            return format_html('<img src="{}" width="50"/>'.format(obj.image.url))
-
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-
-        if not request.user.is_superuser:
-            del actions["delete_selected"]
-
-        return actions
-
-
-admin.site.register(TeamMember, TeamMemberAdmin)
-admin.site.register(ContactInformation)
 admin.site.register(Category)
 admin.site.register(FAQ)
 admin.site.register(Value)

@@ -24,6 +24,8 @@ function ContactPage({ handleUpdate }) {
   const [metadata, setMetaData] = useState({});
   const [membersData, setMembersData] = useState(null);
   const [contactData, setContactData] = useState(null);
+  const [socialData, setSocialData] = useState(null);
+  const [hoursData, setHoursData] = useState(null);
   const [jobsData, setJobsData] = useState(null);
   const dispatch = useDispatch();
   const editmode = useSelector((state) => state.editmode);
@@ -32,12 +34,13 @@ function ContactPage({ handleUpdate }) {
     dispatch({ type: "FETCH_DATA_REQUEST" });
     const fetchData = async () => {
       axiosInstance
-        .get("/about/")
+        .get("/appinfo/")
         .then((response) => {
-          setMembersData(response.data.team_members);
+          setMembersData(response.data.members);
           setContactData(response.data.contact_information);
+          setSocialData(response.data.socials);
+          setHoursData(response.data.hours);
           setJobsData(response.data.jobs);
-          setMetaData(response.data.metadata);
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
@@ -80,6 +83,8 @@ function ContactPage({ handleUpdate }) {
             <Contact
               color="dark"
               contactData={contactData}
+              hoursData={hoursData}
+              socialData={socialData}
               editMode={editmode.editMode}
             />
           </div>

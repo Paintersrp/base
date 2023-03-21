@@ -16,11 +16,11 @@ class QuestionSerializer(serializers.ModelSerializer):
     question_set = serializers.PrimaryKeyRelatedField(
         queryset=QuestionSet.objects.all()
     )
-    FIELD_KEYS = ["question_set", "text", "order"]
+    FIELD_KEYS = ["question_set", "text", "slug"]
 
     class Meta:
         model = Question
-        fields = ["id", "text", "answer_choices", "question_set", "order"]
+        fields = ["id", "text", "answer_choices", "question_set", "order", "slug"]
 
 
 class QuestionSetSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
 
 
 class QuestionnaireResultsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["questionnaire", "results"]
+    FIELD_KEYS = ["questionnaire", "contact_email"]
 
     class Meta:
         model = QuestionnaireResults
@@ -53,35 +53,62 @@ class QuestionnaireResultsSerializer(serializers.ModelSerializer):
             "id",
             "questionnaire",
             "results",
+            "contact_name",
+            "contact_email",
+            "contact_phone",
+            "contact_state",
         ]
 
     def create(self, validated_data):
+        print(validated_data)
         instance = super().create(validated_data)
         results_data = validated_data.pop("results")
         results = []
 
         for question_id, answer in results_data.items():
-            answer_choice = AnswerChoice.objects.get(id=answer)
             question = Question.objects.get(id=question_id)
+            if isinstance(answer, int):
+                answer_choice = AnswerChoice.objects.get(id=answer)
 
-            results.append(
-                QuestionnaireResultAnswer(
-                    questionnaire_result=instance,
-                    question=question,
-                    answer_choice=answer_choice,
+                results.append(
+                    QuestionnaireResultAnswer(
+                        questionnaire_result=instance,
+                        question=question,
+                        question_text=question.text,
+                        answer_choice=answer_choice,
+                        answer_choice_text=answer_choice.text,
+                    )
                 )
-            )
+            else:
+                for answer_id in answer:
+                    answer_choice = AnswerChoice.objects.get(id=answer_id)
+                    results.append(
+                        QuestionnaireResultAnswer(
+                            questionnaire_result=instance,
+                            question=question,
+                            question_text=question.text,
+                            answer_choice=answer_choice,
+                            answer_choice_text=answer_choice.text,
+                        )
+                    )
+
         QuestionnaireResultAnswer.objects.bulk_create(results)
 
         return instance
 
 
 class QuestionnaireResultAnswerSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["question", "answer_choice", "text"]
+    FIELD_KEYS = ["question", "question_text", "answer_choice", "answer_choice_text"]
 
     class Meta:
         model = QuestionnaireResultAnswer
-        fields = ["id", "question", "answer_choice", "text"]
+        fields = [
+            "id",
+            "question",
+            "question_text",
+            "answer_choice",
+            "answer_choice_text",
+        ]
 
 
 QuestionnaireResultAnswer.serializer_class = QuestionnaireResultAnswerSerializer

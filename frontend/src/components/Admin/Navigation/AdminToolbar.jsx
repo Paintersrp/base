@@ -19,6 +19,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import handleLogout from "../../../lib/Auth/Logout";
 import SubjectIcon from "@mui/icons-material/Subject";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import ApprovalIcon from "@mui/icons-material/Approval";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -151,7 +152,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
                 color="inherit"
                 className={classes.accountButtonIcon}
               >
-                <WorkSharpIcon />
+                <ApprovalIcon />
               </IconButton>
             </Link>
           </Tooltip>

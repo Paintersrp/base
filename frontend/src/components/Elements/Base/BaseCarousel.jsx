@@ -58,7 +58,12 @@ const BaseCarousel = ({ children, title, currentIndex }) => {
   };
 
   return (
-    <Grid container flex justifyContent="center" style={{ maxWidth: 1200 }}>
+    <Grid
+      container
+      flex
+      justifyContent="center"
+      style={{ maxWidth: 1200, alignContent: "center", alignItems: "center" }}
+    >
       <Grid item xs={12}>
         <Typography
           align="center"

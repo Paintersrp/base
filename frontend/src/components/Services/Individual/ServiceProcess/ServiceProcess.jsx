@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import {
@@ -15,6 +15,8 @@ import Item from "../../../Elements/Layout/Item/Item";
 import Icon from "../../../Elements/Icon/Icon";
 import ProcessText from "./ProcessText";
 import ProcessImage from "./ProcessImage";
+import ProcessTextEdit from "./ProcessTextEdit";
+import EditDeleteButtonMenu from "../../../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -49,14 +51,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ServiceProcess({ processData, processImage }) {
+function ServiceProcess({
+  setContentTextData,
+  contentTextData,
+  processData,
+  processImage,
+  editMode,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [editing, setEditing] = useState(false);
+
+  const updateContentTextData = (updateContentTextData) => {
+    setContentTextData(updateContentTextData);
+    setEditing(false);
+  };
 
   return (
     <Container justify="flex-start" spacing={4} style={{ marginTop: 24 }}>
-      <ProcessImage imageItem={processImage} />
+      <ProcessImage imageItem={processImage} editMode={editMode} />
+
       <Item
         xs={12}
         sm={12}
@@ -69,17 +84,42 @@ function ServiceProcess({ processData, processImage }) {
           order: isMediumScreen ? 1 : 2,
         }}
       >
-        <Typography variant="h5" color="primary">
-          Our Process
-        </Typography>
-        <Typography variant="body2">
-          We follow a proven process to ensure that our clients' websites meet
-          their specific needs and reflect their brand. Our process includes the
-          following steps:
-        </Typography>
+        {!editing ? (
+          <>
+            <Typography variant="h5" color="primary">
+              {contentTextData.title}
+            </Typography>
+            <Typography variant="body2">
+              {contentTextData.description}
+            </Typography>
+          </>
+        ) : (
+          <ProcessTextEdit
+            item={contentTextData}
+            updateProcess={updateContentTextData}
+            handleCancel={() => setEditing(!editing)}
+            excludeKeys={["id", "slug"]}
+            multilineKeys={["description"]}
+            iconMixin={false}
+            title="Edit Content Text Block Item"
+            endpoint="contenttextblock"
+          />
+        )}
+        {!editing && editMode ? (
+          <div style={{ width: "100%" }}>
+            <EditDeleteButtonMenu
+              editClick={() => setEditing(!editing)}
+              hideDelete
+              position="end"
+              adminLink="contenttextblock"
+              text="Content Text Block"
+              obj={contentTextData.id}
+            />
+          </div>
+        ) : null}
         <List>
           {processData.map((item, index) => (
-            <ProcessText textItem={item} index={index} />
+            <ProcessText textItem={item} index={index} editMode={editMode} />
           ))}
         </List>
       </Item>

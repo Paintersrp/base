@@ -9,6 +9,7 @@ const calculateQuizResult = (services, hourlyBudget, preferredFeatures) => {
     service.features.forEach((feature) => {
       if (preferredFeatures.includes(feature.detail)) {
         score++;
+        console.log("found");
       }
     });
 
