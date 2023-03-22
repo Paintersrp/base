@@ -27,7 +27,7 @@ export default function EditHours({ initialData, onUpdate, handleCancel }) {
     try {
       await axios
         .patch(
-          `http://localhost:8000/api/contactinformation/1/`,
+          `http://localhost:8000/api/hours/1/`,
           contactData,
           config
         )

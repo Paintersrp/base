@@ -41,8 +41,10 @@ const Questionaire = ({
   const [prevDisabled, setPrevDisabled] = useState(true);
 
   const [contactData, setContactData] = useState({});
-  const [weeklyServiceHours, setWeeklyServiceHours] = useState("");
-  const [weeklyServiceId, setWeeklyServiceId] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [businessTypeId, setBusinessTypeId] = useState("");
+  const [businessSize, setBusinessSize] = useState("");
+  const [businessSizeId, setBusinessSizeId] = useState("");
   const [hourlyBudget, setHourlyBudget] = useState("");
   const [hourlyBudgetId, setHourlyBudgetId] = useState("");
   const [preferredFeatures, setPreferredFeatures] = useState([]);
@@ -58,17 +60,22 @@ const Questionaire = ({
     });
   });
 
-  const handleServiceHoursChange = (event) => {
-    console.log(event.target.value);
-    setWeeklyServiceHours(Number(event.target.value));
-    console.log(newQuestions[currentStep].answer_choices);
-
+  const handleBusinessTypeChange = (event) => {
+    setBusinessType(Number(event.target.value));
     const selectedAnswerChoice = newQuestions[currentStep].answer_choices.find(
       (choice) => Number(choice.value) === Number(event.target.value)
     );
     const answerChoiceId = selectedAnswerChoice.id;
+    setBusinessTypeId(answerChoiceId);
+  };
 
-    setWeeklyServiceId(answerChoiceId);
+  const handleBusinessSizeChange = (event) => {
+    setBusinessSize(Number(event.target.value));
+    const selectedAnswerChoice = newQuestions[currentStep].answer_choices.find(
+      (choice) => Number(choice.value) === Number(event.target.value)
+    );
+    const answerChoiceId = selectedAnswerChoice.id;
+    setBusinessSizeId(answerChoiceId);
   };
 
   const handleHourlyBudgetChange = (event) => {
@@ -113,9 +120,10 @@ const Questionaire = ({
     formData.append(
       "results",
       JSON.stringify({
-        [newQuestions[0].id]: weeklyServiceId,
-        [newQuestions[1].id]: hourlyBudgetId,
-        [newQuestions[2].id]: preferredFeaturesId,
+        [newQuestions[0].id]: businessTypeId,
+        [newQuestions[1].id]: businessSizeId,
+        [newQuestions[2].id]: hourlyBudgetId,
+        [newQuestions[3].id]: preferredFeaturesId,
       })
     );
     formData.append("contact_name", values.fullName);
@@ -252,20 +260,20 @@ const Questionaire = ({
                     name={newQuestions[currentStep].value}
                     value={
                       newQuestions[currentStep].order === 1
-                        ? weeklyServiceHours
+                        ? businessType
                         : newQuestions[currentStep].order === 2
-                        ? hourlyBudget
+                        ? businessSize
                         : newQuestions[currentStep].order === 3
-                        ? weeklyServiceHours
+                        ? hourlyBudget
                         : "Ass"
                     }
                     onChange={
                       currentStep === 0
-                        ? handleServiceHoursChange
+                        ? handleBusinessTypeChange
                         : currentStep === 1
-                        ? handleHourlyBudgetChange
+                        ? handleBusinessSizeChange
                         : currentStep === 2
-                        ? handleServiceHoursChange
+                        ? handleHourlyBudgetChange
                         : null
                     }
                     className={classes.radioGroup}

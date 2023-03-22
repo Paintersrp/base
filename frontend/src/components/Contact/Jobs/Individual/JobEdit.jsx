@@ -4,7 +4,13 @@ import { getCookie } from "../../../../Utils";
 import BaseEditForm from "../../../Elements/Base/EditForm/BaseEditForm";
 import { useDispatch } from "react-redux";
 
-export default function JobEdit({ initialData, setJob, handleCancel }) {
+export default function JobEdit({
+  initialData,
+  setJob,
+  handleCancel,
+  updateJobData,
+}) {
+  console.log(initialData.requirements);
   const [contactData, setContactData] = useState(initialData);
   const dispatch = useDispatch();
 
@@ -34,39 +40,18 @@ export default function JobEdit({ initialData, setJob, handleCancel }) {
     try {
       await axios
         .patch(
-          `http://localhost:8000/api/jobposting/${initialData.id}/`,
+          `http://localhost:8000/api/jobposting/${contactData.id}/`,
           contactData,
           config
         )
         .then((res) => {
           setContactData(res.data);
           console.log(res.data);
-          //   onUpdate(res.data);
+          updateJobData(res.data);
           dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
         });
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const handleManyToManyChange = (fieldName, fieldValue) => {
-    if (fieldName === "features" || fieldName === "supported_sites") {
-      const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
-      newFeatures.push({ detail: fieldValue });
-      setJob((prevFormData) => ({
-        ...prevFormData,
-        [fieldName]: newFeatures,
-      }));
-    } else if (fieldName === "items") {
-      setJob((prevFormData) => ({
-        ...prevFormData,
-        [fieldName]: [...prevFormData[fieldName], fieldValue],
-      }));
-    } else {
-      setJob((prevFormData) => ({
-        ...prevFormData,
-        [fieldName]: fieldValue,
-      }));
     }
   };
 
@@ -76,11 +61,8 @@ export default function JobEdit({ initialData, setJob, handleCancel }) {
         title="Edit Job Details"
         handleSubmit={handleSubmit}
         handleChange={handleChange}
-        handleSwitchChange={handleSwitchChange}
-        handleManyToManyChange={handleManyToManyChange}
         formData={contactData}
-        setFormData={setContactData}
-        width="90%"
+        width="100%"
         excludeKeys={[
           "id",
           "created_at",
@@ -88,9 +70,8 @@ export default function JobEdit({ initialData, setJob, handleCancel }) {
           "responsibilities",
           "filled",
         ]}
-        multilineKeys={["who_we_are", "why_apply", "looking_for"]}
+        multilineKeys={["who_we_are", "looking_for", "why_apply"]}
         handleCancel={handleCancel}
-        jobMixin
       />
     </>
   );

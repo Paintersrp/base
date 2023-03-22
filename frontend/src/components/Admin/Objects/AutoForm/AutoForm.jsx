@@ -12,6 +12,7 @@ import {
   ListItemText,
   ListItemIcon,
   makeStyles,
+  Tooltip,
 } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import BaseForm from "../../../Elements/Base/BaseForm";
@@ -45,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
     },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
 }));
 
@@ -128,7 +134,12 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   };
 
   const handleManyToManyChange = (fieldName, fieldValue) => {
-    if (fieldName === "features" || fieldName === "supported_sites") {
+    if (
+      fieldName === "features" ||
+      fieldName === "supported_sites" ||
+      fieldName === "responsibilities" ||
+      fieldName === "requirements"
+    ) {
       const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
       newFeatures.push({ detail: fieldValue });
       setFormData((prevFormData) => ({
@@ -195,8 +206,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         console.log(err);
       }
     } else {
-      console.log("else'd");
-      console.log("else'd id: ", data);
       try {
         const response = await axiosInstance.patch(
           `${endpointUrl}${data.id}/`,
@@ -293,20 +302,36 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
               })}
           </Grid>
           <Grid container justifyContent="center" style={{ marginTop: 16 }}>
-            <StyledButton
-              buttonText={Object.keys(data).length === 0 ? "Create" : "Update"}
-              minWidth={80}
-              color="primary"
-              type="submit"
+            <Tooltip
+              title={`Update Object`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
             >
-              {Object.keys(data).length === 0 ? "Create" : "Update"}
-            </StyledButton>
-            <StyledButton
-              buttonText={"Cancel"}
-              color="primary"
-              onClick={routeBackToModel}
-              minWidth={80}
-            />
+              <div>
+                <StyledButton
+                  buttonText={
+                    Object.keys(data).length === 0 ? "Create" : "Update"
+                  }
+                  minWidth={80}
+                  color="primary"
+                  type="submit"
+                />
+              </div>
+            </Tooltip>
+            <Tooltip
+              title={`Cancel Creation`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <div>
+                <StyledButton
+                  buttonText={"Cancel"}
+                  color="primary"
+                  onClick={routeBackToModel}
+                  minWidth={80}
+                />
+              </div>
+            </Tooltip>
           </Grid>
 
           <Grid
@@ -358,18 +383,24 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                 {Object.entries(modelMetadata.pagesAssociated).map(
                   ([page, url], index) => (
                     <React.Fragment key={page}>
-                      <ListItem
-                        button
-                        component={Link}
-                        to={url}
-                        className={classes.listItem}
-                        style={{ maxWidth: "25%" }}
+                      <Tooltip
+                        title={`View ${page} Page`}
+                        placement="bottom"
+                        classes={{ tooltip: classes.tooltip }}
                       >
-                        <ListItemIcon>
-                          <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={page} />
-                      </ListItem>
+                        <ListItem
+                          button
+                          component={Link}
+                          to={url}
+                          className={classes.listItem}
+                          style={{ maxWidth: "25%" }}
+                        >
+                          <ListItemIcon>
+                            <HomeIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={page} />
+                        </ListItem>
+                      </Tooltip>
                     </React.Fragment>
                   )
                 )}

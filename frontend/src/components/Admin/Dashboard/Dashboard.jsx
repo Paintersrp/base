@@ -5,6 +5,7 @@ import {
   Grid,
   Breadcrumbs,
   IconButton,
+  Tooltip,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -92,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
       background: "rgba(0, 0, 0, 0.2)",
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 function Dashboard() {
@@ -132,7 +138,7 @@ function Dashboard() {
       .then((response) => {
         setModels(response.data.models);
         setConfigs(response.data.configs);
-        console.log("Models: ", response.data);
+        console.log("Models: ", response.data.models.authorization);
 
         const initialOpenAppSections = {};
         Object.keys(response.data.models).forEach((app) => {
@@ -165,9 +171,15 @@ function Dashboard() {
             aria-label="breadcrumb"
             style={{ display: "flex" }}
           >
-            <Link className={classes.activeLink} to="/admin">
-              Home
-            </Link>
+            <Tooltip
+              title={`Dashboard`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link className={classes.activeLink} to="/admin">
+                Home
+              </Link>
+            </Tooltip>
             <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
           <div>

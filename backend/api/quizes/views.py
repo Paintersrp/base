@@ -91,7 +91,31 @@ class QuestionnaireResultsAPIView(BaseListView):
     model_class = QuestionnaireResults
 
 
+class QuestionnaireResultsDetailAPIView(BaseDetailView):
+    queryset = QuestionnaireResults.objects.all()
+    serializer_class = QuestionnaireResultsSerializer
+    model_class = QuestionnaireResults
+
+
+class QuestionnaireResultsBulkAPIView(BaseBulkView):
+    queryset = QuestionnaireResults.objects.all()
+    serializer_class = QuestionnaireResultsSerializer
+    model_class = QuestionnaireResults
+
+
 class QuestionnaireResultAnswerAPIView(BaseListView):
+    queryset = QuestionnaireResultAnswer.objects.all()
+    serializer_class = QuestionnaireResultAnswerSerializer
+    model_class = QuestionnaireResultAnswer
+
+
+class QuestionnaireResultAnswerDetailAPIView(BaseDetailView):
+    queryset = QuestionnaireResultAnswer.objects.all()
+    serializer_class = QuestionnaireResultAnswerSerializer
+    model_class = QuestionnaireResultAnswer
+
+
+class QuestionnaireResultAnswerBulkAPIView(BaseBulkView):
     queryset = QuestionnaireResultAnswer.objects.all()
     serializer_class = QuestionnaireResultAnswerSerializer
     model_class = QuestionnaireResultAnswer

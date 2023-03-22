@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
@@ -121,14 +121,21 @@ const ManyToManyEdit = ({
   id,
   fieldName,
 }) => {
-  console.log("data", fieldName);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(data);
 
+  useEffect(() => {
+    setFormData(data);
+  }, [data]);
+
   const handleManyToManyChange = (fieldName, fieldValue) => {
-    console.log(formData);
-    if (fieldName === "features" || fieldName === "supported_sites") {
+    if (
+      fieldName === "features" ||
+      fieldName === "supported_sites" ||
+      fieldName === "requirements" ||
+      fieldName === "responsibilities"
+    ) {
       const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
       newFeatures.push({ detail: fieldValue });
       setFormData((prevFormData) => ({
@@ -176,11 +183,19 @@ const ManyToManyEdit = ({
               data={
                 fieldName === "features"
                   ? formData.features
-                  : formData.supported_sites
+                  : fieldName === "supported_sites"
+                  ? formData.supported_sites
+                  : fieldName === "requirements"
+                  ? formData.requirements
+                  : fieldName === "responsibilities"
+                  ? formData.responsibilities
+                  : null
               }
               setFormData={setFormData}
               fieldName={fieldName}
-              verboseName={"Features"}
+              verboseName={
+                fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+              }
               handleManyToManyChange={handleManyToManyChange}
             />
             <UpdateCancelButtonMenu

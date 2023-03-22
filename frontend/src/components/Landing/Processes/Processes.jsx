@@ -51,6 +51,7 @@ export default function Processes({
   block,
   setBlock,
   processData,
+  setProcessData,
   showTitleBlock = true,
 }) {
   console.log("processData: ", processData);

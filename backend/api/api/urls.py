@@ -27,6 +27,11 @@ urlpatterns = (
             views.SingleModelAPIView.as_view(),
             name="get_model_metadata",
         ),
+        path(
+            "api/get_app/<str:app_name>/",
+            views.SingleAppEndpointAPIView.as_view(),
+            name="get_model_metadata",
+        ),
         path("api/user/", views.UserListView.as_view(), name="user-list"),
         path("admin/", admin.site.urls),
         path(

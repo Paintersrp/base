@@ -69,9 +69,29 @@ urlpatterns = [
         name="questionnaireresults-list",
     ),
     path(
+        "questionnaireresults/<int:pk>/",
+        QuestionnaireResultsDetailAPIView.as_view(),
+        name="questionnaireresults-detail",
+    ),
+    path(
+        "questionnaireresults/bulk/",
+        QuestionnaireResultsBulkAPIView.as_view(),
+        name="questionnaireresults-bulk-detail",
+    ),
+    path(
         "questionnaireresultanswer/",
         QuestionnaireResultAnswerAPIView.as_view(),
         name="questionnaireresultanswer-list",
+    ),
+    path(
+        "questionnaireresultanswer/<int:pk>/",
+        QuestionnaireResultAnswerDetailAPIView.as_view(),
+        name="questionnaireresultanswer-detail",
+    ),
+    path(
+        "questionnaireresultanswer/bulk/",
+        QuestionnaireResultAnswerBulkAPIView.as_view(),
+        name="questionnaireresultanswer-bulk-detail",
     ),
     path(
         "questionnaires/<int:pk>/results/",

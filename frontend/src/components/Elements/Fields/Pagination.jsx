@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: theme.spacing(0.5, 0.5, 0.5, 0.5),
     margin: theme.spacing(0, 0.5, 0, 0.5),
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
 }));
 
@@ -75,21 +80,32 @@ export const Pagination = ({
         </span>
       </div>
       <div>
-        <IconButton
-          disabled={page === 0}
-          onClick={() => handlePageChange(page)}
-          className={classes.iconButton}
+        <Tooltip
+          title={`Prev`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <NavigateBeforeIcon />
-        </IconButton>
-
-        <IconButton
-          disabled={page === totalPages - 1}
-          onClick={() => handlePageChange(page + 2)}
-          className={classes.iconButton}
+          <IconButton
+            disabled={page === 0}
+            onClick={() => handlePageChange(page)}
+            className={classes.iconButton}
+          >
+            <NavigateBeforeIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={`Next`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <NavigateNextIcon />
-        </IconButton>
+          <IconButton
+            disabled={page === totalPages - 1}
+            onClick={() => handlePageChange(page + 2)}
+            className={classes.iconButton}
+          >
+            <NavigateNextIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );

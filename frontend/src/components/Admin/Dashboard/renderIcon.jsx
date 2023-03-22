@@ -15,7 +15,6 @@ import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 export function renderIcon(appName, className) {
-  console.log(appName);
   switch (appName) {
     case "authorization":
       return (

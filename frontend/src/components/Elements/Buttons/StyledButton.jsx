@@ -46,6 +46,7 @@ export default function StyledButton({
   disabled = false,
   borderRadius = 48,
   minHeight = null,
+  maxHeight = null,
 }) {
   const classes = useStyles();
 
@@ -65,6 +66,7 @@ export default function StyledButton({
         backgroundColor: color,
         borderRadius: borderRadius,
         minHeight: minHeight,
+        maxHeight: maxHeight,
       }}
       disabled={disabled}
     >

@@ -6,7 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 const useStyles = makeStyles((theme) => ({
   field: {
     width: "100%",
-    margin: theme.spacing(0, 0, 1, 0),
+    margin: theme.spacing(0, 0, 0, 0),
     "& .MuiOutlinedInput-root": {
       fontFamily: "Roboto",
       padding: 0,
@@ -106,6 +106,7 @@ const FormField = ({
   children,
   required = null,
   type = null,
+  style,
 }) => {
   const classes = useStyles();
 
@@ -128,6 +129,7 @@ const FormField = ({
       SelectProps={SelectProps}
       type={type}
       required={required}
+      styel={style}
       InputProps={{
         ...(label === "Search" && {
           classes: {

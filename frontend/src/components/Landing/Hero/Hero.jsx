@@ -36,7 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Hero({ heroData, setHeroData, contactData, editMode, form = true }) {
+function Hero({
+  heroData,
+  setHeroData,
+  contactData,
+  socialData,
+  editMode,
+  form = true,
+}) {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -82,7 +89,7 @@ function Hero({ heroData, setHeroData, contactData, editMode, form = true }) {
             <ContactButtons contactData={contactData} />
             <Grid container flex justifyContent="center">
               <Social
-                contactData={contactData}
+                contactData={socialData}
                 color="light"
                 editMode={editMode}
               />

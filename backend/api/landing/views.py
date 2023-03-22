@@ -5,60 +5,44 @@ from .serializers import *
 from contact.models import ContactInformation, Socials
 from articles.models import Articles
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes, get_serialized_page_data
 from api.custom_views import *
 
 
-class LandingFull(object):
-    def __init__(
-        self,
-        hero_block,
-        title_block_process,
-        title_block_news,
-        service_tiers,
-        processes,
-        contact_information,
-        socials,
-        articles,
-    ):
-
-        self.hero_block = hero_block
-        self.title_block_process = title_block_process
-        self.title_block_news = title_block_news
-        self.service_tiers = service_tiers
-        self.processes = processes
-        self.contact_information = contact_information
-        self.socials = socials
-        self.articles = articles
-
-
-class LandingFullView(generics.GenericAPIView):
-    serializer_class = LandingFullSerializer
-
+class LandingFullTestView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        hero_block = HeroBlock.objects.first()
-        title_block_process = TitleBlock.objects.get(name="process")
-        title_block_news = TitleBlock.objects.get(name="news")
-        service_tiers = ServiceTier.objects.all()
-        processes = Process.objects.all()
-        contact_information = ContactInformation.objects.first()
-        socials = Socials.objects.first()
-        articles = Articles.objects.filter(is_highlighted=True)
+        model_dict = {
+            "HeroBlock": {
+                "app_label": "landing",
+                "get_first": True,
+            },
+            "TitleBlock": {
+                "app_label": "landing",
+                "filter": {"name__in": ["process", "news"]},
+            },
+            "ServiceTier": {
+                "app_label": "landing",
+            },
+            "Process": {
+                "app_label": "landing",
+            },
+            "ContactInformation": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "Socials": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "Articles": {
+                "app_label": "articles",
+                "filter": {"is_highlighted": True},
+            },
+        }
 
-        landing_full = LandingFull(
-            hero_block,
-            title_block_process,
-            title_block_news,
-            service_tiers,
-            processes,
-            contact_information,
-            socials,
-            articles,
-        )
+        data = get_serialized_page_data(model_dict, request)
 
-        serializer = self.get_serializer(instance=landing_full)
-
-        return Response(serializer.data)
+        return Response(data)
 
 
 class HeroBlockMainAPIView(

@@ -33,35 +33,6 @@ class ProcessImageItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ServiceViewSerializer(serializers.Serializer):
-    process_text = ProcessTextItemSerializer(many=True)
-    process_image = ProcessImageItemSerializer(many=True)
-    contact_information = ContactInformationSerializer()
-    socials = SocialsSerializer()
-    service_tier = ServiceTierSerializer(many=True)
-    service_table_services = ServiceTableSerializer()
-    service_table_competitors = ServiceTableSerializer()
-    benefits = BenefitsSerializer(many=True)
-    title_block_benefits = TitleBlockSerializer()
-    content_text_block = ContentTextBlockSerializer()
-    metadata = serializers.SerializerMethodField()
-
-    def get_metadata(self, obj):
-        metadata = []
-        for model in [
-            "ProcessTextItem",
-            "ProcessImageItem",
-            "ContactInformation",
-            "ServiceTier",
-            "ServiceTableLabels",
-            "ServiceCompareRows",
-            "Benefits",
-            "TitleBlock",
-        ]:
-            metadata.append(get_model_metadata(model))
-        return metadata
-
-
 ProcessImageItem.serializer_class = ProcessImageItemSerializer
 ProcessTextItem.serializer_class = ProcessTextItemSerializer
 Benefits.serializer_class = BenefitsSerializer

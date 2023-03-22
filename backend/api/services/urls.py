@@ -40,5 +40,5 @@ urlpatterns = [
         ProcessImageItemBulkAPIView.as_view(),
         name="processimageitem-bulk-detail",
     ),
-    path("services/", ServiceFullView.as_view(), name="service-full"),
+    path("services/", ServiceFullTestView.as_view(), name="service-full"),
 ]

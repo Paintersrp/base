@@ -21,7 +21,6 @@ function ServicesPage({ handleUpdate }) {
   const [data, setData] = useState([]);
   const [servicesTable, setServicesTable] = useState([]);
   const [competitorsTable, setCompetitorsTable] = useState([]);
-  const [metadata, setMetaData] = useState({});
   const [services, setServices] = useState(false);
   const [benefitsBlock, setBenefitsBlock] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -35,22 +34,17 @@ function ServicesPage({ handleUpdate }) {
         .get("/services/")
         .then((response) => {
           setData(response.data);
-          setServicesTable(response.data.service_table_services);
-          setCompetitorsTable(response.data.service_table_competitors);
-          setServices(response.data.service_tier);
-          setBenefitsBlock(response.data.title_block_benefits);
-          setMetaData(response.data.metadata);
-        })
-        .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
-        .catch((err) => {
-          setError(err.error);
-        })
-        .then(dispatch({ type: "FETCH_DATA_FAILURE" }));
-      axiosInstance
-        .get("/questionnaire/2/")
-        .then((response) => {
-          setQuizData(response.data);
-          console.log("questionnaire: ", response.data);
+          setServicesTable(
+            response.data.ServiceTable.find((tb) => tb.name === "Tiers")
+          );
+          setCompetitorsTable(
+            response.data.ServiceTable.find((tb) => tb.name === "Competitors")
+          );
+          setServices(response.data.ServiceTier);
+          setBenefitsBlock(response.data.Benefits);
+          setQuizData(
+            response.data.Questionnaire.find((tb) => tb.slug === "service-quiz")
+          );
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
@@ -90,7 +84,7 @@ function ServicesPage({ handleUpdate }) {
         setServices={setServices}
         servicesTableData={servicesTable}
         competitorsTableData={competitorsTable}
-        benefitsData={data.benefits}
+        benefitsData={data.Benefits}
         benefitsBlock={benefitsBlock}
         setBenefitsBlock={setBenefitsBlock}
         quizData={quizData}

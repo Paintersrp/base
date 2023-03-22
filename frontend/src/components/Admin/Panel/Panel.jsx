@@ -5,6 +5,7 @@ import {
   Breadcrumbs,
   Typography,
   makeStyles,
+  Tooltip,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -28,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 16,
     fontWeight: 600,
     fontFamily: "Poppins",
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
 }));
 
@@ -281,9 +287,15 @@ const Panel = ({ apiData, setCount }) => {
             aria-label="breadcrumb"
             style={{ display: "flex" }}
           >
-            <Link className={classes.activeLink} to="/admin">
-              Home
-            </Link>
+            <Tooltip
+              title={`Dashboard`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link className={classes.activeLink} to="/admin">
+                Home
+              </Link>
+            </Tooltip>
             <Typography color="textPrimary">{model.verbose_name}</Typography>
           </Breadcrumbs>
           <Grid container justifyContent="center">
@@ -295,20 +307,26 @@ const Panel = ({ apiData, setCount }) => {
                 justifyContent: "flex-end",
               }}
             >
-              <Link
-                to={`/admin/${model.model_name}/control`}
-                state={{
-                  url: url,
-                  keys: keys,
-                  appName: appName,
-                  model: model,
-                  metadata: metadata,
-                  id: selected ? selected : null,
-                }}
-                key={appName}
+              <Tooltip
+                title={`Create ${model.verbose_name} Object`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
               >
-                <StyledButton buttonText="Create" minWidth={0} />
-              </Link>
+                <Link
+                  to={`/admin/${model.model_name}/control`}
+                  state={{
+                    url: url,
+                    keys: keys,
+                    appName: appName,
+                    model: model,
+                    metadata: metadata,
+                    id: selected ? selected : null,
+                  }}
+                  key={appName}
+                >
+                  <StyledButton buttonText="Create" minWidth={0} />
+                </Link>
+              </Tooltip>
             </Grid>
           </Grid>
           <TableContainer>

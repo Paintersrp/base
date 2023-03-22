@@ -3,7 +3,7 @@ from .views import *
 
 
 urlpatterns = [
-    path("landing/", LandingFullView.as_view(), name="landing-full"),
+    path("landing/", LandingFullTestView.as_view(), name="landing-full"),
     path("feature/", FeatureAPIView.as_view(), name="feature-list"),
     path(
         "feature/<int:pk>/",

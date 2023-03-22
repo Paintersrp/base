@@ -2,6 +2,7 @@ from .models import *
 from .serializers import *
 from api.custom_views import *
 from jobs.models import JobPosting
+from api.utils import get_serialized_page_data
 
 
 class ContactInformationAPIView(BaseListView):
@@ -76,32 +77,29 @@ class TeamMemberBulkAPIView(BaseBulkView):
     model_class = TeamMember
 
 
-class AppInfoFull(object):
-    def __init__(
-        self,
-        contact_information,
-        socials,
-        hours,
-        members,
-        jobs,
-    ):
-        self.contact_information = contact_information
-        self.socials = socials
-        self.hours = hours
-        self.members = members
-        self.jobs = jobs
-
-
 class AppInfoFullView(generics.GenericAPIView):
-    serializer_class = AppInfoFullSerializer
-
     def get(self, request, *args, **kwargs):
-        contact_information = ContactInformation.objects.first()
-        socials = Socials.objects.first()
-        hours = Hours.objects.first()
-        members = TeamMember.objects.all()
-        jobs = JobPosting.objects.filter(filled=False)
-        landing_full = AppInfoFull(contact_information, socials, hours, members, jobs)
-        serializer = self.get_serializer(instance=landing_full)
+        model_dict = {
+            "ContactInformation": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "Socials": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "Hours": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "TeamMember": {
+                "app_label": "contact",
+            },
+            "JobPosting": {
+                "filter": {"filled": False},
+                "app_label": "jobs",
+            },
+        }
 
-        return Response(serializer.data)
+        data = get_serialized_page_data(model_dict, request)
+        return Response(data)

@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes
 from django.db.models import ImageField
 from django.contrib.contenttypes.models import ContentType
 
@@ -97,6 +97,7 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
         else:
             data = request.data
 
+        print(data)
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)

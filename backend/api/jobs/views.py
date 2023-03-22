@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes
 from api.custom_views import *
 
 
@@ -14,47 +14,51 @@ class JobPostingListView(generics.ListCreateAPIView):
     serializer_class = JobPostingSerializer
 
     def create(self, request, *args, **kwargs):
-        form_data = request.POST
-        position = form_data.get("position")
-        location = form_data.get("location")
-        type = form_data.get("type")
-        tagline = form_data.get("tagline")
-        who_we_are = form_data.get("who_we_are")
-        why_apply = form_data.get("why_apply")
-        looking_for = form_data.get("looking_for")
-        requirements = form_data.get("requirements[]")
-        responsibilities = form_data.get("responsibilities[]")
+        formatted_data = self.serializer_class().format_data(request.data)
+        requirements_list = formatted_data.get("requirements", [])
+        responsibilities_list = formatted_data.get("responsibilities", [])
 
-        data = {
-            "position": position,
-            "location": location,
-            "type": type,
-            "tagline": tagline,
-            "who_we_are": who_we_are,
-            "why_apply": why_apply,
-            "looking_for": looking_for,
-            "requirements": requirements,
-            "responsibilities": responsibilities,
-        }
+        requirement_objs = []
+        for requirement in requirements_list:
+            requirement_obj, created = Requirement.objects.get_or_create(
+                detail=requirement
+            )
+            requirement_objs.append(requirement_obj)
 
-        if isinstance(data.get("requirements"), str):
-            requirements = data["requirements"].split(",")
-            data["requirements"] = [{"detail": item.strip()} for item in requirements]
+        responsibility_objs = []
+        for responsibility in responsibilities_list:
+            print(responsibility)
+            responsibility_obj, created = Responsibilities.objects.get_or_create(
+                detail=responsibility
+            )
+            responsibility_objs.append(responsibility_obj)
 
-        if isinstance(data.get("responsibilities"), str):
-            responsibilities = data["responsibilities"].split(",")
-            data["responsibilities"] = [
-                {"detail": item.strip()} for item in responsibilities
-            ]
+        filled_status = False
 
-        serializer = JobPostingSerializer(data=data)
+        job_posting = JobPosting.objects.create(
+            position=formatted_data.get("position"),
+            location=formatted_data.get("location"),
+            type=formatted_data.get("type"),
+            tagline=formatted_data.get("tagline"),
+            who_we_are=formatted_data.get("who_we_are"),
+            looking_for=formatted_data.get("looking_for"),
+            why_apply=formatted_data.get("why_apply"),
+            filled=filled_status,
+        )
 
-        if serializer.is_valid():
-            serializer.create(validated_data=data)
+        job_posting.requirements.set(requirement_objs)
+        job_posting.responsibilities.set(responsibility_objs)
 
-            return JsonResponse(serializer.data, status=201)
+        create_log_entry(
+            LogEntry.Action.CREATE,
+            request.username if request.username else None,
+            job_posting,
+            None,
+        )
 
-        return JsonResponse(serializer.errors, status=400)
+        serializer = self.get_serializer(job_posting)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class JobPostingAllListView(generics.ListCreateAPIView):
@@ -62,9 +66,67 @@ class JobPostingAllListView(generics.ListCreateAPIView):
     serializer_class = JobPostingSerializer
 
 
-class JobPostingDetailView(generics.RetrieveUpdateDestroyAPIView):
+class JobPostingDetailView(BaseDetailView):
     queryset = JobPosting.objects.all()
     serializer_class = JobPostingSerializer
+    model_class = JobPosting
+
+    # look to pricing for create function if necessary
+
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        instance = self.get_object()
+        old_instance = JobPosting.objects.get(pk=instance.pk)
+        formatted_data = self.serializer_class().format_data(request.data)
+        print(formatted_data)
+
+        requirements_list = formatted_data.get("requirements", [])
+        responsibilities_list = formatted_data.get("responsibilities", [])
+
+        requirement_objs = []
+        for requirement in requirements_list:
+            requirement_obj, created = Requirement.objects.get_or_create(
+                detail=requirement
+            )
+            requirement_objs.append(requirement_obj)
+
+        responsibility_objs = []
+        for responsibility in responsibilities_list:
+            print(responsibility)
+            responsibility_obj, created = Responsibilities.objects.get_or_create(
+                detail=responsibility
+            )
+            responsibility_objs.append(responsibility_obj)
+
+        filled_status = formatted_data.get("filled", instance.filled)
+
+        if filled_status == "false":
+            filled_status = False
+        elif filled_status == "true":
+            filled_status = True
+
+        instance.position = formatted_data.get("position", instance.position)
+        instance.location = formatted_data.get("location", instance.location)
+        instance.type = formatted_data.get("type", instance.type)
+        instance.tagline = formatted_data.get("tagline", instance.tagline)
+        instance.who_we_are = formatted_data.get("who_we_are", instance.who_we_are)
+        instance.why_apply = formatted_data.get("why_apply", instance.why_apply)
+        instance.looking_for = formatted_data.get("looking_for", instance.looking_for)
+        instance.filled = filled_status
+        instance.save()
+        instance.requirements.set(requirement_objs)
+        instance.responsibilities.set(responsibility_objs)
+        serializer = self.get_serializer(instance)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
+
+        return Response(serializer.data)
 
 
 class JobPostingBulkAPIView(BaseBulkView):
@@ -178,3 +240,21 @@ class ApplicationBulkAPIView(BaseBulkView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     model_class = Application
+
+
+class ResponsibilitiesAPIView(BaseListView):
+    queryset = Responsibilities.objects.all()
+    serializer_class = ResponsibilitiesSerializer
+    model_class = Responsibilities
+
+
+class ResponsibilitiesDetailAPIView(BaseDetailView):
+    queryset = Responsibilities.objects.all()
+    serializer_class = ResponsibilitiesSerializer
+    model_class = Responsibilities
+
+
+class ResponsibilitiesBulkAPIView(BaseBulkView):
+    queryset = Responsibilities.objects.all()
+    serializer_class = ResponsibilitiesSerializer
+    model_class = Responsibilities

@@ -68,7 +68,6 @@ function BaseEditForm({
   handleSwitchChange = {},
   iconMixin = false,
   imageMixin = false,
-  JobMixin = false,
   newImage = "",
   newImageName = "",
   noBoxShadow = false,
@@ -133,14 +132,6 @@ function BaseEditForm({
           ) : null}
           {iconMixin ? (
             <IconSelectMixin handleChange={handleChange} formData={formData} />
-          ) : null}
-          {JobMixin ? (
-            <JobMixin
-              handleSwitchChange={handleSwitchChange}
-              formData={formData}
-              handleManyToManyChange={handleManyToManyChange}
-              setFormData={setFormData}
-            />
           ) : null}
 
           <UpdateCancelButtonMenu

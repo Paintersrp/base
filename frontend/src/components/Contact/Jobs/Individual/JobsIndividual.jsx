@@ -41,6 +41,8 @@ const JobPosting = ({ job, setJob }) => {
   const dispatch = useDispatch();
   const editmode = useSelector((state) => state.editmode);
 
+   
+
   useEffect(() => {
     dispatch({ type: "FETCH_DATA_REQUEST" });
     const fetchData = async () => {
@@ -97,15 +99,11 @@ const JobPosting = ({ job, setJob }) => {
                   />
                 </div>
               )}
-              <JobDetails job={job} handleApplyNowClick={handleApplyNowClick} />
-              <Grid item xs={12}>
-                <Typography variant="h4" className={classes.sectionTitle}>
-                  Why Apply?
-                </Typography>
-                <Typography variant="body2" className={classes.whyApply}>
-                  {job.why_apply}
-                </Typography>
-              </Grid>
+              <JobDetails
+                job={job}
+                handleApplyNowClick={handleApplyNowClick}
+                editMode={editmode.editMode}
+              />
 
               <ApplicationForm
                 job={job}

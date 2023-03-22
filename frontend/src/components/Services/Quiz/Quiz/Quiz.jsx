@@ -16,6 +16,7 @@ const Quiz = ({
   quizData,
   editMode,
 }) => {
+  console.log(servicesTableData, competitorsTableData, "tabledata");
   const classes = quizStyles();
   const [recommendedServices, setRecommendedServices] = useState(null);
   const [unrecommendedServices, setUnrecommendedServices] = useState([]);

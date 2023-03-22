@@ -74,17 +74,18 @@ class JobPosting(models.Model):
         related_name="responsibilities",
         verbose_name="Responsibilities",
     )
-    why_apply = CustomTextField(
-        max_length=500,
-        md_column_count=12,
-        verbose_name="Why Apply",
-        help_text="Top Header Display of Hero Section",
-    )
+
     looking_for = CustomTextField(
         max_length=500,
         md_column_count=12,
         null=True,
         verbose_name="Looking For",
+        help_text="Top Header Display of Hero Section",
+    )
+    why_apply = CustomTextField(
+        max_length=500,
+        md_column_count=12,
+        verbose_name="Why Apply",
         help_text="Top Header Display of Hero Section",
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")

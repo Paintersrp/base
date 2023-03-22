@@ -1,13 +1,11 @@
 from rest_framework import serializers
-from PIL import Image
 from .models import *
 from contact.models import *
 from contact.serializers import *
-from jobs.serializers import JobPostingSerializer
-from api.views import get_model_metadata
 
 
 class AboutBlockSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False, allow_null=True)
     FIELD_KEYS = ["title", "image"]
 
     class Meta:
@@ -96,31 +94,7 @@ class FAQSerializer(serializers.ModelSerializer):
         return instance
 
 
-class AboutFullSerializer(serializers.Serializer):
-    about_block = AboutBlockSerializer()
-    mission_statement = MissionStatementSerializer()
-    company_history = CompanyHistorySerializer()
-    core_values = ValueSerializer(many=True)
-    team_members = TeamMemberSerializer(many=True)
-    contact_information2 = ContactInformationSerializer()
-    socials = SocialsSerializer()
-    hours = HoursSerializer()
-    jobs = JobPostingSerializer(many=True)
-    metadata = serializers.SerializerMethodField()
 
-    def get_metadata(self, obj):
-        metadata = []
-        for model in [
-            "AboutBlock",
-            "MissionStatement",
-            "CompanyHistory",
-            "Value",
-            "TeamMember",
-            "ContactInformation",
-            "JobPosting",
-        ]:
-            metadata.append(get_model_metadata(model))
-        return metadata
 
 
 AboutBlock.serializer_class = AboutBlockSerializer

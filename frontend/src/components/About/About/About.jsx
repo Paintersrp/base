@@ -51,7 +51,7 @@ export default function About({ setError, editMode = false }) {
   const classes = useStyles();
 
   const [data, setData] = useState([]);
-  const [metadata, setMetaData] = useState({});
+  // const [metadata, setMetaData] = useState({});
   const [historyData, setHistoryData] = useState([]);
   const [valuesData, setValuesData] = useState(null);
 
@@ -68,17 +68,17 @@ export default function About({ setError, editMode = false }) {
       axiosInstance
         .get("/about/")
         .then((response) => {
-          setData(response.data.about_block);
-          setMissionData(response.data.mission_statement);
-          setHistoryData(response.data.company_history);
-          setValuesData(response.data.core_values);
+          setData(response.data.AboutBlock);
+          setMissionData(response.data.MissionStatement);
+          setHistoryData(response.data.CompanyHistory);
+          setValuesData(response.data.Value);
           setMissionBody(
-            response.data.mission_statement.body.replace(/<br\s*[\/]?>/gi, "")
+            response.data.MissionStatement.body.replace(/<br\s*[\/]?>/gi, "")
           );
           setHistoryBody(
-            response.data.company_history.body.replace(/<br\s*[\/]?>/gi, "")
+            response.data.CompanyHistory.body.replace(/<br\s*[\/]?>/gi, "")
           );
-          setMetaData(response.data.metadata);
+          // setMetaData(response.data.metadata);
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {

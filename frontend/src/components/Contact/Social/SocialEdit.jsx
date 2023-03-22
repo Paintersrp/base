@@ -25,20 +25,13 @@ export default function SocialEdit({ initialData, onUpdate, handleCancel }) {
       },
     };
     try {
-      await axios.patch(
-        `http://localhost:8000/api/contactinformation/1/`,
+      const res = await axios.patch(
+        `http://localhost:8000/api/socials/1/`,
         formData,
         config
       );
-      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/api/contactinformation/1/`
-      );
       onUpdate(res.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }

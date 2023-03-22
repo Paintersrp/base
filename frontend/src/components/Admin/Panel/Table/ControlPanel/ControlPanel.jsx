@@ -2,15 +2,19 @@ import React from "react";
 import Container from "../../../../Elements/Layout/Container/Container";
 import Text from "../../../../Elements/Layout/Text/Text";
 import ActionMixin from "./Mixins/ActionMixin";
+import ApplicationFilterMixin from "./Mixins/ApplicationFilterMixin";
 import MessageFilterMixin from "./Mixins/MessageFilterMixin";
 import SearchMixin from "./Mixins/SearchMixin";
 
 const ControlPanel = ({
+  modelName,
   keys,
   isReadFilter,
   setIsReadFilter,
   isArchivedFilter,
+  statusFilter,
   setIsArchivedFilter,
+  setStatusFilter,
   handleClearFilters,
   selectedAction,
   handleActionSelect,
@@ -53,6 +57,13 @@ const ControlPanel = ({
             setIsReadFilter={setIsReadFilter}
             isArchivedFilter={isArchivedFilter}
             setIsArchivedFilter={setIsArchivedFilter}
+            handleClearFilters={handleClearFilters}
+          />
+        )}
+        {modelName === "application" && (
+          <ApplicationFilterMixin
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
             handleClearFilters={handleClearFilters}
           />
         )}

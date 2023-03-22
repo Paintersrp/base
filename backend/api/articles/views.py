@@ -9,7 +9,7 @@ import jwt
 from django.contrib import admin
 from django.shortcuts import render
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes
 
 
 class ArticleListCreateView(generics.ListCreateAPIView):

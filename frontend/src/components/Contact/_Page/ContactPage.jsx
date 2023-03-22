@@ -36,11 +36,11 @@ function ContactPage({ handleUpdate }) {
       axiosInstance
         .get("/appinfo/")
         .then((response) => {
-          setMembersData(response.data.members);
-          setContactData(response.data.contact_information);
-          setSocialData(response.data.socials);
-          setHoursData(response.data.hours);
-          setJobsData(response.data.jobs);
+          setMembersData(response.data.TeamMember);
+          setContactData(response.data.ContactInformation);
+          setSocialData(response.data.Socials);
+          setHoursData(response.data.Hours);
+          setJobsData(response.data.JobPosting);
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {

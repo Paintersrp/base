@@ -21,6 +21,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from support.models import Subscribers
 from articles.models import Articles, Tags
+from django.db.models import Max
 
 
 def get_model_metadata(model_name):
@@ -432,6 +433,42 @@ class SingleModelAPIView(APIView):
         if "alignment" in metadata:
             metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
 
+        # metadata.update(
+        #     {
+        #         "autoFormLabel": model._meta.autoform_label
+        #         if hasattr(model._meta, "autoform_label")
+        #         else None,
+        #         "longDescription": model._meta.long_description
+        #         if hasattr(model._meta, "long_description")
+        #         else None,
+        #         "shortDescription": model._meta.short_description
+        #         if hasattr(model._meta, "short_description")
+        #         else None,
+        #         "pagesAssociated": model._meta.pages_associated
+        #         if hasattr(model._meta, "pages_associated")
+        #         else None,
+        #         "preview": model._meta.include_preview
+        #         if hasattr(model._meta, "include_preview")
+        #         else False,
+        #         "icon": model._meta.icon if hasattr(model._meta, "icon") else None,
+        #         "icon_class": model._meta.icon_class
+        #         if hasattr(model._meta, "icon_class")
+        #         else None,
+        #         "slug": model._meta.slug if hasattr(model._meta, "slug") else None,
+        #         "tags": model._meta.tags if hasattr(model._meta, "tags") else False,
+        #         "relatedComponents": model._meta.related_components
+        #         if hasattr(model._meta, "related_components")
+        #         else None,
+        #         "visibility": model._meta.visibility
+        #         if hasattr(model._meta, "visibility")
+        #         else None,
+        #         "access_level": model._meta.access_level
+        #         if hasattr(model._meta, "access_level")
+        #         else None,
+        #         "object_count": model.objects.aggregate(max_id=Max("id"))["max_id"],
+        #     }
+        # )
+
         endpoint = {
             "app_name": model._meta.app_label,
             "model_name": model_name,
@@ -497,3 +534,94 @@ class SingleModelAPIView(APIView):
             }
 
         return Response(endpoint)
+
+
+class SingleAppEndpointAPIView(APIView):
+    def get(self, request, app_name=None, format=None):
+        app_config = apps.get_app_config(app_name)
+        models = app_config.get_models()
+
+        endpoints = {
+            "models": {},
+        }
+
+        for model in models:
+            app_name_str = model._meta.app_label
+            model_name = model.__name__.lower()
+            endpoints["models"][model_name] = []
+            print(model_name)
+            print(app_name_str)
+            serializer_class = getattr(model, "serializer_class", None)
+            if serializer_class is None:
+                continue
+
+            serializer = serializer_class()
+            fields = serializer.get_fields()
+            metadata = {}
+
+            for field_name, field in fields.items():
+                if not field_name == "id":
+                    metadata[field_name] = {"type": field.__class__.__name__}
+
+                    try:
+                        if model._meta.get_field(field_name).verbose_name:
+                            metadata[field_name][
+                                "verbose_name"
+                            ] = model._meta.get_field(field_name).verbose_name
+                    except:
+                        metadata[field_name]["verbose_name"] = None
+
+            if "alignment" in metadata:
+                metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
+
+            try:
+                url = reverse(f"{model_name}-list")
+                url = url.replace("/api/", "/")
+            except NoReverseMatch:
+                url = None
+
+            endpoint = {
+                "model_name": model_name,
+                "verbose_name": model._meta.verbose_name,
+                "verbose_name_plural": model._meta.verbose_name_plural,
+                "url": url,
+                "metadata": metadata,
+                "keys": serializer.FIELD_KEYS,
+                "autoFormLabel": model._meta.autoform_label
+                if hasattr(model._meta, "autoform_label")
+                else None,
+                "longDescription": model._meta.long_description
+                if hasattr(model._meta, "long_description")
+                else None,
+                "shortDescription": model._meta.short_description
+                if hasattr(model._meta, "short_description")
+                else None,
+                "pagesAssociated": model._meta.pages_associated
+                if hasattr(model._meta, "pages_associated")
+                else None,
+                "preview": model._meta.include_preview
+                if hasattr(model._meta, "include_preview")
+                else False,
+                "icon": model._meta.icon if hasattr(model._meta, "icon") else None,
+                "icon_class": model._meta.icon_class
+                if hasattr(model._meta, "icon_class")
+                else None,
+                "slug": model._meta.slug if hasattr(model._meta, "slug") else None,
+                "tags": model._meta.tags if hasattr(model._meta, "tags") else False,
+                "relatedComponents": model._meta.related_components
+                if hasattr(model._meta, "related_components")
+                else None,
+                "visibility": model._meta.visibility
+                if hasattr(model._meta, "visibility")
+                else None,
+                "access_level": model._meta.access_level
+                if hasattr(model._meta, "access_level")
+                else None,
+            }
+
+            if hasattr(serializer, "SEARCH_KEYS"):
+                endpoint["search_keys"] = serializer.SEARCH_KEYS
+
+            endpoints["models"][model_name].append(endpoint)
+
+        return Response(endpoints)

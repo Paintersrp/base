@@ -28,11 +28,14 @@ export default function renderSections({
   const sections = [];
 
   Object.entries(models).map(([appName, modelItem], index) => {
-    console.log("modelConfig: ", configs[appName]);
-
+    console.log("appName", appName, "modelItem", modelItem);
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
       setOpenAppSections((prev) => ({ ...prev, [appName]: !isOpen }));
+
+    if (appName === "content") {
+      return null;
+    }
 
     sections.push(
       <Grid item xs={12} sm={6} md={6} lg={4} key={appName}>
@@ -83,7 +86,11 @@ export default function renderSections({
                           marginTop: 8,
                         }}
                       >
-                        <Tooltip title="View Site Page" placement="top">
+                        <Tooltip
+                          title="View Site Page"
+                          placement="bottom"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
                           <IconButton
                             className={classes.launchButton}
                             size="small"

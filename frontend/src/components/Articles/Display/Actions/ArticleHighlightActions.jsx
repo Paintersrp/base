@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import { Button, Chip, Grid, Tooltip } from "@material-ui/core";
+import { Button, Chip, Divider, Grid, Tooltip } from "@material-ui/core";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
@@ -90,6 +90,7 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
           </Link>
         </Tooltip>
       </Grid>
+      <Divider style={{ color: "black" }} />
     </Grid>
   );
 };

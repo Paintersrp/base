@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { NavigateNext, Add } from "@material-ui/icons";
 
 export default function renderModels({ modelItem, appName, classes }) {
+  console.log(modelItem);
+
   return modelItem
     .filter((model) => model.url !== null)
     .map((model) => {
@@ -19,50 +21,60 @@ export default function renderModels({ modelItem, appName, classes }) {
       // }
 
       return (
-        <Link
-          to={`/admin/${model.model_name}`}
-          state={{
-            url: model.url,
-            keys: model.keys,
-            appName: appName,
-            model: model,
-            metadata: model.metadata,
-            searchKeys: model.search_keys,
-          }}
-          key={model.model_name}
+        <Tooltip
+          title={`View ${model.verbose_name} Model`}
+          placement="right"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <ListItem
-            button
-            style={{ color: "black" }}
-            className={classes.hoverLink}
+          <Link
+            to={`/admin/${model.model_name}`}
+            state={{
+              url: model.url,
+              keys: model.keys,
+              appName: appName,
+              model: model,
+              metadata: model.metadata,
+              searchKeys: model.search_keys,
+            }}
+            key={model.model_name}
           >
-            <ListItemIcon
-              style={{
-                color: "black",
-              }}
+            <ListItem
+              button
+              style={{ color: "black" }}
+              className={classes.hoverLink}
             >
-              <NavigateNext />
-            </ListItemIcon>
-
-            <ListItemText primary={model.verbose_name} />
-
-            <Link to={`/admin/${model.model_name}/control`}>
               <ListItemIcon
                 style={{
                   color: "black",
-                  display: "flex",
-                  justifyContent: "flex-end",
                 }}
               >
-                <Tooltip title="Add" placement="top">
-                  <IconButton className={classes.addButton} size="small">
-                    <Add />
-                  </IconButton>
-                </Tooltip>
+                <NavigateNext />
               </ListItemIcon>
-            </Link>
-          </ListItem>
-        </Link>
+
+              <ListItemText primary={model.verbose_name} />
+
+              <Link to={`/admin/${model.model_name}/control`}>
+                <ListItemIcon
+                  style={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Tooltip
+                    title={`Create ${model.verbose_name} Object`}
+                    placement="bottom"
+                    classes={{ tooltip: classes.tooltip }}
+                  >
+                    <IconButton className={classes.addButton} size="small">
+                      <Add />
+                    </IconButton>
+                  </Tooltip>
+                </ListItemIcon>
+              </Link>
+            </ListItem>
+          </Link>
+        </Tooltip>
       );
     });
 }

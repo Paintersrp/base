@@ -1,4 +1,9 @@
-import { Breadcrumbs, makeStyles, Typography } from "@material-ui/core";
+import {
+  Breadcrumbs,
+  makeStyles,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import PageContainer from "../../../Elements/Layout/PageContainer";
@@ -23,11 +28,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontFamily: "Poppins",
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 function ObjectPage() {
   const { str, pk } = useParams();
-  console.log(str);
   const classes = useStyles();
   const location = useLocation();
   const [model, setModel] = useState(null);
@@ -57,7 +66,6 @@ function ObjectPage() {
   useEffect(() => {
     setReady(false);
     if (!location.state && !pk) {
-      console.log("HERE");
       axiosInstance
         .get(`/get_models/${str}/`)
         .then((response) => {
@@ -106,8 +114,6 @@ function ObjectPage() {
       setModel(location.state.model);
       setId(location.state.id);
       setData(location.state.data);
-      console.log("OBJ PAGE URL2: ", location.state.url);
-      console.log("OBJ PAGE KEYS2: ", location.state.keys);
       setReady(true);
     }
   }, []);
@@ -132,24 +138,36 @@ function ObjectPage() {
             aria-label="breadcrumb"
             style={{ display: "flex" }}
           >
-            <Link className={classes.activeLink} to="/admin">
-              Home
-            </Link>
-            <Link
-              to={`/admin${url}`}
-              state={{
-                url: url,
-                keys: keys,
-                appName: appName,
-                model: model,
-                metadata: metadata,
-                id: id,
-              }}
-              key={appName}
-              className={classes.activeLink}
+            <Tooltip
+              title={`Dashboard`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
             >
-              {model.verbose_name}
-            </Link>
+              <Link className={classes.activeLink} to="/admin">
+                Home
+              </Link>
+            </Tooltip>
+            <Tooltip
+              title={`${model.verbose_name} Model`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link
+                to={`/admin${url}`}
+                state={{
+                  url: url,
+                  keys: keys,
+                  appName: appName,
+                  model: model,
+                  metadata: metadata,
+                  id: id,
+                }}
+                key={appName}
+                className={classes.activeLink}
+              >
+                {model.verbose_name}
+              </Link>
+            </Tooltip>
             <Typography color="textPrimary">
               {Array.isArray(id) ? "Creation" : "Update"}
             </Typography>

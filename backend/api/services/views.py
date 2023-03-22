@@ -2,73 +2,59 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
-from contact.models import ContactInformation, Socials
-from landing.models import ServiceTier, TitleBlock
+from landing.models import ServiceTier
 from tables.models import *
-from general.models import ContentTextBlock
 from tables.serializers import *
 from django.shortcuts import get_object_or_404
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes, get_serialized_page_data
 from api.custom_views import *
 
 
-class ServiceFull(object):
-    def __init__(
-        self,
-        process_text,
-        process_image,
-        contact_information,
-        socials,
-        service_tier,
-        service_table_services,
-        service_table_competitors,
-        title_block_benefits,
-        benefits,
-        content_text_block,
-    ):
-        self.process_text = process_text
-        self.process_image = process_image
-        self.contact_information = contact_information
-        self.socials = socials
-        self.service_tier = service_tier
-        self.service_table_services = service_table_services
-        self.service_table_competitors = service_table_competitors
-        self.title_block_benefits = title_block_benefits
-        self.benefits = benefits
-        self.content_text_block = content_text_block
-
-
-class ServiceFullView(generics.GenericAPIView):
-    serializer_class = ServiceViewSerializer
-
+class ServiceFullTestView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        process_text = ProcessTextItem.objects.all()
-        process_image = ProcessImageItem.objects.all()
-        contact_information = ContactInformation.objects.first()
-        socials = Socials.objects.first()
-        service_tier = ServiceTier.objects.all()
-        service_table_services = ServiceTable.objects.get(name="Tiers")
-        service_table_competitors = ServiceTable.objects.get(name="Competitors")
-        title_block_benefits = TitleBlock.objects.get(name="benefits")
-        benefits = Benefits.objects.all()
-        content_text_block = ContentTextBlock.objects.get(slug="service-individual")
+        model_dict = {
+            "ProcessTextItem": {
+                "app_label": "services",
+            },
+            "ProcessImageItem": {
+                "app_label": "services",
+            },
+            "ContactInformation": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "Socials": {
+                "app_label": "contact",
+                "get_first": True,
+            },
+            "ServiceTier": {
+                "app_label": "landing",
+            },
+            "ServiceTable": {
+                "app_label": "tables",
+                "filter": {"name__in": ["Tiers", "Competitors"]},
+            },
+            "TitleBlock": {
+                "app_label": "landing",
+                "filter": {"name": "benefits"},
+            },
+            "Benefits": {
+                "app_label": "services",
+            },
+            "ContentTextBlock": {
+                "app_label": "general",
+                "filter": {"slug": "service-individual"},
+            },
+            "Questionnaire": {
+                "app_label": "quizes",
+                "filter": {"pk": 2},
+            },
+        }
 
-        service_full = ServiceFull(
-            process_text,
-            process_image,
-            contact_information,
-            socials,
-            service_tier,
-            service_table_services,
-            service_table_competitors,
-            title_block_benefits,
-            benefits,
-            content_text_block,
-        )
-        serializer = self.get_serializer(instance=service_full)
+        data = get_serialized_page_data(model_dict, request)
 
-        return Response(serializer.data)
+        return Response(data)
 
 
 class BenefitsAPIView(BaseListView):

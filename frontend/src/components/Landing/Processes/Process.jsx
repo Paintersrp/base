@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -55,11 +55,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Process({ step, noEdit = false, noFade = false }) {
+  console.log("step", step);
   const classes = useStyles();
   const [featureData, setFeatureData] = useState(step);
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
   const editmode = useSelector((state) => state.editmode);
+
+  // useEffect(() => {
+  //   setFeatureData(step);
+  // }, [step]);
 
   const updateProcess = (updateProcess) => {
     setFeatureData(updateProcess);
@@ -73,16 +78,16 @@ export default function Process({ step, noEdit = false, noFade = false }) {
           {!editing ? (
             <>
               <Grid className={classes.iconContainer} item xs={12}>
-                <Icon icon={step.icon} className={classes.icon} />
+                <Icon icon={featureData.icon} className={classes.icon} />
               </Grid>
               <Grid item xs={12}>
                 <Typography className={classes.heading}>
-                  {step.title}
+                  {featureData.title}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" className={classes.description}>
-                  {step.description}
+                  {featureData.description}
                 </Typography>
               </Grid>
               {!editing && editmode.editMode && !noEdit ? (
@@ -93,7 +98,7 @@ export default function Process({ step, noEdit = false, noFade = false }) {
                     position="end"
                     adminLink="process"
                     text="Process"
-                    obj={step.id}
+                    obj={featureData.id}
                   />
                 </div>
               ) : null}

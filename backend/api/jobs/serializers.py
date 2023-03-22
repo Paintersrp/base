@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+import re
 
 
 class ResponsibilitiesSerializer(serializers.ModelSerializer):
@@ -48,12 +49,14 @@ class JobPostingSerializer(serializers.ModelSerializer):
         return posting
 
     def update(self, instance, validated_data):
+        print(validated_data)
         requirements_data = validated_data.pop("requirements", [])
         responsibilities_data = validated_data.pop("responsibilities", [])
 
         instance = super().update(instance, validated_data)
 
         for requirement_data in requirements_data:
+
             requirement, created = Requirement.objects.get_or_create(**requirement_data)
             instance.requirements.add(requirement)
 
@@ -64,6 +67,28 @@ class JobPostingSerializer(serializers.ModelSerializer):
             instance.responsibilities.add(responsibility)
 
         return instance
+
+    def format_data(self, data):
+        formatted_data = {"requirements": [], "responsibilities": []}
+
+        for key, value in data.items():
+            parts = re.findall(r"\[(.*?)\]", key)
+            name = key.split("[")[0]
+
+            if name == "requirements":
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "detail":
+                    feature_detail = value
+                    formatted_data[name].append(feature_detail)
+
+            elif name == "responsibilities":
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "detail":
+                    supported_site_detail = value
+                    formatted_data[name].append(supported_site_detail)
+
+            else:
+                formatted_data[name] = value
+
+        return formatted_data
 
 
 class ApplicationSerializer(serializers.ModelSerializer):

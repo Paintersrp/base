@@ -17,8 +17,12 @@ import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 function LandingPage({ handleUpdate }) {
   const [error, setError] = useState();
   const [data, setData] = useState({});
-  const [metadata, setMetaData] = useState({});
   const [heroData, setHeroData] = useState({});
+  const [processData, setProcessData] = useState({});
+  const [newsData, setNewsData] = useState({});
+  const [serviceData, setServiceData] = useState({});
+  const [contactData, setContactData] = useState({});
+  const [socialsData, setSocialsData] = useState({});
   const [processBlock, setProcessBlock] = useState([]);
   const [newsBlock, setNewsBlock] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -32,10 +36,18 @@ function LandingPage({ handleUpdate }) {
         .get("/landing/")
         .then((response) => {
           setData(response.data);
-          setHeroData(response.data.hero_block);
-          setProcessBlock(response.data.title_block_process);
-          setNewsBlock(response.data.title_block_news);
-          setMetaData(response.data.metadata);
+          setHeroData(response.data.HeroBlock);
+          setProcessData(response.data.Process);
+          setProcessBlock(
+            response.data.TitleBlock.find((tb) => tb.name === "process")
+          );
+          setNewsBlock(
+            response.data.TitleBlock.find((tb) => tb.name === "news")
+          );
+          setNewsData(response.data.Articles);
+          setContactData(response.data.ContactInformation);
+          setSocialsData(response.data.Socials);
+          setServiceData(response.data.ServiceTier);
           dispatch({ type: "FETCH_DATA_SUCCESS" });
         })
         .catch((err) => {
@@ -78,18 +90,20 @@ function LandingPage({ handleUpdate }) {
           <Hero
             heroData={heroData}
             setHeroData={setHeroData}
-            contactData={data.socials}
+            contactData={contactData}
+            socialData={socialsData}
             editMode={editmode.editMode}
             form={true}
           />
-          <Pricing serviceData={data.service_tiers} />
+          <Pricing serviceData={serviceData} />
           <Processes
-            processData={data.processes}
+            processData={processData}
+            setProcessData={setProcessData}
             block={processBlock}
             setBlock={setProcessBlock}
           />
           <LatestNews
-            articlesData={data.articles}
+            articlesData={newsData}
             block={newsBlock}
             setBlock={setNewsBlock}
           />

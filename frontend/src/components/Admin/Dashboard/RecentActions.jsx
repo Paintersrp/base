@@ -13,6 +13,7 @@ import {
   Collapse,
   IconButton,
   CardHeader,
+  Tooltip,
 } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -56,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.dark,
     marginRight: theme.spacing(2),
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
@@ -71,14 +77,20 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
           className={classes.cardHeader}
           action={
             <>
-              <Link
-                to="/adminlog"
-                style={{ textDecoration: "none", color: "inherit" }}
+              <Tooltip
+                title={`View Full Log`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
               >
-                <IconButton color="secondary">
-                  <AutoStoriesIcon />
-                </IconButton>
-              </Link>
+                <Link
+                  to="/adminlog"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <IconButton color="secondary">
+                    <AutoStoriesIcon />
+                  </IconButton>
+                </Link>
+              </Tooltip>
               <IconButton onClick={handleExpandClick}>
                 {actionsOpen ? <ExpandLess /> : <ExpandMore />}
               </IconButton>

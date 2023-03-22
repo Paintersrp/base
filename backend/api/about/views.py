@@ -3,66 +3,34 @@ from rest_framework.response import Response
 from .models import *
 from django.http import JsonResponse
 from .serializers import *
-from jobs.models import JobPosting
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes, get_serialized_page_data
 from api.custom_views import *
-from contact.models import *
-
-
-class AboutFull(object):
-    def __init__(
-        self,
-        about_block,
-        mission_statement,
-        company_history,
-        core_values,
-        team_members,
-        contact_information2,
-        socials,
-        hours,
-        jobs,
-    ):
-        self.about_block = about_block
-        self.mission_statement = mission_statement
-        self.company_history = company_history
-        self.core_values = core_values
-        self.team_members = team_members
-        self.contact_information2 = contact_information2
-        self.socials = socials
-        self.hours = hours
-        self.jobs = jobs
 
 
 class AboutFullView(generics.GenericAPIView):
-    serializer_class = AboutFullSerializer
-
     def get(self, request, *args, **kwargs):
-        about_block = AboutBlock.objects.first()
-        mission_statement = MissionStatement.objects.first()
-        company_history = CompanyHistory.objects.first()
-        core_values = Value.objects.all()
-        team_members = TeamMember.objects.all()
-        contact_information2 = ContactInformation.objects.first()
-        socials = Socials.objects.first()
-        hours = Hours.objects.first()
-        jobs = JobPosting.objects.filter(filled=False)
+        model_dict = {
+            "AboutBlock": {
+                "app_label": "about",
+                "get_first": True,
+            },
+            "MissionStatement": {
+                "app_label": "about",
+                "get_first": True,
+            },
+            "CompanyHistory": {
+                "app_label": "about",
+                "get_first": True,
+            },
+            "Value": {
+                "app_label": "about",
+            },
+        }
 
-        about_full = AboutFull(
-            about_block,
-            mission_statement,
-            company_history,
-            core_values,
-            team_members,
-            contact_information2,
-            socials,
-            hours,
-            jobs,
-        )
+        data = get_serialized_page_data(model_dict, request)
 
-        serializer = self.get_serializer(instance=about_full)
-
-        return Response(serializer.data)
+        return Response(data)
 
 
 class AboutBlockAPIView(BaseListView):

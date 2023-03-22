@@ -17,6 +17,7 @@ const MemberEdit = ({ member, onUpdate, handleCancel }) => {
         [event.target.name]: event.target.files[0],
       });
       setNewImage(URL.createObjectURL(event.target.files[0]));
+      // setNewImage(URL.createObjectURL(event.target.files[0]));
       setNewImageName(event.target.files[0].name);
     } else {
       setFormData({
@@ -42,7 +43,7 @@ const MemberEdit = ({ member, onUpdate, handleCancel }) => {
     };
     try {
       await axios.patch(
-        `http://localhost:8000/api/members/${formData.id}/`,
+        `http://localhost:8000/api/teammember/${formData.id}/`,
         formData,
         config
       );
@@ -51,7 +52,7 @@ const MemberEdit = ({ member, onUpdate, handleCancel }) => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/members/${formData.id}/`
+        `http://localhost:8000/api/teammember/${formData.id}/`
       );
       onUpdate(res.data);
       dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });

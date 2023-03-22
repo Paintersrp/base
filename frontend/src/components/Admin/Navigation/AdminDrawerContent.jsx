@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.text.secondary,
     color: "#ffffff",
-    fontSize: "14px",
+    fontSize: "12px",
   },
   linkText: {
     fontSize: "5rem",

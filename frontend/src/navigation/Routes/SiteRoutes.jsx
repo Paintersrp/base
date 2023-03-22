@@ -34,6 +34,7 @@ import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
 import Footer from "../Components/Footer/Footer";
 import ApplicationViewPage from "../../components/Admin/Objects/_Page/ApplicationViewPage";
 import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
+import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDashboard";
 
 {
   /* 
@@ -69,8 +70,8 @@ export default function SiteRoutes({ handleUpdate }) {
       axiosInstance
         .get("/appinfo/")
         .then((response) => {
-          setJobPostings(response.data.jobs);
-          setSocialData(response.data.socials);
+          setJobPostings(response.data.JobPosting);
+          setSocialData(response.data.Socials);
         })
         .catch((err) => {
           setError(err);
@@ -193,6 +194,7 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/admin/application/read/:pk"
             element={<ApplicationViewPage />}
           />
+          <Route path="/admin2" element={<IndividualDashboard />} />
         </Routes>
       ) : (
         <div>

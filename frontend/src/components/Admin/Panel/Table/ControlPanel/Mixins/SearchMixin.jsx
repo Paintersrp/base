@@ -19,42 +19,26 @@ const SearchMixin = ({ handleClearSearch, searchTerm, setSearchTerm }) => {
             }}
           >
             {searchTerm !== "" ? (
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignContent: "center",
-                  display: "flex",
-                }}
-              >
-                <StyledButton
-                  noHover
-                  buttonText="Clear"
-                  variant="contained"
-                  color="primary"
-                  minWidth={50}
-                  onClick={handleClearSearch}
-                  borderRadius={2}
-                />
-              </div>
+              <StyledButton
+                noHover
+                buttonText="Clear"
+                variant="contained"
+                color="primary"
+                minWidth={50}
+                onClick={handleClearSearch}
+                borderRadius={2}
+              />
             ) : (
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignContent: "center",
-                  display: "flex",
-                }}
-              >
-                <StyledButton
-                  noHover
-                  buttonText="Clear"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleClearSearch}
-                  minWidth={50}
-                  borderRadius={2}
-                  disabled
-                />
-              </div>
+              <StyledButton
+                noHover
+                buttonText="Clear"
+                variant="contained"
+                color="primary"
+                onClick={handleClearSearch}
+                minWidth={50}
+                borderRadius={2}
+                disabled
+              />
             )}
           </Item>
           <Item
@@ -73,6 +57,7 @@ const SearchMixin = ({ handleClearSearch, searchTerm, setSearchTerm }) => {
               label="Search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ height: "100%", marginBottom: "0px !important" }}
             />
           </Item>
         </Container>

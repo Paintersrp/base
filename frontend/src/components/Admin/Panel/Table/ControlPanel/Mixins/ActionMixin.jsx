@@ -8,7 +8,8 @@ import Item from "../../../../../Elements/Layout/Item/Item";
 const useStyles = makeStyles((theme) => ({
   select: {
     width: "100%",
-    height: "100%",
+    marginTop: 4,
+    height: "40px",
     overflow: "auto",
     background: "#F5F5F5",
     color: theme.palette.text.dark,
@@ -116,6 +117,7 @@ const ActionMixin = ({
                 },
                 PaperProps: {
                   style: {
+                    marginTop: 4,
                     maxHeight: 300,
                   },
                 },
@@ -149,7 +151,14 @@ const ActionMixin = ({
             </Select>
           </FormControl>
         </Item>
-        <Item xs={2} style={{ alignItems: "center", display: "flex" }}>
+        <Item
+          xs={2}
+          style={{
+            alignItems: "center",
+            display: "flex",
+            height: "100%",
+          }}
+        >
           {selectedAction.length > 0 && selectedItems.length > 0 ? (
             <StyledButton
               noHover

@@ -55,20 +55,22 @@ function ServiceIndividualPage({ handleUpdate }) {
     axiosInstance
       .get(`/services/`)
       .then((response) => {
-        setFullData(response.data.service_tier);
-        const filteredServiceTier = response.data.service_tier.filter(
+        setFullData(response.data.ServiceTier);
+        const filteredServiceTier = response.data.ServiceTier.filter(
           (service) => service.id === parseInt(id)
         );
         setData(filteredServiceTier[0]);
-        setContactData(response.data.contact_information);
-        setSocialData(response.data.socials);
-        setProcessData(response.data.process_text);
-        setContentTextData(response.data.content_text_block);
-        const filteredProcessImage = response.data.process_image.filter(
+        setContactData(response.data.ContactInformation);
+        setSocialData(response.data.Socials);
+        setProcessData(response.data.ProcessTextItem);
+        setContentTextData(response.data.ContentTextBlock[0]);
+        const filteredProcessImage = response.data.ProcessImageItem.filter(
           (image) => image.servicetier === filteredServiceTier[0].service_title
         );
         setProcessImage(filteredProcessImage[0]);
-        setTableData(response.data.service_table_services);
+        setTableData(
+          response.data.ServiceTable.find((tb) => tb.name === "Tiers")
+        );
       })
       .catch((err) => {
         console.log(err);

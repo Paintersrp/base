@@ -87,21 +87,21 @@ function ServiceContact({ data, formRef, contactData, socialData, editMode }) {
   } = useFormValidation(formData, Validate, submitLogic);
 
   return (
-    <form
-      item
-      xs={12}
-      style={{ marginTop: 24, marginBottom: 24 }}
-      id="apply-now-form"
-      ref={formRef}
-      onSubmit={handleSubmit}
+    <BaseContent
+      header="Contact Us"
+      maxWidth={1000}
+      showIcon={true}
+      topIcon={
+        <ContactMailSharpIcon className={classes.topIcon} fontSize="large" />
+      }
     >
-      <BaseContent
-        header="Contact Us"
-        maxWidth={1000}
-        showIcon={true}
-        topIcon={
-          <ContactMailSharpIcon className={classes.topIcon} fontSize="large" />
-        }
+      <form
+        item
+        xs={12}
+        style={{ marginTop: 24, marginBottom: 24 }}
+        id="apply-now-form"
+        ref={formRef}
+        onSubmit={handleSubmit}
       >
         <Grid container spacing={1}>
           <Grid xs={12} style={{ display: "flex", justifyContent: "center" }}>
@@ -222,46 +222,46 @@ function ServiceContact({ data, formRef, contactData, socialData, editMode }) {
             </Typography>
           </Grid>
         </Grid>
-        <Grid
-          item
-          xs={12}
+      </form>
+      <Grid
+        item
+        xs={12}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          textAlign: "center",
+          justifyContent: "center",
+          alignContent: "center",
+          marginTop: 12,
+        }}
+      >
+        <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            textAlign: "center",
+            width: "100%",
             justifyContent: "center",
-            alignContent: "center",
-            marginTop: 12,
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-            }}
-          >
-            {contactData && (
-              <div style={{ maxWidth: 500 }}>
-                <Information
-                  contactData={contactData}
+          {contactData && (
+            <div style={{ maxWidth: 500 }}>
+              <Information
+                contactData={contactData}
+                showTitle={false}
+                editMode={editMode}
+              />
+              <div style={{ marginTop: 24 }}>
+                <Social
+                  contactData={socialData}
                   showTitle={false}
+                  color="dark"
                   editMode={editMode}
                 />
-                <div style={{ marginTop: 24 }}>
-                  <Social
-                    contactData={socialData}
-                    showTitle={false}
-                    color="dark"
-                    editMode={editMode}
-                  />
-                </div>
               </div>
-            )}
-          </div>
-        </Grid>
-      </BaseContent>
-    </form>
+            </div>
+          )}
+        </div>
+      </Grid>
+    </BaseContent>
   );
 }
 

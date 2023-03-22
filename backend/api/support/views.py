@@ -3,7 +3,7 @@ from .serializers import *
 from .models import *
 from rest_framework.response import Response
 from auditlog.models import LogEntry
-from api.utilities import create_log_entry, return_changes
+from api.utils import create_log_entry, return_changes
 from api.custom_views import *
 
 

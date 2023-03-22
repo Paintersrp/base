@@ -14,7 +14,7 @@ import {
   AccountCircle as AccountCircleIcon,
   ExitToApp as ExitToAppIcon,
 } from "@material-ui/icons";
-import { Badge, Menu, MenuItem, Tooltip } from "@material-ui/core";
+import { Badge, Button, Menu, MenuItem, Tooltip } from "@material-ui/core";
 import MessageIcon from "@mui/icons-material/Message";
 import handleLogout from "../../../lib/Auth/Logout";
 import SubjectIcon from "@mui/icons-material/Subject";
@@ -68,7 +68,14 @@ const useStyles = makeStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.text.secondary,
     color: "#ffffff",
-    fontSize: "14px",
+    fontSize: "12px",
+  },
+  dashLinkButton: {
+    minWidth: 120,
+    color: theme.palette.text.light,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+    },
   },
 }));
 
@@ -110,13 +117,23 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             <SubjectIcon className={classes.altIcon} />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            style={{ minWidth: 120, marginRight: 8 }}
+          <Tooltip
+            title="View Dashboard"
+            placement="bottom"
+            classes={{ tooltip: classes.tooltip }}
           >
-            Admin Dashboard
-          </Typography>
+            <Link to="/admin">
+              <Button
+                variant="text"
+                color="primary"
+                className={classes.dashLinkButton}
+              >
+                <Typography variant="h6" noWrap>
+                  Admin Dashboard
+                </Typography>
+              </Button>
+            </Link>
+          </Tooltip>
 
           <Tooltip
             title="View Messages"
@@ -224,12 +241,24 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
             </MenuItem>
           </Menu>
           <div className={classes.exitButtonContainer}>
-            <Typography>Back to Site</Typography>
-            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-              <IconButton color="inherit" className={classes.exitButton}>
-                <ExitToAppIcon className={classes.altIcon} />
-              </IconButton>
-            </Link>
+            <Tooltip
+              title="Back to Home Page"
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link to="/">
+                <Button
+                  variant="text"
+                  color="primary"
+                  className={classes.dashLinkButton}
+                >
+                  <Typography variant="h6" noWrap style={{ marginRight: 8 }}>
+                    Back to Site
+                  </Typography>
+                  <ExitToAppIcon className={classes.altIcon} />
+                </Button>
+              </Link>
+            </Tooltip>
           </div>
         </>
       )}

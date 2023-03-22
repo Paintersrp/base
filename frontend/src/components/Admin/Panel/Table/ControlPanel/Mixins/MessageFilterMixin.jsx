@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Grid, makeStyles } from "@material-ui/core";
+import { Box, Button, Grid, makeStyles, Tooltip } from "@material-ui/core";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { CheckCircleOutline, RadioButtonUnchecked } from "@material-ui/icons";
 import StyledButton from "../../../../../Elements/Buttons/StyledButton";
@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
   unchecked: {
     color: theme.palette.error.main,
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 const MessageFilterMixin = ({
@@ -90,31 +95,42 @@ const MessageFilterMixin = ({
         onChange={handleReadFilterChange}
         className={classes.toggleButtonGroup}
       >
-        <ToggleButton
-          value="read"
-          className={classes.filterButton}
-          classes={{ selected: classes.active }}
+        <Tooltip
+          title={`Show Read Only`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          {isReadFilter === true ? (
-            <CheckCircleOutline className={classes.checked} />
-          ) : (
-            <RadioButtonUnchecked className={classes.unchecked} />
-          )}
-          <span className={classes.toggleButtonLabel}>Read</span>
-        </ToggleButton>
-
-        <ToggleButton
-          value="unread"
-          className={classes.filterButton}
-          classes={{ selected: classes.active }}
+          <ToggleButton
+            value="read"
+            className={classes.filterButton}
+            classes={{ selected: classes.active }}
+          >
+            {isReadFilter === true ? (
+              <CheckCircleOutline className={classes.checked} />
+            ) : (
+              <RadioButtonUnchecked className={classes.unchecked} />
+            )}
+            <span className={classes.toggleButtonLabel}>Read</span>
+          </ToggleButton>
+        </Tooltip>
+        <Tooltip
+          title={`Show Unread Only`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          {isReadFilter === false ? (
-            <CheckCircleOutline className={classes.checked} />
-          ) : (
-            <RadioButtonUnchecked className={classes.unchecked} />
-          )}
-          <span className={classes.toggleButtonLabel}>Unread</span>
-        </ToggleButton>
+          <ToggleButton
+            value="unread"
+            className={classes.filterButton}
+            classes={{ selected: classes.active }}
+          >
+            {isReadFilter === false ? (
+              <CheckCircleOutline className={classes.checked} />
+            ) : (
+              <RadioButtonUnchecked className={classes.unchecked} />
+            )}
+            <span className={classes.toggleButtonLabel}>Unread</span>
+          </ToggleButton>
+        </Tooltip>
       </ToggleButtonGroup>
       <ToggleButtonGroup
         size="small"
@@ -129,43 +145,60 @@ const MessageFilterMixin = ({
         onChange={handleArchivedFilterChange}
         className={classes.toggleButtonGroup}
       >
-        <ToggleButton
-          value="archived"
-          className={classes.filterButton}
-          classes={{ selected: classes.active }}
+        <Tooltip
+          title={`Show Archived Only`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          {isArchivedFilter === true ? (
-            <CheckCircleOutline className={classes.checked} />
-          ) : (
-            <RadioButtonUnchecked className={classes.unchecked} />
-          )}
-          <span className={classes.toggleButtonLabel}>Archived</span>
-        </ToggleButton>
-
-        <ToggleButton
-          value="unarchived"
-          className={classes.filterButton}
-          classes={{ selected: classes.active }}
+          <ToggleButton
+            value="archived"
+            className={classes.filterButton}
+            classes={{ selected: classes.active }}
+          >
+            {isArchivedFilter === true ? (
+              <CheckCircleOutline className={classes.checked} />
+            ) : (
+              <RadioButtonUnchecked className={classes.unchecked} />
+            )}
+            <span className={classes.toggleButtonLabel}>Archived</span>
+          </ToggleButton>
+        </Tooltip>
+        <Tooltip
+          title={`Show Unarchived Only`}
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          {isArchivedFilter === false ? (
-            <CheckCircleOutline className={classes.checked} />
-          ) : (
-            <RadioButtonUnchecked className={classes.unchecked} />
-          )}
-          <span className={classes.toggleButtonLabel}>Unarchived</span>
-        </ToggleButton>
+          <ToggleButton
+            value="unarchived"
+            className={classes.filterButton}
+            classes={{ selected: classes.active }}
+          >
+            {isArchivedFilter === false ? (
+              <CheckCircleOutline className={classes.checked} />
+            ) : (
+              <RadioButtonUnchecked className={classes.unchecked} />
+            )}
+            <span className={classes.toggleButtonLabel}>Unarchived</span>
+          </ToggleButton>
+        </Tooltip>
       </ToggleButtonGroup>
 
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <StyledButton
-          buttonText={"Reset"}
-          minWidth={0}
-          size="small"
-          variant="contained"
-          onClick={handleClearFilters}
-          disabled={isArchivedFilter === null && isReadFilter === null}
-        />
-      </div>
+      <Tooltip
+        title={`Reset Filters`}
+        placement="bottom"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <StyledButton
+            buttonText={"Reset"}
+            minWidth={0}
+            size="small"
+            variant="contained"
+            onClick={handleClearFilters}
+            disabled={isArchivedFilter === null && isReadFilter === null}
+          />
+        </div>
+      </Tooltip>
     </Grid>
   );
 };

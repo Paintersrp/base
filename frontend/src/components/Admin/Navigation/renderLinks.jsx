@@ -22,9 +22,9 @@ export default function renderLinks({
   toggleDrawer,
 }) {
   return Object.entries(models).map(([appName, appModels], index) => {
-    // if (appName === "authorization") {
-    //   return null;
-    // }
+    if (appName === "content") {
+      return null;
+    }
 
     return (
       <div key={appName}>
