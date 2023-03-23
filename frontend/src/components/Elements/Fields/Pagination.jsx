@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    margin: theme.spacing(0, 0, 6, 0),
+    margin: theme.spacing(0, 0, 0, 0),
     minHeight: 100,
     [theme.breakpoints.down("xs")]: {
-      margin: theme.spacing(0, 0, 7, 0),
+      margin: theme.spacing(0, 0, 1, 0),
     },
   },
   button: {

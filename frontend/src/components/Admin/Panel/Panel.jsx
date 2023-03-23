@@ -15,6 +15,7 @@ import { NavigateNext } from "@material-ui/icons";
 import PanelTable from "./Table/PanelTable";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import { useDispatch } from "react-redux";
+import RecentActions from "../Dashboard/RecentActions";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -37,13 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Panel = ({ apiData, setCount }) => {
+const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [actionsOpen, setActionsOpen] = useState(true);
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const [model, setModel] = useState(null);
@@ -141,7 +143,7 @@ const Panel = ({ apiData, setCount }) => {
       setModel(apiData);
     }
     handleUpdate();
-  }, [url, apiData]);
+  }, [url, apiData, location.state]);
 
   const handleClose = () => {
     setOpen(false);
@@ -293,7 +295,21 @@ const Panel = ({ apiData, setCount }) => {
               classes={{ tooltip: classes.tooltip }}
             >
               <Link className={classes.activeLink} to="/admin">
-                Home
+                Dashboard
+              </Link>
+            </Tooltip>
+            <Tooltip
+              title={`${
+                appName.charAt(0).toUpperCase() + appName.slice(1)
+              } Overview`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link
+                className={classes.activeLink}
+                to={`/admin/model/${appName}`}
+              >
+                {appName.charAt(0).toUpperCase() + appName.slice(1)}
               </Link>
             </Tooltip>
             <Typography color="textPrimary">{model.verbose_name}</Typography>
@@ -379,6 +395,12 @@ const Panel = ({ apiData, setCount }) => {
               </>
             )}
           </TableContainer>
+          <RecentActions
+            actionsOpen={actionsOpen}
+            setActionsOpen={setActionsOpen}
+            recentActions={recentActions}
+            modelName={model.verbose_name}
+          />
         </BaseContent>
       ) : (
         <Loading loading={true} />

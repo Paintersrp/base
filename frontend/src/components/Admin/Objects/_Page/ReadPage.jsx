@@ -53,6 +53,7 @@ function ReadPage({ setCount }) {
 
   useEffect(() => {
     if (location.state) {
+      console.log("yeet");
       setUrl(location.state.url);
       setAppName(location.state.appName);
       setKeys(location.state.keys);
@@ -73,6 +74,7 @@ function ReadPage({ setCount }) {
           console.log(err);
         });
     } else if (pk) {
+      console.log("yeet2");
       axiosInstance
         .get(`/get_models/messages/`)
         .then((response) => {

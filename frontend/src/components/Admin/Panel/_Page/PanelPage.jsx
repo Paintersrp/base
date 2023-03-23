@@ -7,8 +7,18 @@ import Panel from "../Panel";
 function PanelPage({ setCount }) {
   const { id } = useParams();
   const location = useLocation();
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
+  const [ready, setReady] = useState(false);
   const [apiData, setApiData] = useState();
+  const [recentActions, setRecentActions] = useState([]);
+  console.log(id);
+
+  useEffect(() => {
+    if (id === "messages" || id === "application") {
+      setData({});
+      setReady(false);
+    }
+  }, [id]);
 
   useEffect(() => {
     axiosInstance
@@ -17,17 +27,25 @@ function PanelPage({ setCount }) {
         setData(response.data);
       })
       .catch((error) => console.log(error));
+    axiosInstance
+      .get(`/recent_admin_actions/?model=${id}`)
+      .then((response) => {
+        setRecentActions(response.data);
+        setReady(true);
+      })
+      .catch((error) => console.log(error));
   }, [id]);
-
-  useEffect(() => {
-    if (data) {
-      setApiData(data);
-    }
-  }, [data]);
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
-      {apiData ? <Panel apiData={apiData} setCount={setCount} /> : null}
+      {ready ? (
+        <Panel
+          apiData={data}
+          setCount={setCount}
+          recentActions={recentActions}
+          setRecentActions={setRecentActions}
+        />
+      ) : null}
     </PageContainer>
   );
 }

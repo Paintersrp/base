@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     margin: 24,
   },
   cardHeader: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
     padding: theme.spacing(3, 2, 1, 2),
-    backgroundColor: "#E6E6E6",
     alignItems: "flex-start",
   },
   link: {
@@ -84,13 +85,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   modelIcon: {
-    color: theme.palette.info.dark,
+    color: theme.palette.secondary.main,
     marginRight: theme.spacing(2),
     fontSize: "2rem",
   },
   hoverLink: {
     "&:hover": {
       background: "rgba(0, 0, 0, 0.2)",
+    },
+  },
+  icon: {
+    color: theme.palette.secondary.main,
+  },
+  hoverAppLink: {
+    "&:hover": {
+      color: theme.palette.secondary.main,
+      textDecoration: "underline",
+      textDecorationThickness: "0.1em",
+      textUnderlineOffset: "0.25em",
     },
   },
   tooltip: {
@@ -202,13 +214,12 @@ function Dashboard() {
                 setOpenAppSections,
                 classes,
               })}
-              <Grid item xs={12}>
-                <RecentActions
-                  actionsOpen={actionsOpen}
-                  setActionsOpen={setActionsOpen}
-                  recentActions={recentActions}
-                />
-              </Grid>
+
+              <RecentActions
+                actionsOpen={actionsOpen}
+                setActionsOpen={setActionsOpen}
+                recentActions={recentActions}
+              />
             </Grid>
           </div>
           <Statistics

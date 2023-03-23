@@ -5,14 +5,21 @@ from auditlog.registry import auditlog
 
 
 @custom_metadata(
-    autoform_label="Manage Article Tag Objects",
+    autoform_label="TitleBlock Titties",
     long_description="Description Placeholder",
     short_description="Short Description",
     pages_associated={
         "Landing": "/",
-        "News": "/news",
+        "Services": "/services",
     },
-    include_preview=False,
+    include_preview=True,
+    icon="StyleIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
 )
 class Tags(models.Model):
     name = CustomCharField(
@@ -36,14 +43,21 @@ class Tags(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Article Objects",
+    autoform_label="TitleBlock Titties",
     long_description="Description Placeholder",
     short_description="Short Description",
     pages_associated={
         "Landing": "/",
-        "News": "/news",
+        "Services": "/services",
     },
-    include_preview=False,
+    include_preview=True,
+    icon="NewspaperIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
 )
 class Articles(models.Model):
     title = CustomCharField(max_length=255)

@@ -2,8 +2,44 @@ from auditlog.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.forms.models import model_to_dict
+from django.db.models.functions import Length
+from django.db.models import Avg
 from django.apps import apps
 import json
+
+
+def analyze_django_app(models):
+    """
+    Analyze a Django app and provide statistics about its models.
+
+    Parameters:
+        app_name (str): The name of the Django app to analyze.
+
+    Returns:
+        dict: A dictionary containing various statistics about the app's models.
+    """
+    num_models = 0
+    num_objects = 0
+    model_stats = []
+
+    for model in models:
+        model_stats.append(
+            {
+                "name": model._meta.verbose_name,
+                "icon": model._meta.icon,
+                "related_components": model._meta.related_components,
+                "related_components_count": len(model._meta.related_components),
+                "num_objects": model.objects.count(),
+            }
+        )
+        num_models += 1
+        num_objects += model.objects.count()
+
+    return {
+        "num_models": num_models,
+        "num_objects": num_objects,
+        "models": model_stats,
+    }
 
 
 def return_change_message_str(changes):

@@ -13,11 +13,11 @@ from auditlog.registry import auditlog
         "Landing": "/",
     },
     include_preview=True,
-    icon=None,
+    icon="SubtitlesIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )
@@ -53,7 +53,7 @@ class HeroBlock(models.Model):
 
 
 @custom_metadata(
-    autoform_label="TitleBlock Titties",
+    autoform_label="TitleBlock",
     long_description="Description Placeholder",
     short_description="Short Description",
     pages_associated={
@@ -61,11 +61,11 @@ class HeroBlock(models.Model):
         "Services": "/services",
     },
     include_preview=True,
-    icon=None,
+    icon="TitleIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )
@@ -124,6 +124,22 @@ class TitleBlock(models.Model):
         verbose_name_plural = "Section Headings"
 
 
+@custom_metadata(
+    autoform_label="Hero Text Block",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Landing": "/",
+    },
+    include_preview=True,
+    icon="TurnedInIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
+)
 class Item(models.Model):
     image = models.ImageField(upload_to="carousel", verbose_name="Image")
     buttonText = CustomCharField(
@@ -147,11 +163,11 @@ class Item(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="StarIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )
@@ -180,11 +196,11 @@ class Feature(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="WebIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )
@@ -213,11 +229,11 @@ class SupportedSites(models.Model):
         "Services": "/services",
     },
     include_preview=True,
-    icon=None,
+    icon="DesignServicesIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )
@@ -293,6 +309,22 @@ class ServiceTier(models.Model):
         verbose_name_plural = "Service Tiers"
 
 
+@custom_metadata(
+    autoform_label="Hero Text Block",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Landing": "/",
+    },
+    include_preview=True,
+    icon="ReviewsIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
+)
 class Testimonial(models.Model):
     heading = CustomCharField(max_length=100, md_column_count=4, verbose_name="Heading")
     image = models.ImageField(upload_to="testimonial_images", verbose_name="Image")
@@ -316,11 +348,11 @@ class Testimonial(models.Model):
         "Services": "/services",
     },
     include_preview=True,
-    icon=None,
+    icon="AccountTreeIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header"],
     visibility=True,
     access_level="All",
 )

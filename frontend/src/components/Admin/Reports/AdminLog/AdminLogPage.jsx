@@ -6,7 +6,7 @@ import ErrorPage from "../../../Elements/Layout/Errors/ErrorPage";
 import AdminLogReport from "./AdminLogReport";
 import BaseContent from "../../../Elements/Base/BaseContent";
 import { Breadcrumbs, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { NavigateNext } from "@material-ui/icons";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import Loading from "../../../Elements/Layout/Loading/Loading";
@@ -34,6 +34,9 @@ const AdminLogPage = ({}) => {
   const [data, setData] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  // console.log(location.state, "state");
+  // setAppName(location.state.appName);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +84,17 @@ const AdminLogPage = ({}) => {
           </Link>
           <Typography color="textPrimary">Admin Log</Typography>
         </Breadcrumbs>
-        <AdminLogReport data={data} />
+        <AdminLogReport
+          data={data}
+          startAppFilter={
+            location.state.appName ? location.state.appName : null
+          }
+          startModelFilter={
+            location.state.modelName
+              ? location.state.modelName.toLowerCase()
+              : null
+          }
+        />
       </BaseContent>
     </PageContainer>
   );

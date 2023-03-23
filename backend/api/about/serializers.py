@@ -46,12 +46,6 @@ class ValueSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class SkillSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Skill
-        fields = ("id", "name")
-
-
 class CategorySerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["name"]
 
@@ -92,9 +86,6 @@ class FAQSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
-
-
-
 
 
 AboutBlock.serializer_class = AboutBlockSerializer

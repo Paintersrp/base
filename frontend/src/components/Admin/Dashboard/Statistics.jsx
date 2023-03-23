@@ -36,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F5F5F5",
   },
   cardHeader: {
-    backgroundColor: "#E6E6E6",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    padding: theme.spacing(3, 2, 2, 2),
+    alignItems: "flex-start",
   },
   link: {
     color: "#1976d2",
@@ -49,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#007bff",
   },
   modelIcon: {
-    color: theme.palette.info.dark,
+    color: theme.palette.secondary.main,
     marginRight: theme.spacing(2),
     fontSize: "2.5rem",
   },
@@ -82,7 +85,7 @@ export default function Statistics(props) {
       <CardHeader
         className={classes.cardHeader}
         action={
-          <IconButton onClick={handleExpandClick}>
+          <IconButton onClick={handleExpandClick} color="secondary">
             {statsOpen ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         }

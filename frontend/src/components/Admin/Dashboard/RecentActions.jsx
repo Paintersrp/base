@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     margin: 24,
     background: "#F5F5F5",
+    width: "100%",
   },
   tableContainer: {
     maxHeight: 400,
@@ -47,14 +48,17 @@ const useStyles = makeStyles((theme) => ({
     color: "#007bff",
   },
   cardHeader: {
-    backgroundColor: "#E6E6E6",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    padding: theme.spacing(3, 2, 2, 2),
+    alignItems: "flex-start",
   },
   tableCell: {
     padding: "6px 16px",
     fontSize: "0.875rem",
   },
   icon: {
-    color: theme.palette.info.dark,
+    color: theme.palette.secondary.main,
     marginRight: theme.spacing(2),
   },
   tooltip: {
@@ -64,7 +68,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
+function RecentActions({
+  actionsOpen,
+  setActionsOpen,
+  recentActions,
+  appName,
+  modelName,
+}) {
   const classes = useStyles();
   const handleExpandClick = () => {
     setActionsOpen(!actionsOpen);
@@ -84,6 +94,10 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
               >
                 <Link
                   to="/adminlog"
+                  state={{
+                    appName: appName ? appName : null,
+                    modelName: modelName ? modelName : null,
+                  }}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <IconButton color="secondary">
@@ -91,7 +105,7 @@ function RecentActions({ actionsOpen, setActionsOpen, recentActions }) {
                   </IconButton>
                 </Link>
               </Tooltip>
-              <IconButton onClick={handleExpandClick}>
+              <IconButton onClick={handleExpandClick} color="secondary">
                 {actionsOpen ? <ExpandLess /> : <ExpandMore />}
               </IconButton>
             </>

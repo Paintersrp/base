@@ -44,7 +44,6 @@ class CustomMissionStatementAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(FAQ)
 admin.site.register(Value)
-admin.site.register(Skill)
 admin.site.register(CompanyHistory, CustomCompanyHistoryAdmin)
 admin.site.register(MissionStatement, CustomMissionStatementAdmin)
 admin.site.register(AboutBlock, CustomAboutBlockAdmin)

@@ -18,14 +18,15 @@ import {
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
 import Loading from "../../Elements/Layout/Loading/Loading";
-import renderSections from "./renderSections";
 import RecentActions from "./RecentActions";
-import { Link } from "react-router-dom";
-import Statistics from "./Statistics";
+import { Link, useParams } from "react-router-dom";
 import { renderIcon } from "./renderIcon";
 import { NavigateNext, Add } from "@material-ui/icons";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import AppDetailsPanel from "./AppDetailsPanel";
+import LinkIcon from "@mui/icons-material/Link";
+import PageContainer from "../../Elements/Layout/PageContainer";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -36,11 +37,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: 24,
+    margin: theme.spacing(1, 3, 3, 3),
   },
   cardHeader: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
     padding: theme.spacing(3, 2, 1, 2),
-    backgroundColor: "#E6E6E6",
     alignItems: "flex-start",
   },
   link: {
@@ -66,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
+    width: "100%",
   },
   background: {
     background: "#F5F5F5",
@@ -93,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   modelIcon: {
-    color: theme.palette.info.dark,
+    color: theme.palette.secondary.main,
     marginRight: theme.spacing(2),
     fontSize: "2rem",
   },
@@ -102,226 +105,337 @@ const useStyles = makeStyles((theme) => ({
       background: "rgba(0, 0, 0, 0.2)",
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
 }));
 
 function IndividualDashboard() {
   const classes = useStyles();
   const [models, setModels] = useState({});
-  const [configs, setConfigs] = useState({});
-  const [openAppSections, setOpenAppSections] = useState({});
+  const [config, setConfig] = useState({});
   const [recentActions, setRecentActions] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
-  const [statsOpen, setStatsOpen] = useState(false);
+  const [linksOpen, setLinksOpen] = useState(false);
+  const [appOpen, setAppOpen] = useState(true);
+  const [appStatsOpen, setAppStatsOpen] = useState(true);
+  const { str } = useParams();
 
   const handleCollapseAll = () => {
-    const closedAppSections = {};
-    Object.keys(models).forEach((app) => {
-      closedAppSections[app] = false;
-    });
-    setOpenAppSections(closedAppSections);
+    setAppOpen(false);
+    setAppStatsOpen(false);
     setActionsOpen(false);
-    setStatsOpen(false);
+    setLinksOpen(false);
     setCollapsed(true);
   };
 
   const handleOpenAll = () => {
-    const initialOpenAppSections = {};
-    Object.keys(models).forEach((app) => {
-      initialOpenAppSections[app] = true;
-    });
-    setOpenAppSections(initialOpenAppSections);
+    setAppOpen(true);
+    setAppStatsOpen(true);
     setActionsOpen(true);
-    setStatsOpen(true);
+    setLinksOpen(true);
     setCollapsed(false);
   };
 
-  const appName = "authorization";
-  const isOpen = true;
+  const toggleAppOpen = () => {
+    setAppOpen(!appOpen);
+  };
+
+  const toggleLinksOpen = () => {
+    setLinksOpen(!linksOpen);
+  };
+  const toggleAppStatsOpen = () => {
+    setAppStatsOpen(!appStatsOpen);
+  };
 
   useEffect(() => {
     axiosInstance
-      .get("/get_app/authorization/")
+      .get(`/get_app/${str}/`)
       .then((response) => {
         setModels(response.data.models);
-
-        console.log("Models: ", response.data.models);
-
-        const initialOpenAppSections = {};
-        Object.keys(response.data.models).forEach((app) => {
-          initialOpenAppSections[app] = true;
-        });
-        setOpenAppSections(initialOpenAppSections);
+        setConfig(response.data.config);
+        console.log("ya: ", response.data.config);
+        setAppOpen(true);
+        setAppStatsOpen(true);
         setActionsOpen(true);
-        setStatsOpen(true);
+        setLinksOpen(true);
       })
       .catch((error) => console.log(error));
 
     axiosInstance
-      .get("/recent_admin_actions/")
+      .get(`/recent_admin_actions/?app=${str}`)
       .then((response) => {
         setRecentActions(response.data);
-        console.log("recent actions: ", response.data);
       })
       .catch((error) => console.log(error));
   }, []);
 
   return (
-    <BaseContent maxWidth={1200} pt={4} pb={4}>
-      {Object.keys(models).length > 0 ? (
-        <>
-          <Typography variant="h3" className={classes.breadCrumbTitle}>
-            Dashboard
-          </Typography>
-          <Breadcrumbs
-            separator={<NavigateNext fontSize="small" />}
-            aria-label="breadcrumb"
-            style={{ display: "flex" }}
-          >
-            <Link className={classes.activeLink} to="/admin">
-              Home
-            </Link>
-            <Typography color="textPrimary">Dashboard</Typography>
-          </Breadcrumbs>
-          <div>
-            <div className={classes.collapseAllContainer}>
-              <Typography color="textPrimary">
-                {collapsed ? "Open All" : "Collapse All"}
-              </Typography>
-              <IconButton
-                onClick={collapsed ? handleOpenAll : handleCollapseAll}
-              >
-                {collapsed ? <ExpandMore /> : <ExpandLess />}
-              </IconButton>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
+    <PageContainer backgroundColor="#F5F5F5" seoEdit={false}>
+      <BaseContent maxWidth={1200} pt={4} pb={4}>
+        {Object.keys(models).length > 0 ? (
+          <>
+            <Typography variant="h3" className={classes.breadCrumbTitle}>
+              App Overview
+            </Typography>
+            <Breadcrumbs
+              separator={<NavigateNext fontSize="small" />}
+              aria-label="breadcrumb"
+              style={{ display: "flex" }}
             >
-              <Grid item xs={12} sm={6} md={6} lg={6} key={appName}>
-                <Card className={classes.card}>
-                  <CardHeader
-                    className={classes.cardHeader}
-                    action={
-                      <IconButton
-                        style={{
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          alignItems: "center",
-                        }}
-                        onClick={console.log("tits")}
-                      >
-                        {isOpen ? <ExpandLess /> : <ExpandMore />}
-                      </IconButton>
-                    }
-                    title={
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        {renderIcon(appName, classes.modelIcon)}
-                        <Typography variant="h3">
-                          {appName.charAt(0).toUpperCase() + appName.slice(1)}
-                        </Typography>
-                      </div>
-                    }
-                  />
-                  <Collapse in={true}>
-                    <CardContent
-                      className={classes.background}
-                      classes={{ root: classes.cardContent }}
-                    >
-                      <List container>
-                        {Object.entries(models).map(
-                          ([appName, model], index) => {
-                            console.log("titty", model[0]);
-                            return (
-                              <Link
-                                to={`/admin/${model[0].model_name}`}
-                                state={{
-                                  url: model[0].url,
-                                  keys: model[0].keys,
-                                  appName: appName,
-                                  model: model[0],
-                                  metadata: model[0].metadata,
-                                  searchKeys: model[0].search_keys,
-                                }}
-                                key={model[0].model_name}
-                              >
-                                <ListItem
-                                  button
-                                  style={{ color: "black" }}
-                                  className={classes.hoverLink}
-                                >
-                                  <ListItemIcon
-                                    style={{
-                                      color: "black",
-                                    }}
-                                  >
-                                    <NavigateNext />
-                                  </ListItemIcon>
-
-                                  <ListItemText
-                                    primary={model[0].verbose_name}
-                                  />
-
-                                  <Link
-                                    to={`/admin/${model[0].model_name}/control`}
-                                  >
-                                    <ListItemIcon
-                                      style={{
-                                        color: "black",
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                      }}
-                                    >
-                                      <Tooltip title="Add" placement="top">
-                                        <IconButton
-                                          className={classes.addButton}
-                                          size="small"
-                                        >
-                                          <Add />
-                                        </IconButton>
-                                      </Tooltip>
-                                    </ListItemIcon>
-                                  </Link>
-                                </ListItem>
-                              </Link>
-                            );
-                          }
-                        )}
-                      </List>
-                    </CardContent>
-                  </Collapse>
-                </Card>
-              </Grid>
-            </div>
+              <Tooltip
+                title={`Dashboard`}
+                placement="bottom"
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <Link className={classes.activeLink} to="/admin">
+                  Dashboard
+                </Link>
+              </Tooltip>
+              <Typography color="textPrimary">
+                {str.charAt(0).toUpperCase() + str.slice(1)}
+              </Typography>
+            </Breadcrumbs>
             <Grid container>
-              <Grid item xs={12}>
-                <RecentActions
-                  actionsOpen={actionsOpen}
-                  setActionsOpen={setActionsOpen}
-                  recentActions={recentActions}
-                />
+              <div style={{ width: "100%", marginTop: 32 }}>
+                <Typography
+                  variant="h2"
+                  align="center"
+                  style={{ color: "black" }}
+                >
+                  {str.charAt(0).toUpperCase() + str.slice(1)} App Overview
+                </Typography>
+              </div>
+              <div className={classes.collapseAllContainer}>
+                <Typography color="textPrimary">
+                  {collapsed ? "Open All" : "Collapse All"}
+                </Typography>
+                <IconButton
+                  onClick={collapsed ? handleOpenAll : handleCollapseAll}
+                >
+                  {collapsed ? <ExpandMore /> : <ExpandLess />}
+                </IconButton>
+              </div>
+
+              <Grid
+                container
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                  <AppDetailsPanel
+                    appName={str}
+                    numModels={config.app_info.num_models}
+                    numObjects={config.app_info.num_objects}
+                    models={config.app_info.models}
+                    open={appStatsOpen}
+                    toggleOpen={toggleAppStatsOpen}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                  <Card className={classes.card}>
+                    <CardHeader
+                      className={classes.cardHeader}
+                      action={
+                        <IconButton
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                          }}
+                          color="secondary"
+                          onClick={toggleAppOpen}
+                        >
+                          {appOpen ? <ExpandLess /> : <ExpandMore />}
+                        </IconButton>
+                      }
+                      title={
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          {renderIcon(str, classes.modelIcon)}
+                          <Typography variant="h3">
+                            Models
+                            {/* {str.charAt(0).toUpperCase() + str.slice(1)} Models */}
+                          </Typography>
+                        </div>
+                      }
+                    />
+                    <Collapse in={appOpen}>
+                      <CardContent
+                        className={classes.background}
+                        classes={{ root: classes.cardContent }}
+                      >
+                        <List container>
+                          {Object.entries(models).map(
+                            ([appName, model], index) => {
+                              console.log("here: ", model[0].verbose_name);
+                              if (
+                                model[0].verbose_name === "requirement" ||
+                                model[0].verbose_name === "responsibilities" ||
+                                model[0].verbose_name === "Testimonials" ||
+                                model[0].verbose_name === "Item"
+                              ) {
+                                return null;
+                              }
+                              return (
+                                <Tooltip
+                                  title={`View ${model[0].verbose_name} Model`}
+                                  placement="right"
+                                  classes={{ tooltip: classes.tooltip }}
+                                >
+                                  <Link
+                                    to={`/admin/${model[0].model_name}`}
+                                    state={{
+                                      url: model[0].url,
+                                      keys: model[0].keys,
+                                      appName: appName,
+                                      model: model[0],
+                                      metadata: model[0].metadata,
+                                      searchKeys: model[0].search_keys,
+                                    }}
+                                    key={model[0].model_name}
+                                  >
+                                    <ListItem
+                                      button
+                                      style={{ color: "black" }}
+                                      className={classes.hoverLink}
+                                    >
+                                      <ListItemIcon
+                                        style={{
+                                          color: "black",
+                                        }}
+                                      >
+                                        <NavigateNext />
+                                      </ListItemIcon>
+
+                                      <ListItemText
+                                        primary={model[0].verbose_name}
+                                      />
+
+                                      <Link
+                                        to={`/admin/${model[0].model_name}/control`}
+                                      >
+                                        <ListItemIcon
+                                          style={{
+                                            color: "black",
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                          }}
+                                        >
+                                          <Tooltip title="Add" placement="top">
+                                            <IconButton
+                                              className={classes.addButton}
+                                              size="small"
+                                            >
+                                              <Add />
+                                            </IconButton>
+                                          </Tooltip>
+                                        </ListItemIcon>
+                                      </Link>
+                                    </ListItem>
+                                  </Link>
+                                </Tooltip>
+                              );
+                            }
+                          )}
+                        </List>
+                      </CardContent>
+                    </Collapse>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                  <Card className={classes.card}>
+                    <CardHeader
+                      className={classes.cardHeader}
+                      action={
+                        <IconButton
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                          }}
+                          color="secondary"
+                          onClick={toggleLinksOpen}
+                        >
+                          {linksOpen ? <ExpandLess /> : <ExpandMore />}
+                        </IconButton>
+                      }
+                      title={
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <LinkIcon className={classes.modelIcon} />
+                          <Typography variant="h3">Quick Links</Typography>
+                        </div>
+                      }
+                    />
+                    <Collapse in={linksOpen}>
+                      <CardContent
+                        className={classes.background}
+                        classes={{ root: classes.cardContent }}
+                      >
+                        <List container>
+                          {config.links &&
+                            Object.entries(config.links).map(
+                              ([linkName, link], index) => {
+                                console.log(linkName, link);
+                                return (
+                                  <Tooltip
+                                    title={`View ${linkName}`}
+                                    placement="right"
+                                    classes={{ tooltip: classes.tooltip }}
+                                  >
+                                    <Link
+                                      to={`${link}`}
+                                      state={{
+                                        appName: str,
+                                      }}
+                                      key={linkName}
+                                    >
+                                      <ListItem
+                                        button
+                                        style={{ color: "black" }}
+                                        className={classes.hoverLink}
+                                      >
+                                        <ListItemIcon
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          <NavigateNext />
+                                        </ListItemIcon>
+
+                                        <ListItemText primary={linkName} />
+                                      </ListItem>
+                                    </Link>
+                                  </Tooltip>
+                                );
+                              }
+                            )}
+                        </List>
+                      </CardContent>
+                    </Collapse>
+                  </Card>
+                </Grid>
               </Grid>
             </Grid>
+            <RecentActions
+              actionsOpen={actionsOpen}
+              setActionsOpen={setActionsOpen}
+              recentActions={recentActions}
+              appName={str}
+            />
+          </>
+        ) : (
+          <div>
+            <Loading loading={true} />
           </div>
-          <Statistics
-            statsOpen={statsOpen}
-            setStatsOpen={setStatsOpen}
-            numCustomers={1000}
-            avgSatisfaction={4.5}
-            numProjectsCompleted={500}
-            revenue={10000}
-            teamSize={10}
-          />
-        </>
-      ) : (
-        <div>
-          <Loading loading={true} />
-        </div>
-      )}
-    </BaseContent>
+        )}
+      </BaseContent>
+    </PageContainer>
   );
 }
 

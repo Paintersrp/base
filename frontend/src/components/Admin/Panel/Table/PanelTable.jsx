@@ -169,7 +169,6 @@ const PanelTable = ({
   };
 
   function stableSort(array, comparator) {
-    console.log(filteredData);
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);

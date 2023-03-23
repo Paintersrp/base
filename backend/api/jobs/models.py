@@ -3,14 +3,24 @@ from auditlog.registry import auditlog
 from api.customs import *
 
 
+@custom_metadata(
+    autoform_label="Job Posting Object",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Jobs": "/jobs",
+        "Contact": "/contact",
+    },
+    include_preview=True,
+    icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
+)
 class Requirement(models.Model):
-    detail = models.CharField(max_length=200)
-
-    def __str__(self):
-        return f"{self.detail[:50]}..."
-
-
-class Responsibilities(models.Model):
     detail = models.CharField(max_length=200)
 
     def __str__(self):
@@ -27,6 +37,30 @@ class Responsibilities(models.Model):
     },
     include_preview=True,
     icon=None,
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
+)
+class Responsibilities(models.Model):
+    detail = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.detail[:50]}..."
+
+
+@custom_metadata(
+    autoform_label="Job Posting Object",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Jobs": "/jobs",
+        "Contact": "/contact",
+    },
+    include_preview=True,
+    icon="JoinFullIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -114,7 +148,7 @@ class JobPosting(models.Model):
         "Contact": "/contact",
     },
     include_preview=False,
-    icon=None,
+    icon="ApprovalIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],

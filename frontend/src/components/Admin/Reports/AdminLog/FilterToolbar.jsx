@@ -8,8 +8,11 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FilterList } from "@material-ui/icons";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, IconButton, Tooltip, Typography } from "@material-ui/core";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
+import FilterListOffIcon from "@mui/icons-material/FilterListOff";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const useStyles = makeStyles((theme) => ({
   filterToolbar: {
@@ -18,22 +21,69 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     padding: theme.spacing(4, 0, 0, 0),
   },
+  // filterAccordion: {
+  //   width: "100%",
+  //   background: `${theme.palette.background.default} !important`,
+  //   marginBottom: theme.spacing(0),
+  //   // margin: "0px !important",
+  // },
   filterAccordion: {
-    width: "100%",
+    boxShadow: "none",
+    border: "1px solid rgba(0, 0, 0, .01)",
+    borderRadius: "4px",
     background: `${theme.palette.background.default} !important`,
-    marginBottom: theme.spacing(0),
-    // margin: "0px !important",
+    marginBottom: "16px",
+    "&:before": {
+      content: "none",
+    },
   },
   filterAccordionSummary: {
-    justifyContent: "space-between",
+    borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    backgroundColor: theme.palette.background.paper,
+    minHeight: "unset",
+    "&.Mui-expanded": {
+      minHeight: "unset",
+    },
   },
+  filterAccordionSummaryContent: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  // filterAccordionSummary: {
+  //   justifyContent: "space-between",
+  // },
+  // filterButtonGroup: {
+  //   display: "flex",
+  //   flexWrap: "wrap",
+  //   justifyContent: "flex-start",
+  //   "& > *": {
+  //     margin: theme.spacing(0.5),
+  //   },
+  // },
   filterButtonGroup: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
-    "& > *": {
-      margin: theme.spacing(0.5),
+  },
+  filterButton: {
+    border: "1px solid lightgrey",
+    borderRadius: 20,
+    marginRight: theme.spacing(1),
+    "&.Mui-selected": {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+      "&:hover": {
+        backgroundColor: theme.palette.primary.dark,
+      },
     },
+    "&:hover": {
+      backgroundColor: "#f8f8f8",
+    },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
   },
 }));
 
@@ -48,6 +98,8 @@ export default function FilterToolbar({
   handleModelNameFilterChange,
   handleActionFlagFilterChange,
   handleResetFilter,
+  handleResetSort,
+  orderBy,
 }) {
   const classes = useStyles();
 
@@ -59,6 +111,7 @@ export default function FilterToolbar({
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               className={classes.filterAccordionSummary}
+              classes={{ content: classes.filterAccordionSummaryContent }}
             >
               <div
                 style={{
@@ -78,7 +131,7 @@ export default function FilterToolbar({
                     variant="subtitle1"
                     style={{ marginLeft: 8, marginRight: 16 }}
                   >
-                    Filter Models
+                    Filter by Model Name
                   </Typography>
                 </div>
                 <div
@@ -107,6 +160,7 @@ export default function FilterToolbar({
               >
                 <ToggleButton
                   value={null}
+                  className={classes.filterButton}
                   aria-label="All"
                   sx={{
                     p: 1,
@@ -126,6 +180,7 @@ export default function FilterToolbar({
               >
                 {modelNames.map((modelName) => (
                   <ToggleButton
+                    className={classes.filterButton}
                     key={modelName}
                     value={modelName.toLowerCase()}
                     aria-label={modelName}
@@ -164,7 +219,7 @@ export default function FilterToolbar({
                 >
                   <FilterList style={{ fontSize: "1.25rem" }} />
                   <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
-                    Filter Labels
+                    Filter by App Name
                   </Typography>
                 </div>
                 <div
@@ -242,7 +297,7 @@ export default function FilterToolbar({
                 >
                   <FilterList style={{ fontSize: "1.25rem" }} />
                   <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
-                    Filter Flags
+                    Filter by Action Flag
                   </Typography>
                 </div>
                 <div
@@ -307,23 +362,44 @@ export default function FilterToolbar({
             </AccordionDetails>
           </Accordion>
         </Grid>
-        {(actionFlagFilter.length > 0 ||
-          appLabelFilter.length > 0 ||
-          modelNameFilter.length > 0) && (
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "flex-end",
-            }}
-          >
-            <StyledButton
-              buttonText="Reset"
-              minWidth={0}
-              onClick={handleResetFilter}
-            />
-          </div>
-        )}
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: orderBy !== "" ? "space-between" : "flex-end",
+            marginTop: 8,
+          }}
+        >
+          {orderBy !== "" && (
+            <Tooltip
+              title={`Reset Sort`}
+              placement="right"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton onClick={handleResetSort}>
+                <RestartAltIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          {(actionFlagFilter.length > 0 ||
+            appLabelFilter.length > 0 ||
+            modelNameFilter.length > 0) && (
+            <Tooltip
+              title={`Reset Filter`}
+              placement="left"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton onClick={handleResetFilter}>
+                <FilterListOffIcon />
+              </IconButton>
+            </Tooltip>
+            // <StyledButton
+            //   buttonText="Reset Filter"
+            //   minWidth={0}
+            //   onClick={handleResetFilter}
+            // />
+          )}
+        </div>
       </Grid>
     </div>
   );

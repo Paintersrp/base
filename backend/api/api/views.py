@@ -22,6 +22,7 @@ from sendgrid.helpers.mail import Mail
 from support.models import Subscribers
 from articles.models import Articles, Tags
 from django.db.models import Max
+from .utils import analyze_django_app
 
 
 def get_model_metadata(model_name):
@@ -185,10 +186,80 @@ def custom_admin_url_return(request, content_type_id, object_id):
 class RecentAdminActionsView(APIView):
     def get(self, request, *args, **kwargs):
         items = request.query_params.get("items", 10)
+        app = request.query_params.get("app", None)
+        model_query = request.query_params.get("model", None)
+
         if items == "all":
-            recent_actions = LogEntry.objects.order_by("-timestamp")
+            if app:
+                recent_actions = LogEntry.objects.filter(
+                    content_type__app_label=app
+                ).order_by("-timestamp")
+            elif model_query:
+                if model_query == "messages":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="support"
+                    )
+                elif (
+                    model_query == "questionnaire"
+                    or model_query == "questionset"
+                    or model_query == "question"
+                    or model_query == "answerchoice"
+                ):
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="quizes"
+                    )
+                elif model_query == "teammember":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="contact"
+                    )
+                elif model_query == "servicetablelabels":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="tables"
+                    )
+                else:
+                    content_type = ContentType.objects.get(model=model_query.lower())
+
+                recent_actions = LogEntry.objects.filter(
+                    content_type=content_type
+                ).order_by("-timestamp")
+            else:
+                recent_actions = LogEntry.objects.order_by("-timestamp")
         else:
-            recent_actions = LogEntry.objects.order_by("-timestamp")[: int(items)]
+            if app:
+                recent_actions = LogEntry.objects.filter(
+                    content_type__app_label=app
+                ).order_by("-timestamp")[: int(items)]
+
+            elif model_query:
+                if model_query == "messages":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="support"
+                    )
+                elif (
+                    model_query == "questionnaire"
+                    or model_query == "questionset"
+                    or model_query == "question"
+                    or model_query == "answerchoice"
+                ):
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="quizes"
+                    )
+                elif model_query == "teammember":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="contact"
+                    )
+                elif model_query == "servicetablelabels":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="tables"
+                    )
+                else:
+                    content_type = ContentType.objects.get(model=model_query.lower())
+
+                recent_actions = LogEntry.objects.filter(
+                    content_type=content_type
+                ).order_by("-timestamp")[: int(items)]
+            else:
+                recent_actions = LogEntry.objects.order_by("-timestamp")[: int(items)]
 
         data = []
         for action in recent_actions:
@@ -274,6 +345,7 @@ class RecentAdminActionsView(APIView):
                     "obj_url": obj_url,
                 }
             )
+
         return Response(data)
 
     dispatch = method_decorator(cache_page(60 * 5))(APIView.dispatch)
@@ -413,7 +485,6 @@ class SingleModelAPIView(APIView):
         metadata = {}
 
         for field_name, field in fields.items():
-            print(field_name, field)
             if not field_name == "id":
                 metadata[field_name] = {"type": field.__class__.__name__}
 
@@ -543,14 +614,32 @@ class SingleAppEndpointAPIView(APIView):
 
         endpoints = {
             "models": {},
+            "config": None,
         }
 
+        if (
+            app_name == "authorization"
+            or app_name == "articles"
+            or app_name == "landing"
+            or app_name == "about"
+            or app_name == "services"
+            or app_name == "support"
+            or app_name == "jobs"
+            or app_name == "general"
+            or app_name == "tables"
+            or app_name == "quizes"
+            or app_name == "contact"
+            or app_name == "content"
+        ):
+            endpoints["config"] = {
+                "icon": app_config.icon if hasattr(app_config, "icon") else None,
+                "links": app_config.links if hasattr(app_config, "links") else None,
+                "app_info": analyze_django_app(app_config.get_models()),
+            }
+
         for model in models:
-            app_name_str = model._meta.app_label
             model_name = model.__name__.lower()
             endpoints["models"][model_name] = []
-            print(model_name)
-            print(app_name_str)
             serializer_class = getattr(model, "serializer_class", None)
             if serializer_class is None:
                 continue

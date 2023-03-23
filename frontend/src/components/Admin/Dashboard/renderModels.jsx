@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { NavigateNext, Add } from "@material-ui/icons";
+import Icon from "../../Elements/Icon/Icon";
 
 export default function renderModels({ modelItem, appName, classes }) {
   console.log(modelItem);
@@ -43,12 +44,9 @@ export default function renderModels({ modelItem, appName, classes }) {
               style={{ color: "black" }}
               className={classes.hoverLink}
             >
-              <ListItemIcon
-                style={{
-                  color: "black",
-                }}
-              >
-                <NavigateNext />
+              <ListItemIcon>
+                <Icon icon={model.icon} className={classes.icon} />
+                {/* <NavigateNext /> */}
               </ListItemIcon>
 
               <ListItemText primary={model.verbose_name} />

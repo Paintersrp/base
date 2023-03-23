@@ -11,11 +11,11 @@ from auditlog.registry import auditlog
         "About": "/about",
     },
     include_preview=True,
-    icon=None,
+    icon="Description",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
-    related_components="Header",
+    related_components=["Header", "Bottomer"],
     visibility=True,
     access_level="All",
 )
@@ -33,7 +33,7 @@ class AboutBlock(models.Model):
     )
 
     class Meta:
-        verbose_name = "Heading"
+        verbose_name = "About Header"
         verbose_name_plural = verbose_name + "s"
 
 
@@ -45,7 +45,7 @@ class AboutBlock(models.Model):
         "About": "/about",
     },
     include_preview=True,
-    icon=None,
+    icon="BusinessIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -81,7 +81,7 @@ class MissionStatement(models.Model):
         "About": "/about",
     },
     include_preview=True,
-    icon=None,
+    icon="WorkHistoryIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -117,7 +117,7 @@ class CompanyHistory(models.Model):
         "About": "/about",
     },
     include_preview=True,
-    icon=None,
+    icon="JoinInnerIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -144,10 +144,6 @@ class Value(models.Model):
         verbose_name_plural = "Values"
 
 
-class Skill(models.Model):
-    name = CustomCharField(max_length=100)
-
-
 @custom_metadata(
     autoform_label="Manage Team Member Object",
     long_description="Description Placeholder",
@@ -157,7 +153,7 @@ class Skill(models.Model):
         "Contact": "/contact",
     },
     include_preview=False,
-    icon=None,
+    icon="CategoryIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -187,7 +183,7 @@ class Category(models.Model):
         "About": "/about",
     },
     include_preview=True,
-    icon=None,
+    icon="QuestionAnswerIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],

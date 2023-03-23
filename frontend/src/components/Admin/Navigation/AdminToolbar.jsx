@@ -165,7 +165,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             <Link to={"admin/application"}>
               <IconButton
-                aria-label="show messages"
+                aria-label=""
                 color="inherit"
                 className={classes.accountButtonIcon}
               >
@@ -178,7 +178,13 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
             placement="bottom"
             classes={{ tooltip: classes.tooltip }}
           >
-            <Link to={"adminlog"}>
+            <Link
+              to={"adminlog"}
+              state={{
+                appName: null,
+                modelName: null,
+              }}
+            >
               <IconButton
                 aria-label="show messages"
                 color="inherit"

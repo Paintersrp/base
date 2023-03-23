@@ -17,6 +17,8 @@ import { Add, Launch } from "@material-ui/icons";
 import renderModels from "./renderModels";
 import { Link } from "react-router-dom";
 import { renderIcon } from "./renderIcon";
+import AdminButton from "../../Elements/Buttons/AdminButton";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export default function renderSections({
   models,
@@ -26,9 +28,9 @@ export default function renderSections({
   classes,
 }) {
   const sections = [];
-
   Object.entries(models).map(([appName, modelItem], index) => {
-    console.log("appName", appName, "modelItem", modelItem);
+    // console.log("appName", appName, "modelItem", modelItem);
+    console.log("modelItem", modelItem);
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
       setOpenAppSections((prev) => ({ ...prev, [appName]: !isOpen }));
@@ -49,18 +51,28 @@ export default function renderSections({
                   justifyContent: "flex-end",
                   alignItems: "center",
                 }}
+                color="secondary"
                 onClick={toggleOpen}
               >
                 {isOpen ? <ExpandLess /> : <ExpandMore />}
               </IconButton>
             }
             title={
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {renderIcon(appName, classes.modelIcon)}
-                <Typography variant="h3">
-                  {appName.charAt(0).toUpperCase() + appName.slice(1)}
-                </Typography>
-              </div>
+              <Link
+                to={`/admin/model/${appName}`}
+                state={{
+                  appName: appName,
+                }}
+                key={appName}
+                className={classes.hoverAppLink}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {renderIcon(appName, classes.modelIcon)}
+                  <Typography variant="h3">
+                    {appName.charAt(0).toUpperCase() + appName.slice(1)}
+                  </Typography>
+                </div>
+              </Link>
             }
           />
           <Collapse in={isOpen}>
@@ -74,17 +86,36 @@ export default function renderSections({
                   appName,
                   classes,
                 })}
-                {appName !== "general" &&
-                  appName !== "jobs" &&
-                  appName !== "authorization" && (
-                    <Link to={`/${appName === "landing" ? "" : appName}`}>
-                      <ListItemIcon
-                        style={{
-                          color: "black",
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          marginTop: 8,
-                        }}
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    marginTop: 8,
+                  }}
+                >
+                  <Link
+                    to={`/admin/model/${appName}`}
+                    style={{ marginRight: 2 }}
+                  >
+                    <Tooltip
+                      title={`${
+                        appName.charAt(0).toUpperCase() + appName.slice(1)
+                      } App Admin`}
+                      placement="bottom"
+                      classes={{ tooltip: classes.tooltip }}
+                    >
+                      <IconButton className={classes.launchButton} size="small">
+                        <AdminPanelSettingsIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Link>
+                  {appName !== "general" &&
+                    appName !== "jobs" &&
+                    appName !== "authorization" && (
+                      <Link
+                        to={`/${appName === "landing" ? "" : appName}`}
+                        style={{ marginLeft: 2, marginRight: 16 }}
                       >
                         <Tooltip
                           title="View Site Page"
@@ -98,9 +129,9 @@ export default function renderSections({
                             <Launch />
                           </IconButton>
                         </Tooltip>
-                      </ListItemIcon>
-                    </Link>
-                  )}
+                      </Link>
+                    )}
+                </div>
               </List>
             </CardContent>
           </Collapse>

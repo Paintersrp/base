@@ -11,7 +11,7 @@ from api.customs import *
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="ViewColumnIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -67,7 +67,7 @@ class ServiceTableLabels(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="TableRowsIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -120,7 +120,7 @@ class ServiceCompareRows(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="TableChartIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -129,6 +129,7 @@ class ServiceCompareRows(models.Model):
     access_level="All",
 )
 class ServiceTable(models.Model):
+
     name = CustomCharField(
         max_length=20,
         md_column_count=6,

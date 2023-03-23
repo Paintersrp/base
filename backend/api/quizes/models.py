@@ -10,7 +10,7 @@ from api.customs import *
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="QuestionAnswerIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -60,7 +60,7 @@ class Questionnaire(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="QuizIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -116,7 +116,7 @@ class QuestionSet(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="QuestionMarkIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -169,7 +169,7 @@ class Question(models.Model):
         "Services": "/services",
     },
     include_preview=False,
-    icon=None,
+    icon="QuickreplyIcon",
     icon_class=None,
     slug="header",
     tags=["About", "Header", "Company"],
@@ -214,6 +214,22 @@ class AnswerChoice(models.Model):
         return self.text
 
 
+@custom_metadata(
+    autoform_label="Questionnaire",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="BarChartIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
+)
 class QuestionnaireResults(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     contact_name = models.CharField(max_length=255, null=False)
@@ -227,6 +243,22 @@ class QuestionnaireResults(models.Model):
         verbose_name_plural = "Questionnaire Results"
 
 
+@custom_metadata(
+    autoform_label="Questionnaire",
+    long_description="Description Placeholder",
+    short_description="Short Description",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="SummarizeIcon",
+    icon_class=None,
+    slug="header",
+    tags=["About", "Header", "Company"],
+    related_components="Header",
+    visibility=True,
+    access_level="All",
+)
 class QuestionnaireResultAnswer(models.Model):
     questionnaire_result = models.ForeignKey(
         QuestionnaireResults, on_delete=models.CASCADE, related_name="answers"

@@ -35,6 +35,7 @@ import Footer from "../Components/Footer/Footer";
 import ApplicationViewPage from "../../components/Admin/Objects/_Page/ApplicationViewPage";
 import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
 import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDashboard";
+import WIPPage from "../../components/Elements/Layout/WIPPage";
 
 {
   /* 
@@ -137,6 +138,7 @@ export default function SiteRoutes({ handleUpdate }) {
             element={<ContactPage handleUpdate={handleUpdate} />}
           />
           {/* Demo Routes */}
+          <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
           <Route path="/WIP2" element={<WIP2Demo />} />
           <Route
@@ -194,7 +196,7 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/admin/application/read/:pk"
             element={<ApplicationViewPage />}
           />
-          <Route path="/admin2" element={<IndividualDashboard />} />
+          <Route path="/admin/model/:str" element={<IndividualDashboard />} />
         </Routes>
       ) : (
         <div>
