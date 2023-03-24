@@ -18,7 +18,21 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
-)
+  info_dump = {
+    "purpose": "This model represents the benefits offered by our company to our customers for a particular service tier.",
+    "fields": {
+        "title": "The title of the benefit",
+        "description": "A brief description of the benefit",
+        "icon": "The name of the icon used to represent the benefit",
+        "buttonText": "The text to display on the button that links to the benefit page",
+        "page_link": "The page link where the benefit is displayed"
+    },
+    "model_links": {
+        "Service Tier": "/service-tier-benefits",
+        "Service Tier Options": "/service-tier-options",
+        "Service Tier Comparison": "/service-tier-comparison"
+    }
+})
 class Benefits(BaseModel):
     title = CustomCharField(
         max_length=100,
@@ -72,6 +86,16 @@ class Benefits(BaseModel):
     related_components="Header",
     visibility=True,
     access_level="All",
+   info_dump={
+    "purpose": "This model represents an image used in the process of providing our services, and is associated with a specific service tier.",
+    "fields": {
+        "image": "The image file.",
+        "servicetier": "The service tier that this image is associated with.",
+    },
+    "model_links": {
+        "ServiceTier": "/admin/myapp/servicetier/",
+    },
+}
 )
 class ProcessImageItem(models.Model):
     image = models.ImageField(upload_to="process_images", verbose_name="Image")
@@ -103,6 +127,19 @@ class ProcessImageItem(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump = {
+    "purpose": "Represents a text item in a process or workflow. It contains a title, description, and an optional icon.",
+    "fields": {
+        "title": "The title of the text item. Limited to 100 characters.",
+        "description": "The description of the text item. Limited to 500 characters.",
+        "icon": "The icon associated with the text item. Limited to 40 characters."
+    },
+    "model_links": {
+        "Creating a ProcessTextItem object": "https://docs.example.com/create-processtextitem-object",
+        "Updating a ProcessTextItem object": "https://docs.example.com/update-processtextitem-object",
+        "Deleting a ProcessTextItem object": "https://docs.example.com/delete-processtextitem-object"
+    }
+}
 )
 class ProcessTextItem(models.Model):
     title = CustomCharField(
