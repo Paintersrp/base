@@ -48,8 +48,8 @@ class CustomUserManager(UserManager):
 
 @custom_metadata(
     autoform_label="Manage User Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a user account in our system.",
+    short_description="User Account",
     include_preview=False,
     icon="AccountCircleIcon",
     icon_class=None,
@@ -58,6 +58,28 @@ class CustomUserManager(UserManager):
     related_components="Header",
     visibility=True,
     access_level="All",
+   info_dump={
+        "purpose": "This model represents a user account in our system. It stores information about the user such as their username, email address, and contact information.",
+        "fields": {
+            "username": "The username chosen by the user when they created their account.",
+            "email": "The email address associated with the user's account.",
+            "first_name": "The user's first name.",
+            "last_name": "The user's last name.",
+            "password": "The password chosen by the user when they created their account.",
+            "salt": "A salt value used for password hashing.",
+            "phone_number": "The user's phone number.",
+            "address": "The user's street address.",
+            "city": "The user's city of residence.",
+            "state": "The user's state of residence.",
+            "zip_code": "The user's ZIP code.",
+            "country": "The user's country of residence."
+        },
+        "model_links": {
+            "User Group": "/user-group/",
+            "Activity Log": "/activity-log/",
+            "Billing Info": "/billing-info/"
+        }
+    }
 )
 class User(AbstractUser):
     username = CustomCharField(
@@ -151,8 +173,8 @@ class User(AbstractUser):
 
 @custom_metadata(
     autoform_label="Manage User Theme Settings",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the theme settings for a user. Users can customize their primary, secondary, and background colors to personalize their experience.",
+    short_description="Model for managing user theme settings.",
     include_preview=False,
     icon="DisplaySettingsIcon",
     icon_class=None,
@@ -161,6 +183,19 @@ class User(AbstractUser):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model stores the custom theme settings for each user in the application.",
+        "fields": {
+            "user": "The user associated with the theme settings.",
+            "primary_color": "The primary color chosen by the user.",
+            "secondary_color": "The secondary color chosen by the user.",
+            "background_color": "The background color chosen by the user.",
+        },
+        "model_links": {
+            "User": "/admin/auth/user/",
+            "CustomCharField": "https://docs.djangoproject.com/en/3.2/ref/models/fields/#charfield",
+        },
+    },
 )
 class ThemeSettings(models.Model):
     user = models.OneToOneField(
@@ -197,16 +232,26 @@ class ThemeSettings(models.Model):
 
 @custom_metadata(
     autoform_label="Manage JWT Token Blacklist",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a JWT token blacklist that is used to keep track of blacklisted tokens in the system. Whenever a token is blacklisted, a record is created in this model with the token and the time it was blacklisted. This model can be used to manage and monitor the blacklisted tokens.",
+    short_description="A model for managing JWT token blacklist",
     include_preview=False,
     icon="AppBlockingIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="token-blacklist",
+    tags=["Authentication", "JWT", "Security"],
+    related_components=["TokenBlacklist,TokenAuthentication"],
     visibility=True,
     access_level="All",
+   info_dump={
+        "purpose": "This model is used to manage and monitor JWT token blacklist.",
+        "fields": {
+            "token": "The JWT token that has been blacklisted.",
+            "blacklisted_at": "The time at which the token was blacklisted.",
+        },
+        "model_links": {
+            "TokenAuthentication": "/admin/authentication/tokenauthentication/",
+        },
+    }
 )
 class TokenBlacklist(models.Model):
     token = CustomTextField(
