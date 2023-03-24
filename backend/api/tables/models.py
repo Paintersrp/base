@@ -18,6 +18,22 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump = {
+    "purpose": "This model defines the labels for the services table in our application.",
+    "fields": {
+        "name": "The name of the set of service tiers and icons.",
+        "service_tier1": "The label for the first tier of service.",
+        "tier1_icon": "The icon for the first tier of service.",
+        "service_tier2": "The label for the second tier of service.",
+        "tier2_icon": "The icon for the second tier of service.",
+        "service_tier3": "The label for the third tier of service.",
+        "tier3_icon": "The icon for the third tier of service."
+    },
+    "model_links": {
+        "OpenAPI specification": "https://example.com/api/docs/",
+        "Database schema": "https://example.com/db/schema/",
+    },
+}
 )
 class ServiceTableLabels(models.Model):
     name = CustomCharField(
@@ -74,6 +90,20 @@ class ServiceTableLabels(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model defines the rows for the Service Comparison Table, allowing users to easily compare different service tiers based on various features.",
+        "fields": {
+            "table_name": "The name of the table, which is displayed above the row of features and tiers.",
+            "feature": "The name of the feature being compared in the current row.",
+            "tier1_value": "The value for the first tier of the current feature.",
+            "tier2_value": "The value for the second tier of the current feature.",
+            "tier3_value": "The value for the third tier of the current feature.",
+        },
+        "model_links": {
+            "ServiceCompareRows": "https://example.com/docs/service-compare-rows/",
+            "ServiceComparisonTable": "https://example.com/docs/service-comparison-table/",
+        },
+    },
 )
 class ServiceCompareRows(models.Model):
     table_name = CustomCharField(
@@ -127,6 +157,18 @@ class ServiceCompareRows(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a table of services provided by the company.",
+        "fields": {
+            "name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "labels": "The labels used in the service table, which provide context for each column.",
+            "rows": "The rows in the service table, which represent the different services provided by the company."
+        },
+        "model_links": {
+            "ServiceTableLabels": "/admin/app/servicetablelabels/",
+            "ServiceCompareRows": "/admin/app/servicecomparerows/"
+        },
+    },
 )
 class ServiceTable(models.Model):
 
