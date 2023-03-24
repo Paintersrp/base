@@ -17,7 +17,18 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
-)
+   info_dump={
+        "purpose": "The Questionnaire model is used to create and manage surveys that can be filled out by users to provide feedback.",
+        "fields": {
+            "title": "The name of the questionnaire, which is displayed as the top header in the hero section.",
+            "slug": "A unique identifier for the questionnaire, used in the URL.",
+            "description": "A brief description of the questionnaire.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Creating forms in Django": "https://docs.djangoproject.com/en/3.2/topics/forms/",
+        },
+    },)
 class Questionnaire(models.Model):
     title = CustomCharField(
         max_length=255,
@@ -67,6 +78,19 @@ class Questionnaire(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model represents a set of questions to be answered in a questionnaire.",
+        "fields": {
+            "title": "The title of the question set.",
+            "description": "A description of the question set.",
+            "order": "The ordering of the question set within the questionnaire.",
+        },
+        "model_links": {
+            "Questionnaire": "/admin/myapp/questionnaire/",
+            "Question": "/admin/myapp/question/",
+        },
+    }
+)
 )
 class QuestionSet(models.Model):
     questionnaire = models.ForeignKey(
@@ -123,6 +147,18 @@ class QuestionSet(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a set of questions that can be displayed in the header of the website. Each question has a text, a slug, and an order field that determines its position in the header. The question set to which each question belongs is specified using a foreign key field.",
+        "fields": {
+            "question_set": "A foreign key field that links each question to the question set to which it belongs.",
+            "text": "The text of the question that is displayed in the header.",
+            "slug": "A slug field that is used to generate a URL for the question.",
+            "order": "An integer field that determines the order in which the questions are displayed in the header.",
+        },
+        "model_links": {
+            "QuestionSet": "https://example.com/docs/QuestionSet",
+        },
+    },    
 )
 class Question(models.Model):
     question_set = CustomForeignKeyField(
@@ -176,6 +212,18 @@ class Question(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+     info_dump={
+        "purpose": "This model represents the possible answer choices for a multiple-choice question.",
+        "fields": {
+            "question": "The question that this answer choice belongs to.",
+            "text": "The text of the answer choice.",
+            "value": "The numerical value associated with the answer choice.",
+            "order": "The order in which the answer choices should be displayed."
+        },
+        "model_links": {
+            "Question": "https://docs.example.com/models/question",
+        },
+    },       
 )
 class AnswerChoice(models.Model):
     question = CustomForeignKeyField(
@@ -229,6 +277,20 @@ class AnswerChoice(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model represents the results of a user-filled questionnaire.",
+        "fields": {
+            "questionnaire": "A foreign key reference to the Questionnaire model.",
+            "contact_name": "The name of the person who filled out the questionnaire.",
+            "contact_email": "The email address of the person who filled out the questionnaire.",
+            "contact_phone": "The phone number of the person who filled out the questionnaire (optional).",
+            "contact_state": "The state of the person who filled out the questionnaire (optional).",
+            "results": "A JSON field that stores the results of the questionnaire.",
+        },
+        "model_links": {
+            "Questionnaire": "/admin/app/questionnaire/",
+        },
+    },
 )
 class QuestionnaireResults(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
@@ -258,6 +320,21 @@ class QuestionnaireResults(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+     info_dump={
+        "purpose": "This model represents the answer choice selected by a user for a specific question in a questionnaire result. It is part of the overall questionnaire result, which can contain multiple answers for multiple questions.",
+        "fields": {
+            "questionnaire_result": "A foreign key reference to the overall questionnaire result that this answer choice belongs to.",
+            "question": "A foreign key reference to the question that this answer choice is answering.",
+            "question_text": "The text of the question that this answer choice is answering.",
+            "answer_choice": "A foreign key reference to the specific answer choice that the user selected.",
+            "answer_choice_text": "The text of the answer choice that the user selected.",
+        },
+        "model_links": {
+            "QuestionnaireResults": "https://example.com/docs/questionnaire-results",
+            "Question": "https://example.com/docs/questions",
+            "AnswerChoice": "https://example.com/docs/answer-choices",
+        },
+    },
 )
 class QuestionnaireResultAnswer(models.Model):
     questionnaire_result = models.ForeignKey(
