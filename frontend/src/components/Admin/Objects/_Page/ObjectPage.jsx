@@ -148,6 +148,20 @@ function ObjectPage() {
               </Link>
             </Tooltip>
             <Tooltip
+              title={`${
+                appName.charAt(0).toUpperCase() + appName.slice(1)
+              } Overview`}
+              placement="bottom"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link
+                className={classes.activeLink}
+                to={`/admin/model/${appName}`}
+              >
+                {appName.charAt(0).toUpperCase() + appName.slice(1)}
+              </Link>
+            </Tooltip>
+            <Tooltip
               title={`${model.verbose_name} Model`}
               placement="bottom"
               classes={{ tooltip: classes.tooltip }}
@@ -168,6 +182,7 @@ function ObjectPage() {
                 {model.verbose_name}
               </Link>
             </Tooltip>
+
             <Typography color="textPrimary">
               {Array.isArray(id) ? "Creation" : "Update"}
             </Typography>

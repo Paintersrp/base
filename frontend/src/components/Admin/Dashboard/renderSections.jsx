@@ -29,7 +29,6 @@ export default function renderSections({
 }) {
   const sections = [];
   Object.entries(models).map(([appName, modelItem], index) => {
-    // console.log("appName", appName, "modelItem", modelItem);
     console.log("modelItem", modelItem);
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
@@ -40,7 +39,15 @@ export default function renderSections({
     }
 
     sections.push(
-      <Grid item xs={12} sm={6} md={6} lg={4} key={appName}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={4}
+        key={appName}
+        className={classes.dashContainer}
+      >
         <Card className={classes.card}>
           <CardHeader
             className={classes.cardHeader}

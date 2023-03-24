@@ -5,8 +5,8 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Manage About Heading Block",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the header block of the About page.",
+    short_description="Header block for the About page.",
     pages_associated={
         "About": "/about",
     },
@@ -39,8 +39,8 @@ class AboutBlock(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Mission Statement Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the mission statement for a company or organization.",
+    short_description="A company's mission statement.",
     pages_associated={
         "About": "/about",
     },
@@ -75,15 +75,15 @@ class MissionStatement(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Company History Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the history of the company, including major milestones and events. It can be used to showcase the company's achievements and growth over time.",
+    short_description="Model for company history",
     pages_associated={
         "About": "/about",
     },
     include_preview=True,
     icon="WorkHistoryIcon",
     icon_class=None,
-    slug="header",
+    slug="company-history",
     tags=["About", "Header", "Company"],
     related_components="Header",
     visibility=True,
@@ -111,16 +111,16 @@ class CompanyHistory(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Company Value Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the core values of our company.",
+    short_description="Core company values.",
     pages_associated={
         "About": "/about",
     },
     include_preview=True,
     icon="JoinInnerIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="company-values",
+    tags=["Values", "Culture", "Company"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -145,9 +145,9 @@ class Value(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Team Member Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Manage FAQ Category Object",
+    long_description="This model represents a category for frequently asked questions on our website.",
+    short_description="FAQ Category",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -155,9 +155,9 @@ class Value(models.Model):
     include_preview=False,
     icon="CategoryIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="faq-category",
+    tags=["FAQ", "Category"],
+    related_components="FAQ",
     visibility=True,
     access_level="All",
 )
@@ -176,8 +176,8 @@ class Category(models.Model):
 
 @custom_metadata(
     autoform_label="Manage FAQ Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents frequently asked questions and answers related to our company and services.",
+    short_description="FAQ Model",
     pages_associated={
         "Landing": "/",
         "About": "/about",

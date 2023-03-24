@@ -5,8 +5,8 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="Message Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents messages sent by users to the company, which can be viewed, replied to, and archived by staff members.",
+    short_description="A model for managing user messages.",
     pages_associated={
         "Landing": "/",
         "Support": "/support",
@@ -81,8 +81,8 @@ class Messages(models.Model):
 
 @custom_metadata(
     autoform_label="Subscriber Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the subscribers of our company's newsletter.",
+    short_description="Model for managing newsletter subscribers.",
     pages_associated={
         "Landing": "/",
     },

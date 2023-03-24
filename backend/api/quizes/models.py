@@ -4,16 +4,16 @@ from api.customs import *
 
 @custom_metadata(
     autoform_label="Questionnaire",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a questionnaire that users can fill out to provide feedback.",
+    short_description="A model for creating and managing questionnaires.",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="QuestionAnswerIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="questionnaire",
+    tags=["Questionnaire", "Feedback", "Survey"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -54,16 +54,16 @@ class Questionnaire(models.Model):
 
 @custom_metadata(
     autoform_label="Question Sets",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="A set of questions to be answered in a questionnaire",
+    short_description="Question Set",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="QuizIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="question-set",
+    tags=["Questionnaire", "Questions", "Survey"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -110,8 +110,8 @@ class QuestionSet(models.Model):
 
 @custom_metadata(
     autoform_label="Questions",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a set of questions that can be displayed in the header of the website.",
+    short_description="A set of questions for the header",
     pages_associated={
         "Services": "/services",
     },
@@ -163,16 +163,16 @@ class Question(models.Model):
 
 @custom_metadata(
     autoform_label="Answer Choices",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the answer choices for a multiple-choice question.",
+    short_description="Answer Choices Model",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="QuickreplyIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="answer-choices",
+    tags=["Questionnaire", "Multiple-Choice", "Answers"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -215,17 +215,17 @@ class AnswerChoice(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Questionnaire",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Questionnaire Results",
+    long_description="Stores the results of a questionnaire filled out by a user.",
+    short_description="Questionnaire Results Model",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="BarChartIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="questionnaire-results",
+    tags=["Questionnaire", "Results", "User Data"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -244,17 +244,17 @@ class QuestionnaireResults(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Questionnaire",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Questionnaire Result Answer Choice",
+    long_description="This model stores the answer choices selected by a user for a specific question in a questionnaire result.",
+    short_description="Stores answer choices for a question in a questionnaire result.",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="SummarizeIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="questionnaire-result-answer-choice",
+    tags=["Questionnaire", "Answer", "Choice"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -265,7 +265,6 @@ class QuestionnaireResultAnswer(models.Model):
     )
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255, blank=True, null=True)
-
     answer_choice = models.ForeignKey(
         AnswerChoice, on_delete=models.CASCADE, blank=True, null=True
     )

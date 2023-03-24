@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     margin: 24,
     background: "#F5F5F5",
     width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(3, 0, 3, 0),
+      madWidth: 200,
+    },
   },
   tableContainer: {
     maxHeight: 400,
@@ -124,7 +128,7 @@ function RecentActions({
           <CardContent>
             {recentActions.length > 0 ? (
               <TableContainer className={classes.tableContainer}>
-                <Table>
+                <Table size="small">
                   <TableHead>
                     <TableRow>
                       <TableCell className={classes.headerCell}>User</TableCell>

@@ -15,6 +15,7 @@ def custom_metadata(
     related_components=None,
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 ):
     def decorator(cls):
         cls._meta.autoform_label = autoform_label
@@ -29,6 +30,7 @@ def custom_metadata(
         cls._meta.related_components = related_components
         cls._meta.visibility = visibility
         cls._meta.access_level = access_level
+        cls._meta.info_dump = info_dump
         return cls
 
     return decorator

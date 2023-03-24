@@ -4,8 +4,8 @@ from api.customs import *
 
 @custom_metadata(
     autoform_label="Manage Company Contact Information Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the contact information for a company, including their email address, phone number, and physical address.",
+    short_description="Contact Information Model",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -13,7 +13,7 @@ from api.customs import *
     include_preview=True,
     icon="ContactMailIcon",
     icon_class=None,
-    slug="header",
+    slug="contact-info",
     tags=["About", "Header", "Company"],
     related_components="Header",
     visibility=True,
@@ -45,9 +45,9 @@ class ContactInformation(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company Contact Information Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Manage Company Hours Object",
+    long_description="This model stores the contact hours for the company.",
+    short_description="Contact Hours",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -55,9 +55,9 @@ class ContactInformation(models.Model):
     include_preview=True,
     icon="AvTimerIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="contact-hours",
+    tags=["Contact", "Hours"],
+    related_components="Hours",
     visibility=True,
     access_level="All",
 )
@@ -124,9 +124,9 @@ class Hours(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company Contact Information Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Manage Company Social Contact Object",
+    long_description="This model represents the social media accounts associated with a company or organization. It includes fields for Facebook, LinkedIn, Instagram, Twitter, Youtube, and Github.",
+    short_description="Social Media Accounts for a Company",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -134,8 +134,8 @@ class Hours(models.Model):
     include_preview=True,
     icon="ConnectWithoutContactIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="contact-socials",
+    tags=["Company", "Social Media", "Contact Information"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -194,8 +194,8 @@ class Socials(models.Model):
 
 @custom_metadata(
     autoform_label="Manage Team Member Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents team members of our company.",
+    short_description="Team Members",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -203,7 +203,7 @@ class Socials(models.Model):
     include_preview=True,
     icon="PeopleIcon",
     icon_class=None,
-    slug="header",
+    slug="contact-members",
     tags=["About", "Header", "Company"],
     related_components="Header",
     visibility=True,

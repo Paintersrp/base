@@ -6,9 +6,9 @@ from auditlog.registry import auditlog
 
 
 @custom_metadata(
-    autoform_label="Hero Text Block",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Hero Section Content Creator",
+    long_description="This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
+    short_description="A model for creating hero sections.",
     pages_associated={
         "Landing": "/",
     },
@@ -20,6 +20,7 @@ from auditlog.registry import auditlog
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class HeroBlock(models.Model):
     title = CustomCharField(
@@ -37,7 +38,7 @@ class HeroBlock(models.Model):
     heading = CustomTextField(
         max_length=500,
         md_column_count=6,
-        verbose_name="Tagline",
+        verbose_name="Subtitle",
         help_text="Help Text Placeholder",
     )
     text = CustomTextField(
@@ -53,9 +54,9 @@ class HeroBlock(models.Model):
 
 
 @custom_metadata(
-    autoform_label="TitleBlock",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Section Headings",
+    long_description="A section heading with a title, subtitle, and description to be used as a heading for various content sections.",
+    short_description="Section Heading",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
@@ -63,11 +64,12 @@ class HeroBlock(models.Model):
     include_preview=True,
     icon="TitleIcon",
     icon_class=None,
-    slug="header",
+    slug="section-title",
     tags=["About", "Header", "Company"],
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
@@ -139,6 +141,7 @@ class TitleBlock(models.Model):
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class Item(models.Model):
     image = models.ImageField(upload_to="carousel", verbose_name="Image")
@@ -156,8 +159,8 @@ class Item(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tier Features",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model holds a list of features offered by a Service/Service Tier",
+    short_description="Features offered by a Service/Service Tier",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
@@ -170,6 +173,7 @@ class Item(models.Model):
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class Feature(models.Model):
     detail = CustomCharField(
@@ -189,8 +193,8 @@ class Feature(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tier Supported Sites",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model holds a list of supported sites offered by a Service/Service Tier",
+    short_description="Site types supported by a Service/Service Tier",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
@@ -203,6 +207,7 @@ class Feature(models.Model):
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class SupportedSites(models.Model):
     detail = CustomCharField(
@@ -222,8 +227,8 @@ class SupportedSites(models.Model):
 
 @custom_metadata(
     autoform_label="Service Tiers",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the different service tiers available.",
+    short_description="Service Tier Model",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
@@ -236,6 +241,7 @@ class SupportedSites(models.Model):
     related_components=["Header"],
     visibility=True,
     access_level="All",
+    info_dump={"text": ""},
 )
 class ServiceTier(models.Model):
     image = models.ImageField(
@@ -341,8 +347,8 @@ class Testimonial(models.Model):
 
 @custom_metadata(
     autoform_label="Process Steps",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
+    short_description="Model for company process steps",
     pages_associated={
         "Landing": "/",
         "Services": "/services",

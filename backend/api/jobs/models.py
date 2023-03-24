@@ -4,9 +4,9 @@ from api.customs import *
 
 
 @custom_metadata(
-    autoform_label="Job Posting Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Job Posting Requirement Object",
+    long_description="A requirement for a job posting",
+    short_description="Job Requirement",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",
@@ -14,8 +14,8 @@ from api.customs import *
     include_preview=True,
     icon=None,
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="job-requirement",
+    tags=["Job Posting", "Requirement"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -28,9 +28,9 @@ class Requirement(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Job Posting Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    autoform_label="Job Posting Responsibility Object",
+    long_description="This model represents the responsibilities for a particular job posting.",
+    short_description="Responsibilities for a Job Posting",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",
@@ -38,8 +38,8 @@ class Requirement(models.Model):
     include_preview=True,
     icon=None,
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="job-responsibilities",
+    tags=["Job Postings", "Responsibilities"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -53,8 +53,8 @@ class Responsibilities(models.Model):
 
 @custom_metadata(
     autoform_label="Job Posting Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a job posting on the company's careers page.",
+    short_description="Model for a job posting",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",
@@ -141,8 +141,8 @@ class JobPosting(models.Model):
 
 @custom_metadata(
     autoform_label="Application Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a job application submitted through the company's website.",
+    short_description="Job Application",
     pages_associated={
         "Jobs": "/jobs",
         "Contact": "/contact",

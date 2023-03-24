@@ -5,8 +5,8 @@ from auditlog.registry import auditlog
 
 @custom_metadata(
     autoform_label="SEO Header Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the headers used for SEO purposes on various pages of the website. It includes fields for the page name, title, description, keywords, image, and URL.",
+    short_description="Headers for SEO",
     pages_associated={
         "Landing": "/",
         "About": "/about",
@@ -17,8 +17,8 @@ from auditlog.registry import auditlog
     include_preview=False,
     icon="FindInPageIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="seo-headers",
+    tags=["SEO", "Headers", "Website"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -63,8 +63,8 @@ class Header(models.Model):
 
 @custom_metadata(
     autoform_label="Content Text Block Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a content text block used to display a header or a description in the hero section of various pages.",
+    short_description="Content Text Block",
     pages_associated={
         "Landing": "/",
         "About": "/about",

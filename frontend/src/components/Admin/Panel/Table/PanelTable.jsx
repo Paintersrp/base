@@ -217,7 +217,7 @@ const PanelTable = ({
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-      <Table>
+      <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell style={{ width: "5%" }}>

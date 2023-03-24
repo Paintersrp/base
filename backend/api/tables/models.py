@@ -5,16 +5,16 @@ from api.customs import *
 
 @custom_metadata(
     autoform_label="Service Table Labels Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model defines the labels for the services table in our application.",
+    short_description="Labels for services table",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="ViewColumnIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="service-table-labels",
+    tags=["services", "table", "labels"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -61,16 +61,16 @@ class ServiceTableLabels(models.Model):
 
 @custom_metadata(
     autoform_label="Service Compare Rows Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model defines the rows for the Service Comparison Table.",
+    short_description="Rows for Service Comparison Table",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="TableRowsIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="service-comparison-table-rows",
+    tags=["Services", "Comparison", "Table"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -114,16 +114,16 @@ class ServiceCompareRows(models.Model):
 
 @custom_metadata(
     autoform_label="Service Table",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a table of services provided by the company.",
+    short_description="Table of Services",
     pages_associated={
         "Services": "/services",
     },
     include_preview=False,
     icon="TableChartIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="service-table",
+    tags=["services", "company", "offerings"],
     related_components="Header",
     visibility=True,
     access_level="All",

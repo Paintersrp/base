@@ -33,7 +33,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     margin: 24,
-    backgroundColor: "#F5F5F5",
+    background: "#F5F5F5",
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(0, 0, 3, 0),
+      madWidth: 200,
+    },
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.main,

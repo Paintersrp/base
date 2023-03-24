@@ -178,9 +178,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         "Content-Type": "multipart/form-data",
       },
     };
-
-    console.log("DATA SENT: ", formData);
-
     const formDataWithoutId = {};
     for (const [key, value] of Object.entries(formData)) {
       if (key !== "id") {
@@ -189,7 +186,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     }
 
     if (Object.keys(data).length === 0) {
-      console.log("if'd", model);
       try {
         const response = await axiosInstance.post(
           endpointUrl,
@@ -232,8 +228,12 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           minHeight={isSmallScreen ? 400 : 600}
           title={modelMetadata.autoFormLabel || modelMetadata.verboseName}
           body={modelMetadata.longDescription}
+          bodyAlign="start"
           background="#F5F5F5"
           boxShadow={2}
+          infoDump={
+            "Placeholder \n New Line Placeholder Testttttttttttttttttttttttttttttttt tyyy"
+          }
         >
           <Grid container justifyContent="center">
             {fieldMetadata &&
@@ -264,12 +264,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   markdown,
                   help_text,
                 } = fieldMetadata[fieldName];
-
-                if (fieldName === "features") {
-                  console.log(fieldMetadata[fieldName]);
-                } else if (fieldName === "title") {
-                  console.log("HELP TEXT: ", modelMetadata);
-                }
 
                 const { verbose_name } = metadata[fieldName];
 
@@ -303,7 +297,9 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           </Grid>
           <Grid container justifyContent="center" style={{ marginTop: 16 }}>
             <Tooltip
-              title={`Update Object`}
+              title={`${
+                Object.keys(data).length === 0 ? "Create" : "Update"
+              } Object`}
               placement="bottom"
               classes={{ tooltip: classes.tooltip }}
             >

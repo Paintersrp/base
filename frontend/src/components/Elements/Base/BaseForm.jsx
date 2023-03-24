@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { useMediaQuery } from "@material-ui/core";
+import { IconButton, Tooltip, useMediaQuery } from "@material-ui/core";
+import { Info as InfoIcon } from "@material-ui/icons";
+import InfoBox from "./InfoTooltip";
+import InfoTooltip from "./InfoTooltip";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -62,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
   },
   formSubtitle: {
     marginBottom: theme.spacing(1.5),
-    textAlign: "center",
     fontSize: "0.85rem",
     color: theme.palette.text.dark,
   },
@@ -97,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
 function BaseForm({
   title,
   body,
+  bodyAlign = "center",
   handleSubmit,
   children,
   maxWidth = 360,
@@ -108,10 +111,20 @@ function BaseForm({
   background = "#F5F5F5",
   boxShadow = 0,
   justify = "center",
+  infoDump = "",
 }) {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Grid
@@ -142,13 +155,18 @@ function BaseForm({
           boxShadow: theme.shadows[boxShadow],
         }}
       >
+        {infoDump && <InfoTooltip text={infoDump} />}
         {title ? (
           <Typography variant="h3" className={classes.formTitle}>
             {title}
           </Typography>
         ) : null}
         {body ? (
-          <Typography variant="body2" className={classes.formSubtitle}>
+          <Typography
+            variant="body2"
+            className={classes.formSubtitle}
+            style={{ textAlign: bodyAlign }}
+          >
             {body}
           </Typography>
         ) : null}

@@ -5,8 +5,8 @@ from api.customs import *
 
 @custom_metadata(
     autoform_label="Benefit Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents the benefits offered by our company to our customers. Each benefit has a title, description, icon, button text, and a link to a page.",
+    short_description="Model for benefits offered by our company",
     pages_associated={
         "Services": "/services",
     },
@@ -59,16 +59,16 @@ class Benefits(BaseModel):
 
 @custom_metadata(
     autoform_label="Process Image Item Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents an image used in the process of providing our services. Each image is associated with a service tier.",
+    short_description="A model for process images",
     pages_associated={
         "Services": "/services",
     },
     include_preview=True,
     icon="ImageIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
+    slug="process-image-item",
+    tags=["Service", "Image"],
     related_components="Header",
     visibility=True,
     access_level="All",
@@ -90,8 +90,8 @@ class ProcessImageItem(models.Model):
 
 @custom_metadata(
     autoform_label="Process Text Item Object",
-    long_description="Description Placeholder",
-    short_description="Short Description",
+    long_description="This model represents a text item in a process or workflow. It contains a title, description, and an optional icon.",
+    short_description="A text item in a process or workflow.",
     pages_associated={
         "Services": "/services",
     },

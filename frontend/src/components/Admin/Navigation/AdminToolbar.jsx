@@ -14,16 +14,29 @@ import {
   AccountCircle as AccountCircleIcon,
   ExitToApp as ExitToAppIcon,
 } from "@material-ui/icons";
-import { Badge, Button, Menu, MenuItem, Tooltip } from "@material-ui/core";
+import {
+  Badge,
+  Button,
+  Menu,
+  MenuItem,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import MessageIcon from "@mui/icons-material/Message";
 import handleLogout from "../../../lib/Auth/Logout";
 import SubjectIcon from "@mui/icons-material/Subject";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ApprovalIcon from "@mui/icons-material/Approval";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import HomeIcon from "@mui/icons-material/Home";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
-    marginRight: 36,
+    marginRight: 24,
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 16,
+    },
   },
   hide: {
     display: "none",
@@ -45,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   accountButtonIcon: {
     color: theme.palette.secondary.main,
-    marginRight: 4,
+    marginRight: 8,
     "&:hover": {
       color: theme.palette.secondary.main,
       textDecoration: "underline",
@@ -81,6 +94,8 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [data, setData] = useState(null);
 
@@ -117,21 +132,21 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             <SubjectIcon className={classes.altIcon} />
           </IconButton>
+
           <Tooltip
             title="View Dashboard"
             placement="bottom"
             classes={{ tooltip: classes.tooltip }}
           >
             <Link to="/admin">
-              <Button
-                variant="text"
-                color="primary"
-                className={classes.dashLinkButton}
+              <IconButton
+                size="small"
+                aria-label=""
+                color="inherit"
+                className={classes.accountButtonIcon}
               >
-                <Typography variant="h6" noWrap>
-                  Admin Dashboard
-                </Typography>
-              </Button>
+                <DashboardIcon />
+              </IconButton>
             </Link>
           </Tooltip>
 
@@ -142,6 +157,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             <Link to={"admin/messages"}>
               <IconButton
+                size="small"
                 aria-label="show messages"
                 color="inherit"
                 className={classes.accountButtonIcon}
@@ -165,6 +181,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
           >
             <Link to={"admin/application"}>
               <IconButton
+                size="small"
                 aria-label=""
                 color="inherit"
                 className={classes.accountButtonIcon}
@@ -186,6 +203,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
               }}
             >
               <IconButton
+                size="small"
                 aria-label="show messages"
                 color="inherit"
                 className={classes.accountButtonIcon}
@@ -200,6 +218,7 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
             classes={{ tooltip: classes.tooltip }}
           >
             <IconButton
+              size="small"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -253,16 +272,14 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
               classes={{ tooltip: classes.tooltip }}
             >
               <Link to="/">
-                <Button
-                  variant="text"
-                  color="primary"
-                  className={classes.dashLinkButton}
+                <IconButton
+                  size="small"
+                  aria-label="show messages"
+                  color="inherit"
+                  className={classes.accountButtonIcon}
                 >
-                  <Typography variant="h6" noWrap style={{ marginRight: 8 }}>
-                    Back to Site
-                  </Typography>
                   <ExitToAppIcon className={classes.altIcon} />
-                </Button>
+                </IconButton>
               </Link>
             </Tooltip>
           </div>

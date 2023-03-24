@@ -6,6 +6,7 @@ import {
   Typography,
   makeStyles,
   Tooltip,
+  Divider,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -395,6 +396,9 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
               </>
             )}
           </TableContainer>
+          <div style={{ width: "100%", margin: "24px 0px 24px 0px" }}>
+            <Divider />
+          </div>
           <RecentActions
             actionsOpen={actionsOpen}
             setActionsOpen={setActionsOpen}

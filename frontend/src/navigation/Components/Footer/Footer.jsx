@@ -111,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
   socialIcons: {
     display: "flex",
     justifyContent: "center",
+    marginRight: 4,
     "&:hover": {
       color: theme.palette.primary.light,
     },
@@ -184,7 +185,7 @@ const Footer = ({ socialData }) => {
           </Tooltip>
         </div>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={12} md={4}>
             <form onSubmit={handleSubmit}>
               <FormControl className={classes.formControl}>
                 <TextField
@@ -223,7 +224,7 @@ const Footer = ({ socialData }) => {
               </FormControl>
             </form>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={12} md={4}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {links.map((link) => (
                 <div>
@@ -247,7 +248,7 @@ const Footer = ({ socialData }) => {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={12} md={4}>
             <Typography variant="h6" className={classes.title}>
               Connect with Us
             </Typography>
@@ -268,6 +269,7 @@ const Footer = ({ socialData }) => {
                         classes={{ tooltip: classes.tooltip }}
                       >
                         <IconButton
+                          size="small"
                           key={platform.name}
                           className={classes.socialIcons}
                           aria-label={platform.name}
