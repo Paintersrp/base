@@ -19,7 +19,16 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
-)
+    info_dump={
+        "purpose": "This model represents a requirement for a job posting. It contains information about a specific requirement that a job posting may have, such as a required skill or qualification.",
+        "fields": {
+            "detail": "This field is a character field that stores the specific requirement for the job posting. It can be up to 200 characters in length.",
+        },
+        "model_links": {
+            "JobPosting": "/jobs/job-posting/",
+            "Skill": "/jobs/skill/",
+        },
+    })
 class Requirement(models.Model):
     detail = models.CharField(max_length=200)
 
@@ -43,7 +52,15 @@ class Requirement(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
-)
+   info_dump={
+        "purpose": "This model is used to store the responsibilities for a particular job posting. It is intended to be used as part of a larger job posting application.",
+        "fields": {
+            "detail": "A text field containing the specific responsibilities for the job posting.",
+        },
+        "model_links": {
+            "JobPosting": "/docs/models/job-posting/",
+        },
+    },)
 class Responsibilities(models.Model):
     detail = models.CharField(max_length=200)
 
@@ -67,6 +84,27 @@ class Responsibilities(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+
+    info_dump={
+        "purpose": "This model represents a job posting on the company's careers page.",
+        "fields": {
+            "position": "The title of the job.",
+            "location": "The location of the job.",
+            "type": "The type of job (e.g. full-time, part-time).",
+            "tagline": "A short description of the job.",
+            "who_we_are": "A description of the company and its values.",
+            "requirements": "The requirements for the job.",
+            "responsibilities": "The responsibilities of the job.",
+            "looking_for": "A description of the ideal candidate for the job.",
+            "why_apply": "A description of the benefits of working for the company.",
+            "created_at": "The date and time the job posting was created.",
+            "filled": "Whether or not the job has been filled.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/ref/models/",
+            "JobPosting model reference": "/api/jobposting/",
+        },
+    },
 )
 class JobPosting(models.Model):
     position = CustomCharField(
@@ -155,6 +193,25 @@ class JobPosting(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model stores information about a job application submitted through the company's website.",
+        "fields": {
+            "first_name": "The first name of the applicant.",
+            "last_name": "The last name of the applicant.",
+            "email": "The email address of the applicant.",
+            "phone": "The phone number of the applicant.",
+            "created_at": "The date and time the application was created.",
+            "city": "The city of the applicant.",
+            "zipcode": "The zip code of the applicant.",
+            "job": "The job posting the applicant is applying for.",
+            "resume": "The applicant's resume file.",
+            "status": "The current status of the application (e.g. Pending, Reviewing, Rejected, Accepted).",
+        },
+        "model_links": {
+            "JobPosting": "/job-postings",
+            "Resume": "/resumes",
+        },
+    },
 )
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"
