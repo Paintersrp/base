@@ -22,7 +22,20 @@ from auditlog.registry import auditlog
     related_components="Header",
     visibility=True,
     access_level="All",
-)
+    info_dump={
+        "purpose": "This model represents the headers used for SEO purposes on various pages of the website.",
+        "fields": {
+            "page": "The name of the page that the header belongs to.",
+            "title": "The title of the page that will be displayed in the browser tab and search engine results.",
+            "description": "A brief description of the page that will be displayed in search engine results.",
+            "keywords": "A list of keywords that are relevant to the page, separated by commas.",
+            "image": "An image that represents the page and will be displayed in search engine results.",
+            "url": "The URL of the page that the header belongs to."
+        },
+        "model_links": {
+            "Header": "https://example.com/docs/models/seo-headers"
+        }
+    })
 class Header(models.Model):
     page = CustomCharField(
         max_length=20,
@@ -80,6 +93,17 @@ class Header(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+  info_dump = {
+    "purpose": "This model represents a content text block used to display a header or a description in the hero section of various pages.",
+    "fields": {
+        "slug": "The slug field is used to identify the content text block.",
+        "title": "The title field is used to display the top header of the hero section.",
+        "description": "The description field is used to display the description of the hero section.",
+    },
+    "model_links": {
+        "Header": "Link to the Header component.",
+    },
+}
 )
 class ContentTextBlock(models.Model):
     slug = CustomCharField(
