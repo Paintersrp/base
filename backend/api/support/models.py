@@ -20,6 +20,25 @@ from auditlog.registry import auditlog
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model represents messages sent by users to the company, which can be viewed, replied to, and archived by staff members.",
+        "fields": {
+            "name": "The name of the person who sent the message.",
+            "email": "The email address of the person who sent the message.",
+            "phone": "The phone number of the person who sent the message.",
+            "subject": "The subject line of the message.",
+            "message": "The content of the message.",
+            "created_at": "The date and time that the message was created.",
+            "is_read": "Whether the message has been read by a staff member.",
+            "is_replied": "Whether a staff member has replied to the message.",
+            "is_archived": "Whether the message has been archived by a staff member."
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Message model reference": "/docs/models/messages/",
+            "Support center documentation": "/docs/support/messages/"
+        }
+    }
 )
 class Messages(models.Model):
     name = CustomCharField(
@@ -94,6 +113,17 @@ class Messages(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model is used to store information about subscribers to our company's newsletter. Each Subscriber object represents a unique email address that has opted in to receive our newsletter.",
+        "fields": {
+            "email": "The email address of the subscriber.",
+            "subscribed_on": "The date and time that the subscriber opted in to receive our newsletter."
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/ref/models/fields/",
+            "How to manage subscribers": "https://www.example.com/blog/how-to-manage-newsletter-subscribers/"
+        },
+    }
 )
 class Subscribers(models.Model):
     email = CustomEmailField(
