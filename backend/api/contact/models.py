@@ -18,6 +18,18 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump = {
+    "purpose": "This model stores the contact information for a company, including their email address, phone number, and physical address.",
+    "fields": {
+        "email": "The email address of the company.",
+        "phone": "The phone number of the company.",
+        "address": "The physical address of the company. This field is optional.",
+    },
+    "model_links": {
+        "Model Documentation": "https://docs.example.com/contact-information",
+        "Company Website": "https://www.example.com/",
+    },
+}
 )
 class ContactInformation(models.Model):
     email = CustomEmailField(
@@ -60,7 +72,22 @@ class ContactInformation(models.Model):
     related_components="Hours",
     visibility=True,
     access_level="All",
-)
+    info_dump = {
+    "purpose": "This model stores the contact hours for the company.",
+    "fields": {
+        "monday": "The contact hours for Monday.",
+        "tuesday": "The contact hours for Tuesday.",
+        "wednesday": "The contact hours for Wednesday.",
+        "thursday": "The contact hours for Thursday.",
+        "friday": "The contact hours for Friday.",
+        "saturday": "The contact hours for Saturday.",
+        "sunday": "The contact hours for Sunday.",
+    },
+    "model_links": {
+        "Documentation": "https://example.com/docs/contact-hours/",
+        "Contact Us": "https://example.com/contact/",
+    }
+})
 class Hours(models.Model):
     monday = CustomCharField(
         max_length=40,
@@ -139,6 +166,21 @@ class Hours(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump = {
+    "purpose": "This model represents the social media accounts associated with a company or organization.",
+    "fields": {
+        "facebook": "The company's Facebook account.",
+        "linkedin": "The company's LinkedIn account.",
+        "instagram": "The company's Instagram account.",
+        "twitter": "The company's Twitter account.",
+        "youtube": "The company's Youtube account.",
+        "github": "The company's Github account.",
+    },
+    "model_links": {
+        "Company Model": "/models/company/",
+        "Social Media Model": "/models/social-media/",
+    },
+}
 )
 class Socials(models.Model):
     facebook = CustomCharField(
@@ -208,6 +250,25 @@ class Socials(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
+    info_dump={
+        "purpose": "This model represents team members of our company.",
+        "fields": {
+            "image": "The image of the team member.",
+            "name": "The name of the team member.",
+            "role": "The role of the team member in the company.",
+            "bio": "The biography of the team member.",
+            "linkedIn": "The LinkedIn profile URL of the team member.",
+            "github": "The GitHub profile URL of the team member.",
+            "twitter": "The Twitter profile URL of the team member.",
+            "facebook": "The Facebook profile URL of the team member.",
+            "instagram": "The Instagram profile URL of the team member.",
+            "youtube": "The YouTube profile URL of the team member.",
+        },
+        "model_links": {
+            "Company": "/company",
+            "Header": "/header",
+        },
+    },
 )
 class TeamMember(models.Model):
     image = models.ImageField(
