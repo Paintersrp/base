@@ -17,7 +17,7 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
-   info_dump={
+    info_dump={
         "purpose": "The Questionnaire model is used to create and manage surveys that can be filled out by users to provide feedback.",
         "fields": {
             "title": "The name of the questionnaire, which is displayed as the top header in the hero section.",
@@ -28,7 +28,8 @@ from api.customs import *
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
             "Creating forms in Django": "https://docs.djangoproject.com/en/3.2/topics/forms/",
         },
-    },)
+    },
+)
 class Questionnaire(models.Model):
     title = CustomCharField(
         max_length=255,
@@ -89,8 +90,7 @@ class Questionnaire(models.Model):
             "Questionnaire": "/admin/myapp/questionnaire/",
             "Question": "/admin/myapp/question/",
         },
-    }
-)
+    },
 )
 class QuestionSet(models.Model):
     questionnaire = models.ForeignKey(
@@ -158,7 +158,7 @@ class QuestionSet(models.Model):
         "model_links": {
             "QuestionSet": "https://example.com/docs/QuestionSet",
         },
-    },    
+    },
 )
 class Question(models.Model):
     question_set = CustomForeignKeyField(
@@ -212,18 +212,18 @@ class Question(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
-     info_dump={
+    info_dump={
         "purpose": "This model represents the possible answer choices for a multiple-choice question.",
         "fields": {
             "question": "The question that this answer choice belongs to.",
             "text": "The text of the answer choice.",
             "value": "The numerical value associated with the answer choice.",
-            "order": "The order in which the answer choices should be displayed."
+            "order": "The order in which the answer choices should be displayed.",
         },
         "model_links": {
             "Question": "https://docs.example.com/models/question",
         },
-    },       
+    },
 )
 class AnswerChoice(models.Model):
     question = CustomForeignKeyField(
@@ -320,7 +320,7 @@ class QuestionnaireResults(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
-     info_dump={
+    info_dump={
         "purpose": "This model represents the answer choice selected by a user for a specific question in a questionnaire result. It is part of the overall questionnaire result, which can contain multiple answers for multiple questions.",
         "fields": {
             "questionnaire_result": "A foreign key reference to the overall questionnaire result that this answer choice belongs to.",

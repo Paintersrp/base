@@ -49,6 +49,7 @@ const TextType = ({
               onChange={handleInputChange}
               value={formData[fieldName]}
               multiline
+              classes={{ helperText: classes.helperText }}
             />
           </Container>
         ) : (
@@ -57,6 +58,7 @@ const TextType = ({
             size="medium"
             value={formData[fieldName]}
             onChange={handleQuillChange}
+            helpText={helpText}
           />
         )}
       </Grid>

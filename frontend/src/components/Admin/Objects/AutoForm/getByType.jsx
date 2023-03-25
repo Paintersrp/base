@@ -68,6 +68,7 @@ const getByType = (
           handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          helpText={help_text}
         />
       );
     case "TextField":
@@ -99,6 +100,7 @@ const getByType = (
           handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          helpText={help_text}
         />
       );
     case "DateTimeField":
@@ -122,6 +124,7 @@ const getByType = (
           handleManyToManyChange={handleManyToManyChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          helpText={help_text}
         />
       );
     case "ImageField":
@@ -144,6 +147,7 @@ const getByType = (
           choices={choices}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+          helpText={help_text}
         />
       );
     case "FileField":

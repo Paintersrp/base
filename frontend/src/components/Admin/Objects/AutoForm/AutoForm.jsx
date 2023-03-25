@@ -102,6 +102,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     axiosInstance.get(`/get_metadata${endpointUrl}`).then((response) => {
       setFieldMetadata(response.data.fields);
       setModelMetadata(response.data);
+      console.log(response.data);
     });
   }, []);
 
@@ -112,8 +113,6 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   };
 
   const handleInputChange = (e) => {
-    console.log(e.target.type);
-    console.log(formData);
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -226,14 +225,14 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           maxWidth={800}
           minWidth={800}
           minHeight={isSmallScreen ? 400 : 600}
-          title={modelMetadata.autoFormLabel || modelMetadata.verboseName}
+          title={`${Object.keys(data).length === 0 ? "Create" : "Update"} ${
+            modelMetadata.autoFormLabel || modelMetadata.verboseName
+          } Object`}
           body={modelMetadata.longDescription}
           bodyAlign="start"
           background="#F5F5F5"
           boxShadow={2}
-          infoDump={
-            "Placeholder \n New Line Placeholder Testttttttttttttttttttttttttttttttt tyyy"
-          }
+          infoDump={modelMetadata.info_dump}
         >
           <Grid container justifyContent="center">
             {fieldMetadata &&

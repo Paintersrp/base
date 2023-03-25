@@ -18,24 +18,24 @@ from auditlog.registry import auditlog
     related_components=["Header", "Bottomer"],
     visibility=True,
     access_level="All",
-    info_dump = {
-    "purpose": "This model represents the header block of the About page.",
-    "fields": {
-        "title": "The title of the header block.",
-        "image": "The image used in the header block.",
+    info_dump={
+        "purpose": "This model represents the header block of the About page.",
+        "fields": {
+            "Image": "The image used in the header block.",
+            "Company Name": "Name of the Company.",
+        },
+        "model_links": {
+            "Header": "/header",
+            "Bottomer": "/bottomer",
+        },
     },
-    "model_links": {
-        "Header": "/header",
-        "Bottomer": "/bottomer",
-    },
-}
 )
 class AboutBlock(models.Model):
     title = CustomCharField(
         max_length=200,
         md_column_count=10,
         verbose_name="Title",
-        help_text="Help Text Placeholder",
+        help_text="Company Name",
     )
     image = models.ImageField(
         upload_to="about",
@@ -63,31 +63,31 @@ class AboutBlock(models.Model):
     related_components="Header",
     visibility=True,
     access_level="All",
-info_dump={
+    info_dump={
         "purpose": "This model represents the mission statement for a company or organization.",
         "fields": {
-            "title": "The title of the mission statement.",
-            "body": "The content of the mission statement.",
+            "Section Title": "The title of the mission statement.",
+            "Mission Statement Body": "The content of the mission statement.",
         },
         "model_links": {
             "Company": "/admin/company",
             "About Page": "/admin/pages/about",
         },
-    }
+    },
 )
 class MissionStatement(models.Model):
     title = CustomCharField(
         max_length=200,
         md_column_count=10,
-        verbose_name="Title",
-        help_text="Help Text Placeholder",
+        verbose_name="Section Title",
+        help_text="Section Title",
     )
     body = CustomTextField(
         max_length=10000,
         null=True,
         verbose_name="Body",
         markdown=True,
-        help_text="Help Text Placeholder",
+        help_text="Mission Statement Body",
     )
 
     class Meta:
@@ -113,8 +113,8 @@ class MissionStatement(models.Model):
     info_dump={
         "purpose": "This model represents the history of the company, including major milestones and events. It can be used to showcase the company's achievements and growth over time.",
         "fields": {
-            "title": "The title of the company history entry.",
-            "body": "The main text content of the company history entry.",
+            "Section Title": "The title of the company history entry.",
+            "Company History Body": "The main text content of the company history entry.",
         },
         "model_links": {
             "Company": "/admin/core/company/",
@@ -125,15 +125,15 @@ class CompanyHistory(models.Model):
     title = CustomCharField(
         max_length=200,
         md_column_count=10,
-        verbose_name="Title",
-        help_text="Help Text Placeholder",
+        verbose_name="Section Title",
+        help_text="Section Title",
     )
     body = CustomTextField(
         max_length=10000,
         null=True,
         verbose_name="Body",
         markdown=True,
-        help_text="Help Text Placeholder",
+        help_text="Company History Body",
     )
 
     class Meta:
@@ -159,27 +159,27 @@ class CompanyHistory(models.Model):
     info_dump={
         "purpose": "This model is used to store the core values of our company, which guide our decisions, actions, and behavior as a team.",
         "fields": {
-            "title": "The title of the value, such as 'Integrity' or 'Customer Focus.'",
-            "icon": "The name of the icon to use for this value, such as 'mdi-heart' or 'mdi-account-group.'"
+            "Title": "The title of the value, such as 'Integrity' or 'Customer Focus.'",
+            "Icon": "The name of the icon to use for this value, such as 'mdi-heart' or 'mdi-account-group.'",
         },
         "model_links": {
             "Learn more about our culture": "/culture",
-            "Meet our team": "/team"
-        }
-    }
+            "Meet our team": "/team",
+        },
+    },
 )
 class Value(models.Model):
     title = CustomCharField(
         max_length=100,
         md_column_count=8,
         verbose_name="Title",
-        help_text="Help Text Placeholder",
+        help_text="Value Title",
     )
     icon = CustomCharField(
         max_length=40,
         md_column_count=8,
         verbose_name="Icon",
-        help_text="Help Text Placeholder",
+        help_text="Value Icon",
     )
 
     class Meta:
@@ -203,23 +203,23 @@ class Value(models.Model):
     related_components="FAQ",
     visibility=True,
     access_level="All",
-   info_dump={
+    info_dump={
         "purpose": "This model represents a category for frequently asked questions on our website.",
         "fields": {
-            "name": "The name of the FAQ category.",
+            "Category Name": "The name of the FAQ category.",
         },
         "model_links": {
             "FAQ": "/faq",
             "Question": "/question",
         },
-    }
+    },
 )
 class Category(models.Model):
     name = CustomCharField(
         max_length=100,
         verbose_name="Category",
         md_column_count=12,
-        help_text="Help Text Placeholder",
+        help_text="Category Name",
     )
 
     class Meta:
@@ -228,7 +228,7 @@ class Category(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage FAQ Object",
+    autoform_label="Manage FAQ",
     long_description="This model represents frequently asked questions and answers related to our company and services.",
     short_description="FAQ Model",
     pages_associated={
@@ -246,9 +246,9 @@ class Category(models.Model):
     info_dump={
         "purpose": "This model is used to manage frequently asked questions and their corresponding answers. It is intended to be used on pages where customers may have common questions about our products or services.",
         "fields": {
-            "category": "This field represents the category that the question and answer belong to. It is a foreign key to the Category model.",
-            "question": "This field represents the question being asked. It has a maximum length of 500 characters.",
-            "answer": "This field represents the answer to the question being asked. It has a maximum length of 500 characters.",
+            "Category": "This field represents the category that the question and answer belong to. It is a foreign key to the Category model.",
+            "Question": "This field represents the question being asked. It has a maximum length of 500 characters.",
+            "Answer": "This field represents the answer to the question being asked. It has a maximum length of 500 characters.",
         },
         "model_links": {
             "Category": "/admin/category/",
@@ -261,19 +261,20 @@ class FAQ(models.Model):
         Category,
         on_delete=models.CASCADE,
         verbose_name="Category",
+        help_text="FAQ Category",
     )
 
     question = CustomTextField(
         max_length=500,
         md_column_count=6,
         verbose_name="Question",
-        help_text="Help Text Placeholder",
+        help_text="FAQ Question",
     )
     answer = CustomTextField(
         max_length=500,
         md_column_count=6,
         verbose_name="Answer",
-        help_text="Help Text Placeholder",
+        help_text="FAQ Answer",
     )
 
     class Meta:

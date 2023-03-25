@@ -4,7 +4,7 @@ from api.customs import *
 
 
 @custom_metadata(
-    autoform_label="Service Table Labels Object",
+    autoform_label="Service Table Columns",
     long_description="This model defines the labels for the services table in our application.",
     short_description="Labels for services table",
     pages_associated={
@@ -18,56 +18,66 @@ from api.customs import *
     related_components="Header",
     visibility=True,
     access_level="All",
-    info_dump = {
-    "purpose": "This model defines the labels for the services table in our application.",
-    "fields": {
-        "name": "The name of the set of service tiers and icons.",
-        "service_tier1": "The label for the first tier of service.",
-        "tier1_icon": "The icon for the first tier of service.",
-        "service_tier2": "The label for the second tier of service.",
-        "tier2_icon": "The icon for the second tier of service.",
-        "service_tier3": "The label for the third tier of service.",
-        "tier3_icon": "The icon for the third tier of service."
+    info_dump={
+        "purpose": "This model defines the labels for the services table in our application.",
+        "fields": {
+            "Name": "The name of the set of service tiers and icons.",
+            "Column One": "The label for the first tier of service.",
+            "Icon One": "The icon for the first tier of service.",
+            "Column Two": "The label for the second tier of service.",
+            "Icon Two": "The icon for the second tier of service.",
+            "Column Three": "The label for the third tier of service.",
+            "Icon Three": "The icon for the third tier of service.",
+        },
+        "model_links": {
+            "OpenAPI specification": "https://example.com/api/docs/",
+            "Database schema": "https://example.com/db/schema/",
+        },
     },
-    "model_links": {
-        "OpenAPI specification": "https://example.com/api/docs/",
-        "Database schema": "https://example.com/db/schema/",
-    },
-}
 )
 class ServiceTableLabels(models.Model):
     name = CustomCharField(
-        max_length=40, verbose_name="Set Name", md_column_count=12, default="Test"
+        max_length=40,
+        verbose_name="Set Name",
+        md_column_count=12,
+        default="Test",
+        help_text="Referential Name",
     )
     service_tier1 = CustomCharField(
         max_length=40,
         verbose_name="Tier 1",
         md_column_count=6,
+        help_text="Column One Name",
     )
     tier1_icon = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Icon 1",
+        help_text="Column One Icon",
     )
     service_tier2 = CustomCharField(
         max_length=40,
         verbose_name="Tier 2",
         md_column_count=6,
+        help_text="Column Two Name",
     )
     tier2_icon = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Icon 2",
+        help_text="Column Two Icon",
     )
     service_tier3 = CustomCharField(
         max_length=40,
         verbose_name="Tier 3",
         md_column_count=6,
+        help_text="Column Three Name",
     )
     tier3_icon = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Icon 3",
+        help_text="Column Three Icon",
     )
 
     class Meta:
@@ -93,11 +103,11 @@ class ServiceTableLabels(models.Model):
     info_dump={
         "purpose": "This model defines the rows for the Service Comparison Table, allowing users to easily compare different service tiers based on various features.",
         "fields": {
-            "table_name": "The name of the table, which is displayed above the row of features and tiers.",
-            "feature": "The name of the feature being compared in the current row.",
-            "tier1_value": "The value for the first tier of the current feature.",
-            "tier2_value": "The value for the second tier of the current feature.",
-            "tier3_value": "The value for the third tier of the current feature.",
+            "Table Name": "The name of the table, which is displayed above the row of features and tiers.",
+            "Feature": "The name of the feature being compared in the current row.",
+            "Cell 1 Value": "The value for the first tier of the current feature.",
+            "Cell 2 Value": "The value for the second tier of the current feature.",
+            "Cell 3 Value": "The value for the third tier of the current feature.",
         },
         "model_links": {
             "ServiceCompareRows": "https://example.com/docs/service-compare-rows/",
@@ -109,32 +119,33 @@ class ServiceCompareRows(models.Model):
     table_name = CustomCharField(
         max_length=40,
         verbose_name="Table Name",
-        md_column_count=12,
+        md_column_count=6,
         default="Service Tiers",
+        help_text="Table Name Connection",
     )
     feature = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Feature",
-        help_text="Help Text Placeholder",
+        help_text="Row Feature",
     )
     tier1_value = CustomCharField(
         max_length=100,
-        md_column_count=6,
+        md_column_count=4,
         verbose_name="Tier 1",
-        help_text="Help Text Placeholder",
+        help_text="Cell 1 Value",
     )
     tier2_value = CustomCharField(
         max_length=100,
-        md_column_count=6,
+        md_column_count=4,
         verbose_name="Tier 2",
-        help_text="Help Text Placeholder",
+        help_text="Cell 2 Value",
     )
     tier3_value = CustomCharField(
         max_length=100,
-        md_column_count=6,
+        md_column_count=4,
         verbose_name="Tier 3",
-        help_text="Help Text Placeholder",
+        help_text="Cell 3 Value",
     )
 
     class Meta:
@@ -162,11 +173,11 @@ class ServiceCompareRows(models.Model):
         "fields": {
             "name": "The name of the service table, which is displayed as the top header in the hero section.",
             "labels": "The labels used in the service table, which provide context for each column.",
-            "rows": "The rows in the service table, which represent the different services provided by the company."
+            "rows": "The rows in the service table, which represent the different services provided by the company.",
         },
         "model_links": {
             "ServiceTableLabels": "/admin/app/servicetablelabels/",
-            "ServiceCompareRows": "/admin/app/servicecomparerows/"
+            "ServiceCompareRows": "/admin/app/servicecomparerows/",
         },
     },
 )
@@ -176,7 +187,7 @@ class ServiceTable(models.Model):
         max_length=20,
         md_column_count=6,
         verbose_name="Table Name",
-        help_text="Top Header Display of Hero Section",
+        help_text="Table Name",
     )
 
     labels = models.OneToOneField(
@@ -184,12 +195,14 @@ class ServiceTable(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Table Labels",
         related_name="service_table",
+        help_text="Table Name",
     )
 
     rows = models.ManyToManyField(
         ServiceCompareRows,
         verbose_name="Table Rows",
         related_name="service_tables",
+        help_text="Table Rows",
     )
 
     class Meta:

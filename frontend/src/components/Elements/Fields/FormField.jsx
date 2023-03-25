@@ -73,9 +73,9 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiFormHelperText-contained": {
       fontFamily: "Roboto",
-      color: "black",
+      color: theme.palette.text.secondary,
       fontWeight: "500",
-      fontSize: "0.95rem",
+      margin: theme.spacing(0, 0, 1, 0),
     },
     "& input": {
       color: "black",

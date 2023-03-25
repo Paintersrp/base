@@ -1,6 +1,14 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import ManyToManyField from "../../../../Elements/Fields/ManyToManyField";
+
+const useStyles = makeStyles((theme) => ({
+  helpText: {
+    margin: theme.spacing(1, 0, 0.25, 0),
+    padding: 0,
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const ManyToManyType = ({
   formData,
@@ -10,8 +18,10 @@ const ManyToManyType = ({
   handleManyToManyChange,
   xsColumnCount = 12,
   mdColumnCount = 12,
+  helpText,
 }) => {
   console.log("md: TTTTT: ", mdColumnCount);
+  const classes = useStyles();
   return (
     <Grid
       item
@@ -24,13 +34,18 @@ const ManyToManyType = ({
         width: "100%",
       }}
     >
-      <ManyToManyField
-        data={formData[fieldName]}
-        setFormData={setFormData}
-        fieldName={fieldName}
-        verboseName={verboseName}
-        handleManyToManyChange={handleManyToManyChange}
-      />
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Typography className={classes.helpText}>
+          {helpText || "Placeholder Help Text"}
+        </Typography>
+        <ManyToManyField
+          data={formData[fieldName]}
+          setFormData={setFormData}
+          fieldName={fieldName}
+          verboseName={verboseName}
+          handleManyToManyChange={handleManyToManyChange}
+        />
+      </div>
     </Grid>
   );
 };

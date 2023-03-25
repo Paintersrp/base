@@ -1,9 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: 0,
     padding: 0,
@@ -65,7 +65,12 @@ const useStyles = makeStyles({
       height: 600,
     },
   },
-});
+  helpText: {
+    margin: theme.spacing(1, 0, 0.25, 0),
+    padding: 0,
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const QuillField = ({
   fieldName,
@@ -74,6 +79,7 @@ const QuillField = ({
   modules,
   formats,
   size = "small",
+  helpText,
 }) => {
   const classes = useStyles();
   const [content, setContent] = useState([]);
@@ -95,6 +101,9 @@ const QuillField = ({
 
   return (
     <div className={classes.root}>
+      <Typography className={classes.helpText}>
+        {helpText || "Placeholder Help Text"}
+      </Typography>
       <ReactQuill
         ref={quillRef}
         value={value}

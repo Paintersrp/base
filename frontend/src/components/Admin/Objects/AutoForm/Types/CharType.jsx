@@ -42,6 +42,7 @@ const CharType = ({
             formData={formData}
             handleChange={handleInputChange}
             background="#F5F5F5"
+            helpText={helpText}
           />
         </div>
       ) : (
@@ -51,10 +52,11 @@ const CharType = ({
           </Typography>
           <FormField
             id={fieldName}
-            label={verboseName}
+            label={helpText}
             onChange={handleInputChange}
             value={formData[fieldName]}
             classes={{ helperText: classes.helperText }}
+            // helperText={helpText}
           />
         </Container>
       )}

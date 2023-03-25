@@ -79,6 +79,9 @@ def get_model_metadata(model_name):
         "access_level": model._meta.access_level
         if hasattr(model._meta, "access_level")
         else None,
+        "info_dump": model._meta.info_dump
+        if hasattr(model._meta, "info_dump")
+        else None,
     }
 
     for field_name, field in fields.items():
@@ -188,6 +191,7 @@ class RecentAdminActionsView(APIView):
         items = request.query_params.get("items", 10)
         app = request.query_params.get("app", None)
         model_query = request.query_params.get("model", None)
+        all_models = apps.get_models()
 
         if items == "all":
             if app:
@@ -212,7 +216,11 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="contact"
                     )
-                elif model_query == "servicetablelabels":
+                elif (
+                    model_query == "servicetablelabels"
+                    or model_query == "servicecomparerows"
+                    or model_query == "servicetable"
+                ):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="tables"
                     )
@@ -248,12 +256,16 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="contact"
                     )
-                elif model_query == "servicetablelabels":
+                elif (
+                    model_query == "servicetablelabels"
+                    or model_query == "servicecomparerows"
+                    or model_query == "servicetable"
+                ):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="tables"
                     )
                 else:
-                    content_type = ContentType.objects.get(model=model_query.lower())
+                    content_type = ContentType.objects.get(model=model_query.lower())        
 
                 recent_actions = LogEntry.objects.filter(
                     content_type=content_type
