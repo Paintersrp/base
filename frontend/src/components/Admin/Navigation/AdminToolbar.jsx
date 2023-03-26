@@ -155,7 +155,12 @@ const AdminToolbar = ({ open, toggleDrawer, setCount, count }) => {
             placement="bottom"
             classes={{ tooltip: classes.tooltip }}
           >
-            <Link to={"admin/messages"}>
+            <Link
+              to={"admin/messages"}
+              state={{
+                type: "new",
+              }}
+            >
               <IconButton
                 size="small"
                 aria-label="show messages"

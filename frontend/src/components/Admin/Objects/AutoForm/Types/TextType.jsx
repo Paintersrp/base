@@ -6,7 +6,7 @@ import Container from "../../../../Elements/Layout/Container/Container";
 
 const useStyles = makeStyles((theme) => ({
   helpText: {
-    margin: theme.spacing(1, 0, 0.25, 0),
+    margin: theme.spacing(1, 0, 0, 0),
     padding: 0,
     color: theme.palette.text.secondary,
   },
@@ -22,6 +22,7 @@ const TextType = ({
   mdColumnCount,
   markDownMixin,
   helpText,
+  min_rows,
 }) => {
   console.log(markDownMixin);
   const classes = useStyles();
@@ -45,10 +46,11 @@ const TextType = ({
             </Typography>
             <FormField
               id={fieldName}
-              label={verboseName}
+              // label={verboseName}
               onChange={handleInputChange}
               value={formData[fieldName]}
               multiline
+              minRows={min_rows}
               classes={{ helperText: classes.helperText }}
             />
           </Container>

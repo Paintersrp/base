@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
   fabExpanded: {
     width: 40,
     height: 40,
-    width: 40,
-    height: 40,
     position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(3),

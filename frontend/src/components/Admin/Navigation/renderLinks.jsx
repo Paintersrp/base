@@ -22,7 +22,8 @@ export default function renderLinks({
   toggleDrawer,
 }) {
   return Object.entries(models).map(([appName, appModels], index) => {
-    if (appName === "content") {
+    console.log(appModels);
+    if (appName === "content" || appName === "articles") {
       return null;
     }
 
@@ -72,39 +73,45 @@ export default function renderLinks({
           <List component="div" disablePadding>
             {appModels
               .filter((model) => model.url !== null)
-              .map((model) => (
-                <Tooltip
-                  title={`Manage ${model.verbose_name}`}
-                  placement="right"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Link
-                    to={`/admin/${model.model_name}`}
-                    state={{
-                      url: model.url,
-                      keys: model.keys,
-                      appName: appName,
-                      model: model,
-                      metadata: model.metadata,
-                    }}
-                    key={model.model_name}
+              .map((model) => {
+                if (model.visibility === false) {
+                  return null;
+                }
+
+                return (
+                  <Tooltip
+                    title={`Manage ${model.verbose_name}`}
+                    placement="right"
+                    classes={{ tooltip: classes.tooltip }}
                   >
-                    <ListItem
-                      button
-                      onClick={toggleDrawer(false)}
-                      className={classes.nestedLinks}
+                    <Link
+                      to={`/admin/${model.model_name}`}
+                      state={{
+                        url: model.url,
+                        keys: model.keys,
+                        appName: appName,
+                        model: model,
+                        metadata: model.metadata,
+                      }}
+                      key={model.model_name}
                     >
-                      <ListItemIcon>
-                        <ChevronRightIcon style={{ color: "white" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={model.verbose_name}
-                        classes={{ primary: classes.nestedText }}
-                      />
-                    </ListItem>
-                  </Link>
-                </Tooltip>
-              ))}
+                      <ListItem
+                        button
+                        onClick={toggleDrawer(false)}
+                        className={classes.nestedLinks}
+                      >
+                        <ListItemIcon>
+                          <ChevronRightIcon style={{ color: "white" }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={model.verbose_name}
+                          classes={{ primary: classes.nestedText }}
+                        />
+                      </ListItem>
+                    </Link>
+                  </Tooltip>
+                );
+              })}
           </List>
         </Collapse>
       </div>

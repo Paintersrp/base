@@ -72,7 +72,6 @@ const SelectField = ({
         {manualEntry ? (
           <FormField
             id={fieldName}
-            label="Create Category"
             onChange={handleInputChange}
             value={formData[fieldName]}
           />
@@ -164,7 +163,7 @@ const SelectField = ({
             noHover
             borderRadius={40}
             minWidth={140}
-            buttonText={!manualEntry ? "Create Category" : "Select Category"}
+            buttonText={!manualEntry ? "Create" : "Select"}
             onClick={toggleManualEntry}
           />
         ) : null}

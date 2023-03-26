@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   formLabel: {
-    fontWeight: "bold",
     fontWeight: 500,
     fontSize: "1rem",
     color: theme.palette.text.dark,

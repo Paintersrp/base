@@ -114,6 +114,7 @@ const StatusChanger = ({
   handleChange,
   options,
   name,
+  save,
 }) => {
   const classes = useStyles();
 
@@ -153,7 +154,7 @@ const StatusChanger = ({
           <MenuItem value={option.value}>{option.display}</MenuItem>
         ))}
       </Select>
-      {value !== originalValue ? (
+      {value !== originalValue && save ? (
         <Button
           size="small"
           color="textSecondary"

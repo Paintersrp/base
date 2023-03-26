@@ -14,6 +14,8 @@ import {
   ListItemText,
   Card,
   CardHeader,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -38,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     margin: theme.spacing(1, 3, 3, 3),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(2, 0, 2, 0),
+    },
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.main,
@@ -110,6 +115,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     fontSize: "12px",
   },
+  breadCrumbs: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+  },
 }));
 
 function IndividualDashboard() {
@@ -122,6 +133,8 @@ function IndividualDashboard() {
   const [linksOpen, setLinksOpen] = useState(false);
   const [appOpen, setAppOpen] = useState(true);
   const [appStatsOpen, setAppStatsOpen] = useState(true);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { str } = useParams();
 
   const handleCollapseAll = () => {
@@ -178,13 +191,17 @@ function IndividualDashboard() {
       <BaseContent maxWidth={1200} pt={4} pb={4}>
         {Object.keys(models).length > 0 ? (
           <>
-            <Typography variant="h3" className={classes.breadCrumbTitle}>
-              App Overview
-            </Typography>
+            {!isSmallScreen && (
+              <Typography variant="h3" className={classes.breadCrumbTitle}>
+                App Overview
+              </Typography>
+            )}
             <Breadcrumbs
               separator={<NavigateNext fontSize="small" />}
               aria-label="breadcrumb"
               style={{ display: "flex" }}
+              className={classes.breadCrumbs}
+              classes={{ separator: classes.breadCrumbs }}
             >
               <Tooltip
                 title={`Dashboard`}
@@ -199,7 +216,7 @@ function IndividualDashboard() {
                 {str.charAt(0).toUpperCase() + str.slice(1)}
               </Typography>
             </Breadcrumbs>
-            <Grid container>
+            <Grid container style={{ width: "100%" }}>
               <div style={{ width: "100%", marginTop: 32 }}>
                 <Typography
                   variant="h2"
@@ -228,7 +245,15 @@ function IndividualDashboard() {
                   justifyContent: "center",
                 }}
               >
-                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  key={str}
+                  style={{ order: isSmallScreen ? 3 : 1, width: "100%" }}
+                >
                   <AppDetailsPanel
                     appName={str}
                     numModels={config.app_info.num_models}
@@ -238,7 +263,15 @@ function IndividualDashboard() {
                     toggleOpen={toggleAppStatsOpen}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  key={str}
+                  style={{ order: isSmallScreen ? 1 : 2 }}
+                >
                   <Card className={classes.card}>
                     <CardHeader
                       className={classes.cardHeader}
@@ -273,13 +306,7 @@ function IndividualDashboard() {
                         <List container>
                           {Object.entries(models).map(
                             ([appName, model], index) => {
-                              console.log("here: ", model[0].verbose_name);
-                              if (
-                                model[0].verbose_name === "requirement" ||
-                                model[0].verbose_name === "responsibilities" ||
-                                model[0].verbose_name === "Testimonials" ||
-                                model[0].verbose_name === "Item"
-                              ) {
+                              if (model[0].visibility === false) {
                                 return null;
                               }
                               return (
@@ -348,7 +375,15 @@ function IndividualDashboard() {
                     </Collapse>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={4} key={str}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  key={str}
+                  style={{ order: isSmallScreen ? 2 : 3 }}
+                >
                   <Card className={classes.card}>
                     <CardHeader
                       className={classes.cardHeader}
@@ -381,7 +416,10 @@ function IndividualDashboard() {
                           {config.links &&
                             Object.entries(config.links).map(
                               ([linkName, link], index) => {
-                                console.log(linkName, link);
+                                console.log(linkName, "linkName");
+                                if (linkName.includes("Analysis")) {
+                                  console.log("ass");
+                                }
                                 return (
                                   <Tooltip
                                     title={`View ${linkName}`}
@@ -391,7 +429,9 @@ function IndividualDashboard() {
                                     <Link
                                       to={`${link}`}
                                       state={{
-                                        appName: str,
+                                        appName: linkName.includes("Analysis")
+                                          ? null
+                                          : str,
                                       }}
                                       key={linkName}
                                     >

@@ -11,6 +11,7 @@ import { NavigateNext } from "@material-ui/icons";
 import BaseContent from "../../../Elements/Base/BaseContent";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import ReadMessage from "../../Panel/ReadMessage";
+import Loading from "../../../Elements/Layout/Loading/Loading";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -102,6 +103,10 @@ function ReadPage({ setCount }) {
         });
     }
   }, []);
+
+  if (!ready) {
+    return <Loading loading={true} message="Gathering Resources" />;
+  }
 
   return (
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">

@@ -89,7 +89,7 @@ const Dropdown = ({ value, options, onChange, label }) => {
   return (
     <div className={classes.selectWrapper}>
       <span style={{ display: "flex", alignItems: "center" }}>
-        Rows to Display:
+        Display Rows:
       </span>
       <label className={classes.selectLabel}>{label}</label>
       <div className={classes.select} onClick={handleMenuClick}>

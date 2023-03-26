@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiFormLabel-root": {
       fontFamily: "Roboto",
-      color: "black",
+      color: theme.palette.text.dark,
       fontWeight: "500",
     },
     "& input": {
-      color: "black",
+      color: theme.palette.text.dark,
     },
     "& .MuiFormHelperText-contained": {
       fontFamily: "Roboto",
@@ -44,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 5,
     width: "100%",
     "& .MuiOutlinedInput-inputMultiline": {
-      color: "black",
+      color: theme.palette.text.dark,
     },
     "& .MuiOutlinedInput-input": {
-      color: "black",
+      color: theme.palette.text.dark,
       textAlign: "left",
     },
     "& .MuiOutlinedInput-root": {
@@ -107,6 +107,7 @@ const FormField = ({
   required = null,
   type = null,
   style,
+  minRows = 6,
 }) => {
   const classes = useStyles();
 
@@ -122,7 +123,7 @@ const FormField = ({
       value={value}
       onChange={onChange}
       multiline={multiline}
-      minRows={6}
+      minRows={minRows}
       error={error}
       helperText={helperText}
       select={select}

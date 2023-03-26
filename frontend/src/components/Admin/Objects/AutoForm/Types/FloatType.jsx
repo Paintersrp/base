@@ -37,11 +37,11 @@ const FieldType = ({
           style={{ display: "flex", width: "100%", flexDirection: "column" }}
         >
           <Typography className={classes.helpText}>
-            {helpText ? helpText : "\u00A0"}
+            {helpText || verboseName}
           </Typography>
           <FormField
             id={fieldName}
-            label={verboseName}
+            // label={verboseName}
             onChange={handleInputChange}
             value={formData[fieldName]}
           />

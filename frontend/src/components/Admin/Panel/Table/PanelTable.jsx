@@ -52,7 +52,9 @@ const PanelTable = ({
   handleMultipleDeleteAction,
   updateMultipleItems,
   handleView,
+  type,
 }) => {
+  console.log(model);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -92,7 +94,7 @@ const PanelTable = ({
   };
 
   useEffect(() => {
-    if (model.model_name === "messages") {
+    if (type === "new") {
       setIsReadFilter(false);
       setIsArchivedFilter(false);
     }

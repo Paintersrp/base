@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         background: "#0B5EA6",
       },
     },
+    [theme.breakpoints.down("sm")]: {},
   },
   active: {},
   resetButton: {
@@ -36,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      borderLeft: "1px solid #E0E0E0",
+    },
   },
   toggleButtonLabel: {
     fontSize: "0.75rem",

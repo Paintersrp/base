@@ -8,11 +8,11 @@ from api.views import get_model_metadata
 
 
 class BenefitsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "description", "icon", "buttonText", "page_link"]
+    FIELD_KEYS = ["title", "description", "page_link"]
 
     class Meta:
         model = Benefits
-        fields = ["id", "icon", "title", "buttonText", "description", "page_link"]
+        fields = ["id", "icon", "title", "page_link", "description", "buttonText"]
 
 
 class ProcessTextItemSerializer(serializers.ModelSerializer):

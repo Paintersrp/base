@@ -6,6 +6,7 @@ class JobsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "jobs"
     verbose_name = "Jobs"
+    visibility = True
     icon = "InfoIcon"
     links = {
         "Contact Page": "/contact",

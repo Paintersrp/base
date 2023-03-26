@@ -175,7 +175,7 @@ const AdminDrawerContent = ({
           </ListItem>
         </Link>
       </Tooltip>
-      <Tooltip
+      {/* <Tooltip
         title="View User Log"
         placement="right"
         classes={{ tooltip: classes.tooltip }}
@@ -192,7 +192,7 @@ const AdminDrawerContent = ({
             <ListItemText primary="Users (WIP)" />
           </ListItem>
         </Link>
-      </Tooltip>
+      </Tooltip> */}
 
       <Divider className={classes.divider} />
       {renderLinks({

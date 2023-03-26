@@ -222,8 +222,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
       {ready ? (
         <BaseForm
           handleSubmit={handleSubmit}
-          maxWidth={800}
-          minWidth={800}
+          maxWidth={isSmallScreen ? 370 : 800}
+          minWidth={isSmallScreen ? 370 : 800}
           minHeight={isSmallScreen ? 400 : 600}
           title={`${Object.keys(data).length === 0 ? "Create" : "Update"} ${
             modelMetadata.autoFormLabel || modelMetadata.verboseName
@@ -234,7 +234,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
           boxShadow={2}
           infoDump={modelMetadata.info_dump}
         >
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="flex-start">
             {fieldMetadata &&
               metadata &&
               Object.keys(fieldMetadata).map((fieldName) => {
@@ -242,6 +242,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   fieldName === "id" ||
                   fieldName === "created_at" ||
                   fieldName === "updated_at" ||
+                  fieldName === "blacklisted_at" ||
                   fieldName === "last_login" ||
                   fieldName === "date_joined" ||
                   fieldName === "subscribed_on" ||
@@ -262,7 +263,10 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   justify,
                   markdown,
                   help_text,
+                  min_rows,
                 } = fieldMetadata[fieldName];
+
+                console.log(fieldMetadata["question_sets"]);
 
                 const { verbose_name } = metadata[fieldName];
 
@@ -284,6 +288,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   md_column_count,
                   justify,
                   markdown,
+                  min_rows,
                   help_text
                 );
 

@@ -51,10 +51,10 @@ class TeamMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamMember
         fields = (
+            "image",
             "id",
             "name",
             "role",
-            "image",
             "bio",
             "linkedIn",
             "github",

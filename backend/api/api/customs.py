@@ -66,6 +66,7 @@ class CustomTextField(models.TextField):
         self.md_column_count = kwargs.pop("md_column_count", 12)
         self.justify = kwargs.pop("justify", "left")
         self.markdown = kwargs.pop("markdown", "false")
+        self.min_rows = kwargs.pop("min_rows", 6)
         super().__init__(*args, **kwargs)
 
 

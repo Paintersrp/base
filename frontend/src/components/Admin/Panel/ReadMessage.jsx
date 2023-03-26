@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   IconButton,
@@ -109,7 +109,13 @@ function scrollToTop() {
   });
 }
 
-const ReadMessage = ({ message, metadata }) => {
+const ReadMessage = ({
+  message,
+  metadata,
+  goBack = true,
+  deleteBtn = true,
+  save = true,
+}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -118,6 +124,10 @@ const ReadMessage = ({ message, metadata }) => {
   const [formData, setFormData] = useState(message);
   const [originalRead, setOriginalRead] = useState(message.is_read);
   const [originalArchived, setOriginalArchived] = useState(message.is_archived);
+
+  useEffect(() => {
+    setFormData(message);
+  }, [message]);
 
   const handleBackButtonClick = () => {
     navigate(-1);
@@ -209,31 +219,33 @@ const ReadMessage = ({ message, metadata }) => {
           mb={4}
           style={{ marginBottom: 16 }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Tooltip
-              title={`Go Back`}
-              placement="top"
-              classes={{ tooltip: classes.tooltip }}
+          {goBack && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <IconButton
-                size="small"
-                color="primary"
-                onClick={handleBackButtonClick}
-                className={classes.backButton}
+              <Tooltip
+                title={`Go Back`}
+                placement="top"
+                classes={{ tooltip: classes.tooltip }}
               >
-                <ArrowBack />
-              </IconButton>
-            </Tooltip>
-            <Typography variant="subtitle2" className={classes.messageCount}>
-              #{formData.id}
-            </Typography>
-          </div>
+                <IconButton
+                  size="small"
+                  color="primary"
+                  onClick={handleBackButtonClick}
+                  className={classes.backButton}
+                >
+                  <ArrowBack />
+                </IconButton>
+              </Tooltip>
+              <Typography variant="subtitle2" className={classes.messageCount}>
+                #{formData.id}
+              </Typography>
+            </div>
+          )}
         </Box>
         <Typography variant="h4" className={classes.title}>
           {formData.subject}
@@ -290,6 +302,7 @@ const ReadMessage = ({ message, metadata }) => {
                         }
                         options={optionsYesNo}
                         name={key}
+                        save={save}
                       />
                     ) : (
                       formData[key]
@@ -300,19 +313,25 @@ const ReadMessage = ({ message, metadata }) => {
             )
           )}
         </Grid>
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
-        >
-          <Tooltip
-            title={`Delete Message Object: ${formData.id}`}
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
+        {deleteBtn && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "100%",
+            }}
           >
-            <IconButton size="small" onClick={() => handleDelete(message)}>
-              <DeleteIcon color="error" />
-            </IconButton>
-          </Tooltip>
-        </div>
+            <Tooltip
+              title={`Delete Message Object: ${formData.id}`}
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton size="small" onClick={() => handleDelete(message)}>
+                <DeleteIcon color="error" />
+              </IconButton>
+            </Tooltip>
+          </div>
+        )}
       </Paper>
 
       <DeleteConfirmationModal

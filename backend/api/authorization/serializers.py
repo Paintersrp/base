@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TokenBlacklistSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["token", "blacklisted_at"]
+    FIELD_KEYS = ["token"]
 
     class Meta:
         model = TokenBlacklist

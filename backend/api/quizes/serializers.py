@@ -4,11 +4,22 @@ from .models import *
 
 class AnswerChoiceSerializer(serializers.ModelSerializer):
     question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
-    FIELD_KEYS = ["text", "value", "question", "order"]
+    FIELD_KEYS = [
+        "question",
+        "order",
+        "text",
+        "value",
+    ]
 
     class Meta:
         model = AnswerChoice
-        fields = ["id", "text", "value", "order", "question"]
+        fields = [
+            "id",
+            "text",
+            "value",
+            "order",
+            "question",
+        ]
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -16,11 +27,18 @@ class QuestionSerializer(serializers.ModelSerializer):
     question_set = serializers.PrimaryKeyRelatedField(
         queryset=QuestionSet.objects.all()
     )
-    FIELD_KEYS = ["question_set", "text", "slug"]
+    FIELD_KEYS = ["question_set", "order", "text", "slug"]
 
     class Meta:
         model = Question
-        fields = ["id", "text", "answer_choices", "question_set", "order", "slug"]
+        fields = [
+            "id",
+            "text",
+            "answer_choices",
+            "question_set",
+            "order",
+            "slug",
+        ]
 
 
 class QuestionSetSerializer(serializers.ModelSerializer):
@@ -28,11 +46,23 @@ class QuestionSetSerializer(serializers.ModelSerializer):
     questionnaire = serializers.PrimaryKeyRelatedField(
         queryset=Questionnaire.objects.all()
     )
-    FIELD_KEYS = ["title", "description", "questionnaire"]
+    FIELD_KEYS = [
+        "questionnaire",
+        "title",
+        "order",
+        "description",
+    ]
 
     class Meta:
         model = QuestionSet
-        fields = ["id", "title", "description", "questions", "questionnaire", "order"]
+        fields = [
+            "id",
+            "title",
+            "order",
+            "description",
+            "questions",
+            "questionnaire",
+        ]
 
 
 class QuestionnaireSerializer(serializers.ModelSerializer):
@@ -41,11 +71,21 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Questionnaire
-        fields = ["id", "title", "slug", "description", "question_sets"]
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "description",
+            "question_sets",
+        ]
 
 
 class QuestionnaireResultsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["questionnaire", "contact_email"]
+    FIELD_KEYS = [
+        "questionnaire",
+        "contact_name",
+        "contact_email",
+    ]
 
     class Meta:
         model = QuestionnaireResults
@@ -60,7 +100,6 @@ class QuestionnaireResultsSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print(validated_data)
         instance = super().create(validated_data)
         results_data = validated_data.pop("results")
         results = []
@@ -98,15 +137,20 @@ class QuestionnaireResultsSerializer(serializers.ModelSerializer):
 
 
 class QuestionnaireResultAnswerSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["question", "question_text", "answer_choice", "answer_choice_text"]
+    FIELD_KEYS = [
+        "question",
+        "answer_choice",
+        "question_text",
+        "answer_choice_text",
+    ]
 
     class Meta:
         model = QuestionnaireResultAnswer
         fields = [
             "id",
             "question",
-            "question_text",
             "answer_choice",
+            "question_text",
             "answer_choice_text",
         ]
 

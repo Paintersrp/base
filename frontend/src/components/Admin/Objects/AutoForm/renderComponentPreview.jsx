@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import ContentSection from "../../../About/Content/ContentSection";
 import AccordionQA from "../../../About/FAQ/AccordionQA";
 import Heading from "../../../About/Heading/Heading";
@@ -98,7 +99,16 @@ export function renderComponentPreview(modelMetadata, formData, newImage) {
     case "Benefits":
       return <Benefit benefit={formData} edit={false} />;
     case "ProcessTextItem":
-      return <ProcessText textItem={formData} />;
+      return <ProcessText textItem={formData} index={0} editMode={false} />;
+    case "ContentTextBlock":
+      return (
+        <>
+          <Typography variant="h5" color="primary">
+            {formData.title}
+          </Typography>
+          <Typography variant="body2">{formData.description}</Typography>
+        </>
+      );
     case "ProcessImageItem":
       return (
         <Container>
@@ -106,7 +116,15 @@ export function renderComponentPreview(modelMetadata, formData, newImage) {
         </Container>
       );
     case "Messages":
-      return <ReadMessage message={formData} />;
+      return (
+        <ReadMessage
+          message={formData}
+          goBack={false}
+          deleteBtn={false}
+          metadata={modelMetadata.fields}
+          save={false}
+        />
+      );
     case "JobPosting":
       return <JobDetails job={formData} />;
     case "FAQ":

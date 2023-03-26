@@ -3,7 +3,7 @@ from api.customs import *
 
 
 @custom_metadata(
-    autoform_label="Manage Company Contact Information Object",
+    autoform_label="Company Contact Information",
     long_description="This model represents the contact information for a company, including their email address, phone number, and physical address.",
     short_description="Contact Information Model",
     pages_associated={
@@ -14,41 +14,43 @@ from api.customs import *
     icon="ContactMailIcon",
     icon_class=None,
     slug="contact-info",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    tags=["Contact", "Phone", "Address", "Email"],
+    related_components=["ContactInformation"],
     visibility=True,
     access_level="All",
-    info_dump = {
-    "purpose": "This model stores the contact information for a company, including their email address, phone number, and physical address.",
-    "fields": {
-        "email": "The email address of the company.",
-        "phone": "The phone number of the company.",
-        "address": "The physical address of the company. This field is optional.",
+    info_dump={
+        "purpose": "This model stores the contact information for a company, including their email address, phone number, and physical address.",
+        "fields": {
+            "Email": "The email address of the company.",
+            "Phone": "The phone number of the company.",
+            "Address": "The physical address of the company. This field is optional.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ContactInformation model reference": "/docs/model/contactinformation/",
+            "General app documentation": "/docs/app/contact/",
+        },
     },
-    "model_links": {
-        "Model Documentation": "https://docs.example.com/contact-information",
-        "Company Website": "https://www.example.com/",
-    },
-}
 )
 class ContactInformation(models.Model):
     email = CustomEmailField(
         md_column_count=6,
         verbose_name="Email",
-        help_text="Help Text Placeholder",
+        help_text="Email Address",
     )
     phone = CustomCharField(
         max_length=20,
         md_column_count=6,
         verbose_name="Phone",
-        help_text="Help Text Placeholder",
+        help_text="Phone Number",
     )
     address = CustomTextField(
         max_length=200,
         null=True,
         verbose_name="Address",
         markdown=False,
-        help_text="Help Text Placeholder",
+        help_text="Address",
+        min_rows=3,
     )
 
     class Meta:
@@ -57,9 +59,9 @@ class ContactInformation(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company Hours Object",
+    autoform_label="Company Hours",
     long_description="This model stores the contact hours for the company.",
-    short_description="Contact Hours",
+    short_description="Company Hours",
     pages_associated={
         "Landing": "/",
         "Contact": "/contact",
@@ -69,32 +71,34 @@ class ContactInformation(models.Model):
     icon_class=None,
     slug="contact-hours",
     tags=["Contact", "Hours"],
-    related_components="Hours",
+    related_components=["Hours"],
     visibility=True,
     access_level="All",
-    info_dump = {
-    "purpose": "This model stores the contact hours for the company.",
-    "fields": {
-        "monday": "The contact hours for Monday.",
-        "tuesday": "The contact hours for Tuesday.",
-        "wednesday": "The contact hours for Wednesday.",
-        "thursday": "The contact hours for Thursday.",
-        "friday": "The contact hours for Friday.",
-        "saturday": "The contact hours for Saturday.",
-        "sunday": "The contact hours for Sunday.",
+    info_dump={
+        "purpose": "This model stores the contact hours for the company.",
+        "fields": {
+            "Monday": "The contact hours for Monday.",
+            "Tuesday": "The contact hours for Tuesday.",
+            "Wednesday": "The contact hours for Wednesday.",
+            "Thursday": "The contact hours for Thursday.",
+            "Friday": "The contact hours for Friday.",
+            "Saturday": "The contact hours for Saturday.",
+            "Sunday": "The contact hours for Sunday.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Hours model reference": "/docs/model/hours/",
+            "Contact app documentation": "/docs/app/contact/",
+        },
     },
-    "model_links": {
-        "Documentation": "https://example.com/docs/contact-hours/",
-        "Contact Us": "https://example.com/contact/",
-    }
-})
+)
 class Hours(models.Model):
     monday = CustomCharField(
         max_length=40,
         null=True,
         md_column_count=3,
         verbose_name="Monday",
-        help_text="Help Text Placeholder",
+        help_text="Monday",
     )
 
     tuesday = CustomCharField(
@@ -102,7 +106,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=3,
         verbose_name="Tuesday",
-        help_text="Help Text Placeholder",
+        help_text="Tuesday",
     )
 
     wednesday = CustomCharField(
@@ -110,7 +114,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=3,
         verbose_name="Wednesday",
-        help_text="Help Text Placeholder",
+        help_text="Wednesday",
     )
 
     thursday = CustomCharField(
@@ -118,7 +122,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=3,
         verbose_name="Thursday",
-        help_text="Help Text Placeholder",
+        help_text="Thursday",
     )
 
     friday = CustomCharField(
@@ -126,7 +130,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=4,
         verbose_name="Friday",
-        help_text="Help Text Placeholder",
+        help_text="Friday",
     )
 
     saturday = CustomCharField(
@@ -134,7 +138,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=4,
         verbose_name="Saturday",
-        help_text="Help Text Placeholder",
+        help_text="Saturday",
     )
 
     sunday = CustomCharField(
@@ -142,7 +146,7 @@ class Hours(models.Model):
         null=True,
         md_column_count=4,
         verbose_name="Sunday",
-        help_text="Help Text Placeholder",
+        help_text="Sunday",
     )
 
     class Meta:
@@ -151,7 +155,7 @@ class Hours(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company Social Contact Object",
+    autoform_label="Company Social Contact",
     long_description="This model represents the social media accounts associated with a company or organization. It includes fields for Facebook, LinkedIn, Instagram, Twitter, Youtube, and Github.",
     short_description="Social Media Accounts for a Company",
     pages_associated={
@@ -163,24 +167,25 @@ class Hours(models.Model):
     icon_class=None,
     slug="contact-socials",
     tags=["Company", "Social Media", "Contact Information"],
-    related_components="Header",
+    related_components=["Socials"],
     visibility=True,
     access_level="All",
-    info_dump = {
-    "purpose": "This model represents the social media accounts associated with a company or organization.",
-    "fields": {
-        "facebook": "The company's Facebook account.",
-        "linkedin": "The company's LinkedIn account.",
-        "instagram": "The company's Instagram account.",
-        "twitter": "The company's Twitter account.",
-        "youtube": "The company's Youtube account.",
-        "github": "The company's Github account.",
+    info_dump={
+        "purpose": "This model represents the social media accounts associated with a company or organization.",
+        "fields": {
+            "Facebook": "The company's Facebook account.",
+            "Linkedin": "The company's LinkedIn account.",
+            "Instagram": "The company's Instagram account.",
+            "Twitter": "The company's Twitter account.",
+            "Youtube": "The company's Youtube account.",
+            "Github": "The company's Github account.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Socials model reference": "/docs/model/socials/",
+            "Contact app documentation": "/docs/app/contact/",
+        },
     },
-    "model_links": {
-        "Company Model": "/models/company/",
-        "Social Media Model": "/models/social-media/",
-    },
-}
 )
 class Socials(models.Model):
     facebook = CustomCharField(
@@ -188,7 +193,7 @@ class Socials(models.Model):
         null=True,
         md_column_count=6,
         verbose_name="Facebook",
-        help_text="Help Text Placeholder",
+        help_text="Facebook",
     )
 
     linkedin = CustomCharField(
@@ -196,7 +201,7 @@ class Socials(models.Model):
         null=True,
         md_column_count=6,
         verbose_name="LinkedIn",
-        help_text="Help Text Placeholder",
+        help_text="LinkedIn",
     )
 
     instagram = CustomCharField(
@@ -204,7 +209,7 @@ class Socials(models.Model):
         null=True,
         md_column_count=6,
         verbose_name="Instagram",
-        help_text="Help Text Placeholder",
+        help_text="Instagram",
     )
 
     twitter = CustomCharField(
@@ -212,21 +217,21 @@ class Socials(models.Model):
         null=True,
         md_column_count=6,
         verbose_name="Twitter",
-        help_text="Help Text Placeholder",
+        help_text="Twitter",
     )
     youtube = CustomCharField(
         max_length=100,
         null=True,
         md_column_count=6,
         verbose_name="Youtube",
-        help_text="Help Text Placeholder",
+        help_text="Youtube",
     )
     github = CustomCharField(
         max_length=100,
         null=True,
         md_column_count=6,
         verbose_name="Github",
-        help_text="Help Text Placeholder",
+        help_text="Github",
     )
 
     class Meta:
@@ -235,7 +240,7 @@ class Socials(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Team Member Object",
+    autoform_label="Team Member",
     long_description="This model represents team members of our company.",
     short_description="Team Members",
     pages_associated={
@@ -246,27 +251,28 @@ class Socials(models.Model):
     icon="PeopleIcon",
     icon_class=None,
     slug="contact-members",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    tags=["Contact", "Team", "Bio"],
+    related_components=["Members", "Member"],
     visibility=True,
     access_level="All",
     info_dump={
         "purpose": "This model represents team members of our company.",
         "fields": {
-            "image": "The image of the team member.",
-            "name": "The name of the team member.",
-            "role": "The role of the team member in the company.",
-            "bio": "The biography of the team member.",
-            "linkedIn": "The LinkedIn profile URL of the team member.",
-            "github": "The GitHub profile URL of the team member.",
-            "twitter": "The Twitter profile URL of the team member.",
-            "facebook": "The Facebook profile URL of the team member.",
-            "instagram": "The Instagram profile URL of the team member.",
-            "youtube": "The YouTube profile URL of the team member.",
+            "Image": "The image of the team member.",
+            "Name": "The name of the team member.",
+            "Role": "The role of the team member in the company.",
+            "Bio": "The biography of the team member.",
+            "LinkedIn": "The LinkedIn profile URL of the team member.",
+            "Github": "The GitHub profile URL of the team member.",
+            "Twitter": "The Twitter profile URL of the team member.",
+            "Facebook": "The Facebook profile URL of the team member.",
+            "Instagram": "The Instagram profile URL of the team member.",
+            "Youtube": "The YouTube profile URL of the team member.",
         },
         "model_links": {
-            "Company": "/company",
-            "Header": "/header",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "TeamMember model reference": "/docs/model/teammember/",
+            "Contact app documentation": "/docs/app/contact/",
         },
     },
 )
@@ -274,25 +280,26 @@ class TeamMember(models.Model):
     image = models.ImageField(
         upload_to="about_members",
         verbose_name="Image",
-        help_text="Help Text Placeholder",
+        help_text="Image",
     )
     name = CustomCharField(
         max_length=100,
-        md_column_count=5,
+        md_column_count=6,
         verbose_name="Name",
-        help_text="Help Text Placeholder",
+        help_text="Full Name",
     )
     role = CustomCharField(
         max_length=100,
-        md_column_count=5,
+        md_column_count=6,
         verbose_name="Role",
-        help_text="Help Text Placeholder",
+        help_text="Role",
     )
     bio = CustomTextField(
         max_length=500,
         md_column_count=12,
         verbose_name="Bio",
-        help_text="Help Text Placeholder",
+        help_text="Short Biography",
+        min_rows=3,
     )
 
     linkedIn = CustomCharField(
@@ -301,7 +308,7 @@ class TeamMember(models.Model):
         verbose_name="LinkedIn",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="LinkedIn",
     )
     github = CustomCharField(
         max_length=100,
@@ -309,7 +316,7 @@ class TeamMember(models.Model):
         verbose_name="GitHub",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="GitHub",
     )
     twitter = CustomCharField(
         max_length=100,
@@ -317,7 +324,7 @@ class TeamMember(models.Model):
         verbose_name="Twitter",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="Twitter",
     )
     facebook = CustomCharField(
         max_length=100,
@@ -325,7 +332,7 @@ class TeamMember(models.Model):
         verbose_name="Facebook",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="Facebook",
     )
     instagram = CustomCharField(
         max_length=100,
@@ -333,7 +340,7 @@ class TeamMember(models.Model):
         verbose_name="Instagram",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="Instagram",
     )
     youtube = CustomCharField(
         max_length=100,
@@ -341,7 +348,7 @@ class TeamMember(models.Model):
         verbose_name="YouTube",
         blank=True,
         null=True,
-        help_text="Help Text Placeholder",
+        help_text="YouTube",
     )
 
     def __str__(self):

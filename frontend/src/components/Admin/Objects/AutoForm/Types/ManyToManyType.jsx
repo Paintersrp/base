@@ -20,8 +20,8 @@ const ManyToManyType = ({
   mdColumnCount = 12,
   helpText,
 }) => {
-  console.log("md: TTTTT: ", mdColumnCount);
   const classes = useStyles();
+
   return (
     <Grid
       item
@@ -36,7 +36,7 @@ const ManyToManyType = ({
     >
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Typography className={classes.helpText}>
-          {helpText || "Placeholder Help Text"}
+          {helpText || verboseName}
         </Typography>
         <ManyToManyField
           data={formData[fieldName]}

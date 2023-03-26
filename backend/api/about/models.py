@@ -4,7 +4,7 @@ from auditlog.registry import auditlog
 
 
 @custom_metadata(
-    autoform_label="Manage About Heading Block",
+    autoform_label="About Header",
     long_description="This model represents the header block of the About page.",
     short_description="Header block for the About page.",
     pages_associated={
@@ -13,9 +13,9 @@ from auditlog.registry import auditlog
     include_preview=True,
     icon="Description",
     icon_class=None,
-    slug="header",
+    slug="about-heading",
     tags=["About", "Header", "Company"],
-    related_components=["Header", "Bottomer"],
+    related_components=["AboutHeading"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -25,15 +25,16 @@ from auditlog.registry import auditlog
             "Company Name": "Name of the Company.",
         },
         "model_links": {
-            "Header": "/header",
-            "Bottomer": "/bottomer",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "AboutBlock model reference": "/docs/model/aboutblock/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
 class AboutBlock(models.Model):
     title = CustomCharField(
         max_length=200,
-        md_column_count=10,
+        md_column_count=12,
         verbose_name="Title",
         help_text="Company Name",
     )
@@ -49,7 +50,7 @@ class AboutBlock(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Mission Statement Object",
+    autoform_label="Mission Statement",
     long_description="This model represents the mission statement for a company or organization.",
     short_description="A company's mission statement.",
     pages_associated={
@@ -58,9 +59,9 @@ class AboutBlock(models.Model):
     include_preview=True,
     icon="BusinessIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="mission-statement",
+    tags=["About", "Mission Statement", "Company"],
+    related_components=["ContentSection"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -70,15 +71,17 @@ class AboutBlock(models.Model):
             "Mission Statement Body": "The content of the mission statement.",
         },
         "model_links": {
-            "Company": "/admin/company",
-            "About Page": "/admin/pages/about",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "MissionStatement model reference": "/docs/model/missionstatement/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
 class MissionStatement(models.Model):
     title = CustomCharField(
         max_length=200,
-        md_column_count=10,
+        md_column_count=12,
+        justify="center",
         verbose_name="Section Title",
         help_text="Section Title",
     )
@@ -96,7 +99,7 @@ class MissionStatement(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company History Object",
+    autoform_label="Company History",
     long_description="This model represents the history of the company, including major milestones and events. It can be used to showcase the company's achievements and growth over time.",
     short_description="Model for company history",
     pages_associated={
@@ -106,8 +109,8 @@ class MissionStatement(models.Model):
     icon="WorkHistoryIcon",
     icon_class=None,
     slug="company-history",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    tags=["About", "History", "Company"],
+    related_components=["ContentSection"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -117,14 +120,16 @@ class MissionStatement(models.Model):
             "Company History Body": "The main text content of the company history entry.",
         },
         "model_links": {
-            "Company": "/admin/core/company/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "CompanyHistory model reference": "/docs/model/companyhistory/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
 class CompanyHistory(models.Model):
     title = CustomCharField(
         max_length=200,
-        md_column_count=10,
+        md_column_count=12,
         verbose_name="Section Title",
         help_text="Section Title",
     )
@@ -142,7 +147,7 @@ class CompanyHistory(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage Company Value Object",
+    autoform_label="Company Value",
     long_description="This model represents the core values of our company.",
     short_description="Core company values.",
     pages_associated={
@@ -153,7 +158,7 @@ class CompanyHistory(models.Model):
     icon_class=None,
     slug="company-values",
     tags=["Values", "Culture", "Company"],
-    related_components="Header",
+    related_components=["ContentSection"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -163,21 +168,22 @@ class CompanyHistory(models.Model):
             "Icon": "The name of the icon to use for this value, such as 'mdi-heart' or 'mdi-account-group.'",
         },
         "model_links": {
-            "Learn more about our culture": "/culture",
-            "Meet our team": "/team",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Value model reference": "/docs/model/value/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
 class Value(models.Model):
     title = CustomCharField(
         max_length=100,
-        md_column_count=8,
+        md_column_count=12,
         verbose_name="Title",
         help_text="Value Title",
     )
     icon = CustomCharField(
         max_length=40,
-        md_column_count=8,
+        md_column_count=12,
         verbose_name="Icon",
         help_text="Value Icon",
     )
@@ -188,19 +194,18 @@ class Value(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage FAQ Category Object",
+    autoform_label="FAQ Category",
     long_description="This model represents a category for frequently asked questions on our website.",
     short_description="FAQ Category",
     pages_associated={
-        "Landing": "/",
-        "Contact": "/contact",
+        "About": "/about",
     },
     include_preview=False,
     icon="CategoryIcon",
     icon_class=None,
     slug="faq-category",
     tags=["FAQ", "Category"],
-    related_components="FAQ",
+    related_components=["FAQAccordion"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -209,8 +214,9 @@ class Value(models.Model):
             "Category Name": "The name of the FAQ category.",
         },
         "model_links": {
-            "FAQ": "/faq",
-            "Question": "/question",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Category model reference": "/docs/model/category/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
@@ -228,19 +234,18 @@ class Category(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Manage FAQ",
+    autoform_label="FAQ",
     long_description="This model represents frequently asked questions and answers related to our company and services.",
     short_description="FAQ Model",
     pages_associated={
-        "Landing": "/",
         "About": "/about",
     },
     include_preview=True,
     icon="QuestionAnswerIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="faq",
+    tags=["About", "FAQ", "Question", "Answer", "Support"],
+    related_components=["FAQAccordion"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -251,8 +256,9 @@ class Category(models.Model):
             "Answer": "This field represents the answer to the question being asked. It has a maximum length of 500 characters.",
         },
         "model_links": {
-            "Category": "/admin/category/",
-            "FAQ": "/admin/faq/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "FAQ model reference": "/docs/model/faq/",
+            "About app documentation": "/docs/app/about/",
         },
     },
 )
@@ -269,12 +275,14 @@ class FAQ(models.Model):
         md_column_count=6,
         verbose_name="Question",
         help_text="FAQ Question",
+        min_rows=3,
     )
     answer = CustomTextField(
         max_length=500,
         md_column_count=6,
         verbose_name="Answer",
         help_text="FAQ Answer",
+        min_rows=3,
     )
 
     class Meta:

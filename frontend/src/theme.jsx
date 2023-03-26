@@ -65,6 +65,7 @@ const palettes = {
   action: {
     active: "rgba(0, 0, 0, 0.54)",
     hover: "rgba(121, 134, 203 , 0.75)",
+    hoverLight: "rgba(121, 134, 203 , 0.10)",
     hoverOpacity: 0.08,
     selected: "rgba(0, 0, 0, 0.14)",
     disabled: "rgba(0, 0, 0, 0.26)",

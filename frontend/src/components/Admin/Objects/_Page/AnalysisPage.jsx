@@ -1,11 +1,16 @@
-import { Breadcrumbs, makeStyles, Typography } from "@material-ui/core";
+import {
+  Breadcrumbs,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import PageContainer from "../../../Elements/Layout/PageContainer";
 import { NavigateNext } from "@material-ui/icons";
 import BaseContent from "../../../Elements/Base/BaseContent";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
-import ReadMessage from "../../Panel/ReadMessage";
 import SurveyAnalysis from "../../Panel/SurveyAnalysis";
 import QuestionnaireAnalysis from "../../Panel/Analysis";
 
@@ -22,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontFamily: "Poppins",
   },
+  breadCrumbs: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+  },
 }));
 
 function AnalysisPage({}) {
@@ -36,15 +47,17 @@ function AnalysisPage({}) {
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
   const [ready, setReady] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (pk) {
-    console.log("PK");
+    console.log("PK", pk);
   } else {
     console.log("NO PK");
   }
 
   useEffect(() => {
-    if (location.state) {
+    if (location.state.appName) {
       setUrl(location.state.url);
       setAppName(location.state.appName);
       setKeys(location.state.keys);
@@ -64,6 +77,7 @@ function AnalysisPage({}) {
           console.log(err);
         });
     } else if (pk) {
+      console.log(pk, "tits");
       axiosInstance
         .get(`/get_models/questionnaire/`)
         .then((response) => {
@@ -96,13 +110,17 @@ function AnalysisPage({}) {
       {metadata && data && (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
           <div style={{ paddingBottom: 16, display: "flex" }}>
-            <Typography variant="h3" className={classes.title}>
-              {model.verbose_name}
-            </Typography>
+            {!isSmallScreen && (
+              <Typography variant="h3" className={classes.title}>
+                {model.verbose_name}
+              </Typography>
+            )}
             <Breadcrumbs
               separator={<NavigateNext fontSize="small" />}
               aria-label="breadcrumb"
               style={{ display: "flex" }}
+              className={classes.breadCrumbs}
+              classes={{ separator: classes.breadCrumbs }}
             >
               <Link className={classes.activeLink} to="/admin">
                 Home
@@ -122,7 +140,12 @@ function AnalysisPage({}) {
               >
                 {model.verbose_name}
               </Link>
-              <Typography color="textPrimary">Read</Typography>
+              <Typography
+                color="textPrimary"
+                style={{ fontSize: isSmallScreen ? "0.85rem" : "0.95rem" }}
+              >
+                Read
+              </Typography>
             </Breadcrumbs>
           </div>
           <QuestionnaireAnalysis data={data} />

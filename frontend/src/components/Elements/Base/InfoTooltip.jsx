@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   menu: {
     padding: theme.spacing(2),
     minWidth: 300,
-    maxWidth: 500,
+    maxWidth: 300,
   },
   menuItem: {
     display: "flex",

@@ -15,7 +15,7 @@ from api.customs import *
     icon_class=None,
     slug="service-table-labels",
     tags=["services", "table", "labels"],
-    related_components="Header",
+    related_components=["ComparisonTable", "TableDisplay"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -30,8 +30,9 @@ from api.customs import *
             "Icon Three": "The icon for the third tier of service.",
         },
         "model_links": {
-            "OpenAPI specification": "https://example.com/api/docs/",
-            "Database schema": "https://example.com/db/schema/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTableLabels model reference": "/docs/model/servicetablelabels/",
+            "General app documentation": "/docs/app/tables/",
         },
     },
 )
@@ -86,7 +87,7 @@ class ServiceTableLabels(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Service Compare Rows Object",
+    autoform_label="Service Compare Rows",
     long_description="This model defines the rows for the Service Comparison Table.",
     short_description="Rows for Service Comparison Table",
     pages_associated={
@@ -97,7 +98,7 @@ class ServiceTableLabels(models.Model):
     icon_class=None,
     slug="service-comparison-table-rows",
     tags=["Services", "Comparison", "Table"],
-    related_components="Header",
+    related_components=["ComparisonTable", "TableDisplay"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -110,8 +111,9 @@ class ServiceTableLabels(models.Model):
             "Cell 3 Value": "The value for the third tier of the current feature.",
         },
         "model_links": {
-            "ServiceCompareRows": "https://example.com/docs/service-compare-rows/",
-            "ServiceComparisonTable": "https://example.com/docs/service-comparison-table/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceCompareRows model reference": "/docs/model/servicecomparerows/",
+            "General app documentation": "/docs/app/tables/",
         },
     },
 )
@@ -123,7 +125,7 @@ class ServiceCompareRows(models.Model):
         default="Service Tiers",
         help_text="Table Name Connection",
     )
-    feature = CustomCharField(
+    detail = CustomCharField(
         max_length=40,
         md_column_count=6,
         verbose_name="Feature",
@@ -165,19 +167,20 @@ class ServiceCompareRows(models.Model):
     icon_class=None,
     slug="service-table",
     tags=["services", "company", "offerings"],
-    related_components="Header",
+    related_components=["ComparisonTable", "TableDisplay"],
     visibility=True,
     access_level="All",
     info_dump={
         "purpose": "This model is used to represent a table of services provided by the company.",
         "fields": {
-            "name": "The name of the service table, which is displayed as the top header in the hero section.",
-            "labels": "The labels used in the service table, which provide context for each column.",
-            "rows": "The rows in the service table, which represent the different services provided by the company.",
+            "Name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "Labels": "The labels used in the service table, which provide context for each column.",
+            "Rows": "The rows in the service table, which represent the different services provided by the company.",
         },
         "model_links": {
-            "ServiceTableLabels": "/admin/app/servicetablelabels/",
-            "ServiceCompareRows": "/admin/app/servicecomparerows/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTable model reference": "/docs/model/servicetable/",
+            "General app documentation": "/docs/app/tables/",
         },
     },
 )
@@ -185,7 +188,7 @@ class ServiceTable(models.Model):
 
     name = CustomCharField(
         max_length=20,
-        md_column_count=6,
+        md_column_count=12,
         verbose_name="Table Name",
         help_text="Table Name",
     )

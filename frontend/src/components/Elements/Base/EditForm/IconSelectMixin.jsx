@@ -54,7 +54,9 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiSelect-select": {},
     "& .MuiSelect-select:focus": {},
-    "& .MuiOutlinedInput-root": {},
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "black",
+    },
     "& .MuiFormLabel-root": {
       color: "red",
       fontWeight: "700",
@@ -75,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.default,
   },
   helpText: {
-    margin: theme.spacing(1, 0, 0, 0),
+    margin: theme.spacing(1, 0, 0.5, 0),
     padding: 0,
     color: theme.palette.text.secondary,
   },

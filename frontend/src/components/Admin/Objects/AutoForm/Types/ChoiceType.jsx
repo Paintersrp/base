@@ -61,6 +61,7 @@ const ChoiceType = ({
   helpText,
 }) => {
   const classes = useStyles();
+  console.log(choices)
   return (
     <Grid
       item
@@ -69,10 +70,11 @@ const ChoiceType = ({
       style={{
         paddingRight: 8,
         paddingLeft: 8,
+        width: "100%",
       }}
     >
       <Typography className={classes.helpText}>
-        {helpText ? helpText : "\u00A0"}
+        {helpText || verboseName}
       </Typography>
       <FormControl style={{ width: "100%" }}>
         <FormControlLabel

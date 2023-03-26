@@ -6,7 +6,7 @@ from auditlog.registry import auditlog
 
 
 @custom_metadata(
-    autoform_label="Hero Section Content Creator",
+    autoform_label="Hero Section",
     long_description="This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
     short_description="A model for creating hero sections.",
     pages_associated={
@@ -15,9 +15,9 @@ from auditlog.registry import auditlog
     include_preview=True,
     icon="SubtitlesIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
+    slug="hero",
+    tags=["Landing", "Hero", "Company"],
+    related_components=["Hero"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -30,7 +30,8 @@ from auditlog.registry import auditlog
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "Hero Section design examples": "https://www.awwwards.com/50-creative-website-header-designs-for-inspiration/",
+            "HeroBlock model reference": "/docs/model/heroblock/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
@@ -47,12 +48,14 @@ class HeroBlock(models.Model):
         md_column_count=6,
         verbose_name="Subtitle",
         help_text="Subheader",
+        min_rows=3,
     )
     text = CustomTextField(
         max_length=500,
         md_column_count=6,
         verbose_name="Description",
         help_text="Description",
+        min_rows=3,
     )
     buttonText = CustomCharField(
         max_length=50,
@@ -78,23 +81,24 @@ class HeroBlock(models.Model):
     icon="TitleIcon",
     icon_class=None,
     slug="section-title",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
+    tags=["About", "Title", "Content", "Company"],
+    related_components=["TitleBlock"],
     visibility=True,
     access_level="All",
     info_dump={
         "purpose": "This model represents a section heading with a title, subtitle, and description to be used as a heading for various content sections.",
         "fields": {
             "Name": "A unique name for the section heading.",
-            "Title": "The main title of the section heading.",
-            "Subtitle": "The subtitle of the section heading.",
+            "Header Text": "The main heading text of the section heading.",
+            "Subheader Text": "The subheading text of the section heading.",
             "Description": "A brief description of the section heading.",
             "Alignment": "The alignment of the section heading (left, right, or center).",
             "Show Divider": "Whether to show a divider line under the section heading or not.",
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "Bootstrap documentation for headings": "https://getbootstrap.com/docs/5.1/content/typography/#headings",
+            "TitleBlock model reference": "/docs/model/titleblock/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
@@ -108,7 +112,7 @@ class TitleBlock(models.Model):
     name = CustomCharField(
         max_length=100,
         unique=True,
-        md_column_count=8,
+        md_column_count=12,
         verbose_name="Section Name",
         help_text="Referential Name",
     )
@@ -133,6 +137,7 @@ class TitleBlock(models.Model):
         md_column_count=12,
         verbose_name="Description",
         help_text="Description Text",
+        min_rows=3,
     )
 
     alignment = CustomCharField(
@@ -140,7 +145,7 @@ class TitleBlock(models.Model):
         choices=ALIGNMENT_CHOICES,
         md_column_count=12,
         verbose_name="Text Alignment",
-        help_text="Description Text",
+        help_text="Text Alignment",
     )
 
     show_divider = models.BooleanField(
@@ -167,7 +172,7 @@ class TitleBlock(models.Model):
     slug="header",
     tags=["About", "Header", "Company"],
     related_components=["Header"],
-    visibility=True,
+    visibility=False,
     access_level="All",
     info_dump={"text": ""},
 )
@@ -186,7 +191,7 @@ class Item(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Service Tier Features",
+    autoform_label="Service Tier Feature",
     long_description="This model holds a list of features offered by a Service/Service Tier",
     short_description="Features offered by a Service/Service Tier",
     pages_associated={
@@ -196,9 +201,9 @@ class Item(models.Model):
     include_preview=False,
     icon="StarIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
+    slug="service-feature",
+    tags=["Feature", "Service", "Tier"],
+    related_components=["Pricing"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -207,15 +212,16 @@ class Item(models.Model):
             "Detail": "A short description of the feature.",
         },
         "model_links": {
-            "ServiceTier": "/docs/models/service-tier/",
-            "Service": "/docs/models/service/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Feature model reference": "/docs/model/feature/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
 class Feature(models.Model):
     detail = CustomCharField(
         max_length=100,
-        md_column_count=10,
+        md_column_count=12,
         verbose_name="Feature Detail",
         help_text="Feature Detail",
     )
@@ -229,7 +235,7 @@ class Feature(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Service Tier Supported Sites",
+    autoform_label="Service Tier Supported Site",
     long_description="This model holds a list of supported sites offered by a Service/Service Tier",
     short_description="Site types supported by a Service/Service Tier",
     pages_associated={
@@ -239,9 +245,9 @@ class Feature(models.Model):
     include_preview=False,
     icon="WebIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
+    slug="service-supported-site",
+    tags=["Feature", "Service", "Tier"],
+    related_components=["Pricing"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -250,15 +256,16 @@ class Feature(models.Model):
             "Detail": "The name of the supported site.",
         },
         "model_links": {
-            "Service Tier Model": "/service-tier-model/",
-            "Service Model": "/service-model/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "SupportedSites model reference": "/docs/model/supportedsites/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
 class SupportedSites(models.Model):
     detail = CustomCharField(
         max_length=100,
-        md_column_count=10,
+        md_column_count=12,
         verbose_name="Supported Site Detail",
         help_text="Supported Site Detail",
     )
@@ -272,7 +279,7 @@ class SupportedSites(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Service Tiers",
+    autoform_label="Service Tier",
     long_description="This model represents the different service tiers available.",
     short_description="Service Tier Model",
     pages_associated={
@@ -282,9 +289,9 @@ class SupportedSites(models.Model):
     include_preview=True,
     icon="DesignServicesIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
+    slug="service-tier",
+    tags=["Pricing", "Service", "Tier"],
+    related_components=["Pricing", "ServiceIndividual"],
     visibility=True,
     access_level="All",
     info_dump={
@@ -293,15 +300,16 @@ class SupportedSites(models.Model):
             "Image": "The image associated with the service tier.",
             "Service Title": "The title of the service tier.",
             "Price": "The price of the service tier.",
-            "Features": "The features included in the service tier.",
-            "Supported Sites": "The sites that are supported by the service tier.",
             "Paragraph One": "The first paragraph of the service tier description.",
             "Paragraph Two": "The second paragraph of the service tier description.",
             "Paragraph Three": "The third paragraph of the service tier description.",
+            "Features": "The features included in the service tier.",
+            "Supported Sites": "The sites that are supported by the service tier.",
         },
         "model_links": {
-            "Feature": "/admin/feature/",
-            "SupportedSites": "/admin/supportedsites/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTier model reference": "/docs/model/servicetier/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
@@ -390,7 +398,7 @@ class ServiceTier(models.Model):
     slug="header",
     tags=["About", "Header", "Company"],
     related_components=["Header"],
-    visibility=True,
+    visibility=False,
     access_level="All",
 )
 class Testimonial(models.Model):
@@ -408,7 +416,7 @@ class Testimonial(models.Model):
 
 
 @custom_metadata(
-    autoform_label="Process Steps",
+    autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",
     pages_associated={
@@ -419,27 +427,28 @@ class Testimonial(models.Model):
     icon="AccountTreeIcon",
     icon_class=None,
     slug="header",
-    tags=["About", "Header", "Company"],
+    tags=["Landing" "Process", "Company"],
     related_components=["Header"],
     visibility=True,
     access_level="All",
     info_dump={
         "purpose": "This model represents a collection of steps that describe the process of how the business works.",
         "fields": {
-            "Title": "The title of the process step",
+            "Header": "The title of the process step",
             "Description": "A brief description of the process step",
             "Icon": "The icon that represents the process step",
         },
         "model_links": {
-            "Company": "/company",
-            "Service": "/services",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Process model reference": "/docs/model/process/",
+            "Landing app documentation": "/docs/app/landing/",
         },
     },
 )
 class Process(models.Model):
     title = CustomCharField(
         max_length=100,
-        md_column_count=8,
+        md_column_count=12,
         verbose_name="Title",
         help_text="Header",
     )
@@ -448,6 +457,7 @@ class Process(models.Model):
         md_column_count=12,
         verbose_name="Description",
         help_text="Description",
+        min_rows=3,
     )
     icon = CustomCharField(
         max_length=40,

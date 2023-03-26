@@ -42,8 +42,8 @@ const SearchMixin = ({ handleClearSearch, searchTerm, setSearchTerm }) => {
             )}
           </Item>
           <Item
-            xs={10}
-            sm={10}
+            xs={9}
+            sm={9}
             md={8}
             lg={6}
             style={{

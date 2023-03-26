@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    margin: theme.spacing(0, 0, 0, 0),
+    margin: theme.spacing(0, 0, 6, 0),
     minHeight: 100,
     [theme.breakpoints.down("xs")]: {
-      margin: theme.spacing(0, 0, 1, 0),
+      margin: theme.spacing(0, 0, 6, 0),
     },
   },
   button: {
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: theme.spacing(0.5, 0.5, 0.5, 0.5),
     margin: theme.spacing(0, 0.5, 0, 0.5),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0),
+      margin: theme.spacing(0),
+    },
   },
   tooltip: {
     backgroundColor: theme.palette.text.secondary,
@@ -79,7 +83,7 @@ export const Pagination = ({
           {startIndex}-{endIndex} of {count}
         </span>
       </div>
-      <div>
+      <div style={{ display: "flex" }}>
         <Tooltip
           title={`Prev`}
           placement="bottom"

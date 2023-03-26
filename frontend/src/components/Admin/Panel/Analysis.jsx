@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   PieChart,
   Pie,
@@ -11,12 +11,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
   },
   chartTitle: {
     marginBottom: theme.spacing(2),
@@ -30,19 +28,6 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
 
 const QuestionnaireAnalysis = ({ data }) => {
   const classes = useStyles();
-  //   const [data, setData] = useState();
-
-  //   useEffect(() => {
-  //     axiosInstance
-  //       .get(`/questionnaires/2/results/`)
-  //       .then((response) => {
-  //         setData(response.data);
-  //         console.log(response.data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
 
   return (
     <Grid container spacing={2}>
@@ -50,15 +35,17 @@ const QuestionnaireAnalysis = ({ data }) => {
         <>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Typography variant="h3">{data.questionnaire_name}</Typography>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant="h3" align="center">
+                {data.questionnaire_name}
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom align="center">
                 Number of responses: {data.num_responses}
               </Typography>
             </Paper>
           </Grid>
           {Object.entries(data.question_analysis).map(([question, answers]) => (
             <Grid item xs={12} md={6} lg={6} xl={6} key={question}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} style={{ marginBottom: 16 }}>
                 <Typography
                   variant="h4"
                   className={classes.chartTitle}
@@ -66,7 +53,7 @@ const QuestionnaireAnalysis = ({ data }) => {
                 >
                   {question}
                 </Typography>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={370}>
                   <PieChart>
                     <Pie
                       data={Object.entries(answers).map(

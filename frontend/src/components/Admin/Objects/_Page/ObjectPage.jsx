@@ -3,6 +3,8 @@ import {
   makeStyles,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -33,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     fontSize: "12px",
   },
+  breadCrumbs: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+  },
 }));
 
 function ObjectPage() {
@@ -48,6 +56,8 @@ function ObjectPage() {
   const [data, setData] = useState(null);
   const [ready, setReady] = useState(false);
   const [create, setCreate] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const fetchData = async () => {
     if (url && keys) {
@@ -130,13 +140,17 @@ function ObjectPage() {
     <PageContainer seoEdit={false} backgroundColor="#F5F5F5">
       {metadata && (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
-          <Typography variant="h3" className={classes.title}>
-            {model.verbose_name}
-          </Typography>
+          {!isSmallScreen && (
+            <Typography variant="h3" className={classes.title}>
+              {model.verbose_name}
+            </Typography>
+          )}
           <Breadcrumbs
+            className={classes.breadCrumbs}
             separator={<NavigateNext fontSize="small" />}
             aria-label="breadcrumb"
             style={{ display: "flex" }}
+            classes={{ separator: classes.breadCrumbs }}
           >
             <Tooltip
               title={`Dashboard`}
@@ -183,7 +197,10 @@ function ObjectPage() {
               </Link>
             </Tooltip>
 
-            <Typography color="textPrimary">
+            <Typography
+              color="textPrimary"
+              style={{ fontSize: isSmallScreen ? "0.8rem" : "0.95rem" }}
+            >
               {Array.isArray(id) ? "Creation" : "Update"}
             </Typography>
           </Breadcrumbs>

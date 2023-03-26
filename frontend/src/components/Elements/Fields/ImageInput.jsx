@@ -1,63 +1,81 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, InputAdornment, TextField } from "@material-ui/core";
-import StyledButton from "../Buttons/StyledButton";
-import Flexbox from "../Layout/Flexbox/Flexbox";
+import {
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+  Box,
+  IconButton,
+} from "@material-ui/core";
+import { CloudUpload } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   input: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 20,
-    marginLeft: 70,
     display: "none",
   },
-  field: {
-    margin: 2,
-    width: "100%",
-    "& .MuiOutlinedInput-root": {
-      fontFamily: "Roboto",
-      padding: 0,
-      margin: 0,
-      fontSize: "0.9rem",
-      fontWeight: "400",
-      width: "100%",
-      letterSpacing: 0.25,
-      alignItems: "center",
-
-      "& fieldset": {
-        borderColor: "black",
-        alignItems: "center",
-      },
+  label: {
+    cursor: "pointer",
+    color: theme.palette.primary.main,
+  },
+  icon: {
+    marginRight: 4,
+    color: theme.palette.primary.main,
+  },
+  formControl: {
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: theme.shape.borderRadius,
+    width: "40%",
+    maxWidth: "75%",
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      backgroundColor: theme.palette.action.hoverLight,
+      cursor: "pointer",
     },
-    "& .MuiFormLabel-root": {
-      alignItems: "center",
-      fontFamily: "Roboto",
-      color: "black",
-      fontWeight: "500",
-      fontSize: "0.8rem",
-      letterSpacing: 0.5,
-    },
-    "& input": {
-      color: "black",
-    },
+  },
+  labelContainer: {
+    marginBottom: theme.spacing(1),
   },
 }));
 
-const ImageInput = ({
-  xs,
-  md,
-  handleChange,
-  handleClick,
-  newImage,
-  newImageName,
-}) => {
+const ImageInput = ({ xs, md, handleChange, newImage, newImageName }) => {
   const classes = useStyles();
 
+  const handleSelectFile = () => {
+    document.getElementById("file-input").click();
+  };
+
   return (
-    <Flexbox justify="center">
-      <div xs={xs} md={md}>
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <FormControl margin="dense" fullWidth className={classes.formControl}>
+        <Box
+          style={{ display: "flex", justifyContent: "center" }}
+          onClick={handleSelectFile}
+        >
+          <FormControlLabel
+            control={
+              <IconButton
+                size="small"
+                aria-label="upload image"
+                component="span"
+                onClick={handleSelectFile}
+                className={classes.icon}
+              >
+                <CloudUpload />
+              </IconButton>
+            }
+            label={
+              <Typography
+                className={classes.label}
+                variant="body1"
+                component="span"
+              >
+                {!newImage ? "Select Image" : newImageName}
+              </Typography>
+            }
+            labelPlacement="end"
+          />
+        </Box>
         <input
           accept="image/*"
           className={classes.input}
@@ -66,30 +84,8 @@ const ImageInput = ({
           type="file"
           onChange={handleChange}
         />
-        <TextField
-          margin="dense"
-          className={classes.field}
-          id="file-textfield"
-          label={!newImage ? "Select Image" : newImageName}
-          variant="outlined"
-          disabled
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <StyledButton
-                  buttonText="Upload"
-                  onClick={handleClick}
-                  minWidth={60}
-                  minHeight={38}
-                  noHover
-                  borderRadius={0}
-                />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
-    </Flexbox>
+      </FormControl>
+    </div>
   );
 };
 

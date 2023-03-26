@@ -22,7 +22,6 @@ const ForeignKeyType = ({
 }) => {
   const [data, setData] = useState();
   const classes = useStyles();
-  console.log("WHERE WE GOIN: ", fieldName);
 
   useEffect(() => {
     if (fieldName.includes("service_tier")) {
@@ -37,6 +36,11 @@ const ForeignKeyType = ({
       });
     } else if (fieldName === "user") {
       axiosInstance.get(`/user/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "labels") {
+      axiosInstance.get(`/servicetablelabels/`).then((response) => {
         setData(response.data);
         console.log("YEAH:", response.data);
       });

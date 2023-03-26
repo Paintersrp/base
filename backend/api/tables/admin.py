@@ -7,7 +7,7 @@ class ServiceTableLabelsAdmin(admin.ModelAdmin):
 
 
 class ServiceCompareRowsAdmin(admin.ModelAdmin):
-    list_display = ["feature", "tier1_value", "tier2_value", "tier3_value"]
+    list_display = ["detail", "tier1_value", "tier2_value", "tier3_value"]
 
 
 admin.site.register(ServiceCompareRows, ServiceCompareRowsAdmin)

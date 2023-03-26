@@ -189,7 +189,6 @@ const ArticlesDisplayBase = ({
         ) : (
           <>{articles.map((article) => renderArticles(article))} </>
         )}
-        ;
       </Grid>
 
       <DeleteConfirmationModal

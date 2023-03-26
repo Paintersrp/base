@@ -8,7 +8,6 @@ const ImageType = ({ formData, handleImageChange, newImage, newImageName }) => {
       item
       xs={12}
       style={{
-        order: 0,
         paddingRight: 8,
         paddingLeft: 8,
       }}

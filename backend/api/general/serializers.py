@@ -3,7 +3,7 @@ from .models import *
 
 
 class HeaderSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["page", "title", "keywords", "image"]
+    FIELD_KEYS = ["page", "url", "title"]
 
     class Meta:
         model = Header

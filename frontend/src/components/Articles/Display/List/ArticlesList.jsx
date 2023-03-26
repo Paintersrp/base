@@ -27,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
   },
-  pagination: {
-    display: "flex",
-    justifyContent: "center",
-  },
   pages: {
     display: "flex",
     alignItems: "center",
@@ -58,10 +54,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: theme.spacing(2),
   },
-  pages: {
-    display: "flex",
-    listStyle: "none",
-  },
+
   pageItem: {
     display: "flex",
     margin: 0,

@@ -24,7 +24,7 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 
 
 class TitleBlockSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "subtitle"]
+    FIELD_KEYS = ["name", "title", "subtitle"]
 
     class Meta:
         model = TitleBlock

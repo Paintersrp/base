@@ -47,39 +47,39 @@ class CustomUserManager(UserManager):
 
 
 @custom_metadata(
-    autoform_label="Manage User Object",
+    autoform_label="User",
     long_description="This model represents a user account in our system.",
     short_description="User Account",
     include_preview=False,
     icon="AccountCircleIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="users",
+    tags=["User", "Profile"],
+    related_components=[""],
     visibility=True,
     access_level="All",
-   info_dump={
+    info_dump={
         "purpose": "This model represents a user account in our system. It stores information about the user such as their username, email address, and contact information.",
         "fields": {
-            "username": "The username chosen by the user when they created their account.",
-            "email": "The email address associated with the user's account.",
-            "first_name": "The user's first name.",
-            "last_name": "The user's last name.",
-            "password": "The password chosen by the user when they created their account.",
-            "salt": "A salt value used for password hashing.",
-            "phone_number": "The user's phone number.",
-            "address": "The user's street address.",
-            "city": "The user's city of residence.",
-            "state": "The user's state of residence.",
-            "zip_code": "The user's ZIP code.",
-            "country": "The user's country of residence."
+            "Username": "The username chosen by the user when they created their account.",
+            "Email": "The email address associated with the user's account.",
+            "First Name": "The user's first name.",
+            "Last Name": "The user's last name.",
+            # "Password": "The password chosen by the user when they created their account.",
+            # "Salt": "A salt value used for password hashing.",
+            "Phone Number": "The user's phone number.",
+            "Address": "The user's street address.",
+            "City": "The user's city of residence.",
+            "State": "The user's state of residence.",
+            "Zip Code": "The user's ZIP code.",
+            "Country": "The user's country of residence.",
         },
         "model_links": {
-            "User Group": "/user-group/",
-            "Activity Log": "/activity-log/",
-            "Billing Info": "/billing-info/"
-        }
-    }
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "User model reference": "/docs/model/user/",
+            "Authorization app documentation": "/docs/app/authorization/",
+        },
+    },
 )
 class User(AbstractUser):
     username = CustomCharField(
@@ -87,81 +87,81 @@ class User(AbstractUser):
         unique=True,
         md_column_count=6,
         verbose_name="Username",
-        help_text="Help Text Placeholder",
+        help_text="Username",
     )
     email = CustomEmailField(
         unique=True,
         md_column_count=6,
         verbose_name="Email",
-        help_text="Help Text Placeholder",
+        help_text="Email Address",
     )
     first_name = CustomCharField(
         max_length=255,
         md_column_count=6,
         verbose_name="First Name",
-        help_text="Help Text Placeholder",
+        help_text="First Name",
     )
     last_name = CustomCharField(
         max_length=255,
         md_column_count=6,
         verbose_name="Last Name",
-        help_text="Help Text Placeholder",
+        help_text="Last Name",
     )
 
     password = CustomCharField(
         max_length=255,
         md_column_count=6,
         verbose_name="Password",
-        help_text="Help Text Placeholder",
+        help_text="",
     )
     salt = CustomCharField(
         max_length=255,
         null=True,
         md_column_count=6,
         verbose_name="Salt",
-        help_text="Help Text Placeholder",
+        help_text="",
     )
     phone_number = CustomCharField(
         max_length=20,
         blank=True,
         md_column_count=6,
         verbose_name="Phone Number",
-        help_text="Help Text Placeholder",
+        help_text="Phone Number",
     )
     address = CustomCharField(
         max_length=255,
         blank=True,
         md_column_count=6,
         verbose_name="Address",
-        help_text="Help Text Placeholder",
+        help_text="Address",
     )
     city = CustomCharField(
         max_length=100,
         blank=True,
         md_column_count=6,
         verbose_name="City",
-        help_text="Help Text Placeholder",
+        help_text="City",
     )
     state = CustomCharField(
         max_length=100,
         blank=True,
         md_column_count=6,
         verbose_name="State",
-        help_text="Help Text Placeholder",
+        help_text="State",
     )
     zip_code = CustomCharField(
         max_length=20,
         blank=True,
         md_column_count=6,
         verbose_name="Zipcode",
-        help_text="Help Text Placeholder",
+        help_text="Zip Code",
     )
     country = CustomCharField(
         max_length=100,
         blank=True,
         md_column_count=6,
         verbose_name="Country",
-        help_text="Help Text Placeholder",
+        help_text="Country",
     )
 
     objects = CustomUserManager()
@@ -172,28 +172,29 @@ class User(AbstractUser):
 
 
 @custom_metadata(
-    autoform_label="Manage User Theme Settings",
+    autoform_label="Theme User Setting",
     long_description="This model represents the theme settings for a user. Users can customize their primary, secondary, and background colors to personalize their experience.",
     short_description="Model for managing user theme settings.",
     include_preview=False,
     icon="DisplaySettingsIcon",
     icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components="Header",
+    slug="theme-settings",
+    tags=["Theme", "User"],
+    related_components=["ThemeSettings"],
     visibility=True,
     access_level="All",
     info_dump={
         "purpose": "This model stores the custom theme settings for each user in the application.",
         "fields": {
-            "user": "The user associated with the theme settings.",
-            "primary_color": "The primary color chosen by the user.",
-            "secondary_color": "The secondary color chosen by the user.",
-            "background_color": "The background color chosen by the user.",
+            "User": "The user associated with the theme settings.",
+            "Primary Color": "The primary color chosen by the user.",
+            "Secondary Color": "The secondary color chosen by the user.",
+            "Background Color": "The background color chosen by the user.",
         },
         "model_links": {
-            "User": "/admin/auth/user/",
-            "CustomCharField": "https://docs.djangoproject.com/en/3.2/ref/models/fields/#charfield",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ThemeSettings model reference": "/docs/model/themesettings/",
+            "Authorization app documentation": "/docs/app/authorization/",
         },
     },
 )
@@ -209,20 +210,20 @@ class ThemeSettings(models.Model):
         max_length=7,
         md_column_count=4,
         verbose_name="Primary",
-        help_text="Help Text Placeholder",
+        help_text="Primary Color (Hex or RGBa)",
     )
 
     secondary_color = CustomCharField(
         max_length=7,
         md_column_count=4,
         verbose_name="Secondary",
-        help_text="Help Text Placeholder",
+        help_text="Secondary Color (Hex or RGBa)",
     )
     background_color = CustomCharField(
         max_length=7,
         md_column_count=4,
         verbose_name="Background",
-        help_text="Help Text Placeholder",
+        help_text="Background Color (Hex or RGBa)",
     )
 
     class Meta:
@@ -242,16 +243,18 @@ class ThemeSettings(models.Model):
     related_components=["TokenBlacklist,TokenAuthentication"],
     visibility=True,
     access_level="All",
-   info_dump={
+    info_dump={
         "purpose": "This model is used to manage and monitor JWT token blacklist.",
         "fields": {
-            "token": "The JWT token that has been blacklisted.",
-            "blacklisted_at": "The time at which the token was blacklisted.",
+            "Token": "The JWT token that has been blacklisted.",
+            "Blacklisted At (auto-generated)": "The time at which the token was blacklisted.",
         },
         "model_links": {
-            "TokenAuthentication": "/admin/authentication/tokenauthentication/",
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "TokenBlacklist model reference": "/docs/model/tokenblacklist/",
+            "Authorization app documentation": "/docs/app/authorization/",
         },
-    }
+    },
 )
 class TokenBlacklist(models.Model):
     token = CustomTextField(
@@ -259,12 +262,12 @@ class TokenBlacklist(models.Model):
         unique=True,
         md_column_count=12,
         verbose_name="Token",
-        help_text="Help Text Placeholder",
+        help_text="Token",
     )
     blacklisted_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Blacklisted At",
-        help_text="Help Text Placeholder",
+        help_text="",
     )
 
     def __str__(self):

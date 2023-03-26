@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Accordion,
   AccordionDetails,
@@ -8,11 +8,15 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FilterList } from "@material-ui/icons";
-import { Grid, IconButton, Tooltip, Typography } from "@material-ui/core";
+import {
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@material-ui/core";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import StyledButton from "../../../Elements/Buttons/StyledButton";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
-import FilterListIcon from "@mui/icons-material/FilterList";
 
 const useStyles = makeStyles((theme) => ({
   filterToolbar: {
@@ -21,12 +25,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     padding: theme.spacing(4, 0, 0, 0),
   },
-  // filterAccordion: {
-  //   width: "100%",
-  //   background: `${theme.palette.background.default} !important`,
-  //   marginBottom: theme.spacing(0),
-  //   // margin: "0px !important",
-  // },
   filterAccordion: {
     boxShadow: "none",
     border: "1px solid rgba(0, 0, 0, .01)",
@@ -50,17 +48,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     width: "100%",
   },
-  // filterAccordionSummary: {
-  //   justifyContent: "space-between",
-  // },
-  // filterButtonGroup: {
-  //   display: "flex",
-  //   flexWrap: "wrap",
-  //   justifyContent: "flex-start",
-  //   "& > *": {
-  //     margin: theme.spacing(0.5),
-  //   },
-  // },
   filterButtonGroup: {
     display: "flex",
     flexWrap: "wrap",
@@ -102,6 +89,8 @@ export default function FilterToolbar({
   orderBy,
 }) {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div className={classes.filterToolbar}>
@@ -116,6 +105,7 @@ export default function FilterToolbar({
               <div
                 style={{
                   display: "flex",
+                  flexDirection: "column",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -142,11 +132,16 @@ export default function FilterToolbar({
                 >
                   {modelNameFilter.length > 0
                     ? modelNameFilter
+                        .slice(0, 3)
                         .map(
-                          (model) =>
-                            model.charAt(0).toUpperCase() + model.slice(1)
+                          (model, index) =>
+                            `${model.charAt(0).toUpperCase() + model.slice(1)}${
+                              index < modelNameFilter.slice(0, 3).length - 1
+                                ? ", "
+                                : ""
+                            }`
                         )
-                        .join(", ")
+                        .join("") + (modelNameFilter.length > 3 ? "..." : "")
                     : "All Models"}
                 </div>
               </div>
@@ -198,7 +193,14 @@ export default function FilterToolbar({
             </AccordionDetails>
           </Accordion>
         </Grid>
-        <Grid item xs={6} style={{ padding: "0px 8px 0px 0px" }}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          style={{
+            padding: !isSmallScreen ? "0px 8px 0px 0px" : "0px 0px 16px 0px",
+          }}
+        >
           <Accordion className={classes.filterAccordion} sx={{ p: 0.5, m: 0 }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -207,7 +209,7 @@ export default function FilterToolbar({
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  flexDirection: "column",
                   width: "100%",
                 }}
               >
@@ -230,11 +232,16 @@ export default function FilterToolbar({
                 >
                   {appLabelFilter.length > 0
                     ? appLabelFilter
+                        .slice(0, 3)
                         .map(
-                          (label) =>
-                            label.charAt(0).toUpperCase() + label.slice(1)
+                          (model, index) =>
+                            `${model.charAt(0).toUpperCase() + model.slice(1)}${
+                              index < appLabelFilter.slice(0, 3).length - 1
+                                ? ", "
+                                : ""
+                            }`
                         )
-                        .join(", ")
+                        .join("") + (appLabelFilter.length > 3 ? "..." : "")
                     : "All Labels"}
                 </div>
               </div>
@@ -276,7 +283,13 @@ export default function FilterToolbar({
             </AccordionDetails>
           </Accordion>
         </Grid>
-        <Grid item xs={6} style={{ padding: "0px 0px 0px 8px" }}>
+        <Grid
+          xs={12}
+          sm={6}
+          style={{
+            padding: !isSmallScreen ? "0px 0px 0px 8px" : "0px 0px 16px 0px",
+          }}
+        >
           <Accordion className={classes.filterAccordion} sx={{ p: 0.5, m: 0 }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -285,7 +298,7 @@ export default function FilterToolbar({
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  flexDirection: "column",
                   width: "100%",
                 }}
               >
@@ -309,10 +322,16 @@ export default function FilterToolbar({
                 >
                   {actionFlagFilter.length > 0
                     ? actionFlagFilter
+                        .slice(0, 3)
                         .map(
-                          (flag) => flag.charAt(0).toUpperCase() + flag.slice(1)
+                          (model, index) =>
+                            `${model.charAt(0).toUpperCase() + model.slice(1)}${
+                              index < actionFlagFilter.slice(0, 3).length - 1
+                                ? ", "
+                                : ""
+                            }`
                         )
-                        .join(", ")
+                        .join("") + (actionFlagFilter.length > 3 ? "..." : "")
                     : "All Flags"}
                 </div>
               </div>
@@ -393,11 +412,6 @@ export default function FilterToolbar({
                 <FilterListOffIcon />
               </IconButton>
             </Tooltip>
-            // <StyledButton
-            //   buttonText="Reset Filter"
-            //   minWidth={0}
-            //   onClick={handleResetFilter}
-            // />
           )}
         </div>
       </Grid>

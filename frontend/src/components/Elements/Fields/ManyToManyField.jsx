@@ -42,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiFormLabel-root": {
       fontFamily: "Roboto",
-      color: "black",
+      color: theme.palette.text.secondary,
       fontWeight: "500",
       fontSize: "0.95rem",
     },
     "& input": {
-      color: "black",
+      color: theme.palette.text.secondary,
     },
   },
 }));
@@ -60,6 +60,7 @@ const ManyToManyField = ({
   setFormData,
 }) => {
   const classes = useStyles();
+  console.log("data", data);
   const [items, setItems] = useState(data);
   const [newFeature, setNewFeature] = useState("");
   const theme = useTheme();

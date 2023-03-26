@@ -30,6 +30,7 @@ def analyze_django_app(models):
                 "related_components": model._meta.related_components,
                 "related_components_count": len(model._meta.related_components),
                 "num_objects": model.objects.count(),
+                "visibility": model._meta.visibility,
             }
         )
         num_models += 1

@@ -210,15 +210,6 @@ function Dashboard() {
             aria-label="breadcrumb"
             style={{ display: "flex" }}
           >
-            {/* <Tooltip
-              title={`Dashboard`}
-              placement="bottom"
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <Link className={classes.activeLink} to="/admin">
-                Dashboard
-              </Link>
-            </Tooltip> */}
             <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
 

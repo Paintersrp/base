@@ -16,7 +16,6 @@ const CondensedTopMedia = makeStyles((theme) => ({
       boxShadow: theme.shadows[7],
     },
     [theme.breakpoints.down("md")]: {
-      width: "100%",
       minWidth: 325,
       width: 325,
     },

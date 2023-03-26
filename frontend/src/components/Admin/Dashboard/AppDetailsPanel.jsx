@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     margin: theme.spacing(1, 3, 3, 3),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(2, 0, 2, 0),
+    },
   },
   header: {
     backgroundColor: theme.palette.primary.main,
@@ -88,12 +91,8 @@ function AppDetailsPanel({
               />
             </ListItem>
             {models.map((model) => {
-              if (
-                model.name === "requirement" ||
-                model.name === "responsibilities" ||
-                model.name === "Testimonials" ||
-                model.name === "Item"
-              ) {
+              console.log(model);
+              if (model.visibility === false) {
                 return null;
               }
               return (

@@ -7,6 +7,8 @@ import {
   makeStyles,
   Tooltip,
   Divider,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -17,6 +19,7 @@ import PanelTable from "./Table/PanelTable";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import { useDispatch } from "react-redux";
 import RecentActions from "../Dashboard/RecentActions";
+import InfoTooltip from "../../Elements/Base/InfoTooltip";
 
 const useStyles = makeStyles((theme) => ({
   activeLink: {
@@ -37,9 +40,21 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     fontSize: "12px",
   },
+  breadCrumbs: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+  },
 }));
 
-const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
+const Panel = ({
+  apiData,
+  setCount,
+  recentActions,
+  setRecentActions,
+  type,
+}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -54,6 +69,8 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
   const [keys, setKeys] = useState(null);
   const [url, setUrl] = useState(null);
   const [metadata, setMetadata] = useState(null);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
 
   const handleArticleEdit = (data) => {
@@ -282,13 +299,17 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
     <>
       {ready && model && apiData ? (
         <BaseContent maxWidth={1200} pt={4} pb={4}>
-          <Typography variant="h3" className={classes.breadCrumbTitle}>
-            {model.verbose_name}
-          </Typography>
+          {!isSmallScreen && (
+            <Typography variant="h3" className={classes.breadCrumbTitle}>
+              {model.verbose_name}
+            </Typography>
+          )}
           <Breadcrumbs
             separator={<NavigateNext fontSize="small" />}
             aria-label="breadcrumb"
             style={{ display: "flex" }}
+            className={classes.breadCrumbs}
+            classes={{ separator: classes.breadCrumbs }}
           >
             <Tooltip
               title={`Dashboard`}
@@ -315,7 +336,18 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
             </Tooltip>
             <Typography color="textPrimary">{model.verbose_name}</Typography>
           </Breadcrumbs>
+
           <Grid container justifyContent="center">
+            <Grid
+              item
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "flex-end",
+              }}
+            >
+              <InfoTooltip text={model.info_dump} />
+            </Grid>
             <Grid
               item
               style={{
@@ -362,6 +394,7 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
                     handleClose={handleClose}
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
                     updateMultipleItems={updateMultipleItems}
+                    type={type}
                   />
                 ) : id === "messages" || id === "application" ? (
                   <PanelTable
@@ -376,6 +409,7 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
                     handleClose={handleClose}
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
                     updateMultipleItems={updateMultipleItems}
+                    type={type}
                   />
                 ) : (
                   <PanelTable
@@ -391,6 +425,7 @@ const Panel = ({ apiData, setCount, recentActions, setRecentActions }) => {
                     handleMultipleDeleteAction={handleMultipleDeleteAction}
                     updateMultipleItems={updateMultipleItems}
                     handleView={handleView}
+                    type={type}
                   />
                 )}
               </>

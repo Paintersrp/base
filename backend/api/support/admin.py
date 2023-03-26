@@ -10,7 +10,6 @@ class MessageAdmin(admin.ModelAdmin):
         "message",
         "created_at",
         "is_read",
-        "is_replied",
         "is_archived",
     ]
 

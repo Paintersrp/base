@@ -17,9 +17,10 @@ export default function renderModels({ modelItem, appName, classes }) {
   return modelItem
     .filter((model) => model.url !== null)
     .map((model) => {
-      // if (model.model_name === "feature") {
-      //   return null;
-      // }
+      console.log("model: ", model);
+      if (model.visibility === false) {
+        return null;
+      }
 
       return (
         <Tooltip

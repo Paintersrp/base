@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControlLabel, Grid, Switch } from "@material-ui/core";
+import { FormControlLabel, Grid, Switch, Typography } from "@material-ui/core";
 
 const BooleanType = ({
   formData,
@@ -36,7 +36,7 @@ const BooleanType = ({
             checked={formData ? formData[fieldName] : ""}
           />
         }
-        label={verboseName}
+        label={<Typography color="textSecondary">{verboseName}</Typography>}
       />
     </Grid>
   );

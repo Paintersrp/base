@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
@@ -33,9 +33,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProcessText({ textItem, index, editMode }) {
+  console.log(textItem.title);
   const classes = useStyles();
   const [data, setData] = useState(textItem);
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    setData(textItem);
+  }, [textItem]);
 
   const updateProcess = (updateProcess) => {
     setData(updateProcess);

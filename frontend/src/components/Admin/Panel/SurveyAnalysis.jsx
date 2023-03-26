@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { Button } from "@material-ui/core";
 import BaseContent from "../../Elements/Base/BaseContent";
+import SortIcon from "@mui/icons-material/Sort";
 
 const styles = (theme) => ({
   root: {
@@ -14,9 +13,11 @@ const styles = (theme) => ({
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
     width: "100%",
-    backgroundColor: "#FAFAFA",
-    boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.05)",
+    backgroundColor: theme.palette.background.default,
     borderRadius: 16,
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0),
+    },
   },
   question: {
     fontWeight: "bold",
@@ -46,13 +47,11 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.primary.main,
   },
   exportButton: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(0),
   },
 });
 
 const SurveyAnalysis = ({ classes, data }) => {
-  console.log("test", data);
-  // const [data, setData] = useState();
   const [sortOrder, setSortOrder] = useState("desc");
 
   const handleSortClick = () => {
@@ -78,36 +77,18 @@ const SurveyAnalysis = ({ classes, data }) => {
     return sortedResponses;
   };
 
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(`/questionnaires/2/results/`)
-  //     .then((response) => {
-  //       setData(response.data);
-  //       console.log(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   return (
-    <BaseContent pt={0} pb={4} boxShadow={0}>
-      <Paper className={classes.root}>
+    <BaseContent pt={0} pb={4} pad={0} boxShadow={0} background="inherit">
+      <Paper className={classes.root} elevation={0}>
         {data && (
           <>
-            <Typography variant="h5" component="h2" gutterBottom>
-              {data.questionnaire_name}
-            </Typography>
-            <Typography variant="subtitle1" component="p" gutterBottom>
-              {data.num_responses} responses
-            </Typography>
             <Button
               variant="contained"
               color="primary"
               className={classes.exportButton}
               onClick={handleSortClick}
             >
-              Sort Data
+              <SortIcon style={{ marginRight: 4 }} /> Sort {sortOrder}
             </Button>
             {data &&
               Object.entries(data.question_analysis).map(

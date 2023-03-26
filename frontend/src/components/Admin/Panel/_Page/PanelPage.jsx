@@ -9,7 +9,7 @@ function PanelPage({ setCount }) {
   const location = useLocation();
   const [data, setData] = useState({});
   const [ready, setReady] = useState(false);
-  const [apiData, setApiData] = useState();
+  const [type, setType] = useState(null);
   const [recentActions, setRecentActions] = useState([]);
   console.log(id);
 
@@ -18,7 +18,13 @@ function PanelPage({ setCount }) {
       setData({});
       setReady(false);
     }
-  }, [id]);
+
+    if (location.state) {
+      setType(location.state.type);
+    } else {
+      setType(null);
+    }
+  }, [id, location.state]);
 
   useEffect(() => {
     axiosInstance
@@ -44,6 +50,7 @@ function PanelPage({ setCount }) {
           setCount={setCount}
           recentActions={recentActions}
           setRecentActions={setRecentActions}
+          type={type}
         />
       ) : null}
     </PageContainer>

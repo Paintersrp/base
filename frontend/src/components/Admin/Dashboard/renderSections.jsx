@@ -30,11 +30,12 @@ export default function renderSections({
   const sections = [];
   Object.entries(models).map(([appName, modelItem], index) => {
     console.log("modelItem", modelItem);
+    console.log("config: ", configs[appName]);
     const isOpen = Boolean(openAppSections[appName]);
     const toggleOpen = () =>
       setOpenAppSections((prev) => ({ ...prev, [appName]: !isOpen }));
 
-    if (appName === "content") {
+    if (configs[appName].visibility === false) {
       return null;
     }
 
@@ -149,28 +150,3 @@ export default function renderSections({
 
   return sections;
 }
-
-// style={{
-//   transition: "border 0.3s ease-in-out",
-//   border:
-//     "2px solid " +
-//     (index % 2 === 0
-//       ? theme.palette.primary.main
-//       : theme.palette.secondary.main),
-//   borderBottom: isOpen
-//     ? "0px"
-//     : "2px solid " +
-//       (index % 2 === 0
-//         ? theme.palette.primary.main
-//         : theme.palette.secondary.main),
-// }}
-
-// style={{
-//   transition: "border 0.3s ease-in-out",
-//   border:
-//     "2px solid " +
-//     (index % 2 === 0
-//       ? theme.palette.primary.main
-//       : theme.palette.secondary.main),
-//   borderTop: "0px",
-// }}

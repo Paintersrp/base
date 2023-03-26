@@ -8,7 +8,6 @@ function ImageEditMixin({ handleChange, formData, newImage, newImageName }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [image, setImage] = useState(formData.image);
-  console.log(formData.image);
 
   const handleClick = () => {
     document.getElementById("file-input").click();

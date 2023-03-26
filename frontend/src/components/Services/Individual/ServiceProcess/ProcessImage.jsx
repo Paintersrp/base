@@ -63,68 +63,74 @@ function ProcessImage({ imageItem, preview = false, editMode }) {
 
   return (
     <>
-      <Item
-        xs={12}
-        sm={12}
-        md={12}
-        lg={preview ? 12 : 6}
-        style={{
-          minHeight: 375,
-          paddingRight: isMediumScreen ? 0 : 24,
-          alignItems: "center",
-          display: "flex",
-          order: isMediumScreen ? 2 : 1,
-        }}
-      >
-        {!editing ? (
-          <div
-            style={{ display: "flex", width: "100%", flexDirection: "column" }}
-          >
-            <CardMedia className={classes.image} image={data.image} />
-            {!editing && editMode ? (
-              <EditDeleteButtonMenu
-                editClick={() => setEditing(!editing)}
-                hideDelete
-                position="end"
-                adminLink="processimageitem"
-                text="Process Image Item"
-                obj={data.id}
-              />
-            ) : null}
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <Grid
-              container
-              flex
-              justifyContent="center"
-              style={{ marginTop: 16, padding: 8 }}
+      {data ? (
+        <Item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={preview ? 12 : 6}
+          style={{
+            minHeight: 375,
+            paddingRight: isMediumScreen ? 0 : 24,
+            alignItems: "center",
+            display: "flex",
+            order: isMediumScreen ? 2 : 1,
+          }}
+        >
+          {!editing ? (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                flexDirection: "column",
+              }}
             >
-              {data.image && (
-                <ImageEdit
-                  xs={newImage ? 6 : 12}
-                  header="Current Image"
-                  image={`${data.image}/`}
+              <CardMedia className={classes.image} image={data.image} />
+              {!editing && editMode ? (
+                <EditDeleteButtonMenu
+                  editClick={() => setEditing(!editing)}
+                  hideDelete
+                  position="end"
+                  adminLink="processimageitem"
+                  text="Process Image Item"
+                  obj={data.id}
                 />
-              )}
-              {newImage ? (
-                <ImageEdit header="New Image" image={`${newImage}`} />
               ) : null}
-              <ImageInput
-                handleChange={handleImageChange}
-                handleClick={handleClick}
-                newImage={newImage}
-                newImageName={newImageName}
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                flex
+                justifyContent="center"
+                style={{ marginTop: 16, padding: 8 }}
+              >
+                {data.image && (
+                  <ImageEdit
+                    xs={newImage ? 6 : 12}
+                    header="Current Image"
+                    image={`${data.image}/`}
+                  />
+                )}
+                {newImage ? (
+                  <ImageEdit header="New Image" image={`${newImage}`} />
+                ) : null}
+                <ImageInput
+                  handleChange={handleImageChange}
+                  handleClick={handleClick}
+                  newImage={newImage}
+                  newImageName={newImageName}
+                />
+              </Grid>
+              <UpdateCancelButtonMenu
+                handleCancel={() => setEditing(!editing)}
+                position="center"
+                placement={"bottom"}
               />
-            </Grid>
-            <UpdateCancelButtonMenu
-              handleCancel={() => setEditing(!editing)}
-              position="center"
-              placement={"bottom"}
-            />
-          </form>
-        )}
-      </Item>
+            </form>
+          )}
+        </Item>
+      ) : null}
     </>
   );
 }

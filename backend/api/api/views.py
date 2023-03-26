@@ -85,11 +85,13 @@ def get_model_metadata(model_name):
     }
 
     for field_name, field in fields.items():
+        print(field_name)
         field_type = field.__class__.__name__
         if field_type == "CharField" and "base_template" in field.style:
             field_type = "TextField"
 
         choices = getattr(field, "choices", None)
+        print(choices)
         if choices:
             choices_dict = dict(choices)
             field_choices = [
@@ -111,6 +113,9 @@ def get_model_metadata(model_name):
             "max_value": getattr(field, "max_value", None),
             "source": getattr(field, "source", None),
             "choices": field_choices,
+            "verbose_name": getattr(
+                model._meta.get_field(field_name), "verbose_name", None
+            ),
         }
 
         metadata["fields"][field_name] = field_metadata
@@ -135,6 +140,8 @@ def get_model_metadata(model_name):
             metadata["fields"][field.name]["markdown"] = getattr(
                 field, "markdown", "false"
             )
+        if hasattr(field, "min_rows"):
+            metadata["fields"][field.name]["min_rows"] = getattr(field, "min_rows", 6)
 
     return metadata
 
@@ -224,6 +231,14 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="tables"
                     )
+                elif model_query == "header":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="general"
+                    )
+                elif model_query == "contactinformation":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="contact"
+                    )
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())
 
@@ -264,8 +279,16 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="tables"
                     )
+                elif model_query == "header":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="general"
+                    )
+                elif model_query == "contactinformation":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="contact"
+                    )
                 else:
-                    content_type = ContentType.objects.get(model=model_query.lower())        
+                    content_type = ContentType.objects.get(model=model_query.lower())
 
                 recent_actions = LogEntry.objects.filter(
                     content_type=content_type
@@ -392,6 +415,10 @@ class ModelEndpointAPIView(APIView):
             ):
                 endpoints["configs"][app_label] = {
                     "icon": app_config.icon if hasattr(app_config, "icon") else None,
+                    "links": app_config.links if hasattr(app_config, "links") else None,
+                    "visibility": app_config.visibility
+                    if hasattr(app_config, "visibility")
+                    else None,
                 }
                 endpoints["models"][app_label] = []
 
@@ -463,6 +490,9 @@ class ModelEndpointAPIView(APIView):
                 else None,
                 "access_level": model._meta.access_level
                 if hasattr(model._meta, "access_level")
+                else None,
+                "info_dump": model._meta.info_dump
+                if hasattr(model._meta, "info_dump")
                 else None,
             }
 
@@ -589,6 +619,9 @@ class SingleModelAPIView(APIView):
             else None,
             "access_level": model._meta.access_level
             if hasattr(model._meta, "access_level")
+            else None,
+            "info_dump": model._meta.info_dump
+            if hasattr(model._meta, "info_dump")
             else None,
         }
 
