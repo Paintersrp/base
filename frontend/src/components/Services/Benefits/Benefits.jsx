@@ -33,6 +33,7 @@ const Benefits = ({ benefits, block, setBlock, editMode }) => {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
+  console.log(benefits);
 
   const updateTitleBlock = (updateTitleBlock) => {
     setBlock(updateTitleBlock);
@@ -83,20 +84,23 @@ const Benefits = ({ benefits, block, setBlock, editMode }) => {
         )}
         <div className={classes.benefitContainer}>
           <Grid container style={{ width: "100%" }}>
-            {benefits.map((benefit, index) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={6}
-                lg={4}
-                xl={4}
-                className={classes.gridItem}
-                key={benefit.title}
-              >
-                <Benefit benefit={benefit} editMode={editMode} />
-              </Grid>
-            ))}
+            {benefits.map((benefit, index) => {
+              console.log(benefit);
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={6}
+                  lg={4}
+                  xl={4}
+                  className={classes.gridItem}
+                  key={benefit.title}
+                >
+                  <Benefit benefit={benefit} editMode={editMode} />
+                </Grid>
+              );
+            })}
           </Grid>
         </div>
       </Container>

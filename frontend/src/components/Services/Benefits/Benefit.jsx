@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Benefit = ({ benefit, edit = true, editMode }) => {
+  console.log(benefit);
   const [data, setData] = useState(benefit);
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
@@ -38,11 +39,12 @@ const Benefit = ({ benefit, edit = true, editMode }) => {
   };
 
   return (
-    <SlideIntoViewPort
-      addition={900}
-      animationDuration={1}
-      onScreenPercentage={0.9}
-    >
+    // <SlideIntoViewPort
+    //   addition={900}
+    //   animationDuration={1}
+    //   onScreenPercentage={0.9}
+    // >
+    <>
       {!editing ? (
         <BaseCard
           noHover
@@ -89,7 +91,8 @@ const Benefit = ({ benefit, edit = true, editMode }) => {
           handleCancel={() => setEditing(!editing)}
         />
       )}
-    </SlideIntoViewPort>
+    </>
+    // </SlideIntoViewPort>
   );
 };
 

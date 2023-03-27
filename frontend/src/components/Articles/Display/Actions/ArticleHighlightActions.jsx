@@ -9,8 +9,8 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 const useStyles = makeStyles((theme) => ({
   chip: {
     borderRadius: 14,
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.text.light,
+    backgroundColor: "#e0e0e0",
+    color: theme.palette.text.dark,
     marginRight: 5,
     marginTop: 5,
     fontWeight: 600,
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     flexWrap: "wrap",
-    paddingBottom: 5,
+    paddingBottom: theme.spacing(1),
+    marginTop: theme.spacing(1.5),
   },
   button: {
     boxShadow: theme.shadows[3],
@@ -66,12 +67,11 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
           <Chip
             key={tag.name}
             label={tag.name}
-            className={index % 2 === 0 ? classes.chip : classes.chipAlt}
+            className={index % 2 === 0 ? classes.chip : classes.chip}
           />
         ))}
       </div>
-      <Grid container flex justifyContent="space-between" alignItems="center">
-        <Typography variant={subtitleVariant}>By: {article.author}</Typography>
+      {/* <Grid container flex justifyContent="flex-end" alignItems="center">
         <Tooltip
           title="Read Full Post"
           placement="bottom"
@@ -89,8 +89,7 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
             </Button>
           </Link>
         </Tooltip>
-      </Grid>
-      <Divider style={{ color: "black" }} />
+      </Grid> */}
     </Grid>
   );
 };

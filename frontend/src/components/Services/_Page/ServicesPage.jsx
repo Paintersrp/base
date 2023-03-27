@@ -42,6 +42,7 @@ function ServicesPage({ handleUpdate }) {
           );
           setServices(response.data.ServiceTier);
           setBenefitsBlock(response.data.Benefits);
+          console.log("benny", response.data.Benefits);
           setQuizData(
             response.data.Questionnaire.find((tb) => tb.slug === "service-quiz")
           );

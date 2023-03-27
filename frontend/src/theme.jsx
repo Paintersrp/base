@@ -55,7 +55,7 @@ const palettes = {
     dark: "#1976d2",
   },
   text: {
-    dark: "black",
+    dark: "#222",
     light: "#fff",
     primary: "rgba(0, 0, 0, 1)",
     secondary: "rgba(0, 0, 0, 0.6)",

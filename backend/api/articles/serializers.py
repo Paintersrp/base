@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Articles, Tags
 from authorization.models import User
+from authorization.serializers import UserSerializer
 from PIL import Image
 
 
@@ -13,7 +14,8 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source="author.username")
+    author = UserSerializer()
+    # author = serializers.ReadOnlyField(source="author.username")
     tags = TagsSerializer(many=True)
     image = serializers.ImageField(required=False, allow_null=True)
     FIELD_KEYS = ["created_at", "updated_at", "title", "author", "image"]

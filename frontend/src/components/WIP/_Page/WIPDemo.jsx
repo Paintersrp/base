@@ -3,13 +3,8 @@ import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
 import {
   Button,
-  FormControl,
-  FormHelperText,
   Grid,
-  InputLabel,
   makeStyles,
-  OutlinedInput,
-  TextField,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -21,14 +16,10 @@ import Item from "../../Elements/Layout/Item/Item";
 import Container from "../../Elements/Layout/Container/Container";
 import Text from "../../Elements/Layout/Text/Text";
 import Magazine from "../Magazine/Magazine";
-import AdminLogReport from "../../Admin/Reports/AdminLog/AdminLogReport";
 import TestForm from "../TestForm";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
-import MultiParagraphEditor from "../Blog/Page";
-import QuestionnaireAnalysis from "../../Admin/Panel/Analysis";
-import SurveyAnalysis from "../../Admin/Panel/SurveyAnalysis";
 
 const actions = [
   <Grid
@@ -203,10 +194,7 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
-      <QuestionnaireAnalysis />
-      <SurveyAnalysis />
       <LayeredGradientBackground>
-        <MultiParagraphEditor />
         <TestForm />
         <Container spacing={2} style={{ padding: 4 }}>
           <Item xs={12} sm={12} md={12} lg={12} xl={12} justify="center">

@@ -5,7 +5,7 @@ class ArticlesConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "articles"
     verbose_name = "Articles"
-    visibility = False
+    visibility = True
     icon = "InfoIcon"
     links = {
         "News Page": "/articles",

@@ -8,6 +8,7 @@ import PageContainer from "../../Elements/Layout/PageContainer";
 import ArticlesDisplayBase from "../Display/DisplayBase/ArticlesDisplayBase";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -28,6 +29,11 @@ const ArticlesPage = () => {
   const [error, setError] = useState();
   const [articles, setArticles] = useState([]);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreate = () => {
+    navigate(`/articles/create`);
+  };
 
   useEffect(() => {
     axiosInstance
@@ -48,20 +54,12 @@ const ArticlesPage = () => {
   }
 
   return (
-    <>
-      <PageContainer backgroundColor="#F5F5F5" page_name="News">
-        <ArticlesDisplayBase articles={articles} />
-        <ArticlesList />
-        <Fab
-          className={classes.fab}
-          size="medium"
-          onClick={() => setOpen(true)}
-        >
-          <AddIcon />
-        </Fab>
-        <CreateUpdateArticle open={open} setOpen={setOpen} />
-      </PageContainer>
-    </>
+    <PageContainer backgroundColor="#F5F5F5" page_name="News">
+      <ArticlesList />
+      <Fab className={classes.fab} size="medium" onClick={() => handleCreate()}>
+        <AddIcon />
+      </Fab>
+    </PageContainer>
   );
 };
 

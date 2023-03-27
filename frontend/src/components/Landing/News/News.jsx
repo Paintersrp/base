@@ -109,6 +109,7 @@ export default function LatestNews({ articlesData, block, setBlock }) {
             articles={articlesData}
             classSet="cards"
             carousel={isSmallScreen ? true : false}
+            editMode={editmode.editMode}
           />
         </Grid>
       </Paper>

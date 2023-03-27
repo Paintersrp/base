@@ -58,6 +58,8 @@ function ObjectPage() {
   const [create, setCreate] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log(str, "str");
+  console.log(pk, "pk");
 
   const fetchData = async () => {
     if (url && keys) {

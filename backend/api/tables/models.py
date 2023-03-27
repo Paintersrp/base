@@ -1,6 +1,8 @@
 from django.db import models
 from landing.models import ServiceTier
 from api.customs import *
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 @custom_metadata(
@@ -185,7 +187,6 @@ class ServiceCompareRows(models.Model):
     },
 )
 class ServiceTable(models.Model):
-
     name = CustomCharField(
         max_length=20,
         md_column_count=12,
@@ -199,6 +200,8 @@ class ServiceTable(models.Model):
         verbose_name="Table Labels",
         related_name="service_table",
         help_text="Table Name",
+        null=True,
+        blank=True,
     )
 
     rows = models.ManyToManyField(
@@ -206,8 +209,16 @@ class ServiceTable(models.Model):
         verbose_name="Table Rows",
         related_name="service_tables",
         help_text="Table Rows",
+        blank=True,
     )
 
     class Meta:
         verbose_name = "Service Table"
         verbose_name_plural = "Service Tables"
+
+
+@receiver(post_save, sender=ServiceCompareRows)
+def update_service_table(sender, instance, created, **kwargs):
+    service_table, _ = ServiceTable.objects.get_or_create(name=instance.table_name)
+    service_table.rows.add(instance)
+    print("added")

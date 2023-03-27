@@ -27,6 +27,7 @@ const ResultsDisplay = ({
   const classes = quizStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log(benefitsData);
 
   const handleReset = () => {
     setServices(services);

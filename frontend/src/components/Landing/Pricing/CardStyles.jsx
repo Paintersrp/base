@@ -25,15 +25,14 @@ const CondensedTopMedia = makeStyles((theme) => ({
     fontWeight: 600,
     textAlign: "center",
     fontFamily: "Poppins",
-    color: theme.palette.primary.dark,
-    opacity: 0.9,
+    color: theme.palette.text.dark,
     marginTop: theme.spacing(2),
   },
   pricingPrice: {
     textAlign: "center",
     padding: theme.spacing(1, 0, 1, 0),
     margin: 0,
-    color: theme.palette.primary.main,
+    color: theme.palette.text.dark,
   },
   media: {
     paddingTop: "56.25%",
@@ -56,7 +55,7 @@ const CondensedTopMedia = makeStyles((theme) => ({
   },
   detail: {
     padding: theme.spacing(0.5, 1, 0.5, 1),
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.dark,
   },
   detailAlt: {
     padding: theme.spacing(0.5, 1, 0.5, 1),

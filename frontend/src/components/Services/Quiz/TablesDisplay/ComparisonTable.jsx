@@ -159,7 +159,7 @@ const ComparisonTable = ({
                       scope="row"
                       className={classes.featureCell}
                     >
-                      {row.feature}
+                      {row.detail}
                     </TableCell>
                     <TableCell className={classes.contentCell}>
                       {row.tier1_value}

@@ -17,26 +17,19 @@ class ArticleListCreateView(generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
     def create(self, request, *args, **kwargs):
-        authorization_header = request.headers.get("Authorization")
-
-        if not authorization_header:
-            return Response({"error": "Missing authorization header"}, status=401)
-
-        token = authorization_header.split(" ")[1]
-        username = jwt.decode(jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"])
-        user = User.objects.get(username=username["user"])
-
         form_data = request.POST
-        title = form_data.get("title")
-        content = form_data.get("content")
-        tags = form_data.get("tags")
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
         else:
             image = None
 
-        data = {"title": title, "content": content, "tags": tags, "image": image}
+        data = {
+            "title": form_data.get("title"),
+            "content": form_data.get("content"),
+            "tags": form_data.get("tags"),
+            "image": image,
+        }
 
         if isinstance(data.get("tags"), str):
             tags = data["tags"].split(",")
@@ -46,7 +39,7 @@ class ArticleListCreateView(generics.ListCreateAPIView):
 
         if serializer.is_valid():
             data["content"] = data["content"].replace("<img", "<img class='media'")
-            instance = serializer.create(validated_data=data, username=user)
+            instance = serializer.create(validated_data=data, username=request.username)
 
             create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
 

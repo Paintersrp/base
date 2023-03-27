@@ -33,13 +33,13 @@ class ServiceCompareRowsSerializer(serializers.ModelSerializer):
 
 
 class ServiceTableSerializer(serializers.ModelSerializer):
-    labels = serializers.StringRelatedField(source="service_table.id")
-    rows = ServiceCompareRowsSerializer(many=True)
+    labels = ServiceTableLabelsSerializer(required=False)
+    rows = ServiceCompareRowsSerializer(many=True, required=False)
     FIELD_KEYS = ["name"]
 
     class Meta:
         model = ServiceTable
-        fields = ["name", "labels", "rows"]
+        fields = ["id", "name", "labels", "rows"]
 
 
 ServiceTable.serializer_class = ServiceTableSerializer

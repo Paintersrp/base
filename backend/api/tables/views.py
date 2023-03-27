@@ -5,6 +5,7 @@ from .serializers import *
 from auditlog.models import LogEntry
 from api.utils import create_log_entry, return_changes
 from api.custom_views import *
+from django.shortcuts import get_object_or_404
 
 
 class ServiceTableLabelsListView(BaseListView):
@@ -153,6 +154,31 @@ class ServiceTableDetailAPIView(BaseDetailView):
     queryset = ServiceTable.objects.all()
     serializer_class = ServiceTableSerializer
     model_class = ServiceTable
+
+    def update(self, request, *args, **kwargs):
+        data = request.data.copy()
+        instance = self.get_object()
+        old_instance = self.model_class.objects.get(pk=instance.pk)
+        labels = get_object_or_404(ServiceTableLabels, id=data.get("labels"))
+        print(labels)
+
+        data["labels"] = labels
+        rows_data = data.pop("rows", [])
+        print(data)
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
+
+        return Response(serializer.data)
 
 
 class ServiceTableBulkAPIView(BaseBulkView):

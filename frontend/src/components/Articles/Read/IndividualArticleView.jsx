@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Chip from "@material-ui/core/Chip";
 import DOMPurify from "dompurify";
-import { Link, useParams } from "react-router-dom";
-import { CardMedia, Grid, Button, Paper } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import { Grid, Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import "./quillStyles.css";
 import EditButton from "../../Elements/Buttons/EditButton";
 import UpdateArticleView from "../Update/UpdateArticleView";
 import { baseClasses } from "../../../classes";
+import PageContainer from "../../Elements/Layout/PageContainer";
+import BaseContent from "../../Elements/Base/BaseContent";
+import ArticleInfoBar from "../InfoBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,35 +22,49 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: theme.spacing(3, 2),
     backgroundColor: theme.palette.background.light,
+    flexDirection: "column",
   },
   card: {
-    maxWidth: 1200,
     backgroundColor: theme.palette.background.light,
     color: theme.palette.text.dark,
   },
   title: {
-    fontFamily: "Poppins",
-    fontWeight: 700,
-    fontSize: 40,
+    fontFamily: "Roboto",
+    color: "black",
+    fontWeight: 500,
     display: "flex",
     justifyContent: "center",
-    margin: "0px 0",
+    margin: theme.spacing(1, 0, 1, 0),
   },
   body: {
-    fontFamily: "Poppins",
+    fontFamily: "Roboto",
     fontWeight: "400 !important",
     fontSize: "0.95rem",
     letterSpacing: 0.25,
     lineHeight: 1.5,
+    "& img": {
+      width: "100%",
+      borderRadius: 8,
+    },
+    "& .ql-align-right": {
+      textAlign: "right",
+    },
+    "& .ql-align-left": {
+      textAlign: "left",
+    },
+    "& .ql-align-center": {
+      textAlign: "center",
+    },
   },
   pos: {
     marginBottom: 12,
   },
   image: {
-    minHeight: 400,
-    width: "100%",
-    paddingBottom: "56.25%", // 16:9
-    borderRadius: 8,
+    marginBottom: theme.spacing(3),
+    paddingTop: "56.25%",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
   },
   chips: {
     display: "flex",
@@ -84,21 +97,18 @@ const useStyles = makeStyles((theme) => ({
 const IndividualArticleView = ({}) => {
   const { id } = useParams();
   const { fadeIn } = baseClasses();
-  const [article, setArticle] = useState({});
+  const [article, setArticle] = useState(null);
   const [editing, setEditing] = useState(false);
   const classes = useStyles();
   const { auth } = useSelector((state) => state);
-  let htmlContent;
-  console.log(auth.username);
+  const editmode = useSelector((state) => state.editmode);
 
   useEffect(() => {
     axiosInstance
       .get(`/articles/${id}/`)
       .then((response) => {
         setArticle(response.data);
-        htmlContent = article.content;
-        htmlContent = htmlContent.replace(/<img/g, '<img class="quill-image"');
-        console.log(htmlContent);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -106,84 +116,84 @@ const IndividualArticleView = ({}) => {
   }, []);
 
   return (
-    <div className={`${classes.root}`}>
-      <Paper className={classes.card} elevation={0}>
-        {auth.is_superuser ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-            }}
-          >
-            <EditButton
-              onClick={() => setEditing(!editing)}
-              editState={editing}
-              position="flex-end"
-            />
-          </div>
-        ) : null}
-        {!editing ? (
-          <>
-            <CardContent
-              className={fadeIn}
-              style={{ justifyContent: "center", alignItems: "center" }}
-            >
-              {article.image && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "50%",
-                    }}
-                  >
-                    <CardMedia
-                      className={classes.image}
-                      image={`${article.image}`}
-                    />
-                  </div>
+    <PageContainer backgroundColor="#F5F5F5" seoEdit={false}>
+      {article && (
+        <BaseContent
+          maxWidth={1000}
+          pt={0}
+          pb={0}
+          boxShadow={0}
+          pad={0}
+          justifyChildren="center"
+        >
+          <BaseContent maxWidth={700} pt={0} pb={0} boxShadow={0}>
+            {auth.is_superuser ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                }}
+              >
+                <EditButton
+                  onClick={() => setEditing(!editing)}
+                  editState={editing}
+                  position="flex-end"
+                />
+              </div>
+            ) : null}
+            {!editing && (
+              <Grid
+                container
+                className={fadeIn}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                {/* {article.image && (
+                <Grid item xs={9}>
+                  <CardMedia
+                    className={classes.image}
+                    image={`${article.image}`}
+                  />
+                </Grid>
+              )} */}
+                <Grid item xs={12} style={{ color: "black" }}>
+                  <ArticleInfoBar article={article} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h2" className={classes.title}>
+                    {article.title}
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
+            <Paper className={classes.card} elevation={0}>
+              {!editing ? (
+                <>
+                  {article.content ? (
+                    <Typography variant="body2" className={classes.body}>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(article.content),
+                        }}
+                        className={classes.body}
+                      />
+                    </Typography>
+                  ) : null}
+                </>
+              ) : (
+                <div>
+                  <UpdateArticleView article={article} />
                 </div>
               )}
-              {/* <Typography variant="h1" className={classes.title}> */}
-              {/* {article.title}
-          </Typography> */}
-              {article.content ? (
-                <Typography variant="body2" className={classes.body}>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(article.content),
-                    }}
-                    className={classes.body}
-                  />
-                </Typography>
-              ) : null}
-            </CardContent>
-            <CardActions className={classes.chips}>
-              {article.tags &&
-                article.tags.map((tag) => (
-                  <Chip
-                    key={tag.name}
-                    label={tag.name}
-                    className={classes.chip}
-                  />
-                ))}
-            </CardActions>
-          </>
-        ) : (
-          <div>
-            <UpdateArticleView article={article} />
-          </div>
-        )}
-      </Paper>
-    </div>
+            </Paper>
+          </BaseContent>
+        </BaseContent>
+      )}
+    </PageContainer>
   );
 };
 

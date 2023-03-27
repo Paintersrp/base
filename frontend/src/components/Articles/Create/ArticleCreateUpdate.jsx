@@ -1,37 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 import QuillEditor from "./TextEditor";
 import { Typography } from "@material-ui/core";
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
+import PageContainer from "../../Elements/Layout/PageContainer";
+import BaseContent from "../../Elements/Base/BaseContent";
+import { getCookie } from "../../../Utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "100%",
     "& .MuiTextField-root": {
       marginBottom: 5,
       marginTop: 5,
       width: "25ch",
     },
   },
-  dialog: {
-    minWidth: "75%",
-  },
   title: {
     textAlign: "center",
-    fontSize: "2rem",
-    fontFamily: "Poppins",
-    fontWeight: 700,
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "100%",
   },
   imageContainer: {
     display: "flex",
@@ -49,22 +43,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateUpdateArticle = ({ article, open, setOpen }) => {
+const CreateUpdateArticle = ({}) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const [image, setImage] = useState(null);
-  const classes = useStyles();
   const fileInputRef = useRef();
-
-  useEffect(() => {
-    if (article) {
-      setTitle(article.title);
-      setContent(article.content);
-      setTags(article.tags);
-      setImage(article.image);
-    }
-  }, [article]);
+  const classes = useStyles();
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -74,16 +59,12 @@ const CreateUpdateArticle = ({ article, open, setOpen }) => {
     setContent(value);
   };
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  };
-
   const handleTagsChange = (event) => {
     setTags(event.target.value.split(",").map((tag) => tag.trim()));
   };
 
-  const handleClickClose = () => {
-    setOpen(false);
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
   const handleSubmit = (event) => {
@@ -104,54 +85,37 @@ const CreateUpdateArticle = ({ article, open, setOpen }) => {
       formData.append("image", image, image.name);
     }
 
-    if (article) {
-      axios
-        .put(`http://localhost:8000/api/articles/${article.id}/`, formData)
-        .then((res) => {
-          setTitle("");
-          setContent("");
-          setTags([]);
-          setImage(null);
-        })
-        .catch((err) => console.error(err));
-    } else {
-      axios
-        .post("http://localhost:8000/api/articles/", formData, config)
-        .then((res) => {
-          setTitle("");
-          setContent("");
-          setTags([]);
-          setImage(null);
-        })
-        .catch((err) => console.error(err));
-    }
-  };
-
-  const handleDelete = (event) => {
-    event.preventDefault();
+    console.log(formData);
 
     axios
-      .delete(`http://localhost:8000/api/articles/${article.id}/`)
-      .then((res) => {})
+      .post("http://localhost:8000/api/articles/", formData, config)
+      .then((res) => {
+        setTitle("");
+        setContent("");
+        setTags([]);
+        setImage(null);
+      })
       .catch((err) => console.error(err));
   };
 
   return (
-    <>
-      <Dialog
-        open={open}
-        aria-labelledby="form-dialog-title"
-        className={classes.dialog}
-        classes={{ paper: classes.dialog }}
+    <PageContainer backgroundColor="#F5F5F5" page_name="News">
+      <BaseContent
+        maxWidth={1000}
+        pt={4}
+        pb={4}
+        boxShadow={1}
+        header={
+          <Typography variant="h3" component="h1" className={classes.title}>
+            Create Article
+          </Typography>
+        }
       >
-        <Typography className={classes.title}>
-          {article ? "Edit" : "Create"} Article
-        </Typography>
-        <DialogContent>
+        <div style={{ width: "100%", display: "flex" }}>
           <form className={classes.root} noValidate autoComplete="off">
             <TextField
               required
-              label="Title"
+              label="Post Title"
               value={title}
               onChange={handleTitleChange}
               variant="outlined"
@@ -176,9 +140,10 @@ const CreateUpdateArticle = ({ article, open, setOpen }) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
+                size="small"
                 onClick={() => fileInputRef.current.click()}
               >
-                Choose Image
+                Choose Thumbnail
               </Button>
               {image && (
                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -193,22 +158,14 @@ const CreateUpdateArticle = ({ article, open, setOpen }) => {
               )}
             </div>
           </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClickClose} color="primary">
-            Cancel
-          </Button>
-          {article && (
-            <Button onClick={handleDelete} color="secondary">
-              Delete
-            </Button>
-          )}
+        </div>
+        <div className={classes.buttonContainer}>
           <Button onClick={handleSubmit} color="primary">
-            {article ? "Save" : "Create"}
+            Publish
           </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+        </div>
+      </BaseContent>
+    </PageContainer>
   );
 };
 

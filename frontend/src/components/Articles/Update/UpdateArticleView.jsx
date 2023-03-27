@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 1200,
     backgroundColor: theme.palette.background.light,
     color: theme.palette.text.dark,
+    width: "100%",
   },
   title: {
     padding: 20,

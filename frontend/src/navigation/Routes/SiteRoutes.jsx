@@ -36,6 +36,7 @@ import ApplicationViewPage from "../../components/Admin/Objects/_Page/Applicatio
 import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
 import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDashboard";
 import WIPPage from "../../components/Elements/Layout/WIPPage";
+import CreateUpdateArticle from "../../components/Articles/Create/ArticleCreateUpdate";
 
 {
   /* 
@@ -153,6 +154,10 @@ export default function SiteRoutes({ handleUpdate }) {
           <Route
             path="/articles"
             element={<ArticlesPage handleUpdate={handleUpdate} />}
+          />
+          <Route
+            path="/articles/create"
+            element={<CreateUpdateArticle handleUpdate={handleUpdate} />}
           />
           <Route path="/articles/:id" element={<IndividualArticleView />} />
           <Route

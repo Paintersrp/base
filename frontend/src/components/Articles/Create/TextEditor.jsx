@@ -10,21 +10,32 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "550px",
     "& .ql-toolbar": {
-      border: "1px solid #ccc",
-      borderRadius: "4px",
-      backgroundColor: "#f7f7f7",
+      color: "#222",
+      border: `1px solid rgba(0, 0, 0, 0.08)`,
+      backgroundColor: theme.palette.background.default,
     },
     "& .ql-container": {
-      border: "1px solid #ccc",
-      borderRadius: "4px",
+      border: `1px solid rgba(0, 0, 0, 0.08)`,
+      color: "#222",
+      backgroundColor: theme.palette.background.default,
+    },
+    "& .ql-container.ql-snow": {
+      color: "#222",
+      backgroundColor: theme.palette.background.default,
+    },
+    "& .ql-toolbar.ql-snow + .ql-container.ql-snow": {
+      color: "#222",
+      backgroundColor: theme.palette.background.default,
     },
     "& .ql-editor": {
       minHeight: "500px",
       padding: "16px",
+      fontSize: "0.9rem",
+      backgroundColor: theme.palette.background.default,
     },
     "& .ql-editor p": {
-      fontSize: "18px",
       margin: "0 0 16px 0",
+      fontSize: "0.95rem",
     },
     "& .ql-editor h1": {
       fontSize: "32px",
@@ -78,14 +89,11 @@ const QuillEditor = ({ value, onChange, modules, formats }) => {
         onChange={handleChange}
         modules={modules}
         formats={formats}
-        render={(props) => {
-          const newProps = { ...props };
-          console.log("props:", props.value);
-          if (props.node && props.node.tagName === "img") {
-            newProps.node.classList.add("quill-image");
-          }
-          console.log(newProps);
-          return newProps.node;
+        imageExtensions={["jpg", "jpeg", "png", "gif"]}
+        imageHandler={(image, callback) => {
+          console.log("here");
+          image.classList.add("quill-image");
+          callback(image);
         }}
       />
     </div>

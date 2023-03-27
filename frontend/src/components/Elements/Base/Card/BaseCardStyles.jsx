@@ -8,10 +8,6 @@ const defaultCardStyle = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.light,
     borderRadius: theme.spacing(1),
     transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-5px)",
-      boxShadow: `0 5px 10px ${theme.palette.primary.light}`,
-    },
   },
   rootNoHover: {
     margin: theme.spacing(2, 0, 2, 0),
@@ -24,6 +20,7 @@ const defaultCardStyle = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.light,
     padding: theme.spacing(2, 2, 2, 2),
     minHeight: 50,
+    color: theme.palette.text.dark,
   },
   cardContent: {
     display: "flex",
@@ -31,6 +28,7 @@ const defaultCardStyle = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(0, 2, 0, 2),
     flex: 1,
+    color: theme.palette.text.dark,
   },
   cardActions: {
     backgroundColor: theme.palette.background.light,
@@ -42,8 +40,6 @@ const defaultCardStyle = makeStyles((theme) => ({
   cardMedia: {
     paddingTop: "56.25%",
     height: "100%",
-    borderTopLeftRadius: theme.spacing(0.5),
-    borderBottomLeftRadius: theme.spacing(0.5),
   },
   icon: {
     display: "flex",
@@ -58,20 +54,16 @@ const defaultCardStyle = makeStyles((theme) => ({
 const listCardStyle = makeStyles((theme) => ({
   root: {
     borderRadius: theme.spacing(0),
-    margin: 0,
+    margin: theme.spacing(2, 0, 2, 0),
     width: "100%",
     maxWidth: 1000,
     backgroundColor: theme.palette.background.light,
     transition: "0.3s",
-    "&:hover": {
-      transform: "translateY(-10px)",
-      boxShadow: theme.shadows[7],
-      border: `2px solid ${theme.palette.secondary.main}`,
-    },
+    height: 134,
   },
   cardHeader: {
     backgroundColor: theme.palette.background.light,
-    padding: theme.spacing(2, 2, 1, 2),
+    padding: theme.spacing(0, 2, 1, 2),
     minHeight: 50,
   },
   cardContent: {
@@ -89,8 +81,8 @@ const listCardStyle = makeStyles((theme) => ({
     minHeight: 50,
   },
   cardMedia: {
-    paddingTop: "56.25%",
-    height: "100%",
+    width: 200,
+    height: 134,
   },
 }));
 

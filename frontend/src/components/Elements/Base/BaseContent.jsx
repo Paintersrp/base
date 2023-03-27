@@ -38,6 +38,7 @@ function BaseContent({
   background = "#F5F5F5",
   showIcon = false,
   topIcon = <WorkSharpIcon style={{ color: "#2e3b55" }} fontSize="medium" />,
+  justifyChildren = "flex-start",
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -94,7 +95,7 @@ function BaseContent({
           </Typography>
         )}
 
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{ justifyContent: justifyChildren }}>
           {children}
         </Grid>
       </div>
