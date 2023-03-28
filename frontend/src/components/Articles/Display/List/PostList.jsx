@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import DOMPurify from "dompurify";
 import { Divider, useMediaQuery } from "@material-ui/core";
 import ArticleInfoBar from "../../InfoBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     maxWidth: 800,
     borderRight: `1px solid rgba(0, 0, 0, 0.03)`,
+    [theme.breakpoints.down("md")]: {
+      order: 2,
+    },
   },
   card: {
     display: "flex",
@@ -68,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontWeight: "bold",
     color: theme.palette.text.dark,
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0),
     textAlign: "left",
   },
   header: {
@@ -82,24 +85,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, title = "Latest News" }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const navigate = useNavigate();
 
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <Typography
-          variant="h2"
-          component="h1"
-          gutterBottom
-          className={classes.heading}
-        >
-          Latest News
-        </Typography>
-        <Divider />
-      </div>
+      {title && (
+        <div className={classes.header}>
+          <Typography
+            variant="h2"
+            component="h1"
+            gutterBottom
+            className={classes.heading}
+          >
+            {title}
+          </Typography>
+          <div className={classes.dividerContainer}>
+            <div style={{ width: "100%" }}>
+              <Divider />
+            </div>
+          </div>
+        </div>
+      )}
       <Grid container spacing={2}>
         {posts.map((post) => {
           const html = DOMPurify.sanitize(post.content);

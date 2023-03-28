@@ -9,7 +9,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    paddingBottom: theme.spacing(6),
+    paddingBottom: theme.spacing(0),
     background: theme.palette.background.default,
   },
   appBar: {
@@ -49,7 +49,7 @@ const NavigationBase = ({
   return (
     <div className={classes.root}>
       <AppBar
-        position="absolute"
+        position="relative"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}

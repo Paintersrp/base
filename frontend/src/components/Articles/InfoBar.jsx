@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Tooltip, Avatar, IconButton } from "@material-ui/core";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
+import EditDeleteButtonMenu from "../Elements/Buttons/EditDeleteButtonMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,9 +48,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ArticleInfoBar({ article, size = "full" }) {
-  const { author, created_at, content } = article;
+  const { author, author_details, created_at, content, id } = article;
   const classes = useStyles();
-  
+
   const wordsPerMinute = 200;
   const wordCount = content.split(/\s+/g).length;
   const readTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
@@ -68,13 +69,15 @@ function ArticleInfoBar({ article, size = "full" }) {
         className={classes.info}
         style={{ marginBottom: size === "full" ? 0 : 4 }}
       >
-        <Tooltip title={author}>
+        <Tooltip
+          title={`${author_details.first_name} ${author_details.last_name}`}
+        >
           <Avatar
             className={size === "full" ? classes.avatar : classes.avatarSmall}
             style={{ marginRight: 8 }}
           >
-            {author.first_name.charAt(0).toUpperCase() ||
-              author.username.charAt(0).toUpperCase()}
+            {author_details.first_name.charAt(0).toUpperCase() ||
+              author_details.username.charAt(0).toUpperCase()}
           </Avatar>
         </Tooltip>
         <div>
@@ -83,7 +86,8 @@ function ArticleInfoBar({ article, size = "full" }) {
               variant={size === "full" ? "body1" : "body2"}
               style={{ fontSize: size === "small" ? "0.85rem" : null }}
             >
-              {author.first_name || author.username} {author.last_name}
+              {author_details.first_name || author_details.username}{" "}
+              {author_details.last_name}
             </Typography>
           </div>
           <div className={classes.created}>

@@ -17,6 +17,7 @@ const AdminButton = ({
   tooltipText,
   size = "small",
   placement = "bottom",
+  ibClass = null,
 }) => {
   const classes = useStyles();
 
@@ -29,7 +30,7 @@ const AdminButton = ({
       placement={placement}
     >
       <Link to={`/admin/${link}`}>
-        <IconButton size={size} color="primary">
+        <IconButton size={size} color="primary" className={ibClass}>
           <AdminPanelSettingsIcon style={{ color: "primary" }} />
         </IconButton>
       </Link>

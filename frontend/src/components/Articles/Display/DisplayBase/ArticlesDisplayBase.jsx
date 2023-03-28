@@ -149,7 +149,8 @@ const ArticlesDisplayBase = ({
                   variant={layout.actionSubtitle}
                   color="textSecondary"
                 >
-                  By: {article.author.first_name} {article.author.last_name}
+                  By: {article.author_details.first_name}{" "}
+                  {article.author_details.last_name}
                 </Typography>
               }
               headerAction={

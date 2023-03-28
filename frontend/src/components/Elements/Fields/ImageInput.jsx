@@ -25,20 +25,27 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: theme.shape.borderRadius,
-    width: "40%",
-    maxWidth: "75%",
+
     "&:hover": {
       border: `1px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.action.hoverLight,
       cursor: "pointer",
     },
+    [theme.breakpoints.down("sm")]: {},
   },
   labelContainer: {
     marginBottom: theme.spacing(1),
   },
 }));
 
-const ImageInput = ({ xs, md, handleChange, newImage, newImageName }) => {
+const ImageInput = ({
+  xs,
+  md,
+  handleChange,
+  newImage,
+  newImageName,
+  width = "75%",
+}) => {
   const classes = useStyles();
 
   const handleSelectFile = () => {
@@ -47,7 +54,12 @@ const ImageInput = ({ xs, md, handleChange, newImage, newImageName }) => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-      <FormControl margin="dense" fullWidth className={classes.formControl}>
+      <FormControl
+        margin="dense"
+        fullWidth
+        className={classes.formControl}
+        style={{ width: width }}
+      >
         <Box
           style={{ display: "flex", justifyContent: "center" }}
           onClick={handleSelectFile}

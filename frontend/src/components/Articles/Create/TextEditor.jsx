@@ -91,7 +91,6 @@ const QuillEditor = ({ value, onChange, modules, formats }) => {
         formats={formats}
         imageExtensions={["jpg", "jpeg", "png", "gif"]}
         imageHandler={(image, callback) => {
-          console.log("here");
           image.classList.add("quill-image");
           callback(image);
         }}

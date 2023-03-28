@@ -87,8 +87,6 @@ const Panel = ({
   };
 
   const handleEdit = (data) => {
-    console.log("data: ", data);
-    console.log("data id: ", data.id);
     navigate(`/admin/${model.model_name}/control`, {
       state: {
         url: url,

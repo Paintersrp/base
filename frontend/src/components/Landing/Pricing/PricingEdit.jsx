@@ -290,27 +290,7 @@ const PricingEdit = ({
                     minRows={4}
                   />
                 )}
-                {/*
-                <TextField
-                  margin="dense"
-                  className={classes.multiline}
-                  variant="outlined"
-                  label="Paragraph 2"
-                  value={formData.paragraph_two}
-                  onChange={handleInputChange}
-                  multiline
-                  minRows={4}
-                />
-                <TextField
-                  margin="dense"
-                  className={classes.multiline}
-                  variant="outlined"
-                  label="Paragraph 3"
-                  value={formData.paragraph_three}
-                  onChange={handleInputChange}
-                  multiline
-                  minRows={4}
-                /> */}
+
                 <ManyToManyField
                   data={formData.features}
                   handleManyToManyChange={handleManyToManyChange}
@@ -318,13 +298,7 @@ const PricingEdit = ({
                   verboseName="Features"
                   setFormData={setFormData}
                 />
-                {/* <ManyToManyField
-                  data={formData.supported_sites}
-                  handleManyToManyChange={handleManyToManyChange}
-                  fieldName="supported_sites"
-                  verboseName="Supported Sites"
-                  setFormData={setFormData}
-                /> */}
+
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <StyledButton
                     type="submit"

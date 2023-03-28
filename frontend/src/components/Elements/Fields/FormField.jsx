@@ -108,6 +108,7 @@ const FormField = ({
   type = null,
   style,
   minRows = 6,
+  variant = "outlined",
 }) => {
   const classes = useStyles();
 
@@ -116,8 +117,8 @@ const FormField = ({
       name={id}
       id={id}
       className={!multiline ? classes.field : classes.multiline}
-      classes={{ helperText: classes.helperText }}
-      variant="outlined"
+      // classes={{ helperText: classes.helperText }}
+      variant={variant}
       label={label}
       margin="dense"
       value={value}
@@ -130,7 +131,7 @@ const FormField = ({
       SelectProps={SelectProps}
       type={type}
       required={required}
-      styel={style}
+      style={style}
       InputProps={{
         ...(label === "Search" && {
           classes: {

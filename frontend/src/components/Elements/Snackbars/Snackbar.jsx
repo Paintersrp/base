@@ -131,7 +131,10 @@ const AdvancedSnackbar = ({
       TransitionComponent={Grow}
       anchorOrigin={anchorOrigin}
       className={`${classes[type]}`}
-      style={{ marginTop: position === "top-center" ? 52 : 0 }}
+      style={{
+        marginTop: position.includes("top") ? 42 : 0,
+        marginBottom: position.includes("bottom") ? 42 : 0,
+      }}
       classes={{ root: classes.root }}
       message={
         <div className={`${classes.content}`}>

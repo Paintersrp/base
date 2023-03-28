@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useTheme, TextField, Chip, Grid, IconButton } from "@material-ui/core";
+import {
+  useTheme,
+  TextField,
+  Chip,
+  Grid,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.secondary,
     },
   },
+  helpText: {
+    margin: theme.spacing(1, 0, 0.5, 0),
+    padding: 0,
+    color: theme.palette.text.secondary,
+  },
 }));
 
 const ManyToManyField = ({
@@ -58,9 +70,10 @@ const ManyToManyField = ({
   verboseName,
   handleManyToManyChange,
   setFormData,
+  variant = "outlined",
+  helpText = false,
 }) => {
   const classes = useStyles();
-  console.log("data", data);
   const [items, setItems] = useState(data);
   const [newFeature, setNewFeature] = useState("");
   const theme = useTheme();
@@ -99,10 +112,12 @@ const ManyToManyField = ({
   return (
     <div style={{ width: "100%" }}>
       <div>
+        <Typography className={classes.helpText}>Set Category Tags</Typography>
         <TextField
+          style={{ marginTop: helpText ? 0 : 8 }}
           className={classes.field}
-          variant="outlined"
-          label={`Add ${verboseName}`}
+          variant={variant}
+          label={helpText ? null : `Add ${verboseName}`}
           value={newFeature}
           onChange={handleFeatureInputChange}
           onKeyPress={(event) => {

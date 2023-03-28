@@ -2,7 +2,9 @@ from rest_framework import generics, status
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.response import Response
-from .models import User, Articles, Tags
+from .models import Articles, Tags
+from authorization.models import User
+from authorization.serializers import UserSerializer
 from .serializers import ArticleSerializer, TagsSerializer
 from authorization.authentication import JWTTokenAuthentication
 import jwt
@@ -17,33 +19,38 @@ class ArticleListCreateView(generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
     def create(self, request, *args, **kwargs):
-        form_data = request.POST
+        form_data = request.data
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
         else:
             image = None
 
+        author = User.objects.get(username=request.username)
+
         data = {
             "title": form_data.get("title"),
             "content": form_data.get("content"),
             "tags": form_data.get("tags"),
             "image": image,
+            "author": author.id,
         }
 
         if isinstance(data.get("tags"), str):
             tags = data["tags"].split(",")
-            data["tags"] = [{"name": tag.strip()} for tag in tags]
+            data["tags"] = [{"detail": tag.strip()} for tag in tags]
 
         serializer = ArticleSerializer(data=data)
 
         if serializer.is_valid():
             data["content"] = data["content"].replace("<img", "<img class='media'")
-            instance = serializer.create(validated_data=data, username=request.username)
+            instance = serializer.save()
 
             create_log_entry(LogEntry.Action.CREATE, request.username, instance, None)
 
             return JsonResponse(serializer.data, status=201)
+
+        print(serializer.errors)
 
         return JsonResponse(serializer.errors, status=400)
 
@@ -71,35 +78,44 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         article = self.get_object()
         old_instance = Articles.objects.get(pk=article.pk)
-        form_data = request.POST
-        title = form_data.get("title")
-        content = form_data.get("content")
-        tags = form_data.get("tags")
+        formatted_data = self.serializer_class().format_data(request.data)
+        author = User.objects.get(username=request.username)
+
+        title = formatted_data.get("title", article.title)
+        content = formatted_data.get("content", article.content)
+        tag_list = formatted_data.get("tags", [])
+
+        tag_objs = []
+        for tag in tag_list:
+            tag_obj, created = Tags.objects.get_or_create(detail=tag)
+            tag_objs.append(tag_obj)
 
         if request.FILES.get("image"):
             image = request.FILES.get("image")
             article.image.storage.delete(article.image.path)
             article.image = image
-            data = {"title": title, "content": content, "tags": tags, "image": image}
         else:
-            data = {"title": title, "content": content, "tags": tags}
+            image = article.image
 
-        if isinstance(data.get("tags"), str):
-            tags = data["tags"].split(",")
-            data["tags"] = [{"name": tag.strip()} for tag in tags]
+        article.title = title
+        article.content = content
+        article.image = image
+        article.author = author
 
-        serializer = ArticleSerializer(article, data=data)
+        article.save()
+        article.tags.set(tag_objs)
 
-        if serializer.is_valid():
-            data["content"] = data["content"].replace("<img", "<img class='media'")
-            serializer.update(article, validated_data=data)
+        serializer = self.get_serializer(article)
 
-            changes = return_changes(article, old_instance)
-            create_log_entry(LogEntry.Action.UPDATE, request.username, article, changes)
+        changes = return_changes(article, old_instance)
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            article,
+            changes,
+        )
 
-            return JsonResponse(serializer.data, status=200)
-
-        return JsonResponse(serializer.errors, status=400)
+        return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

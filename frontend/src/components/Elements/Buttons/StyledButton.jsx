@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   startIcon: {
-    paddingRight: 8,
+    paddingRight: 4,
+  },
+  endIcon: {
+    marginLeft: 2,
   },
 }));
 
@@ -47,16 +50,17 @@ export default function StyledButton({
   borderRadius = 48,
   minHeight = null,
   maxHeight = null,
+  variant = "contained",
 }) {
   const classes = useStyles();
 
   return (
     <Button
-      variant="contained"
+      variant={variant}
       color={color}
       size={size}
       className={!noHover ? classes.defaultButton : classes.noHoverButton}
-      classes={{ startIcon: classes.startIcon }}
+      classes={{ startIcon: classes.startIcon, endIcon: classes.endIcon }}
       onClick={onClick}
       type={type}
       startIcon={startIcon}

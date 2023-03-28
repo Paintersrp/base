@@ -245,7 +245,9 @@ const PanelTable = ({
                     direction={orderBy === key ? order : "asc"}
                     onClick={() => handleSort(key)}
                   >
-                    {metadata[key].verbose_name}
+                    {metadata[key].verbose_name === "image"
+                      ? "Thumbnail"
+                      : metadata[key].verbose_name}
                   </TableSortLabel>
                 </TableCell>
                 {metadata[key].verbose_name === "Tag Name" && (
@@ -284,6 +286,10 @@ const PanelTable = ({
         <TableBody>
           {stableSort(filteredData, getComparator(order, orderBy))
             .filter((item) => {
+              console.log(item["image"]);
+              if (item === "author") {
+                console.log(item);
+              }
               const values = Object.values(item)
                 .filter((val) => val !== null)
                 .map((val) =>
@@ -316,7 +322,7 @@ const PanelTable = ({
                         <img
                           src={item[key]}
                           alt="Thumbnail"
-                          style={{ width: 150, height: 100 }}
+                          style={{ width: 100, height: 75 }}
                         />
                       </TableCell>
                     ) : (
@@ -341,6 +347,8 @@ const PanelTable = ({
                               border: "1px solid grey",
                             }}
                           />
+                        ) : key === "author" ? (
+                          item["author_details"].username
                         ) : (
                           item[key]
                         )}

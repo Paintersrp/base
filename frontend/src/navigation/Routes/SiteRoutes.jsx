@@ -37,6 +37,7 @@ import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
 import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDashboard";
 import WIPPage from "../../components/Elements/Layout/WIPPage";
 import CreateUpdateArticle from "../../components/Articles/Create/ArticleCreateUpdate";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 
 {
   /* 
@@ -62,7 +63,8 @@ export default function SiteRoutes({ handleUpdate }) {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const auth = useSelector((state) => state.auth);
-
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isAdminPath = location.pathname.startsWith("/admin");
   const { message, type, open } = useSelector((state) => state.snackbar);
   const [count, setCount] = useState(null);
@@ -98,6 +100,7 @@ export default function SiteRoutes({ handleUpdate }) {
         type={type}
         open={open}
         onClose={() => dispatch(closeSnackbar())}
+        position={isSmallScreen ? "top-center" : "top-right"}
       />
       <ScrollTopFab />
 
@@ -159,7 +162,10 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/articles/create"
             element={<CreateUpdateArticle handleUpdate={handleUpdate} />}
           />
-          <Route path="/articles/:id" element={<IndividualArticleView />} />
+          <Route
+            path="/articles/:id"
+            element={<IndividualArticleView handleUpdate={handleUpdate} />}
+          />
           <Route
             path="/articles/:id/update"
             element={

@@ -6,13 +6,24 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { CardMedia, InputAdornment, TextField } from "@material-ui/core";
+import {
+  CardMedia,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import QuillEditor from "../Create/TextEditor";
 import TagsInput from "../Create/TagsInput";
 import FormField from "../../Elements/Fields/FormField";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { baseClasses } from "../../../classes";
 import StyledButton from "../../Elements/Buttons/StyledButton";
+import PostSidebar from "../Display/List/PostSidebar";
+import ManyToManyField from "../../Elements/Fields/ManyToManyField";
+import ImageEdit from "../../Elements/Fields/ImageEdit";
+import ImageInput from "../../Elements/Fields/ImageInput";
+import { useDispatch } from "react-redux";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -27,14 +38,13 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: "77.5vh",
     justifyContent: "center",
-    padding: "20px 0 20px 0",
+    padding: "0px 0 80px 0",
     backgroundColor: theme.palette.background.light,
   },
   card: {
-    maxWidth: 1200,
+    maxWidth: 700,
     backgroundColor: theme.palette.background.light,
     color: theme.palette.text.dark,
-    width: "100%",
   },
   title: {
     padding: 20,
@@ -74,41 +84,59 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: "none",
   },
+  sidebarContainer: {
+    position: "sticky",
+    top: 0,
+  },
+  gridContainer: {
+    maxWidth: 920,
+    backgroundColor: theme.palette.background.light,
+    paddingTop: theme.spacing(0),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  helpText: {
+    margin: theme.spacing(1, 0, 0.5, 0),
+    padding: 0,
+    color: theme.palette.text.secondary,
+  },
 }));
 
-const UpdateArticleView = ({ manualId }) => {
+const UpdateArticleView = ({ article, updateArticle, handleCancel }) => {
   const { id } = useParams();
   const classes = useStyles();
   const { fadeIn } = baseClasses();
-  const [article, setArticle] = useState({});
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [tags, setTags] = useState([]);
-  const [image, setImage] = useState(null);
+  const dispatch = useDispatch();
+  const [content, setContent] = useState(article.content);
+  const [formData, setFormData] = useState(article);
+  const [newImage, setNewImage] = useState(null);
+  const [newImageName, setNewImageName] = useState(null);
+  const [newImageFile, setNewImageFile] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let res;
-      try {
-        if (manualId) {
-          res = await axios.get(
-            `http://localhost:8000/api/articles/${manualId}/`
-          );
-          console.log("test: ", res);
-        } else {
-          res = await axios.get(`http://localhost:8000/api/articles/${id}/`);
-        }
-        setArticle(res.data);
-        setContent(res.data.content);
-        setTitle(res.data.title);
-        setTags(res.data.tags.map((tag) => tag.name.trim()));
-        setImage(res.data.image);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const handleImageChange = (event) => {
+    setNewImage(URL.createObjectURL(event.target.files[0]));
+    setNewImageName(event.target.files[0].name);
+    setNewImageFile(event.target.files[0]);
+  };
+
+  const handleInputChange = (e) => {
+    console.log(e.target.name);
+    const { name, value, type, checked } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleManyToManyChange = (fieldName, fieldValue) => {
+    const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
+    newFeatures.push({ detail: fieldValue });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [fieldName]: newFeatures,
+    }));
+  };
 
   const handleContentChange = (value) => {
     setContent(value);
@@ -116,13 +144,11 @@ const UpdateArticleView = ({ manualId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("tags", tags.join(","));
-    if (image) {
-      formData.append("image", image);
-    }
+    console.log(formData);
+
+    formData.image = newImageFile;
+    formData.content = content;
+
     const config = {
       headers: {
         Authorization: `JWT ${getCookie("jwt")}`,
@@ -130,11 +156,14 @@ const UpdateArticleView = ({ manualId }) => {
       },
     };
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `http://localhost:8000/api/articles/${id}/`,
         formData,
         config
       );
+      setFormData(response.data);
+      updateArticle(response.data);
+      dispatch({ type: "ALERT_SUCCESS", message: "Data Updated" });
     } catch (error) {
       console.log(error);
     }
@@ -146,88 +175,123 @@ const UpdateArticleView = ({ manualId }) => {
 
   return (
     <div className={`${classes.root} ${fadeIn}`}>
-      <Paper className={classes.card} elevation={0}>
-        <form onSubmit={handleSubmit}>
-          <CardContent>
-            {article.image && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "50%",
-                  }}
-                >
-                  <CardMedia
-                    className={classes.image}
-                    image={`${article.image}`}
+      <Grid
+        container
+        spacing={0}
+        justifyContent="center"
+        className={classes.gridContainer}
+      >
+        <Paper className={classes.card} elevation={0}>
+          <form onSubmit={handleSubmit}>
+            <CardContent>
+              <div style={{ display: "flex", justifyContent: "center" }}></div>
+              {formData.image && (
+                <>
+                  <Grid
+                    container
+                    flex
+                    justifyContent="center"
+                    style={{ padding: 8, width: "100%" }}
+                  >
+                    {formData.image && (
+                      <ImageEdit
+                        header="Current Thumbnail"
+                        image={`${formData.image}`}
+                      />
+                    )}
+                    {newImage ? (
+                      <ImageEdit header="New Thumbnail" image={`${newImage}`} />
+                    ) : null}
+                  </Grid>
+                  <ImageInput
+                    handleChange={handleImageChange}
+                    handleClick={handleClick}
+                    newImage={newImage}
+                    newImageName={newImageName}
+                    width="50%"
                   />
-                </div>
-              </div>
-            )}
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ width: "50%", marginRight: 15, marginTop: 15 }}>
+                </>
+              )}
+              <div style={{ width: "100%", marginBottom: 15 }}>
+                <Typography className={classes.helpText}>
+                  Set Post Title
+                </Typography>
                 <FormField
+                  id="title"
                   key="title"
-                  label="Title"
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
+                  // label="Set Post Title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  variant="standard"
                 />
               </div>
-            </div>
-            <QuillEditor value={content} onChange={handleContentChange} />
-            <div>
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="file-input"
-                type="file"
-                onChange={(e) => setImage(e.target.files[0])}
+              <div>
+                <ManyToManyField
+                  data={formData.tags}
+                  handleManyToManyChange={handleManyToManyChange}
+                  fieldName="tags"
+                  verboseName="Category Tags"
+                  setFormData={setFormData}
+                  variant="standard"
+                  helpText
+                />
+              </div>
+
+              <QuillEditor value={content} onChange={handleContentChange} />
+
+              {/* <div>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="file-input"
+                  type="file"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+                <TextField
+                  id="file-textfield"
+                  label="Upload Article Thumbnail"
+                  variant="outlined"
+                  disabled
+                  value={image ? image.name : ""}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleClick}
+                          className={classes.button}
+                          startIcon={<CloudUploadIcon />}
+                        >
+                          Upload
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div> */}
+            </CardContent>
+
+            <CardActions
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <StyledButton
+                buttonText="Cancel"
+                onClick={handleCancel}
+                minWidth="0"
+                size="small"
               />
-              <TextField
-                id="file-textfield"
-                label="Upload Article Thumbnail"
-                variant="outlined"
-                disabled
-                value={image ? image.name : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClick}
-                        className={classes.button}
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload
-                      </Button>
-                    </InputAdornment>
-                  ),
-                }}
+
+              <StyledButton
+                type="submit"
+                buttonText="Update"
+                minWidth="0"
+                size="small"
               />
-            </div>
-          </CardContent>
-          <CardActions className={classes.chips}>
-            <TagsInput tags={tags} setTags={setTags} />
-          </CardActions>
-          <CardActions style={{ display: "flex", justifyContent: "flex-end" }}>
-            <StyledButton
-              type="submit"
-              buttonText="Update"
-              minWidth="0"
-              size="small"
-            />
-          </CardActions>
-        </form>
-      </Paper>
+            </CardActions>
+          </form>
+        </Paper>
+      </Grid>
     </div>
   );
 };

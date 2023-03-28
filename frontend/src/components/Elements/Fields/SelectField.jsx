@@ -22,8 +22,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-input": {
       color: theme.palette.text.dark,
     },
-    "& .MuiSelect-select": {},
-    "& .MuiSelect-select:focus": {},
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: "1px solid #222 !important",
+    },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "white !important",
@@ -50,9 +51,8 @@ const SelectField = ({
   verboseName,
   handleInputChange,
   choices,
+  variant = "outlined",
 }) => {
-  console.log(choices);
-  console.log("formData: ", formData);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -67,18 +67,19 @@ const SelectField = ({
   };
 
   return (
-    <FormControl style={{ width: "100%", marginTop: !manualEntry ? 8 : 0 }}>
+    <FormControl style={{ width: "100%", marginTop: !manualEntry ? 0 : 0 }}>
       <>
         {manualEntry ? (
           <FormField
             id={fieldName}
             onChange={handleInputChange}
             value={formData[fieldName]}
+            variant={variant}
           />
         ) : (
           <Select
             className={classes.select}
-            variant="outlined"
+            variant={variant}
             value={
               formData[fieldName]
               // ? formData[fieldName]
@@ -115,36 +116,42 @@ const SelectField = ({
               <em>Select {verboseName}</em>
             </MenuItem>
             {choices &&
-              Object.entries(choices).map(([key, value]) => (
-                <MenuItem
-                  key={key}
-                  value={
-                    fieldName === "servicetier" ||
-                    fieldName.includes("service_tier")
-                      ? value.service_title
-                      : fieldName === "job"
-                      ? value.position
-                      : fieldName === "user"
-                      ? value.username
-                      : fieldName === "question"
-                      ? value.id
-                      : value.id
-                  }
-                >
-                  <span style={{ color: "black" }}>
-                    {fieldName === "servicetier" ||
-                    fieldName.includes("service_tier")
-                      ? value.service_title
-                      : fieldName === "job"
-                      ? value.position
-                      : fieldName === "user"
-                      ? value.username
-                      : fieldName === "question"
-                      ? value.id
-                      : value.name}
-                  </span>
-                </MenuItem>
-              ))}
+              Object.entries(choices).map(([key, value]) => {
+                return (
+                  <MenuItem
+                    key={key}
+                    value={
+                      fieldName === "servicetier" ||
+                      fieldName.includes("service_tier")
+                        ? value.service_title
+                        : fieldName === "job"
+                        ? value.position
+                        : fieldName === "user"
+                        ? value.username
+                        : fieldName === "question"
+                        ? value.id
+                        : fieldName === "tags"
+                        ? value.detail
+                        : value.id
+                    }
+                  >
+                    <span style={{ color: "black" }}>
+                      {fieldName === "servicetier" ||
+                      fieldName.includes("service_tier")
+                        ? value.service_title
+                        : fieldName === "job"
+                        ? value.position
+                        : fieldName === "user"
+                        ? value.username
+                        : fieldName === "question"
+                        ? value.id
+                        : fieldName === "tags"
+                        ? value.detail
+                        : value.name}
+                    </span>
+                  </MenuItem>
+                );
+              })}
           </Select>
         )}
       </>
@@ -162,7 +169,7 @@ const SelectField = ({
           <StyledButton
             noHover
             borderRadius={40}
-            minWidth={140}
+            minWidth={0}
             buttonText={!manualEntry ? "Create" : "Select"}
             onClick={toggleManualEntry}
           />

@@ -2,6 +2,7 @@ from django.db import models
 from authorization.models import User
 from api.customs import *
 from auditlog.registry import auditlog
+from auditlog.models import AuditlogHistoryField
 
 
 @custom_metadata(
@@ -42,7 +43,7 @@ from auditlog.registry import auditlog
     },
 )
 class Tags(models.Model):
-    name = CustomCharField(
+    detail = CustomCharField(
         max_length=255,
         md_column_count=10,
         verbose_name="Tag Name",
@@ -50,7 +51,7 @@ class Tags(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.detail
 
     def article_count(self):
         return self.article_set.count()
@@ -105,7 +106,7 @@ class Articles(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tags, related_name="articles")
+    tags = models.ManyToManyField(Tags, related_name="articles", verbose_name="Tags")
     image = models.ImageField(blank=True, null=True, upload_to="article_images")
     is_highlighted = models.BooleanField(default=False)
 

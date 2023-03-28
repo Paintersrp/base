@@ -65,8 +65,8 @@ const ArticleHighlightActions = ({ article, subtitleVariant }) => {
       <div className={classes.chipContainer}>
         {article.tags.map((tag, index) => (
           <Chip
-            key={tag.name}
-            label={tag.name}
+            key={tag.id}
+            label={tag.detail}
             className={index % 2 === 0 ? classes.chip : classes.chip}
           />
         ))}

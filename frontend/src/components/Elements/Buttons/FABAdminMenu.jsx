@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import AddIcon from "@mui/icons-material/Add";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import EditOffSharpIcon from "@mui/icons-material/EditOffSharp";
 import ModeEditSharpIcon from "@mui/icons-material/ModeEditSharp";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeSettings from "../Forms/ThemeSettings/ThemeSettings";
 import SmartToySharpIcon from "@mui/icons-material/SmartToySharp";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
@@ -104,6 +105,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -123,6 +125,10 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
     }
   };
 
+  const handleCreate = () => {
+    navigate(`/articles/create`);
+  };
+
   return (
     <>
       {auth.is_authenticated && (
@@ -138,6 +144,23 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
             <div className={classes.menu}>
               {auth.is_superuser && (
                 <>
+                  <Tooltip
+                    title="Create News Post"
+                    placement="left"
+                    classes={{ tooltip: classes.tooltip }}
+                  >
+                    <IconButton
+                      className={classes.menuItem}
+                      color="primary"
+                      size="small"
+                      onClick={() => handleCreate()}
+                    >
+                      <AddIcon
+                        className={classes.iconSize}
+                        style={{ fontSize: "1.5rem" }}
+                      />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip
                     title={
                       editmode.editMode

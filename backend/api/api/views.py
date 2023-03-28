@@ -634,14 +634,14 @@ class SingleModelAPIView(APIView):
             all_tags = Tags.objects.all()
 
             for tag in all_tags:
-                tag_counts[tag.name] = 0
+                tag_counts[tag.detail] = 0
 
             for article in articles:
                 for tag in article.tags.all():
-                    if tag.name not in tag_counts:
-                        tag_counts[tag.name] = 1
+                    if tag.detail not in tag_counts:
+                        tag_counts[tag.detail] = 1
                     else:
-                        tag_counts[tag.name] += 1
+                        tag_counts[tag.detail] += 1
 
             endpoint["count"] = {
                 "type": "integer",

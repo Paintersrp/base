@@ -4,6 +4,7 @@ import { Chip, Grid, Typography } from "@material-ui/core";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import PostList from "./PostList";
 import PostSidebar from "./PostSidebar";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,45 +24,17 @@ const useStyles = makeStyles((theme) => ({
   sidebarContainer: {
     position: "sticky",
     top: 0,
+    [theme.breakpoints.down("md")]: {
+      position: "static",
+    },
   },
 }));
 
-const ArticlesList = () => {
+const ArticlesList = ({ articles, tags, handleCreate, auth }) => {
   const classes = useStyles();
-  const [articles, setArticles] = useState([]);
-  const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-
-  useEffect(() => {
-    axiosInstance
-      .get("/articles/")
-      .then((response) => {
-        setArticles([
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-          ...response.data,
-        ]);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-    axiosInstance
-      .get("/tags/")
-      .then((response) => {
-        setTags(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  }, []);
+  const [selectedDateFilter, setSelectedDateFilter] = useState(null);
+  const editmode = useSelector((state) => state.editmode);
 
   const handleTagClick = (tag) => {
     if (selectedTags.includes(tag)) {
@@ -69,6 +42,11 @@ const ArticlesList = () => {
     } else {
       setSelectedTags([...selectedTags, tag]);
     }
+    setTimeout(scrollToTop, 0);
+  };
+
+  const handleDateFilterClick = (filterOption) => {
+    setSelectedDateFilter(filterOption);
     setTimeout(scrollToTop, 0);
   };
 
@@ -80,11 +58,31 @@ const ArticlesList = () => {
   }
 
   const filteredArticles = articles.filter((article) => {
-    if (selectedTags.length) {
-      if (!article.tags.some((tag) => selectedTags.includes(tag.name))) {
-        return false;
-      }
+    if (
+      selectedTags.length &&
+      !article.tags.some((tag) => selectedTags.includes(tag.detail))
+    ) {
+      return false;
     }
+
+    if (selectedDateFilter === 7) {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      return new Date(article.created_at) > sevenDaysAgo;
+    }
+
+    if (selectedDateFilter === 30) {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      return new Date(article.created_at) > thirtyDaysAgo;
+    }
+
+    if (selectedDateFilter === 365) {
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      return new Date(article.created_at) > oneYearAgo;
+    }
+
     return true;
   });
 
@@ -103,6 +101,10 @@ const ArticlesList = () => {
               tags={tags}
               handleTagClick={handleTagClick}
               selectedTags={selectedTags}
+              handleCreate={handleCreate}
+              auth={auth}
+              handleDateFilterClick={handleDateFilterClick}
+              selectedDateFilter={selectedDateFilter}
             />
           </div>
         </Grid>

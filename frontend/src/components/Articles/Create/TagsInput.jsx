@@ -66,6 +66,12 @@ const TagsInput = ({ tags, setTags, label = "Add Tag" }) => {
       setTags([...tags, inputValue]);
       setInputValue("");
     }
+    const newFeatures = formData["tags"] ? [...formData["tags"]] : [];
+    newFeatures.push({ name: inputValue });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [tags]: newFeatures,
+    }));
   };
 
   const handleDeleteTag = (tagToDelete) => () => {
@@ -97,9 +103,9 @@ const TagsInput = ({ tags, setTags, label = "Add Tag" }) => {
         <div>
           {tags.map((tag) => (
             <Chip
-              key={tag}
-              label={tag}
-              onDelete={handleDeleteTag(tag)}
+              key={tag.id}
+              label={tag.name}
+              onDelete={handleDeleteTag(tag.name)}
               className={classes.chip}
             />
           ))}
