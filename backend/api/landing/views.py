@@ -376,3 +376,57 @@ class TestimonialBulkAPIView(BaseBulkView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
     model_class = Testimonial
+
+
+class HeroBulkAPIView(BaseBulkView):
+    queryset = Hero.objects.all()
+    serializer_class = HeroSerializer
+    model_class = Hero
+
+
+class HeroAPIView(BaseListView):
+    queryset = Hero.objects.all()
+    serializer_class = HeroSerializer
+    model_class = Hero
+
+
+class HeroDetailView(BaseDetailView):
+    queryset = Hero.objects.all()
+    serializer_class = HeroSerializer
+    model_class = Hero
+
+
+class ProcessesBulkAPIView(BaseBulkView):
+    queryset = Processes.objects.all()
+    serializer_class = ProcessesSerializer
+    model_class = Processes
+
+
+class ProcessesAPIView(BaseListView):
+    queryset = Processes.objects.all()
+    serializer_class = ProcessesSerializer
+    model_class = Processes
+
+
+class ProcessesDetailView(BaseDetailView):
+    queryset = Processes.objects.all()
+    serializer_class = ProcessesSerializer
+    model_class = Processes
+
+
+class LatestNewsBulkAPIView(BaseBulkView):
+    queryset = LatestNews.objects.all()
+    serializer_class = LatestNewsSerializer
+    model_class = LatestNews
+
+
+class LatestNewsAPIView(BaseListView):
+    queryset = LatestNews.objects.all()
+    serializer_class = LatestNewsSerializer
+    model_class = LatestNews
+
+
+class LatestNewsDetailView(BaseDetailView):
+    queryset = LatestNews.objects.all()
+    serializer_class = LatestNewsSerializer
+    model_class = LatestNews

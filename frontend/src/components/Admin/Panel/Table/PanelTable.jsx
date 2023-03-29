@@ -54,7 +54,7 @@ const PanelTable = ({
   handleView,
   type,
 }) => {
-  console.log(model);
+  console.log("model", model);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -286,9 +286,9 @@ const PanelTable = ({
         <TableBody>
           {stableSort(filteredData, getComparator(order, orderBy))
             .filter((item) => {
-              console.log(item["image"]);
-              if (item === "author") {
-                console.log(item);
+              console.log("item", item["components"]);
+              if (item === "components") {
+                console.log("item", item);
               }
               const values = Object.values(item)
                 .filter((val) => val !== null)
@@ -349,6 +349,10 @@ const PanelTable = ({
                           />
                         ) : key === "author" ? (
                           item["author_details"].username
+                        ) : key === "components" ? (
+                          item[key]
+                            .map((component) => component.component_name)
+                            .join(", ")
                         ) : (
                           item[key]
                         )}

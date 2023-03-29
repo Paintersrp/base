@@ -38,6 +38,7 @@ import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDash
 import WIPPage from "../../components/Elements/Layout/WIPPage";
 import CreateUpdateArticle from "../../components/Articles/Create/ArticleCreateUpdate";
 import { useMediaQuery, useTheme } from "@material-ui/core";
+import DynamicPage from "../../components/Dynamic/DynamicPage";
 
 {
   /* 
@@ -142,6 +143,10 @@ export default function SiteRoutes({ handleUpdate }) {
             element={<ContactPage handleUpdate={handleUpdate} />}
           />
           {/* Demo Routes */}
+          <Route
+            path="/dynamic"
+            element={<DynamicPage handleUpdate={handleUpdate} />}
+          />
           <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
           <Route path="/WIP2" element={<WIP2Demo />} />

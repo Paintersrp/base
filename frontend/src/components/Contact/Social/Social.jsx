@@ -119,10 +119,12 @@ export default function Social({
           )}
           <div>
             {socialPlatforms.map((platform) => {
-              if (contacts[platform.name]) {
+              if (contacts[platform.name] || contacts[0][platform.name]) {
                 return (
                   <Tooltip
-                    title={`@${contacts[platform.name]}`}
+                    title={`@${
+                      contacts[platform.name] || contacts[0][platform.name]
+                    }`}
                     placement="bottom"
                     classes={{ tooltip: classes.tooltip }}
                   >
@@ -132,7 +134,7 @@ export default function Social({
                       style={{ color: finalColor }}
                       aria-label={platform.name}
                       href={`https://www.${platform.name}.com/${
-                        contacts[platform.name]
+                        contacts[platform.name] || contacts[0][platform.name]
                       }`}
                     >
                       {platform.icon}
@@ -158,7 +160,7 @@ export default function Social({
         </div>
       ) : (
         <SocialEdit
-          initialData={contacts}
+          initialData={contacts || contacts[0]}
           onUpdate={updateSocialData}
           handleCancel={() => setEditing(!editing)}
         />

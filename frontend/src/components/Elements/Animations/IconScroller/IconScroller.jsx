@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: theme.palette.background.light,
       color: theme.palette.primary.main,
       paddingBottom: theme.spacing(8),
+      width: "100%",
     },
     container: {
       justifyContent: "center",

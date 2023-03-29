@@ -18,3 +18,4 @@ class ProcessImageItemAdmin(admin.ModelAdmin):
 admin.site.register(ProcessTextItem, ProcessTextItemAdmin)
 admin.site.register(ProcessImageItem, ProcessImageItemAdmin)
 admin.site.register(Benefits)
+admin.site.register(Quiz)

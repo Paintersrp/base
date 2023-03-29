@@ -23,6 +23,8 @@ const ForeignKeyType = ({
   const [data, setData] = useState();
   const classes = useStyles();
 
+  console.log(fieldName);
+
   useEffect(() => {
     if (fieldName.includes("service_tier")) {
       axiosInstance.get(`/servicetier/`).then((response) => {
@@ -41,6 +43,21 @@ const ForeignKeyType = ({
       });
     } else if (fieldName === "labels") {
       axiosInstance.get(`/servicetablelabels/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "social") {
+      axiosInstance.get(`/socials/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "contact") {
+      axiosInstance.get(`/contactinformation/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "hero_block") {
+      axiosInstance.get(`/heroblock/`).then((response) => {
         setData(response.data);
         console.log("YEAH:", response.data);
       });

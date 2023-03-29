@@ -16,13 +16,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ServicesPage({ handleUpdate }) {
   const classes = useStyles();
+  const [ready, setReady] = useState(false);
   const [error, setError] = useState();
   const [quizData, setQuizData] = useState([]);
   const [data, setData] = useState([]);
   const [servicesTable, setServicesTable] = useState([]);
   const [competitorsTable, setCompetitorsTable] = useState([]);
-  const [services, setServices] = useState(false);
-  const [benefitsBlock, setBenefitsBlock] = useState([]);
   const [editing, setEditing] = useState(false);
   const editmode = useSelector((state) => state.editmode);
   const dispatch = useDispatch();
@@ -40,12 +39,13 @@ function ServicesPage({ handleUpdate }) {
           setCompetitorsTable(
             response.data.ServiceTable.find((tb) => tb.name === "Competitors")
           );
-          setServices(response.data.ServiceTier);
-          setBenefitsBlock(response.data.Benefits);
-          console.log("benny", response.data.Benefits);
+          // setServices(response.data.ServiceTier);
+
+          console.log();
           setQuizData(
             response.data.Questionnaire.find((tb) => tb.slug === "service-quiz")
           );
+          setReady(true);
         })
         .then(dispatch({ type: "FETCH_DATA_SUCCESS" }))
         .catch((err) => {
@@ -67,6 +67,10 @@ function ServicesPage({ handleUpdate }) {
     );
   }
 
+  if (!ready) {
+    return null;
+  }
+
   return (
     <PageContainer
       editing={editing}
@@ -81,13 +85,11 @@ function ServicesPage({ handleUpdate }) {
       />
 
       <Quiz
-        services={services}
-        setServices={setServices}
+        serviceData={data.ServiceTier}
         servicesTableData={servicesTable}
         competitorsTableData={competitorsTable}
         benefitsData={data.Benefits}
-        benefitsBlock={benefitsBlock}
-        setBenefitsBlock={setBenefitsBlock}
+        blockData={data.TitleBlock[0]}
         quizData={quizData}
         editMode={editmode.editMode}
       />

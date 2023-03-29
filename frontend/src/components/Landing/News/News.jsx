@@ -51,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LatestNews({ articlesData, block, setBlock }) {
+export default function LatestNews({ articlesData, blockData }) {
   const [error, setError] = useState(null);
+  const [block, setBlock] = useState(blockData);
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -75,44 +76,46 @@ export default function LatestNews({ articlesData, block, setBlock }) {
 
   return (
     <Grid container spacing={0} className={classes.root}>
-      <Paper className={classes.paper} elevation={0}>
-        <Grid item xs={12}>
-          {!editing ? (
-            <TitleBlock
-              subtitle={block.subtitle}
-              title={block.title}
-              alignment={block.alignment}
-              showDivider={block.show_divider}
-              description={block.description}
-            />
-          ) : (
-            <TitleBlockEditor
-              titleBlock={block}
-              onUpdate={updateTitleBlock}
-              handleCancel={() => setEditing(!editing)}
-            />
-          )}
-          {!editing && editmode.editMode ? (
-            <>
-              <EditDeleteButtonMenu
-                editClick={() => setEditing(!editing)}
-                hideDelete
-                position="center"
-                adminLink="titleblock"
-                text="Title Block"
+      {block && (
+        <Paper className={classes.paper} elevation={0}>
+          <Grid item xs={12}>
+            {!editing ? (
+              <TitleBlock
+                subtitle={block.subtitle}
+                title={block.title}
+                alignment={block.alignment}
+                showDivider={block.show_divider}
+                description={block.description}
               />
-            </>
-          ) : null}
-        </Grid>
-        <Grid container spacing={0}>
-          <ArticlesDisplayBase
-            articles={articlesData}
-            classSet="cards"
-            carousel={isSmallScreen ? true : false}
-            editMode={editmode.editMode}
-          />
-        </Grid>
-      </Paper>
+            ) : (
+              <TitleBlockEditor
+                titleBlock={block}
+                onUpdate={updateTitleBlock}
+                handleCancel={() => setEditing(!editing)}
+              />
+            )}
+            {!editing && editmode.editMode ? (
+              <>
+                <EditDeleteButtonMenu
+                  editClick={() => setEditing(!editing)}
+                  hideDelete
+                  position="center"
+                  adminLink="titleblock"
+                  text="Title Block"
+                />
+              </>
+            ) : null}
+          </Grid>
+          <Grid container spacing={0}>
+            <ArticlesDisplayBase
+              articles={articlesData}
+              classSet="cards"
+              carousel={isSmallScreen ? true : false}
+              editMode={editmode.editMode}
+            />
+          </Grid>
+        </Paper>
+      )}
     </Grid>
   );
 }

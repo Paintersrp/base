@@ -23,12 +23,15 @@ from support.models import Subscribers
 from articles.models import Articles, Tags
 from django.db.models import Max
 from .utils import analyze_django_app
+from django.db import models
 
 
 def get_model_metadata(model_name):
-    models = apps.get_models(include_auto_created=True)
+    all_models = apps.get_models(include_auto_created=True)
 
-    model = next((m for m in models if m.__name__.lower() == model_name.lower()), None)
+    model = next(
+        (m for m in all_models if m.__name__.lower() == model_name.lower()), None
+    )
 
     if model is None:
         return {}
@@ -84,14 +87,22 @@ def get_model_metadata(model_name):
         else None,
     }
 
+    print(fields)
+
     for field_name, field in fields.items():
-        print(field_name)
-        field_type = field.__class__.__name__
+        if field_name == "data_source":
+            continue
+
+        if isinstance(field, models.ForeignKey):
+            field_type = "ForeignKey"
+        else:
+            field_type = field.__class__.__name__
+
         if field_type == "CharField" and "base_template" in field.style:
             field_type = "TextField"
 
         choices = getattr(field, "choices", None)
-        print(choices)
+
         if choices:
             choices_dict = dict(choices)
             field_choices = [
@@ -412,7 +423,11 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "quizes"
                 or app_label == "contact"
                 or app_label == "content"
+                or app_label == "pages"
             ):
+                if app_label == "pages":
+                    print(app_config)
+
                 endpoints["configs"][app_label] = {
                     "icon": app_config.icon if hasattr(app_config, "icon") else None,
                     "links": app_config.links if hasattr(app_config, "links") else None,
@@ -663,22 +678,27 @@ class SingleAppEndpointAPIView(APIView):
         }
 
         if (
-            app_name == "authorization"
-            or app_name == "articles"
-            or app_name == "landing"
-            or app_name == "about"
-            or app_name == "services"
-            or app_name == "support"
-            or app_name == "jobs"
-            or app_name == "general"
-            or app_name == "tables"
-            or app_name == "quizes"
-            or app_name == "contact"
-            or app_name == "content"
+            hasattr(app_config, "visibility")
+            # app_name == "authorization"
+            # or app_name == "articles"
+            # or app_name == "landing"
+            # or app_name == "about"
+            # or app_name == "services"
+            # or app_name == "support"
+            # or app_name == "jobs"
+            # or app_name == "general"
+            # or app_name == "tables"
+            # or app_name == "quizes"
+            # or app_name == "contact"
+            # or app_name == "content"
+            # or app_name == "pages"
         ):
             endpoints["config"] = {
                 "icon": app_config.icon if hasattr(app_config, "icon") else None,
                 "links": app_config.links if hasattr(app_config, "links") else None,
+                "visibility": app_config.visibility
+                if hasattr(app_config, "visibility")
+                else None,
                 "app_info": analyze_django_app(app_config.get_models()),
             }
 

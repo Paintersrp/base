@@ -13,26 +13,22 @@ class BaseListView(generics.ListCreateAPIView):
     foreign_key_fields = []
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         data = request.data.copy()
 
         if request.data.get("content_type"):
-            print("yes")
             content_type = request.data.get("content_type")
             object_id = request.data.get("object_id")
             content_object = ContentType.objects.get_for_id(
                 content_type
             ).get_object_for_this_type(id=object_id)
             request.data["content_object"] = content_object
-            print(content_object)
 
         for field in self.foreign_key_fields:
-            print(field)
+
             if field in data:
                 related_class = self.serializer_class.Meta.model._meta.get_field(
                     field
                 ).remote_field.model
-                print(data[field])
 
                 try:
                     related_obj = related_class.objects.get(id=data[field])
@@ -43,7 +39,6 @@ class BaseListView(generics.ListCreateAPIView):
                     )
 
                 data[f"{field}"] = related_obj.id
-                print(data)
 
         serializer = self.get_serializer(data=data)
 

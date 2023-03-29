@@ -1,8 +1,11 @@
 from django.db import models
 from authorization.models import User
 from api.customs import *
-from auditlog.registry import auditlog
-from auditlog.models import AuditlogHistoryField
+
+
+class HighlightedArticlesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_highlighted=True)
 
 
 @custom_metadata(
@@ -109,6 +112,9 @@ class Articles(models.Model):
     tags = models.ManyToManyField(Tags, related_name="articles", verbose_name="Tags")
     image = models.ImageField(blank=True, null=True, upload_to="article_images")
     is_highlighted = models.BooleanField(default=False)
+    
+    highlighted_objects = HighlightedArticlesManager()
+    objects = models.Manager()
 
     class Meta:
         verbose_name = "Articles"

@@ -48,14 +48,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Processes({
-  block,
-  setBlock,
+  blockData,
   processData,
-  setProcessData,
   showTitleBlock = true,
 }) {
-  console.log("processData: ", processData);
+  console.log(processData);
   const classes = useStyles();
+  const [block, setBlock] = useState(blockData);
   const [editTitle, setEditTitle] = useState(false);
   const auth = useSelector((state) => state.auth);
   const editmode = useSelector((state) => state.editmode);

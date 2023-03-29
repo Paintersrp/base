@@ -154,3 +154,21 @@ class ProcessImageItemBulkAPIView(BaseBulkView):
     queryset = ProcessImageItem.objects.all()
     serializer_class = ProcessImageItemSerializer
     model_class = ProcessImageItem
+
+
+class QuizAPIView(BaseListView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    model_class = Quiz
+
+
+class QuizDetailAPIView(BaseDetailView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    model_class = Quiz
+
+
+class QuizBulkAPIView(BaseBulkView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    model_class = Quiz

@@ -53,6 +53,7 @@ const SelectField = ({
   choices,
   variant = "outlined",
 }) => {
+  console.log(fieldName);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -73,7 +74,15 @@ const SelectField = ({
           <FormField
             id={fieldName}
             onChange={handleInputChange}
-            value={formData[fieldName]}
+            value={
+              fieldName === "social"
+                ? formData[fieldName].id
+                : fieldName === "contact"
+                ? formData[fieldName].id
+                : fieldName === "hero_block"
+                ? formData[fieldName].id
+                : formData[fieldName]
+            }
             variant={variant}
           />
         ) : (
@@ -81,11 +90,13 @@ const SelectField = ({
             className={classes.select}
             variant={variant}
             value={
-              formData[fieldName]
-              // ? formData[fieldName]
-              //     .replace(/_/g, " ")
-              //     .replace(/\b\w/g, (l) => l.toUpperCase())
-              // : ""
+              fieldName === "social"
+                ? formData[fieldName].id
+                : fieldName === "contact"
+                ? formData[fieldName].id
+                : fieldName === "hero_block"
+                ? formData[fieldName].id
+                : formData[fieldName]
             }
             onChange={handleChange}
             displayEmpty
@@ -117,6 +128,9 @@ const SelectField = ({
             </MenuItem>
             {choices &&
               Object.entries(choices).map(([key, value]) => {
+                if (fieldName === "hero_block") {
+                  console.log("kv", key, value);
+                }
                 return (
                   <MenuItem
                     key={key}
@@ -132,6 +146,8 @@ const SelectField = ({
                         ? value.id
                         : fieldName === "tags"
                         ? value.detail
+                        : fieldName === "social"
+                        ? value.id
                         : value.id
                     }
                   >
@@ -147,6 +163,12 @@ const SelectField = ({
                         ? value.id
                         : fieldName === "tags"
                         ? value.detail
+                        : fieldName === "social"
+                        ? value.id
+                        : fieldName === "contact"
+                        ? value.id
+                        : fieldName === "hero_block"
+                        ? value.id
                         : value.name}
                     </span>
                   </MenuItem>

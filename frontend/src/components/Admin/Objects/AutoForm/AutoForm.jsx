@@ -145,6 +145,13 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
         ...prevFormData,
         [fieldName]: newFeatures,
       }));
+    } else if (fieldName === "components") {
+      const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
+      newFeatures.push({ component_name: fieldValue });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [fieldName]: newFeatures,
+      }));
     } else if (fieldName === "items") {
       setFormData((prevFormData) => ({
         ...prevFormData,

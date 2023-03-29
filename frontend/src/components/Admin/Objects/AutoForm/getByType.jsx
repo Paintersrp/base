@@ -31,7 +31,6 @@ const getByType = (
   min_rows,
   help_text
 ) => {
-  console.log(min_rows, "min_rows");
   switch (fieldType) {
     case "BooleanField":
       return (
@@ -166,6 +165,20 @@ const getByType = (
         />
       );
     default:
+      if (fieldType.includes("Serializer")) {
+        console.log("yeeters");
+        return (
+          <ForeignKeyType
+            formData={formData}
+            fieldName={fieldName}
+            verboseName={verboseName}
+            handleInputChange={handleInputChange}
+            xsColumnCount={xs_column_count}
+            mdColumnCount={md_column_count}
+            helpText={help_text}
+          />
+        );
+      }
       return null;
   }
 };

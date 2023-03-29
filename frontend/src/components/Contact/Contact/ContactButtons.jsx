@@ -37,7 +37,7 @@ function ContactButtons({ contactData }) {
         size="small"
         color="primary"
         startIcon={<FaPhone />}
-        href={`tel:${contactData.phone}`}
+        href={`tel:${contactData.phone || contactData[0].phone}`}
         className={classes.button}
       >
         Call Us
@@ -46,7 +46,7 @@ function ContactButtons({ contactData }) {
         variant="contained"
         color="primary"
         startIcon={<FaVoicemail />}
-        href={`mailto:${contactData.email}`}
+        href={`mailto:${contactData.email || contactData[0].email}`}
         className={classes.button}
         size="small"
       >

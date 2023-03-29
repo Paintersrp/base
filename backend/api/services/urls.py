@@ -40,5 +40,12 @@ urlpatterns = [
         ProcessImageItemBulkAPIView.as_view(),
         name="processimageitem-bulk-detail",
     ),
+    path("quiz/", QuizAPIView.as_view(), name="quiz-list"),
+    path("quiz/<int:pk>/", QuizDetailAPIView.as_view(), name="quiz-detail"),
+    path(
+        "quiz/bulk/",
+        QuizBulkAPIView.as_view(),
+        name="quiz-bulk-detail",
+    ),
     path("services/", ServiceFullTestView.as_view(), name="service-full"),
 ]

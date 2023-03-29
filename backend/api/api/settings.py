@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "quizes",
     "contact",
     "content",
+    "pages",
 ]
 
 MIDDLEWARE = [

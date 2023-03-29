@@ -95,4 +95,49 @@ urlpatterns = [
         ServiceTierBulkAPIView.as_view(),
         name="servicetier-bulk-detail",
     ),
+    path(
+        "hero/",
+        HeroAPIView.as_view(),
+        name="hero-list",
+    ),
+    path(
+        "hero/<int:pk>/",
+        HeroDetailView.as_view(),
+        name="hero-detail",
+    ),
+    path(
+        "hero/bulk/",
+        HeroBulkAPIView.as_view(),
+        name="hero-bulk-detail",
+    ),
+    path(
+        "processes/",
+        ProcessesAPIView.as_view(),
+        name="processes-list",
+    ),
+    path(
+        "processes/<int:pk>/",
+        ProcessesDetailView.as_view(),
+        name="processes-detail",
+    ),
+    path(
+        "processes/bulk/",
+        ProcessesBulkAPIView.as_view(),
+        name="processes-bulk-detail",
+    ),
+    path(
+        "latestnews/",
+        LatestNewsAPIView.as_view(),
+        name="latestnews-list",
+    ),
+    path(
+        "latestnews/<int:pk>/",
+        LatestNewsDetailView.as_view(),
+        name="latestnews-detail",
+    ),
+    path(
+        "latestnews/bulk/",
+        LatestNewsBulkAPIView.as_view(),
+        name="latestnews-bulk-detail",
+    ),
 ]

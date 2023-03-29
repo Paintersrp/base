@@ -2,6 +2,9 @@ from django.db import models
 from landing.models import ServiceTier
 from api.customs import *
 from .models import *
+from landing.models import TitleBlock
+from tables.models import ServiceTable
+from quizes.models import Questionnaire
 
 
 @custom_metadata(
@@ -174,3 +177,35 @@ class ProcessTextItem(models.Model):
     class Meta:
         verbose_name = "Process Text Item"
         verbose_name_plural = "Process Text Items"
+
+
+class Quiz(models.Model):
+    name = CustomCharField(
+        max_length=20,
+        md_column_count=12,
+        verbose_name="Hero Name",
+        help_text="Hero Name",
+        default="Placeholder",
+    )
+    service_tiers = models.ManyToManyField(ServiceTier)
+    benefits = models.ManyToManyField(Benefits)
+    title_block = models.ForeignKey(
+        TitleBlock, on_delete=models.CASCADE, limit_choices_to={"name": "benefits"}
+    )
+    tiers_table = models.ForeignKey(
+        ServiceTable,
+        on_delete=models.CASCADE,
+        limit_choices_to={"name": "Tiers"},
+        related_name="tiers",
+    )
+    competitors_table = models.ForeignKey(
+        ServiceTable,
+        on_delete=models.CASCADE,
+        limit_choices_to={"name": "Competitors"},
+        related_name="competitors",
+    )
+    questionnaire = models.ForeignKey(
+        Questionnaire,
+        on_delete=models.CASCADE,
+        limit_choices_to={"slug": "service-quiz"},
+    )

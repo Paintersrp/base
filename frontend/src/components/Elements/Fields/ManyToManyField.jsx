@@ -73,33 +73,57 @@ const ManyToManyField = ({
   variant = "outlined",
   helpText = false,
 }) => {
+  console.log(fieldName);
   const classes = useStyles();
   const [items, setItems] = useState(data);
   const [newFeature, setNewFeature] = useState("");
   const theme = useTheme();
 
   const handleDeleteManyToMany = (fieldName, feature) => () => {
-    setFormData((prevFormData) => {
-      const newFeatures = prevFormData[fieldName].filter(
-        (prevFeature) => prevFeature.detail !== feature.detail
-      );
-      setItems(newFeatures);
-      return {
-        ...prevFormData,
-        [fieldName]: newFeatures,
-      };
-    });
+    if (fieldName === "components") {
+      setFormData((prevFormData) => {
+        const newFeatures = prevFormData[fieldName].filter(
+          (prevFeature) => prevFeature.component_name !== feature.component_name
+        );
+        setItems(newFeatures);
+        return {
+          ...prevFormData,
+          [fieldName]: newFeatures,
+        };
+      });
+    } else {
+      setFormData((prevFormData) => {
+        const newFeatures = prevFormData[fieldName].filter(
+          (prevFeature) => prevFeature.detail !== feature.detail
+        );
+        setItems(newFeatures);
+        return {
+          ...prevFormData,
+          [fieldName]: newFeatures,
+        };
+      });
+    }
   };
 
   const handleAddFeature = () => {
     if (newFeature) {
-      setItems((prevFeatures) => {
-        if (Array.isArray(prevFeatures)) {
-          return [...prevFeatures, { detail: newFeature }];
-        } else {
-          return [{ detail: newFeature }];
-        }
-      });
+      if (fieldName === "components") {
+        setItems((prevFeatures) => {
+          if (Array.isArray(prevFeatures)) {
+            return [...prevFeatures, { component_name: newFeature }];
+          } else {
+            return [{ component_name: newFeature }];
+          }
+        });
+      } else {
+        setItems((prevFeatures) => {
+          if (Array.isArray(prevFeatures)) {
+            return [...prevFeatures, { detail: newFeature }];
+          } else {
+            return [{ detail: newFeature }];
+          }
+        });
+      }
       handleManyToManyChange(fieldName, newFeature);
       setNewFeature("");
     }
@@ -112,7 +136,6 @@ const ManyToManyField = ({
   return (
     <div style={{ width: "100%" }}>
       <div>
-        <Typography className={classes.helpText}>Set Category Tags</Typography>
         <TextField
           style={{ marginTop: helpText ? 0 : 8 }}
           className={classes.field}
@@ -142,7 +165,11 @@ const ManyToManyField = ({
           items.map((feature, index) => (
             <Chip
               key={index}
-              label={feature.detail}
+              label={
+                fieldName === "components"
+                  ? feature.component_name
+                  : feature.detail
+              }
               onDelete={handleDeleteManyToMany(fieldName, feature)}
               className={classes.chip}
               style={{

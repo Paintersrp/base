@@ -1,16 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    HeroBlock,
-    Feature,
-    ServiceTier,
-    SupportedSites,
-    Item,
-    TitleBlock,
-    Testimonial,
-    Process,
-)
+from .models import *
 from django.contrib.admin import AdminSite
 
 admin_site = AdminSite(name="admin")
@@ -79,6 +70,9 @@ class CustomTitleBlockAdmin(admin.ModelAdmin):
     search_fields = ("name", "title", "subtitle")
 
 
+admin.site.register(Hero)
+admin.site.register(LatestNews)
+admin.site.register(Processes)
 admin.site.register(Feature)
 admin.site.register(Testimonial, CustomTestimonialAdmin)
 admin.site.register(TitleBlock, CustomTitleBlockAdmin)

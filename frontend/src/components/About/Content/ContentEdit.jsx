@@ -54,12 +54,17 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
   const classes = useStyles();
   const [contentType, setContentType] = useState([]);
   const [data, setData] = useState(content);
-  const [title, setTitle] = useState(data.title);
-  const [body, setBody] = useState(data.body);
+  const [title, setTitle] = useState(content.title);
+  const [body, setBody] = useState(content.body);
 
   useEffect(() => {
     setContentType(type);
   }, []);
+
+  const handleBody = (value) => {
+    console.log(value);
+    setBody(value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,10 +95,6 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
     }
   };
 
-  const handleBody = (value) => {
-    setBody(value);
-  };
-
   return (
     <div className={`${classes.root} ${classes.fadeIn}`}>
       <Card className={classes.card}>
@@ -105,7 +106,7 @@ const ContentEdit = ({ content, onUpdate, type, handleCancel }) => {
               onChange={(event) => setTitle(event.target.value)}
             />
             <div className={classes.quillMargins}>
-              <QuillField value={body} onChange={handleBody} size="large" />
+              <QuillField value={body} onChange={handleBody} />
             </div>
           </CardContent>
           <UpdateCancelButtonMenu

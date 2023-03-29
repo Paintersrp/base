@@ -90,7 +90,7 @@ const QuillField = ({
     setContent(value);
   });
 
-  const handleChange = (e) => {
+  const handleChange = (value) => {
     setContent(value);
     onChange(value);
   };

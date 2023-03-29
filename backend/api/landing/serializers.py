@@ -1,15 +1,6 @@
 from rest_framework import serializers
 import re
-from .models import (
-    HeroBlock,
-    Feature,
-    ServiceTier,
-    SupportedSites,
-    Item,
-    TitleBlock,
-    Testimonial,
-    Process,
-)
+from .models import *
 from contact.serializers import ContactInformationSerializer, SocialsSerializer
 from articles.serializers import ArticleSerializer
 from api.views import get_model_metadata
@@ -104,6 +95,40 @@ class TestimonialSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class HeroSerializer(serializers.ModelSerializer):
+    contact = ContactInformationSerializer()
+    social = SocialsSerializer()
+    hero_block = HeroBlockSerializer()
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = Hero
+        fields = ["id", "name", "contact", "social", "hero_block"]
+
+
+class ProcessesSerializer(serializers.ModelSerializer):
+    processes = ProcessSerializer(many=True)
+    title_block = TitleBlockSerializer()
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = Processes
+        fields = ["name", "processes", "title_block"]
+
+
+class LatestNewsSerializer(serializers.ModelSerializer):
+    latest_articles = ArticleSerializer(many=True)
+    title_block = TitleBlockSerializer()
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = LatestNews
+        fields = ["name", "latest_articles", "title_block"]
+
+
+LatestNews.serializer_class = LatestNewsSerializer
+Processes.serializer_class = ProcessesSerializer
+Hero.serializer_class = HeroSerializer
 HeroBlock.serializer_class = HeroBlockSerializer
 TitleBlock.serializer_class = TitleBlockSerializer
 Item.serializer_class = ItemSerializer

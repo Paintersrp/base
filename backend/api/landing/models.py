@@ -3,6 +3,8 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from api.customs import *
 from auditlog.registry import auditlog
+from contact.models import ContactInformation, Socials
+from articles.models import Articles
 
 
 @custom_metadata(
@@ -469,6 +471,152 @@ class Process(models.Model):
     class Meta:
         verbose_name = "Processes"
         verbose_name_plural = "Processes"
+
+
+@custom_metadata(
+    autoform_label="Process Step",
+    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
+    short_description="Model for company process steps",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+    icon="AccountTreeIcon",
+    icon_class=None,
+    slug="header",
+    tags=["Landing" "Process", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "fields": {
+            "Header": "The title of the process step",
+            "Description": "A brief description of the process step",
+            "Icon": "The icon that represents the process step",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Process model reference": "/docs/model/process/",
+            "Landing app documentation": "/docs/app/landing/",
+        },
+    },
+)
+class Hero(models.Model):
+    name = CustomCharField(
+        max_length=20,
+        md_column_count=12,
+        verbose_name="Hero Name",
+        help_text="Hero Name",
+        default="Placeholder",
+    )
+    contact = models.ForeignKey(
+        ContactInformation,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    social = models.ForeignKey(
+        Socials,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    hero_block = models.ForeignKey(
+        HeroBlock,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+
+
+@custom_metadata(
+    autoform_label="Process Step",
+    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
+    short_description="Model for company process steps",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+    icon="AccountTreeIcon",
+    icon_class=None,
+    slug="header",
+    tags=["Landing" "Process", "Company"],
+    related_components=["Header"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "fields": {
+            "Header": "The title of the process step",
+            "Description": "A brief description of the process step",
+            "Icon": "The icon that represents the process step",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Process model reference": "/docs/model/process/",
+            "Landing app documentation": "/docs/app/landing/",
+        },
+    },
+)
+class Processes(models.Model):
+    name = CustomCharField(
+        max_length=20,
+        md_column_count=12,
+        verbose_name="Hero Name",
+        help_text="Hero Name",
+        default="Placeholder",
+    )
+    processes = models.ManyToManyField(Process)
+    title_block = models.ForeignKey(
+        TitleBlock, on_delete=models.CASCADE, limit_choices_to={"name": "process"}
+    )
+
+
+# Control Added Later?
+@custom_metadata(
+    autoform_label="Process Step",
+    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
+    short_description="Model for company process steps",
+    pages_associated={
+        "Landing": "/",
+        "Services": "/services",
+    },
+    include_preview=True,
+    icon="AccountTreeIcon",
+    icon_class=None,
+    slug="header",
+    tags=["Landing" "Process", "Company"],
+    related_components=["Header"],
+    visibility=False,
+    access_level="All",
+    info_dump={
+        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "fields": {
+            "Header": "The title of the process step",
+            "Description": "A brief description of the process step",
+            "Icon": "The icon that represents the process step",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "Process model reference": "/docs/model/process/",
+            "Landing app documentation": "/docs/app/landing/",
+        },
+    },
+)
+class LatestNews(models.Model):
+    name = CustomCharField(
+        max_length=20,
+        md_column_count=12,
+        verbose_name="Hero Name",
+        help_text="Hero Name",
+        default="Placeholder",
+    )
+    latest_articles = models.ManyToManyField(
+        Articles, related_name="latest_articles_highlighted"
+    )
+    title_block = models.ForeignKey(
+        TitleBlock, on_delete=models.CASCADE, limit_choices_to={"name": "news"}
+    )
 
 
 @receiver(pre_save, sender=TitleBlock)

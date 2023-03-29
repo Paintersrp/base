@@ -6,18 +6,19 @@ import ResultsDisplay from "../ResultsDisplay/ResultsDisplay";
 import ComparisonTable from "../TablesDisplay/ComparisonTable";
 
 const Quiz = ({
-  services,
-  setServices,
+  serviceData,
   servicesTableData,
   competitorsTableData,
   benefitsData,
-  benefitsBlock,
-  setBenefitsBlock,
+  blockData,
   quizData,
   editMode,
 }) => {
   console.log(servicesTableData, competitorsTableData, "tabledata");
+  console.log("serviceData", serviceData);
   const classes = quizStyles();
+  const [services, setServices] = useState(serviceData);
+  const [benefitsBlock, setBenefitsBlock] = useState(blockData);
   const [recommendedServices, setRecommendedServices] = useState(null);
   const [unrecommendedServices, setUnrecommendedServices] = useState([]);
 

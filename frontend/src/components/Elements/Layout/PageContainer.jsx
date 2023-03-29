@@ -17,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
     minHeight: "80vh",
-    color: "white",
+    color: "#222",
   },
   header: {
-    color: "white",
+    color: "#222",
     marginTop: theme.spacing(4),
     textAlign: "center",
   },

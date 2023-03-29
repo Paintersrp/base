@@ -88,25 +88,18 @@ function LandingPage({ handleUpdate }) {
       {Object.keys(data).length > 0 && (
         <>
           <Hero
-            heroData={heroData}
-            setHeroData={setHeroData}
-            contactData={contactData}
-            socialData={socialsData}
+            data={data.HeroBlock}
+            contactData={data.ContactInformation}
+            socialData={data.Socials}
             editMode={editmode.editMode}
             form={true}
           />
           <Pricing serviceData={serviceData} />
           <Processes
             processData={processData}
-            setProcessData={setProcessData}
-            block={processBlock}
-            setBlock={setProcessBlock}
+            blockData={data.TitleBlock.find((tb) => tb.name === "process")}
           />
-          <LatestNews
-            articlesData={newsData}
-            block={newsBlock}
-            setBlock={setNewsBlock}
-          />
+          <LatestNews articlesData={newsData} blockData={newsBlock} />
           <NewsletterForm editMode={editmode.editMode} />
           <IconScroller />
         </>
