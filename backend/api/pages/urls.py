@@ -4,27 +4,31 @@ from .views import *
 
 urlpatterns = [
     path(
-        "reactcomponent/",
-        ReactComponentAPIView.as_view(),
-        name="reactcomponent-list",
+        "component/",
+        ComponentAPIView.as_view(),
+        name="component-list",
     ),
     path(
-        "reactcomponent/<int:pk>/",
-        ReactComponentDetailAPIView.as_view(),
-        name="reactcomponent-detail",
+        "component/<int:pk>/",
+        ComponentDetailAPIView.as_view(),
+        name="component-detail",
     ),
     path(
-        "reactcomponent/bulk/",
-        ReactComponentBulkAPIView.as_view(),
-        name="reactcomponent-bulk-detail",
+        "component/bulk/",
+        ComponentBulkAPIView.as_view(),
+        name="component-bulk-detail",
     ),
-    path("reactpage/", ReactPageAPIView.as_view(), name="reactpage-list"),
+    path("get-pages/", PageNameAPIView.as_view(), name="page-names"),
+    path("page/", PageAPIView.as_view(), name="page-list"),
+    path("page/<int:pk>/", PageDetailAPIView.as_view(), name="page-detail"),
     path(
-        "reactpage/<int:pk>/", ReactPageDetailAPIView.as_view(), name="reactpage-detail"
+        "page/bulk/",
+        PageBulkAPIView.as_view(),
+        name="page-bulk-detail",
     ),
     path(
-        "reactpage/bulk/",
-        ReactPageBulkAPIView.as_view(),
-        name="reactpage-bulk-detail",
+        "get-page/<str:page_name>/",
+        PageLookupAPIView.as_view(),
+        name="page-lookup",
     ),
 ]

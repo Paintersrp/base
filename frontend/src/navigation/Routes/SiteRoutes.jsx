@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import AboutPage from "../../components/About/_Page/AboutPage";
 import DashboardPage from "../../components/Admin/Dashboard/DashboardPage";
@@ -60,6 +61,7 @@ import DynamicPage from "../../components/Dynamic/DynamicPage";
 export default function SiteRoutes({ handleUpdate }) {
   const [jobPostings, setJobPostings] = useState();
   const [socialData, setSocialData] = useState();
+  const [pages, setPages] = useState();
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
@@ -75,6 +77,7 @@ export default function SiteRoutes({ handleUpdate }) {
       axiosInstance
         .get("/appinfo/")
         .then((response) => {
+          setPages(response.data.Page);
           setJobPostings(response.data.JobPosting);
           setSocialData(response.data.Socials);
         })
@@ -85,12 +88,20 @@ export default function SiteRoutes({ handleUpdate }) {
     fetchData();
   }, []);
 
+  if (!pages) {
+    return null;
+  }
+
   return (
     <>
-      {jobPostings && (
+      {jobPostings && pages && (
         <>
           {!isAdminPath ? (
-            <Navigation links={linkData(jobPostings)} appName={"EDGELORDS"} />
+            <Navigation
+              links={linkData(jobPostings)}
+              appName={"EDGELORDS"}
+              pages={pages}
+            />
           ) : (
             <AdminNavigation setCount={setCount} count={count} />
           )}
@@ -143,10 +154,46 @@ export default function SiteRoutes({ handleUpdate }) {
             element={<ContactPage handleUpdate={handleUpdate} />}
           />
           {/* Demo Routes */}
-          <Route
-            path="/dynamic"
-            element={<DynamicPage handleUpdate={handleUpdate} />}
-          />
+          {Object.entries(pages).map(([id, page], index) => {
+            return (
+              <React.Fragment>
+                <Route
+                  key={index}
+                  path={`/${page.page_name}`}
+                  element={
+                    <DynamicPage
+                      handleUpdate={handleUpdate}
+                      page={page.page_name}
+                    />
+                  }
+                />
+                {/* {page.page_name === "news-dynamic" && (
+                  <React.Fragment>
+                    <Route
+                      path="/articles/create"
+                      element={
+                        <CreateUpdateArticle handleUpdate={handleUpdate} />
+                      }
+                    />
+                    <Route
+                      path="/articles/:id"
+                      element={
+                        <IndividualArticleView handleUpdate={handleUpdate} />
+                      }
+                    />
+                    <Route
+                      path="/articles/:id/update"
+                      element={
+                        <div style={{ width: "100vw" }}>
+                          <UpdateArticleView />
+                        </div>
+                      }
+                    />
+                  </React.Fragment>
+                )} */}
+              </React.Fragment>
+            );
+          })}
           <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
           <Route path="/WIP2" element={<WIP2Demo />} />

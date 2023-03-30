@@ -18,6 +18,21 @@ urlpatterns = [
         name="contactinformation-bulk-detail",
     ),
     path(
+        "contact/",
+        ContactAPIView.as_view(),
+        name="contact-list",
+    ),
+    path(
+        "contact/<int:pk>/",
+        ContactDetailView.as_view(),
+        name="contact-update",
+    ),
+    path(
+        "contact/bulk/",
+        ContactBulkAPIView.as_view(),
+        name="contact-bulk-detail",
+    ),
+    path(
         "hours/",
         HoursAPIView.as_view(),
         name="hours-list",

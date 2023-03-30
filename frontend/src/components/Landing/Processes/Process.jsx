@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Process({ step, noEdit = false, noFade = false }) {
-  console.log("step", step);
   const classes = useStyles();
   const [featureData, setFeatureData] = useState(step);
   const [editing, setEditing] = useState(false);

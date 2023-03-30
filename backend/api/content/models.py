@@ -81,25 +81,4 @@ class Section(models.Model):
         verbose_name_plural = "Sections"
 
 
-class Page(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
-    sections = GenericRelation(Section)
 
-    class Meta:
-        verbose_name = "Page"
-        verbose_name_plural = "Pages"
-
-
-class HomePage(Page):
-    subtitle = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
-class AboutPage(Page):
-    content = models.TextField()
-
-    def __str__(self):
-        return self.title

@@ -98,19 +98,4 @@ class SectionBulkAPIView(BaseBulkView):
     model_class = Section
 
 
-class PageAPIView(BaseListView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
 
-
-class PageDetailAPIView(BaseDetailView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
-
-
-class PageBulkAPIView(BaseBulkView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page

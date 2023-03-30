@@ -10,6 +10,8 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import { Link } from "react-router-dom";
 import { Tooltip } from "@material-ui/core";
+import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
+import ChevronRightSharpIcon from "@mui/icons-material/ChevronRightSharp";
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -54,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationLinks({ links, toggleDrawer }) {
+export default function NavigationLinks({ links, toggleDrawer, pages }) {
+  console.log("pages", pages);
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState({});
 
@@ -124,6 +127,54 @@ export default function NavigationLinks({ links, toggleDrawer }) {
           )}
         </React.Fragment>
       ))}
+      <Tooltip
+        title={`Expand Related Pages - Dynamic`}
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <ListItem
+          button
+          className={classes.links}
+          onClick={handleMenuOpen("dynamic")}
+        >
+          <ListItemIcon style={{ color: "white" }}>
+            <DynamicFeedIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Dynamic"} className={classes.linkText} />
+          <ExpandMore />
+        </ListItem>
+      </Tooltip>
+      <Collapse in={menuOpen["dynamic"]} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {Object.entries(pages).map(([id, page], index) => {
+            return (
+              <Tooltip
+                title={`View ${page.page_name} Page`}
+                placement="right"
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <ListItem
+                  button
+                  className={classes.links}
+                  onClick={toggleDrawer(false)}
+                  component={Link}
+                  to={`/${page.page_name}`}
+                >
+                  <ListItemIcon style={{ color: "white" }}>
+                    <ChevronRightSharpIcon
+                      style={{ color: index % 2 === 0 ? "#ff8c00" : null }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={page.verbose_name}
+                    className={classes.linkText}
+                  />
+                </ListItem>
+              </Tooltip>
+            );
+          })}
+        </List>
+      </Collapse>
       <Divider style={{ backgroundColor: "grey" }} />
     </List>
   );

@@ -77,6 +77,24 @@ class TeamMemberBulkAPIView(BaseBulkView):
     model_class = TeamMember
 
 
+class ContactBulkAPIView(BaseBulkView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    model_class = Contact
+
+
+class ContactAPIView(BaseListView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    model_class = Contact
+
+
+class ContactDetailView(BaseDetailView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    model_class = Contact
+
+
 class AppInfoFullView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         model_dict = {
@@ -98,6 +116,9 @@ class AppInfoFullView(generics.GenericAPIView):
             "JobPosting": {
                 "filter": {"filled": False},
                 "app_label": "jobs",
+            },
+            "Page": {
+                "app_label": "pages",
             },
         }
 

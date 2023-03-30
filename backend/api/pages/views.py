@@ -4,31 +4,43 @@ from .models import *
 from .serializers import *
 
 
-class ReactComponentAPIView(BaseListView):
-    queryset = ReactComponent.objects.all()
-    serializer_class = ReactComponentSerializer
-    model_class = ReactComponent
+class PageLookupAPIView(BaseDetailView):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
+    model_class = Page
+    lookup_field = "page_name"
 
 
-class ReactComponentDetailAPIView(BaseDetailView):
-    queryset = ReactComponent.objects.all()
-    serializer_class = ReactComponentSerializer
-    model_class = ReactComponent
+class PageNameAPIView(BaseListView):
+    queryset = Page.objects.all()
+    serializer_class = PageNameSerializer
+    model_class = Page
 
 
-class ReactComponentBulkAPIView(BaseBulkView):
-    queryset = ReactComponent.objects.all()
-    serializer_class = ReactComponentSerializer
-    model_class = ReactComponent
+class ComponentAPIView(BaseListView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
+    model_class = Component
 
 
-class ReactPageAPIView(BaseListView):
-    queryset = ReactPage.objects.all()
-    serializer_class = ReactPageSerializer
-    model_class = ReactPage
+class ComponentDetailAPIView(BaseDetailView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
+    model_class = Component
+
+
+class ComponentBulkAPIView(BaseBulkView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
+    model_class = Component
+
+
+class PageAPIView(BaseListView):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
+    model_class = Page
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         data = self.serializer_class().format_data(request.data, create=True)
 
         for field in self.foreign_key_fields:
@@ -48,7 +60,6 @@ class ReactPageAPIView(BaseListView):
                 data[f"{field}"] = related_obj.id
 
         serializer = self.get_serializer(data=data)
-
         serializer.is_valid()
         print(serializer.errors)
         serializer.is_valid(raise_exception=True)
@@ -67,13 +78,13 @@ class ReactPageAPIView(BaseListView):
         )
 
 
-class ReactPageDetailAPIView(BaseDetailView):
-    queryset = ReactPage.objects.all()
-    serializer_class = ReactPageSerializer
-    model_class = ReactPage
+class PageDetailAPIView(BaseDetailView):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
+    model_class = Page
 
 
-class ReactPageBulkAPIView(BaseBulkView):
-    queryset = ReactPage.objects.all()
-    serializer_class = ReactPageSerializer
-    model_class = ReactPage
+class PageBulkAPIView(BaseBulkView):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
+    model_class = Page

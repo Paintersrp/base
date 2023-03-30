@@ -82,6 +82,18 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         return image
 
 
+class ContactSerializer(serializers.ModelSerializer):
+    contact_info = ContactInformationSerializer()
+    socials = SocialsSerializer()
+    hours = HoursSerializer()
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = Contact
+        fields = ["id", "name", "contact_info", "socials", "hours"]
+
+
+Contact.serializer_class = ContactSerializer
 TeamMember.serializer_class = TeamMemberSerializer
 Socials.serializer_class = SocialsSerializer
 Hours.serializer_class = HoursSerializer

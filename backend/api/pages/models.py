@@ -1,7 +1,5 @@
 from django.db import models
 from api.customs import *
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 @custom_metadata(
@@ -34,7 +32,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
         },
     },
 )
-class ReactComponent(models.Model):
+class Component(models.Model):
     COMPONENT_TYPES = (
         ("ServiceTier", "ServiceTier"),
         ("Value", "Value"),
@@ -46,6 +44,13 @@ class ReactComponent(models.Model):
         ("NewsletterForm", "NewsletterForm"),
         ("IconScroller", "IconScroller"),
         ("Quiz", "Quiz"),
+        ("TeamMember", "TeamMember"),
+        ("JobPosting", "JobPosting"),
+        ("ContactInformation", "ContactInformation"),
+        ("Socials", "Socials"),
+        ("Hours", "Hours"),
+        ("Contact", "Contact"),
+        ("Articles", "Articles")
         # ("IconScroller", "IconScroller"),
     )
     component_name = models.CharField(max_length=50, choices=COMPONENT_TYPES)
@@ -94,12 +99,18 @@ class ReactComponent(models.Model):
         },
     },
 )
-class ReactPage(models.Model):
+class Page(models.Model):
     page_name = CustomCharField(
         max_length=50, verbose_name="Page Name", help_text="Page Name"
     )
     components = models.ManyToManyField(
-        ReactComponent, verbose_name="Components", help_text="Components"
+        Component, verbose_name="Components", help_text="Components"
+    )
+    verbose_name = CustomCharField(
+        max_length=50,
+        verbose_name="Page Display Name",
+        help_text="Page Display Name",
+        default="Placeholder",
     )
 
     class Meta:

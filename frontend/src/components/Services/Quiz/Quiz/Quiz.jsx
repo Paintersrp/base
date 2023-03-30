@@ -14,8 +14,6 @@ const Quiz = ({
   quizData,
   editMode,
 }) => {
-  console.log(servicesTableData, competitorsTableData, "tabledata");
-  console.log("serviceData", serviceData);
   const classes = quizStyles();
   const [services, setServices] = useState(serviceData);
   const [benefitsBlock, setBenefitsBlock] = useState(blockData);

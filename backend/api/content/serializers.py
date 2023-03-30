@@ -93,25 +93,10 @@ class SectionSerializer(serializers.ModelSerializer):
         )
 
 
-class PageSerializer(serializers.ModelSerializer):
-    sections = SectionSerializer(many=True)
-    FIELD_KEYS = ["title", "slug", "sections"]
-
-    class Meta:
-        model = Page
-        fields = ("id", "title", "slug", "sections")
 
 
-# class HomePageSerializer(PageSerializer):
-#     class Meta(PageSerializer.Meta):
-#         model = HomePage
-#         fields = PageSerializer.Meta.fields + ("subtitle",)
 
 
-# class AboutPageSerializer(PageSerializer):
-#     class Meta(PageSerializer.Meta):
-#         model = AboutPage
-#         fields = PageSerializer.Meta.fields + ("content",)
 
 
 Head.serializer_class = HeadSerializer
@@ -119,4 +104,4 @@ Text.serializer_class = TextSerializer
 List.serializer_class = ListSerializer
 Dictionary.serializer_class = DictionarySerializer
 Section.serializer_class = SectionSerializer
-Page.serializer_class = PageSerializer
+

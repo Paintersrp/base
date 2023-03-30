@@ -68,7 +68,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         ).data
 
     def get_tags_options(self, obj):
-        return list(Tags.objects.values_list("detail", flat=True))
+        return list(Tags.objects.values())
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

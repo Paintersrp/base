@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageContainer from "../../Elements/Layout/PageContainer";
 import { Grid, makeStyles } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
-import Members from "../Members/Members";
+import TeamMembers from "../Members/Members";
 import Contact from "../Contact/Contact";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import JobListing from "../Jobs/Listing/Listing";
@@ -78,7 +78,10 @@ function ContactPage({ handleUpdate }) {
       {membersData && contactData && jobsData ? (
         <Grid container justifyContent="center" style={{ display: "flex" }}>
           <div style={{ maxWidth: 1400, width: "100%" }}>
-            <Members membersData={membersData} editMode={editmode.editMode} />
+            <TeamMembers
+              membersData={membersData}
+              editMode={editmode.editMode}
+            />
             <JobListing jobsData={jobsData} editMode={editmode.editMode} />
             <Contact
               color="dark"

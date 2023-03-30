@@ -9,29 +9,27 @@ import FABMenu from "../Elements/Buttons/FABAdminMenu";
 import ComponentRouter from "./ComponentRouter";
 import BaseContent from "../Elements/Base/BaseContent";
 
-const DynamicPage = ({ handleUpdate }) => {
+const DynamicPage = ({ handleUpdate, page }) => {
   const [error, setError] = useState();
-  const [data, setData] = useState([]);
-  const [apiData, setApiData] = useState([]);
-  const [editing, setEditing] = useState(false);
-  const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth);
-  const editmode = useSelector((state) => state.editmode);
   const [ready, setReady] = useState(false);
+  const [data, setData] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const editmode = useSelector((state) => state.editmode);
+  const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setReady(false);
     axiosInstance
-      .get("/reactpage/1/")
+      .get(`/get-page/${page}/`)
       .then((response) => {
         setData(response.data);
         setReady(true);
-        console.log(response.data);
       })
       .catch((err) => {
         setError(err);
       });
-  }, []);
+  }, [page]);
 
   if (error) {
     return <ErrorPage errorMessage={error.message} />;
@@ -49,23 +47,23 @@ const DynamicPage = ({ handleUpdate }) => {
         handleUpdate={handleUpdate}
       />
       <BaseContent
-        maxWidth={1920}
+        maxWidth={"100%"}
         boxShadow={0}
         pad={0}
         justifyChildren="center"
         fd="column"
       >
         {data.components.map((component) => {
-          console.log("component", component.data_source);
           const { component_name, data_source, order, ...componentProps } =
             component;
-          console.log("data_source", data_source);
 
           return (
             <div key={component.id} style={{ order: order, maxWidth: "100%" }}>
               <ComponentRouter
+                navigate={navigate}
+                auth={auth}
                 apiData={data_source || ""}
-                type={component_name}
+                component={component_name}
                 setError={setError}
                 editMode={editmode.editMode}
                 {...componentProps}

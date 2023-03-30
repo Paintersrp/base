@@ -209,6 +209,7 @@ class RecentAdminActionsView(APIView):
         items = request.query_params.get("items", 10)
         app = request.query_params.get("app", None)
         model_query = request.query_params.get("model", None)
+        print(model_query)
         all_models = apps.get_models()
 
         if items == "all":
@@ -249,6 +250,10 @@ class RecentAdminActionsView(APIView):
                 elif model_query == "contactinformation":
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="contact"
+                    )
+                elif model_query == "page":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="pages"
                     )
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())
@@ -297,6 +302,10 @@ class RecentAdminActionsView(APIView):
                 elif model_query == "contactinformation":
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="contact"
+                    )
+                elif model_query == "page":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="pages"
                     )
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())

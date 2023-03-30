@@ -73,19 +73,4 @@ urlpatterns = [
         SectionBulkAPIView.as_view(),
         name="section-bulk-detail",
     ),
-    path(
-        "page/",
-        PageAPIView.as_view(),
-        name="page-list",
-    ),
-    path(
-        "page/<int:pk>/",
-        PageDetailAPIView.as_view(),
-        name="page-detail",
-    ),
-    path(
-        "page/del/bulk/",
-        PageBulkAPIView.as_view(),
-        name="page-bulk-detail",
-    ),
 ]

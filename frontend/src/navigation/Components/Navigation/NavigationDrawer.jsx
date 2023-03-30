@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationDrawer({ links, toggleDrawer }) {
+export default function NavigationDrawer({ links, toggleDrawer, pages }) {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
 
@@ -46,7 +46,11 @@ export default function NavigationDrawer({ links, toggleDrawer }) {
           )}
         </div>
         <Divider className={classes.divider} />
-        <NavigationLinks links={links} toggleDrawer={toggleDrawer} />
+        <NavigationLinks
+          pages={pages}
+          links={links}
+          toggleDrawer={toggleDrawer}
+        />
 
         <>
           {auth.is_authenticated ? (

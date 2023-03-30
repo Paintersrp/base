@@ -357,3 +357,28 @@ class TeamMember(models.Model):
     class Meta:
         verbose_name = "Members"
         verbose_name_plural = "Members"
+
+
+class Contact(models.Model):
+    name = CustomCharField(
+        max_length=20,
+        md_column_count=12,
+        verbose_name="Hero Name",
+        help_text="Hero Name",
+        default="Placeholder",
+    )
+    contact_info = models.ForeignKey(
+        ContactInformation,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    socials = models.ForeignKey(
+        Socials,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    hours = models.ForeignKey(
+        Hours,
+        on_delete=models.CASCADE,
+        default=1,
+    )

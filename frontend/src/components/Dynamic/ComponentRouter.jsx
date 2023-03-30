@@ -1,6 +1,11 @@
+import React from "react";
 import About from "../About/About/About";
 import FAQAccordion from "../About/FAQ/FAQAccordion";
 import Values from "../About/Values/Values";
+import ArticlesList from "../Articles/Display/List/ArticlesList";
+import Contact from "../Contact/Contact/Contact";
+import JobListing from "../Contact/Jobs/Listing/Listing";
+import Members from "../Contact/Members/Members";
 import IconScroller from "../Elements/Animations/IconScroller/IconScroller";
 import Hero from "../Landing/Hero/Hero";
 import LatestNews from "../Landing/News/News";
@@ -12,10 +17,22 @@ import { routerStyles } from "./routerStyles";
 
 const ComponentRouter = (props) => {
   const classes = routerStyles();
-  const { apiData, type, setError, editMode, ...componentProps } = props;
-  console.log("data", apiData[0].service_tiers);
+  const {
+    navigate,
+    auth,
+    apiData,
+    component,
+    setError,
+    editMode,
+    ...componentProps
+  } = props;
+  console.log("component", component, "data", apiData);
 
-  switch (type) {
+  const handleCreate = () => {
+    navigate(`/articles/create`);
+  };
+
+  switch (component) {
     case "Value":
       return (
         <div className={classes.valueRoot}>
@@ -46,11 +63,36 @@ const ComponentRouter = (props) => {
       );
     case "NewsletterForm":
       return <NewsletterForm editMode={editMode} />;
+    case "TeamMember":
+      return <Members membersData={apiData} editMode={editMode} />;
+    case "JobPosting":
+      return <JobListing jobsData={apiData} editMode={editMode} />;
+    case "Contact":
+      return (
+        <Contact
+          color="dark"
+          contactData={apiData[0].contact_info}
+          hoursData={apiData[0].hours}
+          socialData={apiData[0].socials}
+          editMode={editMode}
+        />
+      );
     case "IconScroller":
       return (
         <div style={{ display: "flex", width: "100%" }}>
           <IconScroller />
         </div>
+      );
+    case "Articles":
+      const tags = apiData[0].tags_options;
+
+      return (
+        <ArticlesList
+          tags={tags}
+          articles={apiData}
+          handleCreate={handleCreate}
+          auth={auth}
+        />
       );
     case "Hero":
       return (

@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.forms.models import model_to_dict
 from django.db.models.functions import Length
 from django.db.models import Avg
+from pages.serializers import PageNameSerializer
 from django.apps import apps
 import json
 
@@ -67,7 +68,6 @@ def return_changes(instance, old_instance):
             ]
 
     change_message_str = return_change_message_str(changes)
-    print(change_message_str)
 
     return change_message_str
 
@@ -107,11 +107,15 @@ def get_serialized_page_data(model_dict, request):
         else:
             queryset = model.objects.all()
 
-        serializer = model.serializer_class(
-            instance=queryset, many=many, context={"request": request}
-        )
-        if model_name == "AboutBlock":
-            print(serializer.data)
+        if model_name == "Page":
+            serializer = PageNameSerializer(
+                instance=queryset, many=many, context={"request": request}
+            )
+        else:
+            serializer = model.serializer_class(
+                instance=queryset, many=many, context={"request": request}
+            )
+
         data[model_name] = serializer.data
 
     return data

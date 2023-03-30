@@ -1,16 +1,16 @@
 from rest_framework import serializers
-from .models import ReactComponent, ReactPage
+from .models import Component, Page
 from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 import re
 
 
-class ReactComponentSerializer(serializers.ModelSerializer):
+class ComponentSerializer(serializers.ModelSerializer):
     data_source = serializers.SerializerMethodField()
     FIELD_KEYS = ["component_name"]
 
     class Meta:
-        model = ReactComponent
+        model = Component
         fields = [
             "id",
             "component_name",
@@ -22,9 +22,6 @@ class ReactComponentSerializer(serializers.ModelSerializer):
 
     def get_data_source(self, obj):
         model_name = obj.component_name
-
-        # if model_name == "LatestNews":
-        #     model_name = "Articles"
 
         for model in apps.get_models():
             if model.__name__ == model_name:
@@ -60,32 +57,36 @@ class ReactComponentSerializer(serializers.ModelSerializer):
         return data
 
 
-class ReactPageSerializer(serializers.ModelSerializer):
-    components = ReactComponentSerializer(many=True)
-    FIELD_KEYS = ["page_name", "components"]
+class PageSerializer(serializers.ModelSerializer):
+    components = ComponentSerializer(many=True)
+    FIELD_KEYS = ["verbose_name", "components"]
 
     class Meta:
-        model = ReactPage
-        fields = ("id", "page_name", "components")
+        model = Page
+        fields = ("id", "page_name", "components", "verbose_name")
 
     def create(self, validated_data):
         print("context", self.context["request"].data)
 
         components_data = validated_data.pop("components")
-        page = ReactPage.objects.create(**validated_data)
+        page = Page.objects.create(**validated_data)
         for component_data in components_data:
-            component = ReactComponent.objects.create(**component_data)
+            component = Component.objects.create(**component_data)
             page.components.add(component)
         return page
 
     def update(self, instance, validated_data):
         formatted_data = self.format_data(self.context["request"].data)
+        print(formatted_data)
         components_data = formatted_data.pop("components")
         instance.page_name = formatted_data.get("page_name", instance.page_name)
+        instance.verbose_name = formatted_data.get(
+            "verbose_name", instance.verbose_name
+        )
         instance.components.clear()
-        
+
         for component_data in components_data:
-            component, created = ReactComponent.objects.get_or_create(
+            component, created = Component.objects.get_or_create(
                 component_name=component_data
             )
             component.save()
@@ -126,5 +127,11 @@ class ReactPageSerializer(serializers.ModelSerializer):
         return formatted_data
 
 
-ReactComponent.serializer_class = ReactComponentSerializer
-ReactPage.serializer_class = ReactPageSerializer
+class PageNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page
+        fields = ("id", "page_name", "verbose_name")
+
+
+Component.serializer_class = ComponentSerializer
+Page.serializer_class = PageSerializer
