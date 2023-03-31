@@ -16,6 +16,7 @@ const ManyToManyType = ({
   fieldName,
   verboseName,
   handleManyToManyChange,
+  handleComponentsChange,
   xsColumnCount = 12,
   mdColumnCount = 12,
   helpText,
@@ -35,15 +36,19 @@ const ManyToManyType = ({
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <Typography className={classes.helpText}>
-          {helpText || verboseName}
-        </Typography>
+        {fieldName !== "components" && (
+          <Typography className={classes.helpText}>
+            {helpText || verboseName}
+          </Typography>
+        )}
         <ManyToManyField
           data={formData[fieldName]}
           setFormData={setFormData}
+          formData={formData}
           fieldName={fieldName}
           verboseName={verboseName}
           handleManyToManyChange={handleManyToManyChange}
+          handleComponentsChange={handleComponentsChange}
         />
       </div>
     </Grid>

@@ -132,7 +132,13 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     }));
   };
 
+  const handleComponentsChange = (fieldName, newComponents) => {
+    formData.components = newComponents;
+    console.log("formData", formData);
+  };
+
   const handleManyToManyChange = (fieldName, fieldValue) => {
+    console.log(fieldName);
     if (
       fieldName === "features" ||
       fieldName === "supported_sites" ||
@@ -147,11 +153,12 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
       }));
     } else if (fieldName === "components") {
       const newFeatures = formData[fieldName] ? [...formData[fieldName]] : [];
-      newFeatures.push({ component_name: fieldValue });
+      newFeatures.push({ name: fieldValue });
       setFormData((prevFormData) => ({
         ...prevFormData,
         [fieldName]: newFeatures,
       }));
+      console.log("newf", newFeatures);
     } else if (fieldName === "items") {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -178,6 +185,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
     const config = {
       headers: {
@@ -289,6 +297,7 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
                   handleManyToManyChange,
                   handleImageChange,
                   handleQuillChange,
+                  handleComponentsChange,
                   newImage,
                   newImageName,
                   xs_column_count,

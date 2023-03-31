@@ -351,7 +351,7 @@ const PanelTable = ({
                           item["author_details"].username
                         ) : key === "components" ? (
                           item[key]
-                            .map((component) => component.component_name)
+                            .map((component) => component.name)
                             .join(", ")
                         ) : (
                           item[key]

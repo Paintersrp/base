@@ -22,6 +22,7 @@ const getByType = (
   handleManyToManyChange,
   handleImageChange,
   handleQuillChange,
+  handleComponentsChange,
   newImage,
   newImageName,
   xs_column_count,
@@ -128,6 +129,7 @@ const getByType = (
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
           helpText={help_text}
+          handleComponentsChange={handleComponentsChange}
         />
       );
     case "ImageField":

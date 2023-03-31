@@ -52,8 +52,10 @@ const SelectField = ({
   handleInputChange,
   choices,
   variant = "outlined",
+  multiple = false,
 }) => {
   console.log(fieldName);
+  console.log(formData);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -87,6 +89,7 @@ const SelectField = ({
           />
         ) : (
           <Select
+            multiple={multiple}
             className={classes.select}
             variant={variant}
             value={

@@ -90,12 +90,12 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
                 data = request.data
         else:
+            print(request.data)
             data = request.data
 
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        print(serializer.data["verbose_name"])
 
         changes = return_changes(instance, old_instance)
         print(changes)
