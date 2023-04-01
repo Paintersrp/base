@@ -14,6 +14,8 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import DualList from "./DualList";
+import choiceSource from "../../Admin/Objects/AutoForm/choiceSource";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -175,35 +177,26 @@ const ManyToManyField = ({
   };
 
   useEffect(() => {
-    if (fieldName === "components") {
-      axiosInstance.get(`/componentobj/`).then((response) => {
-        setChoices(response.data);
-        console.log("YEAH:", response.data);
-      });
-    } else {
-      axiosInstance.get(`/${fieldName}/`).then((response) => {
-        setChoices(response.data);
-        console.log("YEAH:", response.data);
-      });
-    }
+    const source = choiceSource(fieldName);
+
+    axiosInstance.get(`/${source}/`).then((response) => {
+      setChoices(response.data);
+      console.log("YEAH:", response.data);
+    });
   }, []);
 
   const [selectedOptions, setSelectedOptions] = useState(
-    data && data.length ? data.map((item) => item.name) : []
+    data && data.length ? data.map((item) => item) : []
   );
 
   const handleChange = (event) => {
     const { value } = event.target;
     setSelectedOptions(value);
 
-    console.log("value", value);
-
     const formattedData = selectedOptions.map((option) => {
       return { name: option };
     });
 
-    console.log(formattedData);
-    console.log("formattedData", formattedData);
     handleComponentsChange(fieldName, formattedData);
   };
 
@@ -218,72 +211,38 @@ const ManyToManyField = ({
 
   return (
     <div style={{ width: "100%" }}>
-      {choices && (
+      {choices && selectedOptions && (
         <React.Fragment>
-          <div>
-            {fieldName === "components" ? (
-              <FormControl style={{ width: "100%", marginTop: 8 }}>
-                <InputLabel>Select {verboseName} </InputLabel>
-                <Select
-                  variant="standard"
-                  margin="dense"
-                  style={{ minWidth: "100%" }}
-                  className={classes.select}
-                  multiple
-                  value={selectedOptions}
-                  onChange={handleChange}
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: "bottom",
-                      horizontal: "left",
-                    },
-                    transformOrigin: {
-                      vertical: "top",
-                      horizontal: "left",
-                    },
-                    getContentAnchorEl: null,
-                    classes: {
-                      paper: classes.menuPaper,
-                    },
-                    PaperProps: {
-                      style: {
-                        maxHeight: 300,
-                      },
-                    },
-                  }}
-                >
-                  {choices.map((option) => (
-                    <MenuItem key={option.value} value={option.name}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ) : (
-              <TextField
-                style={{ marginTop: helpText ? 0 : 8 }}
-                className={classes.field}
-                variant={variant}
-                label={helpText ? null : `Add ${verboseName}`}
-                value={newFeature}
-                onChange={handleFeatureInputChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    handleAddFeature();
-                  }
-                }}
-                margin="dense"
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <IconButton size="small" onClick={handleAddFeature}>
-                      <AddIcon style={{ color: "black" }} />
-                    </IconButton>
-                  ),
-                }}
-              />
-            )}
+          <DualList
+            fieldName={fieldName}
+            selectedOptions={selectedOptions}
+            choices={choices}
+            handleComponentsChange={handleComponentsChange}
+          />
+
+          {/*<div> <TextField
+              style={{ marginTop: helpText ? 0 : 8 }}
+              className={classes.field}
+              variant={variant}
+              label={helpText ? null : `Add ${verboseName}`}
+              value={newFeature}
+              onChange={handleFeatureInputChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  handleAddFeature();
+                }
+              }}
+              margin="dense"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <IconButton size="small" onClick={handleAddFeature}>
+                    <AddIcon style={{ color: "black" }} />
+                  </IconButton>
+                ),
+              }}
+            />
           </div>
           <Grid container>
             {items.length > 0 &&
@@ -310,7 +269,7 @@ const ManyToManyField = ({
                   />
                 );
               })}
-          </Grid>
+          </Grid> */}
         </React.Fragment>
       )}
     </div>

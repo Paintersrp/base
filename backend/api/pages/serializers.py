@@ -116,7 +116,7 @@ class PageSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         formatted_data = self.format_data(self.context["request"].data)
-        print(formatted_data)
+
         components_data = formatted_data.pop("components")
         instance.page_name = formatted_data.get("page_name", instance.page_name)
         instance.verbose_name = formatted_data.get(
@@ -146,6 +146,7 @@ class PageSerializer(serializers.ModelSerializer):
         for key, value in data.items():
             parts = re.findall(r"\[(.*?)\]", key)
             name = key.split("[")[0]
+            print(name)
 
             if name == "components":
                 if (
@@ -160,8 +161,6 @@ class PageSerializer(serializers.ModelSerializer):
                         formatted_data[name].append(feature_detail)
             else:
                 formatted_data[name] = value
-
-        print(formatted_data)
 
         return formatted_data
 

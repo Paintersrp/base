@@ -36,4 +36,19 @@ urlpatterns = [
         ResponsibilitiesBulkAPIView.as_view(),
         name="responsibilities-ignore-bulk-detail",
     ),
+    path(
+        "requirement/",
+        RequirementAPIView.as_view(),
+        name="requirement-ignore-list",
+    ),
+    path(
+        "requirement/<int:pk>/",
+        RequirementDetailAPIView.as_view(),
+        name="requirement-ignore-detail",
+    ),
+    path(
+        "requirement/del/bulk/",
+        RequirementBulkAPIView.as_view(),
+        name="requirement-ignore-bulk-detail",
+    ),
 ]

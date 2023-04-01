@@ -258,3 +258,21 @@ class ResponsibilitiesBulkAPIView(BaseBulkView):
     queryset = Responsibilities.objects.all()
     serializer_class = ResponsibilitiesSerializer
     model_class = Responsibilities
+
+
+class RequirementAPIView(BaseListView):
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+    model_class = Requirement
+
+
+class RequirementDetailAPIView(BaseDetailView):
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+    model_class = Requirement
+
+
+class RequirementBulkAPIView(BaseBulkView):
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+    model_class = Requirement

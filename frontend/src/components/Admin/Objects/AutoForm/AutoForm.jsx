@@ -132,8 +132,8 @@ const AutoForm = ({ endpointUrl, data = {}, handleUpdate }) => {
     }));
   };
 
-  const handleComponentsChange = (fieldName, newComponents) => {
-    formData.components = newComponents;
+  const handleComponentsChange = (fieldName, newObjects) => {
+    formData[fieldName] = newObjects;
     console.log("formData", formData);
   };
 

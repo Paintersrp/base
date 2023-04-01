@@ -158,7 +158,7 @@ export default function SiteRoutes({ handleUpdate }) {
             return (
               <React.Fragment>
                 <Route
-                  key={index}
+                  key={id}
                   path={`/${page.page_name}`}
                   element={
                     <DynamicPage
