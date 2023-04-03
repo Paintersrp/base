@@ -29,14 +29,12 @@ const useStyles = makeStyles((theme) => ({
   listContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
     height: "100%",
   },
   list: {
     width: "100%",
-    height: "100%",
     maxHeight: 300,
     overflow: "auto",
     backgroundColor: theme.palette.background.paper,
@@ -45,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1),
   },
   listItem: {
-    paddingRight: 0,
-    paddingLeft: 0,
+    padding: theme.spacing(0, 1, 0, 1),
     cursor: "pointer",
     [theme.breakpoints.up("md")]: {
+      padding: theme.spacing(0.5, 2, 0.5, 2),
       transition: "0.3s ease",
       "&:hover": {
         backgroundColor: theme.palette.action.hover,
@@ -90,6 +88,7 @@ export default function DualList({
   selectedOptions,
   choices,
   handleComponentsChange,
+  modelMetadata,
 }) {
   const classes = useStyles();
   const [left, setLeft] = useState(choices);
@@ -132,7 +131,6 @@ export default function DualList({
                     key={item.id}
                     className={classes.listItem}
                     onClick={handleRightClick(item)}
-                    style={{ paddingLeft: 8, paddingRight: 8 }}
                   >
                     <ListItemText primary={verboseSource(fieldName, item)} />
                     <ListItemIcon className={classes.icon}>
@@ -157,7 +155,6 @@ export default function DualList({
                   key={index}
                   className={classes.listItem}
                   onClick={handleLeftClick(item)}
-                  style={{ paddingLeft: 8, paddingRight: 8 }}
                 >
                   <ListItemIcon className={classes.icon}>
                     <ArrowBackIcon />

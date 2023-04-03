@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
   makeStyles,
   MenuItem,
   Select,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
+import AutoFormDialog from "../AutoFormDialog";
+import AddIcon from "@mui/icons-material/Add";
+import StyledButton from "../../../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -59,9 +64,21 @@ const ChoiceType = ({
   xsColumnCount,
   mdColumnCount,
   helpText,
+  fieldMetadata,
+  handleModalUpdate,
 }) => {
+  console.log(choices);
+  console.log("fieldName", fieldName);
   const classes = useStyles();
-  console.log(choices)
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Grid
       item
@@ -117,15 +134,53 @@ const ChoiceType = ({
               <MenuItem value="">
                 <em>Select {verboseName}</em>
               </MenuItem>
-              {Object.entries(choices).map(([key, value]) => (
-                <MenuItem key={key} value={value.value}>
-                  <span style={{ color: "black" }}>{value.display}</span>
-                </MenuItem>
-              ))}
+              {Object.entries(
+                fieldName === "content" ? choices : choices[0]
+              ).map(([key, value]) => {
+                if (fieldName === "content" && !value.model_name) {
+                  return null;
+                }
+
+                return (
+                  <MenuItem key={key} value={value.value}>
+                    <span style={{ color: "black" }}>
+                      {fieldName === "content"
+                        ? value.model_name
+                        : value.display}
+                    </span>
+                  </MenuItem>
+                );
+              })}
             </Select>
           }
         />
       </FormControl>
+      {fieldName === "content" && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
+            <StyledButton
+              noHover
+              buttonText="Create Data Object"
+              onClick={handleOpen}
+            />
+          </div>
+          {formData[fieldName] && (
+            <AutoFormDialog
+              url={choices.find((item) => item.value === formData[fieldName])}
+              open={open}
+              handleClose={handleClose}
+              formData={formData}
+              handleModalUpdate={handleModalUpdate}
+            />
+          )}
+        </>
+      )}
     </Grid>
   );
 };

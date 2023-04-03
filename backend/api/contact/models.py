@@ -2,7 +2,7 @@ from django.db import models
 from api.customs import *
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Company Contact Information",
     long_description="This model represents the contact information for a company, including their email address, phone number, and physical address.",
     short_description="Contact Information Model",
@@ -31,6 +31,7 @@ from api.customs import *
             "General app documentation": "/docs/app/contact/",
         },
     },
+    allowed=True,
 )
 class ContactInformation(models.Model):
     email = CustomEmailField(
@@ -58,7 +59,7 @@ class ContactInformation(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Company Hours",
     long_description="This model stores the contact hours for the company.",
     short_description="Company Hours",
@@ -91,6 +92,7 @@ class ContactInformation(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
+    allowed=True,
 )
 class Hours(models.Model):
     monday = CustomCharField(
@@ -154,7 +156,7 @@ class Hours(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Company Social Contact",
     long_description="This model represents the social media accounts associated with a company or organization. It includes fields for Facebook, LinkedIn, Instagram, Twitter, Youtube, and Github.",
     short_description="Social Media Accounts for a Company",
@@ -186,6 +188,7 @@ class Hours(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
+    allowed=True,
 )
 class Socials(models.Model):
     facebook = CustomCharField(
@@ -239,7 +242,7 @@ class Socials(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Team Member",
     long_description="This model represents team members of our company.",
     short_description="Team Members",
@@ -275,6 +278,7 @@ class Socials(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
+    allowed=True,
 )
 class TeamMember(models.Model):
     image = models.ImageField(

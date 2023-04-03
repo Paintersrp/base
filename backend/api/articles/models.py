@@ -8,7 +8,7 @@ class HighlightedArticlesManager(models.Manager):
         return super().get_queryset().filter(is_highlighted=True)
 
 
-@custom_metadata(
+@metadata(
     autoform_label="TitleBlock Titties",
     long_description="Description Placeholder",
     short_description="Short Description",
@@ -66,7 +66,7 @@ class Tags(models.Model):
         verbose_name_plural = "Tags"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="TitleBlock Titties",
     long_description="Description Placeholder",
     short_description="Short Description",
@@ -112,7 +112,7 @@ class Articles(models.Model):
     tags = models.ManyToManyField(Tags, related_name="articles", verbose_name="Tags")
     image = models.ImageField(blank=True, null=True, upload_to="article_images")
     is_highlighted = models.BooleanField(default=False)
-    
+
     highlighted_objects = HighlightedArticlesManager()
     objects = models.Manager()
 

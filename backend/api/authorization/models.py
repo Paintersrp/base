@@ -46,7 +46,7 @@ class CustomUserManager(UserManager):
         return user
 
 
-@custom_metadata(
+@metadata(
     autoform_label="User",
     long_description="This model represents a user account in our system.",
     short_description="User Account",
@@ -171,7 +171,7 @@ class User(AbstractUser):
         verbose_name_plural = "Users"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Theme User Setting",
     long_description="This model represents the theme settings for a user. Users can customize their primary, secondary, and background colors to personalize their experience.",
     short_description="Model for managing user theme settings.",
@@ -231,7 +231,7 @@ class ThemeSettings(models.Model):
         verbose_name_plural = "Theme Settings"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Manage JWT Token Blacklist",
     long_description="This model represents a JWT token blacklist that is used to keep track of blacklisted tokens in the system. Whenever a token is blacklisted, a record is created in this model with the token and the time it was blacklisted. This model can be used to manage and monitor the blacklisted tokens.",
     short_description="A model for managing JWT token blacklist",

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-def custom_metadata(
+def metadata(
     autoform_label=None,
     long_description=None,
     short_description=None,
@@ -16,6 +16,9 @@ def custom_metadata(
     visibility=True,
     access_level="All",
     info_dump={"text": ""},
+    filter_options=["id"],
+    filter_choices=[],
+    allowed=False,
 ):
     def decorator(cls):
         cls._meta.autoform_label = autoform_label
@@ -31,6 +34,9 @@ def custom_metadata(
         cls._meta.visibility = visibility
         cls._meta.access_level = access_level
         cls._meta.info_dump = info_dump
+        cls._meta.filter_options = filter_options
+        cls._meta.filter_choices = filter_choices
+        cls._meta.allowed = allowed
         return cls
 
     return decorator
@@ -78,11 +84,26 @@ class CustomDecimalField(models.DecimalField):
         super().__init__(*args, **kwargs)
 
 
+class CustomJSONField(models.JSONField):
+    def __init__(self, *args, **kwargs):
+        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.justify = kwargs.pop("justify", "left")
+        super().__init__(*args, **kwargs)
+
+
 class CustomPositiveIntegerField(models.PositiveIntegerField):
     def __init__(self, *args, **kwargs):
         self.xs_column_count = kwargs.pop("xs_column_count", 12)
         self.md_column_count = kwargs.pop("md_column_count", 12)
         self.justify = kwargs.pop("justify", "left")
+        super().__init__(*args, **kwargs)
+
+
+class CustomImageFieldField(models.ImageField):
+    def __init__(self, *args, **kwargs):
+        self.verbose_name = kwargs.pop("verbose_name", "Image")
+        self.help_text = kwargs.pop("help_text", "Image")
         super().__init__(*args, **kwargs)
 
 

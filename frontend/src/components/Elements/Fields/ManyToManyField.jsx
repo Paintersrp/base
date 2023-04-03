@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import DualList from "./DualList";
 import choiceSource from "../../Admin/Objects/AutoForm/choiceSource";
+import QueryParamsForm from "../../WIP/_Page/DeleteMe";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -114,8 +115,10 @@ const ManyToManyField = ({
   formData,
   variant = "outlined",
   helpText = false,
+  modelMetadata,
 }) => {
-  console.log("mtmformData", formData);
+  // console.log("mtmformData", formData);
+  console.log("modelMetadata", modelMetadata);
   const classes = useStyles();
   const [choices, setChoices] = useState([]);
   const [items, setItems] = useState(data);
@@ -201,12 +204,11 @@ const ManyToManyField = ({
   };
 
   useEffect(() => {
-    if (selectedOptions) {
-      const formattedData = selectedOptions.map((option) => {
-        return { name: option };
-      });
-      handleComponentsChange(fieldName, formattedData);
-    }
+    // if (selectedOptions) {
+    //   const formattedData = selectedOptions.map((option) => {
+    //     return option;
+    //   });
+    handleComponentsChange(fieldName, selectedOptions);
   }, [selectedOptions]);
 
   return (
@@ -218,6 +220,7 @@ const ManyToManyField = ({
             selectedOptions={selectedOptions}
             choices={choices}
             handleComponentsChange={handleComponentsChange}
+            modelMetadata={modelMetadata}
           />
 
           {/*<div> <TextField

@@ -1,9 +1,10 @@
 from django.db import models
 from api.customs import *
+from api.utils import *
 from auditlog.registry import auditlog
 
 
-@custom_metadata(
+@metadata(
     autoform_label="About Header",
     long_description="This model represents the header block of the About page.",
     short_description="Header block for the About page.",
@@ -30,6 +31,7 @@ from auditlog.registry import auditlog
             "About app documentation": "/docs/app/about/",
         },
     },
+    allowed=True,
 )
 class AboutBlock(models.Model):
     title = CustomCharField(
@@ -38,7 +40,7 @@ class AboutBlock(models.Model):
         verbose_name="Title",
         help_text="Company Name",
     )
-    image = models.ImageField(
+    image = CustomImageFieldField(
         upload_to="about",
         verbose_name="Image",
         help_text="Help Text Placeholder",
@@ -49,7 +51,7 @@ class AboutBlock(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Mission Statement",
     long_description="This model represents the mission statement for a company or organization.",
     short_description="A company's mission statement.",
@@ -76,6 +78,7 @@ class AboutBlock(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    allowed=True,
 )
 class MissionStatement(models.Model):
     title = CustomCharField(
@@ -98,7 +101,7 @@ class MissionStatement(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Company History",
     long_description="This model represents the history of the company, including major milestones and events. It can be used to showcase the company's achievements and growth over time.",
     short_description="Model for company history",
@@ -125,6 +128,7 @@ class MissionStatement(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    allowed=True,
 )
 class CompanyHistory(models.Model):
     title = CustomCharField(
@@ -146,7 +150,7 @@ class CompanyHistory(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Company Value",
     long_description="This model represents the core values of our company.",
     short_description="Core company values.",
@@ -173,6 +177,9 @@ class CompanyHistory(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["title", "id"],
+    filter_choices=lambda model: get_filter_choices(model, ["title", "id"]),
+    allowed=True,
 )
 class Value(models.Model):
     title = CustomCharField(
@@ -193,7 +200,7 @@ class Value(models.Model):
         verbose_name_plural = "Values"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="FAQ Category",
     long_description="This model represents a category for frequently asked questions on our website.",
     short_description="FAQ Category",
@@ -219,6 +226,7 @@ class Value(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    allowed=True,
 )
 class Category(models.Model):
     name = CustomCharField(
@@ -233,7 +241,7 @@ class Category(models.Model):
         verbose_name_plural = verbose_name + "Categories"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="FAQ",
     long_description="This model represents frequently asked questions and answers related to our company and services.",
     short_description="FAQ Model",
@@ -261,6 +269,7 @@ class Category(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    allowed=True,
 )
 class FAQ(models.Model):
     category = models.ForeignKey(

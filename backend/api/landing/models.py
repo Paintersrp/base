@@ -7,7 +7,7 @@ from contact.models import ContactInformation, Socials
 from articles.models import Articles
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Hero Section",
     long_description="This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
     short_description="A model for creating hero sections.",
@@ -36,6 +36,7 @@ from articles.models import Articles
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=True,
 )
 class HeroBlock(models.Model):
     title = CustomCharField(
@@ -71,7 +72,7 @@ class HeroBlock(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Section Heading",
     long_description="A section heading with a title, subtitle, and description to be used as a heading for various content sections.",
     short_description="Section Heading",
@@ -103,6 +104,7 @@ class HeroBlock(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=True,
 )
 class TitleBlock(models.Model):
     ALIGNMENT_CHOICES = (
@@ -161,7 +163,7 @@ class TitleBlock(models.Model):
         verbose_name_plural = "Section Headings"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Hero Text Block",
     long_description="Description Placeholder",
     short_description="Short Description",
@@ -192,7 +194,7 @@ class Item(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Tier Feature",
     long_description="This model holds a list of features offered by a Service/Service Tier",
     short_description="Features offered by a Service/Service Tier",
@@ -236,7 +238,7 @@ class Feature(models.Model):
         verbose_name_plural = verbose_name + "s"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Tier Supported Site",
     long_description="This model holds a list of supported sites offered by a Service/Service Tier",
     short_description="Site types supported by a Service/Service Tier",
@@ -280,7 +282,7 @@ class SupportedSites(models.Model):
         verbose_name_plural = "Supported Sites"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Tier",
     long_description="This model represents the different service tiers available.",
     short_description="Service Tier Model",
@@ -314,6 +316,7 @@ class SupportedSites(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=True,
 )
 class ServiceTier(models.Model):
     image = models.ImageField(
@@ -387,7 +390,7 @@ class ServiceTier(models.Model):
         verbose_name_plural = "Service Tiers"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Hero Text Block",
     long_description="Description Placeholder",
     short_description="Short Description",
@@ -417,7 +420,7 @@ class Testimonial(models.Model):
         verbose_name_plural = "Testimonials"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",
@@ -446,6 +449,7 @@ class Testimonial(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=True,
 )
 class Process(models.Model):
     title = CustomCharField(
@@ -473,7 +477,7 @@ class Process(models.Model):
         verbose_name_plural = "Processes"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",
@@ -528,7 +532,7 @@ class Hero(models.Model):
     )
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",
@@ -573,7 +577,7 @@ class Processes(models.Model):
 
 
 # Control Added Later?
-@custom_metadata(
+@metadata(
     autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",

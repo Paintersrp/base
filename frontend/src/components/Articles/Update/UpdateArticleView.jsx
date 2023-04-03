@@ -173,6 +173,11 @@ const UpdateArticleView = ({ article, updateArticle, handleCancel }) => {
     document.getElementById("file-input").click();
   };
 
+  const handleComponentsChange = (fieldName, newObjects) => {
+    formData[fieldName] = newObjects;
+    console.log("formData", formData);
+  };
+
   return (
     <div className={`${classes.root} ${fadeIn}`}>
       <Grid
@@ -229,6 +234,7 @@ const UpdateArticleView = ({ article, updateArticle, handleCancel }) => {
                 <ManyToManyField
                   data={formData.tags}
                   handleManyToManyChange={handleManyToManyChange}
+                  handleComponentsChange={handleComponentsChange}
                   fieldName="tags"
                   verboseName="Category Tags"
                   setFormData={setFormData}

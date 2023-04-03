@@ -6,7 +6,30 @@ from django.db.models.functions import Length
 from django.db.models import Avg
 from pages.serializers import PageNameSerializer
 from django.apps import apps
+from django.db import models
 import json
+
+
+def get_filter_choices(model, filter_options):
+    filter_choices = {}
+
+    for option in filter_options:
+        field = model._meta.get_field(option)
+        if isinstance(field, models.ForeignKey) or isinstance(
+            field, models.ManyToManyField
+        ):
+            related_model = field.related_model
+            choices_qs = related_model.objects.all()
+            choices = [{"value": c.pk, "display_name": str(c)} for c in choices_qs]
+        else:
+            choices_qs = (
+                model.objects.order_by().values_list(option, flat=True).distinct()
+            )
+            choices = [{"value": c, "display_name": str(c)} for c in choices_qs]
+
+        filter_choices[option] = choices
+
+    return filter_choices
 
 
 def analyze_django_app(models):

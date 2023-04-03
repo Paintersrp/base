@@ -90,7 +90,6 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
                 data = request.data
         else:
-            print(request.data)
             data = request.data
 
         serializer = self.get_serializer(instance, data=data, partial=True)
@@ -99,6 +98,7 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
         changes = return_changes(instance, old_instance)
         print(changes)
+
         create_log_entry(
             LogEntry.Action.UPDATE,
             request.username if request.username else None,
@@ -125,9 +125,6 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return self.model_class.objects.all()
-
-
-from rest_framework import generics
 
 
 class BaseBulkView(generics.DestroyAPIView, generics.UpdateAPIView):

@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from . import views
 from authorization.views import *
 
+
 urlpatterns = (
     [
         path(
@@ -31,6 +32,11 @@ urlpatterns = (
             "api/get_app/<str:app_name>/",
             views.SingleAppEndpointAPIView.as_view(),
             name="get_model_metadata",
+        ),
+        path(
+            "api/get_contenttype_info/<int:content_id>/",
+            views.ContentTypeEndpointAPIView.as_view(),
+            name="get_contenttype_info",
         ),
         path("api/user/", views.UserListView.as_view(), name="user-list"),
         path("admin/", admin.site.urls),

@@ -17,11 +17,30 @@ const useStyles = makeStyles((theme) => ({
     // margin: "0 auto",
     color: theme.palette.text.dark,
   },
+  formModal: {
+    margin: theme.spacing(0),
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing(3),
+    borderRadius: 10,
+    boxShadow: theme.shadows[1],
+    // margin: "0 auto",
+    color: theme.palette.text.dark,
+  },
   formLimitPadding: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     backgroundColor: "#FFFFFF",
     padding: theme.spacing(3),
+    borderRadius: 10,
+    boxShadow: theme.shadows[1],
+    margin: "0 auto",
+    color: theme.palette.text.dark,
+  },
+  formNoPadding: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing(0),
     borderRadius: 10,
     boxShadow: theme.shadows[1],
     margin: "0 auto",
@@ -107,7 +126,9 @@ function BaseForm({
   minHeight = 0,
   limitPadding = false,
   extraPadding = false,
+  modal = false,
   noSpacing = false,
+  noPadding = false,
   background = "#F5F5F5",
   boxShadow = 0,
   justify = "center",
@@ -145,6 +166,10 @@ function BaseForm({
             ? classes.formExtraPadding
             : noSpacing
             ? classes.formNoSpacing
+            : modal
+            ? classes.formModal
+            : noPadding
+            ? classes.formnoPadding
             : classes.form
         }
         style={{

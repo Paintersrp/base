@@ -3,7 +3,7 @@ from auditlog.registry import auditlog
 from api.customs import *
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Job Posting Requirement",
     long_description="A requirement for a job posting",
     short_description="Job Requirement",
@@ -38,7 +38,7 @@ class Requirement(models.Model):
         return f"{self.detail[:50]}..."
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Job Posting Responsibility",
     long_description="This model represents the responsibilities for a particular job posting.",
     short_description="Responsibilities for a Job Posting",
@@ -71,7 +71,7 @@ class Responsibilities(models.Model):
         return f"{self.detail[:50]}..."
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Job Opening Post",
     long_description="This model represents a job posting on the company's contact page.",
     short_description="Model for a job posting",
@@ -107,6 +107,7 @@ class Responsibilities(models.Model):
             "JobPosting model reference": "/docs/jobposting/",
         },
     },
+    allowed=True,
 )
 class JobPosting(models.Model):
     position = CustomCharField(
@@ -184,7 +185,7 @@ class JobPosting(models.Model):
         verbose_name_plural = "Job Openings"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Application",
     long_description="This model represents a job application submitted through the company's website.",
     short_description="Job Application",
@@ -219,6 +220,7 @@ class JobPosting(models.Model):
             "Application model reference": "/docs/application/",
         },
     },
+    allowed=True,
 )
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"

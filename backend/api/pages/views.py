@@ -2,6 +2,7 @@ from django.shortcuts import render
 from api.custom_views import *
 from .models import *
 from .serializers import *
+from django.http import QueryDict
 
 
 class PageLookupAPIView(BaseDetailView):
@@ -34,6 +35,12 @@ class ComponentBulkAPIView(BaseBulkView):
     serializer_class = ComponentSerializer
 
 
+class ComponentObjMinAPIView(BaseListView):
+    queryset = ComponentObj.objects.all()
+    serializer_class = ComponentObjMinSerializer
+    model_class = ComponentObj
+
+
 class ComponentObjAPIView(BaseListView):
     queryset = ComponentObj.objects.all()
     serializer_class = ComponentObjSerializer
@@ -44,6 +51,34 @@ class ComponentObjDetailAPIView(BaseDetailView):
     queryset = ComponentObj.objects.all()
     serializer_class = ComponentObjSerializer
     model_class = ComponentObj
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = ComponentObj.objects.get(pk=instance.pk)
+
+        query_params = {}
+        for key, value in request.data.items():
+            if key.startswith("query_params"):
+                _, index, operator = key.split("[")
+                index = str(index.strip("]"))
+                operator = operator.strip("]")
+                if index not in query_params:
+                    query_params[index] = {}
+                query_params[index][operator] = value
+
+        print("query_params", query_params)
+        instance.query_params = query_params
+        instance.save()
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        print(changes)
+        create_log_entry(LogEntry.Action.UPDATE, request.username, instance, changes)
+
+        return Response(serializer.data)
 
 
 class ComponentObjBulkAPIView(BaseBulkView):
@@ -58,7 +93,9 @@ class PageAPIView(BaseListView):
     model_class = Page
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         data = self.serializer_class().format_data(request.data, create=True)
+        print(data)
 
         for field in self.foreign_key_fields:
             if field in data:
@@ -113,7 +150,9 @@ class PageObjAPIView(BaseListView):
     model_class = PageObj
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         data = self.serializer_class().format_data(request.data, create=True)
+        print("formatted", data)
 
         for field in self.foreign_key_fields:
             if field in data:
@@ -154,6 +193,28 @@ class PageObjDetailAPIView(BaseDetailView):
     queryset = PageObj.objects.all()
     serializer_class = PageObjSerializer
     model_class = PageObj
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_instance = self.model_class.objects.get(pk=instance.pk)
+        data = self.serializer_class().format_data(request.data, create=True)
+        print(data)
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        changes = return_changes(instance, old_instance)
+        print(changes)
+
+        create_log_entry(
+            LogEntry.Action.UPDATE,
+            request.username if request.username else None,
+            instance,
+            changes,
+        )
+
+        return Response(serializer.data)
 
 
 class PageObjBulkAPIView(BaseBulkView):

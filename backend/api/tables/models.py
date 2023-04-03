@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Table Columns",
     long_description="This model defines the labels for the services table in our application.",
     short_description="Labels for services table",
@@ -37,6 +37,7 @@ from django.dispatch import receiver
             "General app documentation": "/docs/app/tables/",
         },
     },
+    allowed=True,
 )
 class ServiceTableLabels(models.Model):
     name = CustomCharField(
@@ -88,7 +89,7 @@ class ServiceTableLabels(models.Model):
         verbose_name_plural = "Service Table Labels"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Compare Rows",
     long_description="This model defines the rows for the Service Comparison Table.",
     short_description="Rows for Service Comparison Table",
@@ -118,6 +119,7 @@ class ServiceTableLabels(models.Model):
             "General app documentation": "/docs/app/tables/",
         },
     },
+    allowed=True,
 )
 class ServiceCompareRows(models.Model):
     table_name = CustomCharField(
@@ -157,7 +159,7 @@ class ServiceCompareRows(models.Model):
         verbose_name_plural = "Service Table Rows"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Service Table",
     long_description="This model represents a table of services provided by the company.",
     short_description="Table of Services",
@@ -185,6 +187,7 @@ class ServiceCompareRows(models.Model):
             "General app documentation": "/docs/app/tables/",
         },
     },
+    allowed=True,
 )
 class ServiceTable(models.Model):
     name = CustomCharField(

@@ -3,7 +3,7 @@ from api.customs import *
 from auditlog.registry import auditlog
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Message",
     long_description="This model represents messages sent by users to the company, which can be viewed and archived by staff members.",
     short_description="A model for managing user messages.",
@@ -38,6 +38,7 @@ from auditlog.registry import auditlog
             "Support center documentation": "/docs/support/messages/",
         },
     },
+    allowed=True,
 )
 class Messages(models.Model):
     name = CustomCharField(
@@ -90,7 +91,7 @@ class Messages(models.Model):
         verbose_name_plural = "Messages"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Subscribe",
     long_description="This model represents the subscribers of our company's newsletter.",
     short_description="Model for managing newsletter subscribers.",
@@ -116,6 +117,7 @@ class Messages(models.Model):
             "How to manage subscribers": "https://www.example.com/blog/how-to-manage-newsletter-subscribers/",
         },
     },
+    allowed=True,
 )
 class Subscribers(models.Model):
     email = CustomEmailField(

@@ -1,7 +1,7 @@
 const choiceSource = (fieldName) => {
   switch (fieldName) {
     case "components":
-      return "componentobj";
+      return "componentmin";
     case "supported_sites":
       return "supportedsites";
     case "features":

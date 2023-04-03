@@ -9,8 +9,10 @@ import CharType from "../../Objects/AutoForm/Types/CharType";
 import BooleanType from "../../Objects/AutoForm/Types/BooleanType";
 import ForeignKeyType from "../../Objects/AutoForm/Types/ForeignKeyType";
 import FileType from "./Types/FileType";
+import JSONType from "./Types/JSONType/JSONType";
 
 const getByType = (
+  fieldMetadata,
   fieldName,
   modelMetadata,
   verboseName,
@@ -30,7 +32,8 @@ const getByType = (
   justify,
   markDownMixin,
   min_rows,
-  help_text
+  help_text,
+  handleModalUpdate
 ) => {
   switch (fieldType) {
     case "BooleanField":
@@ -130,6 +133,7 @@ const getByType = (
           mdColumnCount={md_column_count}
           helpText={help_text}
           handleComponentsChange={handleComponentsChange}
+          modelMetadata={modelMetadata}
         />
       );
     case "ImageField":
@@ -153,6 +157,8 @@ const getByType = (
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
           helpText={help_text}
+          fieldMetadata={fieldMetadata}
+          handleModalUpdate={handleModalUpdate}
         />
       );
     case "FileField":
@@ -164,6 +170,15 @@ const getByType = (
           handleInputChange={handleInputChange}
           xsColumnCount={xs_column_count}
           mdColumnCount={md_column_count}
+        />
+      );
+    case "JSONField":
+      return (
+        <JSONType
+          fieldName={fieldName}
+          formData={formData}
+          modelMetadata={modelMetadata}
+          handleComponentsChange={handleComponentsChange}
         />
       );
     default:

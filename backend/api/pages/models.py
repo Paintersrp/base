@@ -1,10 +1,29 @@
 from django.db import models
 from api.customs import *
+from api.utils import *
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.apps import apps
 
 
-@custom_metadata(
+ALLOWED_APPS = {
+    "authorization",
+    "articles",
+    "landing",
+    "about",
+    "services",
+    "support",
+    "jobs",
+    "general",
+    "tables",
+    "quizes",
+    "contact",
+    "content",
+    "pages",
+}
+
+
+@metadata(
     autoform_label="Hero Section",
     long_description="This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
     short_description="A model for creating hero sections.",
@@ -71,7 +90,7 @@ class Component(models.Model):
         verbose_name_plural = "Components"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Page Content",
     long_description="This model represents a set of page content.",
     short_description="A model for creating pages and page content.",
@@ -120,31 +139,14 @@ class Page(models.Model):
         verbose_name_plural = "Pages"
 
 
-ALLOWED_APPS = {
-    "authorization",
-    "articles",
-    "landing",
-    "about",
-    "services",
-    "support",
-    "jobs",
-    "general",
-    "tables",
-    "quizes",
-    "contact",
-    "content",
-    "pages",
-}
-
-
-@custom_metadata(
-    autoform_label="Page Content",
+@metadata(
+    autoform_label="Component",
     long_description="This model represents a set of page content.",
     short_description="A model for creating pages and page content.",
     pages_associated={
         "Landing": "/",
     },
-    include_preview=True,
+    include_preview=False,
     icon="SubtitlesIcon",
     icon_class=None,
     slug="hero",
@@ -162,36 +164,57 @@ ALLOWED_APPS = {
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "HeroBlock model reference": "/docs/model/heroblock/",
-            "Landing app documentation": "/docs/app/landing/",
+            "Page model reference": "/docs/model/page/",
+            "Full App documentation": "/docs/app/app/",
         },
     },
+    filter_options=["name", "content", "id"],
+    allowed=True,
 )
 class ComponentObj(models.Model):
-    name = models.CharField(max_length=50)
+    name = CustomCharField(
+        max_length=50,
+        verbose_name="Component Name",
+        help_text="Component Name",
+        md_column_count=6,
+    )
+    order = CustomPositiveIntegerField(
+        default=0, verbose_name="Page Appearance Order", md_column_count=6
+    )
     content = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        limit_choices_to=Q(app_label__in=ALLOWED_APPS),
+        limit_choices_to=lambda: {"model__in": ComponentObj.allowed_models()},
         verbose_name="Data Model Name",
     )
-    query_params = models.JSONField(
+    query_params = CustomJSONField(
         default=dict,
         blank=True,
         verbose_name="Query Parameters",
         help_text="Query parameters to filter the data source",
     )
-    order = models.PositiveIntegerField(default=0, verbose_name="Order")
+
+    @staticmethod
+    def allowed_models():
+        return [
+            m.__name__.lower()
+            for m in apps.get_models()
+            if hasattr(m._meta, "allowed") and m._meta.allowed
+        ]
+
+    class Meta:
+        verbose_name = "Components2"
+        verbose_name_plural = "Components2"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Page Content",
     long_description="This model represents a set of page content.",
     short_description="A model for creating pages and page content.",
     pages_associated={
         "Landing": "/",
     },
-    include_preview=True,
+    include_preview=False,
     icon="SubtitlesIcon",
     icon_class=None,
     slug="hero",
@@ -213,6 +236,8 @@ class ComponentObj(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["page_name"],
+    allowed=True,
 )
 class PageObj(models.Model):
     page_name = CustomCharField(

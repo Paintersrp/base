@@ -7,7 +7,7 @@ from tables.models import ServiceTable
 from quizes.models import Questionnaire
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Benefit",
     long_description="This model represents the benefits offered by your company to your customers. Each benefit has a header, description, icon, button text, and a link to a page.",
     short_description="Model for benefits offered by our company",
@@ -37,6 +37,7 @@ from quizes.models import Questionnaire
             "Deleting a Benefits object": "https://docs.example.com/delete-benefits-object",
         },
     },
+    allowed=True,
 )
 class Benefits(BaseModel):
     title = CustomCharField(
@@ -77,7 +78,7 @@ class Benefits(BaseModel):
         verbose_name_plural = "Benefits"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Process Image Item",
     long_description="This model represents an image used in the process of providing our services. Each image is associated with a service tier.",
     short_description="A model for process images",
@@ -104,6 +105,7 @@ class Benefits(BaseModel):
             "Deleting a ProcessImageItem object": "https://docs.example.com/delete-processimageitem-object",
         },
     },
+    allowed=True,
 )
 class ProcessImageItem(models.Model):
     image = models.ImageField(upload_to="process_images", verbose_name="Image")
@@ -121,7 +123,7 @@ class ProcessImageItem(models.Model):
         verbose_name_plural = "Process Image Items"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Process Text Item",
     long_description="This model represents a text item in a process or workflow. It contains a title, description, and an optional icon.",
     short_description="A text item in a process or workflow.",
@@ -149,6 +151,7 @@ class ProcessImageItem(models.Model):
             "Deleting a ProcessTextItem object": "https://docs.example.com/delete-processtextitem-object",
         },
     },
+    allowed=True,
 )
 class ProcessTextItem(models.Model):
     title = CustomCharField(

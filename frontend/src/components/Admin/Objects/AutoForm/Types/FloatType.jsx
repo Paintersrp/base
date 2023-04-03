@@ -4,7 +4,7 @@ import FormField from "../../../../Elements/Fields/FormField";
 
 const useStyles = makeStyles((theme) => ({
   helpText: {
-    margin: theme.spacing(1, 0, 0.25, 0),
+    margin: theme.spacing(1, 0, 0.5, 0),
     padding: 0,
     color: theme.palette.text.secondary,
   },

@@ -6,11 +6,12 @@ const verboseSource = (fieldName, item) => {
     case "features":
     case "requirements":
     case "responsibilities":
+    case "tags":
       return item.detail;
     case "rows":
       return `${item.detail} (${item.table_name})`;
     default:
-      return null;
+      return item.id;
   }
 };
 

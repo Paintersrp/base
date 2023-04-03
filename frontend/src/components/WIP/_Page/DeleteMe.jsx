@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const modelFields = ["name", "content", "query_params", "order"];
 
-const ComponentObjQueryParamsForm = ({ onSubmit }) => {
+const QueryParamsForm = ({ modelMetadata, onSubmit }) => {
   const classes = useStyles();
   const [field, setField] = useState("");
   const [queryParamValue, setQueryParamValue] = useState({});
@@ -77,15 +77,18 @@ const ComponentObjQueryParamsForm = ({ onSubmit }) => {
   };
 
   useEffect(() => {
-    if (modelFields && modelFields.length > 0) {
-      setField(modelFields[0]);
+    if (
+      modelMetadata.filter_options &&
+      modelMetadata.filter_options.length > 0
+    ) {
+      setField(modelMetadata.filter_options[0]);
     }
-  }, [modelFields]);
+  }, [modelMetadata.filter_options]);
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <Select value={field} onChange={handleFieldChange}>
-        {modelFields.map((fieldName) => (
+        {modelMetadata.filter_options.map((fieldName) => (
           <MenuItem key={fieldName} value={fieldName}>
             {fieldName}
           </MenuItem>
@@ -132,4 +135,4 @@ const ComponentObjQueryParamsForm = ({ onSubmit }) => {
   );
 };
 
-export default ComponentObjQueryParamsForm;
+export default QueryParamsForm;

@@ -56,6 +56,7 @@ function ObjectPage() {
   const [data, setData] = useState(null);
   const [ready, setReady] = useState(false);
   const [create, setCreate] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   console.log(str, "str");
@@ -119,6 +120,7 @@ function ObjectPage() {
         })
         .catch((error) => console.log(error));
     } else {
+      console.log("location, location, location");
       setUrl(location.state.url);
       setAppName(location.state.appName);
       setKeys(location.state.keys);
@@ -132,6 +134,25 @@ function ObjectPage() {
 
   const handleUpdate = () => {
     fetchData();
+  };
+
+  const handleModalUpdate = () => {
+    console.log("testeeeeruy modal");
+    axiosInstance
+      .get(`/get_models/${str}/`)
+      .then((response) => {
+        console.log(response.data);
+        setUrl(response.data.url);
+        setAppName(response.data.app_name);
+        setKeys(response.data.keys);
+        setMetadata(response.data.metadata);
+        setModel(response.data);
+        setReady(true);
+        console.log("OBJ PAGE URL: ", response.data.url);
+        console.log("OBJ PAGE KEYS: ", response.data.keys);
+        setRefresh(true);
+      })
+      .catch((error) => console.log(error));
   };
 
   if (!ready) {
@@ -217,6 +238,9 @@ function ObjectPage() {
               endpointUrl={url}
               data={data}
               handleUpdate={handleUpdate}
+              handleModalUpdate={handleModalUpdate}
+              refresh={refresh}
+              setRefresh={setRefresh}
             />
           )}
         </BaseContent>

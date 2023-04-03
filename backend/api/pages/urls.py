@@ -19,6 +19,11 @@ urlpatterns = [
         name="component-bulk-detail",
     ),
     path(
+        "componentmin/",
+        ComponentObjMinAPIView.as_view(),
+        name="componentobjmin-list",
+    ),
+    path(
         "componentobj/",
         ComponentObjAPIView.as_view(),
         name="componentobj-list",

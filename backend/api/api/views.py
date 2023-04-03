@@ -22,7 +22,7 @@ from sendgrid.helpers.mail import Mail
 from support.models import Subscribers
 from articles.models import Articles, Tags
 from django.db.models import Max
-from .utils import analyze_django_app
+from .utils import analyze_django_app, get_filter_choices
 from django.db import models
 
 
@@ -39,6 +39,14 @@ def get_model_metadata(model_name):
     serializer_class = getattr(model, "serializer_class", serializers.ModelSerializer)
     serializer = serializer_class()
     fields = serializer.get_fields()
+
+    if hasattr(model._meta, "filter_choices"):
+        filter_choices = get_filter_choices(
+            model,
+            model._meta.filter_options
+            if hasattr(model._meta, "filter_options")
+            else None,
+        )
 
     metadata = {
         "modelName": model.__name__,
@@ -85,12 +93,21 @@ def get_model_metadata(model_name):
         "info_dump": model._meta.info_dump
         if hasattr(model._meta, "info_dump")
         else None,
+        "filter_options": model._meta.filter_options
+        if hasattr(model._meta, "filter_options")
+        else None,
+        "filter_choices": filter_choices,
+        "allowed": model._meta.allowed if hasattr(model._meta, "allowed") else None,
     }
 
-    print(fields)
+    all_fields_choices = []
 
     for field_name, field in fields.items():
-        if field_name == "data_source":
+        if (
+            field_name == "data_source"
+            or field_name == "content_type_info"
+            or field_name == "used_on"
+        ):
             continue
 
         if isinstance(field, models.ForeignKey):
@@ -104,11 +121,30 @@ def get_model_metadata(model_name):
         choices = getattr(field, "choices", None)
 
         if choices:
-            choices_dict = dict(choices)
-            field_choices = [
-                {"value": value, "display": display}
-                for value, display in choices_dict.items()
-            ]
+            if field_name == "content":
+                choices_dict = dict(choices)
+
+                for value, display in choices_dict.items():
+                    content_type = ContentType.objects.get_for_id(value)
+                    try:
+                        content_model_name = content_type.model_class().__name__
+
+                        field_choices = {
+                            "value": value,
+                            "display": display,
+                            "model_name": content_model_name,
+                        }
+                    except:
+                        field_choices = {"value": value, "display": display}
+
+                    all_fields_choices.append(field_choices)
+            else:
+                choices_dict = dict(choices)
+                field_choices = [
+                    {"value": value, "display": display}
+                    for value, display in choices_dict.items()
+                ]
+                all_fields_choices.append(field_choices)
         else:
             field_choices = None
 
@@ -123,7 +159,7 @@ def get_model_metadata(model_name):
             "min_value": getattr(field, "min_value", None),
             "max_value": getattr(field, "max_value", None),
             "source": getattr(field, "source", None),
-            "choices": field_choices,
+            "choices": all_fields_choices,
             "verbose_name": getattr(
                 model._meta.get_field(field_name), "verbose_name", None
             ),
@@ -560,7 +596,11 @@ class SingleModelAPIView(APIView):
                             field_name
                         ).verbose_name
                 except:
-                    metadata[field_name]["verbose_name"] = "Default"
+                    print(field_name)
+                    if field_name == "used_on":
+                        metadata[field_name]["verbose_name"] = "Used On"
+                    else:
+                        metadata[field_name]["verbose_name"] = "Default"
         try:
             url = reverse(f"{model_name}-list")
             url = url.replace("/api/", "/")
@@ -788,3 +828,20 @@ class SingleAppEndpointAPIView(APIView):
             endpoints["models"][model_name].append(endpoint)
 
         return Response(endpoints)
+
+
+class ContentTypeEndpointAPIView(APIView):
+    def get(self, request, content_id, *args, **kwargs):
+        try:
+            content_type = ContentType.objects.get(id=content_id)
+        except ContentType.DoesNotExist:
+            raise Http404("Content type does not exist")
+
+        model = apps.get_model(content_type.app_label, content_type.model)
+        if not model:
+            raise Http404("Model not found")
+
+        model_name = model.__name__.lower()
+        metadata = get_model_metadata(model_name)
+
+        return Response(metadata)

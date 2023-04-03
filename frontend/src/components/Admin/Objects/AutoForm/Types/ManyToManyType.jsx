@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import ManyToManyField from "../../../../Elements/Fields/ManyToManyField";
+import AutoFormDialog from "../AutoFormDialog";
 
 const useStyles = makeStyles((theme) => ({
   helpText: {
@@ -20,6 +21,7 @@ const ManyToManyType = ({
   xsColumnCount = 12,
   mdColumnCount = 12,
   helpText,
+  modelMetadata,
 }) => {
   const classes = useStyles();
 
@@ -49,6 +51,7 @@ const ManyToManyType = ({
           verboseName={verboseName}
           handleManyToManyChange={handleManyToManyChange}
           handleComponentsChange={handleComponentsChange}
+          modelMetadata={modelMetadata}
         />
       </div>
     </Grid>

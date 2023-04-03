@@ -286,9 +286,9 @@ const PanelTable = ({
         <TableBody>
           {stableSort(filteredData, getComparator(order, orderBy))
             .filter((item) => {
-              console.log("item", item["components"]);
-              if (item === "components") {
-                console.log("item", item);
+              console.log("item", filteredData);
+              if (item === "used_on") {
+                console.log("item", item["used_on"]);
               }
               const values = Object.values(item)
                 .filter((val) => val !== null)
@@ -315,58 +315,65 @@ const PanelTable = ({
                     onChange={() => handleSelectItem(item)}
                   />
                 </TableCell>
-                {keys.map((key) => (
-                  <React.Fragment key={key}>
-                    {metadata[key].type === "ImageField" ? (
-                      <TableCell className={classes.tableCell}>
-                        <img
-                          src={item[key]}
-                          alt="Thumbnail"
-                          style={{ width: 100, height: 75 }}
-                        />
-                      </TableCell>
-                    ) : (
-                      <TableCell className={classes.tableCell}>
-                        {metadata[key].type === "DateTimeField" ? (
-                          new Date(item[key]).toLocaleString()
-                        ) : typeof item[key] === "boolean" ? (
-                          item[key] ? (
-                            "true"
-                          ) : (
-                            "false"
-                          )
-                        ) : key === "token" ? (
-                          "..." + item[key].substring(80, 120) + "..."
-                        ) : key.includes("color") ? (
-                          <div
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              backgroundColor: item[key],
-                              borderRadius: "50%",
-                              border: "1px solid grey",
-                            }}
+                {keys.map((key) => {
+                  console.log(item[key]);
+                  return (
+                    <React.Fragment key={key}>
+                      {metadata[key].type === "ImageField" ? (
+                        <TableCell className={classes.tableCell}>
+                          <img
+                            src={item[key]}
+                            alt="Thumbnail"
+                            style={{ width: 100, height: 75 }}
                           />
-                        ) : key === "author" ? (
-                          item["author_details"].username
-                        ) : key === "components" ? (
-                          item[key]
-                            .map((component) => component.name)
-                            .join(", ")
-                        ) : (
-                          item[key]
-                        )}
-                      </TableCell>
-                    )}
-                    {metadata[key].verbose_name === "Tag Name" && (
-                      <TableCell key="count" className={classes.tableCell}>
-                        {model["count"]
-                          ? model["count"].values[item[key]]
-                          : metadata["tag_counts"].values[item[key]]}
-                      </TableCell>
-                    )}
-                  </React.Fragment>
-                ))}
+                        </TableCell>
+                      ) : (
+                        <TableCell className={classes.tableCell}>
+                          {metadata[key].type === "DateTimeField" ? (
+                            new Date(item[key]).toLocaleString()
+                          ) : typeof item[key] === "boolean" ? (
+                            item[key] ? (
+                              "true"
+                            ) : (
+                              "false"
+                            )
+                          ) : key === "token" ? (
+                            "..." + item[key].substring(80, 120) + "..."
+                          ) : key.includes("color") ? (
+                            <div
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                backgroundColor: item[key],
+                                borderRadius: "50%",
+                                border: "1px solid grey",
+                              }}
+                            />
+                          ) : key === "author" ? (
+                            item["author_details"].username
+                          ) : key === "components" ? (
+                            item[key]
+                              .map((component) => component.name)
+                              .join(", ")
+                          ) : key === "used_on" ? (
+                            item[key].map((component) => component).join(", ")
+                          ) : key === "content" ? (
+                            item["content_type_info"].model
+                          ) : (
+                            item[key]
+                          )}
+                        </TableCell>
+                      )}
+                      {metadata[key].verbose_name === "Tag Name" && (
+                        <TableCell key="count" className={classes.tableCell}>
+                          {model["count"]
+                            ? model["count"].values[item[key]]
+                            : metadata["tag_counts"].values[item[key]]}
+                        </TableCell>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
 
                 {model.model_name === "questionnaire" ? (
                   <TableCell

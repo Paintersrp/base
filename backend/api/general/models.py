@@ -3,7 +3,7 @@ from api.customs import *
 from auditlog.registry import auditlog
 
 
-@custom_metadata(
+@metadata(
     autoform_label="SEO Header",
     long_description="This model represents the headers used for SEO purposes on various pages of the website. It includes fields for the page name, title, description, keywords, image, and URL.",
     short_description="Headers for SEO",
@@ -38,6 +38,7 @@ from auditlog.registry import auditlog
             "General app documentation": "/docs/app/general/",
         },
     },
+    allowed=True,
 )
 class Header(models.Model):
     page = CustomCharField(
@@ -80,7 +81,7 @@ class Header(models.Model):
         verbose_name_plural = "SEO Headers"
 
 
-@custom_metadata(
+@metadata(
     autoform_label="Content Text Block",
     long_description="This model represents a content text block used to display a header or a description in the hero section of various pages.",
     short_description="Content Text Block",
@@ -112,6 +113,7 @@ class Header(models.Model):
             "General app documentation": "/docs/app/general/",
         },
     },
+    allowed=True,
 )
 class ContentTextBlock(models.Model):
     slug = CustomCharField(
