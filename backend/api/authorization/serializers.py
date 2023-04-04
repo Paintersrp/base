@@ -3,7 +3,10 @@ from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["username", "email"]
+    FIELD_KEYS = [
+        "username",
+        "email",
+    ]
 
     class Meta:
         model = User
@@ -33,7 +36,12 @@ class TokenBlacklistSerializer(serializers.ModelSerializer):
 
 class ThemeSettingsSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(source="user.username")
-    FIELD_KEYS = ["user", "primary_color", "secondary_color", "background_color"]
+    FIELD_KEYS = [
+        "user",
+        "primary_color",
+        "secondary_color",
+        "background_color",
+    ]
 
     class Meta:
         model = ThemeSettings

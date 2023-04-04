@@ -3,6 +3,7 @@ from .serializers import *
 from api.custom_views import *
 from jobs.models import JobPosting
 from api.utils import get_serialized_page_data
+from django.shortcuts import get_object_or_404
 
 
 class ContactInformationAPIView(BaseListView):
@@ -87,6 +88,33 @@ class ContactAPIView(BaseListView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     model_class = Contact
+
+    def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+        print(data)
+
+        contact_info_id = data.get("contact_info")
+        socials_id = data.get("socials")
+        hours_id = data.get("hours")
+        print(contact_info_id)
+
+        contact_info = get_object_or_404(ContactInformation, pk=contact_info_id)
+        socials = get_object_or_404(Socials, pk=socials_id)
+        hours = get_object_or_404(Hours, pk=hours_id)
+
+        data["contact_info"] = contact_info
+        data["socials"] = socials
+        data["hours"] = hours
+
+        serializer = self.get_serializer(data=data)
+
+        serializer.is_valid()
+        print(serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+        print(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ContactDetailView(BaseDetailView):

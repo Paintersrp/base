@@ -3,7 +3,14 @@ from .models import *
 
 
 class MessagesSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["created_at", "name", "email", "subject", "is_read", "is_archived"]
+    FIELD_KEYS = [
+        "created_at",
+        "name",
+        "email",
+        "subject",
+        "is_read",
+        "is_archived",
+    ]
 
     class Meta:
         model = Messages
@@ -11,7 +18,10 @@ class MessagesSerializer(serializers.ModelSerializer):
 
 
 class SubscribersSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["email", "subscribed_on"]
+    FIELD_KEYS = [
+        "email",
+        "subscribed_on",
+    ]
 
     class Meta:
         model = Subscribers

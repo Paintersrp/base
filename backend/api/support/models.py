@@ -38,7 +38,8 @@ from auditlog.registry import auditlog
             "Support center documentation": "/docs/support/messages/",
         },
     },
-    allowed=True,
+    filter_options=["id", "name", "email", "subject", "is_read", "is_archived"],
+    allowed=False,
 )
 class Messages(models.Model):
     name = CustomCharField(
@@ -70,13 +71,17 @@ class Messages(models.Model):
         verbose_name="Message",
         help_text="Message Content",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Created At",
+    )
     is_read = CustomBooleanField(
         default=False,
         md_column_count=12,
         justify="flex-start",
         verbose_name="Is Read",
         help_text="Is Read Status",
+        db_index=True,
     )
     is_archived = CustomBooleanField(
         default=False,
@@ -84,9 +89,14 @@ class Messages(models.Model):
         justify="flex-start",
         verbose_name="Is Archived",
         help_text="Is Archived Status",
+        db_index=True,
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["-id"]
         verbose_name = "Messages"
         verbose_name_plural = "Messages"
 
@@ -117,7 +127,8 @@ class Messages(models.Model):
             "How to manage subscribers": "https://www.example.com/blog/how-to-manage-newsletter-subscribers/",
         },
     },
-    allowed=True,
+    filter_options=["id", "email"],
+    allowed=False,
 )
 class Subscribers(models.Model):
     email = CustomEmailField(
@@ -125,9 +136,11 @@ class Subscribers(models.Model):
         md_column_count=12,
         verbose_name="Email",
         help_text="Email Address",
+        db_index=True,
     )
     subscribed_on = models.DateTimeField(
-        auto_now_add=True, verbose_name="Subscribed On"
+        auto_now_add=True,
+        verbose_name="Subscribed On",
     )
 
     def __str__(self):

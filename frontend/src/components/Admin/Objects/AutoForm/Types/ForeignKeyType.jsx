@@ -51,7 +51,7 @@ const ForeignKeyType = ({
         setData(response.data);
         console.log("YEAH:", response.data);
       });
-    } else if (fieldName === "contact") {
+    } else if (fieldName === "contact_info") {
       axiosInstance.get(`/contactinformation/`).then((response) => {
         setData(response.data);
         console.log("YEAH:", response.data);
@@ -63,6 +63,11 @@ const ForeignKeyType = ({
       });
     } else if (fieldName === "components") {
       axiosInstance.get(`/componentobj/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (fieldName === "page_set") {
+      axiosInstance.get(`/pageset/`).then((response) => {
         setData(response.data);
         console.log("YEAH:", response.data);
       });

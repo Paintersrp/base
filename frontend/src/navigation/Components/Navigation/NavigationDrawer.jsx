@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationDrawer({ links, toggleDrawer, pages }) {
+export default function NavigationDrawer({ links, toggleDrawer, appData }) {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
 
@@ -34,7 +34,7 @@ export default function NavigationDrawer({ links, toggleDrawer, pages }) {
     <>
       <div className={classes.list}>
         <div className={classes.toolbar}>
-          {auth.username ? (
+          {auth.username && appData.users ? (
             <>
               <NavigationUser
                 username={auth.username}
@@ -42,29 +42,30 @@ export default function NavigationDrawer({ links, toggleDrawer, pages }) {
               />
             </>
           ) : (
-            <NavigationNoUser />
+            <NavigationNoUser appData={appData} />
           )}
         </div>
         <Divider className={classes.divider} />
         <NavigationLinks
-          pages={pages}
           links={links}
           toggleDrawer={toggleDrawer}
+          appData={appData}
         />
-
-        <>
-          {auth.is_authenticated ? (
-            <NavigationAuthed
-              toggleDrawer={toggleDrawer}
-              handleLogout={handleLogout}
-            />
-          ) : (
-            <NavigationUnauthed toggleDrawer={toggleDrawer} />
-          )}
-          {auth.is_superuser ? (
-            <NavigationAdmin toggleDrawer={toggleDrawer} />
-          ) : null}
-        </>
+        {appData.users && (
+          <>
+            {auth.is_authenticated ? (
+              <NavigationAuthed
+                toggleDrawer={toggleDrawer}
+                handleLogout={handleLogout}
+              />
+            ) : (
+              <NavigationUnauthed toggleDrawer={toggleDrawer} />
+            )}
+            {auth.is_superuser ? (
+              <NavigationAdmin toggleDrawer={toggleDrawer} />
+            ) : null}
+          </>
+        )}
       </div>
       <List
         style={{

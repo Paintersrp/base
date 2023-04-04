@@ -67,7 +67,7 @@ const ChoiceType = ({
   fieldMetadata,
   handleModalUpdate,
 }) => {
-  console.log(choices);
+  console.log("choices", choices, fieldName);
   console.log("fieldName", fieldName);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -139,6 +139,9 @@ const ChoiceType = ({
               ).map(([key, value]) => {
                 if (fieldName === "content" && !value.model_name) {
                   return null;
+                }
+                if (fieldName === "category") {
+                  console.log("key", key, "value", value.display);
                 }
 
                 return (

@@ -21,6 +21,8 @@ function App() {
   });
   const dispatch = useDispatch();
   const [theme, setThemeUpdate] = useState(null);
+  const [appData, setAppData] = useState([]);
+  const [ready, setReady] = useState(false);
 
   const handleUpdate = () => {
     axiosInstance
@@ -81,13 +83,16 @@ function App() {
         console.error(error);
       });
   };
+
+  
+
   return (
     <ThemeProvider theme={theme ? theme : baseTheme}>
       <CssBaseline />
 
       <Router>
         <ScrollToTop />
-        <SiteRoutes handleUpdate={handleUpdate} />
+        <SiteRoutes handleUpdate={handleUpdate}  />
       </Router>
     </ThemeProvider>
   );

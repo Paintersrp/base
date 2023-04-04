@@ -23,12 +23,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationNoUser({}) {
+export default function NavigationNoUser({ appData }) {
   const classes = useStyles();
 
   return (
     <ListItem className={classes.links}>
-      <Typography className={classes.appNameText}>EDGELORDS</Typography>
+      <Typography className={classes.appNameText}>
+        {appData.business_name}
+      </Typography>
     </ListItem>
   );
 }

@@ -40,7 +40,13 @@ class ArticleSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)
     related_articles = serializers.SerializerMethodField()
     tags_options = serializers.SerializerMethodField()
-    FIELD_KEYS = ["created_at", "updated_at", "title", "author", "image"]
+    FIELD_KEYS = [
+        "created_at",
+        "updated_at",
+        "title",
+        "author",
+        "image",
+    ]
 
     class Meta:
         model = Articles

@@ -80,6 +80,7 @@ class CustomUserManager(UserManager):
             "Authorization app documentation": "/docs/app/authorization/",
         },
     },
+    allowed=False,
 )
 class User(AbstractUser):
     username = CustomCharField(
@@ -88,6 +89,7 @@ class User(AbstractUser):
         md_column_count=6,
         verbose_name="Username",
         help_text="Username",
+        db_index=True,
     )
     email = CustomEmailField(
         unique=True,
@@ -166,6 +168,9 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
@@ -197,6 +202,7 @@ class User(AbstractUser):
             "Authorization app documentation": "/docs/app/authorization/",
         },
     },
+    allowed=False,
 )
 class ThemeSettings(models.Model):
     user = models.OneToOneField(
@@ -205,6 +211,7 @@ class ThemeSettings(models.Model):
         related_name="theme_settings",
         verbose_name="User",
         help_text="Help Text Placeholder",
+        db_index=True,
     )
     primary_color = CustomCharField(
         max_length=7,
@@ -255,6 +262,7 @@ class ThemeSettings(models.Model):
             "Authorization app documentation": "/docs/app/authorization/",
         },
     },
+    allowed=False,
 )
 class TokenBlacklist(models.Model):
     token = CustomTextField(

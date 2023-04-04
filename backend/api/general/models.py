@@ -38,6 +38,7 @@ from auditlog.registry import auditlog
             "General app documentation": "/docs/app/general/",
         },
     },
+    filter_options=["page", "keywords"],
     allowed=True,
 )
 class Header(models.Model):
@@ -46,6 +47,7 @@ class Header(models.Model):
         md_column_count=6,
         verbose_name="Page",
         help_text="Referential Page",
+        db_index=True,
     )
     title = CustomTextField(
         max_length=200,
@@ -76,7 +78,11 @@ class Header(models.Model):
         help_text="SEO URL",
     )
 
+    def __str__(self):
+        return self.page
+
     class Meta:
+        ordering = ["page"]
         verbose_name = "SEO Headers"
         verbose_name_plural = "SEO Headers"
 
@@ -113,6 +119,7 @@ class Header(models.Model):
             "General app documentation": "/docs/app/general/",
         },
     },
+    filter_options=["slug"],
     allowed=True,
 )
 class ContentTextBlock(models.Model):
@@ -122,6 +129,7 @@ class ContentTextBlock(models.Model):
         md_column_count=6,
         verbose_name="Slug",
         help_text="Identifier",
+        db_index=True,
     )
     title = CustomCharField(
         max_length=200,
@@ -136,6 +144,9 @@ class ContentTextBlock(models.Model):
         help_text="Description",
         min_rows=3,
     )
+
+    def __str__(self):
+        return self.slug
 
     class Meta:
         verbose_name = "Content Text Blocks"

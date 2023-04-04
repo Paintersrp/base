@@ -33,7 +33,7 @@ const ComponentRouter = (props) => {
   };
 
   switch (component) {
-    case "Value":
+    case "Values":
       return (
         <div className={classes.valueRoot}>
           <div className={classes.valueContainer}>
@@ -117,7 +117,7 @@ const ComponentRouter = (props) => {
         />
       );
     default:
-      return <div>Unknown component type: {type}</div>;
+      return <div>Unknown component type: {component}</div>;
   }
 };
 

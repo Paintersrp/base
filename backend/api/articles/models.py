@@ -44,6 +44,8 @@ class HighlightedArticlesManager(models.Manager):
             "JobPosting model reference": "/docs/jobposting/",
         },
     },
+    filter_options=["page_name"],
+    allowed=True,
 )
 class Tags(models.Model):
     detail = CustomCharField(
@@ -67,7 +69,7 @@ class Tags(models.Model):
 
 
 @metadata(
-    autoform_label="TitleBlock Titties",
+    autoform_label="TitleBlock",
     long_description="Description Placeholder",
     short_description="Short Description",
     pages_associated={
@@ -102,15 +104,31 @@ class Tags(models.Model):
             "JobPosting model reference": "/docs/jobposting/",
         },
     },
+    filter_options=["page_name"],
+    allowed=True,
 )
 class Articles(models.Model):
-    title = CustomCharField(max_length=255)
+    title = CustomCharField(
+        max_length=255,
+    )
     content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tags, related_name="articles", verbose_name="Tags")
-    image = models.ImageField(blank=True, null=True, upload_to="article_images")
+    tags = models.ManyToManyField(
+        Tags,
+        related_name="articles",
+        verbose_name="Tags",
+    )
+    image = models.ImageField(
+        blank=True,
+        null=True,
+        upload_to="article_images",
+    )
     is_highlighted = models.BooleanField(default=False)
 
     highlighted_objects = HighlightedArticlesManager()

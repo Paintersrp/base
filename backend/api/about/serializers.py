@@ -6,7 +6,11 @@ from contact.serializers import *
 
 class AboutBlockSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)
-    FIELD_KEYS = ["title", "image"]
+    FIELD_KEYS = [
+        "name",
+        "title",
+        "image",
+    ]
 
     class Meta:
         model = AboutBlock
@@ -23,7 +27,10 @@ class AboutBlockSerializer(serializers.ModelSerializer):
 
 
 class MissionStatementSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title"]
+    FIELD_KEYS = [
+        "name",
+        "title",
+    ]
 
     class Meta:
         model = MissionStatement
@@ -31,7 +38,10 @@ class MissionStatementSerializer(serializers.ModelSerializer):
 
 
 class CompanyHistorySerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title"]
+    FIELD_KEYS = [
+        "name",
+        "title",
+    ]
 
     class Meta:
         model = CompanyHistory
@@ -39,7 +49,10 @@ class CompanyHistorySerializer(serializers.ModelSerializer):
 
 
 class ValueSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "icon"]
+    FIELD_KEYS = [
+        "title",
+        "icon",
+    ]
 
     class Meta:
         model = Value
@@ -56,7 +69,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class FAQSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(source="category.name")
-    FIELD_KEYS = ["question", "answer", "category"]
+    FIELD_KEYS = [
+        "name",
+        "question",
+        "answer",
+        "category",
+    ]
 
     class Meta:
         model = FAQ
@@ -76,8 +94,10 @@ class FAQSerializer(serializers.ModelSerializer):
         return faq
 
     def update(self, instance, validated_data):
+        print(validated_data)
         instance.question = validated_data.get("question", instance.question)
         instance.answer = validated_data.get("answer", instance.answer)
+        instance.name = validated_data.get("name", instance.name)
         category = validated_data.get("category")
 
         category, created = Category.objects.get_or_create(name=category)

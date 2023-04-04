@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.text.secondary,
     color: "#ffffff",
-    fontSize: "14px",
+    fontSize: "12px",
   },
   arrow: {
     color: theme.palette.text.secondary,
@@ -103,6 +103,8 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
   const dispatch = useDispatch();
   const editmode = useSelector((state) => state.editmode);
   const auth = useSelector((state) => state.auth);
+  const plugins = useSelector((state) => state.plugins);
+  console.log("plugins", plugins.usersPlugin);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const navigate = useNavigate();
@@ -218,7 +220,7 @@ const FABMenu = ({ editing, setEditing, handleUpdate, linkTo = "/admin" }) => {
                   </Tooltip>
                 </>
               )}
-              {auth.is_authenticated && (
+              {auth.is_authenticated && plugins.usersPlugin && (
                 // Unnecessary but eventually may add some non-authenticated actions to this menu
                 <>
                   <Tooltip

@@ -18,6 +18,7 @@ import { Pagination } from "../../../Elements/Fields/Pagination";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import { capitalizeFirst } from "../../../../utils/capitalizeFirst";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -359,6 +360,8 @@ const PanelTable = ({
                             item[key].map((component) => component).join(", ")
                           ) : key === "content" ? (
                             item["content_type_info"].model
+                          ) : key === "access" ? (
+                            capitalizeFirst(item[key])
                           ) : (
                             item[key]
                           )}

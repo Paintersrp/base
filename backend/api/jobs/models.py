@@ -30,6 +30,7 @@ from api.customs import *
             "Jobs documentation": "/docs/support/requirement/",
         },
     },
+    allowed=False,
 )
 class Requirement(models.Model):
     detail = models.CharField(max_length=200)
@@ -63,6 +64,7 @@ class Requirement(models.Model):
             "JobPosting": "/docs/models/job-posting/",
         },
     },
+    allowed=False,
 )
 class Responsibilities(models.Model):
     detail = models.CharField(max_length=200)
@@ -108,6 +110,7 @@ class Responsibilities(models.Model):
         },
     },
     allowed=True,
+    filter_options=["filled", "position", "type"],
 )
 class JobPosting(models.Model):
     position = CustomCharField(
@@ -115,6 +118,7 @@ class JobPosting(models.Model):
         md_column_count=4,
         verbose_name="Position",
         help_text="Job Title/Position",
+        db_index=True,
     )
     location = CustomCharField(
         max_length=80,
@@ -173,7 +177,11 @@ class JobPosting(models.Model):
         default=False,
         verbose_name="Filled",
         help_text="Filled Status",
+        db_index=True,
     )
+
+    def __str__(self):
+        return self.position
 
     def delete(self, *args, **kwargs):
         self.requirements.all().delete()
@@ -220,6 +228,7 @@ class JobPosting(models.Model):
             "Application model reference": "/docs/application/",
         },
     },
+    filter_options=["job", "status"],
     allowed=True,
 )
 class Application(models.Model):
@@ -299,8 +308,13 @@ class Application(models.Model):
         default="Pending",
         verbose_name="Status",
         help_text="Application Status",
+        db_index=True,
     )
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.job.name}"
+
     class Meta:
+        ordering = ["-id"]
         verbose_name = "Application"
         verbose_name_plural = "Applications"

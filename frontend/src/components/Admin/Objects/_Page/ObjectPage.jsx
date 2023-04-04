@@ -232,7 +232,12 @@ function ObjectPage() {
           ) : model.verbose_name === "Articles" ? (
             <ArticleCreate />
           ) : create ? (
-            <AutoForm endpointUrl={url} handleUpdate={handleUpdate} />
+            <AutoForm
+              endpointUrl={url}
+              handleUpdate={handleUpdate}
+              refresh={refresh}
+              setRefresh={setRefresh}
+            />
           ) : (
             <AutoForm
               endpointUrl={url}

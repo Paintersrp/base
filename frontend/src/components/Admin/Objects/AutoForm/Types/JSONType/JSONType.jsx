@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
   Typography,
+  ListSubheader,
 } from "@material-ui/core";
 import axiosInstance from "../../../../../../lib/Axios/axiosInstance";
 import JSONFieldTable from "./JSONFieldTable";
@@ -188,6 +189,7 @@ const JSONType = ({ formData, fieldName, handleComponentsChange }) => {
                       },
                     }}
                   >
+                    {/* <ListSubheader>Category 1</ListSubheader> */}
                     {filterOptions.map((fieldName) => (
                       <MenuItem key={fieldName} value={fieldName}>
                         {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}

@@ -29,7 +29,6 @@ import { closeSnackbar } from "../../lib/Actions/snackbar";
 import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/Axios/axiosInstance";
-import AdminRoute from "./AdminRoute";
 import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
 import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
 import Footer from "../Components/Footer/Footer";
@@ -40,32 +39,28 @@ import WIPPage from "../../components/Elements/Layout/WIPPage";
 import CreateUpdateArticle from "../../components/Articles/Create/ArticleCreateUpdate";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import DynamicPage from "../../components/Dynamic/DynamicPage";
+import NavigationSwitch from "../../components/Dynamic/NavigationSwitch";
+import FooterSwitch from "../../components/Dynamic/FooterSwitch";
+import { setJobs, setServices, setUsers } from "../../lib/Actions/plugins";
+import { ProtectedRoute, AdminRoute, PublicRoute } from "./RouteAccess";
 
-{
-  /* 
-  import PrivateRoute from "./navigation/Routes/ProtectedRoute";
- 
-
-    Private Route Example:
-        <Route exact path="/logout" element={<PrivateRoute />}>
-          <Route path="/logout" element={<RegisterForm />} />
-        </Route> 
-
-    Admin Route Example:
-        <Route exact path="/register" element={<AdminRoute />}>
-          <Route path="/register" element={<RegisterForm />} />
-        </Route> 
-  */
+function NotFound() {
+  return (
+    <div>
+      <h1>404 Not Found</h1>
+      <p>The page you are looking for does not exist.</p>
+    </div>
+  );
 }
 
 export default function SiteRoutes({ handleUpdate }) {
-  const [jobPostings, setJobPostings] = useState();
-  const [socialData, setSocialData] = useState();
-  const [pages, setPages] = useState();
+  const [ready, setReady] = useState(false);
+  const [appData, setAppData] = useState([]);
   const location = useLocation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const auth = useSelector((state) => state.auth);
+  const plugins = useSelector((state) => state.plugins);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isAdminPath = location.pathname.startsWith("/admin");
@@ -73,40 +68,45 @@ export default function SiteRoutes({ handleUpdate }) {
   const [count, setCount] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      axiosInstance
-        .get("/appinfo/")
-        .then((response) => {
-          setPages(response.data.Page);
-          setJobPostings(response.data.JobPosting);
-          setSocialData(response.data.Socials);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    };
-    fetchData();
+    axiosInstance
+      .get(`/get-app/main/`)
+      .then((response) => {
+        console.log("appData", response.data.jobs);
+        setAppData(response.data);
+
+        dispatch(
+          setJobs({
+            jobsPlugin: response.data.jobs,
+          })
+        );
+        dispatch(
+          setUsers({
+            usersPlugin: response.data.users,
+          })
+        );
+        dispatch(
+          setServices({
+            servicesPlugin: response.data.services,
+          })
+        );
+        setReady(true);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
-  if (!pages) {
-    return null;
+  if (!ready || Object.keys(appData).length === 0) {
+    return <Loading loading={true} message="Gathering Resources" />;
   }
 
   return (
     <>
-      {jobPostings && pages && (
-        <>
-          {!isAdminPath ? (
-            <Navigation
-              links={linkData(jobPostings)}
-              appName={"EDGELORDS"}
-              pages={pages}
-            />
-          ) : (
-            <AdminNavigation setCount={setCount} count={count} />
-          )}
-        </>
-      )}
+      <NavigationSwitch
+        component={appData.nav_component}
+        isAdminPath={isAdminPath}
+        appData={appData}
+        setCount={setCount}
+        count={count}
+      />
       <AdvancedSnackbar
         message={message}
         type={type}
@@ -119,15 +119,19 @@ export default function SiteRoutes({ handleUpdate }) {
       {!loading.isLoading && auth.is_checked ? (
         <Routes>
           {/* Auth Routes */}
-          <Route
-            path="/login"
-            element={<LoginForm handleLogin={handleUpdate} />}
-          />
-          <Route
-            path="/register"
-            element={<RegisterForm handleRegister={handleUpdate} />}
-          />
-          <Route path="/profile" element={<Profile />} />
+          {appData.users && (
+            <React.Fragment>
+              <Route
+                path="/login"
+                element={<LoginForm handleLogin={handleUpdate} />}
+              />
+              <Route
+                path="/register"
+                element={<RegisterForm handleRegister={handleUpdate} />}
+              />
+              <Route path="/profile" element={<Profile />} />
+            </React.Fragment>
+          )}
           {/* Page Routes */}
           <Route
             path="/"
@@ -141,59 +145,87 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/support"
             element={<SupportPage handleUpdate={handleUpdate} />}
           />
-          <Route
-            path="/services"
-            element={<ServicesPage handleUpdate={handleUpdate} />}
-          />
-          <Route
-            path="/services/:id"
-            element={<ServiceIndividualPage handleUpdate={handleUpdate} />}
-          />
+          {appData.services && (
+            <React.Fragment>
+              <Route
+                path="/services"
+                element={<ServicesPage handleUpdate={handleUpdate} />}
+              />
+              <Route
+                path="/services/:id"
+                element={<ServiceIndividualPage handleUpdate={handleUpdate} />}
+              />
+            </React.Fragment>
+          )}
           <Route
             path="/contact"
             element={<ContactPage handleUpdate={handleUpdate} />}
           />
           {/* Demo Routes */}
-          {Object.entries(pages).map(([id, page], index) => {
-            return (
-              <React.Fragment>
-                <Route
-                  key={id}
-                  path={`/${page.page_name}`}
-                  element={
-                    <DynamicPage
-                      handleUpdate={handleUpdate}
-                      page={page.page_name}
-                    />
-                  }
-                />
-                {/* {page.page_name === "news-dynamic" && (
-                  <React.Fragment>
-                    <Route
-                      path="/articles/create"
-                      element={
-                        <CreateUpdateArticle handleUpdate={handleUpdate} />
-                      }
-                    />
-                    <Route
-                      path="/articles/:id"
-                      element={
-                        <IndividualArticleView handleUpdate={handleUpdate} />
-                      }
-                    />
-                    <Route
-                      path="/articles/:id/update"
-                      element={
-                        <div style={{ width: "100vw" }}>
-                          <UpdateArticleView />
-                        </div>
-                      }
-                    />
-                  </React.Fragment>
-                )} */}
-              </React.Fragment>
-            );
-          })}
+          {Object.entries(appData.page_set_data.pages).map(
+            ([id, page], index) => {
+              const filteredPageData = Object.values(
+                appData.page_set_data.pages
+              ).find((p) => p.page_name === page.page_name);
+              console.log("filteredPageData", filteredPageData);
+
+              if (filteredPageData.access === "private") {
+                return null;
+              }
+
+              let accessElement;
+              if (filteredPageData.access === "public") {
+                accessElement = <PublicRoute />;
+              } else if (filteredPageData.access === "protected") {
+                accessElement = <ProtectedRoute />;
+              } else if (filteredPageData.access === "admin") {
+                accessElement = <AdminRoute />;
+              }
+
+              return (
+                <Route path={`/${page.page_name}`} element={accessElement}>
+                  <Route
+                    exact
+                    key={id}
+                    path={`/${page.page_name}`}
+                    element={
+                      <DynamicPage
+                        handleUpdate={handleUpdate}
+                        page={page.page_name}
+                        filteredPageData={filteredPageData}
+                      />
+                    }
+                  />
+                </Route>
+
+                //    {page.page_name === "news-dynamic" && (
+                //   <React.Fragment>
+                //     <Route
+                //       path="/articles/create"
+                //       element={
+                //         <CreateUpdateArticle handleUpdate={handleUpdate} />
+                //       }
+                //     />
+                //     <Route
+                //       path="/articles/:id"
+                //       element={
+                //         <IndividualArticleView handleUpdate={handleUpdate} />
+                //       }
+                //     />
+                //     <Route
+                //       path="/articles/:id/update"
+                //       element={
+                //         <div style={{ width: "100vw" }}>
+                //           <UpdateArticleView />
+                //         </div>
+                //       }
+                //     />
+                //   </React.Fragment>
+                // )}
+                //  </React.Fragment>
+              );
+            }
+          )}
           <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
           <Route path="/WIP2" element={<WIP2Demo />} />
@@ -201,10 +233,12 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/generator"
             element={<GeneratorPage handleUpdate={handleUpdate} />}
           />
-          <Route
-            path="/jobposting/:id"
-            element={<JobIndividualView handleUpdate={handleUpdate} />}
-          />
+          {appData.jobs && (
+            <Route
+              path="/jobposting/:id"
+              element={<JobIndividualView handleUpdate={handleUpdate} />}
+            />
+          )}
           {/* Feature Routes */}
           <Route
             path="/articles"
@@ -260,17 +294,18 @@ export default function SiteRoutes({ handleUpdate }) {
             element={<ApplicationViewPage />}
           />
           <Route path="/admin/model/:str" element={<IndividualDashboard />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       ) : (
         <div>
           <Loading loading={loading} message={"Gathering Resources"} />
         </div>
       )}
-      {!isAdminPath ? (
-        <Footer socialData={socialData} />
-      ) : (
-        <Footer socialData={socialData} />
-      )}
+      <FooterSwitch
+        component={appData.footer_component}
+        isAdminPath={isAdminPath}
+        appData={appData}
+      />
     </>
   );
 }

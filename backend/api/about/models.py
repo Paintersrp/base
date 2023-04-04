@@ -31,9 +31,17 @@ from auditlog.registry import auditlog
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["id", "name"],
     allowed=True,
 )
 class AboutBlock(models.Model):
+    name = CustomCharField(
+        max_length=100,
+        unique=True,
+        md_column_count=12,
+        verbose_name="About Block Name",
+        help_text="Referential Name",
+    )
     title = CustomCharField(
         max_length=200,
         md_column_count=12,
@@ -45,6 +53,9 @@ class AboutBlock(models.Model):
         verbose_name="Image",
         help_text="Help Text Placeholder",
     )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "About Header"
@@ -78,9 +89,17 @@ class AboutBlock(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["id", "title"],
     allowed=True,
 )
 class MissionStatement(models.Model):
+    name = CustomCharField(
+        max_length=100,
+        unique=True,
+        md_column_count=12,
+        verbose_name="Mission Statement Name",
+        help_text="Referential Name",
+    )
     title = CustomCharField(
         max_length=200,
         md_column_count=12,
@@ -95,6 +114,9 @@ class MissionStatement(models.Model):
         markdown=True,
         help_text="Mission Statement Body",
     )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Mission Statement"
@@ -128,9 +150,17 @@ class MissionStatement(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["id", "title"],
     allowed=True,
 )
 class CompanyHistory(models.Model):
+    name = CustomCharField(
+        max_length=100,
+        unique=True,
+        md_column_count=12,
+        verbose_name="Company History Name",
+        help_text="Referential Name",
+    )
     title = CustomCharField(
         max_length=200,
         md_column_count=12,
@@ -145,8 +175,11 @@ class CompanyHistory(models.Model):
         help_text="Company History Body",
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
-        verbose_name = "History"
+        verbose_name = "Company History"
         verbose_name_plural = verbose_name + "s"
 
 
@@ -195,6 +228,9 @@ class Value(models.Model):
         help_text="Value Icon",
     )
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = "Values"
         verbose_name_plural = "Values"
@@ -226,6 +262,7 @@ class Value(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["id", "name"],
     allowed=True,
 )
 class Category(models.Model):
@@ -235,6 +272,9 @@ class Category(models.Model):
         md_column_count=12,
         help_text="Category Name",
     )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "FAQ Categories"
@@ -269,9 +309,18 @@ class Category(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
+    filter_options=["id", "category"],
     allowed=True,
 )
 class FAQ(models.Model):
+    name = CustomCharField(
+        max_length=100,
+        unique=True,
+        md_column_count=12,
+        verbose_name="FAQ Name",
+        help_text="Referential Name",
+        db_index=True,
+    )
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -294,6 +343,10 @@ class FAQ(models.Model):
         min_rows=3,
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["category"]
         verbose_name = "FAQ"
         verbose_name_plural = verbose_name + "s"

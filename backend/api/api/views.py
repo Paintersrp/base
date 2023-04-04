@@ -100,13 +100,15 @@ def get_model_metadata(model_name):
         "allowed": model._meta.allowed if hasattr(model._meta, "allowed") else None,
     }
 
-    all_fields_choices = []
-
     for field_name, field in fields.items():
+        all_fields_choices = []
         if (
             field_name == "data_source"
             or field_name == "content_type_info"
             or field_name == "used_on"
+            or field_name == "page_set_data"
+            or field_name == "jobs_data"
+            or field_name == "contact_set_data"
         ):
             continue
 
@@ -140,6 +142,7 @@ def get_model_metadata(model_name):
                     all_fields_choices.append(field_choices)
             else:
                 choices_dict = dict(choices)
+                print(choices_dict)
                 field_choices = [
                     {"value": value, "display": display}
                     for value, display in choices_dict.items()

@@ -27,7 +27,12 @@ class QuestionSerializer(serializers.ModelSerializer):
     question_set = serializers.PrimaryKeyRelatedField(
         queryset=QuestionSet.objects.all()
     )
-    FIELD_KEYS = ["question_set", "order", "text", "slug"]
+    FIELD_KEYS = [
+        "order",
+        "slug",
+        "text",
+        "question_set",
+    ]
 
     class Meta:
         model = Question
@@ -47,10 +52,10 @@ class QuestionSetSerializer(serializers.ModelSerializer):
         queryset=Questionnaire.objects.all()
     )
     FIELD_KEYS = [
-        "questionnaire",
         "title",
-        "order",
         "description",
+        "questionnaire",
+        "order",
     ]
 
     class Meta:
@@ -67,7 +72,11 @@ class QuestionSetSerializer(serializers.ModelSerializer):
 
 class QuestionnaireSerializer(serializers.ModelSerializer):
     question_sets = QuestionSetSerializer(many=True, read_only=True)
-    FIELD_KEYS = ["title", "description", "slug"]
+    FIELD_KEYS = [
+        "slug",
+        "title",
+        "description",
+    ]
 
     class Meta:
         model = Questionnaire

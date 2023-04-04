@@ -7,7 +7,11 @@ from api.views import get_model_metadata
 
 
 class HeroBlockSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "heading"]
+    FIELD_KEYS = [
+        "name",
+        "title",
+        "heading",
+    ]
 
     class Meta:
         model = HeroBlock
@@ -15,7 +19,11 @@ class HeroBlockSerializer(serializers.ModelSerializer):
 
 
 class TitleBlockSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["name", "title", "subtitle"]
+    FIELD_KEYS = [
+        "name",
+        "title",
+        "subtitle",
+    ]
 
     class Meta:
         model = TitleBlock
@@ -23,7 +31,10 @@ class TitleBlockSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["buttonText", "buttonLink"]
+    FIELD_KEYS = [
+        "buttonText",
+        "buttonLink",
+    ]
     SEARCH_KEYS = ["buttonLink"]
 
     class Meta:
@@ -50,7 +61,11 @@ class SupportedSitesSerializer(serializers.ModelSerializer):
 class ServiceTierSerializer(serializers.ModelSerializer):
     features = FeatureSerializer(many=True)
     supported_sites = SupportedSitesSerializer(many=True)
-    FIELD_KEYS = ["service_title", "price", "image"]
+    FIELD_KEYS = [
+        "service_title",
+        "price",
+        "image",
+    ]
 
     class Meta:
         model = ServiceTier
@@ -80,7 +95,11 @@ class ServiceTierSerializer(serializers.ModelSerializer):
 
 
 class ProcessSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "description", "icon"]
+    FIELD_KEYS = [
+        "title",
+        "description",
+        "icon",
+    ]
 
     class Meta:
         model = Process
@@ -88,7 +107,11 @@ class ProcessSerializer(serializers.ModelSerializer):
 
 
 class TestimonialSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["name", "position", "text"]
+    FIELD_KEYS = [
+        "name",
+        "position",
+        "text",
+    ]
 
     class Meta:
         model = Testimonial
@@ -103,7 +126,13 @@ class HeroSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hero
-        fields = ["id", "name", "contact", "social", "hero_block"]
+        fields = [
+            "id",
+            "name",
+            "contact",
+            "social",
+            "hero_block",
+        ]
 
 
 class ProcessesSerializer(serializers.ModelSerializer):
@@ -113,7 +142,11 @@ class ProcessesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Processes
-        fields = ["name", "processes", "title_block"]
+        fields = [
+            "name",
+            "processes",
+            "title_block",
+        ]
 
 
 class LatestNewsSerializer(serializers.ModelSerializer):
@@ -123,7 +156,11 @@ class LatestNewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LatestNews
-        fields = ["name", "latest_articles", "title_block"]
+        fields = [
+            "name",
+            "latest_articles",
+            "title_block",
+        ]
 
 
 LatestNews.serializer_class = LatestNewsSerializer

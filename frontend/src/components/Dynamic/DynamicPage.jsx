@@ -9,7 +9,7 @@ import FABMenu from "../Elements/Buttons/FABAdminMenu";
 import ComponentRouter from "./ComponentRouter";
 import BaseContent from "../Elements/Base/BaseContent";
 
-const DynamicPage = ({ handleUpdate, page }) => {
+const DynamicPage = ({ handleUpdate, page, filteredPageData }) => {
   const [error, setError] = useState();
   const [ready, setReady] = useState(false);
   const [data, setData] = useState([]);
@@ -17,18 +17,20 @@ const DynamicPage = ({ handleUpdate, page }) => {
   const editmode = useSelector((state) => state.editmode);
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  console.log(filteredPageData.components);
 
   useEffect(() => {
     setReady(false);
-    axiosInstance
-      .get(`/get-page/${page}/`)
-      .then((response) => {
-        setData(response.data);
-        setReady(true);
-      })
-      .catch((err) => {
-        setError(err);
-      });
+    // axiosInstance
+    //   .get(`/get-page/${page}/`)
+    //   .then((response) => {
+    //     setData(response.data);
+    //     setReady(true);
+    //   })
+    //   .catch((err) => {
+    //     setError(err);
+    //   });
+    setReady(true);
   }, [page]);
 
   if (error) {
@@ -53,9 +55,16 @@ const DynamicPage = ({ handleUpdate, page }) => {
         justifyChildren="center"
         fd="column"
       >
-        {data.components.map((component) => {
-          const { component_name, data_source, order, ...componentProps } =
-            component;
+        {filteredPageData.components.map((component) => {
+          const {
+            name,
+            data_source,
+            order,
+            content_type_info,
+            ...componentProps
+          } = component;
+
+          console.log("content_type_info", content_type_info);
 
           return (
             <div key={component.id} style={{ order: order, maxWidth: "100%" }}>
@@ -63,7 +72,7 @@ const DynamicPage = ({ handleUpdate, page }) => {
                 navigate={navigate}
                 auth={auth}
                 apiData={data_source || ""}
-                component={component_name}
+                component={content_type_info.model}
                 setError={setError}
                 editMode={editmode.editMode}
                 {...componentProps}

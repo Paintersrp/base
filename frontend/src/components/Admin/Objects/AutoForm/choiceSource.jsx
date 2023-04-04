@@ -8,6 +8,10 @@ const choiceSource = (fieldName) => {
       return "feature";
     case "rows":
       return "servicecomparerows";
+    case "pages":
+      return "pageobj";
+    case "page_set":
+      return "pageset";
     default:
       return fieldName;
   }

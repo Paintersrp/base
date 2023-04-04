@@ -26,7 +26,13 @@ class JobPostingSerializer(serializers.ModelSerializer):
     requirements = RequirementSerializer(many=True, read_only=False)
     responsibilities = ResponsibilitiesSerializer(many=True, read_only=False)
 
-    FIELD_KEYS = ["created_at", "position", "location", "type", "filled"]
+    FIELD_KEYS = [
+        "created_at",
+        "position",
+        "location",
+        "type",
+        "filled",
+    ]
 
     class Meta:
         model = JobPosting
@@ -93,7 +99,13 @@ class JobPostingSerializer(serializers.ModelSerializer):
 
 class ApplicationSerializer(serializers.ModelSerializer):
     job = serializers.StringRelatedField(source="job.id")
-    FIELD_KEYS = ["first_name", "last_name", "email", "status", "job"]
+    FIELD_KEYS = [
+        "first_name",
+        "last_name",
+        "email",
+        "status",
+        "job",
+    ]
 
     class Meta:
         model = Application

@@ -36,9 +36,18 @@ from articles.models import Articles
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "title"],
     allowed=True,
 )
 class HeroBlock(models.Model):
+    name = CustomCharField(
+        max_length=100,
+        unique=True,
+        md_column_count=12,
+        verbose_name="Hero Block Name",
+        help_text="Referential Name",
+        db_index=True,
+    )
     title = CustomCharField(
         max_length=200,
         md_column_count=12,
@@ -67,7 +76,11 @@ class HeroBlock(models.Model):
         help_text="Button Text",
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["name"]
         verbose_name = "Hero Section"
         verbose_name_plural = verbose_name + "s"
 
@@ -104,6 +117,7 @@ class HeroBlock(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "name"],
     allowed=True,
 )
 class TitleBlock(models.Model):
@@ -119,6 +133,7 @@ class TitleBlock(models.Model):
         md_column_count=12,
         verbose_name="Section Name",
         help_text="Referential Name",
+        db_index=True,
     )
 
     title = CustomCharField(
@@ -158,7 +173,11 @@ class TitleBlock(models.Model):
         help_text="Optional Divider Below Section Header",
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["name"]
         verbose_name = "Section Headings"
         verbose_name_plural = "Section Headings"
 
@@ -181,13 +200,19 @@ class TitleBlock(models.Model):
     info_dump={"text": ""},
 )
 class Item(models.Model):
-    image = models.ImageField(upload_to="carousel", verbose_name="Image")
+    image = models.ImageField(
+        upload_to="carousel",
+        verbose_name="Image",
+    )
     buttonText = CustomCharField(
         max_length=20, md_column_count=6, verbose_name="Button Text"
     )
     buttonLink = CustomCharField(
         max_length=20, md_column_count=6, verbose_name="Button Link"
     )
+
+    def __str__(self):
+        return self.id
 
     class Meta:
         verbose_name = "Item"
@@ -221,6 +246,7 @@ class Item(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=False,
 )
 class Feature(models.Model):
     detail = CustomCharField(
@@ -265,6 +291,7 @@ class Feature(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    allowed=False,
 )
 class SupportedSites(models.Model):
     detail = CustomCharField(
@@ -316,6 +343,7 @@ class SupportedSites(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "service_title"],
     allowed=True,
 )
 class ServiceTier(models.Model):
@@ -329,6 +357,7 @@ class ServiceTier(models.Model):
         md_column_count=6,
         verbose_name="Service Title",
         help_text="Service Tier Title",
+        db_index=True,
     )
     price = CustomDecimalField(
         max_digits=10,
@@ -386,6 +415,7 @@ class ServiceTier(models.Model):
         self.features.md_column_count = 8
 
     class Meta:
+        ordering = ["price"]
         verbose_name = "Service Tiers"
         verbose_name_plural = "Service Tiers"
 
@@ -407,13 +437,28 @@ class ServiceTier(models.Model):
     access_level="All",
 )
 class Testimonial(models.Model):
-    heading = CustomCharField(max_length=100, md_column_count=4, verbose_name="Heading")
-    image = models.ImageField(upload_to="testimonial_images", verbose_name="Image")
-    name = CustomCharField(max_length=40, md_column_count=4, verbose_name="Name")
+    heading = CustomCharField(
+        max_length=100,
+        md_column_count=4,
+        verbose_name="Heading",
+    )
+    image = models.ImageField(
+        upload_to="testimonial_images",
+        verbose_name="Image",
+    )
+    name = CustomCharField(
+        max_length=40,
+        md_column_count=4,
+        verbose_name="Name",
+    )
     position = CustomCharField(
         max_length=40, md_column_count=4, verbose_name="Position"
     )
-    text = CustomTextField(max_length=200, md_column_count=10, verbose_name="Quote")
+    text = CustomTextField(
+        max_length=200,
+        md_column_count=10,
+        verbose_name="Quote",
+    )
 
     class Meta:
         verbose_name = "Testimonials"
@@ -449,6 +494,7 @@ class Testimonial(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "title"],
     allowed=True,
 )
 class Process(models.Model):
@@ -472,40 +518,46 @@ class Process(models.Model):
         help_text="Select Icon",
     )
 
+    def __str__(self):
+        return self.title
+
     class Meta:
+        ordering = ["title"]
         verbose_name = "Processes"
         verbose_name_plural = "Processes"
 
 
 @metadata(
-    autoform_label="Process Step",
-    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
-    short_description="Model for company process steps",
+    autoform_label="Hero",
+    long_description="This model represents the hero section of a landing page.",
+    short_description="Hero section of landing page",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
     },
     include_preview=True,
     icon="AccountTreeIcon",
-    icon_class=None,
-    slug="header",
-    tags=["Landing" "Process", "Company"],
-    related_components=["Header"],
+    icon_class="text-primary",
+    slug="hero",
+    tags=["landing", "hero"],
+    related_components=["HeroBlock"],
     visibility=True,
     access_level="All",
     info_dump={
-        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "purpose": "This model is used to store the hero section of a landing page.",
         "fields": {
-            "Header": "The title of the process step",
-            "Description": "A brief description of the process step",
-            "Icon": "The icon that represents the process step",
+            "Name": "The name of the hero section.",
+            "Contact": "The contact information to display in the hero section.",
+            "Social": "The social media links to display in the hero section.",
+            "Hero Block": "The hero block to use in the hero section.",
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "Process model reference": "/docs/model/process/",
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "name"],
+    allowed=True,
 )
 class Hero(models.Model):
     name = CustomCharField(
@@ -514,28 +566,40 @@ class Hero(models.Model):
         verbose_name="Hero Name",
         help_text="Hero Name",
         default="Placeholder",
+        db_index=True,
     )
     contact = models.ForeignKey(
         ContactInformation,
         on_delete=models.CASCADE,
+        verbose_name="Contact Information",
         default=1,
     )
     social = models.ForeignKey(
         Socials,
         on_delete=models.CASCADE,
+        verbose_name="Socials",
         default=1,
     )
     hero_block = models.ForeignKey(
         HeroBlock,
         on_delete=models.CASCADE,
+        verbose_name="Attached Hero Block Data",
         default=1,
     )
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Hero"
+        verbose_name_plural = "Heros"
+
 
 @metadata(
-    autoform_label="Process Step",
-    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
-    short_description="Model for company process steps",
+    autoform_label="Processes",
+    long_description="A collection of related process steps.",
+    short_description="A collection of related process steps.",
     pages_associated={
         "Landing": "/",
         "Services": "/services",
@@ -543,17 +607,17 @@ class Hero(models.Model):
     include_preview=True,
     icon="AccountTreeIcon",
     icon_class=None,
-    slug="header",
-    tags=["Landing" "Process", "Company"],
-    related_components=["Header"],
+    slug="processes",
+    tags=["processes", "workflow"],
+    related_components=["ProcessStep"],
     visibility=True,
     access_level="All",
     info_dump={
-        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "purpose": "Represents a collection of related process steps.",
         "fields": {
-            "Header": "The title of the process step",
-            "Description": "A brief description of the process step",
-            "Icon": "The icon that represents the process step",
+            "Name": "The name of the process collection.",
+            "Processes": "The process steps included in the collection.",
+            "Title Block": "The title block used to display the process collection on a page.",
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
@@ -561,6 +625,8 @@ class Hero(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "name"],
+    allowed=True,
 )
 class Processes(models.Model):
     name = CustomCharField(
@@ -569,58 +635,80 @@ class Processes(models.Model):
         verbose_name="Hero Name",
         help_text="Hero Name",
         default="Placeholder",
+        db_index=True,
     )
     processes = models.ManyToManyField(Process)
     title_block = models.ForeignKey(
-        TitleBlock, on_delete=models.CASCADE, limit_choices_to={"name": "process"}
+        TitleBlock,
+        on_delete=models.CASCADE,
+        limit_choices_to={"name": "process"},
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Processes"
+        verbose_name_plural = "Processes"
 
 
 # Control Added Later?
 @metadata(
-    autoform_label="Process Step",
-    long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
-    short_description="Model for company process steps",
+    autoform_label="Latest News",
+    long_description="A model to showcase the latest news articles on the landing page.",
+    short_description="Model to showcase the latest news articles.",
     pages_associated={
         "Landing": "/",
-        "Services": "/services",
     },
     include_preview=True,
     icon="AccountTreeIcon",
     icon_class=None,
-    slug="header",
-    tags=["Landing" "Process", "Company"],
-    related_components=["Header"],
-    visibility=False,
+    slug="latest-news",
+    tags=["news", "landing", "articles"],
+    related_components=["LatestNewsComponent"],
+    visibility=True,
     access_level="All",
     info_dump={
-        "purpose": "This model represents a collection of steps that describe the process of how the business works.",
+        "purpose": "To showcase the latest news articles on the landing page.",
         "fields": {
-            "Header": "The title of the process step",
-            "Description": "A brief description of the process step",
-            "Icon": "The icon that represents the process step",
+            "name": "The name of the LatestNews instance.",
+            "latest_articles": "The related Articles instances to showcase as the latest news.",
+            "title_block": "The related TitleBlock instance to use as the title of the LatestNews section on the landing page.",
         },
         "model_links": {
             "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "Process model reference": "/docs/model/process/",
             "Landing app documentation": "/docs/app/landing/",
         },
     },
+    filter_options=["id", "name"],
+    allowed=True,
 )
 class LatestNews(models.Model):
     name = CustomCharField(
         max_length=20,
         md_column_count=12,
-        verbose_name="Hero Name",
-        help_text="Hero Name",
+        verbose_name="Latest News Slug",
+        help_text="Latest News Slug",
         default="Placeholder",
     )
     latest_articles = models.ManyToManyField(
-        Articles, related_name="latest_articles_highlighted"
+        Articles,
+        related_name="latest_articles_highlighted",
     )
     title_block = models.ForeignKey(
-        TitleBlock, on_delete=models.CASCADE, limit_choices_to={"name": "news"}
+        TitleBlock,
+        on_delete=models.CASCADE,
+        limit_choices_to={"name": "news"},
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Latest News"
+        verbose_name_plural = "Latest News"
 
 
 @receiver(pre_save, sender=TitleBlock)

@@ -54,8 +54,8 @@ const SelectField = ({
   variant = "outlined",
   multiple = false,
 }) => {
-  console.log(fieldName);
-  console.log(formData);
+  console.log("fieldName", fieldName);
+  console.log("fdFN", formData[fieldName].set_name);
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -79,8 +79,10 @@ const SelectField = ({
             value={
               fieldName === "social"
                 ? formData[fieldName].id
-                : fieldName === "contact"
+                : fieldName === "contact_info"
                 ? formData[fieldName].id
+                : fieldName === "page_set"
+                ? formData[fieldName].set_name
                 : fieldName === "hero_block"
                 ? formData[fieldName].id
                 : formData[fieldName]
@@ -95,14 +97,16 @@ const SelectField = ({
             value={
               fieldName === "social"
                 ? formData[fieldName].id
-                : fieldName === "contact"
-                ? formData[fieldName].id
                 : fieldName === "hero_block"
+                ? formData[fieldName].id
+                : fieldName === "page_set" ||
+                  fieldName === "contact_info" ||
+                  fieldName === "socials" ||
+                  fieldName === "hours"
                 ? formData[fieldName].id
                 : formData[fieldName]
             }
             onChange={handleChange}
-            displayEmpty
             name={fieldName}
             margin="dense"
             style={{ minWidth: "100%", padding: 0 }}
@@ -131,7 +135,7 @@ const SelectField = ({
             </MenuItem>
             {choices &&
               Object.entries(choices).map(([key, value]) => {
-                if (fieldName === "hero_block") {
+                if (fieldName === "category") {
                   console.log("kv", key, value);
                 }
                 return (
@@ -145,11 +149,18 @@ const SelectField = ({
                         ? value.position
                         : fieldName === "user"
                         ? value.username
+                        : fieldName === "category"
+                        ? value.name
                         : fieldName === "question"
                         ? value.id
                         : fieldName === "tags"
                         ? value.detail
                         : fieldName === "social"
+                        ? value.id
+                        : fieldName === "page_set" ||
+                          fieldName == "contact_info" ||
+                          fieldName === "socials" ||
+                          fieldName === "hours"
                         ? value.id
                         : value.id
                     }
@@ -172,6 +183,13 @@ const SelectField = ({
                         ? value.id
                         : fieldName === "hero_block"
                         ? value.id
+                        : fieldName === "category"
+                        ? value.name
+                        : fieldName === "page_set" ||
+                          fieldName == "contact_info" ||
+                          fieldName === "socials" ||
+                          fieldName === "hours"
+                        ? value.set_name
                         : value.name}
                     </span>
                   </MenuItem>

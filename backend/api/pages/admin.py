@@ -22,6 +22,9 @@ class CustomComponentAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Component, CustomComponentAdmin)
+admin.site.register(App)
 admin.site.register(Page)
+admin.site.register(PageSet)
 admin.site.register(PageObj)
 admin.site.register(ComponentObj)
+admin.site.register(ComponentCategory)

@@ -37,6 +37,7 @@ from django.dispatch import receiver
             "General app documentation": "/docs/app/tables/",
         },
     },
+    filter_options=["id", "name"],
     allowed=True,
 )
 class ServiceTableLabels(models.Model):
@@ -46,6 +47,7 @@ class ServiceTableLabels(models.Model):
         md_column_count=12,
         default="Test",
         help_text="Referential Name",
+        db_index=True,
     )
     service_tier1 = CustomCharField(
         max_length=40,
@@ -84,7 +86,11 @@ class ServiceTableLabels(models.Model):
         help_text="Column Three Icon",
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["name"]
         verbose_name = "Service Table Labels"
         verbose_name_plural = "Service Table Labels"
 
@@ -119,6 +125,7 @@ class ServiceTableLabels(models.Model):
             "General app documentation": "/docs/app/tables/",
         },
     },
+    filter_options=["id", "table_name"],
     allowed=True,
 )
 class ServiceCompareRows(models.Model):
@@ -128,6 +135,7 @@ class ServiceCompareRows(models.Model):
         md_column_count=6,
         default="Service Tiers",
         help_text="Table Name Connection",
+        db_index=True,
     )
     detail = CustomCharField(
         max_length=40,
@@ -154,7 +162,11 @@ class ServiceCompareRows(models.Model):
         help_text="Cell 3 Value",
     )
 
+    def __str__(self):
+        return f"{self.table_name} ({self.id})"
+
     class Meta:
+        ordering = ["table_name", "detail"]
         verbose_name = "Service Table Rows"
         verbose_name_plural = "Service Table Rows"
 
@@ -187,6 +199,7 @@ class ServiceCompareRows(models.Model):
             "General app documentation": "/docs/app/tables/",
         },
     },
+    filter_options=["id", "name"],
     allowed=True,
 )
 class ServiceTable(models.Model):
@@ -195,6 +208,7 @@ class ServiceTable(models.Model):
         md_column_count=12,
         verbose_name="Table Name",
         help_text="Table Name",
+        db_index=True,
     )
 
     labels = models.OneToOneField(
@@ -215,7 +229,11 @@ class ServiceTable(models.Model):
         blank=True,
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
+        ordering = ["name"]
         verbose_name = "Service Table"
         verbose_name_plural = "Service Tables"
 

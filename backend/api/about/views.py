@@ -127,11 +127,13 @@ class FAQRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         category = form_data.get("category")
         question = form_data.get("question")
         answer = form_data.get("answer")
+        name = form_data.get("name")
 
         data = {
             "category": category,
             "question": question,
             "answer": answer,
+            "name": name,
         }
 
         serializer = FAQSerializer(faq, data=data)

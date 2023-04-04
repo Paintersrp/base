@@ -5,6 +5,7 @@ from PIL import Image
 
 class ContactInformationSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
+        "set_name",
         "phone",
         "address",
         "email",
@@ -17,6 +18,7 @@ class ContactInformationSerializer(serializers.ModelSerializer):
 
 class HoursSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
+        "set_name",
         "monday",
         "friday",
         "saturday",
@@ -30,6 +32,7 @@ class HoursSerializer(serializers.ModelSerializer):
 
 class SocialsSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
+        "set_name",
         "facebook",
         "linkedin",
         "instagram",
@@ -46,7 +49,11 @@ class SocialsSerializer(serializers.ModelSerializer):
 class TeamMemberSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, allow_null=True)
 
-    FIELD_KEYS = ["name", "role", "image"]
+    FIELD_KEYS = [
+        "name",
+        "role",
+        "image",
+    ]
 
     class Meta:
         model = TeamMember
@@ -83,14 +90,20 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 
 
 class ContactSerializer(serializers.ModelSerializer):
-    contact_info = ContactInformationSerializer()
-    socials = SocialsSerializer()
-    hours = HoursSerializer()
+    contact_info = ContactInformationSerializer(read_only=True)
+    socials = SocialsSerializer(read_only=True)
+    hours = HoursSerializer(read_only=True)
     FIELD_KEYS = ["name"]
 
     class Meta:
         model = Contact
-        fields = ["id", "name", "contact_info", "socials", "hours"]
+        fields = [
+            "id",
+            "name",
+            "contact_info",
+            "socials",
+            "hours",
+        ]
 
 
 Contact.serializer_class = ContactSerializer

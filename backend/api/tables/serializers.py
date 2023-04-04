@@ -4,10 +4,10 @@ from .models import *
 
 class ServiceTableLabelsSerializer(serializers.ModelSerializer):
     FIELD_KEYS = [
+        "name",
         "service_tier1",
         "service_tier2",
         "service_tier3",
-        "name",
     ]
 
     class Meta:
@@ -25,7 +25,13 @@ class ServiceTableLabelsSerializer(serializers.ModelSerializer):
 
 
 class ServiceCompareRowsSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["detail", "tier1_value", "tier2_value", "tier3_value", "table_name"]
+    FIELD_KEYS = [
+        "table_name",
+        "detail",
+        "tier1_value",
+        "tier2_value",
+        "tier3_value",
+    ]
 
     class Meta:
         model = ServiceCompareRows
@@ -39,7 +45,12 @@ class ServiceTableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceTable
-        fields = ["id", "name", "labels", "rows"]
+        fields = [
+            "id",
+            "name",
+            "labels",
+            "rows",
+        ]
 
 
 ServiceTable.serializer_class = ServiceTableSerializer

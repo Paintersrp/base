@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: theme.palette.background.dark,
+    zIndex: 9999,
+    color: "#222",
   },
   progress: {
     color: theme.palette.primary.dark,

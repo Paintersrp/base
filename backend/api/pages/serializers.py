@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import *
+from jobs.models import JobPosting
+from jobs.serializers import JobPostingSerializer
+from contact.serializers import ContactSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.apps import apps
@@ -27,7 +30,13 @@ class ComponentObjSerializer(serializers.ModelSerializer):
     data_source = serializers.SerializerMethodField()
     content_type_info = serializers.SerializerMethodField()
     used_on = serializers.SerializerMethodField(label="Used On")
-    FIELD_KEYS = ["name", "order", "content", "used_on"]
+    FIELD_KEYS = [
+        "name",
+        "order",
+        "content",
+        "used_on",
+        "category",
+    ]
 
     class Meta:
         model = ComponentObj
@@ -35,6 +44,7 @@ class ComponentObjSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "order",
+            "category",
             "content",
             "query_params",
             "data_source",
@@ -48,13 +58,24 @@ class ComponentObjSerializer(serializers.ModelSerializer):
         return [i.strip() for i in ",".join(used_on).split(",")]
 
     def get_data_source(self, obj):
+        print(obj)
         try:
             model = obj.content.model_class()
-        except ObjectDoesNotExist:
-            return None
+        except:
+            try:
+                model = obj["content"].model_class()
+            except ObjectDoesNotExist:
+                return None
 
         qs = model.objects.all()
-        query_params = obj.query_params
+
+        try:
+            query_params = obj.query_params
+        except:
+            try:
+                query_params = obj["query_params"]
+            except ObjectDoesNotExist:
+                return None
 
         if len(query_params) == 1:
             key, value = next(iter(query_params.items()))
@@ -114,22 +135,6 @@ class ComponentObjSerializer(serializers.ModelSerializer):
         attrs["Meta"] = type("Meta", (object,), {"model": model, "fields": "__all__"})
         return type("DynamicSerializer", (serializers.ModelSerializer,), attrs)
 
-    # @staticmethod
-    # def format_data(self, data):
-    #     for key, value in data.items():
-    #         if (
-    #             isinstance(value, list)
-    #             and len(value) == 1
-    #             and isinstance(value[0], dict)
-    #         ):
-    #             data[key] = value[0]
-    #         elif isinstance(value, str):
-    #             try:
-    #                 data[key] = json.loads(value)
-    #             except ValueError:
-    #                 pass
-    #     return data
-
 
 class ComponentSerializer(serializers.ModelSerializer):
     data_source = serializers.SerializerMethodField()
@@ -184,11 +189,19 @@ class ComponentSerializer(serializers.ModelSerializer):
 
 class PageSerializer(serializers.ModelSerializer):
     components = ComponentSerializer(many=True)
-    FIELD_KEYS = ["verbose_name", "components"]
+    FIELD_KEYS = [
+        "verbose_name",
+        "components",
+    ]
 
     class Meta:
         model = Page
-        fields = ("id", "page_name", "components", "verbose_name")
+        fields = (
+            "id",
+            "page_name",
+            "components",
+            "verbose_name",
+        )
 
     def create(self, validated_data):
         components_data = validated_data.pop("components")
@@ -250,11 +263,21 @@ class PageSerializer(serializers.ModelSerializer):
 
 class PageObjSerializer(serializers.ModelSerializer):
     components = ComponentObjSerializer(many=True)
-    FIELD_KEYS = ["verbose_name", "components"]
+    FIELD_KEYS = [
+        "verbose_name",
+        "components",
+        "access",
+    ]
 
     class Meta:
-        model = Page
-        fields = ("id", "page_name", "components", "verbose_name")
+        model = PageObj
+        fields = (
+            "id",
+            "page_name",
+            "components",
+            "verbose_name",
+            "access",
+        )
 
     def create(self, validated_data):
         components_data = validated_data.pop("components")
@@ -277,6 +300,7 @@ class PageObjSerializer(serializers.ModelSerializer):
         instance.verbose_name = formatted_data.get(
             "verbose_name", instance.verbose_name
         )
+        instance.access = formatted_data.get("access", instance.access)
         instance.components.clear()
 
         for component_data in components_data:
@@ -293,7 +317,6 @@ class PageObjSerializer(serializers.ModelSerializer):
     def format_data(self, data, create=False):
         formatted_data = {}
         components = []
-        print(data)
 
         for key, value in data.items():
             parts = re.findall(r"\[(.*?)\]", key)
@@ -322,55 +345,101 @@ class PageObjSerializer(serializers.ModelSerializer):
         if components:
             formatted_data["components"] = components
 
-        print(formatted_data)
-
         return formatted_data
 
-    # def format_data(self, data, create=False):
-    #     if create:
-    #         formatted_data = {
-    #             "components": [],
-    #         }
-    #     else:
-    #         formatted_data = {
-    #             "components": [],
-    #         }
 
-    #     for key, value in data.items():
-    #         parts = re.findall(r"\[(.*?)\]", key)
-    #         name = key.split("[")[0]
+class ComponentCategorySerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
 
-    #         if name == "components":
-    #             if (
-    #                 len(parts) == 2
-    #                 and parts[0].isdigit()
-    #                 and parts[1] == "name"
-    #                 or parts[1] == "content"
-    #             ):
-    #                 feature_detail = value
-    #                 if create:
-    #                     formatted_data[name].append({parts[1]: value})
-    #                 else:
-    #                     formatted_data[name].append(feature_detail)
-    #         else:
-    #             formatted_data[name] = value
-
-    #     return formatted_data
+    class Meta:
+        model = ComponentCategory
+        fields = "__all__"
 
 
 class PageNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
-        fields = ("id", "page_name", "verbose_name")
+        fields = (
+            "id",
+            "page_name",
+            "verbose_name",
+        )
 
 
 class PageObjNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
-        fields = ("id", "page_name", "verbose_name")
+        fields = (
+            "id",
+            "page_name",
+            "verbose_name",
+            "access",
+        )
 
 
+class PageSetSerializer(serializers.ModelSerializer):
+    pages = PageObjSerializer(many=True)
+    FIELD_KEYS = ["set_name"]
+
+    class Meta:
+        model = PageSet
+        fields = "__all__"
+
+    def format_data(self, request):
+        page_data = request.POST.getlist("pages")
+        print(page_data)
+        pages = []
+        for data in page_data:
+            page_id = data.get("id")
+            page_name = data.get("page_name")
+            page_obj = (
+                PageObj.objects.get(id=page_id)
+                if page_id
+                else PageObj.objects.get(page_name=page_name)
+            )
+            # Save the page object to the page set or do whatever else you need to do with it
+            pages.append(page_obj)
+
+
+class AppSerializer(serializers.ModelSerializer):
+    page_set_data = PageSetSerializer(source="page_set", read_only=True)
+    contact_set_data = ContactSerializer(source="contact_set", read_only=True)
+    jobs_data = serializers.SerializerMethodField()
+    FIELD_KEYS = ["app_name"]
+
+    class Meta:
+        model = App
+        fields = [
+            "id",
+            "app_name",
+            "business_name",
+            "page_set",
+            "contact_set",
+            "nav_component",
+            "footer_component",
+            "fab_component",
+            "error_component",
+            "loading_component",
+            "jobs",
+            "users",
+            "services",
+            "page_set_data",
+            "contact_set_data",
+            "jobs_data",
+        ]
+
+    def get_jobs_data(self, obj):
+        if obj.jobs:
+            jobs = JobPosting.objects.filter(filled=False)
+            serializer = JobPostingSerializer(jobs, many=True)
+            return serializer.data
+        return []
+
+
+ComponentCategory.serializer_class = ComponentCategorySerializer
 ComponentObj.serializer_class = ComponentObjSerializer
 Component.serializer_class = ComponentSerializer
+PageSet.serializer_class = PageSetSerializer
 Page.serializer_class = PageSerializer
 PageObj.serializer_class = PageObjSerializer
+App.serializer_class = AppSerializer

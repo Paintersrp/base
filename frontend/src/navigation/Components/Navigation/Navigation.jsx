@@ -5,7 +5,8 @@ import { Slide, useMediaQuery, useScrollTrigger } from "@material-ui/core";
 import NavigationBase from "../NavigationBase";
 import AppbarContent from "./AppbarContent";
 
-export default function Navigation({ links, appName, pages }) {
+export default function Navigation({ links, appName, appData }) {
+  console.log("appData", appData);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [open, setOpen] = useState(false);
@@ -34,9 +35,9 @@ export default function Navigation({ links, appName, pages }) {
       }
       drawerContent={
         <NavigationDrawer
-          pages={pages}
           links={links}
           toggleDrawer={toggleDrawer}
+          appData={appData}
         />
       }
     />
