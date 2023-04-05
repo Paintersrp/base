@@ -30,7 +30,10 @@ from api.customs import *
             "Quizes app documentation": "/docs/app/quizes/",
         },
     },
-    filter_options=["id", "slug"],
+    filter_options=[
+        "slug",
+        "id",
+    ],
     allowed=True,
 )
 class Questionnaire(models.Model):
@@ -99,7 +102,7 @@ class Questionnaire(models.Model):
         },
     },
     filter_options=["id", "title", "questionnaire"],
-    allowed=True,
+    allowed=False,
 )
 class QuestionSet(models.Model):
     questionnaire = models.ForeignKey(
@@ -170,7 +173,7 @@ class QuestionSet(models.Model):
         },
     },
     filter_options=["id", "slug", "question_set"],
-    allowed=True,
+    allowed=False,
 )
 class Question(models.Model):
     question_set = CustomForeignKeyField(
@@ -239,7 +242,7 @@ class Question(models.Model):
         },
     },
     filter_options=["id", "text", "question"],
-    allowed=True,
+    allowed=False,
 )
 class AnswerChoice(models.Model):
     question = CustomForeignKeyField(
@@ -310,7 +313,11 @@ class AnswerChoice(models.Model):
             "Quizes app documentation": "/docs/app/quizes/",
         },
     },
-    filter_options=["id", "contact_state", "questionnaire"],
+    filter_options=[
+        "id",
+        "contact_state",
+        "questionnaire",
+    ],
     allowed=False,
 )
 class QuestionnaireResults(models.Model):
@@ -389,7 +396,12 @@ class QuestionnaireResults(models.Model):
             "General app documentation": "/docs/app/quizes/",
         },
     },
-    filter_options=["id", "question", "answer_choice", "questionnaire_result"],
+    filter_options=[
+        "id",
+        "question",
+        "answer_choice",
+        "questionnaire_result",
+    ],
     allowed=False,
 )
 class QuestionnaireResultAnswer(models.Model):

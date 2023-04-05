@@ -1,0 +1,50 @@
+select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-size: 8px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  padding: 8px;
+  cursor: pointer;
+  max-height: 300px;
+}
+
+select:hover,
+select:focus {
+  border-color: #999;
+}
+
+select option {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+select optgroup {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  color: #555;
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+select optgroup:first-of-type {
+  border-top: 1px solid #ccc;
+}
+
+select optgroup:hover,
+select optgroup:focus {
+  background-color: #f5f5f5;
+}
+
+select::-ms-expand {
+  display: none;
+}

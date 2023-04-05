@@ -110,7 +110,7 @@ class Responsibilities(models.Model):
         },
     },
     allowed=True,
-    filter_options=["filled", "position", "type"],
+    filter_options=["position"],
 )
 class JobPosting(models.Model):
     position = CustomCharField(
@@ -172,7 +172,10 @@ class JobPosting(models.Model):
         verbose_name="Why Apply",
         help_text="Why Apply Text",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Created At",
+    )
     filled = models.BooleanField(
         default=False,
         verbose_name="Filled",
@@ -228,8 +231,11 @@ class JobPosting(models.Model):
             "Application model reference": "/docs/application/",
         },
     },
-    filter_options=["job", "status"],
-    allowed=True,
+    filter_options=[
+        "job",
+        "status",
+    ],
+    allowed=False,
 )
 class Application(models.Model):
     RESUME_UPLOAD_PATH = "resumes/"
@@ -268,7 +274,10 @@ class Application(models.Model):
         verbose_name="Phone",
         help_text="Phone Number",
     )
-    created_at = models.DateTimeField(verbose_name="Created At", auto_now_add=True)
+    created_at = models.DateTimeField(
+        verbose_name="Created At",
+        auto_now_add=True,
+    )
     city = CustomCharField(
         max_length=40,
         xs_column_count=12,

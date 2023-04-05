@@ -44,8 +44,8 @@ class HighlightedArticlesManager(models.Manager):
             "JobPosting model reference": "/docs/jobposting/",
         },
     },
-    filter_options=["page_name"],
-    allowed=True,
+    filter_options=["detail"],
+    allowed=False,
 )
 class Tags(models.Model):
     detail = CustomCharField(
@@ -104,8 +104,11 @@ class Tags(models.Model):
             "JobPosting model reference": "/docs/jobposting/",
         },
     },
-    filter_options=["page_name"],
-    allowed=True,
+    filter_options=[
+        "title",
+        "is_highlighted",
+    ],
+    allowed=False,
 )
 class Articles(models.Model):
     title = CustomCharField(

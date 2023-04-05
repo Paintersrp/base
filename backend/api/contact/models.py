@@ -31,7 +31,10 @@ from api.customs import *
             "General app documentation": "/docs/app/contact/",
         },
     },
-    filter_options=["id", "set_name"],
+    filter_options=[
+        "set_name",
+        "id",
+    ],
     allowed=True,
 )
 class ContactInformation(models.Model):
@@ -103,7 +106,10 @@ class ContactInformation(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
-    filter_options=["id", "set_name"],
+    filter_options=[
+        "set_name",
+        "id",
+    ],
     allowed=True,
 )
 class Hours(models.Model):
@@ -210,7 +216,10 @@ class Hours(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
-    filter_options=["id", "set_name"],
+    filter_options=[
+        "set_name",
+        "id",
+    ],
     allowed=True,
 )
 class Socials(models.Model):
@@ -311,7 +320,10 @@ class Socials(models.Model):
             "Contact app documentation": "/docs/app/contact/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class TeamMember(models.Model):

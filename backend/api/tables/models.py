@@ -38,7 +38,7 @@ from django.dispatch import receiver
         },
     },
     filter_options=["id", "name"],
-    allowed=True,
+    allowed=False,
 )
 class ServiceTableLabels(models.Model):
     name = CustomCharField(
@@ -126,7 +126,7 @@ class ServiceTableLabels(models.Model):
         },
     },
     filter_options=["id", "table_name"],
-    allowed=True,
+    allowed=False,
 )
 class ServiceCompareRows(models.Model):
     table_name = CustomCharField(
@@ -199,7 +199,10 @@ class ServiceCompareRows(models.Model):
             "General app documentation": "/docs/app/tables/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class ServiceTable(models.Model):

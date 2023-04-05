@@ -37,7 +37,10 @@ from quizes.models import Questionnaire
             "Deleting a Benefits object": "https://docs.example.com/delete-benefits-object",
         },
     },
-    filter_options=["id", "title", "icon", "page_link"],
+    filter_options=[
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class Benefits(BaseModel):
@@ -109,8 +112,11 @@ class Benefits(BaseModel):
             "Deleting a ProcessImageItem object": "https://docs.example.com/delete-processimageitem-object",
         },
     },
-    filter_options=["id", "servicetier"],
-    allowed=True,
+    filter_options=[
+        "servicetier",
+        "id",
+    ],
+    allowed=False,
 )
 class ProcessImageItem(models.Model):
     image = models.ImageField(
@@ -162,7 +168,10 @@ class ProcessImageItem(models.Model):
             "Deleting a ProcessTextItem object": "https://docs.example.com/delete-processtextitem-object",
         },
     },
-    filter_options=["id", "title", "icon"],
+    filter_options=[
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class ProcessTextItem(models.Model):
@@ -233,7 +242,7 @@ class ProcessTextItem(models.Model):
         },
     },
     filter_options=["name"],
-    allowed=True,
+    allowed=False,
 )
 class Quiz(models.Model):
     name = CustomCharField(

@@ -1,17 +1,18 @@
 from django.urls import path
-from .views import (
-    ArticleListCreateView,
-    ArticleRetrieveUpdateDestroyView,
-    HighlightedArticlesView,
-    RecentArticlesView,
-    TagsView,
-    TagsRetrieveUpdateDestroyView,
-)
+from .views import *
 
 
 urlpatterns = [
-    path("articles/", ArticleListCreateView.as_view(), name="articles-list"),
-    path("tags/", TagsView.as_view(), name="tags-list"),
+    path(
+        "articles/",
+        ArticleListCreateView.as_view(),
+        name="articles-list",
+    ),
+    path(
+        "tags/",
+        TagsView.as_view(),
+        name="tags-list",
+    ),
     path(
         "tags/<int:pk>/",
         TagsRetrieveUpdateDestroyView.as_view(),

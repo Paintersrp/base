@@ -62,7 +62,11 @@ urlpatterns = [
         SocialsBulkAPIView.as_view(),
         name="socials-bulk-detail",
     ),
-    path("teammember/", TeamMemberAPIView.as_view(), name="teammember-list"),
+    path(
+        "teammember/",
+        TeamMemberAPIView.as_view(),
+        name="teammember-list",
+    ),
     path(
         "teammember/<int:pk>/",
         TeamMemberDetailAPIView.as_view(),
@@ -73,5 +77,9 @@ urlpatterns = [
         TeamMemberBulkAPIView.as_view(),
         name="teammember-bulk-detail",
     ),
-    path("appinfo/", AppInfoFullView.as_view(), name="app-full"),
+    path(
+        "appinfo/",
+        AppInfoFullView.as_view(),
+        name="app-full",
+    ),
 ]

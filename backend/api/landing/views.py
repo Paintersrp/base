@@ -107,76 +107,6 @@ class TitleBlockBulkAPIView(BaseBulkView):
     model_class = TitleBlock
 
 
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        return serializer.save()
-
-    def update(self, request, *args, **kwargs):
-        data = request.data.copy()
-        item = self.get_object()
-        old_instance = Item.objects.get(pk=item.pk)
-
-        if not request.FILES.get("image"):
-            data["image"] = item.image
-
-        serializer = ItemSerializer(item, data=data, partial=True)
-
-        if serializer.is_valid():
-            if request.FILES.get("image"):
-                image = request.FILES.get("image")
-                item.image.storage.delete(item.image.path)
-                item.image = image
-
-            item.buttonText = request.data["buttonText"]
-            item.buttonLink = request.data["buttonLink"]
-
-            item.save()
-
-            changes = return_changes(item, old_instance)
-            create_log_entry(
-                LogEntry.Action.UPDATE,
-                request.username if request.username else None,
-                item,
-                changes,
-            )
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        create_log_entry(
-            LogEntry.Action.DELETE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class FeatureAPIView(BaseListView):
     queryset = Feature.objects.all()
     serializer_class = FeatureSerializer
@@ -358,24 +288,6 @@ class ProcessBulkAPIView(BaseBulkView):
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
     model_class = Process
-
-
-class TestimonialAPIView(BaseListView):
-    queryset = Testimonial.objects.all()
-    serializer_class = TestimonialSerializer
-    model_class = Testimonial
-
-
-class TestimonialDetailAPIView(BaseDetailView):
-    queryset = Testimonial.objects.all()
-    serializer_class = TestimonialSerializer
-    model_class = Testimonial
-
-
-class TestimonialBulkAPIView(BaseBulkView):
-    queryset = Testimonial.objects.all()
-    serializer_class = TestimonialSerializer
-    model_class = Testimonial
 
 
 class HeroBulkAPIView(BaseBulkView):

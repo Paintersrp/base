@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, serializers, status
 from django.apps import apps
@@ -8,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from authorization.models import User
 from authorization.serializers import UserSerializer
 from django.urls import reverse, NoReverseMatch
-from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -24,6 +24,7 @@ from articles.models import Articles, Tags
 from django.db.models import Max
 from .utils import analyze_django_app, get_filter_choices
 from django.db import models
+from django.db.models import Q
 
 
 def get_model_metadata(model_name):
@@ -98,9 +99,15 @@ def get_model_metadata(model_name):
         else None,
         "filter_choices": filter_choices,
         "allowed": model._meta.allowed if hasattr(model._meta, "allowed") else None,
+        "category": model._meta.category if hasattr(model._meta, "category") else None,
     }
 
+    if hasattr(model._meta, "category"):
+        print("yes")
+        print(model._meta.category)
+
     for field_name, field in fields.items():
+
         all_fields_choices = []
         if (
             field_name == "data_source"
@@ -130,11 +137,15 @@ def get_model_metadata(model_name):
                     content_type = ContentType.objects.get_for_id(value)
                     try:
                         content_model_name = content_type.model_class().__name__
+                        content_model_category = (
+                            content_type.model_class()._meta.category
+                        )
 
                         field_choices = {
                             "value": value,
                             "display": display,
                             "model_name": content_model_name,
+                            "category": content_model_category,
                         }
                     except:
                         field_choices = {"value": value, "display": display}
@@ -142,7 +153,6 @@ def get_model_metadata(model_name):
                     all_fields_choices.append(field_choices)
             else:
                 choices_dict = dict(choices)
-                print(choices_dict)
                 field_choices = [
                     {"value": value, "display": display}
                     for value, display in choices_dict.items()
@@ -613,42 +623,6 @@ class SingleModelAPIView(APIView):
         if "alignment" in metadata:
             metadata["alignment"]["choices"] = dict(model.ALIGNMENT_CHOICES)
 
-        # metadata.update(
-        #     {
-        #         "autoFormLabel": model._meta.autoform_label
-        #         if hasattr(model._meta, "autoform_label")
-        #         else None,
-        #         "longDescription": model._meta.long_description
-        #         if hasattr(model._meta, "long_description")
-        #         else None,
-        #         "shortDescription": model._meta.short_description
-        #         if hasattr(model._meta, "short_description")
-        #         else None,
-        #         "pagesAssociated": model._meta.pages_associated
-        #         if hasattr(model._meta, "pages_associated")
-        #         else None,
-        #         "preview": model._meta.include_preview
-        #         if hasattr(model._meta, "include_preview")
-        #         else False,
-        #         "icon": model._meta.icon if hasattr(model._meta, "icon") else None,
-        #         "icon_class": model._meta.icon_class
-        #         if hasattr(model._meta, "icon_class")
-        #         else None,
-        #         "slug": model._meta.slug if hasattr(model._meta, "slug") else None,
-        #         "tags": model._meta.tags if hasattr(model._meta, "tags") else False,
-        #         "relatedComponents": model._meta.related_components
-        #         if hasattr(model._meta, "related_components")
-        #         else None,
-        #         "visibility": model._meta.visibility
-        #         if hasattr(model._meta, "visibility")
-        #         else None,
-        #         "access_level": model._meta.access_level
-        #         if hasattr(model._meta, "access_level")
-        #         else None,
-        #         "object_count": model.objects.aggregate(max_id=Max("id"))["max_id"],
-        #     }
-        # )
-
         endpoint = {
             "app_name": model._meta.app_label,
             "model_name": model_name,
@@ -729,22 +703,7 @@ class SingleAppEndpointAPIView(APIView):
             "config": None,
         }
 
-        if (
-            hasattr(app_config, "visibility")
-            # app_name == "authorization"
-            # or app_name == "articles"
-            # or app_name == "landing"
-            # or app_name == "about"
-            # or app_name == "services"
-            # or app_name == "support"
-            # or app_name == "jobs"
-            # or app_name == "general"
-            # or app_name == "tables"
-            # or app_name == "quizes"
-            # or app_name == "contact"
-            # or app_name == "content"
-            # or app_name == "pages"
-        ):
+        if hasattr(app_config, "visibility"):
             endpoints["config"] = {
                 "icon": app_config.icon if hasattr(app_config, "icon") else None,
                 "links": app_config.links if hasattr(app_config, "links") else None,
@@ -848,3 +807,41 @@ class ContentTypeEndpointAPIView(APIView):
         metadata = get_model_metadata(model_name)
 
         return Response(metadata)
+
+
+@api_view(["GET"])
+def component_preview_data(request):
+    if request.method == "GET":
+        model_id = request.query_params.get("model_name")
+        if model_id.isnumeric():
+            content_type = ContentType.objects.get(id=model_id)
+            model_class = content_type.model_class()
+        else:
+            for model in apps.get_models():
+                if model.__name__ == model_id:
+                    model_class = model
+                    break
+
+        query_params = {}
+        for key, value in request.query_params.items():
+            if key.startswith("query_params"):
+                _, index, operator = key.split("[")
+                index = str(index.strip("]"))
+                operator = operator.strip("]")
+                if index not in query_params:
+                    query_params[index] = {}
+                query_params[index][operator] = value
+
+        queryset = model_class.objects.all()
+
+        query = Q()
+        for key, value in query_params.items():
+            for field, val in value.items():
+                query |= Q(**{f"{field}__icontains": val})
+
+        queryset = model_class.objects.filter(query)
+
+        serializer_class = model_class.serializer_class
+        serializer = serializer_class(queryset, many=True, context={"request": request})
+        data = {"model_name": model_class.__name__, "data": serializer.data}
+        return Response(data)

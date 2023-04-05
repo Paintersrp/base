@@ -251,112 +251,165 @@ const AutoFormModal = ({
           boxShadow={2}
           infoDump={modelMetadata.info_dump}
         >
-          <Grid container justifyContent="flex-start">
-            {fieldMetadata &&
-              metadata &&
-              Object.keys(fieldMetadata).map((fieldName) => {
-                if (
-                  fieldName === "id" ||
-                  fieldName === "created_at" ||
-                  fieldName === "updated_at" ||
-                  fieldName === "blacklisted_at" ||
-                  fieldName === "last_login" ||
-                  fieldName === "date_joined" ||
-                  fieldName === "subscribed_on" ||
-                  fieldName === "password" ||
-                  fieldName === "salt" ||
-                  fieldName === "question_sets" ||
-                  fieldName === "questions" ||
-                  fieldName === "answer_choices"
-                ) {
-                  return null;
-                }
-
-                const {
-                  type,
-                  choices,
-                  xs_column_count,
-                  md_column_count,
-                  justify,
-                  markdown,
-                  help_text,
-                  min_rows,
-                } = fieldMetadata[fieldName];
-                if (fieldName === "content") {
-                  console.log(fieldMetadata[fieldName]);
-                }
-
-                console.log("metadata", fieldMetadata[fieldName]);
-
-                const { verbose_name } = metadata[fieldName]
-                  ? metadata[fieldName]
-                  : fieldMetadata[fieldName].help_text ||
-                    fieldMetadata[fieldName];
-
-                const inputElement = getByType(
-                  fieldMetadata,
-                  fieldName,
-                  modelMetadata,
-                  verbose_name,
-                  type,
-                  handleInputChange,
-                  choices,
-                  formData,
-                  setFormData,
-                  handleManyToManyChange,
-                  handleImageChange,
-                  handleQuillChange,
-                  handleComponentsChange,
-                  newImage,
-                  newImageName,
-                  xs_column_count,
-                  md_column_count,
-                  justify,
-                  markdown,
-                  min_rows,
-                  help_text
-                );
-
-                if (inputElement) {
-                  return inputElement;
-                }
-
-                return null;
-              })}
-          </Grid>
-          <Grid container justifyContent="center" style={{ marginTop: 16 }}>
-            <Tooltip
-              title={`${
-                Object.keys(data).length === 0 ? "Create" : "Update"
-              } Object`}
-              placement="bottom"
-              classes={{ tooltip: classes.tooltip }}
+          <Grid
+            container
+            justifyContent={modelMetadata.preview ? "flex-start" : "center"}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={modelMetadata.preview ? 7 : 10}
             >
-              <div>
-                <StyledButton
-                  buttonText={
+              <Grid container justifyContent="flex-start">
+                {fieldMetadata &&
+                  metadata &&
+                  Object.keys(fieldMetadata).map((fieldName) => {
+                    if (
+                      fieldName === "id" ||
+                      fieldName === "created_at" ||
+                      fieldName === "updated_at" ||
+                      fieldName === "blacklisted_at" ||
+                      fieldName === "last_login" ||
+                      fieldName === "date_joined" ||
+                      fieldName === "subscribed_on" ||
+                      fieldName === "password" ||
+                      fieldName === "salt" ||
+                      fieldName === "question_sets" ||
+                      fieldName === "questions" ||
+                      fieldName === "answer_choices"
+                    ) {
+                      return null;
+                    }
+
+                    const {
+                      type,
+                      choices,
+                      xs_column_count,
+                      md_column_count,
+                      justify,
+                      markdown,
+                      help_text,
+                      min_rows,
+                    } = fieldMetadata[fieldName];
+                    if (fieldName === "content") {
+                      console.log(fieldMetadata[fieldName]);
+                    }
+
+                    console.log("metadata", fieldMetadata[fieldName]);
+
+                    const { verbose_name } = metadata[fieldName]
+                      ? metadata[fieldName]
+                      : fieldMetadata[fieldName].help_text ||
+                        fieldMetadata[fieldName];
+
+                    const inputElement = getByType(
+                      fieldMetadata,
+                      fieldName,
+                      modelMetadata,
+                      verbose_name,
+                      type,
+                      handleInputChange,
+                      choices,
+                      formData,
+                      setFormData,
+                      handleManyToManyChange,
+                      handleImageChange,
+                      handleQuillChange,
+                      handleComponentsChange,
+                      newImage,
+                      newImageName,
+                      xs_column_count,
+                      md_column_count,
+                      justify,
+                      markdown,
+                      min_rows,
+                      help_text
+                    );
+
+                    if (inputElement) {
+                      return inputElement;
+                    }
+
+                    return null;
+                  })}
+              </Grid>
+              <Grid container justifyContent="center" style={{ marginTop: 16 }}>
+                <Tooltip
+                  title={`${
                     Object.keys(data).length === 0 ? "Create" : "Update"
-                  }
-                  minWidth={80}
-                  color="primary"
-                  type="submit"
-                />
-              </div>
-            </Tooltip>
-            <Tooltip
-              title={`Cancel Creation`}
-              placement="bottom"
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <div>
-                <StyledButton
-                  buttonText={"Cancel"}
-                  color="primary"
-                  onClick={handleClose}
-                  minWidth={80}
-                />
-              </div>
-            </Tooltip>
+                  } Object`}
+                  placement="bottom"
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <div>
+                    <StyledButton
+                      buttonText={
+                        Object.keys(data).length === 0 ? "Create" : "Update"
+                      }
+                      minWidth={80}
+                      color="primary"
+                      type="submit"
+                    />
+                  </div>
+                </Tooltip>
+                <Tooltip
+                  title={`Cancel Creation`}
+                  placement="bottom"
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <div>
+                    <StyledButton
+                      buttonText={"Cancel"}
+                      color="primary"
+                      onClick={handleClose}
+                      minWidth={80}
+                    />
+                  </div>
+                </Tooltip>
+              </Grid>
+            </Grid>
+            {modelMetadata.preview ? (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                xl={5}
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  paddingTop: 16,
+                }}
+              >
+                <Paper
+                  elevation={0}
+                  style={{
+                    width: "100%",
+                    background: "",
+                    padding: 24,
+                    display: "flex",
+                    // justifyContent: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                    align="center"
+                    color="textSecondary"
+                    style={{ marginBottom: 16 }}
+                  >
+                    Component Preview
+                  </Typography>
+                  <Divider style={{ marginBottom: 16 }} />
+                  {renderComponentPreview(modelMetadata, formData, newImage)}
+                </Paper>
+              </Grid>
+            ) : null}
           </Grid>
         </BaseForm>
       ) : (

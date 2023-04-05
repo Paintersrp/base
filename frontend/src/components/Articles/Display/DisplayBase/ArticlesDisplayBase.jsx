@@ -118,6 +118,7 @@ const ArticlesDisplayBase = ({
   };
 
   const renderArticles = (article) => {
+    console.log(article);
     const html = DOMPurify.sanitize(article.content);
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");

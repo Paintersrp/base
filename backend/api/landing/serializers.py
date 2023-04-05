@@ -30,18 +30,6 @@ class TitleBlockSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ItemSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = [
-        "buttonText",
-        "buttonLink",
-    ]
-    SEARCH_KEYS = ["buttonLink"]
-
-    class Meta:
-        model = Item
-        fields = "__all__"
-
-
 class FeatureSerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["detail"]
 
@@ -106,18 +94,6 @@ class ProcessSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TestimonialSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = [
-        "name",
-        "position",
-        "text",
-    ]
-
-    class Meta:
-        model = Testimonial
-        fields = "__all__"
-
-
 class HeroSerializer(serializers.ModelSerializer):
     contact = ContactInformationSerializer()
     social = SocialsSerializer()
@@ -168,9 +144,7 @@ Processes.serializer_class = ProcessesSerializer
 Hero.serializer_class = HeroSerializer
 HeroBlock.serializer_class = HeroBlockSerializer
 TitleBlock.serializer_class = TitleBlockSerializer
-Item.serializer_class = ItemSerializer
 Feature.serializer_class = FeatureSerializer
 SupportedSites.serializer_class = SupportedSitesSerializer
 Process.serializer_class = ProcessSerializer
-Testimonial.serializer_class = TestimonialSerializer
 ServiceTier.serializer_class = ServiceTierSerializer

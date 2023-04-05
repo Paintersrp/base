@@ -2,129 +2,12 @@ from django.db import models
 from api.customs import *
 from api.utils import *
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q
 from django.apps import apps
 from contact.models import Contact
 
 
 def allowed_content_types():
     return {"model__in": ComponentObj.allowed_models()}
-
-
-@metadata(
-    autoform_label="Hero Section",
-    long_description="This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
-    short_description="A model for creating hero sections.",
-    pages_associated={
-        "Landing": "/",
-    },
-    include_preview=True,
-    icon="SubtitlesIcon",
-    icon_class=None,
-    slug="hero",
-    tags=["Landing", "Hero", "Company"],
-    related_components=["Hero"],
-    visibility=True,
-    access_level="All",
-    info_dump={
-        "purpose": "This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
-        "fields": {
-            "Header": "The title of the hero section.",
-            "Subheader": "The subtitle of the hero section.",
-            "Description": "The description of the hero section.",
-            "Button Text": "The text that will appear on the hero section's button.",
-        },
-        "model_links": {
-            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "HeroBlock model reference": "/docs/model/heroblock/",
-            "Landing app documentation": "/docs/app/landing/",
-        },
-    },
-)
-class Component(models.Model):
-    COMPONENT_TYPES = (
-        ("ServiceTier", "ServiceTier"),
-        ("Value", "Value"),
-        ("About", "About"),
-        ("FAQ", "FAQ"),
-        ("Hero", "Hero"),
-        ("Processes", "Processes"),
-        ("LatestNews", "LatestNews"),
-        ("NewsletterForm", "NewsletterForm"),
-        ("IconScroller", "IconScroller"),
-        ("Quiz", "Quiz"),
-        ("TeamMember", "TeamMember"),
-        ("JobPosting", "JobPosting"),
-        ("ContactInformation", "ContactInformation"),
-        ("Socials", "Socials"),
-        ("Hours", "Hours"),
-        ("Contact", "Contact"),
-        ("Articles", "Articles")
-        # ("IconScroller", "IconScroller"),
-    )
-    component_name = models.CharField(max_length=50, choices=COMPONENT_TYPES)
-    query_set = CustomCharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        verbose_name="Query Option",
-        help_text="Query Option",
-    )
-    order = models.PositiveIntegerField(default=0, verbose_name="Order")
-    props = models.JSONField(default=dict, verbose_name="Props", blank=True)
-
-    class Meta:
-        verbose_name = "Components"
-        verbose_name_plural = "Components"
-
-
-@metadata(
-    autoform_label="Page Content",
-    long_description="This model represents a set of page content.",
-    short_description="A model for creating pages and page content.",
-    pages_associated={
-        "Landing": "/",
-    },
-    include_preview=True,
-    icon="SubtitlesIcon",
-    icon_class=None,
-    slug="hero",
-    tags=["Landing", "Hero", "Company"],
-    related_components=["Hero"],
-    visibility=True,
-    access_level="All",
-    info_dump={
-        "purpose": "This model represents a hero section, which is typically the top section of a webpage and contains a prominent headline, subheading, and background image.",
-        "fields": {
-            "Header": "The title of the hero section.",
-            "Subheader": "The subtitle of the hero section.",
-            "Description": "The description of the hero section.",
-            "Button Text": "The text that will appear on the hero section's button.",
-        },
-        "model_links": {
-            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
-            "HeroBlock model reference": "/docs/model/heroblock/",
-            "Landing app documentation": "/docs/app/landing/",
-        },
-    },
-)
-class Page(models.Model):
-    page_name = CustomCharField(
-        max_length=50, verbose_name="Page Name", help_text="Page Name"
-    )
-    components = models.ManyToManyField(
-        Component, verbose_name="Components", help_text="Components"
-    )
-    verbose_name = CustomCharField(
-        max_length=50,
-        verbose_name="Page Display Name",
-        help_text="Page Display Name",
-        default="Placeholder",
-    )
-
-    class Meta:
-        verbose_name = "Pages"
-        verbose_name_plural = "Pages"
 
 
 @metadata(
@@ -154,7 +37,7 @@ class Page(models.Model):
         },
     },
     filter_options=["id", "name"],
-    allowed=True,
+    allowed=False,
 )
 class ComponentCategory(models.Model):
     name = CustomCharField(
@@ -180,7 +63,7 @@ class ComponentCategory(models.Model):
     pages_associated={
         "Landing": "/",
     },
-    include_preview=False,
+    include_preview=True,
     icon="SubtitlesIcon",
     icon_class=None,
     slug="component",
@@ -204,7 +87,7 @@ class ComponentCategory(models.Model):
         },
     },
     filter_options=["name", "category", "content", "id"],
-    allowed=True,
+    allowed=False,
 )
 class ComponentObj(models.Model):
     name = CustomCharField(
@@ -224,7 +107,7 @@ class ComponentObj(models.Model):
         },
         null=True,
         blank=True,
-        md_column_count=6,
+        md_column_count=12,
         db_index=True,
     )
     order = CustomPositiveIntegerField(
@@ -232,17 +115,19 @@ class ComponentObj(models.Model):
         verbose_name="Page Appearance Order",
         md_column_count=6,
     )
-    content = models.ForeignKey(
+    content = CustomForeignKeyField(
         ContentType,
         on_delete=models.CASCADE,
         limit_choices_to=allowed_content_types,
-        verbose_name="Data Model Name",
+        verbose_name="Data Model",
+        md_column_count=4,
     )
     query_params = CustomJSONField(
         default=dict,
         blank=True,
         verbose_name="Query Parameters",
         help_text="Query parameters to filter the data source",
+        md_column_count=8,
     )
 
     @staticmethod
@@ -292,7 +177,7 @@ class ComponentObj(models.Model):
         },
     },
     filter_options=["page_name"],
-    allowed=True,
+    allowed=False,
 )
 class PageObj(models.Model):
     ACCESS_CHOICES = (
@@ -366,7 +251,7 @@ class PageObj(models.Model):
         },
     },
     filter_options=["id", "set_name"],
-    allowed=True,
+    allowed=False,
 )
 class PageSet(models.Model):
     set_name = CustomCharField(
@@ -427,7 +312,7 @@ class PageSet(models.Model):
         },
     },
     filter_options=["id", "app_name"],
-    allowed=True,
+    allowed=False,
 )
 class App(models.Model):
     NAV_CHOICES = (

@@ -36,7 +36,10 @@ from articles.models import Articles
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "title"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class HeroBlock(models.Model):
@@ -80,7 +83,7 @@ class HeroBlock(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["-id"]
         verbose_name = "Hero Section"
         verbose_name_plural = verbose_name + "s"
 
@@ -117,7 +120,11 @@ class HeroBlock(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class TitleBlock(models.Model):
@@ -180,43 +187,6 @@ class TitleBlock(models.Model):
         ordering = ["name"]
         verbose_name = "Section Headings"
         verbose_name_plural = "Section Headings"
-
-
-@metadata(
-    autoform_label="Hero Text Block",
-    long_description="Description Placeholder",
-    short_description="Short Description",
-    pages_associated={
-        "Landing": "/",
-    },
-    include_preview=True,
-    icon="TurnedInIcon",
-    icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
-    visibility=False,
-    access_level="All",
-    info_dump={"text": ""},
-)
-class Item(models.Model):
-    image = models.ImageField(
-        upload_to="carousel",
-        verbose_name="Image",
-    )
-    buttonText = CustomCharField(
-        max_length=20, md_column_count=6, verbose_name="Button Text"
-    )
-    buttonLink = CustomCharField(
-        max_length=20, md_column_count=6, verbose_name="Button Link"
-    )
-
-    def __str__(self):
-        return self.id
-
-    class Meta:
-        verbose_name = "Item"
-        verbose_name_plural = verbose_name + "s"
 
 
 @metadata(
@@ -343,7 +313,10 @@ class SupportedSites(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "service_title"],
+    filter_options=[
+        "service_title",
+        "id",
+    ],
     allowed=True,
 )
 class ServiceTier(models.Model):
@@ -421,51 +394,6 @@ class ServiceTier(models.Model):
 
 
 @metadata(
-    autoform_label="Hero Text Block",
-    long_description="Description Placeholder",
-    short_description="Short Description",
-    pages_associated={
-        "Landing": "/",
-    },
-    include_preview=True,
-    icon="ReviewsIcon",
-    icon_class=None,
-    slug="header",
-    tags=["About", "Header", "Company"],
-    related_components=["Header"],
-    visibility=False,
-    access_level="All",
-)
-class Testimonial(models.Model):
-    heading = CustomCharField(
-        max_length=100,
-        md_column_count=4,
-        verbose_name="Heading",
-    )
-    image = models.ImageField(
-        upload_to="testimonial_images",
-        verbose_name="Image",
-    )
-    name = CustomCharField(
-        max_length=40,
-        md_column_count=4,
-        verbose_name="Name",
-    )
-    position = CustomCharField(
-        max_length=40, md_column_count=4, verbose_name="Position"
-    )
-    text = CustomTextField(
-        max_length=200,
-        md_column_count=10,
-        verbose_name="Quote",
-    )
-
-    class Meta:
-        verbose_name = "Testimonials"
-        verbose_name_plural = "Testimonials"
-
-
-@metadata(
     autoform_label="Process Step",
     long_description="This model represents a collection of steps that describe the process of how the business works. Each step includes a title, description, and an icon to illustrate the step.",
     short_description="Model for company process steps",
@@ -494,7 +422,10 @@ class Testimonial(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "title"],
+    filter_options=[
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class Process(models.Model):
@@ -556,7 +487,10 @@ class Process(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class Hero(models.Model):
@@ -625,7 +559,10 @@ class Hero(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class Processes(models.Model):
@@ -681,7 +618,10 @@ class Processes(models.Model):
             "Landing app documentation": "/docs/app/landing/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
 )
 class LatestNews(models.Model):

@@ -1,21 +1,6 @@
-from django.shortcuts import render
 from api.custom_views import *
 from .models import *
 from .serializers import *
-from django.http import QueryDict
-
-
-class PageLookupAPIView(BaseDetailView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
-    lookup_field = "page_name"
-
-
-class PageNameAPIView(BaseListView):
-    queryset = Page.objects.all()
-    serializer_class = PageNameSerializer
-    model_class = Page
 
 
 class PageSetAPIView(BaseListView):
@@ -117,24 +102,6 @@ class ComponentCategoryBulkAPIView(BaseBulkView):
     model_class = ComponentCategory
 
 
-class ComponentAPIView(BaseListView):
-    queryset = Component.objects.all()
-    serializer_class = ComponentSerializer
-    model_class = Component
-
-
-class ComponentDetailAPIView(BaseDetailView):
-    queryset = Component.objects.all()
-    serializer_class = ComponentSerializer
-    model_class = Component
-
-
-class ComponentBulkAPIView(BaseBulkView):
-    queryset = Component.objects.all()
-    serializer_class = ComponentSerializer
-    model_class = Component
-
-
 class ComponentObjMinAPIView(BaseListView):
     queryset = ComponentObj.objects.all()
     serializer_class = ComponentObjMinSerializer
@@ -193,17 +160,12 @@ class ComponentObjDetailAPIView(BaseDetailView):
                     query_params[index] = {}
                 query_params[index][operator] = value
 
-        print("query_params", query_params)
         instance.query_params = query_params
         instance.save()
-
-        print(request.data)
 
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-
-        print(serializer.data)
 
         changes = return_changes(instance, old_instance)
         print(changes)
@@ -216,63 +178,6 @@ class ComponentObjBulkAPIView(BaseBulkView):
     queryset = ComponentObj.objects.all()
     serializer_class = ComponentObjSerializer
     model_class = ComponentObj
-
-
-class PageAPIView(BaseListView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
-
-    def create(self, request, *args, **kwargs):
-        print(request.data)
-        data = self.serializer_class().format_data(request.data, create=True)
-        print(data)
-
-        for field in self.foreign_key_fields:
-            if field in data:
-                related_class = self.serializer_class.Meta.model._meta.get_field(
-                    field
-                ).remote_field.model
-
-                try:
-                    related_obj = related_class.objects.get(id=data[field])
-                    print(related_obj.id)
-                except related_class.DoesNotExist:
-                    raise NotFound(
-                        detail=f"{related_class.__name__} with id {data[field]} does not exist"
-                    )
-
-                data[f"{field}"] = related_obj.id
-
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid()
-        print(serializer.errors)
-        serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-
-        create_log_entry(
-            LogEntry.Action.CREATE,
-            request.username if request.username else None,
-            instance,
-            None,
-        )
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-
-class PageDetailAPIView(BaseDetailView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
-
-
-class PageBulkAPIView(BaseBulkView):
-    queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    model_class = Page
 
 
 class PageObjAPIView(BaseListView):

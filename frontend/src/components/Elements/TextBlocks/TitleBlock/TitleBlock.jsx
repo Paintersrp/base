@@ -10,11 +10,11 @@ TitleBlock.defaultProps = {
 
 const getAlignClass = (alignment) => {
   switch (alignment) {
-    case "Left":
+    case "left":
       return "Left";
-    case "Right":
+    case "right":
       return "Right";
-    case "Center":
+    case "center":
       return "Center";
     default:
       return "Left";
@@ -70,6 +70,7 @@ function TitleBlock({
   showDivider = true,
 }) {
   const classes = useStyles();
+  console.log(alignment, "alignment");
   const alignClass = getAlignClass(alignment);
 
   return (

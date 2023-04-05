@@ -29,7 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Benefits = ({ benefits, block, setBlock, editMode }) => {
+const Benefits = ({
+  benefits,
+  block,
+  setBlock,
+  editMode,
+  showBlock = true,
+}) => {
   const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const auth = useSelector((state) => state.auth);
@@ -39,18 +45,6 @@ const Benefits = ({ benefits, block, setBlock, editMode }) => {
     setBlock(updateTitleBlock);
     setEditing(false);
   };
-
-  // {editMode && (
-  //   <div
-  //     style={{
-  //       display: "flex",
-  //       width: "100%",
-  //       justifyContent: "flex-end",
-  //     }}
-  //   >
-  //     <AdminButton link="servicetable" tooltipText="Tables" />
-  //   </div>
-  // )}
 
   return (
     <div className={classes.root}>
@@ -65,23 +59,27 @@ const Benefits = ({ benefits, block, setBlock, editMode }) => {
             />
           </div>
         ) : null}
-
-        {!editing ? (
-          <TitleBlock
-            subtitle={block.subtitle}
-            title={block.title}
-            description={block.description}
-            alignment={block.alignment}
-            showDivider={block.showDivider}
-          />
-        ) : (
-          <TitleBlockEditor
-            titleBlock={block}
-            onUpdate={updateTitleBlock}
-            handleCancel={() => setEditing(!editing)}
-            description
-          />
+        {showBlock && (
+          <>
+            {!editing ? (
+              <TitleBlock
+                subtitle={block.subtitle}
+                title={block.title}
+                description={block.description}
+                alignment={block.alignment}
+                showDivider={block.showDivider}
+              />
+            ) : (
+              <TitleBlockEditor
+                titleBlock={block}
+                onUpdate={updateTitleBlock}
+                handleCancel={() => setEditing(!editing)}
+                description
+              />
+            )}
+          </>
         )}
+
         <div className={classes.benefitContainer}>
           <Grid container style={{ width: "100%" }}>
             {benefits.map((benefit, index) => {

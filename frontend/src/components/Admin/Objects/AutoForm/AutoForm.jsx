@@ -27,6 +27,8 @@ import {
   Info as InfoIcon,
   ContactMail as ContactMailIcon,
 } from "@material-ui/icons";
+import { renderObjectPreview } from "./renderObjectPreview";
+import LoadingIndicator from "../../../Elements/Layout/Loading/LoadingIndicator";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +72,11 @@ const AutoForm = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("xl"));
   const [formData, setFormData] = useState(data);
   const [modelMetadata, setModelMetadata] = useState({});
   const [fieldMetadata, setFieldMetadata] = useState({});
+  const [componentPreviewData, setComponentPreviewData] = useState({});
   const [url, setUrl] = useState([]);
   const [keys, setKeys] = useState([]);
   const [appName, setAppName] = useState([]);
@@ -80,7 +84,9 @@ const AutoForm = ({
   const [metadata, setMetadata] = useState([]);
   const [newImage, setNewImage] = useState(null);
   const [newImageName, setNewImageName] = useState(null);
+  const [selectedModelName, setSelectedModelName] = useState("");
   const [ready, setReady] = useState(false);
+  const [previewReady, setPreviewReady] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -134,6 +140,46 @@ const AutoForm = ({
       .catch((error) => console.log(error));
   }, [refresh]);
 
+  const handleModelNameChange = (model_name) => {
+    setSelectedModelName(model_name);
+    handleUpdatePreview(model_name, formData["query_params"]);
+  };
+
+  useEffect(() => {
+    console.log("test");
+    if (modelMetadata.modelName === "ComponentObj") {
+      if (selectedModelName) {
+        handleUpdatePreview(selectedModelName, formData["query_params"]);
+      } else {
+        handleUpdatePreview(formData["content"], formData["query_params"]);
+      }
+    }
+  }, [formData["query_params"]]);
+
+  const handleUpdatePreview = (model_name, query_params) => {
+    setPreviewReady(false);
+    if (model_name !== "None") {
+      axiosInstance
+        .get("preview-data/", {
+          params: {
+            model_name: model_name,
+            query_params: query_params,
+          },
+        })
+
+        .then((response) => {
+          setComponentPreviewData(response.data.data);
+          setSelectedModelName(response.data.model_name);
+          setTimeout(() => {
+            setPreviewReady(true);
+          }, 250);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   const handleImageChange = (event) => {
     formData.image = event.target.files[0];
     setNewImage(URL.createObjectURL(event.target.files[0]));
@@ -142,6 +188,7 @@ const AutoForm = ({
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]:
@@ -149,6 +196,10 @@ const AutoForm = ({
           ? checked
           : type === "file"
           ? e.target.files[0]
+          : name === "content"
+          ? value !== "None Selected"
+            ? parseInt(value)
+            : "None Selected"
           : value,
     }));
   };
@@ -161,8 +212,11 @@ const AutoForm = ({
   };
 
   const handleComponentsChange = (fieldName, newObjects) => {
-    formData[fieldName] = newObjects;
+    const updatedFormData = { ...formData };
+    updatedFormData[fieldName] = newObjects;
+    setFormData(updatedFormData);
     console.log("formData", formData);
+    console.log("modelMetadata.modelName", modelMetadata.modelName);
   };
 
   const handleManyToManyChange = (fieldName, fieldValue) => {
@@ -283,6 +337,9 @@ const AutoForm = ({
           infoDump={modelMetadata.info_dump}
           noPadding
         >
+          <div style={{ width: "100%" }}>
+            <Divider style={{ marginBottom: 32, marginTop: 24 }} />
+          </div>
           <Grid
             container
             justifyContent={modelMetadata.preview ? "flex-start" : "center"}
@@ -293,7 +350,14 @@ const AutoForm = ({
               sm={12}
               md={12}
               lg={12}
-              xl={modelMetadata.preview ? 7 : 10}
+              xl={
+                modelMetadata.preview &&
+                modelMetadata.modelName === "ComponentObj"
+                  ? 12
+                  : modelMetadata.preview
+                  ? 7
+                  : 10
+              }
             >
               <Grid container justifyContent="flex-start">
                 {fieldMetadata &&
@@ -326,8 +390,10 @@ const AutoForm = ({
                       help_text,
                       min_rows,
                     } = fieldMetadata[fieldName];
+
                     if (fieldName === "content") {
-                      console.log(fieldMetadata[fieldName]);
+                      console.log(fieldMetadata, "fieldMetadata");
+                      console.log(modelMetadata, "modelMetadata");
                     }
 
                     console.log("metadata", fieldMetadata[fieldName]);
@@ -350,6 +416,7 @@ const AutoForm = ({
                       handleImageChange,
                       handleQuillChange,
                       handleComponentsChange,
+                      handleModelNameChange,
                       newImage,
                       newImageName,
                       xs_column_count,
@@ -368,8 +435,15 @@ const AutoForm = ({
                     return null;
                   })}
               </Grid>
+              {/* <div style={{ width: "100%" }}>
+                <Divider style={{ marginBottom: 32, marginTop: 32 }} />
+              </div> */}
 
-              <Grid container justifyContent="center" style={{ marginTop: 16 }}>
+              <Grid
+                container
+                justifyContent="center"
+                style={{ marginTop: 48, marginBottom: 16 }}
+              >
                 <Tooltip
                   title={`${
                     Object.keys(data).length === 0 ? "Create" : "Update"
@@ -413,11 +487,11 @@ const AutoForm = ({
                 sm={12}
                 md={12}
                 lg={12}
-                xl={5}
+                xl={modelMetadata.modelName === "ComponentObj" ? 12 : 5}
                 style={{
                   justifyContent: "center",
                   display: "flex",
-                  paddingTop: 16,
+                  paddingTop: isLargeScreen ? 0 : 16,
                 }}
               >
                 <Paper
@@ -425,35 +499,58 @@ const AutoForm = ({
                   style={{
                     width: "100%",
                     background: "",
-                    padding: 24,
+                    padding: 12,
                     display: "flex",
                     // justifyContent: "center",
                     flexDirection: "column",
                     alignItems: "center",
                   }}
                 >
+                  {!isLargeScreen &&
+                    modelMetadata.modelName !== "ComponentObj" && (
+                      <div style={{ width: "100%" }}>
+                        <Divider style={{ marginBottom: 32 }} />
+                      </div>
+                    )}
+                  {modelMetadata.modelName === "ComponentObj" && (
+                    <div style={{ width: "100%" }}>
+                      <Divider style={{ marginBottom: 32 }} />
+                    </div>
+                  )}
                   <Typography
                     variant="h3"
                     align="center"
-                    color="textSecondary"
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, color: "#222" }}
                   >
                     Component Preview
                   </Typography>
-                  <Divider style={{ marginBottom: 16 }} />
-                  {renderComponentPreview(modelMetadata, formData, newImage)}
 
-                  {/* <Typography variant="h3" align="center" color="textSecondary">
-                    No Component Attached to Model 
-                  </Typography> */}
+                  {modelMetadata.modelName === "ComponentObj" && previewReady
+                    ? renderComponentPreview(
+                        selectedModelName,
+                        componentPreviewData,
+                        newImage
+                      )
+                    : null}
+                  {modelMetadata.modelName !== "ComponentObj"
+                    ? renderObjectPreview(
+                        modelMetadata.modelName,
+                        formData,
+                        newImage
+                      )
+                    : null}
                 </Paper>
               </Grid>
             ) : null}
           </Grid>
 
+          <div style={{ width: "100%" }}>
+            <Divider style={{ marginBottom: 32, marginTop: 32 }} />
+          </div>
+
           {modelMetadata.pagesAssociated && (
             <>
-              <div style={{ width: "100%", marginTop: 24 }}>
+              <div style={{ width: "100%", marginTop: 0 }}>
                 <Typography align="center" variant="h3" color="textSecondary">
                   Associated Pages
                 </Typography>

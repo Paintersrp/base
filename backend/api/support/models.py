@@ -38,7 +38,14 @@ from auditlog.registry import auditlog
             "Support center documentation": "/docs/support/messages/",
         },
     },
-    filter_options=["id", "name", "email", "subject", "is_read", "is_archived"],
+    filter_options=[
+        "id",
+        "name",
+        "email",
+        "subject",
+        "is_read",
+        "is_archived",
+    ],
     allowed=False,
 )
 class Messages(models.Model):
@@ -127,7 +134,10 @@ class Messages(models.Model):
             "How to manage subscribers": "https://www.example.com/blog/how-to-manage-newsletter-subscribers/",
         },
     },
-    filter_options=["id", "email"],
+    filter_options=[
+        "id",
+        "email",
+    ],
     allowed=False,
 )
 class Subscribers(models.Model):

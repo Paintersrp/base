@@ -3,8 +3,16 @@ from .views import *
 
 
 urlpatterns = [
-    path("benefits/", BenefitsAPIView.as_view(), name="benefits-list"),
-    path("benefits/<int:pk>/", BenefitsDetailAPIView.as_view(), name="benefits-detail"),
+    path(
+        "benefits/",
+        BenefitsAPIView.as_view(),
+        name="benefits-list",
+    ),
+    path(
+        "benefits/<int:pk>/",
+        BenefitsDetailAPIView.as_view(),
+        name="benefits-detail",
+    ),
     path(
         "benefits/bulk/",
         BenefitsBulkAPIView.as_view(),
@@ -40,12 +48,24 @@ urlpatterns = [
         ProcessImageItemBulkAPIView.as_view(),
         name="processimageitem-bulk-detail",
     ),
-    path("quiz/", QuizAPIView.as_view(), name="quiz-list"),
-    path("quiz/<int:pk>/", QuizDetailAPIView.as_view(), name="quiz-detail"),
+    path(
+        "quiz/",
+        QuizAPIView.as_view(),
+        name="quiz-list",
+    ),
+    path(
+        "quiz/<int:pk>/",
+        QuizDetailAPIView.as_view(),
+        name="quiz-detail",
+    ),
     path(
         "quiz/bulk/",
         QuizBulkAPIView.as_view(),
         name="quiz-bulk-detail",
     ),
-    path("services/", ServiceFullTestView.as_view(), name="service-full"),
+    path(
+        "services/",
+        ServiceFullTestView.as_view(),
+        name="service-full",
+    ),
 ]

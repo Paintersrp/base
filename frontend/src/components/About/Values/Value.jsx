@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Value({ value, index, start, edit = true, editMode }) {
+  console.log(value);
   const classes = useStyles();
   const [valueData, setValueData] = useState(value);
   const [editing, setEditing] = useState(false);

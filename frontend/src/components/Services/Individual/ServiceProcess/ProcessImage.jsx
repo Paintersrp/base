@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProcessImage({ imageItem, preview = false, editMode }) {
-  console.log(imageItem);
+  console.log("imageItem", imageItem);
   const classes = useStyles();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -85,7 +85,10 @@ function ProcessImage({ imageItem, preview = false, editMode }) {
                 flexDirection: "column",
               }}
             >
-              <CardMedia className={classes.image} image={data.image} />
+              <CardMedia
+                className={classes.image}
+                image={data.image || imageItem}
+              />
               {!editing && editMode ? (
                 <EditDeleteButtonMenu
                   editClick={() => setEditing(!editing)}

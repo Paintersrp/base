@@ -70,7 +70,9 @@ class ArticleSerializer(serializers.ModelSerializer):
             id=obj.id
         )
         return RelatedArticleSerializer(
-            related_articles, many=True, context={"request": self.context["request"]}
+            related_articles,
+            many=True,
+            context={"request": self.context["request"]},
         ).data
 
     def get_tags_options(self, obj):

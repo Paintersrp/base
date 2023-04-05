@@ -31,8 +31,12 @@ from auditlog.registry import auditlog
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["id", "name"],
+    filter_options=[
+        "name",
+        "id",
+    ],
     allowed=True,
+    category="About",
 )
 class AboutBlock(models.Model):
     name = CustomCharField(
@@ -89,7 +93,11 @@ class AboutBlock(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["id", "title"],
+    filter_options=[
+        "name",
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class MissionStatement(models.Model):
@@ -150,7 +158,11 @@ class MissionStatement(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["id", "title"],
+    filter_options=[
+        "name",
+        "title",
+        "id",
+    ],
     allowed=True,
 )
 class CompanyHistory(models.Model):
@@ -210,8 +222,17 @@ class CompanyHistory(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["title", "id"],
-    filter_choices=lambda model: get_filter_choices(model, ["title", "id"]),
+    filter_options=[
+        "title",
+        "id",
+    ],
+    filter_choices=lambda model: get_filter_choices(
+        model,
+        [
+            "title",
+            "id",
+        ],
+    ),
     allowed=True,
 )
 class Value(models.Model):
@@ -262,8 +283,11 @@ class Value(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["id", "name"],
-    allowed=True,
+    filter_options=[
+        "name",
+        "id",
+    ],
+    allowed=False,
 )
 class Category(models.Model):
     name = CustomCharField(
@@ -309,8 +333,11 @@ class Category(models.Model):
             "About app documentation": "/docs/app/about/",
         },
     },
-    filter_options=["id", "category"],
-    allowed=True,
+    filter_options=[
+        "name",
+        "id",
+    ],
+    allowed=False,
 )
 class FAQ(models.Model):
     name = CustomCharField(

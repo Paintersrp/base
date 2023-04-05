@@ -19,6 +19,7 @@ def metadata(
     filter_options=["id"],
     filter_choices=[],
     allowed=False,
+    category="None",
 ):
     def decorator(cls):
         cls._meta.autoform_label = autoform_label
@@ -37,6 +38,7 @@ def metadata(
         cls._meta.filter_options = filter_options
         cls._meta.filter_choices = filter_choices
         cls._meta.allowed = allowed
+        cls._meta.category = category
         return cls
 
     return decorator
@@ -44,32 +46,56 @@ def metadata(
 
 class CustomCharField(models.CharField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomSlugField(models.SlugField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomEmailField(models.EmailField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomTextField(models.TextField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         self.markdown = kwargs.pop("markdown", "false")
         self.min_rows = kwargs.pop("min_rows", 6)
@@ -78,24 +104,42 @@ class CustomTextField(models.TextField):
 
 class CustomDecimalField(models.DecimalField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomJSONField(models.JSONField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomPositiveIntegerField(models.PositiveIntegerField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
@@ -109,30 +153,54 @@ class CustomImageFieldField(models.ImageField):
 
 class CustomBooleanField(models.BooleanField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 
 
 class CustomForeignKeyField(models.ForeignKey):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         super().__init__(*args, **kwargs)
 
 
 class CustomURLField(models.URLField):
     def __init__(self, *args, **kwargs):
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
-        self.md_column_count = kwargs.pop("md_column_count", 12)
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
         super().__init__(*args, **kwargs)
 
 
 class CustomManyToManyField(models.ManyToManyField):
     def __init__(self, *args, **kwargs):
-        self.md_column_count = kwargs.pop("md_column_count", 12)
-        self.xs_column_count = kwargs.pop("xs_column_count", 12)
+        self.md_column_count = kwargs.pop(
+            "md_column_count",
+            12,
+        )
+        self.xs_column_count = kwargs.pop(
+            "xs_column_count",
+            12,
+        )
         self.justify = kwargs.pop("justify", "left")
         super().__init__(*args, **kwargs)
 

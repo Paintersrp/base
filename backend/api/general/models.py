@@ -38,8 +38,11 @@ from auditlog.registry import auditlog
             "General app documentation": "/docs/app/general/",
         },
     },
-    filter_options=["page", "keywords"],
-    allowed=True,
+    filter_options=[
+        "page",
+        "keywords",
+    ],
+    allowed=False,
 )
 class Header(models.Model):
     page = CustomCharField(

@@ -145,7 +145,7 @@ class AppInfoFullView(generics.GenericAPIView):
                 "filter": {"filled": False},
                 "app_label": "jobs",
             },
-            "Page": {
+            "PageObj": {
                 "app_label": "pages",
             },
         }

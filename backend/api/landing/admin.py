@@ -33,35 +33,8 @@ class CustomServiceTierAdmin(admin.ModelAdmin):
     )
 
 
-class CustomItemAdmin(admin.ModelAdmin):
-    list_display = ("buttonText", "buttonLink", "image", "thumbnail_tag")
-    search_fields = ("buttonText", "buttonLink")
-
-    def thumbnail_tag(self, obj):
-        if obj.image:
-            return format_html(
-                '<img src="{}" width="75" height="50"/>'.format(obj.image.url)
-            )
-        return "-"
-
-    thumbnail_tag.short_description = "Thumbnail"
-
-
 class CustomProcessAdmin(admin.ModelAdmin):
     list_display = ("title", "description", "icon")
-
-
-class CustomTestimonialAdmin(admin.ModelAdmin):
-    list_display = ("name", "position", "heading", "text", "thumbnail")
-
-    def thumbnail(self, obj):
-        if obj.image:
-            return format_html(
-                '<img src="{}" width="50" height="50"/>'.format(obj.image.url)
-            )
-        return "-"
-
-    thumbnail.short_description = "Thumbnail"
 
 
 class CustomTitleBlockAdmin(admin.ModelAdmin):
@@ -74,9 +47,7 @@ admin.site.register(Hero)
 admin.site.register(LatestNews)
 admin.site.register(Processes)
 admin.site.register(Feature)
-admin.site.register(Testimonial, CustomTestimonialAdmin)
 admin.site.register(TitleBlock, CustomTitleBlockAdmin)
-admin.site.register(Item, CustomItemAdmin)
 admin.site.register(Process, CustomProcessAdmin)
 admin.site.register(SupportedSites)
 admin.site.register(ServiceTier, CustomServiceTierAdmin)

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.forms.models import model_to_dict
 from django.db.models.functions import Length
 from django.db.models import Avg
-from pages.serializers import PageNameSerializer
+from pages.serializers import PageObjNameSerializer
 from django.apps import apps
 from django.db import models
 import json
@@ -131,7 +131,7 @@ def get_serialized_page_data(model_dict, request):
             queryset = model.objects.all()
 
         if model_name == "Page":
-            serializer = PageNameSerializer(
+            serializer = PageObjNameSerializer(
                 instance=queryset, many=many, context={"request": request}
             )
         else:
@@ -144,21 +144,4 @@ def get_serialized_page_data(model_dict, request):
     return data
 
 
-# GET METADATA EXAMPLE
-# class AboutFullSerializer(serializers.Serializer):
-#     about_block = AboutBlockSerializer()
-#     mission_statement = MissionStatementSerializer()
-#     company_history = CompanyHistorySerializer()
-#     core_values = ValueSerializer(many=True)
-# metadata = serializers.SerializerMethodField()
 
-# def get_metadata(self, obj):
-#     metadata = []
-#     for model in [
-#         "AboutBlock",
-#         "MissionStatement",
-#         "CompanyHistory",
-#         "Value",
-#     ]:
-#         metadata.append(get_model_metadata(model))
-#     return metadata

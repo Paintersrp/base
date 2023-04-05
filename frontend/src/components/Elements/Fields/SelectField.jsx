@@ -54,8 +54,8 @@ const SelectField = ({
   variant = "outlined",
   multiple = false,
 }) => {
-  console.log("fieldName", fieldName);
-  console.log("fdFN", formData[fieldName].set_name);
+  console.log("fieldName", fieldName, formData);
+
   const classes = useStyles();
   const [manualEntry, setManualEntry] = useState(false);
   const toggleManualEntry = () => setManualEntry(!manualEntry);
@@ -95,19 +95,21 @@ const SelectField = ({
             className={classes.select}
             variant={variant}
             value={
-              fieldName === "social"
+              formData[fieldName] && fieldName === "social"
                 ? formData[fieldName].id
-                : fieldName === "hero_block"
+                : formData[fieldName] && fieldName === "hero_block"
                 ? formData[fieldName].id
-                : fieldName === "page_set" ||
-                  fieldName === "contact_info" ||
-                  fieldName === "socials" ||
-                  fieldName === "hours"
+                : formData[fieldName] &&
+                  (fieldName === "page_set" ||
+                    fieldName === "contact_info" ||
+                    fieldName === "socials" ||
+                    fieldName === "hours")
                 ? formData[fieldName].id
                 : formData[fieldName]
             }
             onChange={handleChange}
             name={fieldName}
+            displayEmpty
             margin="dense"
             style={{ minWidth: "100%", padding: 0 }}
             MenuProps={{

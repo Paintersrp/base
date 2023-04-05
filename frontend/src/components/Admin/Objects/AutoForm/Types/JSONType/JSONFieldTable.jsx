@@ -10,13 +10,20 @@ import {
   Paper,
   IconButton,
   Tooltip,
+  Typography,
 } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(4.5),
+    padding: theme.spacing(1, 2, 2, 2),
     maxWidth: "100%",
+  },
+  helpText: {
+    margin: theme.spacing(1, 0, 1, 0),
+    padding: 0,
+    color: "#222",
   },
 }));
 
@@ -25,12 +32,20 @@ const JSONFieldTable = ({ queryParamValues, handleRemoveQueryParam }) => {
 
   return (
     <TableContainer component={Paper} className={classes.table}>
+      <Typography
+        variant="h4"
+        className={classes.helpText}
+        style={{ textAlign: "center" }}
+      >
+        Current Filters
+      </Typography>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell
               style={{
-                padding: 0,
+                width: "10%",
+                marginLeft: 4,
               }}
             ></TableCell>
             <TableCell>Field</TableCell>
@@ -47,9 +62,6 @@ const JSONFieldTable = ({ queryParamValues, handleRemoveQueryParam }) => {
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    maxWidth: 48,
-                    padding: 0,
-                    marginLeft: 4,
                   }}
                 >
                   <Tooltip

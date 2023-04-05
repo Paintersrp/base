@@ -25,6 +25,7 @@ const getByType = (
   handleImageChange,
   handleQuillChange,
   handleComponentsChange,
+  handleModelNameChange,
   newImage,
   newImageName,
   xs_column_count,
@@ -159,6 +160,7 @@ const getByType = (
           helpText={help_text}
           fieldMetadata={fieldMetadata}
           handleModalUpdate={handleModalUpdate}
+          handleModelNameChange={handleModelNameChange}
         />
       );
     case "FileField":
@@ -179,6 +181,8 @@ const getByType = (
           formData={formData}
           modelMetadata={modelMetadata}
           handleComponentsChange={handleComponentsChange}
+          xsColumnCount={xs_column_count}
+          mdColumnCount={md_column_count}
         />
       );
     default:
