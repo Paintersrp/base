@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     minWidth: 300,
+    overflow: "hidden",
   },
   select: {
     marginTop: 8,

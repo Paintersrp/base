@@ -32,6 +32,7 @@ const CharType = ({
       style={{
         display: "flex",
         justifyContent: justifyContent,
+        alignItems: "flex-start",
         paddingRight: 8,
         paddingLeft: 8,
       }}

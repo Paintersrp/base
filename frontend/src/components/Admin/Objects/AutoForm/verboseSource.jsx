@@ -1,7 +1,8 @@
 const verboseSource = (fieldName, item) => {
   switch (fieldName) {
     case "components":
-      return item.name;
+    case "elements":
+      return `${item.name} (${item.content_type})`;
     case "supported_sites":
     case "features":
     case "requirements":

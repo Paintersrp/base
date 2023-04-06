@@ -13,14 +13,11 @@ import ContactPage from "../../components/Contact/_Page/ContactPage";
 import LoginForm from "../../components/Elements/Forms/Login/LoginForm";
 import Profile from "../../components/Elements/Forms/Profile/Profile";
 import RegisterForm from "../../components/Elements/Forms/Register/RegisterForm";
-import GeneratorPage from "../../components/EndPointGenerator/EndPointGeneratorPage";
 import LandingPage from "../../components/Landing/_Page/LandingPage";
 import ServiceIndividualPage from "../../components/Services/Individual/_Page/ServiceIndividualPage";
 import ServicesPage from "../../components/Services/_Page/ServicesPage";
 import SupportPage from "../../components/Support/_Page/SupportPage";
 import WIPDemo from "../../components/WIP/_Page/WIPDemo";
-import Navigation from "../Components/Navigation/Navigation";
-import linkData from "../Components/Navigation/linkData";
 import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
 import { ScrollTopFab } from "../../components/Elements/Buttons/ScrollToTopFAB";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +28,6 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/Axios/axiosInstance";
 import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
 import ReadPage from "../../components/Admin/Objects/_Page/ReadPage";
-import Footer from "../Components/Footer/Footer";
 import ApplicationViewPage from "../../components/Admin/Objects/_Page/ApplicationViewPage";
 import AnalysisPage from "../../components/Admin/Objects/_Page/AnalysisPage";
 import IndividualDashboard from "../../components/Admin/Dashboard/IndividualDashboard";
@@ -167,7 +163,6 @@ export default function SiteRoutes({ handleUpdate }) {
               const filteredPageData = Object.values(
                 appData.page_set_data.pages
               ).find((p) => p.page_name === page.page_name);
-              console.log("filteredPageData", filteredPageData);
 
               if (filteredPageData.access === "private") {
                 return null;
@@ -197,42 +192,12 @@ export default function SiteRoutes({ handleUpdate }) {
                     }
                   />
                 </Route>
-
-                //    {page.page_name === "news-dynamic" && (
-                //   <React.Fragment>
-                //     <Route
-                //       path="/articles/create"
-                //       element={
-                //         <CreateUpdateArticle handleUpdate={handleUpdate} />
-                //       }
-                //     />
-                //     <Route
-                //       path="/articles/:id"
-                //       element={
-                //         <IndividualArticleView handleUpdate={handleUpdate} />
-                //       }
-                //     />
-                //     <Route
-                //       path="/articles/:id/update"
-                //       element={
-                //         <div style={{ width: "100vw" }}>
-                //           <UpdateArticleView />
-                //         </div>
-                //       }
-                //     />
-                //   </React.Fragment>
-                // )}
-                //  </React.Fragment>
               );
             }
           )}
           <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
           <Route path="/WIP2" element={<WIP2Demo />} />
-          <Route
-            path="/generator"
-            element={<GeneratorPage handleUpdate={handleUpdate} />}
-          />
           {appData.jobs && (
             <Route
               path="/jobposting/:id"

@@ -346,7 +346,7 @@ const Panel = ({
                 justifyContent: "flex-end",
               }}
             >
-              <InfoTooltip text={model.info_dump} />
+              <InfoTooltip textItem={model.info_dump} />
             </Grid>
             <Grid
               item

@@ -18,14 +18,16 @@ const BooleanType = ({
       style={{
         display: "flex",
         justifyContent: justifyContent,
-        order: 2000,
+        alignItems: "flex-start",
         paddingRight: 8,
         paddingLeft: 8,
+        marginTop: 16,
       }}
     >
       <FormControlLabel
         style={{
-          minWidth: 150,
+          marginRight: 0,
+          marginLeft: 0,
         }}
         key={fieldName}
         value={formData[fieldName]}

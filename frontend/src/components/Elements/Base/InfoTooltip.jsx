@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InfoTooltip = ({ text, placement = "bottom" }) => {
+const InfoTooltip = ({ textItem, placement = "bottom" }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -88,7 +88,7 @@ const InfoTooltip = ({ text, placement = "bottom" }) => {
         </div>
         <div>
           <Typography variant="body1" component="p">
-            {text.purpose}
+            {textItem.purpose}
           </Typography>
         </div>
         <Divider style={{ marginTop: 16, marginBottom: 16 }} />
@@ -99,7 +99,7 @@ const InfoTooltip = ({ text, placement = "bottom" }) => {
         </div>
         <div>
           <List dense disablePadding style={{ padding: 0 }}>
-            {Object.entries(text.fields).map(([key, value]) => (
+            {Object.entries(textItem.fields).map(([key, value]) => (
               <ListItem key={key} disableGutters style={{ padding: 0 }}>
                 <ListItemText
                   primaryTypographyProps={{
@@ -119,7 +119,7 @@ const InfoTooltip = ({ text, placement = "bottom" }) => {
           </List>
         </div>
         <Divider style={{ marginTop: 16, marginBottom: 16 }} />
-        {text.model_links && (
+        {textItem.model_links && (
           <div>
             <div style={{ marginBottom: 8 }}>
               <Typography variant="h3" className={classes.menuItemLabel}>
@@ -128,7 +128,7 @@ const InfoTooltip = ({ text, placement = "bottom" }) => {
             </div>
             <div>
               <List dense disablePadding style={{ padding: 0 }}>
-                {Object.entries(text.model_links).map(([key, value]) => (
+                {Object.entries(textItem.model_links).map(([key, value]) => (
                   <ListItem key={key}>
                     <Link
                       href={value}

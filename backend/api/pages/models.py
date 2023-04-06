@@ -1,9 +1,12 @@
 from django.db import models
 from api.customs import *
 from api.utils import *
+from authorization.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 from contact.models import Contact
+from django.urls import reverse
+from general.models import Header
 
 
 def allowed_content_types():
@@ -107,7 +110,7 @@ class ComponentObj(models.Model):
         },
         null=True,
         blank=True,
-        md_column_count=12,
+        md_column_count=6,
         db_index=True,
     )
     order = CustomPositiveIntegerField(
@@ -121,6 +124,7 @@ class ComponentObj(models.Model):
         limit_choices_to=allowed_content_types,
         verbose_name="Data Model",
         md_column_count=4,
+        related_query_name="data",
     )
     query_params = CustomJSONField(
         default=dict,
@@ -129,6 +133,34 @@ class ComponentObj(models.Model):
         help_text="Query parameters to filter the data source",
         md_column_count=8,
     )
+
+    description = CustomTextField(
+        max_length=300,
+        md_column_count=6,
+        verbose_name="Description",
+        help_text="Description (Optional)",
+        min_rows=3,
+        blank=True,
+        null=True,
+    )
+
+    active = CustomBooleanField(
+        default=True,
+        verbose_name="Active",
+        help_text="Active Status",
+        justify="right",
+    )
+
+    author = CustomForeignKeyField(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Author",
+        related_query_name="author",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     @staticmethod
     def allowed_models():
@@ -191,6 +223,7 @@ class PageObj(models.Model):
         max_length=50,
         verbose_name="Page Name",
         help_text="Page Name",
+        md_column_count=6,
         db_index=True,
     )
     components = models.ManyToManyField(
@@ -198,27 +231,73 @@ class PageObj(models.Model):
         verbose_name="Components",
         help_text="Components",
     )
-    verbose_name = CustomCharField(
-        max_length=50,
-        verbose_name="Page Display Name",
-        help_text="Page Display Name",
-        default="Placeholder",
+    slug = CustomCharField(
+        max_length=100,
+        unique=True,
+        verbose_name="URL Slug",
+        help_text="URL Slug",
+        md_column_count=6,
+        blank=True,
+        null=True,
         db_index=True,
     )
     access = CustomCharField(
         max_length=10,
         choices=ACCESS_CHOICES,
         md_column_count=6,
-        verbose_name="Page Access Level",
-        help_text="Page Access Level",
+        verbose_name="Access Level",
+        help_text="Access Level",
         default="Public",
     )
+
+    description = CustomTextField(
+        max_length=300,
+        md_column_count=6,
+        verbose_name="Description",
+        help_text="Description (Optional)",
+        min_rows=3,
+        blank=True,
+        null=True,
+    )
+
+    seo_data = CustomForeignKeyField(
+        Header,
+        on_delete=models.CASCADE,
+        verbose_name="SEO Data",
+        default=3,
+        md_column_count=6,
+    )
+
+    featured = CustomBooleanField(
+        default=True,
+        verbose_name="Featured",
+        help_text="Featured Status",
+        justify="right",
+        md_column_count=6,
+    )
+
+    author = CustomForeignKeyField(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Author",
+        related_query_name="author",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse("pageobj", kwargs={"slug": self.slug})
+
+    def get_components(self):
+        return self.components.all()
 
     def __str__(self):
         return self.page_name
 
     class Meta:
-        ordering = ["verbose_name", "access"]
+        ordering = ["page_name", "access"]
         verbose_name = "Pages2"
         verbose_name_plural = "Pages2"
 

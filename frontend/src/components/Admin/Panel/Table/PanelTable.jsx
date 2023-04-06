@@ -55,7 +55,6 @@ const PanelTable = ({
   handleView,
   type,
 }) => {
-  console.log("model", model);
   const classes = useStyles();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAction, setSelectedAction] = useState("Test");
@@ -288,8 +287,8 @@ const PanelTable = ({
           {stableSort(filteredData, getComparator(order, orderBy))
             .filter((item) => {
               console.log("item", filteredData);
-              if (item === "used_on") {
-                console.log("item", item["used_on"]);
+              if (item === "category") {
+                console.log("item", item["category"]);
               }
               const values = Object.values(item)
                 .filter((val) => val !== null)
@@ -317,7 +316,6 @@ const PanelTable = ({
                   />
                 </TableCell>
                 {keys.map((key) => {
-                  console.log(item[key]);
                   return (
                     <React.Fragment key={key}>
                       {metadata[key].type === "ImageField" ? (
@@ -362,6 +360,12 @@ const PanelTable = ({
                             item["content_type_info"].model
                           ) : key === "access" ? (
                             capitalizeFirst(item[key])
+                          ) : key === "category" ? (
+                            item["category_details"] ? (
+                              item["category_details"].name
+                            ) : (
+                              "None"
+                            )
                           ) : (
                             item[key]
                           )}

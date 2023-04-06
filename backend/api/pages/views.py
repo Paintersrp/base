@@ -114,9 +114,9 @@ class ComponentObjAPIView(BaseListView):
     model_class = ComponentObj
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
+        data = request.data.copy()
         query_params = {}
-        for key, value in request.data.items():
+        for key, value in data.items():
             if key.startswith("query_params"):
                 _, index, operator = key.split("[")
                 index = str(index.strip("]"))
@@ -125,11 +125,22 @@ class ComponentObjAPIView(BaseListView):
                     query_params[index] = {}
                 query_params[index][operator] = value
 
-        # instance = ComponentObj.objects.create(query_params=query_params)
+        if "category" in data:
+            if not data["category"].isnumeric():
+                category = data.pop("category", None)
+                category_obj, created = ComponentCategory.objects.get_or_create(
+                    name=category[0]
+                )
 
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
+
+        if not "category" in data:
+            instance.category = category_obj
+
+        author = User.objects.get(username=request.username)
+        instance.author = author
         instance.query_params = query_params
         instance.save()
 
@@ -149,9 +160,10 @@ class ComponentObjDetailAPIView(BaseDetailView):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         old_instance = ComponentObj.objects.get(pk=instance.pk)
+        data = request.data.copy()
 
         query_params = {}
-        for key, value in request.data.items():
+        for key, value in data.items():
             if key.startswith("query_params"):
                 _, index, operator = key.split("[")
                 index = str(index.strip("]"))
@@ -160,10 +172,19 @@ class ComponentObjDetailAPIView(BaseDetailView):
                     query_params[index] = {}
                 query_params[index][operator] = value
 
+        if "category" in data:
+            print("yes", "category")
+            if not data["category"].isnumeric():
+                category = data.pop("category", None)
+                category_obj, created = ComponentCategory.objects.get_or_create(
+                    name=category[0]
+                )
+                instance.category = category_obj
+
         instance.query_params = query_params
         instance.save()
 
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
@@ -186,9 +207,7 @@ class PageObjAPIView(BaseListView):
     model_class = PageObj
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         data = self.serializer_class().format_data(request.data, create=True)
-        print("formatted", data)
 
         for field in self.foreign_key_fields:
             if field in data:
@@ -207,10 +226,12 @@ class PageObjAPIView(BaseListView):
                 data[f"{field}"] = related_obj.id
 
         serializer = self.get_serializer(data=data)
-        serializer.is_valid()
-        print(serializer.errors)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
+
+        author = User.objects.get(username=request.username)
+        instance.author = author
+        instance.save()
 
         create_log_entry(
             LogEntry.Action.CREATE,
@@ -234,14 +255,12 @@ class PageObjDetailAPIView(BaseDetailView):
         instance = self.get_object()
         old_instance = self.model_class.objects.get(pk=instance.pk)
         data = self.serializer_class().format_data(request.data, create=True)
-        print(data)
 
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
         changes = return_changes(instance, old_instance)
-        print(changes)
 
         create_log_entry(
             LogEntry.Action.UPDATE,

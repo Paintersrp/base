@@ -150,6 +150,7 @@ const getByType = (
     case "PrimaryKeyRelatedField":
       return (
         <ChoiceType
+          fieldType={fieldType}
           formData={formData}
           fieldName={fieldName}
           verboseName={verboseName}

@@ -12,6 +12,8 @@ const choiceSource = (fieldName) => {
       return "pageobj";
     case "page_set":
       return "pageset";
+    case "elements":
+      return "element";
     default:
       return fieldName;
   }

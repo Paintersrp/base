@@ -375,7 +375,8 @@ const AutoForm = ({
                       fieldName === "salt" ||
                       fieldName === "question_sets" ||
                       fieldName === "questions" ||
-                      fieldName === "answer_choices"
+                      fieldName === "answer_choices" ||
+                      fieldName === "author"
                     ) {
                       return null;
                     }

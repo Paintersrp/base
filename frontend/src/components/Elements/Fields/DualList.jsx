@@ -16,16 +16,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     marginTop: theme.spacing(3),
   },
-  container: {
-    display: "flex",
-    alignItems: "center",
-    margin: "auto",
-    maxWidth: "90%",
-    height: "100%",
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "70%",
-    },
-  },
   listContainer: {
     display: "flex",
     flexDirection: "row",
@@ -36,11 +26,31 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: "100%",
     maxHeight: 300,
+
     overflow: "auto",
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #ccc",
     padding: 0,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
+    "&::-webkit-scrollbar": {
+      width: "10px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#ccc",
+      borderRadius: theme.spacing(0.5),
+    },
+    "&::-moz-scrollbar": {
+      width: 10,
+      height: 10,
+      background: "#ccc",
+      borderRadius: theme.spacing(0.5),
+    },
+    "&::-moz-scrollbar-thumb": {
+      background: "#ccc",
+      borderRadius: theme.spacing(0.5),
+    },
+    scrollbarWidth: "thin",
+    scrollbarColor: "#ccc transparent",
   },
   listItem: {
     padding: theme.spacing(0, 1, 0, 1),
@@ -53,28 +63,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  listItemSelected: {
-    backgroundColor: theme.palette.action.selected,
+  listItemNone: {
+    padding: theme.spacing(0, 1, 0, 1),
+
     [theme.breakpoints.up("md")]: {
-      backgroundColor: theme.palette.action.hover,
-      "&:hover": {
-        backgroundColor: theme.palette.action.hover,
-      },
+      padding: theme.spacing(0.5, 2, 0.5, 2),
     },
-  },
-  listTitle: {
-    padding: theme.spacing(1),
-    backgroundColor: "#eee",
-    borderBottom: "1px solid #ccc",
-    borderRadius: theme.spacing(1) + "px " + theme.spacing(1) + "px 0 0",
-  },
-  listHeader: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    borderBottom: "1px solid #ccc",
-    padding: theme.spacing(1),
   },
   icon: {
     minWidth: 24,
@@ -88,7 +82,6 @@ export default function DualList({
   selectedOptions,
   choices,
   handleComponentsChange,
-  modelMetadata,
 }) {
   const classes = useStyles();
   const [left, setLeft] = useState(choices);
@@ -141,7 +134,14 @@ export default function DualList({
               })}
             </List>
           ) : (
-            <p>No available options</p>
+            <List dense className={classes.list} style={{ marginRight: 8 }}>
+              <ListItem key={99} className={classes.listItemNone}>
+                <ListItemText
+                  primary={"All Options Selected"}
+                  style={{ textAlign: "center" }}
+                />
+              </ListItem>
+            </List>
           )}
         </Box>
         <Box style={{ width: "100%" }}>
@@ -167,7 +167,14 @@ export default function DualList({
               ))}
             </List>
           ) : (
-            <p>No selected options</p>
+            <List dense className={classes.list} style={{ marginLeft: 8 }}>
+              <ListItem key={99} className={classes.listItemNone}>
+                <ListItemText
+                  primary={"No Options Selected"}
+                  style={{ textAlign: "center" }}
+                />
+              </ListItem>
+            </List>
           )}
         </Box>
       </Box>

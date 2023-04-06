@@ -107,7 +107,6 @@ def get_model_metadata(model_name):
         print(model._meta.category)
 
     for field_name, field in fields.items():
-
         all_fields_choices = []
         if (
             field_name == "data_source"
@@ -116,6 +115,10 @@ def get_model_metadata(model_name):
             or field_name == "page_set_data"
             or field_name == "jobs_data"
             or field_name == "contact_set_data"
+            or field_name == "author_details"
+            or field_name == "category_details"
+            or field_name == "seo_data_details"
+            or field_name == "element_data"
         ):
             continue
 
@@ -304,6 +307,7 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="pages"
                     )
+
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())
 
@@ -356,6 +360,7 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="pages"
                     )
+
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())
 
@@ -482,6 +487,7 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "contact"
                 or app_label == "content"
                 or app_label == "pages"
+                or app_label == "elements"
             ):
                 if app_label == "pages":
                     print(app_config)
@@ -718,6 +724,7 @@ class SingleAppEndpointAPIView(APIView):
             endpoints["models"][model_name] = []
             serializer_class = getattr(model, "serializer_class", None)
             if serializer_class is None:
+                print(model)
                 continue
 
             serializer = serializer_class()

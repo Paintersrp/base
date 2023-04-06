@@ -180,7 +180,7 @@ function BaseForm({
           boxShadow: theme.shadows[boxShadow],
         }}
       >
-        {infoDump && <InfoTooltip text={infoDump} />}
+        {infoDump && <InfoTooltip textItem={infoDump} />}
         {title ? (
           <Typography variant="h3" className={classes.formTitle}>
             {title}

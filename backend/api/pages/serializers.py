@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from .models import *
+from authorization.serializers import UserSerializer
 from jobs.models import JobPosting
 from jobs.serializers import JobPostingSerializer
+from general.serializers import HeaderSerializer
 from contact.serializers import ContactSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,6 +15,14 @@ import re
 class DataSourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentType
+        fields = "__all__"
+
+
+class ComponentCategorySerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = ComponentCategory
         fields = "__all__"
 
 
@@ -28,6 +38,8 @@ class ComponentObjSerializer(serializers.ModelSerializer):
     data_source = serializers.SerializerMethodField()
     content_type_info = serializers.SerializerMethodField()
     used_on = serializers.SerializerMethodField(label="Used On")
+    author_details = UserSerializer(source="author", read_only=True)
+    category_details = ComponentCategorySerializer(source="category", read_only=True)
     FIELD_KEYS = [
         "name",
         "order",
@@ -43,11 +55,18 @@ class ComponentObjSerializer(serializers.ModelSerializer):
             "name",
             "order",
             "category",
+            "category_details",
+            "description",
+            "active",
             "content",
             "query_params",
+            "author",
+            "author_details",
             "data_source",
             "content_type_info",
             "used_on",
+            "created_at",
+            "updated_at",
         ]
 
     def get_used_on(self, component):
@@ -136,8 +155,11 @@ class ComponentObjSerializer(serializers.ModelSerializer):
 
 class PageObjSerializer(serializers.ModelSerializer):
     components = ComponentObjSerializer(many=True)
+    author_details = UserSerializer(source="author", read_only=True)
+    seo_data_details = HeaderSerializer(source="seo_data", read_only=True)
     FIELD_KEYS = [
-        "verbose_name",
+        "page_name",
+        "slug",
         "components",
         "access",
     ]
@@ -148,13 +170,20 @@ class PageObjSerializer(serializers.ModelSerializer):
             "id",
             "page_name",
             "components",
-            "verbose_name",
+            "slug",
+            "author",
+            "author_details",
+            "seo_data",
+            "seo_data_details",
             "access",
+            "description",
+            "featured",
+            "created_at",
+            "updated_at",
         )
 
     def create(self, validated_data):
         components_data = validated_data.pop("components")
-        print("components_data", components_data)
         page = PageObj.objects.create(**validated_data)
 
         for component_data in components_data:
@@ -167,13 +196,13 @@ class PageObjSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         formatted_data = self.format_data(self.context["request"].data)
+        print(formatted_data)
 
         components_data = formatted_data.pop("components")
+        instance.slug = formatted_data.get("slug", instance.slug)
         instance.page_name = formatted_data.get("page_name", instance.page_name)
-        instance.verbose_name = formatted_data.get(
-            "verbose_name", instance.verbose_name
-        )
         instance.access = formatted_data.get("access", instance.access)
+
         instance.components.clear()
 
         for component_data in components_data:
@@ -183,6 +212,14 @@ class PageObjSerializer(serializers.ModelSerializer):
             component.save()
             instance.components.add(component)
 
+        if "seo_data" in formatted_data:
+            print("yes")
+            seo_data, _ = Header.objects.get_or_create(
+                id=formatted_data.get("seo_data")
+            )
+            print(seo_data)
+
+        instance.seo_data = seo_data
         instance.save()
 
         return instance
@@ -219,14 +256,6 @@ class PageObjSerializer(serializers.ModelSerializer):
             formatted_data["components"] = components
 
         return formatted_data
-
-
-class ComponentCategorySerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["name"]
-
-    class Meta:
-        model = ComponentCategory
-        fields = "__all__"
 
 
 class PageObjNameSerializer(serializers.ModelSerializer):

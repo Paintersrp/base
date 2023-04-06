@@ -14,6 +14,7 @@ import {
 import AutoFormDialog from "../AutoFormDialog";
 import AddIcon from "@mui/icons-material/Add";
 import StyledButton from "../../../../Elements/Buttons/StyledButton";
+import FormField from "../../../../Elements/Fields/FormField";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChoiceType = ({
+  fieldType,
   formData,
   fieldName,
   verboseName,
@@ -69,10 +71,12 @@ const ChoiceType = ({
   handleModalUpdate,
   handleModelNameChange,
 }) => {
-  console.log("choices", choices, fieldName);
+  console.log("choices", choices, fieldName, fieldType);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Any");
+  const [manualEntry, setManualEntry] = useState(false);
+  const toggleManualEntry = () => setManualEntry(!manualEntry);
 
   const handleClose = () => {
     setOpen(false);
@@ -89,6 +93,7 @@ const ChoiceType = ({
 
     console.log("selectedValue", selectedValue);
     console.log("selectedChoice", selectedChoice || "None");
+    console.log(formData[fieldName]);
 
     handleInputChange(event);
     handleModelNameChange(selectedChoice ? selectedChoice.model_name : "None");
@@ -103,6 +108,13 @@ const ChoiceType = ({
       return acc;
     }, []),
   ];
+  console.log(formData[fieldName], "formData");
+  const selected =
+    fieldName === "seo_data"
+      ? choices[0].find((item) => item.value === formData[fieldName]).display
+      : formData[fieldName];
+
+  console.log("select", selected);
 
   return (
     <Grid
@@ -251,62 +263,93 @@ const ChoiceType = ({
                 color: "black",
               }}
               control={
-                <Select
-                  className={classes.select}
-                  variant="outlined"
-                  value={formData[fieldName]}
-                  onChange={handleChange}
-                  displayEmpty
-                  name={fieldName}
-                  margin="dense"
-                  style={{ minWidth: "100%", padding: 0 }}
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: "bottom",
-                      horizontal: "left",
-                    },
-                    transformOrigin: {
-                      vertical: "top",
-                      horizontal: "left",
-                    },
-                    getContentAnchorEl: null,
-                    classes: {
-                      paper: classes.menuPaper,
-                    },
-                    PaperProps: {
-                      style: {
-                        maxHeight: 300,
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>Select {verboseName}</em>
-                  </MenuItem>
-                  {Object.entries(
-                    fieldName === "content" ? choices : choices[0]
-                  ).map(([key, value]) => {
-                    if (fieldName === "content" && !value.model_name) {
-                      return null;
-                    }
-                    if (fieldName === "category") {
-                      console.log("key", key, "value", value.display);
-                    }
-
-                    return (
-                      <MenuItem key={key} value={value.value}>
-                        <span style={{ color: "black" }}>
-                          {fieldName === "content"
-                            ? value.model_name
-                            : value.display}
-                        </span>
+                <React.Fragment>
+                  {manualEntry ? (
+                    <FormField
+                      id={fieldName}
+                      onChange={handleChange}
+                      value={formData[fieldName]}
+                      variant={"outlined"}
+                    />
+                  ) : (
+                    <Select
+                      className={classes.select}
+                      variant="outlined"
+                      value={formData[fieldName]}
+                      onChange={handleChange}
+                      displayEmpty
+                      name={fieldName}
+                      margin="dense"
+                      style={{ minWidth: "100%", padding: 0 }}
+                      MenuProps={{
+                        anchorOrigin: {
+                          vertical: "bottom",
+                          horizontal: "left",
+                        },
+                        transformOrigin: {
+                          vertical: "top",
+                          horizontal: "left",
+                        },
+                        getContentAnchorEl: null,
+                        classes: {
+                          paper: classes.menuPaper,
+                        },
+                        PaperProps: {
+                          style: {
+                            maxHeight: 300,
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>Select {verboseName}</em>
                       </MenuItem>
-                    );
-                  })}
-                </Select>
+                      {Object.entries(
+                        fieldName === "content" ? choices : choices[0]
+                      ).map(([key, value]) => {
+                        if (fieldName === "content" && !value.model_name) {
+                          return null;
+                        }
+                        if (fieldName === "category") {
+                          console.log("key", key, "value", value.display);
+                        }
+
+                        return (
+                          <MenuItem key={key} value={value.value}>
+                            <span style={{ color: "black" }}>
+                              {fieldName === "content"
+                                ? value.model_name
+                                : value.display}
+                            </span>
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  )}
+                </React.Fragment>
               }
             />
           </FormControl>
+          {fieldType === "PrimaryKeyRelatedField" &&
+            fieldName !== "seo_data" &&
+            fieldName !== "content_type" && (
+              <Grid
+                container
+                style={{
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  paddingTop: 4,
+                }}
+              >
+                <StyledButton
+                  noHover
+                  borderRadius={40}
+                  minWidth={0}
+                  buttonText={!manualEntry ? "Create" : "Select"}
+                  onClick={toggleManualEntry}
+                />
+              </Grid>
+            )}
         </React.Fragment>
       )}
     </Grid>

@@ -83,7 +83,7 @@ class HeroBlock(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
         verbose_name = "Hero Section"
         verbose_name_plural = verbose_name + "s"
 

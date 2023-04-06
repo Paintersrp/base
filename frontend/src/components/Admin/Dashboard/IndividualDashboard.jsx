@@ -170,7 +170,7 @@ function IndividualDashboard() {
       .then((response) => {
         setModels(response.data.models);
         setConfig(response.data.config);
-        console.log("ya: ", response.data.config);
+        console.log("yatttt: ", response.data.models);
         setAppOpen(true);
         setAppStatsOpen(true);
         setActionsOpen(true);

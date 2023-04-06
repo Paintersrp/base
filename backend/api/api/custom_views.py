@@ -41,10 +41,6 @@ class BaseListView(generics.ListCreateAPIView):
                 data[f"{field}"] = related_obj.id
 
         serializer = self.get_serializer(data=data)
-        serializer.is_valid()
-        print(serializer.data)
-        print(serializer.errors)
-        return
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 

@@ -71,6 +71,11 @@ const ForeignKeyType = ({
         setData(response.data);
         console.log("YEAH:", response.data);
       });
+    } else if (fieldName === "element_set") {
+      axiosInstance.get(`/elementset/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
     } else {
       axiosInstance.get(`/${fieldName}/`).then((response) => {
         setData(response.data);

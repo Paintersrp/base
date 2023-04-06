@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "contact",
     "content",
     "pages",
+    "elements",
 ]
 
 MIDDLEWARE = [
