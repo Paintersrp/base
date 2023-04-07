@@ -312,6 +312,8 @@ class AppSerializer(serializers.ModelSerializer):
             "fab_component",
             "error_component",
             "loading_component",
+            "snackbar_component",
+            "not_found_component",
             "jobs",
             "users",
             "services",

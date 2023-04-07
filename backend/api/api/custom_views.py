@@ -2,29 +2,25 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from auditlog.models import LogEntry
+from authorization.models import User
 from api.utils import create_log_entry, return_changes
 from django.db.models import ImageField
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import ForeignKey, ManyToManyField
+import re
 
 
 class BaseListView(generics.ListCreateAPIView):
     serializer_class = None
     model_class = None
     foreign_key_fields = []
+    mtm_fields = {}
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-
-        if request.data.get("content_type"):
-            content_type = request.data.get("content_type")
-            object_id = request.data.get("object_id")
-            content_object = ContentType.objects.get_for_id(
-                content_type
-            ).get_object_for_this_type(id=object_id)
-            request.data["content_object"] = content_object
+        print(data)
 
         for field in self.foreign_key_fields:
-
             if field in data:
                 related_class = self.serializer_class.Meta.model._meta.get_field(
                     field
@@ -40,9 +36,67 @@ class BaseListView(generics.ListCreateAPIView):
 
                 data[f"{field}"] = related_obj.id
 
-        serializer = self.get_serializer(data=data)
+        model_fields = self.serializer_class.Meta.model._meta.get_fields()
+
+        mtm_fields = {
+            field.name: ""
+            for field in model_fields
+            if isinstance(field, ManyToManyField)
+        }
+
+        for field in model_fields:
+            if isinstance(field, ForeignKey) and field.name == "tag":
+                related_class = field.remote_field.model
+                if "tag" in data and not data["tag"].isnumeric():
+                    print("yeet")
+                    tag = data.pop("tag", None)
+                    tag_obj, created = related_class.objects.get_or_create(name=tag[0])
+                    data["tag"] = tag_obj.id
+            elif isinstance(field, ForeignKey):
+                related_class = field.remote_field.model
+
+                if field.name in data:
+                    obj = data.pop(field.name, None)
+                    foo_obj, created = related_class.objects.get_or_create(id=obj[0])
+                    data[field.name] = foo_obj.id
+            elif isinstance(field, ManyToManyField):
+                mtm_fields[field.name] = field.remote_field.model
+
+        mtm_values = {
+            field.name: []
+            for field in model_fields
+            if isinstance(field, ManyToManyField)
+        }
+
+        for key, value in data.items():
+            parts = re.findall(r"\[(.*?)\]", key)
+            name = key.split("[")[0]
+
+            if name in mtm_fields:
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "id":
+                    element_obj, created = mtm_fields[name].objects.get_or_create(
+                        id=value
+                    )
+                    mtm_values[name].append(element_obj)
+
+        if any(field.name == "author" for field in model_fields):
+            author = User.objects.get(username=request.username)
+            data["author"] = author.id
+
+        print(data)
+
+        print(self.model_class.serializer_class)
+
+        serializer = self.model_class.serializer_class(data=data)
+        serializer.is_valid()
+        print("valid", serializer.validated_data)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
+
+        if mtm_values:
+            for field in mtm_values:
+                instance_field = getattr(instance, field)
+                instance_field.set(mtm_values[field])
 
         create_log_entry(
             LogEntry.Action.CREATE,
@@ -66,6 +120,7 @@ class BaseListView(generics.ListCreateAPIView):
 class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = None
     model_class = None
+    mtm_fields = {}
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -85,16 +140,62 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
             else:
                 getattr(instance, image_field_name).delete()
 
-                data = request.data
+                data = request.data.copy()
         else:
-            data = request.data
+            data = request.data.copy()
+
+        model_fields = self.serializer_class.Meta.model._meta.get_fields()
+
+        mtm_fields = {
+            field.name: ""
+            for field in model_fields
+            if isinstance(field, ManyToManyField)
+        }
+
+        for field in model_fields:
+            if isinstance(field, ForeignKey) and field.name == "tag":
+                related_class = field.remote_field.model
+                if "tag" in data and not data["tag"].isnumeric():
+                    tag = data.pop("tag", None)
+                    tag_obj, created = related_class.objects.get_or_create(name=tag[0])
+                    data["tag"] = tag_obj.id
+            elif isinstance(field, ForeignKey):
+                related_class = field.remote_field.model
+                if field.name in data:
+                    obj = data.pop(field.name, None)
+                    foo_obj, created = related_class.objects.get_or_create(id=obj[0])
+                    data[field.name] = foo_obj.id
+
+            elif isinstance(field, ManyToManyField):
+                mtm_fields[field.name] = field.remote_field.model
+
+        mtm_values = {
+            field.name: []
+            for field in model_fields
+            if isinstance(field, ManyToManyField)
+        }
+
+        for key, value in data.items():
+            parts = re.findall(r"\[(.*?)\]", key)
+            name = key.split("[")[0]
+
+            if name in mtm_fields:
+                if len(parts) == 2 and parts[0].isdigit() and parts[1] == "id":
+                    element_obj, created = mtm_fields[name].objects.get_or_create(
+                        id=value
+                    )
+                    mtm_values[name].append(element_obj)
 
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
+        if mtm_values:
+            for field in mtm_values:
+                instance_field = getattr(instance, field)
+                instance_field.set(mtm_values[field])
+
         changes = return_changes(instance, old_instance)
-        print(changes)
 
         create_log_entry(
             LogEntry.Action.UPDATE,

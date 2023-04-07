@@ -61,6 +61,11 @@ const ForeignKeyType = ({
         setData(response.data);
         console.log("YEAH:", response.data);
       });
+    } else if (fieldName === "title_block") {
+      axiosInstance.get(`/titleblock/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
     } else if (fieldName === "components") {
       axiosInstance.get(`/componentobj/`).then((response) => {
         setData(response.data);

@@ -16,6 +16,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from auditlog.models import LogEntry
+from elements.models import ImageElement, ImageTag, ListElementItem, ListItemTag
 import json
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -119,6 +120,8 @@ def get_model_metadata(model_name):
             or field_name == "category_details"
             or field_name == "seo_data_details"
             or field_name == "element_data"
+            or field_name == "tag_details"
+            or field_name == "list_items"
         ):
             continue
 
@@ -184,27 +187,30 @@ def get_model_metadata(model_name):
         metadata["fields"][field_name] = field_metadata
 
     for field in model._meta.fields:
-        if hasattr(field, "xs_column_count"):
-            metadata["fields"][field.name]["xs_column_count"] = getattr(
-                field, "xs_column_count", 12
-            )
+        if not field.name == "password" and not field.name == "salt":
+            if hasattr(field, "xs_column_count"):
+                metadata["fields"][field.name]["xs_column_count"] = getattr(
+                    field, "xs_column_count", 12
+                )
 
-        if hasattr(field, "md_column_count"):
-            metadata["fields"][field.name]["md_column_count"] = getattr(
-                field, "md_column_count", 12
-            )
+            if hasattr(field, "md_column_count"):
+                metadata["fields"][field.name]["md_column_count"] = getattr(
+                    field, "md_column_count", 12
+                )
 
-        if hasattr(field, "justify"):
-            metadata["fields"][field.name]["justify"] = getattr(
-                field, "justify", "left"
-            )
+            if hasattr(field, "justify"):
+                metadata["fields"][field.name]["justify"] = getattr(
+                    field, "justify", "left"
+                )
 
-        if hasattr(field, "markdown"):
-            metadata["fields"][field.name]["markdown"] = getattr(
-                field, "markdown", "false"
-            )
-        if hasattr(field, "min_rows"):
-            metadata["fields"][field.name]["min_rows"] = getattr(field, "min_rows", 6)
+            if hasattr(field, "markdown"):
+                metadata["fields"][field.name]["markdown"] = getattr(
+                    field, "markdown", "false"
+                )
+            if hasattr(field, "min_rows"):
+                metadata["fields"][field.name]["min_rows"] = getattr(
+                    field, "min_rows", 6
+                )
 
     return metadata
 
@@ -693,6 +699,45 @@ class SingleModelAPIView(APIView):
             endpoint["count"] = {
                 "type": "integer",
                 "verbose_name": "Article Count",
+                "values": tag_counts,
+            }
+
+        if model_name == "imagetag":
+            tag_counts = {}
+            images = ImageElement.objects.all()
+            all_tags = ImageTag.objects.all()
+
+            for tag in all_tags:
+                tag_counts[tag.name] = 0
+
+            for image in images:
+                if image.tag.name not in tag_counts:
+                    tag_counts[image.tag.name] = 1
+                else:
+                    tag_counts[image.tag.name] += 1
+
+            endpoint["count"] = {
+                "type": "integer",
+                "verbose_name": "Image Count",
+                "values": tag_counts,
+            }
+        if model_name == "listitemtag":
+            tag_counts = {}
+            items = ListElementItem.objects.all()
+            all_tags = ListItemTag.objects.all()
+
+            for tag in all_tags:
+                tag_counts[tag.name] = 0
+
+            for item in items:
+                if item.tag.name not in tag_counts:
+                    tag_counts[item.tag.name] = 1
+                else:
+                    tag_counts[item.tag.name] += 1
+
+            endpoint["count"] = {
+                "type": "integer",
+                "verbose_name": "List Item Count",
                 "values": tag_counts,
             }
 

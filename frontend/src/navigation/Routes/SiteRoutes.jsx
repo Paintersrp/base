@@ -39,15 +39,9 @@ import NavigationSwitch from "../../components/Dynamic/NavigationSwitch";
 import FooterSwitch from "../../components/Dynamic/FooterSwitch";
 import { setJobs, setServices, setUsers } from "../../lib/Actions/plugins";
 import { ProtectedRoute, AdminRoute, PublicRoute } from "./RouteAccess";
-
-function NotFound() {
-  return (
-    <div>
-      <h1>404 Not Found</h1>
-      <p>The page you are looking for does not exist.</p>
-    </div>
-  );
-}
+import SnackbarSwitch from "../../components/Outer/Snackbar/SnackbarSwitch";
+import { NotFound } from "../../components/Outer/404/Components/NotFound";
+import NotFoundSwitch from "../../components/Outer/404/NotFoundSwitch";
 
 export default function SiteRoutes({ handleUpdate }) {
   const [ready, setReady] = useState(false);
@@ -94,6 +88,8 @@ export default function SiteRoutes({ handleUpdate }) {
     return <Loading loading={true} message="Gathering Resources" />;
   }
 
+  const NotFoundPage = NotFoundSwitch(appData.not_found_component);
+
   return (
     <>
       <NavigationSwitch
@@ -103,7 +99,8 @@ export default function SiteRoutes({ handleUpdate }) {
         setCount={setCount}
         count={count}
       />
-      <AdvancedSnackbar
+      <SnackbarSwitch
+        component={appData.snackbar_component}
         message={message}
         type={type}
         open={open}
@@ -259,7 +256,7 @@ export default function SiteRoutes({ handleUpdate }) {
             element={<ApplicationViewPage />}
           />
           <Route path="/admin/model/:str" element={<IndividualDashboard />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={NotFoundPage} />
         </Routes>
       ) : (
         <div>

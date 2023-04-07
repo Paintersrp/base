@@ -185,3 +185,75 @@ class ServiceTableBulkAPIView(BaseBulkView):
     queryset = ServiceTable.objects.all()
     serializer_class = ServiceTableSerializer
     model_class = ServiceTable
+
+
+class TableAPIView(BaseListView):
+    queryset = Table.objects.all()
+    serializer_class = TableSerializer
+    model_class = Table
+
+
+class TableDetailAPIView(BaseDetailView):
+    queryset = Table.objects.all()
+    serializer_class = TableSerializer
+    model_class = Table
+
+
+class TableBulkAPIView(BaseBulkView):
+    queryset = Table.objects.all()
+    serializer_class = TableSerializer
+    model_class = Table
+
+
+class ColumnAPIView(BaseListView):
+    queryset = Column.objects.all()
+    serializer_class = ColumnSerializer
+    model_class = Column
+
+
+class ColumnDetailAPIView(BaseDetailView):
+    queryset = Column.objects.all()
+    serializer_class = ColumnSerializer
+    model_class = Column
+
+
+class ColumnBulkAPIView(BaseBulkView):
+    queryset = Column.objects.all()
+    serializer_class = ColumnSerializer
+    model_class = Column
+
+
+class RowAPIView(BaseListView):
+    queryset = Row.objects.all()
+    serializer_class = RowSerializer
+    model_class = Row
+
+
+class RowDetailAPIView(BaseDetailView):
+    queryset = Row.objects.all()
+    serializer_class = RowSerializer
+    model_class = Row
+
+
+class RowBulkAPIView(BaseBulkView):
+    queryset = Row.objects.all()
+    serializer_class = RowSerializer
+    model_class = Row
+
+
+class CellAPIView(BaseListView):
+    queryset = Cell.objects.all()
+    serializer_class = CellSerializer
+    model_class = Cell
+
+
+class CellDetailAPIView(BaseDetailView):
+    queryset = Cell.objects.all()
+    serializer_class = CellSerializer
+    model_class = Cell
+
+
+class CellBulkAPIView(BaseBulkView):
+    queryset = Cell.objects.all()
+    serializer_class = CellSerializer
+    model_class = Cell

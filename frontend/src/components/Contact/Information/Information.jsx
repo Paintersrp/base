@@ -36,6 +36,7 @@ export default function Information({
   editMode,
   showTitle = true,
 }) {
+  console.log(contactData);
   const classes = useStyles();
   const { fadeIn } = baseClasses();
   const auth = useSelector((state) => state.auth);

@@ -246,3 +246,236 @@ def update_service_table(sender, instance, created, **kwargs):
     service_table, _ = ServiceTable.objects.get_or_create(name=instance.table_name)
     service_table.rows.add(instance)
     print("added")
+
+
+@metadata(
+    autoform_label="Service Table",
+    long_description="This model represents a table of services provided by the company.",
+    short_description="Table of Services",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="TableChartIcon",
+    icon_class=None,
+    slug="service-table",
+    tags=["services", "company", "offerings"],
+    related_components=["ComparisonTable", "TableDisplay"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a table of services provided by the company.",
+        "fields": {
+            "Name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "Labels": "The labels used in the service table, which provide context for each column.",
+            "Rows": "The rows in the service table, which represent the different services provided by the company.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTable model reference": "/docs/model/servicetable/",
+            "General app documentation": "/docs/app/tables/",
+        },
+    },
+    filter_options=[
+        "name",
+        "id",
+    ],
+    allowed=True,
+)
+class Table(models.Model):
+    name = CustomCharField(
+        max_length=50,
+        verbose_name="Table Name",
+        help_text="Table Name",
+        md_column_count=6,
+        db_index=True,
+        default="Placeholder",
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = "Table"
+        verbose_name_plural = "Tables"
+
+
+@metadata(
+    autoform_label="Service Table",
+    long_description="This model represents a table of services provided by the company.",
+    short_description="Table of Services",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="TableChartIcon",
+    icon_class=None,
+    slug="service-table",
+    tags=["services", "company", "offerings"],
+    related_components=["ComparisonTable", "TableDisplay"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a table of services provided by the company.",
+        "fields": {
+            "Name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "Labels": "The labels used in the service table, which provide context for each column.",
+            "Rows": "The rows in the service table, which represent the different services provided by the company.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTable model reference": "/docs/model/servicetable/",
+            "General app documentation": "/docs/app/tables/",
+        },
+    },
+    filter_options=[
+        "name",
+        "id",
+    ],
+    allowed=True,
+)
+class Column(models.Model):
+    name = CustomCharField(
+        max_length=50,
+        verbose_name="Column Name",
+        help_text="Column Name",
+        md_column_count=6,
+        db_index=True,
+    )
+    table = CustomForeignKeyField(
+        Table,
+        on_delete=models.CASCADE,
+        related_name="columns",
+        verbose_name="Table",
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = "Column"
+        verbose_name_plural = "Columns"
+
+
+@metadata(
+    autoform_label="Service Table",
+    long_description="This model represents a table of services provided by the company.",
+    short_description="Table of Services",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="TableChartIcon",
+    icon_class=None,
+    slug="service-table",
+    tags=["services", "company", "offerings"],
+    related_components=["ComparisonTable", "TableDisplay"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a table of services provided by the company.",
+        "fields": {
+            "Name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "Labels": "The labels used in the service table, which provide context for each column.",
+            "Rows": "The rows in the service table, which represent the different services provided by the company.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTable model reference": "/docs/model/servicetable/",
+            "General app documentation": "/docs/app/tables/",
+        },
+    },
+    filter_options=[
+        "id",
+    ],
+    allowed=True,
+)
+class Row(models.Model):
+    name = CustomCharField(
+        max_length=50,
+        verbose_name="Row Name",
+        help_text="Row Name",
+        md_column_count=6,
+        db_index=True,
+        null=True,
+        blank=True,
+    )
+    table = CustomForeignKeyField(
+        Table,
+        on_delete=models.CASCADE,
+        related_name="rows",
+        verbose_name="Table",
+    )
+
+    def __str__(self):
+        return f"Row {self.id}"
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = "Row"
+        verbose_name_plural = "Rows"
+
+
+@metadata(
+    autoform_label="Service Table",
+    long_description="This model represents a table of services provided by the company.",
+    short_description="Table of Services",
+    pages_associated={
+        "Services": "/services",
+    },
+    include_preview=False,
+    icon="TableChartIcon",
+    icon_class=None,
+    slug="service-table",
+    tags=["services", "company", "offerings"],
+    related_components=["ComparisonTable", "TableDisplay"],
+    visibility=True,
+    access_level="All",
+    info_dump={
+        "purpose": "This model is used to represent a table of services provided by the company.",
+        "fields": {
+            "Name": "The name of the service table, which is displayed as the top header in the hero section.",
+            "Labels": "The labels used in the service table, which provide context for each column.",
+            "Rows": "The rows in the service table, which represent the different services provided by the company.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/topics/db/models/",
+            "ServiceTable model reference": "/docs/model/servicetable/",
+            "General app documentation": "/docs/app/tables/",
+        },
+    },
+    filter_options=[
+        "id",
+    ],
+    allowed=True,
+)
+class Cell(models.Model):
+    value = CustomCharField(
+        max_length=255,
+        verbose_name="Cell Value",
+        help_text="Cell Value",
+        md_column_count=6,
+        db_index=True,
+    )
+    column = CustomForeignKeyField(
+        Column,
+        on_delete=models.CASCADE,
+        related_name="cells",
+        verbose_name="Column",
+    )
+    row = CustomForeignKeyField(
+        Row,
+        on_delete=models.CASCADE,
+        related_name="cells",
+        verbose_name="Row",
+    )
+
+    def __str__(self):
+        return self.value
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = "Cell"
+        verbose_name_plural = "Cells"

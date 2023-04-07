@@ -413,6 +413,14 @@ class App(models.Model):
         ("Minimal", "Minimal"),
     )
     LOADING_CHOICES = (("Standard", "Standard"),)
+    SNACKBAR_CHOICES = (
+        ("Standard", "Standard"),
+        ("Minimal", "Minimal"),
+    )
+    NOT_FOUND_CHOICES = (
+        ("Standard", "Standard"),
+        ("Minimal", "Minimal"),
+    )
 
     app_name = CustomCharField(
         max_length=50,
@@ -500,6 +508,24 @@ class App(models.Model):
         md_column_count=6,
         verbose_name="Loading Component",
         help_text="Loading Component Choice",
+        null=True,
+        blank=True,
+    )
+    snackbar_component = CustomCharField(
+        max_length=10,
+        choices=SNACKBAR_CHOICES,
+        md_column_count=6,
+        verbose_name="Snackbar Component",
+        help_text="Snackbar Component Choice",
+        null=True,
+        blank=True,
+    )
+    not_found_component = CustomCharField(
+        max_length=10,
+        choices=NOT_FOUND_CHOICES,
+        md_column_count=6,
+        verbose_name="404 Not Found Component",
+        help_text="404 Not Found Component Choice",
         null=True,
         blank=True,
     )

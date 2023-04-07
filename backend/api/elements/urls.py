@@ -4,6 +4,21 @@ from .views import *
 
 urlpatterns = [
     path(
+        "cardelement/",
+        CardElementAPIView.as_view(),
+        name="cardelement-list",
+    ),
+    path(
+        "cardelement/<int:pk>/",
+        CardElementDetailAPIView.as_view(),
+        name="cardelement_detail",
+    ),
+    path(
+        "cardelement/bulk/",
+        CardElementBulkAPIView.as_view(),
+        name="cardelement-bulk-detail",
+    ),
+    path(
         "textelement/",
         TextElementAPIView.as_view(),
         name="textelement-list",
@@ -17,6 +32,66 @@ urlpatterns = [
         "textelement/bulk/",
         TextElementBulkAPIView.as_view(),
         name="textelement-bulk-detail",
+    ),
+    path(
+        "listitemtag/",
+        ListItemTagAPIView.as_view(),
+        name="listitemtag-list",
+    ),
+    path(
+        "listitemtag/<int:pk>/",
+        ListItemTagDetailAPIView.as_view(),
+        name="listitemtag_detail",
+    ),
+    path(
+        "listitemtag/bulk/",
+        ListItemTagBulkAPIView.as_view(),
+        name="listitemtag-bulk-detail",
+    ),
+    path(
+        "listelement/",
+        ListElementAPIView.as_view(),
+        name="listelement-list",
+    ),
+    path(
+        "listelement/<int:pk>/",
+        ListElementDetailAPIView.as_view(),
+        name="listelement_detail",
+    ),
+    path(
+        "listelement/bulk/",
+        ListElementBulkAPIView.as_view(),
+        name="listelement-bulk-detail",
+    ),
+    path(
+        "listelementitem/",
+        ListElementItemAPIView.as_view(),
+        name="listelementitem-list",
+    ),
+    path(
+        "listelementitem/<int:pk>/",
+        ListElementItemDetailAPIView.as_view(),
+        name="listelementitem_detail",
+    ),
+    path(
+        "listelementitem/bulk/",
+        ListElementItemBulkAPIView.as_view(),
+        name="listelementitem-bulk-detail",
+    ),
+    path(
+        "imagetag/",
+        ImageTagAPIView.as_view(),
+        name="imagetag-list",
+    ),
+    path(
+        "imagetag/<int:pk>/",
+        ImageTagDetailAPIView.as_view(),
+        name="imagetag_detail",
+    ),
+    path(
+        "imagetag/bulk/",
+        ImageTagBulkAPIView.as_view(),
+        name="imagetag-bulk-detail",
     ),
     path(
         "imageelement/",

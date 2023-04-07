@@ -32,26 +32,30 @@ function ContactButtons({ contactData }) {
 
   return (
     <div className={classes.buttonContainer}>
-      <Button
-        variant="contained"
-        size="small"
-        color="primary"
-        startIcon={<FaPhone />}
-        href={`tel:${contactData.phone || contactData[0].phone}`}
-        className={classes.button}
-      >
-        Call Us
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<FaVoicemail />}
-        href={`mailto:${contactData.email || contactData[0].email}`}
-        className={classes.button}
-        size="small"
-      >
-        Email Us
-      </Button>
+      {contactData[0] && (
+        <>
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            startIcon={<FaPhone />}
+            href={`tel:${contactData.phone || contactData[0].phone}`}
+            className={classes.button}
+          >
+            Call Us
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<FaVoicemail />}
+            href={`mailto:${contactData.email || contactData[0].email}`}
+            className={classes.button}
+            size="small"
+          >
+            Email Us
+          </Button>
+        </>
+      )}
     </div>
   );
 }

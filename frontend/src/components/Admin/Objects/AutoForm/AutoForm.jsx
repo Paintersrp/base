@@ -67,6 +67,7 @@ const AutoForm = ({
   setRefresh,
 }) => {
   console.log("yup", endpointUrl);
+  console.log("yup2", data);
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();

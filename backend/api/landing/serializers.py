@@ -95,9 +95,6 @@ class ProcessSerializer(serializers.ModelSerializer):
 
 
 class HeroSerializer(serializers.ModelSerializer):
-    contact = ContactInformationSerializer()
-    social = SocialsSerializer()
-    hero_block = HeroBlockSerializer()
     FIELD_KEYS = ["name"]
 
     class Meta:
@@ -112,13 +109,13 @@ class HeroSerializer(serializers.ModelSerializer):
 
 
 class ProcessesSerializer(serializers.ModelSerializer):
-    processes = ProcessSerializer(many=True)
-    title_block = TitleBlockSerializer()
+    processes = ProcessSerializer(many=True, read_only=True)
     FIELD_KEYS = ["name"]
 
     class Meta:
         model = Processes
         fields = [
+            "id",
             "name",
             "processes",
             "title_block",
@@ -126,13 +123,14 @@ class ProcessesSerializer(serializers.ModelSerializer):
 
 
 class LatestNewsSerializer(serializers.ModelSerializer):
-    latest_articles = ArticleSerializer(many=True)
-    title_block = TitleBlockSerializer()
+    latest_articles = ArticleSerializer(many=True, read_only=True)
+
     FIELD_KEYS = ["name"]
 
     class Meta:
         model = LatestNews
         fields = [
+            "id",
             "name",
             "latest_articles",
             "title_block",

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-
+from authorization.serializers import UserSerializer
 import re
 
 
@@ -12,11 +12,41 @@ class ElementSetCategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ListItemTagSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = ListItemTag
+        fields = "__all__"
+
+
+class ListElementItemSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name", "tag"]
+    tag_details = ListItemTagSerializer(source="tag", read_only=True)
+
+    class Meta:
+        model = ListElementItem
+        fields = "__all__"
+
+
+class ListElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
+    items = ListElementItemSerializer(many=True, read_only=True)
+
+    FIELD_KEYS = ["name", "author"]
+
+    class Meta:
+        model = ListElement
+        fields = "__all__"
+
+
 class TextElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
     FIELD_KEYS = [
         "name",
-        "text",
+        "type",
         "order",
+        "author",
     ]
 
     class Meta:
@@ -26,17 +56,32 @@ class TextElementSerializer(serializers.ModelSerializer):
             "description",
             "order",
             "id",
+            "type",
             "text",
             "created_at",
             "updated_at",
+            "author",
+            "author_details",
         ]
 
 
+class ImageTagSerializer(serializers.ModelSerializer):
+    FIELD_KEYS = ["name"]
+
+    class Meta:
+        model = ImageTag
+        fields = "__all__"
+
+
 class ImageElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
+    tag_details = ImageTagSerializer(source="tag", read_only=True)
     FIELD_KEYS = [
         "name",
         "image",
-        "order",
+        "tag",
+        "author",
+        "type",
     ]
 
     class Meta:
@@ -44,19 +89,28 @@ class ImageElementSerializer(serializers.ModelSerializer):
         fields = [
             "name",
             "description",
+            "justify",
+            "type",
             "id",
             "order",
             "image",
+            "tag",
+            "caption",
             "created_at",
             "updated_at",
+            "author",
+            "author_details",
+            "tag_details",
         ]
 
 
 class HeaderElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
     FIELD_KEYS = [
         "name",
         "title",
         "order",
+        "author",
     ]
 
     class Meta:
@@ -65,6 +119,7 @@ class HeaderElementSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "order",
+            "type",
             "id",
             "title",
             "subtitle",
@@ -74,16 +129,21 @@ class HeaderElementSerializer(serializers.ModelSerializer):
             "alignment",
             "created_at",
             "updated_at",
+            "author",
+            "author_details",
         ]
 
 
 class ElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
     content_object = serializers.SerializerMethodField()
     FIELD_KEYS = [
         "name",
         "type",
+        "subtype",
         "content_type",
         "object_id",
+        "author",
     ]
 
     class Meta:
@@ -96,34 +156,24 @@ class ElementSerializer(serializers.ModelSerializer):
             "object_id",
             "content_object",
             "type",
+            "subtype",
             "created_at",
             "updated_at",
+            "author",
+            "author_details",
         ]
 
     def get_content_object(self, obj):
-        if obj.content_type.model == "textelement":
-            serializer = TextElementSerializer(
-                obj.content_object,
-                context={"request": self.context.get("request")},
-            )
-        elif obj.content_type.model == "imageelement":
-            serializer = ImageElementSerializer(
-                obj.content_object,
-                context={"request": self.context.get("request")},
-            )
-        elif obj.content_type.model == "headerelement":
-            serializer = HeaderElementSerializer(
-                obj.content_object,
-                context={"request": self.context.get("request")},
-            )
-        else:
-            raise Exception("Unexpected content type")
+        serializer = obj.content_object.__class__.serializer_class(
+            obj.content_object,
+            context={"request": self.context.get("request")},
+        )
 
         return serializer.data
 
 
 class ElementSetSerializer(serializers.ModelSerializer):
-    elements = ElementSerializer(many=True)
+    elements = ElementSerializer(many=True, read_only=True)
     FIELD_KEYS = ["name"]
 
     class Meta:
@@ -154,9 +204,24 @@ class ElementSetSerializer(serializers.ModelSerializer):
         return formatted_data
 
 
+class CardElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
+
+    FIELD_KEYS = ["name", "author"]
+
+    class Meta:
+        model = CardElement
+        fields = "__all__"
+
+
 ElementSetCategory.serializer_class = ElementSetCategorySerializer
 Element.serializer_class = ElementSerializer
 TextElement.serializer_class = TextElementSerializer
 HeaderElement.serializer_class = HeaderElementSerializer
 ImageElement.serializer_class = ImageElementSerializer
+ImageTag.serializer_class = ImageTagSerializer
 ElementSet.serializer_class = ElementSetSerializer
+ListElement.serializer_class = ListElementSerializer
+ListElementItem.serializer_class = ListElementItemSerializer
+ListItemTag.serializer_class = ListItemTagSerializer
+CardElement.serializer_class = CardElementSerializer

@@ -39,7 +39,7 @@ export function renderObjectPreview(modelName, formData, newImage) {
           title={formData.title}
           description={formData.description}
           alignment={formData.alignment}
-          showDivider={formData.showDivider}
+          showDivider={formData.show_divider}
         />
       );
     case "ServiceTier":

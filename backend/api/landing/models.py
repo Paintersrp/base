@@ -454,8 +454,8 @@ class Process(models.Model):
 
     class Meta:
         ordering = ["title"]
-        verbose_name = "Processes"
-        verbose_name_plural = "Processes"
+        verbose_name = "Process Item"
+        verbose_name_plural = "Process Items"
 
 
 @metadata(
@@ -506,19 +506,16 @@ class Hero(models.Model):
         ContactInformation,
         on_delete=models.CASCADE,
         verbose_name="Contact Information",
-        default=1,
     )
     social = models.ForeignKey(
         Socials,
         on_delete=models.CASCADE,
         verbose_name="Socials",
-        default=1,
     )
     hero_block = models.ForeignKey(
         HeroBlock,
         on_delete=models.CASCADE,
         verbose_name="Attached Hero Block Data",
-        default=1,
     )
 
     def __str__(self):
@@ -586,8 +583,8 @@ class Processes(models.Model):
 
     class Meta:
         ordering = ["name"]
-        verbose_name = "Processes"
-        verbose_name_plural = "Processes"
+        verbose_name = "Process Component Set"
+        verbose_name_plural = "Process Component Sets"
 
 
 # Control Added Later?
@@ -634,7 +631,7 @@ class LatestNews(models.Model):
     )
     latest_articles = models.ManyToManyField(
         Articles,
-        related_name="latest_articles_highlighted",
+        related_name="latest_articles_highlighted_objects",
     )
     title_block = models.ForeignKey(
         TitleBlock,

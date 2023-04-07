@@ -133,7 +133,7 @@ class ProcessImageItem(models.Model):
     )
 
     def __str__(self):
-        return self.servicetier
+        return self.servicetier.service_title
 
     class Meta:
         verbose_name = "Process Image Item"
