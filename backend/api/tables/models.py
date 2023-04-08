@@ -296,7 +296,7 @@ class Table(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
         verbose_name = "Table"
         verbose_name_plural = "Tables"
 
@@ -354,7 +354,7 @@ class Column(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
         verbose_name = "Column"
         verbose_name_plural = "Columns"
 
@@ -413,7 +413,7 @@ class Row(models.Model):
         return f"Row {self.id}"
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
         verbose_name = "Row"
         verbose_name_plural = "Rows"
 
@@ -476,6 +476,6 @@ class Cell(models.Model):
         return self.value
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
         verbose_name = "Cell"
         verbose_name_plural = "Cells"

@@ -257,3 +257,21 @@ class CellBulkAPIView(BaseBulkView):
     queryset = Cell.objects.all()
     serializer_class = CellSerializer
     model_class = Cell
+
+
+class TableBuilder(generics.CreateAPIView):
+    serializer_class = TableBuildSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        table = serializer.save()
+
+        table = Table.objects.get(id=table.id)
+        serializer = TableSerializer(instance=table, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            print(serializer.errors)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

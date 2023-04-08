@@ -108,4 +108,9 @@ urlpatterns = [
         ServiceTableBulkAPIView.as_view(),
         name="servicetable-bulk-detail",
     ),
+    path(
+        "table-builder/",
+        TableBuilder.as_view(),
+        name="table-builder",
+    ),
 ]
