@@ -48,6 +48,7 @@ export default function StyledButton({
   minWidth = 140,
   disabled = false,
   borderRadius = 48,
+  margin = 8,
   minHeight = null,
   maxHeight = null,
   variant = "contained",
@@ -71,6 +72,7 @@ export default function StyledButton({
         borderRadius: borderRadius,
         minHeight: minHeight,
         maxHeight: maxHeight,
+        margin: margin,
       }}
       disabled={disabled}
     >

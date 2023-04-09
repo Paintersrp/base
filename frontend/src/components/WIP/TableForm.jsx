@@ -1,54 +1,77 @@
 import React, { useState } from "react";
 import {
-  TextField,
   Grid,
-  Button,
-  Typography,
-  makeStyles,
   Paper,
-  TableContainer,
+  Typography,
+  TextField,
+  Button,
   Table,
+  TableContainer,
   TableHead,
+  TableBody,
   TableRow,
   TableCell,
-  TableBody,
+  IconButton,
+  Collapse,
 } from "@material-ui/core";
-import AddIcon from "@mui/icons-material/Add";
-import SaveIcon from "@mui/icons-material/Save";
+import {
+  AddCircleOutline,
+  Delete,
+  ExpandLess,
+  ExpandMore,
+  Save,
+} from "@material-ui/icons";
+
 import axiosInstance from "../../lib/Axios/axiosInstance";
+import FormField from "../Elements/Fields/FormField";
+import { makeStyles } from "@material-ui/core/styles";
+import StyledButton from "../Elements/Buttons/StyledButton";
+import TableControl from "./TableControl";
+import CellInput from "./CellInput";
+import ErrorMessage from "../Elements/Errors/ErrorMessage";
+import ErrorMessageSnackbar from "../Elements/Errors/ErrorMessageSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     padding: theme.spacing(3),
   },
   formContainer: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
-    backgroundColor: "#F5F5F5",
+    padding: theme.spacing(3),
   },
-  buttonContainer: {
-    margin: theme.spacing(2),
+  columnContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(1),
   },
-  button: {
-    margin: theme.spacing(1),
+  columnName: {
+    flexGrow: 1,
+  },
+  columnActions: {
+    display: "flex",
+    alignItems: "center",
+  },
+  rowActions: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginTop: theme.spacing(2),
+  },
+  table: {
+    marginTop: theme.spacing(3),
   },
 }));
 
 const TableForm = () => {
   const classes = useStyles();
+  const [errors, setErrors] = useState("");
   const [tableName, setTableName] = useState("");
   const [columns, setColumns] = useState([""]);
+  const [showColumns, setShowColumns] = useState(false);
   const [rows, setRows] = useState([""]);
   const [cells, setCells] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
     const tableData = {
       name: tableName,
       columns: columns.map((columnName, columnIndex) => {
@@ -59,7 +82,6 @@ const TableForm = () => {
               (cell) => cell.columnId === columnIndex && cell.rowId === rowIndex
             );
             const rowCellValues = rowCells.map((cell) => ({
-              column_name: columnName,
               value: cell.value,
             }));
             return {
@@ -73,13 +95,15 @@ const TableForm = () => {
     };
 
     try {
-      const response = await axiosInstance.post(
-        "/table-builder/",
-        tableData
-        // config
-      );
+      const response = await axiosInstance
+        .post("/table-builder/", tableData)
+        .then((response) => {
+          setErrors([]);
+        });
     } catch (error) {
-      console.error(error);
+      console.log("error");
+      console.log(error.response.data);
+      setErrors(error.response.data);
     }
   };
 
@@ -112,132 +136,97 @@ const TableForm = () => {
     setColumns([...columns, ""]);
   };
 
+  const removeColumn = (index) => {
+    const newColumns = [...columns];
+    newColumns.splice(index, 1);
+    setColumns(newColumns);
+
+    const newCells = cells.filter((cell) => cell.columnId !== index);
+    setCells(newCells);
+  };
+
   const addRow = () => {
     setRows([...rows, ""]);
   };
 
+  const removeRow = (index) => {
+    const newRows = [...rows];
+    newRows.splice(index, 1);
+    setRows(newRows);
+
+    const newCells = cells.filter((cell) => cell.rowId !== index);
+    setCells(newCells);
+  };
+
+  const handleCloseError = () => {
+    setErrors([]);
+  };
+
   return (
     <div className={classes.root}>
-      <Typography variant="h4" gutterBottom>
-        Create a Table
-      </Typography>
       <Paper className={classes.formContainer} elevation={3}>
+        <Typography variant="h1" align="center">
+          Create a Table
+        </Typography>
         <form onSubmit={handleSubmit}>
+          <CellInput
+            tableName={tableName}
+            columns={columns}
+            rows={rows}
+            cells={cells}
+            handleCellValueChange={handleCellValueChange}
+            handleColumnNameChange={handleColumnNameChange}
+            handleRowNameChange={handleRowNameChange}
+            removeColumn={removeColumn}
+            removeRow={removeRow}
+          />
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                label="Table Name"
-                value={tableName}
-                onChange={(event) => setTableName(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Columns
-              </Typography>
-              {columns.map((columnName, index) => (
-                <TextField
-                  key={`column-${index}`}
-                  required
-                  fullWidth
-                  label={`Column ${index + 1} Name`}
-                  value={columnName}
-                  onChange={(event) => handleColumnNameChange(event, index)}
+              {errors && <ErrorMessage errors={errors} />}
+
+              <div className={classes.rowActions}>
+                <div style={{ width: 300, marginRight: 24 }}>
+                  <TextField
+                    // required
+                    label="Table Name"
+                    fullWidth
+                    value={tableName}
+                    onChange={(event) => setTableName(event.target.value)}
+                  />
+                </div>
+                <StyledButton
+                  maxWidth={130}
+                  minWidth={130}
+                  maxHeight={25}
+                  margin={0}
+                  size="small"
+                  color="primary"
+                  startIcon={<Save />}
+                  type="submit"
+                  buttonText={"Save Table"}
                 />
-              ))}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={addColumn}
-                startIcon={<AddIcon />}
-              >
-                Add Column
-              </Button>
+              </div>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" gutterBottom>
-              Rows
-            </Typography>
-            {rows.map((rowName, index) => (
-              <TextField
-                key={`row-${index}`}
-                required
-                fullWidth
-                label={`Row ${index + 1} Name`}
-                value={rowName}
-                onChange={(event) => handleRowNameChange(event, index)}
+            <Grid item xs={6}>
+              <TableControl
+                nameFunc={handleColumnNameChange}
+                removeFunc={removeColumn}
+                data={columns}
+                addFunc={addColumn}
+                verbose="Column"
+                plural="Columns"
               />
-            ))}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={addRow}
-              startIcon={<AddIcon />}
-            >
-              Add Row
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" gutterBottom>
-              Cells
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    {columns.map((column, index) => (
-                      <TableCell key={`header-${index}`} align="center">
-                        {column}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, rowIndex) => (
-                    <TableRow key={`row-${rowIndex}`}>
-                      <TableCell component="th" scope="row">
-                        {row}
-                      </TableCell>
-                      {columns.map((column, columnIndex) => (
-                        <TableCell key={`cell-${rowIndex}-${columnIndex}`}>
-                          <TextField
-                            fullWidth
-                            value={
-                              cells.find(
-                                (cell) =>
-                                  cell.columnId === columnIndex &&
-                                  cell.rowId === rowIndex
-                              )?.value || ""
-                            }
-                            onChange={(event) =>
-                              handleCellValueChange(
-                                event,
-                                columnIndex,
-                                rowIndex
-                              )
-                            }
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              startIcon={<SaveIcon />}
-            >
-              Save Table
-            </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <TableControl
+                nameFunc={handleRowNameChange}
+                removeFunc={removeRow}
+                addFunc={addRow}
+                data={rows}
+                verbose="Row"
+                plural="Rows"
+              />
+            </Grid>
           </Grid>
         </form>
       </Paper>

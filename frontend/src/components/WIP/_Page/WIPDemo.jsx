@@ -196,7 +196,9 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
-      <DataTable />
+      <div style={{ maxWidth: "100%" }}>
+        <DataTable />
+      </div>
       <TableForm />
       <LayeredGradientBackground>
         <TestForm />

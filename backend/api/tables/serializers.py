@@ -102,34 +102,34 @@ class TableBuildSerializer(serializers.ModelSerializer):
         model = Table
         fields = ("name", "columns", "rows")
 
-    def create(self, validated_data):
-        columns_data = validated_data.pop("columns")
-        table = Table(**validated_data)
-        table.save()
+    # def create(self, validated_data):
+    #     columns_data = validated_data.pop("columns")
+    #     table = Table(**validated_data)
+    #     table.save()
 
-        created_rows = {}
+    #     created_rows = {}
 
-        for column_data in columns_data:
-            rows = column_data.pop("rows", [])
-            column = Column.objects.create(table=table, **column_data)
+    #     for column_data in columns_data:
+    #         rows = column_data.pop("rows", [])
+    #         column = Column.objects.create(table=table, **column_data)
 
-            for row_data in rows:
-                row_name = row_data.pop("name")
-                cells_data = row_data.pop("cells", [])
+    #         for row_data in rows:
+    #             row_name = row_data.pop("name")
+    #             cells_data = row_data.pop("cells", [])
 
-                if row_name in created_rows:
-                    row = created_rows[row_name]
-                else:
-                    row = Row.objects.create(table=table, name=row_name)
-                    created_rows[row_name] = row
+    #             if row_name in created_rows:
+    #                 row = created_rows[row_name]
+    #             else:
+    #                 row = Row.objects.create(table=table, name=row_name)
+    #                 created_rows[row_name] = row
 
-                for cell_data in cells_data:
-                    cell_data.pop("column_name")
-                    cell = Cell.objects.create(column=column, row=row, **cell_data)
+    #             for cell_data in cells_data:
+    #                 # cell_data.pop("column_name")
+    #                 cell = Cell.objects.create(column=column, row=row, **cell_data)
 
-        table = Table.objects.get(id=table.id)
+    #     table = Table.objects.get(id=table.id)
 
-        return table
+    #     return table
 
 
 Table.serializer_class = TableSerializer

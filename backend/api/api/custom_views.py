@@ -10,6 +10,23 @@ from django.db.models import ForeignKey, ManyToManyField
 import re
 
 
+#           opts = ListElement._meta.concrete_model._meta
+#         info = model_meta.get_field_info(ListElement)
+#         many_to_many = {}
+#         for field_name, relation_info in info.relations.items():
+#             if relation_info.to_many and (field_name in data):
+#                 many_to_many[field_name] = data.pop(field_name)
+
+#         fields = OrderedDict()
+#         for field in [
+#             field for field in opts.fields if field.serialize and not field.remote_field
+#         ]:
+#             fields[field.name] = field
+
+#         print(opts.many_to_many)  # this is default to opts
+#         print(opts.related_objects) # also default
+
+
 class BaseListView(generics.ListCreateAPIView):
     serializer_class = None
     model_class = None

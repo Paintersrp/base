@@ -114,8 +114,8 @@ const baseTheme = createTheme({
   typography: {
     fontFamily: ["Roboto", "Poppins"].join(","),
     h1: {
-      fontWeight: 700,
-      fontSize: "2.5rem",
+      fontWeight: 600,
+      fontSize: "2.25rem",
       lineHeight: 1.167,
       letterSpacing: "0.02em",
     },
