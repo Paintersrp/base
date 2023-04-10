@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { Grid, Paper, Typography, TextField } from "@material-ui/core";
-import { Save } from "@material-ui/icons";
-
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { makeStyles } from "@material-ui/core/styles";
-import StyledButton from "../../../Elements/Buttons/StyledButton";
-import TableControl from "./TableControl";
-import CellInput from "./CellInput";
-import ErrorMessage from "../../../Elements/Errors/ErrorMessage";
-import { AddCircleOutline } from "@material-ui/icons";
-import AddButton from "./AddButton";
-import SaveButton from "./SaveButton";
+import TableRecovery from "./TableInput/TableRecovery";
+import TableInput from "./TableInput/TableInput";
+import ErrorMessage from "../../Elements/Errors/ErrorMessage";
+import AddButton from "./Buttons/AddButton";
+import SaveButton from "./Buttons/SaveButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TableForm = () => {
+const TableBuilder = () => {
   const classes = useStyles();
   const [errors, setErrors] = useState("");
   const [tableName, setTableName] = useState("");
@@ -46,7 +42,6 @@ const TableForm = () => {
   const [rows, setRows] = useState([{ name: "", id: 0 }]);
   const [deletedColumns, setDeleteColumns] = useState([]);
   const [deletedRows, setDeletedRows] = useState([]);
-  const [deletedCells, setDeletedCells] = useState([]);
   const [cells, setCells] = useState([]);
 
   const handleSubmit = async (event) => {
@@ -80,8 +75,6 @@ const TableForm = () => {
           setErrors([]);
         });
     } catch (error) {
-      console.log("error");
-      console.log(error.response.data);
       setErrors(error.response.data);
     }
   };
@@ -102,7 +95,6 @@ const TableForm = () => {
         return cell;
       })
     );
-    console.log(cells);
   };
 
   const handleRowNameChange = (event, index) => {
@@ -128,11 +120,9 @@ const TableForm = () => {
     rowName
   ) => {
     const newCells = [...cells];
-    console.log(newCells);
     const cellIndex = newCells.findIndex(
       (cell) => cell.columnId === columnId && cell.rowId === rowId
     );
-    console.log(cellIndex, "cellIndex");
     if (cellIndex === -1) {
       newCells.push({
         columnId,
@@ -142,11 +132,9 @@ const TableForm = () => {
         value: event.target.value,
       });
     } else {
-      console.log(cellIndex, newCells[cellIndex].value, "new");
       newCells[cellIndex].value = event.target.value;
     }
     setCells(newCells);
-    console.log(newCells);
   };
 
   const addColumn = () => {
@@ -161,9 +149,6 @@ const TableForm = () => {
     const newCells = cells.filter((cell) => cell.columnName !== data);
     const deletedCells = cells.filter((cell) => cell.columnName === data);
 
-    console.log(deletedCells);
-    console.log(newCells);
-
     const updatedCells = newCells.map((cell) => {
       if (cell.columnId > index) {
         return { ...cell, columnId: cell.columnId - 1 };
@@ -174,13 +159,12 @@ const TableForm = () => {
     setCells(updatedCells);
     setDeleteColumns([
       ...deletedColumns,
-      { row: deletedColumn, cells: deletedCells },
+      { column: deletedColumn, cells: deletedCells },
     ]);
   };
 
   const addRow = () => {
     setRows([...rows, { name: "", id: rows.length }]);
-    console.log(rows);
   };
 
   const removeRow = (index, data) => {
@@ -195,16 +179,11 @@ const TableForm = () => {
     });
 
     setRows(updatedRows);
-    console.log("remove - newRows", newRows);
-    console.log("remove - data", data);
 
     const newCells = cells.filter((cell) => cell.rowName.name !== data.name);
     const deletedCells = cells.filter(
       (cell) => cell.rowName.name === data.name
     );
-
-    console.log(deletedCells);
-    console.log(newCells);
 
     const updatedCells = newCells.map((cell) => {
       if (cell.rowId > index) {
@@ -217,46 +196,38 @@ const TableForm = () => {
     setDeletedRows([...deletedRows, { row: deletedRow, cells: deletedCells }]);
   };
 
-  const recoverRow = (index) => {
-    console.log(index);
-    const { row: deletedRow, cells: deletedCells } = deletedRows[index];
+  // const recoverRow = (index) => {
+  //   console.log(index);
+  //   const { row: deletedRow, cells: deletedCells } = deletedRows[index];
 
-    console.log(deletedRow, "deletedRow");
-    console.log(deletedCells, "deletedCells");
+  //   console.log(deletedRow, "deletedRow");
+  //   console.log(deletedCells, "deletedCells");
 
-    const newRows = [...rows];
-    newRows.splice(deletedRow.id, 0, deletedRow);
+  //   const newRows = [...rows];
+  //   deletedRow.id = newRows.length;
+  //   newRows.splice(index, 0, deletedRow);
 
-    console.log("added deletedRow", newRows);
+  //   console.log("updated rows", newRows);
 
-    const updatedRows = newRows.map((row, i) => {
-      return { ...row, id: i };
-    });
+  //   setRows(newRows);
 
-    console.log("updated rows", updatedRows);
+  //   const updatedCells = deletedCells.map((cell) => {
+  //     return { ...cell, rowId: 0 };
+  //   });
 
-    setRows(updatedRows);
+  //   console.log(updatedCells, "updatedCells");
+  //   console.log(newRows.length, "length");
 
-    const updatedCells = deletedCells.map((cell) => {
-      return { ...cell, rowId: updatedRows.length - 1 };
-    });
+  //   const updatedOldCells = cells.map((cell) => {
+  //     return { ...cell, rowId: cell.rowId + 1 };
+  //   });
 
-    console.log(updatedCells, "updatedCells");
-    console.log(updatedRows.length, "length");
+  //   const newCells = [...updatedCells, ...updatedOldCells];
+  //   console.log("newCells2", newCells);
+  //   setCells(newCells);
 
-    const updatedOldCells = cells.map((cell) => {
-      if (cell.rowId >= deletedRow.id) {
-        return { ...cell, rowId: cell.rowId + 1 };
-      }
-      return cell;
-    });
-
-    const newCells = [...deletedCells, ...updatedOldCells];
-    console.log("newCells2", newCells);
-    setCells(newCells);
-
-    setDeletedRows(deletedRows.filter((_, i) => i !== index));
-  };
+  //   setDeletedRows(deletedRows.filter((_, i) => i !== index));
+  // };
 
   return (
     <div className={classes.root}>
@@ -281,6 +252,7 @@ const TableForm = () => {
                   <SaveButton label="Table" submitFunc={handleSubmit} />
                 </div>
               </div>
+              {errors && <ErrorMessage errors={errors} />}
               <div>
                 <div className={classes.addActions}>
                   <AddButton label="Column" addFunc={addColumn} />
@@ -288,11 +260,10 @@ const TableForm = () => {
                 </div>
               </div>
             </div>
-            {errors && <ErrorMessage errors={errors} />}
           </Grid>
         </Grid>
         <form onSubmit={handleSubmit}>
-          <CellInput
+          <TableInput
             tableName={tableName}
             columns={columns}
             setColumns={setColumns}
@@ -307,27 +278,35 @@ const TableForm = () => {
             removeRow={removeRow}
           />
         </form>
-        {/* <Grid container style={{ marginTop: 24 }}>
+
+        {/* 
+        
+        Some issues with the row recovery still exist. 
+        Some recoveries don't update the cells until reordered 
+
+        <Grid container style={{ marginTop: 24 }}>
           <Grid item xs={6}>
-            <TableControl
+            <TableRecovery
               dataHistory={deletedColumns}
-              plural="Columns"
+              type="Columns"
               recoverFunc={recoverRow}
               justify="flex-end"
             />
           </Grid>
           <Grid item xs={6}>
-            <TableControl
+            <TableRecovery
               dataHistory={deletedRows}
-              plural="Rows"
+              type="Rows"
               recoverFunc={recoverRow}
               justify="flex-start"
             />
           </Grid>
-        </Grid> */}
+        </Grid> 
+
+        */}
       </Paper>
     </div>
   );
 };
 
-export default TableForm;
+export default TableBuilder;

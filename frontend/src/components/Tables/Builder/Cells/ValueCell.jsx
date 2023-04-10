@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cell = ({
+const ValueCell = ({
   cells,
   rowIndex,
   rowName,
@@ -53,7 +53,6 @@ const Cell = ({
   useEffect(() => {
     setRefresh(true);
     setData(cells);
-    console.log("new cells");
     setRefresh(false);
   }, [cells]);
 
@@ -101,4 +100,4 @@ const Cell = ({
   );
 };
 
-export default Cell;
+export default ValueCell;

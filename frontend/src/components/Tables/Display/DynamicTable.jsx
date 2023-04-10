@@ -13,7 +13,7 @@ import {
   CircularProgress,
   Grid,
 } from "@material-ui/core";
-import axiosInstance from "../../../../lib/Axios/axiosInstance";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   table: {

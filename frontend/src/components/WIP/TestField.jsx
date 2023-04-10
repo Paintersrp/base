@@ -1,71 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: theme.spacing(3),
-  },
-  label: {
-    fontWeight: "bold",
-    marginBottom: theme.spacing(1),
-    color: theme.palette.text.primary,
+  fieldWrapper: {
+    position: "relative",
+    marginTop: theme.spacing(1),
   },
   field: {
-    padding: theme.spacing(1),
-    border: `1px solid ${theme.palette.grey[500]}`,
-    borderRadius: theme.shape.borderRadius,
+    background: theme.palette.background.default,
+    width: "100%",
+    fontFamily: "Roboto",
+    padding: theme.spacing(2, 2, 2, 2),
+    margin: theme.spacing(1),
+    fontWeight: "400",
+    fontSize: "1rem",
+    letterSpacing: 0.25,
+    borderColor: "black",
+    color: theme.palette.text.dark,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 4,
+    resize: "none",
     "&:hover": {
-      borderColor: theme.palette.text.primary,
+      borderColor: "black",
     },
     "&:focus": {
+      borderWidth: 2,
       outline: "none",
-      borderColor: theme.palette.primary.main,
+    },
+    "&:focus ~ $label": {
+      top: 0,
+      transform: "translate(0, -50%)",
+      fontSize: "0.75rem",
+      color: "black",
+      fontWeight: "500",
+    },
+    "&$shrink ~ $label": {
+      top: 0,
+      transform: "translate(0, -50%)",
+      fontSize: "0.75rem",
+      color: "black",
+      fontWeight: "500",
+      left: 10,
+    },
+    "&:focus ~ $labelTextArea": {
+      top: 0,
+      transform: "translate(0, -50%)",
+      fontSize: "0.75rem",
+      color: "black",
+      fontWeight: "500",
+    },
+    "&$shrink ~ $labelTextArea": {
+      top: 0,
+      transform: "translate(0, -50%)",
+      fontSize: "0.75rem",
+      color: "black",
+      fontWeight: "500",
+      left: 10,
     },
   },
-  select: {
-    paddingRight: theme.spacing(2),
-    background: "none",
-    WebkitAppearance: "none",
-    MozAppearance: "none",
-    appearance: "none",
-    "&::-ms-expand": {
-      display: "none",
-    },
-    "& option": {
-      backgroundColor: theme.palette.background.paper,
-    },
-  },
-  outlinedField: {
-    padding: theme.spacing(1),
-    border: `1px solid ${theme.palette.grey[500]}`,
-    borderRadius: theme.shape.borderRadius,
-    "&:hover": {
-      borderColor: theme.palette.text.primary,
-    },
-    "&:focus-within": {
-      boxShadow: `0 0 0 2px ${theme.palette.primary.main}20`,
-      borderColor: theme.palette.primary.main,
-    },
-  },
-  outlinedLabel: {
+  label: {
     position: "absolute",
-    top: 0,
-    left: theme.spacing(1),
-    transform: "translate(0, -50%)",
-    padding: `0 ${theme.spacing(0.5)}px`,
-    backgroundColor: theme.palette.background.paper,
+    left: "20px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    fontSize: "1rem",
+    fontWeight: "400",
+    pointerEvents: "none",
+    transition: "all 0.2s",
     color: theme.palette.grey[500],
-    fontSize: "0.8rem",
-    fontWeight: "bold",
-    transition: theme.transitions.create(["top", "left", "transform"]),
   },
-  outlinedLabelShrink: {
-    top: -10,
-    left: 4,
-    transform: "none",
-    fontSize: "0.8rem",
+  labelTextArea: {
+    position: "absolute",
+    left: "20px",
+    top: "20%",
+    transform: "translateY(-50%)",
+    fontSize: "1rem",
+    fontWeight: "400",
+    pointerEvents: "none",
+    transition: "all 0.2s",
+    color: theme.palette.grey[500],
+  },
+  shrink: {
+    padding: "18.5px 14px 16px",
   },
 }));
 
@@ -80,55 +97,45 @@ const TestField = ({
   required = false,
   error = false,
   helperText = "",
-  select = false,
-  SelectProps = {},
-  children = null,
-  variant = "standard",
 }) => {
   const classes = useStyles();
+  const [focused, setFocused] = useState(false);
 
-  const isOutlined = variant === "outlined";
-  const shrinkLabel = Boolean(value) || Boolean(SelectProps?.displayEmpty);
+  const handleFocus = () => {
+    setFocused(true);
+  };
+
+  const handleBlur = () => {
+    setFocused(false);
+  };
+
+  const InputComponent = multiline ? "textarea" : "input";
 
   return (
-    <div className={classes.root}>
-      {isOutlined ? (
-        <label
-          htmlFor={id}
-          className={`${classes.outlinedLabel} ${
-            shrinkLabel && classes.outlinedLabelShrink
-          }`}
-        >
-          {label}
-        </label>
-      ) : (
-        <label className={classes.label} htmlFor={id}>
-          {label}
-        </label>
-      )}
-      {select ? (
-        <select
-          id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          required={required}
-          className={`${classes.field} ${isOutlined ? classes.outlined : ""}`}
-          {...SelectProps}
-        >
-          {children}
-        </select>
-      ) : (
-        <input
-          className={`${classes.field} ${isOutlined ? classes.outlined : ""}`}
-          id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          type={type}
-          required={required}
-        />
-      )}
+    <div className={classes.fieldWrapper}>
+      <InputComponent
+        className={`${classes.field} ${
+          focused || value ? classes.shrink : ""
+        } `}
+        id={id}
+        name={id}
+        value={value}
+        onChange={onChange}
+        rows={rows}
+        required={required}
+        type={type}
+        error={error}
+        helperText={helperText}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        style={{ minHeight: multiline ? 169.5 : 57.5 }}
+      />
+      <label
+        className={multiline ? classes.labelTextArea : classes.label}
+        htmlFor={id}
+      >
+        {label}
+      </label>
     </div>
   );
 };

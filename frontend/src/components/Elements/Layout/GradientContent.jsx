@@ -3,7 +3,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    height: "100vh",
     display: "flex",
 
     position: "relative",

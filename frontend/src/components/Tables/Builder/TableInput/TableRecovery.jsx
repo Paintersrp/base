@@ -10,8 +10,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
-  Typography,
   ListItemIcon,
 } from "@material-ui/core";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
@@ -65,24 +63,14 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.grey[300],
     },
   },
-  listItemText: {
-    margin: theme.spacing(1),
-  },
-  listItemPrimaryText: {
-    fontWeight: "bold",
-  },
-  listItemSecondaryText: {
-    fontStyle: "italic",
-  },
 }));
 
-export default function TableControl({
+export default function TableRecovery({
   dataHistory,
-  plural,
+  type,
   recoverFunc,
   justify = "center",
 }) {
-  console.log("datahistory", dataHistory);
   const classes = useStyles();
   const [show, setShow] = useState(false);
 
@@ -98,7 +86,7 @@ export default function TableControl({
           <Card className={classes.card}>
             <CardHeader
               className={classes.cardHeader}
-              title={`Deleted ${plural}`}
+              title={`Deleted ${type}`}
               action={
                 <IconButton
                   onClick={() => setShow(!show)}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TestField2 from "./Testfield2";
+import TestField from "./TestField";
 
 const TestForm = () => {
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ const TestForm = () => {
 
   return (
     <form style={{ padding: 24 }}>
-      <TestField2
+      <TestField
         variant="outlined"
         id="name"
         label="Name"
@@ -23,7 +23,7 @@ const TestForm = () => {
         onChange={handleNameChange}
         required
       />
-      <TestField2
+      <TestField
         multiline
         variant="outlined"
         id="email"
