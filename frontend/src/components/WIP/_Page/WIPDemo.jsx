@@ -20,8 +20,8 @@ import TestForm from "../TestForm";
 import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
-import TableForm from "../TableForm";
-import DataTable from "../DynamicTable";
+import TableForm from "../Table/Builder/TableForm";
+import DataTable from "../Table/Display/DynamicTable";
 
 const actions = [
   <Grid
@@ -199,7 +199,9 @@ export default function WIPDemo() {
       <div style={{ maxWidth: "100%" }}>
         <DataTable />
       </div>
-      <TableForm />
+      <div style={{ marginTop: 400, marginBottom: 400 }}>
+        <TableForm />
+      </div>
       <LayeredGradientBackground>
         <TestForm />
         <Container spacing={2} style={{ padding: 4 }}>
