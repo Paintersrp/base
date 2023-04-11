@@ -45,6 +45,7 @@ const ImageInput = ({
   newImage,
   newImageName,
   width = "75%",
+  type = "Image",
 }) => {
   const classes = useStyles();
 
@@ -82,7 +83,7 @@ const ImageInput = ({
                 variant="body1"
                 component="span"
               >
-                {!newImage ? "Select Image" : newImageName}
+                {!newImage ? `Select ${type}` : newImageName}
               </Typography>
             }
             labelPlacement="end"

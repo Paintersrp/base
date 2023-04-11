@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   endIcon: {
     marginLeft: 2,
   },
+  errorButton: {
+    background: theme.palette.error.light,
+  },
 }));
 
 export default function StyledButton({
@@ -52,6 +55,7 @@ export default function StyledButton({
   minHeight = null,
   maxHeight = null,
   variant = "contained",
+  special = null,
 }) {
   const classes = useStyles();
 

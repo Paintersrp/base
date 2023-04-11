@@ -655,6 +655,12 @@ class ListElementItem(models.Model):
         null=True,
         blank=True,
     )
+    image = models.ImageField(
+        upload_to="process_images",
+        verbose_name="Image",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.name
@@ -699,6 +705,7 @@ class ListElement(BaseElement):
         ("Unordered", "Unordered"),
         ("Ordered", "Ordered"),
         ("Icon", "Icon"),
+        ("Image", "Image"),
     )
 
     type = CustomCharField(

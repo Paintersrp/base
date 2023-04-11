@@ -12,6 +12,8 @@ import LayeredGradientBackground from "../../Elements/Layout/GradientContent";
 import { useState } from "react";
 import Loading from "../../Elements/Layout/Loading/Loading";
 import TableBuilder from "../../Tables/Builder/TableBuilder";
+import ListBuilder from "../../Lists/Builder/ListBuilder";
+import FAQBuilder from "../../FAQs/Builder/FAQBuilder";
 
 const salesData = [
   { label: "Jan", value: 2486 },
@@ -98,6 +100,12 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
+      <div style={{ paddingTop: 48, marginBottom: 48 }}>
+        <FAQBuilder />
+      </div>
+      <div style={{ paddingTop: 48, marginBottom: 48 }}>
+        <ListBuilder />
+      </div>
       <div style={{ paddingTop: 48, marginBottom: 48 }}>
         <TableBuilder />
       </div>

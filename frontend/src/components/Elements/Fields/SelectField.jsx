@@ -151,6 +151,8 @@ const SelectField = ({
                         ? value.position
                         : fieldName === "user"
                         ? value.username
+                        : verboseName === "FAQ Question Category"
+                        ? value.id
                         : fieldName === "category"
                         ? value.name
                         : fieldName === "question"

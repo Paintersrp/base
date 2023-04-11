@@ -4,6 +4,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import *
 
+
 # Register your models here.
 class CustomAboutBlockAdmin(admin.ModelAdmin):
     list_display = ("title", "image", "thumbnail_tag")

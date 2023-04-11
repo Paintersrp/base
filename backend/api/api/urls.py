@@ -148,6 +148,10 @@ urlpatterns = (
             "api/",
             include("elements.urls"),
         ),
+        path(
+            "api/",
+            include("faqs.urls"),
+        ),
     ]
     + static(
         settings.MEDIA_URL,

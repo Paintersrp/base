@@ -24,6 +24,7 @@ const ForeignKeyType = ({
   const classes = useStyles();
 
   console.log(fieldName);
+  console.log(verboseName, "verboseName");
 
   useEffect(() => {
     if (fieldName.includes("service_tier")) {
@@ -78,6 +79,21 @@ const ForeignKeyType = ({
       });
     } else if (fieldName === "element_set") {
       axiosInstance.get(`/elementset/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (verboseName === "FAQ Question") {
+      axiosInstance.get(`/faqquestion/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (verboseName === "FAQ Question Category") {
+      axiosInstance.get(`/faqquestioncategory/`).then((response) => {
+        setData(response.data);
+        console.log("YEAH:", response.data);
+      });
+    } else if (verboseName === "FAQ Answer") {
+      axiosInstance.get(`/faqanswer/`).then((response) => {
         setData(response.data);
         console.log("YEAH:", response.data);
       });

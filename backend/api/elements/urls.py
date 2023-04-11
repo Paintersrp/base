@@ -79,6 +79,11 @@ urlpatterns = [
         name="listelementitem-bulk-detail",
     ),
     path(
+        "list-builder/",
+        ListBuilder.as_view(),
+        name="list-builder",
+    ),
+    path(
         "imagetag/",
         ImageTagAPIView.as_view(),
         name="imagetag-list",

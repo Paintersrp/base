@@ -150,13 +150,16 @@ function IconSelectMixin({
   formData,
   background = "#F5F5F5",
   helpText,
+  hideHelpText = false,
 }) {
   const classes = useStyles();
   return (
     <>
-      <Typography className={classes.helpText}>
-        {helpText ? helpText : "\u00A0"}
-      </Typography>
+      {!hideHelpText && (
+        <Typography className={classes.helpText}>
+          {helpText ? helpText : "\u00A0"}
+        </Typography>
+      )}
       <FormControl
         style={{ width: "100%", paddingBottom: 8 }}
         variant="outlined"

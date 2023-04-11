@@ -122,6 +122,9 @@ def get_model_metadata(model_name):
             or field_name == "element_data"
             or field_name == "tag_details"
             or field_name == "list_items"
+            or field_name == "question_sets"
+            or field_name == "question_data"
+            or field_name == "answer_data"
         ):
             continue
 
@@ -313,6 +316,10 @@ class RecentAdminActionsView(APIView):
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="pages"
                     )
+                elif model_query == "faq":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="faqs"
+                    )
 
                 else:
                     content_type = ContentType.objects.get(model=model_query.lower())
@@ -365,6 +372,10 @@ class RecentAdminActionsView(APIView):
                 elif model_query == "page":
                     content_type = ContentType.objects.get(
                         model=model_query.lower(), app_label="pages"
+                    )
+                elif model_query == "faq":
+                    content_type = ContentType.objects.get(
+                        model=model_query.lower(), app_label="faqs"
                     )
 
                 else:
@@ -494,6 +505,7 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "content"
                 or app_label == "pages"
                 or app_label == "elements"
+                or app_label == "faqs"
             ):
                 if app_label == "pages":
                     print(app_config)

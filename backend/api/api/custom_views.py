@@ -45,7 +45,7 @@ class BaseListView(generics.ListCreateAPIView):
 
                 try:
                     related_obj = related_class.objects.get(id=data[field])
-                    print(related_obj.id)
+
                 except related_class.DoesNotExist:
                     raise NotFound(
                         detail=f"{related_class.__name__} with id {data[field]} does not exist"
@@ -70,11 +70,15 @@ class BaseListView(generics.ListCreateAPIView):
                     tag_obj, created = related_class.objects.get_or_create(name=tag[0])
                     data["tag"] = tag_obj.id
             elif isinstance(field, ForeignKey):
+                print("fk found: ", field)
                 related_class = field.remote_field.model
+                print("related: ", related_class)
 
                 if field.name in data:
                     obj = data.pop(field.name, None)
+                    print("obj", obj)
                     foo_obj, created = related_class.objects.get_or_create(id=obj[0])
+                    print(foo_obj)
                     data[field.name] = foo_obj.id
             elif isinstance(field, ManyToManyField):
                 mtm_fields[field.name] = field.remote_field.model
@@ -101,12 +105,12 @@ class BaseListView(generics.ListCreateAPIView):
             data["author"] = author.id
 
         print(data)
-
         print(self.model_class.serializer_class)
 
         serializer = self.model_class.serializer_class(data=data)
         serializer.is_valid()
         print("valid", serializer.validated_data)
+        print(serializer.errors)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
 
