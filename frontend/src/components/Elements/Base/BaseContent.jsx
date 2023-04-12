@@ -39,6 +39,7 @@ function BaseContent({
   showIcon = false,
   topIcon = <WorkSharpIcon style={{ color: "#2e3b55" }} fontSize="medium" />,
   justifyChildren = "flex-start",
+  alignChildren = "flex-start",
   fd = "row",
 }) {
   const classes = useStyles();
@@ -64,7 +65,7 @@ function BaseContent({
         style={{
           maxWidth: maxWidth,
           padding: theme.spacing(pad),
-          marginBottom: theme.spacing(mb),
+          marginBottom: theme.spacing(mb) || theme.spacing(2),
           marginTop: theme.spacing(mt),
           boxShadow: theme.shadows[boxShadow],
           borderRadius: theme.spacing(br),
@@ -99,7 +100,11 @@ function BaseContent({
         <Grid
           container
           spacing={0}
-          style={{ justifyContent: justifyChildren, flexDirection: fd }}
+          style={{
+            justifyContent: justifyChildren,
+            flexDirection: fd,
+            alignItems: alignChildren,
+          }}
         >
           {children}
         </Grid>

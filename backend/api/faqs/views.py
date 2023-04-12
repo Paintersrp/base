@@ -98,39 +98,34 @@ class FAQBuilder(generics.CreateAPIView):
     serializer_class = FAQSetSerializer
     model_class = FAQSet
 
-    # def post(self, request, *args, **kwargs):
-    #     items_data = {}
-    #     list_data = {}
-    #     for key, value in request.data.items():
-    #         if key == "name":
-    #             list_data["name"] = value
-    #         elif key == "type":
-    #             list_data["type"] = value
-    #         elif key.startswith("listItems"):
-    #             key_parts = key.split("[")
-    #             item_index = int(key_parts[1][:-1])
-    #             item_key = key_parts[2][:-1]
-    #             if item_index not in items_data:
-    #                 items_data[item_index] = {}
-    #             if item_key == "image":
-    #                 items_data[item_index][item_key] = request.FILES.get(key)
-    #             else:
-    #                 items_data[item_index][item_key] = value
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        faq_items_data = data.pop("faqItems")
+        author = User.objects.get(username=request.username)
+        data["author"] = author
+        faq = FAQSet.objects.create(**data)
 
-    #     created_list = ListElement(**list_data)
+        for item_data in faq_items_data:
+            question_data = item_data.pop("question")
+            answer_data = item_data.pop("answer")
+            question_set_data = item_data.pop("question_set")
+            category = question_set_data.pop("category")
 
-    #     items_list = list(items_data.values())
-    #     created_items = []
-    #     for item_data in items_list:
-    #         tag = item_data.pop("tag")
-    #         tag_obj, created = ListItemTag.objects.get_or_create(name=tag)
-    #         item_data["tag"] = tag_obj
+            question = FAQQuestion.objects.create(author=author, **question_data)
+            answer = FAQAnswer.objects.create(
+                author=author, faq_question=question, **answer_data
+            )
+            category = FAQQuestionCategory.objects.create(author=author, name=category)
+            question_set = FAQQuestionSet.objects.create(
+                author=author,
+                faqset=faq,
+                faq_category=category,
+                faq_question=question,
+                faq_answer=answer,
+                **question_set_data
+            )
 
-    #         created_item = ListElementItem.objects.create(**item_data)
-    #         created_items.append(created_item)
+        faq.save()
+        serializer = self.get_serializer(faq)
 
-    #     created_list.save()
-    #     created_list.items.set(created_items)
-    #     serializer = self.get_serializer(created_list)
-
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

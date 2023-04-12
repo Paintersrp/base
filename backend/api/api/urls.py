@@ -102,10 +102,6 @@ urlpatterns = (
         ),
         path(
             "api/",
-            include("content.urls"),
-        ),
-        path(
-            "api/",
             include("contact.urls"),
         ),
         path(

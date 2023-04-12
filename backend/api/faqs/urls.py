@@ -78,9 +78,9 @@ urlpatterns = [
         FAQSetBulkAPIView.as_view(),
         name="faqset-bulk-detail",
     ),
-    # path(
-    #     "faq-builder/",
-    #     FAQBuilder.as_view(),
-    #     name="faq-builder",
-    # ),
+    path(
+        "faq-builder/",
+        FAQBuilder.as_view(),
+        name="faq-builder",
+    ),
 ]

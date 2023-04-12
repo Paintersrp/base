@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     "tables",
     "quizes",
     "contact",
-    "content",
     "pages",
     "elements",
     "faqs",
