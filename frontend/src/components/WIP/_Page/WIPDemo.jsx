@@ -1,7 +1,7 @@
 import Demo from "../../Elements/Demo/Demo";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import { Divider, Typography, useTheme } from "@material-ui/core";
+import { Collapse, Divider, Typography, useTheme } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
@@ -21,10 +21,11 @@ import CardSkeleton from "../../Builders/Parts/Skeletons/CardSkeleton";
 import TableSkeleton from "../../Builders/Parts/Skeletons/TableSkeleton";
 import IconListExample from "../../Builders/Parts/Examples/Lists/IconListExample";
 import ImageListExample from "../../Builders/Parts/Examples/Lists/ImageListExample";
-import ListExample from "../../Builders/Parts/Examples/Lists/ListExample";
-import ListExample4 from "../../Builders/Parts/Examples/Lists/ListExample4";
-import ListExample3 from "../../Builders/Parts/Examples/Lists/ListExample3";
+import PollingListExample from "../../Builders/Parts/Examples/Lists/ListExample";
+import TaskListExample from "../../Builders/Parts/Examples/Lists/TaskListExample";
 import AvatarListExample from "../../Builders/Parts/Examples/Lists/AvatarListExample";
+import TaskListBuilder from "../../Builders/Lists/TaskBuilder/TaskBuilder";
+import DemoItem from "../../Elements/Demo/DemoItem";
 
 const salesData = [
   { label: "Jan", value: 2486 },
@@ -111,131 +112,12 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
-      <BaseContent
-        maxWidth={1000}
-        pt={2}
-        pb={4}
-        fd="column"
-        justifyChildren="center"
-        alignChildren="Center"
-      >
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent maxWidth={500} header="List 1" justifyChildren="center">
-            <ListExample />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent maxWidth={500} header="List 3" justifyChildren="center">
-            <ListExample3 />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent maxWidth={500} header="List 4" justifyChildren="center">
-            <ListExample4 />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent
-            maxWidth={500}
-            header="Image List"
-            justifyChildren="center"
-          >
-            <ImageListExample />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent
-            maxWidth={500}
-            header="Alternating Image List"
-            justifyChildren="center"
-          >
-            <ImageListExample alternate />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent
-            maxWidth={500}
-            header="Avatar List"
-            justifyChildren="center"
-          >
-            <AvatarListExample />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <BaseContent
-            maxWidth={500}
-            header="Icon List"
-            justifyChildren="center"
-          >
-            <IconListExample />
-          </BaseContent>
-        </div>
-
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <Typography variant="h3" align="center" style={{ marginBottom: 16 }}>
-            Table Skeleton
-          </Typography>
-          <div style={{ width: "100%", marginBottom: 32 }}>
-            <Divider />
-          </div>
-          <TableSkeleton />
-        </div>
-        <div style={{ width: "100%", marginBottom: 16 }}>
-          <Divider />
-        </div>
-
-        <div style={{ width: "100%", marginBottom: 48 }}>
-          <Typography variant="h3" align="center" style={{ marginBottom: 16 }}>
-            Accordion Skeleton
-          </Typography>
-          <div style={{ width: "100%", marginBottom: 32 }}>
-            <Divider />
-          </div>
-          <AccordionSkeleton />
-        </div>
-        <div style={{ width: "100%", marginBottom: 16 }}>
-          <Divider />
-        </div>
-        <div
-          style={{
-            marginBottom: 48,
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography variant="h3" align="center" style={{ marginBottom: 16 }}>
-            List Skeleton
-          </Typography>
-          <div style={{ width: "100%", marginBottom: 32 }}>
-            <Divider />
-          </div>
-          <BaseContent maxWidth={400} pad={1}>
-            <ListSkeleton />
-          </BaseContent>
-        </div>
-        <div style={{ width: "100%", marginBottom: 16 }}>
-          <Divider />
-        </div>
-        <div
-          style={{
-            width: "100%",
-            marginBottom: 48,
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography variant="h3" align="center" style={{ marginBottom: 16 }}>
-            Card Skeleton
-          </Typography>
-          <div style={{ width: "100%", marginBottom: 32 }}>
-            <Divider />
-          </div>
-          <CardSkeleton />
-        </div>
-      </BaseContent>
+      <div style={{ paddingTop: 0, marginBottom: 48 }}>
+        <DemoItem item="avatar-list" />
+      </div>
+      <div style={{ paddingTop: 0, marginBottom: 48 }}>
+        <TaskListBuilder />
+      </div>
       <div style={{ paddingTop: 48, marginBottom: 48 }}>
         <FAQBuilder />
       </div>

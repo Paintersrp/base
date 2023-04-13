@@ -274,6 +274,13 @@ class ImageTag(models.Model):
         verbose_name="Tag Name",
         help_text="Tag Name",
     )
+    author = CustomForeignKeyField(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Author",
+        related_query_name="author",
+    )
 
     def __str__(self):
         return self.name
@@ -572,6 +579,13 @@ class ListItemTag(models.Model):
         verbose_name="Tag Name",
         help_text="Tag Name",
     )
+    author = CustomForeignKeyField(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Author",
+        related_query_name="author",
+    )
 
     def __str__(self):
         return self.name
@@ -660,6 +674,13 @@ class ListElementItem(models.Model):
         verbose_name="Image",
         null=True,
         blank=True,
+    )
+    author = CustomForeignKeyField(
+        User,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Author",
+        related_query_name="author",
     )
 
     def __str__(self):

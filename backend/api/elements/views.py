@@ -118,16 +118,20 @@ class ListBuilder(generics.CreateAPIView):
                 else:
                     items_data[item_index][item_key] = value
 
-        created_list = ListElement(**list_data)
+        author = User.objects.get(username=request.username)
+
+        created_list = ListElement(**list_data, author=author)
 
         items_list = list(items_data.values())
         created_items = []
         for item_data in items_list:
             tag = item_data.pop("tag")
-            tag_obj, created = ListItemTag.objects.get_or_create(name=tag)
+            tag_obj, created = ListItemTag.objects.get_or_create(
+                author=author, name=tag
+            )
             item_data["tag"] = tag_obj
 
-            created_item = ListElementItem.objects.create(**item_data)
+            created_item = ListElementItem.objects.create(**item_data, author=author)
             created_items.append(created_item)
 
         created_list.save()
@@ -169,7 +173,9 @@ class ImageElementAPIView(BaseListView):
         if "tag" in data:
             if not data["tag"].isnumeric():
                 tag = data.pop("tag", None)
-                tag_obj, created = ImageTag.objects.get_or_create(name=tag[0])
+                tag_obj, created = ImageTag.objects.get_or_create(
+                    name=tag[0], author=author
+                )
                 data["tag"] = tag_obj.id
 
         serializer = self.get_serializer(data=data)
@@ -197,6 +203,7 @@ class ImageElementDetailAPIView(BaseDetailView):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         old_instance = self.model_class.objects.get(pk=instance.pk)
+        author = User.objects.get(username=request.username)
 
         image_field_name = None
         for field in instance._meta.fields:
@@ -219,7 +226,9 @@ class ImageElementDetailAPIView(BaseDetailView):
         if "tag" in data:
             if not data["tag"].isnumeric():
                 tag = data.pop("tag", None)
-                tag_obj, created = ImageTag.objects.get_or_create(name=tag[0])
+                tag_obj, created = ImageTag.objects.get_or_create(
+                    name=tag[0], author=author
+                )
                 data["tag"] = tag_obj.id
 
         serializer = self.get_serializer(instance, data=data, partial=True)

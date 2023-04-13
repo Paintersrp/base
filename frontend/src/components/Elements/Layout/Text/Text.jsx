@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import alignSwitch from "./propSwitch";
 
 const useStyles = makeStyles((theme) => ({
   h1: theme.typography.h1,
@@ -14,7 +15,15 @@ const useStyles = makeStyles((theme) => ({
   body2: theme.typography.body2,
 }));
 
-function Text({ type, children, ...rest }) {
+function Text({
+  t: type,
+  mt: marginTop,
+  mb: marginBottom,
+  s: fontSize,
+  a: align,
+  children,
+  ...rest
+}) {
   const classes = useStyles();
 
   let Component = "p";
@@ -31,7 +40,16 @@ function Text({ type, children, ...rest }) {
   if (type === "body2") Component = "p";
 
   return (
-    <Component className={classes[type]} {...rest}>
+    <Component
+      className={`${classes[type]}`}
+      style={{
+        marginBottom: marginBottom || 0,
+        marginTop: marginTop || 0,
+        fontSize: fontSize,
+        textAlign: alignSwitch(align),
+      }}
+      {...rest}
+    >
       {children}
     </Component>
   );

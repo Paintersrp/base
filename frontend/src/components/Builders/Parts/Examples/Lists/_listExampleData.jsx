@@ -81,20 +81,20 @@ export const imageExampleData = [
 export const favExampleData = [
   {
     id: 1,
-    title: "Item 1",
-    subtitle: "This is the first item",
+    title: "Choice 1",
+    subtitle: "This is the first choice",
     favorite: false,
   },
   {
     id: 2,
-    title: "Item 2",
-    subtitle: "This is the second item",
+    title: "Choice 2",
+    subtitle: "This is the second choice",
     favorite: true,
   },
   {
     id: 3,
-    title: "Item 3",
-    subtitle: "This is the third item",
+    title: "Choice 3",
+    subtitle: "This is the third choice",
     favorite: false,
   },
 ];
@@ -102,7 +102,7 @@ export const favExampleData = [
 export const taskExampleData = [
   {
     id: 1,
-    category: "Category 1",
+    category: "Shopping",
     title: "Task 1",
     subtitle: "Complete by 2023-04-15",
     description:
@@ -110,7 +110,7 @@ export const taskExampleData = [
   },
   {
     id: 2,
-    category: "Category 2",
+    category: "General",
     title: "Task 2",
     subtitle: "Complete by 2023-04-20",
     description:
@@ -118,7 +118,7 @@ export const taskExampleData = [
   },
   {
     id: 3,
-    category: "Category 1",
+    category: "Today",
     title: "Task 3",
     subtitle: "Complete by 2023-04-30",
     description:
@@ -126,7 +126,7 @@ export const taskExampleData = [
   },
   {
     id: 4,
-    category: "Category 3",
+    category: "Today",
     title: "Task 4",
     subtitle: "Complete by 2023-05-05",
     description:

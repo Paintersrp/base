@@ -4,7 +4,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import CardMedia from "@material-ui/core/CardMedia";
-import { imageExampleData } from "./listExampleData";
+import { imageExampleData } from "./_listExampleData";
+import Text from "../../../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +83,9 @@ function ImageListExample({ alternate = false }) {
           </ListItem>
         ))}
       </List>
+      <Text mt={8} mb={0} a="c" t="h4">
+        Lose The Hover
+      </Text>
     </div>
   );
 }

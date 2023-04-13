@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   multiline: {
-    marginTop: 5,
+    marginTop: 0,
     marginBottom: 5,
     width: "100%",
     "& .MuiOutlinedInput-inputMultiline": {

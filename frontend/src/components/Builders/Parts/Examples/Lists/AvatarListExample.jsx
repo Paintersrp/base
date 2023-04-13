@@ -7,7 +7,8 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
-import { avatarExampleData } from "./listExampleData";
+import { avatarExampleData } from "./_listExampleData";
+import Text from "../../../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,6 @@ function AvatarListExample() {
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
-        <ListSubheader>Users</ListSubheader>
         {avatarExampleData.map((item) => (
           <div key={item.id}>
             <ListItem button>
@@ -42,6 +42,9 @@ function AvatarListExample() {
             <Divider />
           </div>
         ))}
+        <Text mt={16} mb={0} a="c" t="h4">
+          Lose the Hover
+        </Text>
       </List>
     </div>
   );

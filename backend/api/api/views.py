@@ -125,6 +125,7 @@ def get_model_metadata(model_name):
             or field_name == "question_sets"
             or field_name == "question_data"
             or field_name == "answer_data"
+            or field_name == "completed_date"
         ):
             continue
 
@@ -506,6 +507,7 @@ class ModelEndpointAPIView(APIView):
                 or app_label == "pages"
                 or app_label == "elements"
                 or app_label == "faqs"
+                or app_label == "tasks"
             ):
                 if app_label == "pages":
                     print(app_config)

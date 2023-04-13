@@ -236,11 +236,11 @@ const FAQBuilderPreview = ({
           )}
         </React.Fragment>
       ) : (
-        <React.Fragment>
+        <div style={{ width: "100%" }}>
           {selectedOption === "option1" && <FAQStandardExample />}
           {selectedOption === "option2" && <FAQExample2 />}
           {selectedOption === "option3" && <FAQExample3 />}
-        </React.Fragment>
+        </div>
       )}
     </BaseContent>
   );

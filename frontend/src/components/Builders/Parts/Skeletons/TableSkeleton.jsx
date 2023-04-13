@@ -13,11 +13,8 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    maxWidth: 650,
+    maxWidth: "100%",
     margin: "auto",
-  },
-  table: {
-    minWidth: 650,
   },
   tableHead: {
     backgroundColor: theme.palette.grey[300],

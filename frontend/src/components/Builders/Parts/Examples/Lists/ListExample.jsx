@@ -3,11 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import StarIcon from "@material-ui/icons/Star";
 import Divider from "@material-ui/core/Divider";
-import { favExampleData } from "./listExampleData";
+import { favExampleData } from "./_listExampleData";
+import { Typography } from "@material-ui/core";
+import Text from "../../../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListExample() {
+function PollingListExample() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
-        <ListSubheader>Items</ListSubheader>
         {favExampleData.map((item) => (
           <div key={item.id}>
             <ListItem button>
@@ -34,12 +34,20 @@ function ListExample() {
                 </ListItemIcon>
               )}
             </ListItem>
+
             <Divider />
           </div>
         ))}
       </List>
+
+      <Text mt={8} mb={0} a="c" t="h4">
+        Add Submit
+      </Text>
+      <Text mt={8} mb={0} a="c" t="h4">
+        Star on Choice
+      </Text>
     </div>
   );
 }
 
-export default ListExample;
+export default PollingListExample;

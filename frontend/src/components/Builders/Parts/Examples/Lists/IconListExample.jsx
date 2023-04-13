@@ -5,7 +5,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { iconExampleData } from "./listExampleData";
+import { iconExampleData } from "./_listExampleData";
+import Text from "../../../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,7 @@ function IconListExample() {
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
         {iconExampleData.map((item) => (
-          <ListItem button className={classes.listItem} key={item.id}>
+          <ListItem className={classes.listItem} key={item.id}>
             <ListItemIcon className={classes.listItemIcon}>
               {item.icon}
             </ListItemIcon>
@@ -61,6 +62,9 @@ function IconListExample() {
           </ListItem>
         ))}
       </List>
+      <Text mt={8} mb={0} a="c" t="h4">
+        Lose The Hover
+      </Text>
     </div>
   );
 }

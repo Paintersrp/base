@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "pages",
     "elements",
     "faqs",
+    "tasks",
 ]
 
 MIDDLEWARE = [

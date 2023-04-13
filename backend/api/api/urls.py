@@ -148,6 +148,10 @@ urlpatterns = (
             "api/",
             include("faqs.urls"),
         ),
+        path(
+            "api/",
+            include("tasks.urls"),
+        ),
     ]
     + static(
         settings.MEDIA_URL,
