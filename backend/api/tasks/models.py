@@ -164,7 +164,7 @@ class Task(models.Model):
 )
 class TaskList(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     tasks = models.ManyToManyField(Task, related_name="task_lists")
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)

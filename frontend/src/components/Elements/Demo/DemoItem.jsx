@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Grid, Divider, Select, MenuItem } from "@material-ui/core";
+import { Paper, Grid, Select, MenuItem } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import DemoItemSwitch from "./DemoItemSwitch";
 import BaseContent from "../Base/BaseContent";
-import TaskListExample from "../../Builders/Parts/Examples/Lists/TaskListExample";
+import TaskList from "../../Builders/Parts/Examples/Lists/TaskList.jsx";
 import { demoOptions } from "./DemoDataSet";
+import { Divider } from "@mui/material";
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,12 +58,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DemoItem = ({ taskData }) => {
+const DemoItem = () => {
   const classes = useStyles();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedOption, setSelectedOption] = useState("avatar");
   const [selectedDisplay, setSelectedDisplay] = useState("Avatar List");
+  const [selectedTaskList, setSelectedTaskList] = useState([]);
+  const [ready, setReady] = useState(false);
+  const [taskListData, setTaskListData] = useState([]);
   const [showAll, setShowAll] = useState(true);
+
+  useEffect(() => {
+    const queryParams = demoOptions
+      .map((option) => `title=${option.display.replace(/\s+/g, "-")}`)
+      .join("&");
+    const apiUrl = `/tasklist-query/?${queryParams}`;
+
+    axiosInstance
+      .get(apiUrl)
+      .then((response) => {
+        setTaskListData(response.data);
+        setSelectedTaskList(response.data[0]);
+        console.log("setTaskListData: ", response.data);
+        setReady(true);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const filteredOptions = demoOptions.filter(
     (option) => showAll || option.category === selectedCategory
@@ -72,7 +94,7 @@ const DemoItem = ({ taskData }) => {
     return acc;
   }, {});
 
-  const handleCategoryChange = (event, newCategory) => {
+  const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     setSelectedOption(
       event.target.value === "All"
@@ -97,7 +119,20 @@ const DemoItem = ({ taskData }) => {
     console.log(event.target.value);
     setSelectedOption(event.target.value);
     setSelectedDisplay(optionDisplays[event.target.value]);
+
+    const selectedTaskListData = taskListData.find((item) => {
+      return (
+        item.title.toLowerCase() ===
+        optionDisplays[event.target.value].toLowerCase()
+      );
+    });
+    setSelectedTaskList(selectedTaskListData);
+    console.log("data", selectedTaskListData);
   };
+
+  if (!ready) {
+    return null;
+  }
 
   const categories = [...new Set(demoOptions.map((option) => option.category))];
 
@@ -188,22 +223,25 @@ const DemoItem = ({ taskData }) => {
               alignItems: "center",
               flexDirection: "column",
               padding: "0px 16px 16px 16px",
+              borderRight: "1px solid lightgrey",
             }}
           >
             <DemoItemSwitch item={selectedOption} />
           </Grid>
-          <Grid
-            xs={12}
-            md={6}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              padding: "0px 16px 16px 16px",
-            }}
-          >
-            <TaskListExample />
-          </Grid>
+          {selectedTaskList && (
+            <Grid
+              xs={12}
+              md={6}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                padding: "0px 16px 16px 16px",
+              }}
+            >
+              <TaskList data={selectedTaskList.tasks} list={selectedTaskList} />
+            </Grid>
+          )}
         </BaseContent>
       </Paper>
     </div>

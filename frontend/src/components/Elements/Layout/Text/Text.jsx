@@ -19,6 +19,7 @@ function Text({
   t: type,
   mt: marginTop,
   mb: marginBottom,
+  pl: paddingLeft,
   s: fontSize,
   a: align,
   children,
@@ -45,6 +46,7 @@ function Text({
       style={{
         marginBottom: marginBottom || 0,
         marginTop: marginTop || 0,
+        paddingLeft: paddingLeft || 0,
         fontSize: fontSize,
         textAlign: alignSwitch(align),
       }}

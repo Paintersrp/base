@@ -144,6 +144,7 @@ class BaseDetailView(generics.RetrieveUpdateDestroyAPIView):
     mtm_fields = {}
 
     def update(self, request, *args, **kwargs):
+        print(request.data)
         instance = self.get_object()
         old_instance = self.model_class.objects.get(pk=instance.pk)
 

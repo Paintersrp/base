@@ -1,7 +1,7 @@
 import Demo from "../../Elements/Demo/Demo";
 import FeatureCTA from "../Features/FeatureCTA/FeatureCTA";
 import Partners from "../Partners/Partners";
-import { Collapse, Divider, Typography, useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import StoryTeller from "../StoryTeller/StoryTeller";
 import CaseStudiesBasic from "../CaseStudies/CaseStudiesBasic";
 import Reviews from "../Reviews/Reviews";
@@ -14,16 +14,7 @@ import Loading from "../../Elements/Layout/Loading/Loading";
 import TableBuilder from "../../Builders/Tables/Builder/TableBuilder";
 import ListBuilder from "../../Builders/Lists/Builder/ListBuilder";
 import FAQBuilder from "../../Builders/FAQs/Builder/FAQBuilder";
-import ListSkeleton from "../../Builders/Parts/Skeletons/ListSkeleton";
-import AccordionSkeleton from "../../Builders/Parts/Skeletons/AccordionSkeleton";
-import BaseContent from "../../Elements/Base/BaseContent";
-import CardSkeleton from "../../Builders/Parts/Skeletons/CardSkeleton";
-import TableSkeleton from "../../Builders/Parts/Skeletons/TableSkeleton";
-import IconListExample from "../../Builders/Parts/Examples/Lists/IconListExample";
-import ImageListExample from "../../Builders/Parts/Examples/Lists/ImageListExample";
-import PollingListExample from "../../Builders/Parts/Examples/Lists/ListExample";
-import TaskListExample from "../../Builders/Parts/Examples/Lists/TaskListExample";
-import AvatarListExample from "../../Builders/Parts/Examples/Lists/AvatarListExample";
+
 import TaskListBuilder from "../../Builders/Lists/TaskBuilder/TaskBuilder";
 import DemoItem from "../../Elements/Demo/DemoItem";
 

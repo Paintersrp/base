@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import FormField from "../../../Elements/Fields/FormField";
-import TaskListExample from "../../Parts/Examples/Lists/TaskListExample";
+import TaskListExample from "../../Parts/Examples/Lists/TaskList.jsx";
 import BaseContent from "../../../Elements/Base/BaseContent";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import Text from "../../../Elements/Layout/Text/Text";
