@@ -4,21 +4,6 @@ from .views import *
 
 urlpatterns = [
     path(
-        "taskcategory/",
-        TaskCategoryAPIView.as_view(),
-        name="taskcategory-list",
-    ),
-    path(
-        "taskcategory/<int:pk>/",
-        TaskCategoryDetailAPIView.as_view(),
-        name="taskcategory-detail",
-    ),
-    path(
-        "taskcategory/bulk/",
-        TaskCategoryBulkAPIView.as_view(),
-        name="taskcategory-bulk-detail",
-    ),
-    path(
         "task/",
         TaskAPIView.as_view(),
         name="task-list",
@@ -34,7 +19,7 @@ urlpatterns = [
         name="task-bulk-detail",
     ),
     path(
-        "tasklist/",
+        "tasklist",
         TaskListAPIView.as_view(),
         name="tasklist-list",
     ),
@@ -49,9 +34,24 @@ urlpatterns = [
         name="tasklist-bulk-detail",
     ),
     path(
+        "tasksection/",
+        TaskSectionAPIView.as_view(),
+        name="tasksection-list",
+    ),
+    path(
+        "tasksection/<int:pk>/",
+        TaskSectionDetailAPIView.as_view(),
+        name="tasksection-detail",
+    ),
+    path(
+        "tasksection/bulk/",
+        TaskSectionBulkAPIView.as_view(),
+        name="tasksection-bulk-detail",
+    ),
+    path(
         "tasklist-builder/",
         TaskListBuilder.as_view(),
         name="tasklist-builder",
     ),
-    path("tasklist-query/", TaskListByTitle.as_view(), name="tasklist-by-title"),
+    path("tasklist-query/", TaskListByTitle.as_view(), name="tasklist2-by-title"),
 ]

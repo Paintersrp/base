@@ -16,14 +16,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Text({
-  t: type,
+  t: type = "body1",
   mt: marginTop,
   mb: marginBottom,
   pl: paddingLeft,
   s: fontSize,
   a: align,
   children,
-  ...rest
+  className,
+  style,
 }) {
   const classes = useStyles();
 
@@ -42,15 +43,15 @@ function Text({
 
   return (
     <Component
-      className={`${classes[type]}`}
+      className={`${classes[type]} ${className}`}
       style={{
         marginBottom: marginBottom || 0,
         marginTop: marginTop || 0,
         paddingLeft: paddingLeft || 0,
         fontSize: fontSize,
         textAlign: alignSwitch(align),
+        ...style,
       }}
-      {...rest}
     >
       {children}
     </Component>

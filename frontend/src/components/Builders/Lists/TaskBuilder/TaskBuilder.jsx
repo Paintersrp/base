@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import FormField from "../../../Elements/Fields/FormField";
-import TaskListExample from "../../Parts/Examples/Lists/TaskList.jsx";
+import TaskListExample from "../../Parts/Examples/Lists/TaskListExample.jsx";
 import BaseContent from "../../../Elements/Base/BaseContent";
 import axiosInstance from "../../../../lib/Axios/axiosInstance";
 import Text from "../../../Elements/Layout/Text/Text";
@@ -84,8 +84,17 @@ const listFields = [
     multiline: true,
   },
 ];
+const sectionFields = [
+  { name: "title", label: "List Title*", type: "text", md: 8 },
+  {
+    name: "description",
+    label: "Description Text*",
+    type: "text",
+    md: 8,
+    multiline: true,
+  },
+];
 const taskFields = [
-  { name: "category", label: "Task Category*", type: "text", md: 6 },
   { name: "title", label: "Task Title*", type: "text", md: 6 },
   {
     name: "description",
@@ -102,13 +111,18 @@ const TaskListBuilder = () => {
     title: "",
     description: "",
   });
+  const [sectionFormData, setSectionFormData] = useState({
+    title: "",
+    description: "",
+  });
   const [taskFormData, setTaskFormData] = useState({
     title: "",
     description: "",
-    category: "",
     priority: "",
+    section: "",
   });
   const [addedTasks, setAddedTasks] = useState([]);
+  const [sections, setSections] = useState([]);
 
   const handleListFormChange = (event) => {
     setListFormData({
@@ -123,26 +137,82 @@ const TaskListBuilder = () => {
       [event.target.name]: event.target.value,
     });
   };
+  const handleSectionFormChange = (event) => {
+    setSectionFormData({
+      ...sectionFormData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSectionAdd = () => {
+    const newSection = {
+      title: sectionFormData.title,
+      description: sectionFormData.description,
+      tasks: [],
+    };
+    setSections([...sections, newSection]);
+    setSectionFormData({
+      title: "",
+      description: "",
+    });
+  };
+
+  // const handleTaskAdd = () => {
+  //   setAddedTasks([...addedTasks, taskFormData]);
+  //   setTaskFormData({
+  //     title: "",
+  //     description: "",
+
+  //     priority: "",
+  //   });
+  // };
 
   const handleTaskAdd = () => {
-    setAddedTasks([...addedTasks, taskFormData]);
+    const sectionIndex = sections.findIndex(
+      (section) => section.title === taskFormData.section
+    );
+
+    const updatedSection = {
+      ...sections[sectionIndex],
+      tasks: [...sections[sectionIndex].tasks, taskFormData],
+    };
+
+    const updatedSections = [...sections];
+    updatedSections[sectionIndex] = updatedSection;
+
+    setSections(updatedSections);
+
     setTaskFormData({
       title: "",
       description: "",
-      category: "",
       priority: "",
+      section: "",
     });
   };
 
   const handleListSave = async (event) => {
+    // const taskListData = {
+    //   title: listFormData.title,
+    //   description: listFormData.description,
+    //   addedTasks: addedTasks.map((item) => ({
+    //     title: item.title,
+    //     description: item.description,
+
+    //     priority: item.priority,
+    //   })),
+    // };
     const taskListData = {
       title: listFormData.title,
       description: listFormData.description,
-      addedTasks: addedTasks.map((item) => ({
-        title: item.title,
-        description: item.description,
-        category: item.category,
-        priority: item.priority,
+      sections: sections.map((section) => ({
+        title: section.title,
+        description: section.description,
+        tasks: section.tasks.map((item) => ({
+          title: item.title,
+          description: item.description,
+          priority: item.priority,
+          section: item.section,
+        })),
       })),
     };
 
@@ -152,6 +222,7 @@ const TaskListBuilder = () => {
       const response = await axiosInstance
         .post("/tasklist-builder/", taskListData)
         .then((response) => {
+          console.log(response.data);
           //   setErrors("");
           //   setFaqItems([]);
           //   setFormData(initialState);
@@ -210,6 +281,46 @@ const TaskListBuilder = () => {
 
                 <div style={{ marginTop: 32, marginBottom: 0, width: "100%" }}>
                   <Typography variant="body2" className={classes.subheader}>
+                    Section Entry
+                  </Typography>
+                </div>
+                <div style={{ marginTop: 0, marginBottom: 16, width: "100%" }}>
+                  <Divider />
+                </div>
+
+                {sectionFields.map((field) => {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      md={field.md}
+                      style={{ paddingRight: 12, width: "100%" }}
+                    >
+                      <Container
+                        justify="flex-start"
+                        style={{ width: "100%", padding: 0 }}
+                      >
+                        <Typography className={classes.helpText}>
+                          {field.label}
+                        </Typography>
+                        <Text />
+                        <FormField
+                          required
+                          multiline={field.multiline}
+                          id={field.name}
+                          onChange={handleSectionFormChange}
+                          value={sectionFormData[field.name]}
+                          minRows={3}
+                        />
+                      </Container>
+                    </Grid>
+                  );
+                })}
+                <div className={classes.buttonContainer}>
+                  <AddButton label="Section" addFunc={handleSectionAdd} />
+                </div>
+                <div style={{ marginTop: 32, marginBottom: 0, width: "100%" }}>
+                  <Typography variant="body2" className={classes.subheader}>
                     Task Entry
                   </Typography>
                 </div>
@@ -255,6 +366,50 @@ const TaskListBuilder = () => {
                     <MenuItem value="Low Priority">Low</MenuItem>
                     <MenuItem value="Medium Priority">Medium</MenuItem>
                     <MenuItem value="High Priority">High</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  style={{ paddingRight: 12, width: "100%" }}
+                >
+                  <Typography className={classes.helpText}>
+                    Task Section*
+                  </Typography>
+                  <Select
+                    className={classes.select}
+                    MenuProps={{
+                      anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left",
+                      },
+                      transformOrigin: {
+                        vertical: "top",
+                        horizontal: "left",
+                      },
+                      getContentAnchorEl: null,
+                      classes: {
+                        paper: classes.menuPaper,
+                      },
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300,
+                        },
+                      },
+                    }}
+                    variant="outlined"
+                    name="section"
+                    value={taskFormData.section}
+                    onChange={handleTaskFormChange}
+                  >
+                    {sections.map((section) => {
+                      return (
+                        <MenuItem value={section.title}>
+                          {section.title}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </Grid>
 

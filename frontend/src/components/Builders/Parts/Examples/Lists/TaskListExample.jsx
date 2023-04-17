@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { taskExampleData } from "./_listExampleData";
 import {
   Checkbox,
@@ -199,6 +199,17 @@ function TaskList({ data = taskExampleData }) {
     //   //   setApiErrors(error.response.data);
     // }
   };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const parentRef = useRef(null);
 
   return (
     <React.Fragment>

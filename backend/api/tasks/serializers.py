@@ -3,18 +3,8 @@ from .models import *
 from authorization.serializers import UserSerializer
 
 
-class TaskCategorySerializer(serializers.ModelSerializer):
-    author = UserSerializer()
-    FIELD_KEYS = ["name"]
-
-    class Meta:
-        model = TaskCategory
-        fields = "__all__"
-
-
 class TaskSerializer(serializers.ModelSerializer):
     author = UserSerializer()
-    task_category = TaskCategorySerializer()
     completed_date = serializers.DateTimeField(read_only=True)
     FIELD_KEYS = ["title", "priority", "status", "task_category"]
 
@@ -23,8 +13,18 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TaskListSerializer(serializers.ModelSerializer):
+class TaskSectionSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, read_only=True)
+    author = UserSerializer()
+    FIELD_KEYS = ["title", "created_date"]
+
+    class Meta:
+        model = TaskSection
+        fields = "__all__"
+
+
+class TaskListSerializer(serializers.ModelSerializer):
+    sections = TaskSectionSerializer(many=True, read_only=True)
     author = UserSerializer()
     FIELD_KEYS = ["title", "created_date"]
 
@@ -33,7 +33,7 @@ class TaskListSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TaskListBuilderSerializer(serializers.ModelSerializer):
+class TaskList2BuilderSerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["title", "created_date"]
 
     class Meta:
@@ -41,6 +41,6 @@ class TaskListBuilderSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-TaskCategory.serializer_class = TaskCategorySerializer
 Task.serializer_class = TaskSerializer
+TaskSection.serializer_class = TaskSectionSerializer
 TaskList.serializer_class = TaskListSerializer

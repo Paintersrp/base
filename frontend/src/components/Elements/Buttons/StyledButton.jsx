@@ -56,13 +56,14 @@ export default function StyledButton({
   maxHeight = null,
   variant = "contained",
   special = null,
+  // style,
 }) {
   const classes = useStyles();
 
   return (
     <Button
       variant={variant}
-      color={color}
+      // color={color}
       size={size}
       className={!noHover ? classes.defaultButton : classes.noHoverButton}
       classes={{ startIcon: classes.startIcon, endIcon: classes.endIcon }}

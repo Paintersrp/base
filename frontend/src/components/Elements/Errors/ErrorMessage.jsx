@@ -8,7 +8,8 @@ import ClearButton from "../../Builders/Parts/Buttons/ClearButton";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    marginTop: 24,
+    marginTop: 12,
+    marginBottom: 12,
     display: "flex",
     justifyContent: "center",
   },
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ErrorMessage = ({ errors, clearFunc }) => {
+const ErrorMessage = ({ errors, clearFunc, nestedName = null }) => {
   const classes = useStyles();
 
   if (errors.length === 0) {
@@ -34,7 +35,14 @@ const ErrorMessage = ({ errors, clearFunc }) => {
           <Alert
             severity="error"
             action={
-              <ClearButton clearFunc={() => clearFunc(index)} skipConfirm />
+              <ClearButton
+                clearFunc={
+                  nestedName
+                    ? () => clearFunc(nestedName, index)
+                    : () => clearFunc(index)
+                }
+                skipConfirm
+              />
             }
           >
             <AlertTitle>Error {index + 1}</AlertTitle>

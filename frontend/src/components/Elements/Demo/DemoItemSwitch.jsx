@@ -6,7 +6,7 @@ import AvatarListExample from "../../Builders/Parts/Examples/Lists/AvatarListExa
 import IconListExample from "../../Builders/Parts/Examples/Lists/IconListExample";
 import ImageListExample from "../../Builders/Parts/Examples/Lists/ImageListExample";
 import PollingListExample from "../../Builders/Parts/Examples/Lists/ListExample";
-import TaskListExample from "../../Builders/Parts/Examples/Lists/TaskList.jsx";
+import TaskListExample from "../../Builders/Parts/Examples/Lists/TaskListExample.jsx";
 import PluginBasedCard from "../../Builders/Parts/Examples/Cards/PluginBasedCard";
 import TableSkeleton from "../../Builders/Parts/Skeletons/TableSkeleton";
 import AccordionSkeleton from "../../Builders/Parts/Skeletons/AccordionSkeleton";

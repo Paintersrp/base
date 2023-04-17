@@ -7,24 +7,6 @@ from django.utils.text import slugify
 from django.db.models.functions import Lower
 
 
-class TaskCategoryAPIView(BaseListView):
-    queryset = TaskCategory.objects.all()
-    serializer_class = TaskCategorySerializer
-    model_class = TaskCategory
-
-
-class TaskCategoryDetailAPIView(BaseDetailView):
-    queryset = TaskCategory.objects.all()
-    serializer_class = TaskCategorySerializer
-    model_class = TaskCategory
-
-
-class TaskCategoryBulkAPIView(BaseBulkView):
-    queryset = TaskCategory.objects.all()
-    serializer_class = TaskCategorySerializer
-    model_class = TaskCategory
-
-
 class TaskAPIView(BaseListView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -43,6 +25,24 @@ class TaskBulkAPIView(BaseBulkView):
     model_class = Task
 
 
+class TaskSectionAPIView(BaseListView):
+    queryset = TaskSection.objects.all()
+    serializer_class = TaskSectionSerializer
+    model_class = TaskSection
+
+
+class TaskSectionDetailAPIView(BaseDetailView):
+    queryset = TaskSection.objects.all()
+    serializer_class = TaskSectionSerializer
+    model_class = TaskSection
+
+
+class TaskSectionBulkAPIView(BaseBulkView):
+    queryset = TaskSection.objects.all()
+    serializer_class = TaskSectionSerializer
+    model_class = TaskSection
+
+
 class TaskListAPIView(BaseListView):
     queryset = TaskList.objects.all()
     serializer_class = TaskListSerializer
@@ -58,18 +58,36 @@ class TaskListDetailAPIView(BaseDetailView):
         data = request.data.copy()
         instance = self.get_object()
         old_instance = self.model_class.objects.get(pk=instance.pk)
-        task_data = data.pop("addedTasks")
+        sections = data.pop("sections")
         author = User.objects.get(username=request.username)
-        category = task_data.pop("category")
 
-        category, _ = TaskCategory.objects.get_or_create(name=category)
-        task = Task.objects.create(author=author, **task_data, task_category=category)
-        instance.tasks.add(task)
+        created_sections = []
+        for section in sections:
+            tasks = section.pop("tasks")
+            section, _ = TaskSection.objects.get_or_create(author=author, **section)
+
+            for task in tasks:
+                if task["id"]:
+                    task_obj = Task.objects.get(id=task["id"])
+                    for key, value in task.items():
+                        if key != "id":
+                            setattr(task_obj, key, value)
+
+                    task_obj.save()
+                else:
+                    task.pop("section")
+                    task.pop("id")
+                    task_obj = Task.objects.create(author=author, **task)
+
+                section.tasks.add(task_obj)
+
+            created_sections.append(section)
+
+        instance.sections.set(created_sections)
+        # instance.title = data["title"]
+        instance.description = data["description"]
         instance.save()
-
-        serializer = self.get_serializer(instance, data=data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        print(serializer.data)
+        serializer = TaskListSerializer(instance)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -81,30 +99,34 @@ class TaskListBulkAPIView(BaseBulkView):
 
 
 class TaskListBuilder(generics.CreateAPIView):
-    serializer_class = TaskListBuilderSerializer
+    serializer_class = TaskList2BuilderSerializer
     model_class = TaskList
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
-        tasks_data = data.pop("addedTasks")
+        sections = data.pop("sections")
         author = User.objects.get(username=request.username)
+
         data["author"] = author
 
         task_list = TaskList(**data)
+        created_sections = []
+        for section in sections:
+            tasks = section.pop("tasks")
+            section = TaskSection.objects.create(author=author, **section)
 
-        created_tasks = []
-        for task_data in tasks_data:
-            category = task_data.pop("category")
+            for task in tasks:
+                task.pop("section")
+                task_obj = Task.objects.create(author=author, **task)
+                section.tasks.add(task_obj)
 
-            category = TaskCategory.objects.create(author=author, name=category)
-            task = Task.objects.create(
-                author=author, **task_data, task_category=category
-            )
-            created_tasks.append(task)
+            created_sections.append(section)
+            print(section)
 
         task_list.save()
-        task_list.tasks.set(created_tasks)
+        task_list.sections.set(created_sections)
         serializer = TaskListSerializer(task_list)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

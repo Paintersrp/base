@@ -4,7 +4,7 @@ import { Paper, Grid, Select, MenuItem } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import DemoItemSwitch from "./DemoItemSwitch";
 import BaseContent from "../Base/BaseContent";
-import TaskList from "../../Builders/Parts/Examples/Lists/TaskList.jsx";
+import TaskList from "../../Builders/Lists/Display/TaskList/TaskList";
 import { demoOptions } from "./DemoDataSet";
 import { Divider } from "@mui/material";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
@@ -127,7 +127,15 @@ const DemoItem = () => {
       );
     });
     setSelectedTaskList(selectedTaskListData);
-    console.log("data", selectedTaskListData);
+  };
+
+  const handleListUpdate = (listId, updatedList) => {
+    const listIndex = taskListData.findIndex((list) => list.id === listId);
+    setTaskListData((prevTaskListData) => {
+      const newTaskListData = [...prevTaskListData];
+      newTaskListData[listIndex] = updatedList;
+      return newTaskListData;
+    });
   };
 
   if (!ready) {
@@ -239,7 +247,11 @@ const DemoItem = () => {
                 padding: "0px 16px 16px 16px",
               }}
             >
-              <TaskList data={selectedTaskList.tasks} list={selectedTaskList} />
+              <TaskList
+                data={selectedTaskList.tasks}
+                list={selectedTaskList}
+                handleListUpdate={handleListUpdate}
+              />
             </Grid>
           )}
         </BaseContent>

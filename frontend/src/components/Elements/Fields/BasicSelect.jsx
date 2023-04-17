@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BasicSelect({ onChange, name, value, options }) {
+function BasicSelect({ onChange, name, value, children }) {
   const classes = useStyles();
 
   return (
@@ -66,9 +66,7 @@ function BasicSelect({ onChange, name, value, options }) {
       value={value}
       onChange={onChange}
     >
-      {options.map((option) => (
-        <MenuItem value={option.value}>{option.display}</MenuItem>
-      ))}
+      {children}
     </Select>
   );
 }
