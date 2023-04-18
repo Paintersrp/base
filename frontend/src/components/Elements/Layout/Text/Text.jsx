@@ -13,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
   subtitle2: theme.typography.subtitle2,
   body1: theme.typography.body1,
   body2: theme.typography.body2,
+  primary: {
+    color: "#222",
+  },
+  secondary: {
+    color: theme.palette.text.secondary,
+  },
 }));
 
 function Text({
@@ -25,6 +31,7 @@ function Text({
   children,
   className,
   style,
+  c: color = "primary",
 }) {
   const classes = useStyles();
 
@@ -43,7 +50,7 @@ function Text({
 
   return (
     <Component
-      className={`${classes[type]} ${className}`}
+      className={`${classes[type]} ${className} ${classes[color]}`}
       style={{
         marginBottom: marginBottom || 0,
         marginTop: marginTop || 0,

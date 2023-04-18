@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Divider, IconButton, Menu, Tooltip } from "@material-ui/core";
-import { Delete, CheckCircleOutline, Cancel } from "@material-ui/icons";
+import { Divider, Fade, IconButton, Menu, Tooltip } from "@material-ui/core";
+import { CheckCircleOutline, Cancel } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
@@ -85,6 +85,7 @@ const ConfirmMenu = ({ anchorEl, confirmClick, handleClose }) => {
       }}
       getContentAnchorEl={null}
       classes={{ list: classes.innerList }}
+      TransitionComponent={Fade}
     >
       <div className={classes.menu}>
         <div className={classes.menuButtonContainer}>

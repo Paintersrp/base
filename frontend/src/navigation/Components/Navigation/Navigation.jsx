@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import NavigationDrawer from "./NavigationDrawer";
-import { Slide, useMediaQuery, useScrollTrigger } from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 import NavigationBase from "../NavigationBase";
-import AppbarContent from "./AppbarContent";
+import NavigationAppbar from "./NavigationAppBar";
 
 export default function Navigation({ links, appName, appData }) {
   console.log("appData", appData);
@@ -26,7 +26,7 @@ export default function Navigation({ links, appName, appData }) {
       open={open}
       toggleDrawer={toggleDrawer}
       toolBarContent={
-        <AppbarContent
+        <NavigationAppbar
           open={open}
           isSmallScreen={isSmallScreen}
           toggleDrawer={toggleDrawer}

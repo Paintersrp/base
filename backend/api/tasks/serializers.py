@@ -6,7 +6,7 @@ from authorization.serializers import UserSerializer
 class TaskSerializer(serializers.ModelSerializer):
     author = UserSerializer()
     completed_date = serializers.DateTimeField(read_only=True)
-    FIELD_KEYS = ["title", "priority", "status", "task_category"]
+    FIELD_KEYS = ["title", "priority", "status"]
 
     class Meta:
         model = Task
@@ -16,7 +16,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class TaskSectionSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, read_only=True)
     author = UserSerializer()
-    FIELD_KEYS = ["title", "created_date"]
+    FIELD_KEYS = ["title", "created_at"]
 
     class Meta:
         model = TaskSection
@@ -26,7 +26,7 @@ class TaskSectionSerializer(serializers.ModelSerializer):
 class TaskListSerializer(serializers.ModelSerializer):
     sections = TaskSectionSerializer(many=True, read_only=True)
     author = UserSerializer()
-    FIELD_KEYS = ["title", "created_date"]
+    FIELD_KEYS = ["title", "created_at"]
 
     class Meta:
         model = TaskList
@@ -34,7 +34,7 @@ class TaskListSerializer(serializers.ModelSerializer):
 
 
 class TaskList2BuilderSerializer(serializers.ModelSerializer):
-    FIELD_KEYS = ["title", "created_date"]
+    FIELD_KEYS = ["title", "created_at"]
 
     class Meta:
         model = TaskList

@@ -65,9 +65,50 @@ import MessageIcon from "@mui/icons-material/Message";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import TableRowsIcon from "@mui/icons-material/TableRows";
+import ExitToAppSharpIcon from "@mui/icons-material/ExitToAppSharp";
+import AccountBoxSharpIcon from "@mui/icons-material/AccountBoxSharp";
+import AdminPanelSettingsSharpIcon from "@mui/icons-material/AdminPanelSettingsSharp";
+import HowToRegSharpIcon from "@mui/icons-material/HowToRegSharp";
+import LoginSharpIcon from "@mui/icons-material/LoginSharp";
 
-const Icon = ({ icon, className }) => {
+const Icon = ({ icon, className, style }) => {
   switch (icon) {
+    case "LoginSharpIcon":
+      return (
+        <LoginSharpIcon fontSize="2.5rem" className={className} style={style} />
+      );
+    case "HowToRegSharpIcon":
+      return (
+        <HowToRegSharpIcon
+          fontSize="2.5rem"
+          className={className}
+          style={style}
+        />
+      );
+    case "ExitToAppSharpIcon":
+      return (
+        <ExitToAppSharpIcon
+          fontSize="2.5rem"
+          className={className}
+          style={style}
+        />
+      );
+    case "AccountBoxSharpIcon":
+      return (
+        <AccountBoxSharpIcon
+          fontSize="2.5rem"
+          className={className}
+          style={style}
+        />
+      );
+    case "AdminPanelSettingsSharpIcon":
+      return (
+        <AdminPanelSettingsSharpIcon
+          fontSize="2.5rem"
+          className={className}
+          style={style}
+        />
+      );
     case "TableRowsIcon":
       return <TableRowsIcon fontSize="2.5rem" className={className} />;
     case "ViewColumnIcon":

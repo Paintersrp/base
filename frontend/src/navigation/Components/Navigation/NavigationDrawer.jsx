@@ -3,12 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import handleLogout from "../../../lib/Auth/Logout";
 import NavigationLinks from "./NavigationLinks";
-import NavigationUser from "./NavigationUser";
-import NavigationAuthed from "./NavigationAuthed";
-import NavigationUnauthed from "./NavigationUnauthed";
-import NavigationAdmin from "./NavigationAdmin";
+import NavigationUserBar from "./NavigationUserBar";
+import NavigationAuthedLinks from "./NavigationAuthedLinks";
+import NavigationUnauthedLinks from "./NavigationUnauthedLinks";
+import NavigationAdminLinks from "./NavigationAdminLinks";
 import { Divider, List, ListItem, Typography } from "@material-ui/core";
-import NavigationNoUser from "./NavigationNoUser";
+import NavigationNoUserBar from "./NavigationNoUserBar";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -36,13 +36,13 @@ export default function NavigationDrawer({ links, toggleDrawer, appData }) {
         <div className={classes.toolbar}>
           {auth.username && appData.users ? (
             <>
-              <NavigationUser
+              <NavigationUserBar
                 username={auth.username}
                 toggleDrawer={toggleDrawer}
               />
             </>
           ) : (
-            <NavigationNoUser appData={appData} />
+            <NavigationNoUserBar appData={appData} />
           )}
         </div>
         <Divider className={classes.divider} />
@@ -54,15 +54,15 @@ export default function NavigationDrawer({ links, toggleDrawer, appData }) {
         {appData.users && (
           <>
             {auth.is_authenticated ? (
-              <NavigationAuthed
+              <NavigationAuthedLinks
                 toggleDrawer={toggleDrawer}
                 handleLogout={handleLogout}
               />
             ) : (
-              <NavigationUnauthed toggleDrawer={toggleDrawer} />
+              <NavigationUnauthedLinks toggleDrawer={toggleDrawer} />
             )}
             {auth.is_superuser ? (
-              <NavigationAdmin toggleDrawer={toggleDrawer} />
+              <NavigationAdminLinks toggleDrawer={toggleDrawer} />
             ) : null}
           </>
         )}

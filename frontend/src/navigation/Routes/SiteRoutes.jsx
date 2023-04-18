@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import AboutPage from "../../components/About/_Page/AboutPage";
 import DashboardPage from "../../components/Admin/Dashboard/DashboardPage";
-import AdminNavigation from "../../components/Admin/Navigation/AdminNavigation";
 import ObjectPage from "../../components/Admin/Objects/_Page/ObjectPage";
 import PanelPage from "../../components/Admin/Panel/_Page/PanelPage";
 import IndividualArticleView from "../../components/Articles/Read/IndividualArticleView";
@@ -16,14 +15,11 @@ import RegisterForm from "../../components/Elements/Forms/Register/RegisterForm"
 import LandingPage from "../../components/Landing/_Page/LandingPage";
 import ServiceIndividualPage from "../../components/Services/Individual/_Page/ServiceIndividualPage";
 import ServicesPage from "../../components/Services/_Page/ServicesPage";
-import SupportPage from "../../components/Support/_Page/SupportPage";
 import WIPDemo from "../../components/WIP/_Page/WIPDemo";
-import WIP2Demo from "../../components/WIP2/_Page/WIP2Demo";
 import { ScrollTopFab } from "../../components/Elements/Buttons/ScrollToTopFAB";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Elements/Layout/Loading/Loading";
 import { closeSnackbar } from "../../lib/Actions/snackbar";
-import AdvancedSnackbar from "../../components/Elements/Snackbars/Snackbar";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/Axios/axiosInstance";
 import AdminLogPage from "../../components/Admin/Reports/AdminLog/AdminLogPage";
@@ -40,7 +36,6 @@ import FooterSwitch from "../../components/Dynamic/FooterSwitch";
 import { setJobs, setServices, setUsers } from "../../lib/Actions/plugins";
 import { ProtectedRoute, AdminRoute, PublicRoute } from "./RouteAccess";
 import SnackbarSwitch from "../../components/Outer/Snackbar/SnackbarSwitch";
-import { NotFound } from "../../components/Outer/404/Components/NotFound";
 import NotFoundSwitch from "../../components/Outer/404/NotFoundSwitch";
 
 export default function SiteRoutes({ handleUpdate }) {
@@ -134,10 +129,10 @@ export default function SiteRoutes({ handleUpdate }) {
             path="/about"
             element={<AboutPage handleUpdate={handleUpdate} />}
           />
-          <Route
+          {/* <Route
             path="/support"
             element={<SupportPage handleUpdate={handleUpdate} />}
-          />
+          /> */}
           {appData.services && (
             <React.Fragment>
               <Route
@@ -194,7 +189,7 @@ export default function SiteRoutes({ handleUpdate }) {
           )}
           <Route path="/inprogress" element={<WIPPage />} />
           <Route path="/WIP" element={<WIPDemo />} />
-          <Route path="/WIP2" element={<WIP2Demo />} />
+
           {appData.jobs && (
             <Route
               path="/jobposting/:id"

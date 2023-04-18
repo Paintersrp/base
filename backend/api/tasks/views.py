@@ -65,7 +65,9 @@ class TaskListDetailAPIView(BaseDetailView):
         for section in sections:
             tasks = section.pop("tasks")
             section, _ = TaskSection.objects.get_or_create(author=author, **section)
+            print(section, section.order)
 
+            task_objs = []
             for task in tasks:
                 if task["id"]:
                     task_obj = Task.objects.get(id=task["id"])
@@ -79,8 +81,9 @@ class TaskListDetailAPIView(BaseDetailView):
                     task.pop("id")
                     task_obj = Task.objects.create(author=author, **task)
 
-                section.tasks.add(task_obj)
+                task_objs.append(task_obj)
 
+            section.tasks.set(task_objs)
             created_sections.append(section)
 
         instance.sections.set(created_sections)

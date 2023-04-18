@@ -4,7 +4,7 @@ import { Paper, Grid, Select, MenuItem } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import DemoItemSwitch from "./DemoItemSwitch";
 import BaseContent from "../Base/BaseContent";
-import TaskList from "../../Builders/Lists/Display/TaskList/TaskList";
+import TaskList from "../../Builders/TaskList/TaskList";
 import { demoOptions } from "./DemoDataSet";
 import { Divider } from "@mui/material";
 import axiosInstance from "../../../lib/Axios/axiosInstance";

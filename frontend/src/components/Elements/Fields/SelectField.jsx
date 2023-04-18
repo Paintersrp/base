@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Fade,
   FormControl,
   Grid,
   makeStyles,
@@ -130,6 +131,7 @@ const SelectField = ({
                   maxHeight: 300,
                 },
               },
+              TransitionComponent: Fade,
             }}
           >
             <MenuItem value="">

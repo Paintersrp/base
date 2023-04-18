@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, Select, makeStyles } from "@material-ui/core";
+import { MenuItem, Select, makeStyles, Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -60,6 +60,7 @@ function BasicSelect({ onChange, name, value, children }) {
             maxHeight: 300,
           },
         },
+        TransitionComponent: Fade,
       }}
       variant="outlined"
       name={name}

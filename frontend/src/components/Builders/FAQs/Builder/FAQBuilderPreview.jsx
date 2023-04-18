@@ -19,11 +19,11 @@ import ErrorMessage from "../../../Elements/Errors/ErrorMessage";
 import SaveButton from "../../Parts/Buttons/SaveButton";
 import DeleteButton from "../../Parts/Buttons/DeleteButton";
 import ClearButton from "../../Parts/Buttons/ClearButton";
-import FAQStandardExample from "../../Parts/Examples/FAQ/FAQStandardExample";
-import useExampleSwitch from "../../Parts/Examples/useExampleSwitch";
-import ExampleSwitchMenu from "../../Parts/Examples/ExampleSwitchMenu.jsx";
-import FAQExample2 from "../../Parts/Examples/FAQ/FAQExample2";
-import FAQExample3 from "../../Parts/Examples/FAQ/FAQExample3";
+import useExampleSwitch from "../../Parts/Menus/ExampleSwitch/useExampleSwitch";
+import ExampleSwitchMenu from "../../Parts/Menus/ExampleSwitch/ExampleSwitchMenu.jsx";
+import FAQStandardExample from "../Display/FAQStandardExample";
+import FAQExample2 from "../Display/FAQExample2";
+import FAQExample3 from "../Display/FAQExample3";
 
 const useStyles = makeStyles((theme) => ({
   tab: {

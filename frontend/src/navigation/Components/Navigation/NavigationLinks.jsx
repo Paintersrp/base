@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,53 +11,10 @@ import { Link } from "react-router-dom";
 import { Tooltip } from "@material-ui/core";
 import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import ChevronRightSharpIcon from "@mui/icons-material/ChevronRightSharp";
-
-const useStyles = makeStyles((theme) => ({
-  nested: {
-    paddingLeft: theme.spacing(4),
-    "&:hover": {
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  links: {
-    "&:hover": {
-      boxShadow: theme.shadows[7],
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  linkText: {
-    "& .MuiTypography-body1": {
-      color: "white",
-      fontFamily: "Poppins",
-      fontWeight: "500",
-      fontSize: "0.9rem",
-    },
-    "& input": {
-      color: "white",
-    },
-  },
-  sublinkText: {
-    "& .MuiTypography-body1": {
-      color: "white",
-      fontFamily: "Poppins",
-      fontWeight: "400",
-      fontSize: "0.8rem",
-    },
-    "& input": {
-      color: "white",
-    },
-  },
-  tooltip: {
-    backgroundColor: theme.palette.text.secondary,
-    color: "#ffffff",
-    fontSize: "14px",
-  },
-}));
+import { linkClasses } from "./navStyles";
 
 export default function NavigationLinks({ links, toggleDrawer, appData }) {
-  console.log("appData", appData);
-  const classes = useStyles();
+  const classes = linkClasses();
   const [menuOpen, setMenuOpen] = useState({});
 
   const handleMenuOpen = (item) => () => {

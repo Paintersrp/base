@@ -10,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "12px",
   },
   addButton: {
-    color: theme.palette.success.light,
+    color: theme.palette.success.main,
     marginRight: 2,
     "&:hover": {
-      backgroundColor: theme.palette.success.light,
+      backgroundColor: theme.palette.success.main,
       color: theme.palette.background.default,
     },
   },
