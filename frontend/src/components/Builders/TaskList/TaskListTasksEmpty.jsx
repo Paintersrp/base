@@ -1,8 +1,9 @@
 import React from "react";
 import { Divider, Collapse, makeStyles, IconButton } from "@material-ui/core";
+import { AddCircleOutline } from "@material-ui/icons";
+
 import Flexer from "../../Elements/Layout/Container/Flexer";
 import Text from "../../Elements/Layout/Text/Text";
-import { AddCircleOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -17,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TaskListTasksEmpty({
   open,
-  category,
-  handleAddOpen,
+  handleOpen,
   label = "No Tasks In Section",
 }) {
   const classes = useStyles();
@@ -35,7 +35,7 @@ function TaskListTasksEmpty({
           <IconButton
             className={classes.addButton}
             size="small"
-            onClick={(event) => handleAddOpen(event, category.title)}
+            onClick={handleOpen}
           >
             <AddCircleOutline />
           </IconButton>

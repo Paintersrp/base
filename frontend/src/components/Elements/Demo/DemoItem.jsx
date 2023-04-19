@@ -113,6 +113,21 @@ const DemoItem = () => {
       ]
     );
     setShowAll(event.target.value === "All");
+    const selectedTaskListData = taskListData.find((item) => {
+      if (event.target.value === "All") {
+        return (
+          item.title.toLowerCase() === demoOptions[0].display.toLowerCase()
+        );
+      } else {
+        return (
+          item.title.toLowerCase() ===
+          demoOptions
+            .filter((option) => option.category === event.target.value)[0]
+            .display.toLowerCase()
+        );
+      }
+    });
+    setSelectedTaskList(selectedTaskListData);
   };
 
   const handleOptionChange = (event) => {

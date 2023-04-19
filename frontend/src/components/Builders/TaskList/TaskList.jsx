@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
+
 import axiosInstance from "../../../lib/Axios/axiosInstance";
+import ErrorMessage from "../../Elements/Errors/ErrorMessage";
+
 import TaskListBody from "./TaskListBody";
 import TaskListSectionForm from "./TaskListSectionForm";
 import TaskListDetailsForm from "./TaskListDetailsForm";
 import TaskListBottomBar from "./TaskListBottomBar";
-import ErrorMessage from "../../Elements/Errors/ErrorMessage";
+
 import {
   validateListSave,
   validateSectionAdd,
   validateTaskAdd,
 } from "./TaskListValidation";
+import {
+  handleDataChange,
+  toggleSwapStates,
+} from "../../../utils/dataHandlers/dataHandlers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TaskList({ data, list, handleListUpdate }) {
+function TaskList({ list, handleListUpdate }) {
   const classes = useStyles();
   const [sectionErrors, setSectionErrors] = useState("");
   const [taskErrors, setTaskErrors] = useState({});
@@ -39,7 +46,7 @@ function TaskList({ data, list, handleListUpdate }) {
   const [taskFormData, setTaskFormData] = useState({});
   const [listFormData, setListFormData] = useState({
     title: list ? list.title : "",
-    description: list ? list.description : "",
+    description: list ? (list.description ? list.description : "") : "",
   });
   const [sectionFormData, setSectionFormData] = useState({
     title: "",
@@ -47,13 +54,11 @@ function TaskList({ data, list, handleListUpdate }) {
   });
 
   useEffect(() => {
-    if (data) {
-      setListFormData({
-        title: list ? list.title : "",
-        description: list ? list.description : "",
-      });
-    }
-  }, [data, list]);
+    setListFormData({
+      title: list ? list.title : "",
+      description: list ? (list.description ? list.description : "") : "",
+    });
+  }, [list]);
 
   useEffect(() => {
     setReady(false);
@@ -76,72 +81,32 @@ function TaskList({ data, list, handleListUpdate }) {
         }
       });
     });
-    console.log("initialTaskFormData", initialTaskFormData);
     setTaskFormData(initialTaskFormData);
     setCompletedTasks(completedTasksArr);
     setReady(true);
   }, [list]);
 
-  const handleClearSectionErrors = (index) => {
-    const updatedSectionErrors = [...sectionErrors];
-    updatedSectionErrors.splice(index, 1);
-    setSectionErrors(updatedSectionErrors);
-  };
+  useEffect(() => {
+    const initialTaskFormData = {};
+    const completedTasksArr = [];
 
-  const handleClearSaveErrors = (index) => {
-    const updatedSectionErrors = [...sectionErrors];
-    updatedSectionErrors.splice(index, 1);
-    setSectionErrors(updatedSectionErrors);
-  };
+    sections.forEach((section, index) => {
+      initialTaskFormData[section.title] = {
+        title: "",
+        description: "",
+        priority: "",
+        section: section.title,
+      };
 
-  const handleClearApiErrors = (index) => {
-    const updatedSectionErrors = [...apiErrors];
-    updatedSectionErrors.splice(index, 1);
-    setApiErrors(updatedSectionErrors);
-  };
-
-  const handleClearTaskErrors = (sectionName, index) => {
-    setTaskErrors((prevErrors) => {
-      const updatedErrors = { ...prevErrors };
-      const sectionErrors = [...prevErrors[sectionName]];
-      sectionErrors.splice(index, 1);
-      updatedErrors[sectionName] = sectionErrors;
-      return updatedErrors;
+      section.tasks.forEach((task) => {
+        if (task.status === "Complete") {
+          completedTasksArr.push(task.id);
+        }
+      });
     });
-  };
-
-  const handleAddTaskClick = () => {
-    setAddOpen(!addOpen);
-    if (editOpen) {
-      setEditOpen(!editOpen);
-    }
-  };
-  const handleEditListClick = () => {
-    setEditOpen(!editOpen);
-    if (addOpen) {
-      setAddOpen(!addOpen);
-    }
-  };
-  const handleFilterItems = () => {
-    setFilterItems(!filterItems);
-  };
-
-  const handleTaskFormChange = (event, sectionName) => {
-    setTaskFormData({
-      ...taskFormData,
-      [sectionName]: {
-        ...taskFormData[sectionName],
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
-
-  const handleSectionFormChange = (event) => {
-    setSectionFormData({
-      ...sectionFormData,
-      [event.target.name]: event.target.value,
-    });
-  };
+    setTaskFormData(initialTaskFormData);
+    setCompletedTasks(completedTasksArr);
+  }, [sections]);
 
   const handleListSave = async (sectionsData) => {
     const taskListData = {
@@ -151,7 +116,6 @@ function TaskList({ data, list, handleListUpdate }) {
         title: section.title,
         description: section.description,
         order: index,
-        // order: section.order,
         tasks: section.tasks.map((item) => {
           const status = completedTasks.includes(item.id || item.index)
             ? "Complete"
@@ -213,7 +177,6 @@ function TaskList({ data, list, handleListUpdate }) {
       priority: "",
       section: newSection.title,
     };
-    console.log(updatedTaskFormData);
     setTaskFormData(updatedTaskFormData);
     setSectionFormData({
       title: "",
@@ -236,12 +199,14 @@ function TaskList({ data, list, handleListUpdate }) {
       sectionName,
       sections
     );
+
     setTaskErrors((prevErrors) => ({
       ...prevErrors,
       [sectionName]: errors,
     }));
+
     if (errors.length > 0) {
-      return;
+      return false;
     }
 
     const sectionIndex = sections.findIndex(
@@ -273,6 +238,8 @@ function TaskList({ data, list, handleListUpdate }) {
     setTimeout(() => {
       handleListSave(updatedSections);
     }, 250);
+
+    return true;
   };
 
   if (!ready) {
@@ -283,24 +250,30 @@ function TaskList({ data, list, handleListUpdate }) {
     <React.Fragment>
       <div className={classes.root}>
         <TaskListBody
-          handleTaskFormChange={handleTaskFormChange}
           taskFormData={taskFormData}
+          setTaskFormData={setTaskFormData}
           handleTaskAdd={handleTaskAdd}
           sections={sections}
           setSections={setSections}
           setCompletedTasks={setCompletedTasks}
           completedTasks={completedTasks}
           taskErrors={taskErrors}
-          handleErrors={handleClearTaskErrors}
+          setTaskErrors={setTaskErrors}
           filterItems={filterItems}
           handleListSave={handleListSave}
-          handleAddTaskClick={handleAddTaskClick}
+          handleAddTaskClick={() =>
+            toggleSwapStates(setAddOpen, addOpen, setEditOpen, editOpen)
+          }
         />
         <TaskListBottomBar
           filterItems={filterItems}
-          handleEditListClick={handleEditListClick}
-          handleAddTaskClick={handleAddTaskClick}
-          handleFilterItems={handleFilterItems}
+          setFilterItems={setFilterItems}
+          handleEditListClick={() =>
+            toggleSwapStates(setEditOpen, editOpen, setAddOpen, addOpen)
+          }
+          handleAddTaskClick={() =>
+            toggleSwapStates(setAddOpen, addOpen, setEditOpen, editOpen)
+          }
           handleListSave={handleListSave}
           sections={sections}
         />
@@ -311,26 +284,26 @@ function TaskList({ data, list, handleListUpdate }) {
           setEditOpen={setEditOpen}
         />
         <TaskListSectionForm
-          handleSectionFormChange={handleSectionFormChange}
+          handleSectionFormChange={(e) =>
+            handleDataChange(e, setSectionFormData, sectionFormData)
+          }
           setSectionFormData={setSectionFormData}
           sectionFormData={sectionFormData}
           addOpen={addOpen}
           handleSectionAdd={handleSectionAdd}
           setAddOpen={setAddOpen}
           errors={sectionErrors}
-          handleErrors={handleClearSectionErrors}
+          setErrors={setSectionErrors}
         />
+
         {saveErrors && (
           <div>
-            <ErrorMessage
-              errors={saveErrors}
-              clearFunc={handleClearSaveErrors}
-            />
+            <ErrorMessage errors={saveErrors} setErrors={setSaveErrors} />
           </div>
         )}
         {apiErrors && (
           <div>
-            <ErrorMessage errors={apiErrors} clearFunc={handleClearApiErrors} />
+            <ErrorMessage errors={apiErrors} setErrors={setApiErrors} />
           </div>
         )}
       </div>

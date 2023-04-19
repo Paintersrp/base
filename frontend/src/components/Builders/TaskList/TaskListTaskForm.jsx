@@ -11,14 +11,15 @@ import {
   FormControlLabel,
   Typography,
 } from "@material-ui/core";
-import Text from "../../Elements/Layout/Text/Text";
-import FormField from "../../Elements/Fields/FormField";
-import BasicSelect from "../../Elements/Fields/BasicSelect";
-import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
+
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
-import HelpText from "../Parts/Text/HelpText";
+import BasicSelect from "../../Elements/Fields/BasicSelect";
+import FormField from "../../Elements/Fields/FormField";
+import Text from "../../Elements/Layout/Text/Text";
 import Flexer from "../../Elements/Layout/Container/Flexer";
 
+import HelpText from "../Parts/Text/HelpText";
+import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
 const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: theme.spacing(0, 1.5, 0.5),
@@ -47,12 +48,12 @@ function TaskListTaskForm({
   label = "Add",
   taskFormData,
   addOpen,
-  handleTaskFormChange,
+  dataChange,
   handleCancel,
   handleTaskAdd,
   sections,
   errors,
-  handleErrors,
+  setErrors,
   keepOpen,
   handleKeepOpen,
 }) {
@@ -86,7 +87,7 @@ function TaskListTaskForm({
               <BasicSelect
                 name="priority"
                 value={taskFormData.priority}
-                onChange={handleTaskFormChange}
+                onChange={dataChange}
               >
                 {taskOptions.map((option) => (
                   <MenuItem value={option.value}>{option.display}</MenuItem>
@@ -103,7 +104,7 @@ function TaskListTaskForm({
               <BasicSelect
                 name="section"
                 value={taskFormData.section}
-                onChange={handleTaskFormChange}
+                onChange={dataChange}
               >
                 <MenuItem value="">Select a Section</MenuItem>
                 {sections.map((section) => {
@@ -130,7 +131,7 @@ function TaskListTaskForm({
                       required
                       multiline={field.multiline}
                       id={field.name}
-                      onChange={handleTaskFormChange}
+                      onChange={dataChange}
                       value={taskFormData[field.name]}
                       minRows={3}
                     />
@@ -170,8 +171,7 @@ function TaskListTaskForm({
           <div>
             <ErrorMessage
               errors={errors[taskFormData.section]}
-              clearFunc={handleErrors}
-              override={true}
+              setErrors={setErrors}
               nestedName={taskFormData.section}
             />
           </div>

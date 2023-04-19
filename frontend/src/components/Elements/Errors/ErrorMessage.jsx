@@ -4,12 +4,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Grid, ListItemText } from "@material-ui/core";
 import ClearButton from "../../Builders/Parts/Buttons/ClearButton";
+import {
+  handleClearErrors,
+  handleClearNestedErrors,
+} from "../../../utils/errorHandlers/errorHandlers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    marginTop: 12,
-    marginBottom: 12,
+    marginTop: 6,
+    marginBottom: 6,
     display: "flex",
     justifyContent: "center",
   },
@@ -21,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ErrorMessage = ({ errors, clearFunc, nestedName = null }) => {
+const ErrorMessage = ({ errors, setErrors, clearFunc, nestedName = null }) => {
   const classes = useStyles();
 
   if (errors.length === 0) {
@@ -35,11 +39,20 @@ const ErrorMessage = ({ errors, clearFunc, nestedName = null }) => {
           <Alert
             severity="error"
             action={
+              // <ClearButton
+              //   clearFunc={
+              //     nestedName
+              //       ? () => clearFunc(nestedName, index)
+              //       : () => clearFunc(index)
+              //   }
+              //   skipConfirm
+              // />
               <ClearButton
                 clearFunc={
                   nestedName
-                    ? () => clearFunc(nestedName, index)
-                    : () => clearFunc(index)
+                    ? () =>
+                        handleClearNestedErrors(index, setErrors, nestedName)
+                    : () => handleClearErrors(index, errors, setErrors)
                 }
                 skipConfirm
               />

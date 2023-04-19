@@ -7,13 +7,17 @@ import {
   Grid,
   Container,
 } from "@material-ui/core";
+
 import Text from "../../Elements/Layout/Text/Text";
-import FormField from "../../Elements/Fields/FormField";
 import Flexer from "../../Elements/Layout/Container/Flexer";
-import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
-import { validateListDetails } from "./TaskListValidation";
+import FormField from "../../Elements/Fields/FormField";
+
+import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
 import HelpText from "../Parts/Text/HelpText";
+
+import { validateListDetails } from "./TaskListValidation";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -43,6 +47,10 @@ function TaskListDetailsForm({
   const [listErrors, setListErrors] = useState("");
   const [initialState, setInitialState] = useState(listFormData);
 
+  useEffect(() => {
+    setData(listFormData);
+  }, [listFormData]);
+
   const handleDataChange = (event) => {
     setData({
       ...data,
@@ -66,12 +74,6 @@ function TaskListDetailsForm({
     setTimeout(() => {
       setData({ ...initialState });
     }, 500);
-  };
-
-  const handleClearListErrors = (index) => {
-    const updatedListErrors = [...listErrors];
-    updatedListErrors.splice(index, 1);
-    setListErrors(updatedListErrors);
   };
 
   return (
@@ -120,10 +122,7 @@ function TaskListDetailsForm({
         </Flexer>
         {listErrors && (
           <div>
-            <ErrorMessage
-              errors={listErrors}
-              clearFunc={handleClearListErrors}
-            />
+            <ErrorMessage errors={listErrors} setErrors={setListErrors} />
           </div>
         )}
       </Collapse>

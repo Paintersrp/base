@@ -11,6 +11,7 @@ import ListBuilder from "../../Builders/Lists/Builder/ListBuilder";
 import FAQBuilder from "../../Builders/FAQs/Builder/FAQBuilder";
 import TaskListBuilder from "../../Builders/TaskList/TaskBuilder/TaskBuilder";
 import DemoItem from "../../Elements/Demo/DemoItem";
+import CardBuilder from "../../Builders/Cards/Builder/CardBuilder";
 
 const wipComponents = [
   {
@@ -51,6 +52,9 @@ export default function WIPDemo() {
       </div>
       <div style={{ paddingTop: 48, marginBottom: 48 }}>
         <FAQBuilder />
+      </div>
+      <div style={{ paddingTop: 48, marginBottom: 48 }}>
+        <CardBuilder />
       </div>
       <div style={{ paddingTop: 48, marginBottom: 48 }}>
         <ListBuilder />

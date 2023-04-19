@@ -9,16 +9,25 @@ import {
   IconButton,
   Tooltip,
 } from "@material-ui/core";
-import { AddCircleOutline } from "@material-ui/icons";
-import Flexer from "../../Elements/Layout/Container/Flexer";
-import TaskListTaskForm from "./TaskListTaskForm";
+
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TaskListSectionProgress from "./TaskListSectionProgress";
+import { AddCircleOutline } from "@material-ui/icons";
+
+import Flexer from "../../Elements/Layout/Container/Flexer";
 import MoreMenu from "../Parts/Menus/MoreMenu";
+
+import TaskListTaskForm from "./TaskListTaskForm";
+import TaskListSectionProgress from "./TaskListSectionProgress";
 import TaskListTasksEmpty from "./TaskListTasksEmpty";
 import TaskListSectionsEmpty from "./TaskListSectionsEmpty";
 import TaskListBodyTask from "./TaskListBodyTask";
+
+import { handleNestedDataChange } from "../../../utils/dataHandlers/dataHandlers";
+import { filterState } from "../../../utils/dataHandlers/filterHandlers";
+import DeleteConfirmationModal from "../../Elements/Modals/DeleteConfirmationModal";
+import TaskListSectionForm from "./TaskListSectionForm";
+import { validateSectionAdd } from "./TaskListValidation";
 
 const useStyles = makeStyles((theme) => ({
   sectionHeader: {
@@ -83,31 +92,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TaskListBody({
-  handleTaskFormChange,
   taskFormData,
+  setTaskFormData,
   handleTaskAdd,
   sections,
   setSections,
   setCompletedTasks,
   completedTasks,
   taskErrors,
-  handleErrors,
+  setTaskErrors,
   filterItems,
   handleListSave,
   handleAddTaskClick,
+  // handleSectionEdit,
 }) {
   const classes = useStyles();
+  const [sectionData, setSectionData] = useState(sections);
+  const [selected, setSelected] = useState(false);
   const [ready, setReady] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [addOpen, setAddOpen] = useState([]);
   const [editOpen, setEditOpen] = useState([]);
+  const [editSectionOpen, setEditSectionOpen] = useState([]);
   const [editFormData, setEditFormData] = useState({});
+  const [editSectionFormData, setEditSectionFormData] = useState({});
+  const [editSectionErrors, setEditSectionErrors] = useState({});
   const [openCategory, setOpenCategory] = useState([]);
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
   const [keepOpen, setKeepOpen] = useState(false);
+  const [anchorEls, setAnchorEls] = useState(Array(sections.length).fill(null));
 
   useEffect(() => {
+    console.log("reran");
+    setSectionData(sections);
     setReady(false);
     const initialEditFormData = {};
+    const initialEditSectionFormData = {};
     sections.forEach((section) => {
       initialEditFormData[section.title] = {
         title: "",
@@ -115,10 +135,28 @@ function TaskListBody({
         priority: "",
         section: section.title,
       };
+      initialEditSectionFormData[section.title] = {
+        title: "",
+        description: "",
+      };
     });
     setEditFormData(initialEditFormData);
+    setEditSectionFormData(initialEditSectionFormData);
     setReady(true);
   }, [sections]);
+
+  const handleClick = (event, index) => {
+    event.stopPropagation();
+    const newAnchorEls = [...anchorEls];
+    newAnchorEls[index] = event.currentTarget;
+    setAnchorEls(newAnchorEls);
+  };
+
+  const handleClose = (index) => {
+    const newAnchorEls = [...anchorEls];
+    newAnchorEls[index] = null;
+    setAnchorEls(newAnchorEls);
+  };
 
   const handleToggle = (event, taskId, sectionName) => {
     event.stopPropagation();
@@ -156,35 +194,11 @@ function TaskListBody({
     }, 250);
   };
 
-  const handleCategoryClick = (event, category) => {
-    if (openCategory.includes(category)) {
-      setOpenCategory(openCategory.filter((c) => c !== category));
-    } else {
-      setOpenCategory([...openCategory, category]);
-    }
-  };
-  const handleAddOpen = (event, category) => {
-    event.stopPropagation();
-    if (addOpen.includes(category)) {
-      setAddOpen(addOpen.filter((c) => c !== category));
-    } else {
-      setAddOpen([...addOpen, category]);
-    }
-  };
-  const handleEditOpen = (event, category) => {
-    event.stopPropagation();
-    if (editOpen.includes(category)) {
-      setEditOpen(editOpen.filter((c) => c !== category));
-    } else {
-      setEditOpen([...editOpen, category]);
-    }
-  };
-
   const getTaskCountByCategory = (category) => {
-    const sectionIndex = sections.findIndex(
+    const sectionIndex = sectionData.findIndex(
       (section) => section.title === category
     );
-    const tasksInCategory = sections[sectionIndex].tasks;
+    const tasksInCategory = sectionData[sectionIndex].tasks;
     const incompleteTasks = tasksInCategory.filter(
       (item) => !completedTasks.includes(item.id || item.index)
     );
@@ -192,10 +206,10 @@ function TaskListBody({
   };
 
   const getProgressByCategory = (category) => {
-    const sectionIndex = sections.findIndex(
+    const sectionIndex = sectionData.findIndex(
       (section) => section.title === category
     );
-    const tasksInCategory = sections[sectionIndex].tasks;
+    const tasksInCategory = sectionData[sectionIndex].tasks;
 
     if (!tasksInCategory.length > 0) {
       return 0;
@@ -207,7 +221,7 @@ function TaskListBody({
     );
     const numCompletedTasks = completed.length;
     const percentage = (numCompletedTasks / totalTasks) * 100;
-    const roundedPercentage = percentage.toFixed(2); // Round percentage to two decimal places
+    const roundedPercentage = percentage.toFixed(2);
     return roundedPercentage;
   };
 
@@ -286,16 +300,6 @@ function TaskListBody({
     }, 250);
   };
 
-  const handleEditFormChange = (event, sectionName) => {
-    setEditFormData({
-      ...editFormData,
-      [sectionName]: {
-        ...editFormData[sectionName],
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
-
   const handleEditSave = (event, sectionName) => {
     event.preventDefault();
     const oldSectionName = editFormData[sectionName].oldSectionName;
@@ -363,10 +367,12 @@ function TaskListBody({
   };
 
   const handleAddClick = (event, category) => {
-    if (!keepOpen) {
-      handleAddOpen(event, category);
+    console.log("category", category);
+    const cont = handleTaskAdd(category);
+    console.log("cont", cont, category);
+    if (!keepOpen && cont) {
+      filterState(event, category, addOpen, setAddOpen);
     }
-    handleTaskAdd(category);
   };
   const handleKeepOpen = () => {
     setKeepOpen(!keepOpen);
@@ -402,21 +408,99 @@ function TaskListBody({
     setDraggedItemIndex(null);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleConfirmOpen = () => {
+    setConfirmOpen(true);
   };
 
-  const menuOptions = [
-    { primary: "Edit Section", click: handleClose },
-    { primary: "Delete Section", click: handleClose },
-  ];
+  const handleConfirmDelete = () => {
+    handleDeleteSection(selected);
+    handleConfirmClose();
+  };
+
+  const handleDelete = (item) => {
+    handleConfirmOpen();
+    setSelected(item);
+  };
+
+  const handleDeleteSection = (sectionName) => {
+    const sectionIndex = sections.findIndex(
+      (section) => section.title === sectionName
+    );
+    const updatedSections = [
+      ...sections.slice(0, sectionIndex),
+      ...sections.slice(sectionIndex + 1),
+    ];
+    setSections(updatedSections);
+    setTimeout(() => {
+      handleListSave(updatedSections);
+      handleClose();
+    }, 250);
+  };
+
+  const handleSectionEdit = (e, sectionName) => {
+    e.stopPropagation();
+    const sectionToEdit = sections.find(
+      (section) => section.title === sectionName
+    );
+    setEditSectionFormData({
+      ...editSectionFormData,
+      [sectionName]: {
+        title: sectionToEdit.title,
+        description: sectionToEdit.description,
+      },
+    });
+    filterState(e, sectionName, editSectionOpen, setEditSectionOpen);
+  };
+
+  const handleSectionEditSave = (event, sectionName) => {
+    event.preventDefault();
+
+    let errors = validateSectionAdd(editSectionFormData[sectionName], sections);
+
+    setEditSectionErrors((prevErrors) => ({
+      ...prevErrors,
+      [sectionName]: errors,
+    }));
+
+    if (errors.length > 0) {
+      return false;
+    }
+
+    const newSectionTitle = editSectionFormData[sectionName].title;
+    const newSectionDescription = editSectionFormData[sectionName].description;
+    const sectionIndex = sections.findIndex(
+      (section) => section.title === sectionName
+    );
+    const oldTitle = sections[sectionIndex].title;
+
+    if (sectionIndex !== -1) {
+      const updatedSection = {
+        ...sections[sectionIndex],
+        title: newSectionTitle,
+        description: newSectionDescription,
+      };
+      const updatedSections = [
+        ...sections.slice(0, sectionIndex),
+        updatedSection,
+        ...sections.slice(sectionIndex + 1),
+      ];
+      setEditSectionFormData({
+        ...editSectionFormData,
+        [newSectionTitle]: {
+          title: "",
+          description: "",
+        },
+      });
+      setSections(updatedSections);
+    }
+
+    filterState(event, oldTitle, editSectionOpen, setEditSectionOpen);
+    filterState(event, sectionName, editSectionOpen, setEditSectionOpen);
+  };
 
   if (!ready) {
     return null;
@@ -431,7 +515,7 @@ function TaskListBody({
           style={{ padding: 0 }}
           dense={true}
         >
-          {sections.map((category, index) => {
+          {sectionData.map((category, index) => {
             return (
               <div key={category.title}>
                 <Paper
@@ -440,8 +524,13 @@ function TaskListBody({
                   onDragStart={(e) => handleDragStart(e, index)}
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDragEnd={handleDragEnd}
-                  onClick={(event) =>
-                    handleCategoryClick(event, category.title)
+                  onClick={(e) =>
+                    filterState(
+                      e,
+                      category.title,
+                      openCategory,
+                      setOpenCategory
+                    )
                   }
                   style={{
                     opacity: index === draggedItemIndex ? 0.7 : 1,
@@ -488,8 +577,8 @@ function TaskListBody({
                         <IconButton
                           className={classes.addButton}
                           size="small"
-                          onClick={(event) =>
-                            handleAddOpen(event, category.title)
+                          onClick={(e) =>
+                            filterState(e, category.title, addOpen, setAddOpen)
                           }
                         >
                           <AddCircleOutline />
@@ -504,11 +593,30 @@ function TaskListBody({
                           disableRipple
                           className={classes.moreButton}
                           size="small"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleClick(event, index)}
                         >
                           <MoreVertIcon />
                         </IconButton>
                       </Tooltip>
+                      <MoreMenu
+                        anchorEl={anchorEls[index]}
+                        handleClose={() => handleClose(index)}
+                        menuOptions={[
+                          {
+                            primary: "Edit Section",
+                            click: (e) =>
+                              handleSectionEdit(
+                                e,
+                                category.title,
+                                handleClose(index)
+                              ),
+                          },
+                          {
+                            primary: "Delete Section",
+                            click: () => handleDelete(category.title),
+                          },
+                        ]}
+                      />
                     </Flexer>
                   </div>
                 </Paper>
@@ -516,6 +624,37 @@ function TaskListBody({
                 {index === draggedItemIndex ? null : (
                   <Divider variant="inset" />
                 )}
+
+                <TaskListSectionForm
+                  label="Edit"
+                  handleSectionFormChange={(e) =>
+                    handleNestedDataChange(
+                      e,
+                      setEditSectionFormData,
+                      editSectionFormData,
+                      category.title
+                    )
+                  }
+                  setSectionFormData={setEditSectionFormData}
+                  sectionFormData={editSectionFormData[category.title]}
+                  addOpen={editSectionOpen.includes(category.title)}
+                  handleSectionAdd={(event) =>
+                    handleSectionEditSave(event, category.title)
+                  }
+                  setAddOpen={(e) =>
+                    filterState(
+                      e,
+                      category.title,
+                      editSectionOpen,
+                      setEditSectionOpen
+                    )
+                  }
+                  errors={editSectionErrors}
+                  setErrors={setEditSectionErrors}
+                  nested={category.title}
+                />
+
+                {index === draggedItemIndex ? null : <Divider />}
 
                 {addOpen.includes(category.title) ? <Divider /> : null}
 
@@ -545,10 +684,6 @@ function TaskListBody({
                             item={item}
                             handleToggle={handleToggle}
                             completedTasks={completedTasks}
-                            handleTaskFormChange={(event) =>
-                              handleTaskFormChange(event, category.title)
-                            }
-                            taskFormData={taskFormData}
                             section={category.title}
                             handleEditClick={handleEditClick}
                             handleDeleteClick={handleDeleteClick}
@@ -570,25 +705,37 @@ function TaskListBody({
                   <TaskListTasksEmpty
                     open={true}
                     category={category}
-                    handleAddOpen={handleAddOpen}
+                    handleOpen={(e) =>
+                      filterState(e, category.title, addOpen, setAddOpen)
+                    }
                   />
                 )}
                 {filterItems &&
-                  getTaskCountByCategory(category.title) === 0 && (
+                  getTaskCountByCategory(category.title) === 0 &&
+                  category.tasks.length > 0 && (
                     <TaskListTasksEmpty
                       label="No Incomplete Tasks In Section"
                       open={openCategory.includes(category.title)}
                       category={category}
-                      handleAddOpen={handleAddOpen}
+                      handleOpen={(e) =>
+                        filterState(e, category.title, addOpen, setAddOpen)
+                      }
                     />
                   )}
 
                 <TaskListTaskForm
                   key={category.title}
-                  handleTaskFormChange={(event) =>
-                    handleTaskFormChange(event, category.title)
+                  dataChange={(e) =>
+                    handleNestedDataChange(
+                      e,
+                      setTaskFormData,
+                      taskFormData,
+                      category.title
+                    )
                   }
-                  handleCancel={(event) => handleAddOpen(event, category.title)}
+                  handleCancel={(e) =>
+                    filterState(e, category.title, addOpen, setAddOpen)
+                  }
                   taskFormData={taskFormData[category.title]}
                   addOpen={addOpen.includes(category.title)}
                   handleTaskAdd={(event) =>
@@ -596,18 +743,23 @@ function TaskListBody({
                   }
                   sections={sections}
                   errors={taskErrors}
-                  handleErrors={handleErrors}
+                  setErrors={setTaskErrors}
                   keepOpen={keepOpen}
                   handleKeepOpen={handleKeepOpen}
                 />
                 <TaskListTaskForm
                   label="Edit"
                   key={`${category.title}-edit`}
-                  handleTaskFormChange={(event) =>
-                    handleEditFormChange(event, category.title)
+                  dataChange={(e) =>
+                    handleNestedDataChange(
+                      e,
+                      setEditFormData,
+                      editFormData,
+                      category.title
+                    )
                   }
-                  handleCancel={(event) =>
-                    handleEditOpen(event, category.title)
+                  handleCancel={(e) =>
+                    filterState(e, category.title, editOpen, setEditOpen)
                   }
                   taskFormData={editFormData[category.title]}
                   addOpen={editOpen.includes(category.title)}
@@ -616,20 +768,22 @@ function TaskListBody({
                   }
                   sections={sections}
                   errors={taskErrors}
-                  handleErrors={handleErrors}
+                  setErrors={setTaskErrors}
                 />
               </div>
             );
           })}
-          <MoreMenu
-            anchorEl={anchorEl}
-            handleClose={handleClose}
-            menuOptions={menuOptions}
-          />
         </List>
       ) : (
         <TaskListSectionsEmpty handleAddTaskClick={handleAddTaskClick} />
       )}
+      <DeleteConfirmationModal
+        open={confirmOpen}
+        handleClose={handleConfirmClose}
+        handleConfirmDelete={handleConfirmDelete}
+        message={"Are you sure you want to delete this?"}
+        subMessage="Deleting this section will delete all the tasks within it."
+      />
     </React.Fragment>
   );
 }

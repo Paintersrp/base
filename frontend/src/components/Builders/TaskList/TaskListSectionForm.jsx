@@ -7,12 +7,15 @@ import {
   Grid,
   Container,
 } from "@material-ui/core";
+
 import Text from "../../Elements/Layout/Text/Text";
-import FormField from "../../Elements/Fields/FormField";
 import Flexer from "../../Elements/Layout/Container/Flexer";
-import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
+import FormField from "../../Elements/Fields/FormField";
+
 import HelpText from "../Parts/Text/HelpText";
+import ConfirmCancelButtons from "../Parts/Buttons/ConfirmCancelButtons";
+import { filterState } from "../../../utils/dataHandlers/filterHandlers";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -32,6 +35,7 @@ const taskFields = [
 ];
 
 function TaskListSectionForm({
+  label = "Add",
   sectionFormData,
   addOpen,
   setSectionFormData,
@@ -39,16 +43,25 @@ function TaskListSectionForm({
   handleSectionAdd,
   setAddOpen,
   errors,
-  handleErrors,
+  setErrors,
+  nested = null,
 }) {
   const classes = useStyles();
   const [data, setData] = useState(sectionFormData);
 
-  const handleCancel = () => {
-    setAddOpen(false);
-    setTimeout(() => {
-      setSectionFormData({ ...data });
-    }, 500);
+  const handleCancel = (e) => {
+    if (nested) {
+      setAddOpen(e);
+      setTimeout(() => {
+        sectionFormData.title = data.title;
+        sectionFormData.description = data.description;
+      }, 500);
+    } else {
+      setAddOpen(false);
+      setTimeout(() => {
+        setSectionFormData({ ...data });
+      }, 500);
+    }
   };
 
   return (
@@ -56,7 +69,7 @@ function TaskListSectionForm({
       <Collapse in={addOpen}>
         <Divider variant="fullWidth" style={{ marginBottom: 12 }} />
         <Text t="h5" a="c" mt={16} mb={16}>
-          Add Section
+          {label} Section
         </Text>
         <ListItem className={`${classes.listItem}`}>
           <Grid container justifyContent="center">
@@ -91,13 +104,26 @@ function TaskListSectionForm({
         <Flexer j="c" mt={8}>
           <ConfirmCancelButtons
             confirmFunc={handleSectionAdd}
-            cancelFunc={handleCancel}
+            cancelFunc={(e) => handleCancel(e)}
           />
         </Flexer>
-        {errors && (
-          <div>
-            <ErrorMessage errors={errors} clearFunc={handleErrors} />
-          </div>
+
+        {errors && errors[nested] && (
+          <React.Fragment>
+            {nested ? (
+              <div>
+                <ErrorMessage
+                  errors={errors[nested]}
+                  setErrors={setErrors}
+                  nestedName={nested}
+                />
+              </div>
+            ) : (
+              <div>
+                <ErrorMessage errors={errors} setErrors={setErrors} />
+              </div>
+            )}
+          </React.Fragment>
         )}
       </Collapse>
     </div>

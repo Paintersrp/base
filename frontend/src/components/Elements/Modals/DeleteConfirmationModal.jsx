@@ -73,6 +73,7 @@ const DeleteConfirmationModal = ({
   handleClose,
   handleConfirmDelete,
   message = "Are you sure you want to delete this?",
+  subMessage = null,
 }) => {
   const classes = useStyles();
 
@@ -88,6 +89,16 @@ const DeleteConfirmationModal = ({
           <Typography variant="h4" align="center">
             {message}
           </Typography>
+          {subMessage && (
+            <Typography
+              variant="body2"
+              align="center"
+              color="textSecondary"
+              style={{ marginTop: 4 }}
+            >
+              {subMessage}
+            </Typography>
+          )}
           <div className={classes.buttonContainer}>
             <div className={classes.buttonRow}>
               <Button

@@ -28,6 +28,7 @@ function Text({
   pl: paddingLeft,
   s: fontSize,
   a: align,
+  w: width = "100%",
   children,
   className,
   style,
@@ -57,6 +58,7 @@ function Text({
         paddingLeft: paddingLeft || 0,
         fontSize: fontSize,
         textAlign: alignSwitch(align),
+        width: width,
         ...style,
       }}
     >

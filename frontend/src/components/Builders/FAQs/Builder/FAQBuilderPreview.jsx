@@ -21,9 +21,9 @@ import DeleteButton from "../../Parts/Buttons/DeleteButton";
 import ClearButton from "../../Parts/Buttons/ClearButton";
 import useExampleSwitch from "../../Parts/Menus/ExampleSwitch/useExampleSwitch";
 import ExampleSwitchMenu from "../../Parts/Menus/ExampleSwitch/ExampleSwitchMenu.jsx";
-import FAQStandardExample from "../Display/FAQStandardExample";
-import FAQExample2 from "../Display/FAQExample2";
-import FAQExample3 from "../Display/FAQExample3";
+import FAQTabs from "../Display/FAQTabs";
+import FAQCondensedList from "../Display/FAQCondensedList";
+import FAQList from "../Display/FAQList";
 
 const useStyles = makeStyles((theme) => ({
   tab: {
@@ -101,9 +101,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const layoutOptions = [
-  { value: "option1", label: "Option 1" },
-  { value: "option2", label: "Option 2" },
-  { value: "option3", label: "Option 3" },
+  { value: "option1", label: "Tabs" },
+  { value: "option2", label: "Condensed List" },
+  { value: "option3", label: "List" },
 ];
 
 const FAQBuilderPreview = ({
@@ -237,9 +237,9 @@ const FAQBuilderPreview = ({
         </React.Fragment>
       ) : (
         <div style={{ width: "100%" }}>
-          {selectedOption === "option1" && <FAQStandardExample />}
-          {selectedOption === "option2" && <FAQExample2 />}
-          {selectedOption === "option3" && <FAQExample3 />}
+          {selectedOption === "option1" && <FAQTabs />}
+          {selectedOption === "option2" && <FAQCondensedList />}
+          {selectedOption === "option3" && <FAQList />}
         </div>
       )}
     </BaseContent>

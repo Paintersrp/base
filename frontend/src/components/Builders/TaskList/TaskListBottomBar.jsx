@@ -4,10 +4,13 @@ import {
   BottomNavigationAction,
   makeStyles,
 } from "@material-ui/core";
+
 import ListIcon from "@mui/icons-material/List";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SaveIcon from "@mui/icons-material/Save";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+
+import { toggleState } from "../../../utils/dataHandlers/dataHandlers";
 
 const useStyles = makeStyles((theme) => ({
   menu: {
@@ -24,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 function TaskListBottomBar({
   filterItems,
+  setFilterItems,
   handleEditListClick,
-  handleFilterItems,
   handleAddTaskClick,
   handleListSave,
   sections,
@@ -57,7 +60,7 @@ function TaskListBottomBar({
         className={classes.bottomMenuButton}
         label={`${filterItems ? "Show" : "Hide"} Completed`}
         icon={<FilterAltIcon />}
-        onClick={handleFilterItems}
+        onClick={() => toggleState(setFilterItems, filterItems)}
       />
       <BottomNavigationAction
         className={classes.bottomMenuButton}

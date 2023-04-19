@@ -822,9 +822,9 @@ class ListElement(BaseElement):
 )
 class CardElement(BaseElement):
     TYPES = (
-        ("Small", "Small"),
-        ("Medium", "Medium"),
-        ("Large", "Large"),
+        ("Tile", "Tile"),
+        ("Standard", "Standard"),
+        ("Dense", "Dense"),
     )
     type = CustomCharField(
         max_length=10,
@@ -832,7 +832,7 @@ class CardElement(BaseElement):
         help_text="Card Size Type",
         md_column_count=6,
         choices=TYPES,
-        default="Unordered",
+        default="Standard",
     )
     icon = CustomCharField(
         max_length=40,
@@ -882,6 +882,20 @@ class CardElement(BaseElement):
         min_rows=6,
         null=True,
         blank=True,
+    )
+    share_toggle = CustomBooleanField(
+        default=False,
+        verbose_name="Share Toggle",
+        help_text="Share Toggle",
+        justify="left",
+        md_column_count=12
+    )
+    button_toggle = CustomBooleanField(
+        default=False,
+        verbose_name="Button Toggle",
+        help_text="Button Toggle",
+        justify="left",
+        md_column_count=12
     )
 
     class Meta:

@@ -5,10 +5,11 @@ import {
   makeStyles,
   LinearProgress,
 } from "@material-ui/core";
-import Flexer from "../../Elements/Layout/Container/Flexer";
-import Text from "../../Elements/Layout/Text/Text";
 import RuleIcon from "@mui/icons-material/Rule";
 import ChecklistRtl from "@mui/icons-material/ChecklistRtl";
+
+import Flexer from "../../Elements/Layout/Container/Flexer";
+import Text from "../../Elements/Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   regBar: {

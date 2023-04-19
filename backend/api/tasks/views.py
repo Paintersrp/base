@@ -101,33 +101,47 @@ class TaskListBulkAPIView(BaseBulkView):
     model_class = TaskList
 
 
+# class TaskListBuilder(generics.CreateAPIView):
+#     serializer_class = TaskList2BuilderSerializer
+#     model_class = TaskList
+
+#     def post(self, request, *args, **kwargs):
+#         data = request.data.copy()
+#         sections = data.pop("sections")
+#         author = User.objects.get(username=request.username)
+
+#         data["author"] = author
+
+#         task_list = TaskList(**data)
+#         created_sections = []
+#         for section in sections:
+#             tasks = section.pop("tasks")
+#             section = TaskSection.objects.create(author=author, **section)
+
+#             for task in tasks:
+#                 task.pop("section")
+#                 task_obj = Task.objects.create(author=author, **task)
+#                 section.tasks.add(task_obj)
+
+#             created_sections.append(section)
+#             print(section)
+
+#         task_list.save()
+#         task_list.sections.set(created_sections)
+#         serializer = TaskListSerializer(task_list)
+
+
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 class TaskListBuilder(generics.CreateAPIView):
     serializer_class = TaskList2BuilderSerializer
     model_class = TaskList
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
-        sections = data.pop("sections")
         author = User.objects.get(username=request.username)
-
         data["author"] = author
 
-        task_list = TaskList(**data)
-        created_sections = []
-        for section in sections:
-            tasks = section.pop("tasks")
-            section = TaskSection.objects.create(author=author, **section)
-
-            for task in tasks:
-                task.pop("section")
-                task_obj = Task.objects.create(author=author, **task)
-                section.tasks.add(task_obj)
-
-            created_sections.append(section)
-            print(section)
-
-        task_list.save()
-        task_list.sections.set(created_sections)
+        task_list = TaskList.objects.create(**data)
         serializer = TaskListSerializer(task_list)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

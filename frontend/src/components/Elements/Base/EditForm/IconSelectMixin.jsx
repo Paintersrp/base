@@ -167,7 +167,9 @@ function IconSelectMixin({
         <Select
           className={classes.select}
           variant="outlined"
-          value={fieldName ? formData[fieldName] : formData.icon}
+          value={
+            fieldName ? formData[fieldName] || formData.icon : formData.icon
+          }
           onChange={handleChange}
           displayEmpty
           name={fieldName}

@@ -97,7 +97,7 @@ class Task(models.Model):
 
     @property
     def completed_date(self):
-        if self.status == "Done":
+        if self.status == "Complete":
             return timezone.now()
         return None
 

@@ -69,4 +69,19 @@ export const demoOptions = [
     value: "card-skeleton",
     display: "Card Skeleton",
   },
+  {
+    category: "Accordion",
+    value: "faq-tabs",
+    display: "Tabbed Accordion",
+  },
+  {
+    category: "Accordion",
+    value: "faq-list",
+    display: "List Accordion",
+  },
+  {
+    category: "Accordion",
+    value: "faq-condensed-list",
+    display: "Condensed List Accordion",
+  },
 ];
