@@ -25,6 +25,8 @@ function Text({
   t: type = "body1",
   mt: marginTop,
   mb: marginBottom,
+  mr: marginRight,
+  ml: marginLeft,
   pl: paddingLeft,
   s: fontSize,
   a: align,
@@ -55,6 +57,8 @@ function Text({
       style={{
         marginBottom: marginBottom || 0,
         marginTop: marginTop || 0,
+        marginRight: marginRight || 0,
+        marginLeft: marginLeft || 0,
         paddingLeft: paddingLeft || 0,
         fontSize: fontSize,
         textAlign: alignSwitch(align),

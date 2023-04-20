@@ -8,10 +8,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HelpText({ children }) {
+export default function HelpText({
+  children,
+  a = "l",
+  mt = 8,
+  mb = 4,
+  mr = 0,
+  ml = 0,
+}) {
   const classes = useStyles();
   return (
-    <Text mt={8} mb={4} style={{ color: "#626262", padding: 0 }}>
+    <Text
+      mt={mt}
+      mb={mb}
+      mr={mr}
+      ml={ml}
+      a={a}
+      style={{ color: "#626262", padding: 0 }}
+    >
       {children}
     </Text>
   );

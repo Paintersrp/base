@@ -132,14 +132,14 @@ const baseTheme = createTheme({
       letterSpacing: "0em",
     },
     h4: {
-      fontWeight: 500,
+      fontWeight: 600,
       fontSize: "1.25rem",
       lineHeight: 1.235,
       letterSpacing: "0.00735em",
     },
     h5: {
-      fontWeight: 500,
-      fontSize: "1rem",
+      fontWeight: 600,
+      fontSize: "1.1rem",
       lineHeight: 1.334,
       letterSpacing: "0em",
     },
@@ -165,7 +165,7 @@ const baseTheme = createTheme({
     },
     body2: {
       fontWeight: 400,
-      fontSize: "0.875rem",
+      fontSize: "0.85rem",
     },
     button: {
       fontWeight: 600,

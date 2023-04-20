@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { Grid, Typography, Switch } from "@material-ui/core";
+import React, { useRef, useState } from "react";
+import { Grid, Switch } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ErrorMessage from "../../../Elements/Errors/ErrorMessage";
+import AddButton from "../../Parts/Buttons/AddButton";
 import FormField from "../../../Elements/Fields/FormField";
-import IconSelectMixin from "../../../Elements/Base/EditForm/IconSelectMixin";
 import ImageInput from "../../../Elements/Fields/ImageInput";
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import HelpText from "../../Parts/Text/HelpText";
@@ -16,37 +16,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
   },
-  helpText: {
-    margin: theme.spacing(0, 0, 0.5, 0),
-    padding: 0,
-    color: theme.palette.text.secondary,
-  },
 }));
 
-const fieldNames = [
-  { name: "header", label: "Header Text*", type: "text", md: 6 },
-  { name: "subheader", label: "Subheader Text*", type: "text", md: 6 },
-  {
-    name: "primary",
-    label: "Primary Text*",
-    type: "text",
-    md: 6,
-    multiline: true,
-  },
-  {
-    name: "secondary",
-    label: "Secondary Text*",
-    type: "text",
-    md: 6,
-    multiline: true,
-  },
-  { name: "icon", label: "Icon Choice", type: "text", md: 6 },
-  { name: "image", label: "Thumbnail Choice", type: "text", md: 12 },
-  { name: "shareToggle", label: "Share Button", type: "text", md: 6 },
-  { name: "buttonToggle", label: "Link Button", type: "text", md: 6 },
-];
-
-const CardBuilderTypeForm = ({
+const ElementSetItemForm = ({
   formData,
   handleChange,
   handleThumbnailImageChange,
@@ -55,6 +27,23 @@ const CardBuilderTypeForm = ({
 }) => {
   const classes = useStyles();
   const fileInputRef = useRef();
+  const [fields, setFields] = useState("");
+  const [detailsErrors, setDetailsErrors] = useState("");
+  const [itemDetailsData, setItemDetailsData] = useState({
+    elementType: "Standard",
+    elementSubType: "Standard",
+    name: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    setFields(
+      getFieldsByType(
+        itemDetailsData.elementType,
+        itemDetailsData.elementSubType
+      )
+    );
+  }, [itemDetailsData.elementType, itemDetailsData.elementSubType]);
 
   return (
     <Grid item xs={12} md={12} xl={12} style={{ width: "100%" }}>
@@ -62,47 +51,9 @@ const CardBuilderTypeForm = ({
         {fieldNames.map((field) => {
           console.log(field.name, formData.cardType);
 
-          if (formData.cardType === "Tile") {
-            if (
-              field.name === "image" ||
-              field.name === "header" ||
-              field.name === "subheader" ||
-              field.name === "shareToggle" ||
-              field.name === "buttonToggle"
-            ) {
-              return null;
-            }
-          }
-          if (formData.cardType === "Dense") {
-            if (
-              field.name === "image" ||
-              field.name === "shareToggle" ||
-              field.name === "buttonToggle"
-            ) {
-              return null;
-            }
-          }
-
-          if (formData.cardType === "Standard") {
-            if (field.name === "secondary") {
-              return null;
-            }
-          }
-
           return (
             <Grid item xs={12} md={field.md} style={{ width: "100%" }}>
-              {field.name === "icon" ? (
-                <React.Fragment>
-                  <HelpText>{field.label}</HelpText>
-                  <IconSelectMixin
-                    fieldName={field.name}
-                    formData={formData}
-                    handleChange={handleChange}
-                    background="#F5F5F5"
-                    hideHelpText
-                  />
-                </React.Fragment>
-              ) : field.name === "image" ? (
+              {field.name === "image" ? (
                 <div style={{ width: "100%" }}>
                   <ImageInput
                     xs={12}
@@ -117,6 +68,7 @@ const CardBuilderTypeForm = ({
               ) : field.name.includes("Toggle") ? (
                 <Flexer fd="column" a="c">
                   <HelpText>{field.label}</HelpText>
+
                   <Switch
                     name={field.name}
                     checked={formData[field.name]}
@@ -126,9 +78,7 @@ const CardBuilderTypeForm = ({
                 </Flexer>
               ) : (
                 <React.Fragment>
-                  <Typography className={classes.helpText}>
-                    {field.label}
-                  </Typography>
+                  <HelpText>{field.label}</HelpText>
                   <FormField
                     required
                     multiline={field.multiline}
@@ -145,7 +95,7 @@ const CardBuilderTypeForm = ({
       </Grid>
       <div>
         <div className={classes.addActions}>
-          {/* <AddButton label="Item to List" addFunc={handleAdd} /> */}
+          <AddButton label="Item to List" addFunc={handleAdd} />
         </div>
       </div>
       {errors && (
@@ -157,4 +107,4 @@ const CardBuilderTypeForm = ({
   );
 };
 
-export default CardBuilderTypeForm;
+export default ElementSetItemForm;

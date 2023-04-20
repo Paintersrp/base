@@ -25,12 +25,6 @@ const useStyles = makeStyles((theme) => ({
   formContainer: {
     padding: theme.spacing(3),
   },
-  buttonContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    marginTop: 16,
-  },
 }));
 
 const CardBuilder = () => {

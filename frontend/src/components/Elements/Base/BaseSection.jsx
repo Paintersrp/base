@@ -1,25 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import {
-  Collapse,
-  Divider,
-  IconButton,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Collapse, Divider, IconButton } from "@material-ui/core";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Text from "../Layout/Text/Text";
 
 const useStyles = makeStyles((theme) => ({
   header: {
     color: theme.palette.text.dark,
-    marginBottom: theme.spacing(1),
-  },
-  subheader: {
-    marginBottom: theme.spacing(1.5),
-    textAlign: "center",
-    color: theme.palette.text.dark,
+    width: "100%",
   },
   iconDefault: {
     color: theme.palette.primary.main,
@@ -34,9 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BaseContent({
+function BaseSection({
   header,
-  subheader,
   children,
   maxWidth,
   boxShadow = 1,
@@ -54,13 +42,14 @@ function BaseContent({
   alignChildren = "flex-start",
   fd = "row",
   divider = false,
-  headerAlign = "center",
-  headerVar = "h3",
+  headerAlign = "left",
+  centerAlignIconPosition = "right",
+  manualOpen = true,
+  setManualOpen = null,
 }) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <Grid
@@ -94,16 +83,38 @@ function BaseContent({
           <div
             style={{
               display: "flex",
-              flex: 1,
-              marginLeft: collapse ? (headerAlign === "left" ? 0 : 30) : 0,
-              textAlign: headerAlign,
+              alignItems: "center",
               width: "100%",
+              order:
+                headerAlign === "right" && collapse
+                  ? 1
+                  : headerAlign === "center" && collapse
+                  ? centerAlignIconPosition === "right"
+                    ? 0
+                    : 1
+                  : 1,
+              marginLeft:
+                headerAlign === "center" && collapse
+                  ? centerAlignIconPosition === "right"
+                    ? 30
+                    : 0
+                  : 0,
+              marginRight:
+                headerAlign === "center" && collapse
+                  ? centerAlignIconPosition === "left"
+                    ? 30
+                    : 0
+                  : 0,
             }}
           >
             {header && (
-              <Text t={headerVar} className={classes.header} a={headerAlign}>
+              <Typography
+                variant="body2"
+                align={headerAlign}
+                className={classes.header}
+              >
                 {header}
-              </Text>
+              </Typography>
             )}
           </div>
 
@@ -111,33 +122,43 @@ function BaseContent({
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-start",
+                justifyContent: "center",
+                alignItems: "center",
+                order:
+                  headerAlign === "right" && collapse
+                    ? 0
+                    : headerAlign === "center" && collapse
+                    ? centerAlignIconPosition === "right"
+                      ? 1
+                      : 0
+                    : 1,
               }}
             >
               <IconButton
-                className={`${classes.expandButton} ${open ? "rotate" : ""}`}
+                className={`${classes.expandButton} ${
+                  setManualOpen
+                    ? manualOpen
+                      ? "rotate"
+                      : ""
+                    : open
+                    ? "rotate"
+                    : ""
+                }`}
                 size="small"
-                onClick={() => setOpen(!open)}
+                onClick={setManualOpen ? setManualOpen : () => setOpen(!open)}
               >
                 <ExpandMoreIcon />
               </IconButton>
             </div>
           )}
         </div>
-        {divider && !open && (
+        {divider && (
           <div style={{ width: "100%" }}>
             <Divider />
           </div>
         )}
 
-        <Collapse in={open}>
-          {subheader && (
-            <Typography variant="body2" className={classes.subheader}>
-              {subheader}
-            </Typography>
-          )}
-
+        <Collapse in={setManualOpen ? manualOpen : open}>
           <Grid
             container
             spacing={0}
@@ -155,4 +176,4 @@ function BaseContent({
   );
 }
 
-export default BaseContent;
+export default BaseSection;
