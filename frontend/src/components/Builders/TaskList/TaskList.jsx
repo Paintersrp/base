@@ -4,16 +4,16 @@ import { makeStyles } from "@material-ui/core";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
 
-import TaskListBody from "./TaskListBody";
-import TaskListSectionForm from "./TaskListSectionForm";
-import TaskListDetailsForm from "./TaskListDetailsForm";
-import TaskListBottomBar from "./TaskListBottomBar";
+import TaskListBody from "./components/Body/TaskListBody";
+import TaskListSectionForm from "./components/SectionForm/TaskListSectionForm";
+import TaskListDetailsForm from "./components/DetailsForm/TaskListDetailsForm";
+import TaskListBottomBar from "./components/BottomBar/TaskListBottomBar";
 
 import {
   validateListSave,
   validateSectionAdd,
   validateTaskAdd,
-} from "./TaskListValidation";
+} from "./utils/taskListValidation";
 import {
   handleDataChange,
   toggleSwapStates,

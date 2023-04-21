@@ -1,23 +1,26 @@
 import React from "react";
-import StandardCard from "../../Builders/Cards/Display/StandardCard";
-import TileCard from "../../Builders/Cards/Display/TileCard";
-import DenseCard from "../../Builders/Cards/Display/DenseCard";
-import AvatarListExample from "../../Builders/Lists/Display/AvatarListExample";
-import IconListExample from "../../Builders/Lists/Display/IconListExample";
-import ImageListExample from "../../Builders/Lists/Display/ImageListExample";
-import PollingListExample from "../../Builders/Lists/Display/ListExample";
-import TaskListExample from "../../Builders/Lists/Display/TaskListExample.jsx";
-import PluginBasedCard from "../../Builders/Cards/Display/PluginBasedCard";
-import TableSkeleton from "../../Builders/Parts/Skeletons/TableSkeleton";
-import AccordionSkeleton from "../../Builders/Parts/Skeletons/AccordionSkeleton";
-import ListSkeleton from "../../Builders/Parts/Skeletons/ListSkeleton";
-import CardSkeleton from "../../Builders/Parts/Skeletons/Cards/CardSkeleton";
-import FAQTabs from "../../Builders/FAQs/Display/FAQTabs";
-import FAQList from "../../Builders/FAQs/Display/FAQList";
-import FAQCondensedList from "../../Builders/FAQs/Display/FAQCondensedList";
+
+import StandardCard from "../../Builders/Cards/examples/StandardCard";
+import TileCard from "../../Builders/Cards/examples/TileCard";
+import DenseCard from "../../Builders/Cards/examples/DenseCard";
+import LargeCard from "../../Builders/Cards/examples/LargeCard";
+
+import AvatarListExample from "../../Builders/Lists/examples/AvatarListExample";
+import IconListExample from "../../Builders/Lists/examples/IconListExample";
+import ImageListExample from "../../Builders/Lists/examples/ImageListExample";
+import PollingListExample from "../../Builders/Lists/examples/ListExample";
+import TaskListExample from "../../Builders/Lists/examples/TaskListExample";
+
+import TableSkeleton from "../../Builders/FAQs/skeletons/TableSkeleton";
+import AccordionSkeleton from "../../Builders/FAQs/skeletons/AccordionSkeleton";
+import ListSkeleton from "../../Builders/FAQs/skeletons/ListSkeleton";
+import CardSkeleton from "../../Builders/Cards/skeletons/CardSkeleton";
+
+import FAQTabs from "../../Builders/FAQs/examples/FAQTabs";
+import FAQList from "../../Builders/FAQs/examples/FAQList";
+import FAQCondensedList from "../../Builders/FAQs/examples/FAQCondensedList";
 
 const DemoItemSwitch = ({ item }) => {
-  console.log("item", item);
   switch (item) {
     case "avatar":
       return <AvatarListExample />;
