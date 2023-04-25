@@ -22,7 +22,7 @@ import Icon from "../../../../Elements/Icon/Icon";
 import ImageInput from "../../../../Elements/Fields/ImageInput";
 
 import { listBodyStyles } from "./listBodyStyles";
-import { listBodyFieldNames } from "../../const/listContants";
+import { listFieldNames } from "../../const/listContants";
 
 const ListBuilderBody = ({
   formData,
@@ -131,7 +131,7 @@ const ListBuilderBody = ({
             </ListItem>
           </List>
         </BaseContent>
-        {listBodyFieldNames.map((field) => {
+        {listFieldNames.map((field) => {
           if (field.name === "icon") {
             if (formData.listType !== "Icon") {
               return null;

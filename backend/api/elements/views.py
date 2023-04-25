@@ -3,6 +3,51 @@ from .models import *
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import TextElement
+
+from django.contrib.contenttypes.models import ContentType
+
+
+def delete_list_elements_with_no_content_object(request):
+    # Get the ContentType object for ListElement
+    list_element_ct = ContentType.objects.get_for_model(ListElement)
+
+    # Get a queryset of ListElement objects with no related content_object
+    list_elements = Element.objects.filter(content_type=list_element_ct)
+
+    # Loop over the queryset and delete ListElements with no content_object
+    for list_element in list_elements:
+        if list_element.content_object:
+            print("Not None")
+        else:
+            print("None", list_element.content_object)
+            list_element.delete()
+
+    # Return a response to indicate that the delete was successful
+    return HttpResponse("ListElements with no content_object deleted successfully.")
+
+
+def update_list_elements(request):
+    list_elements = ListElement.objects.all()
+
+    i = 0
+    for list_element in list_elements:
+        if i % 4 == 0:
+            list_element.type = "Standard"
+        elif i % 4 == 1:
+            list_element.type = "Icon"
+        elif i % 4 == 2:
+            list_element.type = "Image"
+        elif i % 4 == 3:
+            list_element.type = "Avatar"
+
+        list_element.save()
+        i += 1
+
+    return HttpResponse("ListElements updated successfully.")
+
 
 class CardElementAPIView(BaseListView):
     queryset = CardElement.objects.all()

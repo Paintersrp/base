@@ -5,17 +5,17 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     backgroundColor: theme.palette.primary.main,
     color: "#fff",
-    display: "flex",
+
     alignItems: "center",
+    textAlign: "center",
     padding: theme.spacing(2),
     maxHeight: 60,
     "& h2": {
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: 0,
     background: theme.palette.background.light,
+    width: "100%",
+    padding: 0,
   },
 }));
 
@@ -69,20 +71,22 @@ const BaseDialog = ({
       aria-labelledby="dialog-title"
       style={{ borderRadius: 16 }}
       classes={{ paper: classes.dialogPaper }}
+      maxWidth="xl"
     >
-      <DialogTitle
+      <Typography
         className={classes.dialogTitle}
         id="dialog-title"
-        style={{ width: "100%", borderRadius: 0 }}
+        variant="h4"
+        style={{ width: "100%", borderRadius: 0, textAlign: "center" }}
       >
-        <Typography variant="h4">{title}</Typography>
-        <div className={classes.closeButtonContainer}>
-          <CloseIcon onClick={onClose} />
-        </div>
-      </DialogTitle>
-      <DialogContent style={{ borderRadius: 16 }}>
+        {title}
+      </Typography>
+      <div className={classes.closeButtonContainer}>
+        <CloseIcon onClick={onClose} />
+      </div>
+      <DialogContent style={{ borderRadius: 16, width: "100%", padding: 0 }}>
         {content && (
-          <DialogContentText style={{ borderRadius: 16 }}>
+          <DialogContentText style={{ borderRadius: 16, margin: 0 }}>
             {content}
           </DialogContentText>
         )}

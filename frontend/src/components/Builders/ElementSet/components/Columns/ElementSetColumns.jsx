@@ -4,12 +4,16 @@ import ElementSetColumnForm from "../ColumnForm/ElementSetColumnForm";
 const ElementSetColumns = ({
   open,
   setOpen,
-  colOneHeaderData,
-  setColOneHeaderData,
-  colTwoHeaderData,
-  setColTwoHeaderData,
+  colOneData,
+  setColOneData,
+  colTwoData,
+  setColTwoData,
   handleSaveDetails,
+  elementData,
   columns,
+  handleThumbnailImageChange,
+  elementObject,
+  setElementObject,
 }) => {
   return (
     <React.Fragment>
@@ -44,9 +48,13 @@ const ElementSetColumns = ({
             },
           }))
         }
-        headerData={colOneHeaderData}
-        setHeaderData={setColOneHeaderData}
+        headerData={colOneData}
+        setHeaderData={setColOneData}
         handleSaveDetails={handleSaveDetails}
+        elementData={elementData}
+        handleThumbnailImageChange={handleThumbnailImageChange}
+        elementObject={elementObject}
+        setElementObject={setElementObject}
         label="Column One"
       />
       {columns > 1 && (
@@ -81,9 +89,11 @@ const ElementSetColumns = ({
               },
             }))
           }
-          headerData={colTwoHeaderData}
-          setHeaderData={setColTwoHeaderData}
+          headerData={colTwoData}
+          setHeaderData={setColTwoData}
           handleSaveDetails={handleSaveDetails}
+          elementData={elementData}
+          handleThumbnailImageChange={handleThumbnailImageChange}
           label="Column Two"
         />
       )}

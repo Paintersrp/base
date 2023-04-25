@@ -76,6 +76,8 @@ const FAQBuilder = () => {
       })),
     };
 
+    console.log(faqData);
+
     let errors = validateFAQSubmit(faqData);
     setApiErrors(errors);
     if (errors.length > 0) {
@@ -144,7 +146,7 @@ const FAQBuilder = () => {
   };
 
   return (
-    <BaseBuilder header="Create FAQ" headerGutter>
+    <BaseBuilder header="FAQ Builder" headerGutter>
       <Grid container style={{ marginTop: 32 }}>
         <Grid item xs={12} md={6} style={{ padding: "0px 16px 16px 16px" }}>
           <FAQBuilderForm

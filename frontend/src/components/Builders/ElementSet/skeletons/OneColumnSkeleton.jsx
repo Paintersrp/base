@@ -1,10 +1,22 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Flexer from "../../../Elements/Layout/Container/Flexer";
 import { Divider } from "@material-ui/core";
-import Text from "../../../Elements/Layout/Text/Text";
 
-const SectionSkeleton = ({ columnOneHeader, columnTwoHeader, columns = 2 }) => {
+import Flexer from "../../../Elements/Layout/Container/Flexer";
+import Text from "../../../Elements/Layout/Text/Text";
+import { elementObjectMap } from "../utils/elementObjectMap";
+
+const SectionSkeleton = ({
+  columnOneHeader,
+  columnTwoHeader,
+  columns = 2,
+  elementObject,
+  contentType,
+}) => {
+  // useEffect(() => {
+  //   console.log("contentObject skeleton", contentObject);
+  // }, [contentObject]);
+
   return (
     <Fragment>
       {columns === 1 ? (
@@ -25,7 +37,7 @@ const SectionSkeleton = ({ columnOneHeader, columnTwoHeader, columns = 2 }) => {
           <div style={{ width: "100%", marginTop: 32, marginBottom: 0 }}>
             <Divider />
           </div>
-          <Flexer j="sb">
+          <Flexer j="sb" a="fs">
             <Flexer j="sb" mt={0}>
               <Flexer
                 j="c"
@@ -62,7 +74,9 @@ const SectionSkeleton = ({ columnOneHeader, columnTwoHeader, columns = 2 }) => {
                         {columnOneHeader.subtitle}
                       </Text>
                     ) : (
-                      <Skeleton variant="text" width={325} height={20} />
+                      <React.Fragment>
+                        <Skeleton variant="text" width={325} height={20} />
+                      </React.Fragment>
                     )}
                   </Fragment>
                 )}
@@ -83,10 +97,18 @@ const SectionSkeleton = ({ columnOneHeader, columnTwoHeader, columns = 2 }) => {
                   </Fragment>
                 )}
 
-                <div style={{ width: "100%", marginTop: 16, marginBottom: 16 }}>
-                  <Divider />
-                </div>
-                <Skeleton variant="rect" width="100%" height={500} />
+                <Flexer fd="column" a="center" style={{ height: "100%" }}>
+                  <div
+                    style={{ width: "100%", marginTop: 16, marginBottom: 16 }}
+                  >
+                    <Divider />
+                  </div>
+                  {!elementObject ? (
+                    <Skeleton variant="rect" width="100%" height={500} />
+                  ) : (
+                    elementObjectMap(contentType, elementObject)
+                  )}
+                </Flexer>
               </Flexer>
             </Flexer>
             <Flexer j="sb" mt={0}>

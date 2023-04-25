@@ -9,7 +9,10 @@ import HelpText from "../../../Parts/Text/HelpText";
 import SaveButton from "../../../Parts/Buttons/SaveButton";
 
 import { getFieldsByType } from "../../utils/elementSetUtilities";
-import { handleDataChange } from "../../../../../utils/dataHandlers/dataHandlers";
+import {
+  handleDataChange,
+  handleNestedDataChange,
+} from "../../../../../utils/dataHandlers/dataHandlers";
 import { elementSetBuilderStyles } from "../../elementSetBuilderStyles";
 
 const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
@@ -18,8 +21,8 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
   const [headerErrors, setHeaderErrors] = useState("");
 
   useEffect(() => {
-    setFields(getFieldsByType("Header", data.headerType));
-  }, [data.headerType]);
+    setFields(getFieldsByType("Header", data.header.headerType));
+  }, [data.header.headerType]);
 
   const handleSave = () => {
     let errors = [];
@@ -28,7 +31,8 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
       return;
     }
 
-    saveHeader(data);
+    // Reeval
+    saveHeader(data.header);
   };
 
   return (
@@ -40,8 +44,10 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
               <HelpText>Header Type*</HelpText>
               <BasicSelect
                 name="headerType"
-                value={data.headerType}
-                onChange={(event) => handleDataChange(event, setData, data)}
+                value={data.header.headerType}
+                onChange={(event) =>
+                  handleNestedDataChange(event, setData, data, "header")
+                }
               >
                 <MenuItem value="" disabled>
                   Select Header Type
@@ -58,8 +64,10 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
               <HelpText>Text Alignment*</HelpText>
               <BasicSelect
                 name="alignment"
-                value={data.alignment}
-                onChange={(event) => handleDataChange(event, setData, data)}
+                value={data.header.alignment}
+                onChange={(event) =>
+                  handleNestedDataChange(event, setData, data, "header")
+                }
               >
                 <MenuItem value="" disabled>
                   Select Text Alignment
@@ -92,9 +100,9 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
 
                       <Switch
                         name={field.name}
-                        checked={data[field.name]}
+                        checked={data.header[field.name]}
                         onChange={(event) =>
-                          handleDataChange(event, setData, data)
+                          handleNestedDataChange(event, setData, data, "header")
                         }
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -102,8 +110,8 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
                   ) : (
                     <React.Fragment>
                       {field.name === "subtitle" &&
-                      !data["subtitleToggle"] ? null : field.name ===
-                          "tagline" && !data["taglineToggle"] ? null : (
+                      !data.header["subtitleToggle"] ? null : field.name ===
+                          "tagline" && !data.header["taglineToggle"] ? null : (
                         <React.Fragment>
                           <HelpText>{field.label}</HelpText>
                           <FormField
@@ -111,9 +119,14 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
                             multiline={field.multiline}
                             id={field.name}
                             onChange={(event) =>
-                              handleDataChange(event, setData, data)
+                              handleNestedDataChange(
+                                event,
+                                setData,
+                                data,
+                                "header"
+                              )
                             }
-                            value={data[field.name]}
+                            value={data.header[field.name]}
                             minRows={4}
                           />
                         </React.Fragment>
@@ -134,11 +147,16 @@ const ElementSetHeaderForm = ({ data, setData, saveHeader }) => {
                             }
                             checked={
                               field.name === "subtitle"
-                                ? data["subtitleToggle"]
-                                : data["taglineToggle"]
+                                ? data.header["subtitleToggle"]
+                                : data.header["taglineToggle"]
                             }
                             onChange={(event) =>
-                              handleDataChange(event, setData, data)
+                              handleNestedDataChange(
+                                event,
+                                setData,
+                                data,
+                                "header"
+                              )
                             }
                             inputProps={{ "aria-label": "controlled" }}
                           />

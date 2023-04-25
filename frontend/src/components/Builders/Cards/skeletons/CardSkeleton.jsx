@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardHeader,
@@ -15,35 +14,10 @@ import {
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import Icon from "../../../Elements/Icon/Icon";
 import ShareIcon from "@material-ui/icons/Share";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 305,
-    minWidth: 305,
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  header: {
-    padding: theme.spacing(1.5, 1),
-  },
-  content: {
-    padding: theme.spacing(1.5, 1),
-  },
-  actionButtons: {
-    display: "flex",
-  },
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  title: {
-    fontSize: "0.825rem",
-  },
-}));
+import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
 
 const CardSkeleton = ({ formData }) => {
-  const classes = useStyles();
+  const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {
@@ -51,9 +25,9 @@ const CardSkeleton = ({ formData }) => {
   }, [formData]);
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.tileRoot}>
       <CardHeader
-        className={classes.header}
+        className={classes.standardHeader}
         avatar={
           <Avatar className={classes.avatar}>
             {data.icon ? (
@@ -64,8 +38,8 @@ const CardSkeleton = ({ formData }) => {
           </Avatar>
         }
         classes={{
-          title: classes.title,
-          subheader: classes.title,
+          title: classes.standardTitle,
+          subheader: classes.standardTitle,
         }}
         title={
           <React.Fragment>
@@ -99,7 +73,7 @@ const CardSkeleton = ({ formData }) => {
           title="Card Image"
         />
       )}
-      <CardContent className={classes.content}>
+      <CardContent className={classes.standardContent}>
         {data.primary ? (
           <Typography
             variant="body2"

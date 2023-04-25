@@ -35,7 +35,6 @@ class BaseListView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-        print(data)
 
         for field in self.foreign_key_fields:
             if field in data:

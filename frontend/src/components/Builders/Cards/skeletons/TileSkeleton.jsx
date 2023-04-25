@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardContent,
@@ -9,34 +8,10 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Icon from "../../../Elements/Icon/Icon";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 320,
-    minWidth: 320,
-    borderRadius: theme.spacing(1),
-  },
-  header: {
-    backgroundColor: theme.palette.grey[100],
-    padding: theme.spacing(2, 0, 0, 2),
-  },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-  content: {
-    padding: theme.spacing(1, 2, 0, 2),
-  },
-  primaryText: {
-    marginTop: theme.spacing(0),
-    marginBottom: theme.spacing(0.25),
-  },
-  secondaryText: {
-    color: theme.palette.grey[600],
-  },
-}));
+import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
 
 export default function TileSkeleton({ formData }) {
-  const classes = useStyles();
+  const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {
@@ -46,9 +21,9 @@ export default function TileSkeleton({ formData }) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        className={classes.header}
+        className={classes.tileHeader}
         avatar={
-          <Avatar className={classes.avatar}>
+          <Avatar className={classes.tileAvatar}>
             {data.icon ? (
               <Icon icon={data.icon} />
             ) : (
@@ -57,7 +32,7 @@ export default function TileSkeleton({ formData }) {
           </Avatar>
         }
       />
-      <CardContent className={classes.content}>
+      <CardContent className={classes.tileContent}>
         <Typography
           className={classes.primaryText}
           variant="h6"

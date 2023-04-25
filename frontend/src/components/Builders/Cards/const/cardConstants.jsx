@@ -1,3 +1,12 @@
+// Layout Options Available for the Card Builder
+export const cardLayoutOptions = [
+  { value: "option1", label: "Tile" },
+  { value: "option2", label: "Standard" },
+  { value: "option3", label: "Dense" },
+  { value: "option4", label: "Larger" },
+];
+
+// Initial Card Form Data
 export const initialCardData = {
   cardType: "Standard",
   name: "",
@@ -13,13 +22,8 @@ export const initialCardData = {
   buttonToggle: false,
 };
 
-export const layoutOptions = [
-  { value: "option1", label: "Tile" },
-  { value: "option2", label: "Standard" },
-  { value: "option3", label: "Dense" },
-];
-
-export const fieldNames = [
+// Fields available on the Card Builder Form(s)
+export const cardFieldNames = [
   { name: "header", label: "Header Text*", type: "text", md: 6 },
   { name: "subheader", label: "Subheader Text*", type: "text", md: 6 },
   {

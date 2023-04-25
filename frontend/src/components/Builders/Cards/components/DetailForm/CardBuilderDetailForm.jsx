@@ -1,9 +1,11 @@
 import React from "react";
 import { Grid, MenuItem } from "@material-ui/core";
-import ErrorMessage from "../../../../Elements/Errors/ErrorMessage";
-import HelpText from "../../../Parts/Text/HelpText";
-import FormField from "../../../../Elements/Fields/FormField";
+
 import BasicSelect from "../../../../Elements/Fields/BasicSelect";
+import ErrorMessage from "../../../../Elements/Errors/ErrorMessage";
+import FormField from "../../../../Elements/Fields/FormField";
+import HelpText from "../../../Parts/Text/HelpText";
+
 import { cardBuilderStyles } from "../../cardBuilderStyles";
 
 const CardBuilderDetailForm = ({

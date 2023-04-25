@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../../Utils";
 import BaseEditForm from "../../Elements/Base/EditForm/BaseEditForm";
-import BaseDialog from "../Base/BaseDialog";
 
 const SEOEdit = ({ data, onUpdate, handleCancel }) => {
   const [newImage, setNewImage] = useState(null);

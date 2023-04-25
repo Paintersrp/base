@@ -1,51 +1,19 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 import { iconExampleData } from "../utils/listExampleData";
-import Text from "../../../Elements/Layout/Text/Text";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  listItem: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: theme.spacing(0.5),
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.1)",
-    },
-  },
-  listItemIcon: {
-    minWidth: theme.spacing(5),
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-    color: theme.palette.info.main,
-  },
-  listItemText: {
-    fontWeight: 500,
-    letterSpacing: "0.02em",
-  },
-  listItemSecondary: {
-    fontWeight: 400,
-    letterSpacing: "0.02em",
-    marginTop: theme.spacing(0),
-  },
-}));
+import { listExampleStyles } from "./styles/listExampleStyles";
 
 function IconListExample() {
-  const classes = useStyles();
+  const classes = listExampleStyles();
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        component="nav"
+        aria-label="main mailbox folders"
+        style={{ padding: 0 }}
+      >
         {iconExampleData.map((item) => (
           <ListItem className={classes.listItem} key={item.id}>
             <ListItemIcon className={classes.listItemIcon}>
@@ -62,9 +30,6 @@ function IconListExample() {
           </ListItem>
         ))}
       </List>
-      <Text mt={8} mb={0} a="c" t="h4">
-        Lose The Hover
-      </Text>
     </div>
   );
 }

@@ -1,4 +1,9 @@
-import { headerFields } from "../const/elementSetConstants";
+import {
+  cardFields,
+  headerFields,
+  listFields,
+  textFields,
+} from "../const/elementSetConstants";
 
 export const getFieldsByType = (type, subType) => {
   switch (type) {
@@ -15,12 +20,16 @@ export const getFieldsByType = (type, subType) => {
         default:
           return [headerFields[0], headerFields[1], headerFields[2]];
       }
-    case "Element":
+    case "Content":
       switch (subType) {
-        case "Type 1":
-          return [textFields[0], textFields[1], textFields[2]];
-        case "Type 2":
-          return [textFields[0], textFields[1], textFields[3], textFields[4]];
+        case "Text":
+          return textFields;
+        case "Image":
+          return textFields;
+        case "List":
+          return listFields;
+        case "Card":
+          return cardFields;
         default:
           return [textFields[0], textFields[1], textFields[2], textFields[3]];
       }
@@ -28,3 +37,7 @@ export const getFieldsByType = (type, subType) => {
       return [];
   }
 };
+
+export function getOptionsByType(elementData, contentType) {
+  return elementData.filter((item) => item.type === contentType);
+}

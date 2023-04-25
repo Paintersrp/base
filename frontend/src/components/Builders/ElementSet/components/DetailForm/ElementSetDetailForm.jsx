@@ -10,16 +10,12 @@ import SaveButton from "../../../Parts/Buttons/SaveButton";
 
 import { handleDataChange } from "../../../../../utils/dataHandlers/dataHandlers";
 import { elementSetBuilderStyles } from "../../elementSetBuilderStyles";
+import { initialDetailsData } from "../../const/elementSetConstants";
 
 const ElementSetDetailForm = ({ saveDetails }) => {
   const classes = elementSetBuilderStyles();
   const [detailsErrors, setDetailsErrors] = useState("");
-  const [detailsData, setDetailsData] = useState({
-    name: "test",
-    description: "test",
-    setWidth: "Full Page",
-    setColumns: "1",
-  });
+  const [detailsData, setDetailsData] = useState(initialDetailsData);
 
   const handleSave = () => {
     let errors = [];
@@ -96,35 +92,6 @@ const ElementSetDetailForm = ({ saveDetails }) => {
                 <MenuItem value="2">2</MenuItem>
               </BasicSelect>
             </Grid>
-            {/* <Grid item xs={12} md={12} lg={12} xl={12}>
-              <HelpText>Header Type*</HelpText>
-              <BasicSelect
-                name="cardType"
-                value={data.cardType}
-                onChange={handleChange}
-              >
-                <MenuItem value="" disabled>
-                  Select Header Type
-                </MenuItem>
-                <MenuItem value="None">No Header</MenuItem>
-                <MenuItem value="h1">Page (H1)</MenuItem>
-                <MenuItem value="h2">Page (H2)</MenuItem>
-                <MenuItem value="h3">Section (H3)</MenuItem>
-                <MenuItem value="h4">Section (H4)</MenuItem>
-                <MenuItem value="h5">Content (H5)</MenuItem>
-                <MenuItem value="h6">Content (H6)</MenuItem>
-              </BasicSelect>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12} xl={12}>
-              <HelpText>Header Title*</HelpText>
-              <FormField
-                required
-                fullWidth
-                id="name"
-                value={data.name}
-                onChange={handleChange}
-              />
-            </Grid> */}
           </Grid>
         </div>
         <Flexer mt={32} j="c">

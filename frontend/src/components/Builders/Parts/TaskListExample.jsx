@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { taskExampleData } from "../utils/listExampleData";
+import { taskExampleData } from "../Lists/utils/listExampleData";
 import {
   Checkbox,
   List,
@@ -14,10 +14,10 @@ import {
   Container,
   Button,
 } from "@material-ui/core";
-import Text from "../../../Elements/Layout/Text/Text";
-import FormField from "../../../Elements/Fields/FormField";
-import SaveButton from "../../Parts/Buttons/SaveButton";
-import BasicSelect from "../../../Elements/Fields/BasicSelect";
+import Text from "../../Elements/Layout/Text/Text";
+import FormField from "../../Elements/Fields/FormField";
+import SaveButton from "./Buttons/SaveButton";
+import BasicSelect from "../../Elements/Fields/BasicSelect";
 
 const useStyles = makeStyles((theme) => ({
   root: {

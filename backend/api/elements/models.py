@@ -222,7 +222,6 @@ class Element(models.Model):
 class TextElement(BaseElement):
     TYPES = (
         ("Standard", "Standard"),
-        ("Light", "Light"),
         ("Dense", "Dense"),
     )
     type = CustomCharField(
@@ -342,7 +341,7 @@ class ImageTag(models.Model):
         },
     },
     allowed=True,
-    filter_options=["type", "justify", "tag__name"],
+    filter_options=["type", "justify", "tag"],
 )
 class ImageElement(BaseElement):
     TYPES = (
@@ -763,10 +762,10 @@ class ListElementItem(models.Model):
 )
 class ListElement(BaseElement):
     TYPES = (
-        ("Unordered", "Unordered"),
-        ("Ordered", "Ordered"),
+        ("Standard", "Standard"),
         ("Icon", "Icon"),
         ("Image", "Image"),
+        ("Avatar", "Avatar"),
     )
 
     type = CustomCharField(
@@ -775,7 +774,7 @@ class ListElement(BaseElement):
         help_text="List Type",
         md_column_count=6,
         choices=TYPES,
-        default="Unordered",
+        default="Standard",
     )
     items = models.ManyToManyField(ListElementItem)
 
@@ -888,14 +887,14 @@ class CardElement(BaseElement):
         verbose_name="Share Toggle",
         help_text="Share Toggle",
         justify="left",
-        md_column_count=12
+        md_column_count=12,
     )
     button_toggle = CustomBooleanField(
         default=False,
         verbose_name="Button Toggle",
         help_text="Button Toggle",
         justify="left",
-        md_column_count=12
+        md_column_count=12,
     )
 
     class Meta:

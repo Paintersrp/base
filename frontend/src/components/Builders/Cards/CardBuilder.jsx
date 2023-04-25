@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import { Grid, Divider } from "@material-ui/core";
+
+import BaseBuilder from "../Parts/Layout/BaseBuilder";
 import BaseContent from "../../Elements/Base/BaseContent";
-import axiosInstance from "../../../lib/Axios/axiosInstance";
-import CardBuilderDetailForm from "./components/DetailForm/CardBuilderDetailForm";
-import { handleDataChange } from "../../../utils/dataHandlers/dataHandlers";
-import Text from "../../Elements/Layout/Text/Text";
-import SaveButton from "../Parts/Buttons/SaveButton";
-import CardBuilderTypeForm from "./components/TypeForm/CardBuilderTypeForm";
 import Flexer from "../../Elements/Layout/Container/Flexer";
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
+import SaveButton from "../Parts/Buttons/SaveButton";
+import Text from "../../Elements/Layout/Text/Text";
+
+import CardBuilderDetailForm from "./components/DetailForm/CardBuilderDetailForm";
 import CardBuilderPreview from "./components/Preview/CardBuilderPreview";
+import CardBuilderTypeForm from "./components/TypeForm/CardBuilderTypeForm";
+
 import {
   validateCardDetails,
   validateDenseCard,
   validateStandardCard,
   validateTileCard,
 } from "./utils/cardBuilderValidation";
-import BaseBuilder from "../Parts/Layout/BaseBuilder";
+
+import axiosInstance from "../../../lib/Axios/axiosInstance";
 import { initialCardData } from "./const/cardConstants";
+import { handleDataChange } from "../../../utils/dataHandlers/dataHandlers";
 
 const CardBuilder = () => {
   const [detailsErrors, setDetailsErrors] = useState("");

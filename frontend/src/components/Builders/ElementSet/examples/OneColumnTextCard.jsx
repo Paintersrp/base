@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Typography, Card, CardContent } from "@material-ui/core";
-import LargeCard from "../../Cards/examples/LargeCard";
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import { elementSetExampleStyles } from "./styles/exampleStyles";
+import StandardCard from "../../Cards/examples/StandardCard";
 
 function OneColumnTextCard() {
   const classes = elementSetExampleStyles();
@@ -62,10 +62,10 @@ function OneColumnTextCard() {
             style={{ display: "flex", justifyContent: "center", marginTop: 32 }}
           >
             <Flexer j="c">
-              <LargeCard />
+              <StandardCard />
             </Flexer>
             <Flexer j="c">
-              <LargeCard />
+              <StandardCard />
             </Flexer>
           </Grid>
         </CardContent>

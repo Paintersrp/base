@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, useTheme, useMediaQuery, Divider } from "@material-ui/core";
 
-import axiosInstance from "../../../lib/Axios/axiosInstance";
+import BaseBuilder from "../Parts/Layout/BaseBuilder";
 import BaseContent from "../../Elements/Base/BaseContent";
 import BaseSection from "../../Elements/Base/BaseSection";
 import ErrorMessage from "../../Elements/Errors/ErrorMessage";
-import ElementSetDetailForm from "./components/DetailForm/ElementSetDetailForm";
 
-import {
-  initialFormData,
-  initialHeaderData,
-  initialOpenData,
-} from "./const/elementSetConstants";
+import ElementSetDetailForm from "./components/DetailForm/ElementSetDetailForm";
 import ElementSetColumns from "./components/Columns/ElementSetColumns";
 import ElementSetPreview from "./components/Preview/ElementSetPreview";
-import BaseBuilder from "../Parts/Layout/BaseBuilder";
+
+import axiosInstance from "../../../lib/Axios/axiosInstance";
+import {
+  initialColumnData,
+  initialFormData,
+  initialOpenData,
+} from "./const/elementSetConstants";
 
 const ElementSetBuilder = () => {
   const theme = useTheme();
@@ -22,11 +23,24 @@ const ElementSetBuilder = () => {
   const [detailsSaved, setDetailsSaved] = useState(false);
   const [open, setOpen] = useState(initialOpenData);
   const [apiErrors, setApiErrors] = useState("");
+  const [elementObject, setElementObject] = useState(null);
 
   const [thumbnailImage, setThumbnailImage] = useState(null);
-  const [colOneHeaderData, setColOneHeaderData] = useState(initialHeaderData);
-  const [colTwoHeaderData, setColTwoHeaderData] = useState(initialHeaderData);
+  const [colOneData, setColOneData] = useState(initialColumnData);
+  const [colTwoData, setColTwoData] = useState(initialColumnData);
   const [formData, setFormData] = useState(initialFormData);
+  const [elementData, setElementData] = useState([]);
+
+  //Retrieve all Elements in Database
+  useEffect(() => {
+    axiosInstance
+      .get("/element/")
+      .then((response) => {
+        setElementData(response.data);
+        console.log(response.data, "elements");
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const handleThumbnailImageChange = (event) => {
     const file = event.target.files[0];
@@ -119,6 +133,8 @@ const ElementSetBuilder = () => {
                 boxShadow={0}
                 divider
                 pt={2}
+                pb={0}
+                mb={0.25}
                 headerVar="h5"
               >
                 <BaseSection
@@ -127,8 +143,10 @@ const ElementSetBuilder = () => {
                   divider
                   pad={0}
                   boxShadow={0}
-                  pb={2}
-                  pt={2}
+                  pb={0}
+                  pt={0}
+                  mb={1}
+                  mt={1}
                   collapse
                   headerAlign="left"
                   manualOpen={open.details}
@@ -149,11 +167,15 @@ const ElementSetBuilder = () => {
                 <ElementSetColumns
                   open={open}
                   setOpen={setOpen}
-                  colOneHeaderData={colOneHeaderData}
-                  setColOneHeaderData={setColOneHeaderData}
-                  colTwoHeaderData={colTwoHeaderData}
-                  setColTwoHeaderData={setColTwoHeaderData}
+                  colOneData={colOneData}
+                  setColOneData={setColOneData}
+                  colTwoData={colTwoData}
+                  setColTwoData={setColTwoData}
                   handleSaveDetails={handleSaveDetails}
+                  elementData={elementData}
+                  handleThumbnailImageChange={handleThumbnailImageChange}
+                  elementObject={elementObject}
+                  setElementObject={setElementObject}
                   columns={2}
                 />
               )}
@@ -179,8 +201,9 @@ const ElementSetBuilder = () => {
           >
             <ElementSetPreview
               formData={formData}
-              colOneHeaderData={colOneHeaderData}
-              colTwoHeaderData={colTwoHeaderData}
+              colOneData={colOneData}
+              colTwoData={colTwoData}
+              elementObject={elementObject}
             />
           </Grid>
         </Grid>

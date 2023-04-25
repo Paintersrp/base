@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardHeader,
@@ -10,52 +9,10 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import Icon from "../../../Elements/Icon/Icon";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-    minWidth: 345,
-    boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2)",
-    borderRadius: "10px",
-  },
-  header: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    textAlign: "center",
-    padding: theme.spacing(2),
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: 200,
-  },
-  hr: {
-    width: "100%",
-    borderBottom: "1px solid #d9d9d9",
-    margin: theme.spacing(2, 0),
-  },
-  list: {
-    width: "100%",
-    textAlign: "left",
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  button: {
-    marginTop: theme.spacing(2),
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.contrastText,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.dark,
-    },
-  },
-  avatar: {
-    margin: theme.spacing(2, 0),
-    backgroundColor: theme.palette.secondary.main,
-  },
-}));
+import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
 
 export default function DenseSkeleton({ formData }) {
-  const classes = useStyles();
+  const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {

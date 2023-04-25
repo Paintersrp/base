@@ -10,9 +10,9 @@ import {
   List,
 } from "@material-ui/core";
 
-import Text from "../../../Elements/Layout/Text/Text";
+import Text from "../../Elements/Layout/Text/Text";
 
-import { favExampleData } from "../utils/listExampleData";
+import { favExampleData } from "../Lists/utils/listExampleData";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,11 @@ function PollingListExample() {
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        component="nav"
+        aria-label="main mailbox folders"
+        style={{ padding: 0 }}
+      >
         {favExampleData.map((item) => (
           <div key={item.id}>
             <ListItem button>

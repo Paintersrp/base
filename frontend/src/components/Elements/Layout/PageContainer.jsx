@@ -5,7 +5,7 @@ import { Typography } from "@material-ui/core";
 import SEOHeader from "../Head/SEOHeader";
 import Container from "./Container/Container";
 import { useSelector } from "react-redux";
-import BaseDialog from "../Base/BaseDialog";
+import BaseDialog from "../Base/Dialog/BaseDialog";
 import SEOEdit from "./SEOEdit";
 import axiosInstance from "../../../lib/Axios/axiosInstance";
 import Loading from "./Loading/Loading";

@@ -127,16 +127,15 @@ const ListBuilder = () => {
 
   return (
     <BaseBuilder header="Create a List" headerGutter>
-      <ListBuilderHead
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        apiErrors={apiErrors}
-      />
-
       <form onSubmit={handleSubmit}>
         <BaseContent>
           <Grid container>
+            <ListBuilderHead
+              formData={formData}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              apiErrors={apiErrors}
+            />
             <ListBuilderBody
               formData={formData}
               handleChange={handleChange}

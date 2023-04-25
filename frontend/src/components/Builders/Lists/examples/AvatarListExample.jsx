@@ -1,32 +1,26 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Divider,
+} from "@material-ui/core";
 
 import { avatarExampleData } from "../utils/listExampleData";
-import Text from "../../../Elements/Layout/Text/Text";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
+import { listExampleStyles } from "./styles/listExampleStyles";
 
 function AvatarListExample() {
-  const classes = useStyles();
+  const classes = listExampleStyles();
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        component="nav"
+        aria-label="main mailbox folders"
+        style={{ padding: 0 }}
+      >
         {avatarExampleData.map((item) => (
           <div key={item.id}>
             <ListItem button>
@@ -42,9 +36,6 @@ function AvatarListExample() {
             <Divider />
           </div>
         ))}
-        <Text mt={16} mb={0} a="c" t="h4">
-          Lose the Hover
-        </Text>
       </List>
     </div>
   );

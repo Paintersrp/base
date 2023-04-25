@@ -45,7 +45,7 @@ const BaseBuilder = ({
               marginBottom: headerGutter ? theme.spacing(gutterSize) : 0,
             }}
           >
-            Element Set Builder
+            {header}
           </Text>
         )}
         {children}

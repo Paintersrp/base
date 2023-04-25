@@ -2,10 +2,11 @@ import React from "react";
 import { Divider } from "@material-ui/core";
 
 import BaseContent from "../../../../Elements/Base/BaseContent";
-import Text from "../../../../Elements/Layout/Text/Text";
 import BaseSection from "../../../../Elements/Base/BaseSection";
+import Text from "../../../../Elements/Layout/Text/Text";
 
 import ElementSetHeaderForm from "../HeaderForm/ElementSetHeaderForm";
+import ElementSetContentForm from "../ContentForm/ElementSetContentForm";
 
 const ElementSetColumnForm = ({
   headerOpen,
@@ -17,7 +18,11 @@ const ElementSetColumnForm = ({
   headerData,
   setHeaderData,
   handleSaveDetails,
+  elementData,
   label,
+  handleThumbnailImageChange,
+  elementObject,
+  setElementObject,
 }) => {
   return (
     <BaseContent
@@ -39,8 +44,8 @@ const ElementSetColumnForm = ({
         collapse
         pad={0}
         boxShadow={0}
-        mt={2}
-        mb={!headerOpen ? 2 : 4}
+        mt={1}
+        mb={1}
         headerAlign="left"
         manualOpen={headerOpen}
         setManualOpen={setHeaderOpen}
@@ -62,15 +67,18 @@ const ElementSetColumnForm = ({
         pad={0}
         boxShadow={0}
         mt={0}
-        mb={!contentOpen ? 2 : 4}
+        mb={1}
         headerAlign="left"
         manualOpen={contentOpen}
         setManualOpen={setContentOpen}
       >
-        <ElementSetHeaderForm
+        <ElementSetContentForm
           data={headerData}
           setData={setHeaderData}
-          saveDetails={handleSaveDetails}
+          elementData={elementData}
+          handleThumbnailImageChange={handleThumbnailImageChange}
+          elementObject={elementObject}
+          setElementObject={setElementObject}
         />
         <div style={{ width: "100%" }}>
           <Divider />
@@ -84,7 +92,7 @@ const ElementSetColumnForm = ({
         pad={0}
         boxShadow={0}
         mt={0}
-        mb={!contentOpen ? 2 : 4}
+        mb={1}
         headerAlign="left"
         manualOpen={layoutOpen}
         setManualOpen={setLayoutOpen}

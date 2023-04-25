@@ -11,6 +11,11 @@ export const demoOptions = [
   },
   {
     category: "List",
+    value: "ordered",
+    display: "Ordered List",
+  },
+  {
+    category: "List",
     value: "poll",
     display: "Poll List",
   },
@@ -46,8 +51,8 @@ export const demoOptions = [
   },
   {
     category: "Card",
-    value: "plugin",
-    display: "Plugin Based Card",
+    value: "larger",
+    display: "Larger Card",
   },
   {
     category: "Skeleton",

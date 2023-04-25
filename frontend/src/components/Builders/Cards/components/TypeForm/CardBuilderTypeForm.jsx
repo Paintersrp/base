@@ -1,12 +1,14 @@
 import React, { useRef } from "react";
 import { Grid, Switch } from "@material-ui/core";
+
 import ErrorMessage from "../../../../Elements/Errors/ErrorMessage";
 import FormField from "../../../../Elements/Fields/FormField";
-import IconSelectMixin from "../../../../Elements/Base/EditForm/IconSelectMixin";
-import ImageInput from "../../../../Elements/Fields/ImageInput";
 import Flexer from "../../../../Elements/Layout/Container/Flexer";
 import HelpText from "../../../Parts/Text/HelpText";
-import { fieldNames } from "../../const/cardConstants";
+import IconSelectMixin from "../../../../Elements/Base/EditForm/IconSelectMixin";
+import ImageInput from "../../../../Elements/Fields/ImageInput";
+
+import { cardFieldNames } from "../../const/cardConstants";
 
 const CardBuilderTypeForm = ({
   formData,
@@ -20,7 +22,7 @@ const CardBuilderTypeForm = ({
   return (
     <Grid item xs={12} md={12} xl={12} style={{ width: "100%" }}>
       <Grid container spacing={2}>
-        {fieldNames.map((field) => {
+        {cardFieldNames.map((field) => {
           if (formData.cardType === "Tile") {
             if (
               field.name === "image" ||

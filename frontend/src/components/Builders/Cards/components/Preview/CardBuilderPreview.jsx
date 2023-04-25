@@ -8,16 +8,18 @@ import ExampleSwitchMenu from "../../../Parts/Menus/ExampleSwitch/ExampleSwitchM
 
 import TileCard from "../../examples/TileCard";
 import DenseCard from "../../examples/DenseCard";
-import LargeCard from "../../examples/LargeCard";
+import StandardCard from "../../examples/StandardCard";
 
 import CardSkeleton from "../../skeletons/CardSkeleton";
 import TileSkeleton from "../../skeletons/TileSkeleton";
 import DenseSkeleton from "../../skeletons/DenseSkeleton";
-import { layoutOptions } from "../../const/cardConstants";
+import LargerCard from "../../examples/LargerCard";
+
+import { cardLayoutOptions } from "../../const/cardConstants";
 
 const CardBuilderPreview = ({ formData }) => {
   const { selectedOption, handleOptionSelect, showExample, handleShowExample } =
-    useExampleSwitch(layoutOptions);
+    useExampleSwitch(cardLayoutOptions);
 
   return (
     <BaseContent
@@ -33,7 +35,7 @@ const CardBuilderPreview = ({ formData }) => {
         handleShowExample={handleShowExample}
         selectedOption={selectedOption}
         handleOptionSelect={handleOptionSelect}
-        layoutOptions={layoutOptions}
+        layoutOptions={cardLayoutOptions}
       />
       {!showExample ? (
         <Flexer j="c" mt={16}>
@@ -52,9 +54,9 @@ const CardBuilderPreview = ({ formData }) => {
       ) : (
         <Flexer j="c" mt={16}>
           {selectedOption === "option1" && <TileCard />}
-          {selectedOption === "option2" && <LargeCard />}
+          {selectedOption === "option2" && <StandardCard />}
           {selectedOption === "option3" && <DenseCard />}
-          {selectedOption === "option4" && <LargeCard />}
+          {selectedOption === "option4" && <LargerCard />}
         </Flexer>
       )}
     </BaseContent>

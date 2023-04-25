@@ -1,62 +1,64 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import {
   Card,
+  CardHeader,
   CardMedia,
   CardContent,
   CardActions,
-  Typography,
+  Avatar,
   IconButton,
+  Typography,
+  Tooltip,
+  Button,
 } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-    minWidth: 345,
-    marginBottom: theme.spacing(2),
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
+import { cardExampleStyles } from "./styles/cardExampleStyles";
 
 export default function StandardCard() {
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const classes = cardExampleStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.tileRoot}>
+      <CardHeader
+        className={classes.standardHeader}
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            R
+          </Avatar>
+        }
+        title="Shrimp and Chorizo Paella"
+        subheader="September 14, 2016"
+        classes={{
+          title: classes.standardTitle,
+          subheader: classes.standardTitle,
+        }}
+      />
       <CardMedia
         className={classes.media}
-        image="https://picsum.photos/id/237/345/200"
-        title="Example Image"
+        image="https://source.unsplash.com/300x172/?foodie"
+        title="Paella dish"
       />
-      <CardContent>
-        <Typography variant="h6" color="textPrimary" component="h2">
-          Example Title
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Example Subtitle
+      <CardContent className={classes.standardContent}>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          style={{ fontSize: "0.825rem" }}
+        >
+          This impressive paella is a perfect party dish and a fun meal to cook
+          together with your guests. Add 1 cup of frozen peas along with the
+          mussels, if you like.
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton aria-label="more options">
-          <MoreVertIcon />
-        </IconButton>
+      <CardActions disableSpacing className={classes.actionButtons}>
+        <Tooltip title="Share" aria-label="share">
+          <IconButton size="small" aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </Tooltip>
+        <Button size="small" color="primary">
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

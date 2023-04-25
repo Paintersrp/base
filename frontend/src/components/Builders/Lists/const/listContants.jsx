@@ -8,7 +8,7 @@ export const initialListFormData = {
   image: "",
 };
 
-export const listBodyFieldNames = [
+export const listFieldNames = [
   { name: "primary", label: "Primary Text*", type: "text", md: 6 },
   { name: "secondary", label: "Secondary Text*", type: "text", md: 6 },
   { name: "order", label: "List Item Order*", type: "number", md: 6 },

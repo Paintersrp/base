@@ -75,7 +75,6 @@ function BaseSection({
           boxShadow: theme.shadows[boxShadow],
           borderRadius: theme.spacing(br),
           background: background,
-          margin: "0 auto",
           width: "100%",
         }}
       >

@@ -15,11 +15,11 @@ import { Edit } from "@material-ui/icons";
 import { Skeleton } from "@mui/material";
 
 import BaseContent from "../../../../Elements/Base/BaseContent";
-import ErrorMessage from "../../../../Elements/Errors/ErrorMessage";
-
-import SaveButton from "../../../Parts/Buttons/SaveButton";
-import DeleteButton from "../../../Parts/Buttons/DeleteButton";
 import ClearButton from "../../../Parts/Buttons/ClearButton";
+import DeleteButton from "../../../Parts/Buttons/DeleteButton";
+import ErrorMessage from "../../../../Elements/Errors/ErrorMessage";
+import SaveButton from "../../../Parts/Buttons/SaveButton";
+
 import ExampleSwitchMenu from "../../../Parts/Menus/ExampleSwitch/ExampleSwitchMenu.jsx";
 import useExampleSwitch from "../../../Parts/Menus/ExampleSwitch/useExampleSwitch";
 

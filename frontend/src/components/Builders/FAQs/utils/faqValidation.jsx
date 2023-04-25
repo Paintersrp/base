@@ -44,13 +44,14 @@ export const validateFAQSubmit = (faqData) => {
   } else {
     for (let i = 0; i < faqData.faqItems.length; i++) {
       let item = faqData.faqItems[i];
-      if (!item.category) {
+      console.log(item, "item");
+      if (!item.question_set.category) {
         errors.push(`Question Category is required for item ${i + 1}`);
       }
-      if (!item.question) {
+      if (!item.question.question) {
         errors.push(`Question is required for item ${i + 1}`);
       }
-      if (!item.Answer) {
+      if (!item.answer.answer) {
         errors.push(`Answer is required for item ${i + 1}`);
       }
     }

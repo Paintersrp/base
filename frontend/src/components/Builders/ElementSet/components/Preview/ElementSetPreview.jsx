@@ -1,17 +1,22 @@
 import React from "react";
 import { Divider } from "@material-ui/core";
+
 import BaseContent from "../../../../Elements/Base/BaseContent";
+import BaseSection from "../../../../Elements/Base/BaseSection";
+import Flexer from "../../../../Elements/Layout/Container/Flexer";
+
 import useExampleSwitch from "../../../Parts/Menus/ExampleSwitch/useExampleSwitch";
 import ExampleSwitchMenu from "../../../Parts/Menus/ExampleSwitch/ExampleSwitchMenu";
-import Flexer from "../../../../Elements/Layout/Container/Flexer";
-import BaseSection from "../../../../Elements/Base/BaseSection";
+
 import SectionSkeleton from "../../skeletons/OneColumnSkeleton";
+
 import TwoColumnImageText from "../../examples/TwoColumnImageText";
 import TwoColumnImageCard from "../../examples/TwoColumnImageCard";
 import TwoColumnTextDense from "../../examples/TwoColumnTextDense";
+import TwoColumnAccordionImage from "../../examples/TwoColumnAccordionImage";
+
 import OneColumnImageText from "../../examples/OneColumnImageText";
 import OneColumnTextDense from "../../examples/OneColumnTextDense";
-import TwoColumnAccordionImage from "../../examples/TwoColumnAccordionImage";
 import OneColumnAccordionImage from "../../examples/OneColumnAccordionImage";
 import OneColumnImageCard from "../../examples/OneColumnImageCard.jsx";
 import OneColumnTextAccordion from "../../examples/OneColumnTextAccordion";
@@ -32,8 +37,9 @@ const layoutOptions = [
 
 const ElementSetPreview = ({
   formData,
-  colOneHeaderData,
-  colTwoHeaderData,
+  colOneData,
+  colTwoData,
+  elementObject,
 }) => {
   const { selectedOption, handleOptionSelect, showExample, handleShowExample } =
     useExampleSwitch(layoutOptions);
@@ -62,8 +68,10 @@ const ElementSetPreview = ({
           headerAlign="center"
         >
           <SectionSkeleton
-            columnOneHeader={colOneHeaderData}
-            columnTwoHeader={colTwoHeaderData}
+            columnOneHeader={colOneData.header}
+            columnTwoHeader={colTwoData.header}
+            elementObject={elementObject}
+            contentType={colOneData.content.contentType}
           />
         </BaseSection>
       ) : (
