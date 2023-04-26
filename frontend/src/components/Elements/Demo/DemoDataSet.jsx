@@ -55,26 +55,6 @@ export const demoOptions = [
     display: "Larger Card",
   },
   {
-    category: "Skeleton",
-    value: "table-skeleton",
-    display: "Table Skeleton",
-  },
-  {
-    category: "Skeleton",
-    value: "accordion-skeleton",
-    display: "Accordion Skeleton",
-  },
-  {
-    category: "Skeleton",
-    value: "list-skeleton",
-    display: "List Skeleton",
-  },
-  {
-    category: "Skeleton",
-    value: "card-skeleton",
-    display: "Card Skeleton",
-  },
-  {
     category: "Accordion",
     value: "faq-tabs",
     display: "Tabbed Accordion",

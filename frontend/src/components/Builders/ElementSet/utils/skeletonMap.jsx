@@ -9,6 +9,9 @@ import TextSkeleton from "../skeletons/TextSkeleton";
 import AvatarListSkeleton from "../../Lists/skeletons/AvatarListSkeleton";
 import ImageListSkeleton from "../../Lists/skeletons/ImageListSkeleton";
 import IconListSkeleton from "../../Lists/skeletons/IconListSkeleton";
+import FAQListSkeleton from "../../FAQs/skeletons/FAQListSkeleton";
+import FAQTabsSkeleton from "../../FAQs/skeletons/FAQTabsSkeleton";
+import FAQCondensedSkeleton from "../../FAQs/skeletons/FAQCondensedSkeleton";
 
 export function skeletonMap(contentType, subType, elementObject) {
   console.log("type", contentType);
@@ -85,6 +88,19 @@ export function skeletonMap(contentType, subType, elementObject) {
         default:
           return <Skeleton variant="rect" width={450} height={300} />;
       }
+    case "FAQ":
+      switch (subType) {
+        case "FAQ":
+          return <FAQTabsSkeleton />;
+        case "List":
+          return <FAQListSkeleton />;
+        case "Condensed":
+          return <FAQCondensedSkeleton />;
+        case "Tabs":
+          return <FAQTabsSkeleton />;
+        default:
+          return <FAQTabsSkeleton />;
+      }
     case "List":
       switch (subType) {
         case "Standard":
@@ -98,11 +114,35 @@ export function skeletonMap(contentType, subType, elementObject) {
             />
           );
         case "Image":
-          return <ImageListSkeleton />;
+          return (
+            <ImageListSkeleton
+              contentObject={
+                elementObject ? elementObject.content_object : null
+              }
+              subType={subType}
+              elementType={elementObject ? elementObject.type : null}
+            />
+          );
         case "Icon":
-          return <IconListSkeleton />;
+          return (
+            <IconListSkeleton
+              contentObject={
+                elementObject ? elementObject.content_object : null
+              }
+              subType={subType}
+              elementType={elementObject ? elementObject.type : null}
+            />
+          );
         case "Avatar":
-          return <AvatarListSkeleton />;
+          return (
+            <AvatarListSkeleton
+              contentObject={
+                elementObject ? elementObject.content_object : null
+              }
+              subType={subType}
+              elementType={elementObject ? elementObject.type : null}
+            />
+          );
         default:
           return (
             <StandardListSkeleton

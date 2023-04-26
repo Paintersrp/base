@@ -4,44 +4,17 @@ import {
   List,
   ListItem,
   ListItemText,
-  makeStyles,
+  
   Collapse,
   IconButton,
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import { faqItemData } from "../const/faqConstants";
 
-const useStyles = makeStyles((theme) => ({
-  categoryList: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.background.light,
-    fontWeight: "700",
-    fontFamily: "Roboto",
-    textTransform: "uppercase",
-    fontSize: "0.95rem",
-    marginRight: 5,
-  },
-  question: {
-    fontSize: "1.2rem",
-    fontWeight: 700,
-    fontFamily: "Roboto",
-    color: "black",
-  },
-  answer: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.light,
-    color: "black",
-    fontFamily: "Roboto",
-    textAlign: "left",
-  },
-  iconButton: {
-    marginLeft: "auto",
-    color: "white",
-  },
-}));
+import { faqItemData } from "../const/faqConstants";
+import { faqExamplesStyles } from "./styles/faqExampleStyles";
 
 const FAQList = () => {
-  const classes = useStyles();
+  const classes = faqExamplesStyles();
   const [open, setOpen] = useState({});
   const categories = [...new Set(faqItemData.map((faq) => faq.category))];
 

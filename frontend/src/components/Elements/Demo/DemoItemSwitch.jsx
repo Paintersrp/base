@@ -11,11 +11,6 @@ import ImageListExample from "../../Builders/Lists/examples/ImageListExample";
 import PollingListExample from "../../Builders/Parts/PollListExample";
 import TaskListExample from "../../Builders/Parts/TaskListExample";
 
-import TableSkeleton from "../../Builders/Tables/skeletons/TableSkeleton";
-import AccordionSkeleton from "../../Builders/FAQs/skeletons/AccordionSkeleton";
-import ListSkeleton from "../../Builders/Lists/skeletons/ListSkeleton";
-import CardSkeleton from "../../Builders/Cards/skeletons/CardSkeleton";
-
 import FAQTabs from "../../Builders/FAQs/examples/FAQTabs";
 import FAQList from "../../Builders/FAQs/examples/FAQList";
 import FAQCondensedList from "../../Builders/FAQs/examples/FAQCondensedList";
@@ -45,14 +40,6 @@ const DemoItemSwitch = ({ item }) => {
       return <StandardCard />;
     case "larger":
       return <LargerCard />;
-    case "card-skeleton":
-      return <CardSkeleton />;
-    case "list-skeleton":
-      return <ListSkeleton />;
-    case "accordion-skeleton":
-      return <AccordionSkeleton />;
-    case "table-skeleton":
-      return <TableSkeleton />;
     case "faq-tabs":
       return <FAQTabs />;
     case "faq-list":

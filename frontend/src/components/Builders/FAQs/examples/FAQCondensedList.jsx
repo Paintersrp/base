@@ -1,40 +1,10 @@
 import React, { useState } from "react";
-import {
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  makeStyles,
-} from "@material-ui/core";
+import { Typography, List, ListItem, ListItemText } from "@material-ui/core";
 import { faqItemData } from "../const/faqConstants";
-
-const useStyles = makeStyles((theme) => ({
-  categoryList: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.background.light,
-    fontWeight: "700",
-    fontFamily: "Roboto",
-    textTransform: "uppercase",
-    fontSize: "0.95rem",
-    marginRight: 5,
-  },
-  question: {
-    fontSize: "1.2rem",
-    fontWeight: 700,
-    fontFamily: "Roboto",
-    color: "black",
-  },
-  answer: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.light,
-    color: "black",
-    fontFamily: "Roboto",
-    textAlign: "left",
-  },
-}));
+import { faqExamplesStyles } from "./styles/faqExampleStyles";
 
 const FAQCondensedList = () => {
-  const classes = useStyles();
+  const classes = faqExamplesStyles();
   const [currentCategory, setCurrentCategory] = useState(
     faqItemData[0].category
   );
@@ -53,7 +23,10 @@ const FAQCondensedList = () => {
             button
             selected={currentCategory === category}
             onClick={(event) => handleListItemClick(event, category)}
-            classes={{ root: classes.categoryList }}
+            classes={{
+              root: classes.categoryList,
+              selected: classes.selectedCategory,
+            }}
           >
             <ListItemText primary={category} />
           </ListItem>

@@ -1,0 +1,83 @@
+TAG_METADATA = {
+    "autoform_label": "TitleBlock",
+    "long_description": "Description Placeholder",
+    "short_description": "Short Description",
+    "pages_associated": {
+        "Landing": "/",
+        "Services": "/services",
+    },
+    "include_preview": True,
+    "icon": "StyleIcon",
+    "icon_class": None,
+    "slug": "header",
+    "tags": ["About", "Header", "Company"],
+    "related_components": ["Header"],
+    "visibility": True,
+    "access_level": "All",
+    "info_dump": {
+        "purpose": "This model represents a job posting on the company's careers page.",
+        "fields": {
+            "Position": "The title of the job.",
+            "Location": "The location of the job.",
+            "Type": "The type of job (e.g. full-time, part-time).",
+            "Tagline": "A short description of the job.",
+            "Who We Are": "A description of the company and its values.",
+            "Requirements": "The requirements for the job.",
+            "Responsibilities": "The responsibilities of the job.",
+            "Looking For": "A description of the ideal candidate for the job.",
+            "Why Apply": "A description of the benefits of working for the company.",
+            "Filled": "Whether or not the job has been filled.",
+            "Created At (auto-generated)": "The date and time the job posting was created.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/ref/models/",
+            "JobPosting model reference": "/docs/jobposting/",
+        },
+    },
+    "filter_options": ["detail"],
+    "allowed": False,
+}
+
+
+ARTICLE_METADATA = {
+    "autoform_label": "TitleBlock",
+    "long_description": "Description Placeholder",
+    "short_description": "Short Description",
+    "pages_associated": {
+        "Landing": "/",
+        "Services": "/services",
+    },
+    "include_preview": True,
+    "icon": "NewspaperIcon",
+    "icon_class": None,
+    "slug": "header",
+    "tags": ["About", "Header", "Company"],
+    "related_components": ["Header"],
+    "visibility": True,
+    "access_level": "All",
+    "info_dump": {
+        "purpose": "This model represents a job posting on the company's careers page.",
+        "fields": {
+            "Position": "The title of the job.",
+            "Location": "The location of the job.",
+            "Type": "The type of job (e.g. full-time, part-time).",
+            "Tagline": "A short description of the job.",
+            "Who We Are": "A description of the company and its values.",
+            "Requirements": "The requirements for the job.",
+            "Responsibilities": "The responsibilities of the job.",
+            "Looking For": "A description of the ideal candidate for the job.",
+            "Why Apply": "A description of the benefits of working for the company.",
+            "Filled": "Whether or not the job has been filled.",
+            "Created At (auto-generated)": "The date and time the job posting was created.",
+        },
+        "model_links": {
+            "Django documentation": "https://docs.djangoproject.com/en/3.2/ref/models/",
+            "JobPosting model reference": "/docs/jobposting/",
+        },
+    },
+    "filter_options": [
+        "title",
+        "is_highlighted",
+    ],
+    "allowed": False,
+}

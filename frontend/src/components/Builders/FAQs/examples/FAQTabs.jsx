@@ -6,57 +6,14 @@ import {
   Tab,
   Tabs,
   Typography,
-  makeStyles,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { faqItemData } from "../const/faqConstants";
 
-const useStyles = makeStyles((theme) => ({
-  tab: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.background.light,
-    fontWeight: "700",
-    fontFamily: "Roboto",
-    textTransform: "uppercase",
-    fontSize: "0.95rem",
-    marginRight: 5,
-    "&:focus": {
-      color: theme.palette.background.light,
-    },
-    "&: .MuiTab-textColorInherit.Mui-selected": {
-      color: theme.palette.background.light,
-    },
-  },
-  tabsIndicator: {
-    width: "100%",
-    backgroundColor: theme.palette.background.light,
-    borderBottom: `3px solid ${theme.palette.secondary.main}`,
-  },
-  summary: {
-    backgroundColor: theme.palette.background.light,
-    fontFamily: "Roboto",
-    color: "black",
-  },
-  heading: {
-    fontSize: "1.2rem",
-    fontWeight: 700,
-    fontFamily: "Roboto",
-    color: "black",
-  },
-  details: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.light,
-    color: "black",
-    fontFamily: "Roboto",
-    textAlign: "left",
-  },
-  preview: {
-    width: "100%",
-  },
-}));
+import { faqItemData } from "../const/faqConstants";
+import { faqExamplesStyles } from "./styles/faqExampleStyles";
 
 const FAQTabs = () => {
-  const classes = useStyles();
+  const classes = faqExamplesStyles();
   const [currentCategory, setCurrentCategory] = useState(
     faqItemData[0].category
   );

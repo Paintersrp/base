@@ -20,7 +20,7 @@ function StandardListSkeleton({
   }
 
   return (
-    <div className={classes.standardRoot}>
+    <div className={classes.standardRoot} style={{ marginTop: 16 }}>
       <List component="ol" dense>
         {sortedItems ? (
           <React.Fragment>
