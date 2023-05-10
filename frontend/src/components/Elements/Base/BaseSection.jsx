@@ -64,6 +64,8 @@ function BaseSection({
         paddingTop: theme.spacing(pt),
         paddingBottom: theme.spacing(pb),
         background: background,
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <div
