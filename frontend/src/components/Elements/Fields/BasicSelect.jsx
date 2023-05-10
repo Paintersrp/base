@@ -35,11 +35,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BasicSelect({ onChange, name, value, children }) {
+function BasicSelect({
+  placeholder = null,
+  variant = "outlined",
+  onChange,
+  name,
+  value,
+  children,
+  onFocus,
+  onBlur,
+  inputRef,
+}) {
   const classes = useStyles();
 
   return (
     <Select
+      placeholder={placeholder}
       id={name}
       className={classes.select}
       MenuProps={{
@@ -62,10 +73,13 @@ function BasicSelect({ onChange, name, value, children }) {
         },
         TransitionComponent: Fade,
       }}
-      variant="outlined"
+      variant={variant}
       name={name}
       value={value}
       onChange={onChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      inputRef={inputRef}
     >
       {children}
     </Select>

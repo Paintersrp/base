@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
   },
   formContainer: {
     padding: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(2, 0),
+    },
   },
 }));
 
@@ -20,6 +23,7 @@ const BaseBuilder = ({
   gutterSize = 3,
   pad = 3,
   mb = 4,
+  boxShadow = 3,
   style,
   className,
 }) => {
@@ -36,7 +40,7 @@ const BaseBuilder = ({
       className={`${classes.root} ${className ? className : null}`}
       style={mergedStyles}
     >
-      <Paper className={classes.formContainer} elevation={3}>
+      <Paper className={classes.formContainer} elevation={boxShadow}>
         {header && (
           <Text
             t={headerType}

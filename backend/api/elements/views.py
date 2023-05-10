@@ -2,51 +2,47 @@ from api.custom_views import *
 from .models import *
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.files.storage import FileSystemStorage
+import os
+import io
 
-from django.shortcuts import render
 from django.http import HttpResponse
-from .models import TextElement
-
 from django.contrib.contenttypes.models import ContentType
 
 
-def delete_list_elements_with_no_content_object(request):
-    # Get the ContentType object for ListElement
-    list_element_ct = ContentType.objects.get_for_model(ListElement)
+def create_card_element(request):
+    header = HeaderElement.objects.create(
+        name="Text Element 2 Header",
+        type="H6",
+        title="Text Title Example",
+    )
+    text_element = TextElement.objects.create(
+        type="Standard",
+        name="Text Element 2",
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non dui erat. Nullam faucibus lectus nec sapien vehicula, accumsan venenatis mauris vulputate. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam vel iaculis quam, sit amet luctus sapien. Ut blandit iaculis velit, at condimentum leo aliquam sed. Aenean vestibulum finibus suscipit. Donec vitae quam at urna facilisis porta. Cras ut est et nisl vestibulum dignissim vitae egestas lectus.",
+        header=header,
+    )
 
-    # Get a queryset of ListElement objects with no related content_object
-    list_elements = Element.objects.filter(content_type=list_element_ct)
+    # image_path = "C:/Python/base/backend/api/media/processset1.jpg"
+    # fs = FileSystemStorage()
+    # filename = fs.save(image_path, open(image_path, "rb"))
 
-    # Loop over the queryset and delete ListElements with no content_object
-    for list_element in list_elements:
-        if list_element.content_object:
-            print("Not None")
-        else:
-            print("None", list_element.content_object)
-            list_element.delete()
+    # card_element = CardElement.objects.create(
+    #     type="Dense",
+    #     icon="MessageIcon",
+    #     header="Example Header",
+    #     subheader="Example Subheader",
+    #     primary="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate volutpat ullamcorper. Vivamus tempor, augue ac rutrum euismod, nisl nibh tincidunt turpis, vel sodales justo erat id tortor. Morbi sed neque ut ex porttitor condimentum. Morbi non porta ante. Pellentesque varius, est vel scelerisque congue, erat ipsum euismod diam, a.",
+    #     secondary="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate volutpat ullamcorper. Vivamus tempor, augue ac rutrum euismod, nisl nibh tincidunt turpis, vel sodales justo erat id tortor. Morbi sed neque ut ex porttitor condimentum. Morbi non porta ante. Pellentesque varius, est vel scelerisque congue, erat ipsum euismod diam, a.",
+    #     share_toggle=True,
+    #     button_toggle=True,
+    #     name="Example Dense",
+    #     description="Example Dense Description",
+    #     order=1,
+    #     image=filename,
+    # )
 
-    # Return a response to indicate that the delete was successful
-    return HttpResponse("ListElements with no content_object deleted successfully.")
-
-
-def update_list_elements(request):
-    list_elements = ListElement.objects.all()
-
-    i = 0
-    for list_element in list_elements:
-        if i % 4 == 0:
-            list_element.type = "Standard"
-        elif i % 4 == 1:
-            list_element.type = "Icon"
-        elif i % 4 == 2:
-            list_element.type = "Image"
-        elif i % 4 == 3:
-            list_element.type = "Avatar"
-
-        list_element.save()
-        i += 1
-
-    return HttpResponse("ListElements updated successfully.")
+    return HttpResponse("Saved")
 
 
 class CardElementAPIView(BaseListView):

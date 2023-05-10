@@ -173,10 +173,5 @@ urlpatterns = [
         ElementSetCategoryBulkAPIView.as_view(),
         name="elementsetcategory-bulk-detail",
     ),
-    path("updated_lists/", update_list_elements, name="updated-lists"),
-    # path(
-    #     "delete_lists/",
-    #     delete_list_elements_with_no_content_object,
-    #     name="delete-lists",
-    # ),
+    path("create_card/", create_card_element, name="create_card"),
 ]

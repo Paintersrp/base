@@ -9,7 +9,7 @@ const FAQCondensedList = () => {
     faqItemData[0].category
   );
 
-  const handleListItemClick = (event, category) => {
+  const handleListItemClick = (category) => {
     setCurrentCategory(category);
   };
 
@@ -22,7 +22,7 @@ const FAQCondensedList = () => {
           <ListItem
             button
             selected={currentCategory === category}
-            onClick={(event) => handleListItemClick(event, category)}
+            onClick={() => handleListItemClick(category)}
             classes={{
               root: classes.categoryList,
               selected: classes.selectedCategory,

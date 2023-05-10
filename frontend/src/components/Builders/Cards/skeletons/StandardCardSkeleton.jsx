@@ -15,14 +15,26 @@ import Flexer from "../../../Elements/Layout/Container/Flexer";
 import Icon from "../../../Elements/Icon/Icon";
 import ShareIcon from "@material-ui/icons/Share";
 import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
+import { initialCardData } from "../const/cardConstants";
 
-const CardSkeleton = ({ formData }) => {
+const StandardCardSkeleton = ({ formData = null, contentObject = null }) => {
   const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {
-    setData(formData);
-  }, [formData]);
+    if (formData) {
+      setData(formData);
+    }
+    if (contentObject && contentObject.type === "Standard") {
+      setData(contentObject);
+    } else {
+      setData(initialCardData);
+    }
+  }, [formData, contentObject]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <Card className={classes.tileRoot}>
@@ -63,7 +75,7 @@ const CardSkeleton = ({ formData }) => {
       {data.image ? (
         <CardMedia
           className={classes.media}
-          image={URL.createObjectURL(data.image)}
+          image={contentObject ? data.image : URL.createObjectURL(data.image)}
           title="Paella dish"
         />
       ) : (
@@ -112,4 +124,4 @@ const CardSkeleton = ({ formData }) => {
   );
 };
 
-export default CardSkeleton;
+export default StandardCardSkeleton;

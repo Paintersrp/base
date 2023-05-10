@@ -108,9 +108,16 @@ export const initialOpenData = {
   details: true,
 };
 
+export const initialStepOpenData = {
+  Details: true,
+  Content: false,
+  Layout: false,
+  Finalize: false,
+};
+
 export const initialDetailsData = {
-  name: "test",
-  description: "test",
+  name: "",
+  description: "",
   setWidth: "Full Page",
   setColumns: "1",
 };

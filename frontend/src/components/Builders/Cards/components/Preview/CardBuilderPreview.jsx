@@ -10,9 +10,9 @@ import TileCard from "../../examples/TileCard";
 import DenseCard from "../../examples/DenseCard";
 import StandardCard from "../../examples/StandardCard";
 
-import CardSkeleton from "../../skeletons/CardSkeleton";
+import StandardCardSkeleton from "../../skeletons/StandardCardSkeleton";
 import TileSkeleton from "../../skeletons/TileSkeleton";
-import DenseSkeleton from "../../skeletons/DenseSkeleton";
+import DenseCardSkeleton from "../../skeletons/DenseCardSkeleton";
 import LargerCard from "../../examples/LargerCard";
 
 import { cardLayoutOptions } from "../../const/cardConstants";
@@ -41,15 +41,15 @@ const CardBuilderPreview = ({ formData }) => {
         <Flexer j="c" mt={16}>
           {formData.cardType === "Tile" && <TileSkeleton formData={formData} />}
           {formData.cardType === "Standard" && (
-            <CardSkeleton formData={formData} />
+            <StandardCardSkeleton formData={formData} />
           )}
           {formData.cardType === "Dense" && (
-            <DenseSkeleton formData={formData} />
+            <DenseCardSkeleton formData={formData} />
           )}
           {formData.cardType === "Large" && (
-            <CardSkeleton formData={formData} />
+            <StandardCardSkeleton formData={formData} />
           )}
-          {!formData.cardType && <CardSkeleton formData={formData} />}
+          {!formData.cardType && <StandardCardSkeleton formData={formData} />}
         </Flexer>
       ) : (
         <Flexer j="c" mt={16}>

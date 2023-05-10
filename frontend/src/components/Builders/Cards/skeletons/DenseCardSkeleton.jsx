@@ -10,14 +10,30 @@ import { Skeleton } from "@material-ui/lab";
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import Icon from "../../../Elements/Icon/Icon";
 import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
+import { initialCardData } from "../const/cardConstants";
 
-export default function DenseSkeleton({ formData }) {
+export default function DenseCardSkeleton({
+  formData = null,
+  contentObject = null,
+  subType = null,
+}) {
   const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {
-    setData(formData);
-  }, [formData]);
+    if (formData) {
+      setData(formData);
+    }
+    if (contentObject && contentObject.type === "Dense") {
+      setData(contentObject);
+    } else {
+      setData(initialCardData);
+    }
+  }, [formData, contentObject]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <Card className={classes.root}>

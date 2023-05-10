@@ -37,6 +37,7 @@ import { setJobs, setServices, setUsers } from "../../lib/Actions/plugins";
 import { ProtectedRoute, AdminRoute, PublicRoute } from "./RouteAccess";
 import SnackbarSwitch from "../../components/Outer/Snackbar/SnackbarSwitch";
 import NotFoundSwitch from "../../components/Outer/404/NotFoundSwitch";
+import BuilderPage from "../../components/Builders/_Page/BuilderPage";
 
 export default function SiteRoutes({ handleUpdate }) {
   const [ready, setReady] = useState(false);
@@ -49,6 +50,7 @@ export default function SiteRoutes({ handleUpdate }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isAdminPath = location.pathname.startsWith("/admin");
+  const isBuildPath = location.pathname.startsWith("/build");
   const { message, type, open } = useSelector((state) => state.snackbar);
   const [count, setCount] = useState(null);
 
@@ -90,6 +92,7 @@ export default function SiteRoutes({ handleUpdate }) {
       <NavigationSwitch
         component={appData.nav_component}
         isAdminPath={isAdminPath}
+        isBuildPath={isBuildPath}
         appData={appData}
         setCount={setCount}
         count={count}
@@ -102,7 +105,8 @@ export default function SiteRoutes({ handleUpdate }) {
         onClose={() => dispatch(closeSnackbar())}
         position={isSmallScreen ? "top-center" : "top-right"}
       />
-      <ScrollTopFab />
+
+      {!isBuildPath && <ScrollTopFab />}
 
       {!loading.isLoading && auth.is_checked ? (
         <Routes>
@@ -252,6 +256,7 @@ export default function SiteRoutes({ handleUpdate }) {
           />
           <Route path="/admin/model/:str" element={<IndividualDashboard />} />
           <Route path="*" element={NotFoundPage} />
+          <Route path="/build" element={<BuilderPage />} />
         </Routes>
       ) : (
         <div>
@@ -261,6 +266,7 @@ export default function SiteRoutes({ handleUpdate }) {
       <FooterSwitch
         component={appData.footer_component}
         isAdminPath={isAdminPath}
+        isBuildPath={isBuildPath}
         appData={appData}
       />
     </>

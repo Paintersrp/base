@@ -127,41 +127,6 @@ class Element(models.Model):
         verbose_name_plural = "Elements"
 
 
-@metadata(**TEXT_ELEMENT_METADATA)
-class TextElement(BaseElement):
-    TYPES = (
-        ("Standard", "Standard"),
-        ("Dense", "Dense"),
-    )
-
-    type = CustomCharField(
-        max_length=10,
-        verbose_name="Text Type",
-        help_text="Text Type",
-        md_column_count=6,
-        choices=TYPES,
-        default="Standard",
-    )
-
-    text = CustomTextField(
-        max_length=3000,
-        md_column_count=12,
-        verbose_name="Text",
-        help_text="Text",
-        blank=True,
-        null=True,
-        markdown=True,
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ["-id"]
-        verbose_name = "Text Element"
-        verbose_name_plural = "Text Elements"
-
-
 @metadata(**IMAGE_TAG_METADATA)
 class ImageTag(models.Model):
     name = CustomCharField(
@@ -330,8 +295,7 @@ class HeaderElement(BaseElement):
         md_column_count=6,
         verbose_name="Text Alignment",
         help_text="Text Alignment",
-        null=True,
-        blank=True,
+        default="Center",
     )
 
     def __str__(self):
@@ -341,6 +305,51 @@ class HeaderElement(BaseElement):
         ordering = ["-id"]
         verbose_name = "Header Element"
         verbose_name_plural = "Header Elements"
+
+
+@metadata(**TEXT_ELEMENT_METADATA)
+class TextElement(BaseElement):
+    TYPES = (
+        ("Standard", "Standard"),
+        ("Dense", "Dense"),
+    )
+
+    type = CustomCharField(
+        max_length=10,
+        verbose_name="Text Type",
+        help_text="Text Type",
+        md_column_count=6,
+        choices=TYPES,
+        default="Standard",
+    )
+
+    header = CustomForeignKeyField(
+        HeaderElement,
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Header",
+        related_query_name="text_header",
+        blank=True,
+        null=True,
+    )
+
+    text = CustomTextField(
+        max_length=5000,
+        md_column_count=12,
+        verbose_name="Text",
+        help_text="Text",
+        blank=True,
+        null=True,
+        markdown=True,
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = "Text Element"
+        verbose_name_plural = "Text Elements"
 
 
 @metadata(**ELEMENT_SET_METADATA)
@@ -507,8 +516,8 @@ class CardElement(BaseElement):
 
     type = CustomCharField(
         max_length=10,
-        verbose_name="Card Size Type",
-        help_text="Card Size Type",
+        verbose_name="Card Type",
+        help_text="Card Type",
         md_column_count=6,
         choices=TYPES,
         default="Standard",

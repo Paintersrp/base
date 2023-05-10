@@ -1,10 +1,27 @@
 import React, { Fragment, useEffect } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { Divider } from "@material-ui/core";
+import { Divider, IconButton, makeStyles, Tooltip } from "@material-ui/core";
+import LaunchIcon from "@mui/icons-material/Launch";
+import CollectionsIcon from "@mui/icons-material/Collections";
 
 import Flexer from "../../../Elements/Layout/Container/Flexer";
 import Text from "../../../Elements/Layout/Text/Text";
 import { elementObjectMap } from "../utils/elementObjectMap";
+
+const useStyles = makeStyles((theme) => ({
+  previewButton: {
+    color: theme.palette.info.light,
+    "&:hover": {
+      backgroundColor: theme.palette.info.light,
+      color: theme.palette.common.white,
+    },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.text.secondary,
+    color: "#ffffff",
+    fontSize: "12px",
+  },
+}));
 
 const SectionSkeleton = ({
   columnOneHeader,
@@ -13,9 +30,7 @@ const SectionSkeleton = ({
   elementObject,
   contentType,
 }) => {
-  // useEffect(() => {
-  //   console.log("contentObject skeleton", contentObject);
-  // }, [contentObject]);
+  const classes = useStyles();
 
   return (
     <Fragment>
@@ -171,7 +186,39 @@ const SectionSkeleton = ({
                 <div style={{ width: "100%", marginTop: 16, marginBottom: 16 }}>
                   <Divider />
                 </div>
-                <Skeleton variant="rect" width="100%" height={500} />
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                  }}
+                >
+                  <Tooltip
+                    title="Choose Content"
+                    placement="bottom"
+                    classes={{ tooltip: classes.tooltip }}
+                  >
+                    <IconButton
+                      onClick={() => console.log("Clicked")}
+                      className={classes.previewButton}
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                      }}
+                    >
+                      <CollectionsIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Skeleton
+                    variant="rect"
+                    width="100%"
+                    height={500}
+                    style={{ zIndex: 0 }}
+                    onClick={() => console.log("Clicked")}
+                  />
+                </div>
               </Flexer>
             </Flexer>
           </Flexer>

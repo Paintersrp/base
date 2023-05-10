@@ -13,6 +13,7 @@ import TaskListBuilder from "../../Builders/TaskList/TaskListBuilder";
 import DemoItem from "../../Elements/Demo/DemoItem";
 import CardBuilder from "../../Builders/Cards/CardBuilder";
 import ElementSetBuilder from "../../Builders/ElementSet/ElementSetBuilder";
+import Poll from "../../Builders/Poll/Poll";
 
 const wipComponents = [
   {
@@ -46,7 +47,7 @@ export default function WIPDemo() {
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
       <div style={{ paddingTop: 0, marginBottom: 48 }}>
-        <ElementSetBuilder />
+        <Poll />
       </div>
       <div style={{ paddingTop: 0, marginBottom: 48 }}>
         <DemoItem item="avatar-list" />

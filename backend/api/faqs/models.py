@@ -29,6 +29,21 @@ class BaseFAQObject(models.Model):
 
 @metadata(**FAQ_SET_METADATA)
 class FAQSet(BaseFAQObject):
+    TYPES = (
+        ("Tabbed", "Tabbed"),
+        ("List", "List"),
+        ("Condensed", "Condensed"),
+    )
+
+    type = CustomCharField(
+        max_length=10,
+        verbose_name="FAQ Type",
+        help_text="FAQ Type",
+        md_column_count=6,
+        choices=TYPES,
+        default="Tabbed",
+    )
+
     description = CustomTextField(
         max_length=300,
         md_column_count=6,

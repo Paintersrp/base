@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
+    borderRadius: 8,
   },
   fadeIn: {
     opacity: 0,

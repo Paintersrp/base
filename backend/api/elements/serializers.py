@@ -40,31 +40,6 @@ class ListElementSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TextElementSerializer(serializers.ModelSerializer):
-    author_details = UserSerializer(source="author", read_only=True)
-    FIELD_KEYS = [
-        "name",
-        "type",
-        "order",
-        "author",
-    ]
-
-    class Meta:
-        model = TextElement
-        fields = [
-            "name",
-            "description",
-            "order",
-            "id",
-            "type",
-            "text",
-            "created_at",
-            "updated_at",
-            "author",
-            "author_details",
-        ]
-
-
 class ImageTagSerializer(serializers.ModelSerializer):
     FIELD_KEYS = ["name"]
 
@@ -130,6 +105,32 @@ class HeaderElementSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "author",
+            "author_details",
+        ]
+
+
+class TextElementSerializer(serializers.ModelSerializer):
+    author_details = UserSerializer(source="author", read_only=True)
+    header_data = HeaderElementSerializer(source="header", read_only=True)
+    FIELD_KEYS = [
+        "name",
+        "type",
+        "order",
+        "author",
+    ]
+
+    class Meta:
+        model = TextElement
+        fields = [
+            "name",
+            "description",
+            "header_data",
+            "order",
+            "id",
+            "type",
+            "text",
+            "created_at",
+            "updated_at",
             "author_details",
         ]
 

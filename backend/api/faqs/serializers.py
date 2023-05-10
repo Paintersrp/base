@@ -29,6 +29,7 @@ class FAQQuestionCategorySerializer(serializers.ModelSerializer):
 class FAQQuestionSetFullSerializer(serializers.ModelSerializer):
     question_data = FAQQuestionSerializer(source="faq_question")
     answer_data = FAQAnswerSerializer(source="faq_answer")
+    category_data = FAQAnswerSerializer(source="faq_category")
     FIELD_KEYS = ["name"]
 
     class Meta:
@@ -56,6 +57,7 @@ class FAQSetSerializer(serializers.ModelSerializer):
             "question_sets",
             "author",
             "description",
+            "type",
             "created_at",
             "updated_at",
         ]

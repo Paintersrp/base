@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 4,
   },
   endIcon: {
-    marginLeft: 2,
+    marginLeft: 4,
   },
   errorButton: {
     background: theme.palette.error.light,

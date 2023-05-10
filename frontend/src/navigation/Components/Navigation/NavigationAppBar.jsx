@@ -148,11 +148,11 @@ export default function NavigationAppbar({
                 </Link>
 
                 <Link
-                  to="/generator"
+                  to="/build"
                   className={classes.navLink}
                   onClick={toggleDrawer(false)}
                 >
-                  Generator
+                  Build
                 </Link>
               </div>
             </Grid>

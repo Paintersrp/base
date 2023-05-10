@@ -109,11 +109,16 @@ const FormField = ({
   style,
   minRows = 6,
   variant = "outlined",
+  placeholder = null,
+  onFocus,
+  onBlur,
+  inputRef,
 }) => {
   const classes = useStyles();
 
   return (
     <TextField
+      placeholder={placeholder}
       name={id}
       id={id}
       className={!multiline ? classes.field : classes.multiline}
@@ -132,6 +137,9 @@ const FormField = ({
       type={type}
       required={required}
       style={style}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      inputRef={inputRef}
       InputProps={{
         ...(label === "Search" && {
           classes: {

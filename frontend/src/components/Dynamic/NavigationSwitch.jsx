@@ -1,12 +1,12 @@
 import React from "react";
 import linkData from "../../navigation/Components/Navigation/linkData";
 import Navigation from "../../navigation/Components/Navigation/Navigation";
-import Values from "../About/Values/Values";
 import AdminNavigation from "../Admin/Navigation/AdminNavigation";
 
 const NavigationSwitch = ({
   component,
   isAdminPath,
+  isBuildPath,
   appData,
   setCount,
   count,
@@ -15,15 +15,15 @@ const NavigationSwitch = ({
     case "Standard":
       return (
         <>
-          {!isAdminPath ? (
+          {!isAdminPath && !isBuildPath ? (
             <Navigation
               links={linkData(appData.jobs_data)}
               appName={appData.business_name}
               appData={appData}
             />
-          ) : (
+          ) : !isBuildPath ? (
             <AdminNavigation setCount={setCount} count={count} />
-          )}
+          ) : null}
         </>
       );
     case "DrawerOnly":

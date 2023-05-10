@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, useTheme, useMediaQuery, Divider } from "@material-ui/core";
+import {
+  Grid,
+  useTheme,
+  useMediaQuery,
+  Divider,
+  CardMedia,
+} from "@material-ui/core";
 
 import BaseBuilder from "../Parts/Layout/BaseBuilder";
 import BaseContent from "../../Elements/Base/BaseContent";
@@ -16,14 +22,19 @@ import {
   initialFormData,
   initialOpenData,
 } from "./const/elementSetConstants";
+import WIPPage from "../../Elements/Layout/WIPPage";
+import { NotFound } from "../../Outer/404/Components/NotFound";
 
-const ElementSetBuilder = () => {
+const ElementSetBuilder = ({ stepOpen }) => {
+  console.log(stepOpen);
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [detailsSaved, setDetailsSaved] = useState(false);
   const [open, setOpen] = useState(initialOpenData);
   const [apiErrors, setApiErrors] = useState("");
-  const [elementObject, setElementObject] = useState(null);
+  const [elementObjectColOne, setElementObjectColOne] = useState(null);
+  const [elementObjectColTwo, setElementObjectColTwo] = useState(null);
 
   const [thumbnailImage, setThumbnailImage] = useState(null);
   const [colOneData, setColOneData] = useState(initialColumnData);
@@ -60,15 +71,6 @@ const ElementSetBuilder = () => {
       name: detailsData.name,
       description: detailsData.description,
     }));
-    setOpen((prevState) => ({
-      ...prevState,
-      header: {
-        ...prevState.header,
-        colOne: !prevState.header.colOne,
-      },
-      details: !open.details,
-    }));
-    setDetailsSaved(true);
 
     // let contentErrors;
     // if (cardFormData.cardType === "Standard") {
@@ -103,81 +105,99 @@ const ElementSetBuilder = () => {
     // }
   };
   return (
-    <BaseBuilder header="Element Set Builder" headerGutter>
+    <BaseBuilder header="" pad={0} boxShadow={0}>
       <form onSubmit={handleSaveDetails} style={{}}>
-        <Grid container>
+        <Grid container justifyContent="center">
           <Grid
             item
             xs={12}
             md={12}
-            lg={4}
-            xl={3}
+            lg={12}
+            xl={12}
             style={{
-              padding: "0px 16px 16px 16px",
+              padding: isSmallScreen ? "0px" : "0px 16px 16px 16px",
               order: isMediumScreen ? 1 : 0,
             }}
           >
             <BaseContent
-              header="Builder"
+              header=""
               subheader=""
               justifyChildren="center"
               headerAlign="center"
+              boxShadow={0}
+              pad={isSmallScreen ? 1 : 3}
             >
-              <BaseContent
-                header="Set Details"
-                subheader=""
-                justifyChildren="center"
-                headerAlign="left"
-                collapse
-                pad={0}
-                boxShadow={0}
-                divider
-                pt={2}
-                pb={0}
-                mb={0.25}
-                headerVar="h5"
-              >
-                <BaseSection
-                  header="Element Set Settings"
+              {stepOpen.Details && (
+                <BaseContent
+                  header=""
+                  subheader=""
                   justifyChildren="center"
-                  divider
+                  headerAlign="left"
                   pad={0}
                   boxShadow={0}
+                  divider
+                  pt={2}
                   pb={0}
-                  pt={0}
-                  mb={1}
-                  mt={1}
-                  collapse
-                  headerAlign="left"
-                  manualOpen={open.details}
-                  setManualOpen={() =>
-                    setOpen((prevState) => ({
-                      ...prevState,
-                      details: !open.details,
-                    }))
-                  }
+                  mb={0.25}
+                  headerVar="h5"
                 >
                   <ElementSetDetailForm saveDetails={handleSaveDetails} />
-                  <div style={{ width: "100%" }}>
-                    <Divider />
-                  </div>
-                </BaseSection>
-              </BaseContent>
-              {detailsSaved && (
-                <ElementSetColumns
-                  open={open}
-                  setOpen={setOpen}
-                  colOneData={colOneData}
-                  setColOneData={setColOneData}
-                  colTwoData={colTwoData}
-                  setColTwoData={setColTwoData}
-                  handleSaveDetails={handleSaveDetails}
-                  elementData={elementData}
-                  handleThumbnailImageChange={handleThumbnailImageChange}
-                  elementObject={elementObject}
-                  setElementObject={setElementObject}
-                  columns={2}
-                />
+                </BaseContent>
+              )}
+              {stepOpen.Content && (
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  style={{
+                    order: isMediumScreen ? 0 : 1,
+                  }}
+                >
+                  <ElementSetPreview
+                    formData={formData}
+                    colOneData={colOneData}
+                    colTwoData={colTwoData}
+                    elementObjectColOne={elementObjectColOne}
+                    setElementObjectColOne={setElementObjectColOne}
+                    elementObjectColTwo={elementObjectColTwo}
+                    setElementObjectColTwo={setElementObjectColTwo}
+                    elementData={elementData}
+                  />
+                </Grid>
+              )}
+              {stepOpen.Layout && (
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  style={{
+                    order: isMediumScreen ? 0 : 1,
+                  }}
+                >
+                  <NotFound />
+                </Grid>
+              )}
+              {stepOpen.Finalize && (
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  style={{
+                    order: isMediumScreen ? 0 : 1,
+                  }}
+                >
+                  <NotFound />
+                  <NotFound />
+                  <NotFound />
+                  <NotFound />
+                  <NotFound />
+                </Grid>
               )}
 
               {apiErrors && (
@@ -186,25 +206,6 @@ const ElementSetBuilder = () => {
                 </div>
               )}
             </BaseContent>
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={8}
-            xl={9}
-            style={{
-              padding: "0px 16px 16px 16px",
-              order: isMediumScreen ? 0 : 1,
-            }}
-          >
-            <ElementSetPreview
-              formData={formData}
-              colOneData={colOneData}
-              colTwoData={colTwoData}
-              elementObject={elementObject}
-            />
           </Grid>
         </Grid>
       </form>

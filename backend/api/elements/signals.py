@@ -22,7 +22,7 @@ def create_element(sender, instance, created, **kwargs):
             content_object=instance,
             description=instance.description,
             type=element_type,
-            subtype="FAQ" if element_type == "FAQ" else instance.type,
+            subtype=instance.type,
             author=instance.author,
         )
 
@@ -44,7 +44,7 @@ def update_element(sender, instance, **kwargs):
     else:
         element.name = instance.name
         element.description = instance.description
-        element.subtype = "FAQ" if element.type == "FAQ" else instance.type
+        element.subtype = instance.type
         element.save()
 
 

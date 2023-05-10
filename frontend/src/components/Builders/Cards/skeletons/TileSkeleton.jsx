@@ -9,14 +9,31 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import Icon from "../../../Elements/Icon/Icon";
 import { cardExampleStyles } from "../examples/styles/cardExampleStyles";
+import { initialCardData } from "../const/cardConstants";
 
-export default function TileSkeleton({ formData }) {
+export default function TileSkeleton({
+  formData = null,
+  contentObject = null,
+  subType = null,
+}) {
+  console.log(subType, "subType");
   const classes = cardExampleStyles();
   const [data, setData] = useState(formData);
 
   useEffect(() => {
-    setData(formData);
-  }, [formData]);
+    if (formData) {
+      setData(formData);
+    }
+    if (contentObject && contentObject.type === "Tile") {
+      setData(contentObject);
+    } else {
+      setData(initialCardData);
+    }
+  }, [formData, contentObject]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <Card className={classes.root}>
