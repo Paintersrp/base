@@ -46,17 +46,14 @@ export default function Poll() {
   };
 
   const addOption = (e) => {
-    // If check to avoid adding blank entries
     // Options array within formData is set to the previous options plus the new value
     // Option Value is reset to an empty string
-    if (optionVal) {
-      setFormData({
-        ...formData,
-        options: [...formData.options, optionVal],
-      });
-      setOptionVal("");
-      console.log([...formData.options, optionVal]);
-    }
+    setFormData({
+      ...formData,
+      options: [...formData.options, optionVal],
+    });
+    setOptionVal("");
+    console.log([...formData.options, optionVal]);
   };
 
   /* When clicked this value will be passed to the backend then passed back to the frontend 
@@ -168,7 +165,8 @@ export default function Poll() {
           Also accepts classes/inline styles by adding a className/style as with any other div
           */}
         <Flexer mt={8} j="fe">
-          <AddButton label="Option" addFunc={addOption} />
+          {/* Disabled if optionVal is blank to avoid adding empty entries */}
+          <AddButton label="Option" addFunc={addOption} disabled={!optionVal} />
         </Flexer>
       </BaseSection>
 

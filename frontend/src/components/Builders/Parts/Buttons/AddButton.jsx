@@ -2,7 +2,7 @@ import React from "react";
 import { AddCircleOutline } from "@material-ui/icons";
 import StyledButton from "../../../Elements/Buttons/StyledButton";
 
-export default function AddButton({ addFunc, label }) {
+export default function AddButton({ addFunc, label, disabled = false }) {
   return (
     <StyledButton
       maxWidth={70}
@@ -14,6 +14,7 @@ export default function AddButton({ addFunc, label }) {
       startIcon={<AddCircleOutline />}
       onClick={addFunc}
       buttonText={`Add ${label}`}
+      disabled={disabled}
     />
   );
 }
