@@ -45,6 +45,7 @@ function BasicSelect({
   onFocus,
   onBlur,
   inputRef,
+  style,
 }) {
   const classes = useStyles();
 
@@ -80,6 +81,7 @@ function BasicSelect({
       onFocus={onFocus}
       onBlur={onBlur}
       inputRef={inputRef}
+      style={style}
     >
       {children}
     </Select>

@@ -1,12 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import Text from "../../../Elements/Layout/Text/Text";
-
-const useStyles = makeStyles((theme) => ({
-  helpText: {
-    color: theme.palette.text.secondary,
-  },
-}));
 
 export default function HelpText({
   children,
@@ -15,8 +8,8 @@ export default function HelpText({
   mb = 4,
   mr = 0,
   ml = 0,
+  style,
 }) {
-  const classes = useStyles();
   return (
     <Text
       mt={mt}
@@ -24,7 +17,7 @@ export default function HelpText({
       mr={mr}
       ml={ml}
       a={a}
-      style={{ color: "#626262", padding: 0 }}
+      style={{ ...style, color: "#626262", padding: 0 }}
     >
       {children}
     </Text>

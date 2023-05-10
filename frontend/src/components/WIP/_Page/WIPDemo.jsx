@@ -14,6 +14,7 @@ import DemoItem from "../../Elements/Demo/DemoItem";
 import CardBuilder from "../../Builders/Cards/CardBuilder";
 import ElementSetBuilder from "../../Builders/ElementSet/ElementSetBuilder";
 import Poll from "../../Builders/Poll/Poll";
+import Pollv2 from "../../Builders/Poll/Pollv2";
 
 const wipComponents = [
   {
@@ -46,6 +47,9 @@ export default function WIPDemo() {
 
   return (
     <div style={{ maxWidth: "100vw", background: theme.palette.primary.main }}>
+      <div style={{ paddingTop: 0, marginBottom: 48 }}>
+        <Pollv2 />
+      </div>
       <div style={{ paddingTop: 0, marginBottom: 48 }}>
         <Poll />
       </div>
