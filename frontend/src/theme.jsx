@@ -20,7 +20,7 @@ export const commonColors = {
   purple: "#9c27b0",
 };
 
-const palettes = {
+export const palettes = {
   primary: {
     main: "#2e3b55",
     light: "#6b7c9b",
@@ -67,7 +67,7 @@ const palettes = {
     hover: "rgba(121, 134, 203 , 0.75)",
     hoverLight: "rgba(121, 134, 203 , 0.10)",
     hoverOpacity: 0.08,
-    selected: "rgba(0, 0, 0, 0.14)",
+    selected: "rgba(255, 255, 255, 0.22)",
     disabled: "rgba(0, 0, 0, 0.26)",
     disabledBackground: "rgba(0, 0, 0, 0.12)",
   },
@@ -253,3 +253,4 @@ const baseTheme = createTheme({
 });
 
 export default baseTheme;
+

@@ -6,6 +6,7 @@ export const headerFields = [
   { name: "bottomDivider", label: "Bottom Divider", type: "text", md: 12 },
   { name: "topDivider", label: "Top Divider", type: "text", md: 12 },
 ];
+
 export const textFields = [
   { name: "title", label: "Title Text*", type: "text", md: 12 },
   { name: "subtitle", label: "Subtitle Text (Optional)", type: "text", md: 12 },

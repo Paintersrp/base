@@ -5,7 +5,6 @@ import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
 import { useSelector } from "react-redux";
 import ValueEdit from "./ValueEdit";
-import EditButton from "../../Elements/Buttons/EditButton";
 import Icon from "../../Elements/Icon/Icon";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 import { Grid } from "@material-ui/core";

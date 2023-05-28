@@ -1,0 +1,40 @@
+.footer-root {
+  background-color: var(--color-primary-main);
+  color: #fff;
+  padding: 32px 0px 16px 0px;
+}
+
+.footer-container {
+  max-width: 1280;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24;
+}
+
+.footer-link {
+  color: #fff;
+  margin-top: 2px;
+  font-weight: 300;
+}
+
+.logo-icon {
+  margin-right: 8px;
+  font-size: 1.6rem;
+}
+
+.footer-app-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  /* color: #fff !important; */
+}
+
+.footer-link:hover,
+.footer-app-title:hover {
+  color: var(--color-secondary-main);
+}

@@ -14,12 +14,15 @@ const toggleSwapStates = (
   }
 };
 
-const handleDataChange = (event, setData, data) => {
+const handleDataChange = (event, setData, data, ignoreChecked = false) => {
+  console.log(event.target.value);
   setData({
     ...data,
     [event.target.name]:
       event.target.type === "checkbox"
-        ? event.target.checked
+        ? ignoreChecked
+          ? event.target.value
+          : event.target.checked
         : event.target.value,
   });
 };

@@ -124,7 +124,6 @@ const RegisterForm = ({ handleRegister }) => {
     email: "",
     password: "",
   });
-  const [sendData, setSendData] = useState({});
 
   const submitLogic = async (event) => {
     event.preventDefault();
@@ -136,9 +135,6 @@ const RegisterForm = ({ handleRegister }) => {
         resolve(hash);
       });
     });
-
-    setSendData({ ...values, password: hashedPassword, salt: salt });
-    console.log({ ...values, password: hashedPassword, salt: salt });
 
     const loginData = {
       username: values.username,

@@ -1,0 +1,15 @@
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider hr {
+  flex-grow: 1;
+  border: none;
+  margin: 0;
+}
+
+.divider-text {
+  margin: 0 10px;
+}

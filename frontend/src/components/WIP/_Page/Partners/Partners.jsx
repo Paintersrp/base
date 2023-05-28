@@ -9,8 +9,8 @@ import {
 } from "react-icons/fa";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Paper } from "@material-ui/core";
-import TitleBlock from "../../Elements/TextBlocks/TitleBlock/TitleBlock";
-import StyledButton from "../../Elements/Buttons/StyledButton";
+import TitleBlock from "../../../Elements/TextBlocks/TitleBlock/TitleBlock";
+import StyledButton from "../../../Elements/Buttons/StyledButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {

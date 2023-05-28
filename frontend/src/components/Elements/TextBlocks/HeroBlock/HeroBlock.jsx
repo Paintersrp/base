@@ -4,7 +4,6 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CallToActionIcon from "@mui/icons-material/CallToAction";
 import StyledButton from "../../Buttons/StyledButton";
-import { FaPhone, FaVoicemail } from "react-icons/fa";
 
 const useStyles = makeStyles((theme) => ({
   root: {

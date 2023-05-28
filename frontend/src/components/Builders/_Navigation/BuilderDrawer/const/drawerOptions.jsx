@@ -7,7 +7,22 @@ import SaveIcon from "@mui/icons-material/Save";
 
 export const drawerWidth = 240;
 
-export const generalDrawerStepOptions = [
+// Generalized Control Options
+export const generalControlOptions = [
+  {
+    text: "Save",
+    onClick: () => console.log("Save clicked"),
+    icon: <SaveIcon />,
+  },
+  {
+    text: "Restart",
+    onClick: () => console.log("Restart clicked"),
+    icon: <RestartAltIcon />,
+  },
+];
+
+// Element Set Options
+export const elementSetStepOptions = [
   {
     text: "Details",
     onClick: () => console.log("Details clicked"),
@@ -29,15 +44,27 @@ export const generalDrawerStepOptions = [
     icon: <DoneAllIcon />,
   },
 ];
-export const generalDrawerControlOptions = [
+
+// List Options
+export const listStepOptions = [
   {
-    text: "Save",
-    onClick: () => console.log("Save clicked"),
-    icon: <SaveIcon />,
+    text: "Finalize",
+    onClick: () => console.log("Finalize clicked"),
+    icon: <DoneAllIcon />,
   },
   {
-    text: "Restart",
-    onClick: () => console.log("Restart clicked"),
-    icon: <RestartAltIcon />,
+    text: "Layout",
+    onClick: () => console.log("Layout clicked"),
+    icon: <DisplaySettingsIcon />,
+  },
+  {
+    text: "Content",
+    onClick: () => console.log("Content clicked"),
+    icon: <CollectionsIcon />,
+  },
+  {
+    text: "Details",
+    onClick: () => console.log("Details clicked"),
+    icon: <DescriptionIcon />,
   },
 ];

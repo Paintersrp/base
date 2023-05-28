@@ -19,6 +19,40 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --color-success-main: #4caf50;
+  --color-success-light: #81c784;
+  --color-success-dark: #388e3c;
+  --color-error-main: #f44336;
+  --color-error-light: #e57373;
+  --color-error-dark: #d32f2f;
+  --color-primary-main: #2e3b55;
+  --color-primary-light: #6b7c9b;
+  --color-primary-dark: #00152e;
+  --color-secondary-main: #ff8c00;
+  --color-secondary-light: #ffd04d;
+  --color-secondary-dark: #c75e00;
+  --color-text-dark: #222;
+  --color-text-light: #fff;
+  --color-text-primary: rgba(0, 0, 0, 1);
+  --color-text-secondary: rgba(0, 0, 0, 0.6);
+  --color-text-disabled: rgba(0, 0, 0, 0.38);
+  --color-text-min-visible: rgba(0, 0, 0, 0.1);
+  --color-text-dark: rgba(0, 0, 0, 0.75);
+  --spacing-1: 8px;
+  --spacing-1-5: 12px;
+}
+
+.bg-primary-m {
+  background-color: var(--color-primary-main);
+}
+.bg-secondary-m {
+  background-color: var(--color-secondary-main);
+}
+.bg-error-m {
+  background-color: var(--color-error-main);
+}
+.bg-success-m {
+  background-color: var(--color-success-main);
 }
 
 a {

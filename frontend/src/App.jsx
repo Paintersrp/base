@@ -84,15 +84,13 @@ function App() {
       });
   };
 
-  
-
   return (
     <ThemeProvider theme={theme ? theme : baseTheme}>
       <CssBaseline />
 
       <Router>
         <ScrollToTop />
-        <SiteRoutes handleUpdate={handleUpdate}  />
+        <SiteRoutes handleUpdate={handleUpdate} />
       </Router>
     </ThemeProvider>
   );

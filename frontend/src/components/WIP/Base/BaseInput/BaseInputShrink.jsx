@@ -4,10 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   fieldWrapper: {
     position: "relative",
-    marginTop: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
   field: {
-    background: theme.palette.background.default,
     width: "100%",
     fontFamily: "Roboto",
     padding: theme.spacing(2, 2, 2, 2),
@@ -16,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1rem",
     letterSpacing: 0.25,
     borderColor: "black",
-    color: theme.palette.text.dark,
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: 4,
@@ -86,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TestField = ({
+const TestFieldShrink = ({
   id,
   label,
   value,
@@ -97,6 +95,7 @@ const TestField = ({
   required = false,
   error = false,
   helperText = "",
+  placeholder,
 }) => {
   const classes = useStyles();
   const [focused, setFocused] = useState(false);
@@ -115,7 +114,7 @@ const TestField = ({
     <div className={classes.fieldWrapper}>
       <InputComponent
         className={`${classes.field} ${
-          focused || value ? classes.shrink : ""
+          focused || value || type === "number" ? classes.shrink : ""
         } `}
         id={id}
         name={id}
@@ -126,9 +125,10 @@ const TestField = ({
         type={type}
         error={error}
         helperText={helperText}
+        placeholder={placeholder}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        style={{ minHeight: multiline ? 169.5 : 57.5 }}
+        style={{ minHeight: multiline ? 169.5 : null }}
       />
       <label
         className={multiline ? classes.labelTextArea : classes.label}
@@ -140,4 +140,4 @@ const TestField = ({
   );
 };
 
-export default TestField;
+export default TestFieldShrink;

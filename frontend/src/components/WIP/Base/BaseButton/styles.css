@@ -1,0 +1,61 @@
+.button-primary {
+  margin-bottom: 8px;
+  border: none;
+  background-color: var(--color-primary-main);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: "Roboto", "Poppins", sans-serif;
+}
+.button-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.button-secondary {
+  margin-bottom: 8px;
+  border: none;
+  background-color: var(--color-secondary-main);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: "Roboto", "Poppins", sans-serif;
+}
+.button-secondary:hover {
+  background-color: var(--color-secondary-dark);
+}
+.button-error {
+  margin-bottom: 8px;
+  border: none;
+  background-color: var(--color-error-main);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: "Roboto", "Poppins", sans-serif;
+}
+.button-error:hover {
+  background-color: var(--color-error-dark);
+}
+.button-success {
+  margin-bottom: 8px;
+  border: none;
+  background-color: var(--color-success-main);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: "Roboto", "Poppins", sans-serif;
+}
+.button-success:hover {
+  background-color: var(--color-success-dark);
+}

@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LatestNews from "../News/News";
 import NewsletterForm from "../Newsletter/NewsletterForm";
 import axiosInstance from "../../../lib/Axios/axiosInstance";

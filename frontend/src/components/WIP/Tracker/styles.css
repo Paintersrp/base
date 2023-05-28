@@ -1,0 +1,106 @@
+/* styles.css */
+
+.tracker-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: "Roboto", "Poppins", sans-serif;
+  background-color: #f5f5f5;
+}
+
+.heading {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subheading {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hr-divider-light {
+  border: none;
+  height: 1px;
+  background-color: var(--color-text-min-visible);
+  margin: 0;
+}
+.hr-divider-base {
+  border: none;
+  height: 1px;
+  background-color: var(--color-text-disabled);
+}
+
+.gutter-1 {
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"] {
+  flex: 1;
+  width: 100%;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  font-family: "Roboto", "Poppins", sans-serif;
+  margin: 2px;
+}
+
+.summary {
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  padding: 0.25rem 1rem;
+  width: 100%;
+  padding-bottom: 16px;
+}
+
+.summary p {
+  margin-bottom: 0rem;
+  margin-top: 0.1rem;
+}
+
+.summary p:last-child {
+  font-weight: bold;
+}
+
+.nav-top .link-container a {
+  transition: margin-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+.nav-top .menu-button {
+  transition: margin-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+
+.link-container a {
+  margin: 0px 4px;
+}
+
+.link-container a {
+  color: #f5f5f5;
+  text-decoration: none;
+  padding: 8px;
+}
+
+.link-container a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--color-secondary-light);
+}
+
+.menu-button:hover {
+  color: var(--color-secondary-light);
+}

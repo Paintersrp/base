@@ -38,6 +38,7 @@ import { ProtectedRoute, AdminRoute, PublicRoute } from "./RouteAccess";
 import SnackbarSwitch from "../../components/Outer/Snackbar/SnackbarSwitch";
 import NotFoundSwitch from "../../components/Outer/404/NotFoundSwitch";
 import BuilderPage from "../../components/Builders/_Page/BuilderPage";
+import TrackerPage from "../../components/WIP/Tracker/TrackerPage";
 
 export default function SiteRoutes({ handleUpdate }) {
   const [ready, setReady] = useState(false);
@@ -51,6 +52,7 @@ export default function SiteRoutes({ handleUpdate }) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isAdminPath = location.pathname.startsWith("/admin");
   const isBuildPath = location.pathname.startsWith("/build");
+  const isTrackerPath = location.pathname.startsWith("/tracker");
   const { message, type, open } = useSelector((state) => state.snackbar);
   const [count, setCount] = useState(null);
 
@@ -257,6 +259,7 @@ export default function SiteRoutes({ handleUpdate }) {
           <Route path="/admin/model/:str" element={<IndividualDashboard />} />
           <Route path="*" element={NotFoundPage} />
           <Route path="/build" element={<BuilderPage />} />
+          <Route path="/build/tracker" element={<TrackerPage />} />
         </Routes>
       ) : (
         <div>

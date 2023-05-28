@@ -1,6 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import alignSwitch from "./propSwitch";
+
+function alignSwitch(value) {
+  const alignmentMap = {
+    l: "left",
+    left: "left",
+    r: "right",
+    right: "right",
+    c: "center",
+    center: "center",
+  };
+
+  return alignmentMap[value] || null;
+}
 
 const useStyles = makeStyles((theme) => ({
   h1: theme.typography.h1,
@@ -18,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
   secondary: {
     color: theme.palette.text.secondary,
+  },
+  light: {
+    color: "#fff",
   },
 }));
 

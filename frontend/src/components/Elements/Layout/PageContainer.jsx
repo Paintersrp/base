@@ -91,22 +91,24 @@ const PageContainer = ({
                 </Typography>
               </Container>
             ) : null}
-            <>
-              {data ? (
-                <BaseDialog
-                  open={editing}
-                  onClose={() => setEditing(!editing)}
-                  title={`Edit ${page_name} Page SEO`}
-                >
-                  <SEOEdit
-                    data={data}
-                    onUpdate={updateSeo}
-                    handleCancel={() => setEditing(!editing)}
-                  />
-                </BaseDialog>
-              ) : null}
-              <div className={classes.content}>{children}</div>
-            </>
+            {seoEdit && (
+              <>
+                {data ? (
+                  <BaseDialog
+                    open={editing}
+                    onClose={() => setEditing(!editing)}
+                    title={`Edit ${page_name} Page SEO`}
+                  >
+                    <SEOEdit
+                      data={data}
+                      onUpdate={updateSeo}
+                      handleCancel={() => setEditing(!editing)}
+                    />
+                  </BaseDialog>
+                ) : null}
+              </>
+            )}
+            <div className={classes.content}>{children}</div>
           </div>
         </>
       ) : (

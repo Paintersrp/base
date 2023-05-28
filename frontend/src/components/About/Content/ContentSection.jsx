@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-import EditButton from "../../Elements/Buttons/EditButton";
 import ContentEdit from "./ContentEdit";
 import DOMPurify from "dompurify";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";

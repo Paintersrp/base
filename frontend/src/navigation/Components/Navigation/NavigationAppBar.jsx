@@ -154,6 +154,13 @@ export default function NavigationAppbar({
                 >
                   Build
                 </Link>
+                <Link
+                  to="/build/tracker"
+                  className={classes.navLink}
+                  onClick={toggleDrawer(false)}
+                >
+                  Tracker
+                </Link>
               </div>
             </Grid>
           )}

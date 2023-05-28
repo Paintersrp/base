@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Box, Button, Paper } from "@material-ui/core";
 import { FaCheck, FaHeart, FaStar, FaRocket } from "react-icons/fa";
-import TitleBlock from "../../../Elements/TextBlocks/TitleBlock/TitleBlock";
+import TitleBlock from "../../../../Elements/TextBlocks/TitleBlock/TitleBlock";
 
 const useStyles = makeStyles((theme) => ({
   root: {

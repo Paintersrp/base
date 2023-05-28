@@ -12,6 +12,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import BuildIcon from "@mui/icons-material/Build";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   tooltip: {
@@ -61,6 +62,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const builderOptions = [
+  { label: "Element Set", value: "Element Set" },
+  { label: "Component", value: "Component" },
+  { label: "Page", value: "Page" },
+  { label: "List", value: "List" },
+  { label: "FAQ", value: "FAQ" },
+  { label: "Card", value: "Card" },
+  { label: "TaskList", value: "TaskList" },
+  { label: "Table", value: "Table" },
+];
+
 export default function BuilderNavTopBar({
   open,
   handleDrawerOpen,
@@ -77,6 +89,10 @@ export default function BuilderNavTopBar({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleChange = (newBuilder) => {
+    changeBuilder(newBuilder);
+    handleClose();
   };
 
   return (
@@ -110,7 +126,7 @@ export default function BuilderNavTopBar({
             component="div"
             color="#F5F5F5"
           >
-            Element Set Builder
+            {currentBuilder} Builder
           </Typography>
           <div style={{ marginRight: 8 }}>
             <Tooltip
@@ -131,22 +147,24 @@ export default function BuilderNavTopBar({
                 <BuildIcon />
               </IconButton>
             </Tooltip>
+
             <Tooltip
-              title={`Exit to App`}
+              title={`Exit to Site`}
               placement="bottom"
               classes={{ tooltip: classes.tooltip }}
             >
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleClick}
-                sx={{
-                  color: theme.palette.primary.light,
-                  marginLeft: 0.5,
-                }}
-              >
-                <ExitToAppIcon />
-              </IconButton>
+              <Link to="/">
+                <IconButton
+                  color="inherit"
+                  onClick={handleClick}
+                  sx={{
+                    color: theme.palette.primary.light,
+                    marginLeft: 0.5,
+                  }}
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              </Link>
             </Tooltip>
           </div>
           <Menu
@@ -166,37 +184,17 @@ export default function BuilderNavTopBar({
             }}
             TransitionComponent={Fade}
           >
-            <MenuItem onClick={handleClose} disableRipple>
-              Element Set
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              Component
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              Page
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              List
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              FAQ
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              Card
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              TaskList
-            </MenuItem>
-            <Divider style={{ padding: 0, margin: 0 }} />
-            <MenuItem onClick={handleClose} disableRipple>
-              Table
-            </MenuItem>
+            {builderOptions.map((item) => (
+              <MenuItem
+                key={item.value}
+                divider
+                onClick={() => handleChange(item.value)}
+                disableRipple
+                selected={item.label === currentBuilder}
+              >
+                {item.label}
+              </MenuItem>
+            ))}
           </Menu>
         </Flexer>
       </Toolbar>

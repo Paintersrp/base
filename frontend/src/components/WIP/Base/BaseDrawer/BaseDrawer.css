@@ -1,0 +1,68 @@
+.sidedrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+  background-color: var(--color-primary-main);
+  z-index: 999;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+
+.sidedrawer-right {
+  right: 0;
+  left: unset;
+  transform: translateX(100%);
+}
+
+.sidedrawer-top {
+  height: 180px;
+  width: 100%;
+  top: 0;
+  left: unset;
+  right: 0;
+  transform: translateY(-100%);
+}
+
+.sidedrawer-bottom {
+  height: 180px;
+  width: 100%;
+  top: unset;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+}
+
+.sidedrawer-open.sidedrawer-bottom {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.sidedrawer-open {
+  transform: translateX(0%);
+  opacity: 1;
+}
+
+.sidedrawer.has-overlay {
+  position: relative;
+}
+
+.sidedrawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+
+.sidedrawer-open .sidedrawer-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}

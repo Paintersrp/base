@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
-import PageContainer from "../../Elements/Layout/PageContainer";
-import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
+
 import BaseContent from "../../Elements/Base/BaseContent";
-import ElementSetBuilder from "../ElementSet/ElementSetBuilder";
 import BuilderNav from "../_Navigation/BuilderDrawer/BuilderNav.jsx";
-import {
-  generalDrawerControlOptions,
-  generalDrawerStepOptions,
-} from "../_Navigation/BuilderDrawer/const/drawerOptions";
+import ElementSetBuilder from "../ElementSet/ElementSetBuilder";
+import ErrorPage from "../../Elements/Layout/Errors/ErrorPage";
 import Flexer from "../../Elements/Layout/Container/Flexer";
+import PageContainer from "../../Elements/Layout/PageContainer";
+
 import { initialStepOpenData } from "../ElementSet/const/elementSetConstants";
+import {
+  generalControlOptions,
+  elementSetStepOptions,
+  listStepOptions,
+} from "../_Navigation/BuilderDrawer/const/drawerOptions";
+import { getBuilderComponent } from "./utils/builderMap";
 
 const BuilderPage = ({}) => {
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentBuilder, setCurrentBuilder] = useState("Element Set");
+  const [stepOptions, setStepOptions] = useState(elementSetStepOptions);
+  const [controlOptions, setControlOptions] = useState(generalControlOptions);
   const [stepOpen, setStepOpen] = useState(initialStepOpenData);
   const [stepDisabled, setStepDisabled] = useState({
     prevDisabled: true,
@@ -79,9 +85,19 @@ const BuilderPage = ({}) => {
     setReady(true);
   }, []);
 
-  const changeBuilder = (e) => {
-    setCurrentBuilder(e.target.value);
-    console.log(e.target.value);
+  useEffect(() => {
+    if (currentBuilder === "Element Set") {
+      setStepOptions(elementSetStepOptions);
+      setControlOptions(generalControlOptions);
+    } else {
+      setStepOptions(listStepOptions);
+      setControlOptions(generalControlOptions);
+    }
+  }, [currentBuilder]);
+
+  const changeBuilder = (newBuilder) => {
+    setCurrentBuilder(newBuilder);
+    console.log(newBuilder);
   };
 
   if (error) {
@@ -104,8 +120,8 @@ const BuilderPage = ({}) => {
       <BuilderNav
         open={open}
         setOpen={setOpen}
-        stepOptions={generalDrawerStepOptions}
-        controlOptions={generalDrawerControlOptions}
+        stepOptions={stepOptions}
+        controlOptions={controlOptions}
         openSection={openSection}
         openNextSection={openNextSection}
         openPreviousSection={openPreviousSection}
@@ -120,7 +136,7 @@ const BuilderPage = ({}) => {
       >
         <BaseContent maxWidth={1400} pt={1} pb={0} pl={7} pad={0} boxShadow={0}>
           <Flexer style={{ height: "100%" }}>
-            <ElementSetBuilder stepOpen={stepOpen} />
+            {getBuilderComponent(currentBuilder, stepOpen)}
           </Flexer>
         </BaseContent>
       </PageContainer>

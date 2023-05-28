@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
 import ProcessEdit from "./ProcessEdit";
 import { SlideIntoViewPort } from "../../Elements/Animations/IntoView/SlideIntoViewPort/SlideIntoViewPort";
-import EditButton from "../../Elements/Buttons/EditButton";
 import Icon from "../../Elements/Icon/Icon";
 import EditDeleteButtonMenu from "../../Elements/Buttons/EditDeleteButtonMenu";
 

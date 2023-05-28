@@ -47,7 +47,7 @@ function HeroForm({ editMode }) {
 
   const submitLogic = (event) => {
     event.preventDefault();
-    values.subject = "Hero Contact";
+    formData.subject = "Hero Contact";
 
     axiosInstance
       .post("/messages/", values)

@@ -1,7 +1,6 @@
 from django.db import models
 from api.customs import *
 from .metadata import *
-from auditlog.registry import auditlog
 
 
 @metadata(**MESSAGE_METADATA)

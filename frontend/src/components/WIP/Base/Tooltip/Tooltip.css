@@ -1,0 +1,100 @@
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  color: #fff;
+  background-color: var(--color-text-dark);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  line-height: 1.5;
+  /* letter-spacing: 0.03rem; */
+  max-width: 200px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto";
+  white-space: nowrap;
+}
+
+.tooltip-content--top {
+  transform: translate(-50%, -100%);
+  bottom: 10px;
+  left: 50%;
+}
+
+.tooltip-content--right {
+  transform: translateX(100%);
+  top: 0;
+  left: calc(40%);
+}
+
+.tooltip-content--bottom {
+  transform: translate(-50%, 0);
+  top: calc(100% + 10px);
+  left: 50%;
+}
+
+.tooltip-content--left {
+  transform: translateX(-100%);
+  top: 0;
+  right: 0px;
+}
+
+/* .tooltip-content--top::after,
+.tooltip-content--bottom::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+}
+
+.tooltip-content--top::after {
+  bottom: -16px;
+  border-color: var(--color-primary-main) transparent transparent transparent;
+}
+
+.tooltip-content--bottom::after {
+  top: -16px;
+  border-color: transparent transparent var(--color-primary-main) transparent;
+}
+
+.tooltip-content--right::after,
+.tooltip-content--left::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px;
+  border-style: solid;
+}
+
+.tooltip-content--right::after {
+  left: -16px;
+  border-color: transparent var(--color-primary-main) transparent transparent;
+}
+
+.tooltip-content--left::after {
+  right: -16px;
+  border-color: transparent transparent transparent var(--color-primary-main);
+} */
+
+.tooltip-content[style*="visibility: visible"] {
+  opacity: 1;
+}
